@@ -1,13 +1,15 @@
 packages:
   - apps/*
   - packages/*
-  - tools/*
 
 catalogMode: prefer
 
 catalog:
-  "@types/node": ^24
-  typescript: ^7.0.2
+  "@clanker-stuff/oxlint-config": 0.1.0
+  "@effect/tsgo": 0.57.0
+  "@types/node": 26.6.5
+  typescript: 7.0.2
+  ultracite: 8.0.2
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
 overrides:
@@ -17,3 +19,18 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - vite-plus
+  - "@voidzero-dev/*"
+  - oxlint
+  - "@oxlint/*"
+  - oxlint-tsgolint
+  - "@oxlint-tsgolint/*"
+  - oxfmt
+  - "@oxfmt/*"
+  - vitest
+  - "@vitest/*"
+  - effect
+  - "@effect/*"
+  - "@clanker-stuff/*"

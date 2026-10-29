@@ -6,9 +6,12 @@
   "scripts": {
     "ready": "vp check && vp run -r test && vp run -r build",
     "dev": "vp run website#dev",
-    "prepare": "vp config"
+    "prepare": "vp config && effect-tsgo patch --no-typescript --oxlint"
   },
   "devDependencies": {
+    "@clanker-stuff/oxlint-config": "catalog:",
+    "@effect/tsgo": "catalog:",
+    "ultracite": "catalog:",
     "vite-plus": "catalog:"
   },
   "devEngines": {
@@ -19,6 +22,6 @@
     }
   },
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=26.12.0"
   }
 }
