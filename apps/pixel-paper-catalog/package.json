@@ -18,8 +18,7 @@
     "@foldkit/ui": "catalog:",
     "@gjermundgaraba/pixel-paper": "workspace:*",
     "effect": "catalog:",
-    "foldkit": "catalog:",
-    "mermaid": "catalog:"
+    "foldkit": "catalog:"
   },
   "devDependencies": {
     "@foldkit/vite-plugin": "catalog:",

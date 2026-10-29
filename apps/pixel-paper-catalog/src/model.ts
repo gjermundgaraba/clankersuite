@@ -13,7 +13,6 @@ import * as DocIndex from "./doc-index.ts";
 import * as BoardExample from "./example/board.ts";
 import * as ButtonsExample from "./example/buttons.ts";
 import * as CodeExample from "./example/code.ts";
-import * as DiagramsExample from "./example/diagrams.ts";
 import * as DialogsExample from "./example/dialogs.ts";
 import * as FilesExample from "./example/files.ts";
 import * as FiltersExample from "./example/filters.ts";
@@ -21,7 +20,6 @@ import * as FormsExample from "./example/forms.ts";
 import * as FramesExample from "./example/frames.ts";
 import * as HistoryExample from "./example/history.ts";
 import * as ListsExample from "./example/lists.ts";
-import * as MediaExample from "./example/media.ts";
 import * as RailExample from "./example/rail.ts";
 import * as ReadingExample from "./example/reading.ts";
 import * as ReelExample from "./example/reel.ts";
@@ -57,7 +55,6 @@ export const Model = Schema.Struct({
   lists: ListsExample.Model,
   code: CodeExample.Model,
   reading: ReadingExample.Model,
-  media: MediaExample.Model,
   commands: CommandExamples.Model,
   board: BoardExample.Model,
   sortable: SortableExample.Model,
@@ -66,7 +63,6 @@ export const Model = Schema.Struct({
   files: FilesExample.Model,
   rail: RailExample.Model,
   tips: Tips.Model,
-  diagrams: DiagramsExample.Model,
 });
 
 export type Model = typeof Model.Type;

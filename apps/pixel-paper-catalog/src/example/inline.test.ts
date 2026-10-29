@@ -1,4 +1,4 @@
-import { EditableTitle, Focus, InlineInput } from "@gjermundgaraba/pixel-paper";
+import { Focus, InlineInput } from "@gjermundgaraba/pixel-paper";
 import { Array, Option } from "effect";
 import { Story } from "foldkit";
 import { describe, expect, it } from "vite-plus/test";
@@ -7,11 +7,6 @@ import * as InlineExample from "./inline.ts";
 
 const adding = (message: InlineInput.Message) =>
   InlineExample.Message.GotAddingMessage({ message });
-
-const heading = (message: InlineInput.Message) =>
-  InlineExample.Message.GotHeadingMessage({
-    message: EditableTitle.Message.GotEditMessage({ message }),
-  });
 
 const titles = (model: InlineExample.Model): readonly string[] =>
   Array.map(model.items, ({ title }) => title);
@@ -86,59 +81,6 @@ describe("Inline example", () => {
         );
       }),
       endAdding
-    );
-  });
-
-  it("renames the title, refusing one that is too long", () => {
-    const tooLong = "A title far longer than forty letters, for the sample";
-    Story.story(
-      InlineExample.update,
-      Story.given(InlineExample.init()),
-      Story.message(
-        InlineExample.Message.GotHeadingMessage({
-          message: EditableTitle.Message.ClickedTitle(),
-        })
-      ),
-      Story.Command.resolve(
-        InlineInput.FocusField,
-        InlineInput.Message.CompletedFocusField()
-      ),
-      Story.message(
-        heading(
-          InlineInput.Message.UpdatedDraft({
-            value: tooLong,
-            replaced: "Field notes",
-          })
-        )
-      ),
-      Story.message(heading(InlineInput.Message.PressedEnter())),
-      Story.Command.resolve(
-        InlineExample.SaveHeading,
-        InlineExample.Message.CompletedSaveHeading({ text: tooLong })
-      ),
-      Story.model((model) => {
-        expect(model.headingText).toBe("Field notes");
-      }),
-      Story.message(
-        heading(
-          InlineInput.Message.UpdatedDraft({
-            value: "Garden notes",
-            replaced: "Field notes",
-          })
-        )
-      ),
-      Story.message(heading(InlineInput.Message.PressedEnter())),
-      Story.Command.resolve(
-        InlineExample.SaveHeading,
-        InlineExample.Message.CompletedSaveHeading({ text: "Garden notes" })
-      ),
-      Story.Command.resolve(
-        Focus.Focus,
-        EditableTitle.Message.CompletedFocus()
-      ),
-      Story.model((model) => {
-        expect(model.headingText).toBe("Garden notes");
-      })
     );
   });
 });

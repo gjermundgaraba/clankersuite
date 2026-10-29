@@ -1,5 +1,5 @@
 import type { KeyHint } from "@gjermundgaraba/pixel-paper";
-import { ContextMenu, Glyph, Menu, Tag } from "@gjermundgaraba/pixel-paper";
+import { Glyph, Menu, Tag } from "@gjermundgaraba/pixel-paper";
 import { Array, Option, Schema } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -25,7 +25,6 @@ export const Model = Schema.Struct({
   settings: Menu.Model,
   create: Menu.Model,
   areaPicker: Menu.Model,
-  rowMenu: ContextMenu.Model,
   rowActions: Schema.Array(Menu.Model),
   scheme: Scheme,
   isDense: Schema.Boolean,
@@ -40,7 +39,6 @@ export const Message = defineMessageUnion({
   GotSettingsMessage: { message: Menu.Message },
   GotCreateMessage: { message: Menu.Message },
   GotAreaPickerMessage: { message: Menu.Message },
-  GotRowMenuMessage: { message: ContextMenu.Message },
   GotRowActionsMessage: { rowId: Schema.String, message: Menu.Message },
 });
 
@@ -65,7 +63,6 @@ export const init = (): Model => ({
   settings: Menu.init({ id: "settings-menu" }),
   create: Menu.init({ id: "new-menu" }),
   areaPicker: Menu.init({ id: "area-menu" }),
-  rowMenu: ContextMenu.init({ id: "row-context-menu" }),
   rowActions: Array.map(ROWS, (row) => Menu.init({ id: rowActionsId(row.id) })),
   scheme: "System",
   isDense: false,
@@ -210,19 +207,6 @@ const foldAreaPicker = Update.foldChild({
   }),
 });
 
-const foldRowMenu = Update.foldChild({
-  update: ContextMenu.update,
-  read: (model: Model) => Option.some(model.rowMenu),
-  write: (model: Model, nextRowMenu: ContextMenu.Model): Model =>
-    modifyFields(model, { rowMenu: () => nextRowMenu }),
-  toParentMessage: (message: ContextMenu.Message) =>
-    Message.GotRowMenuMessage({ message }),
-  foldOutMessage: ContextMenu.OutMessage.match<Update.Step<Model, Message>>({
-    Selected: ({ id, targetId }) => recordAction(`${id} ${targetId}`),
-    Toggled: ({ targetId }) => togglePin(targetId),
-  }),
-});
-
 const foldRowActionsOutMessage = (rowId: string) =>
   Menu.OutMessage.match<Update.Step<Model, Message>>({
     Selected: ({ id }) => recordAction(`${id} ${rowId}`),
@@ -255,8 +239,6 @@ export const update = (model: Model, message: Message) =>
       foldCreate(model, menuMessage),
     GotAreaPickerMessage: ({ message: menuMessage }) =>
       foldAreaPicker(model, menuMessage),
-    GotRowMenuMessage: ({ message: menuMessage }) =>
-      foldRowMenu(model, menuMessage),
     GotRowActionsMessage: ({ rowId, message: menuMessage }) =>
       foldRowActions(model, rowId, menuMessage),
   });
@@ -289,78 +271,48 @@ const areaToggleView = (model: Model, h: HtmlBuilder<Message>): Html => {
 };
 
 const sampleRowsView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  h.div(
-    [],
-    [
-      h.ul(
-        [h.Class("spec-rows")],
-        Array.map(ROWS, (row) =>
-          h.keyed("li")(
-            row.id,
+  h.ul(
+    [h.Class("spec-rows")],
+    Array.map(ROWS, (row) =>
+      h.keyed("li")(
+        row.id,
+        [h.Class("spec-inline")],
+        [
+          h.span(
+            [],
             [
-              h.Id(row.id),
-              h.Tabindex(0),
-              h.Class("spec-inline"),
-              ContextMenu.target(
-                {
-                  targetId: row.id,
-                  toParentMessage: (message) =>
-                    Message.GotRowMenuMessage({ message }),
-                },
-                h
-              ),
-            ],
-            [
-              h.span(
-                [],
-                [
-                  `${row.name}${Array.contains(model.pinnedIds, row.id) ? " · pinned" : ""}`,
-                ]
-              ),
-              ...Option.toArray(
-                Option.map(
-                  Array.findFirst(
-                    model.rowActions,
-                    (menu) => Menu.id(menu) === rowActionsId(row.id)
-                  ),
-                  (menu) =>
-                    h.submodel({
-                      slotId: Menu.id(menu),
-                      model: menu,
-                      view: Menu.view,
-                      viewInputs: {
-                        label: `Actions: ${row.name}`,
-                        glyph: "more",
-                        isQuiet: true,
-                        align: "End",
-                        items: rowItems(model, row.id),
-                      },
-                      toParentMessage: (message) =>
-                        Message.GotRowActionsMessage({
-                          rowId: row.id,
-                          message,
-                        }),
-                    })
-                )
-              ),
+              `${row.name}${Array.contains(model.pinnedIds, row.id) ? " · pinned" : ""}`,
             ]
-          )
-        )
-      ),
-      h.submodel({
-        slotId: ContextMenu.id(model.rowMenu),
-        model: model.rowMenu,
-        view: ContextMenu.view,
-        viewInputs: {
-          label: "File actions",
-          items: Option.match(ContextMenu.targetId(model.rowMenu), {
-            onNone: () => [],
-            onSome: (rowId) => rowItems(model, rowId),
-          }),
-        },
-        toParentMessage: (message) => Message.GotRowMenuMessage({ message }),
-      }),
-    ]
+          ),
+          ...Option.toArray(
+            Option.map(
+              Array.findFirst(
+                model.rowActions,
+                (menu) => Menu.id(menu) === rowActionsId(row.id)
+              ),
+              (menu) =>
+                h.submodel({
+                  slotId: Menu.id(menu),
+                  model: menu,
+                  view: Menu.view,
+                  viewInputs: {
+                    label: `Actions: ${row.name}`,
+                    glyph: "more",
+                    isQuiet: true,
+                    align: "End",
+                    items: rowItems(model, row.id),
+                  },
+                  toParentMessage: (message) =>
+                    Message.GotRowActionsMessage({
+                      rowId: row.id,
+                      message,
+                    }),
+                })
+            )
+          ),
+        ]
+      )
+    )
   );
 
 export const view = defineView<Model, Message, ViewInputs>(
@@ -406,10 +358,8 @@ export const view = defineView<Model, Message, ViewInputs>(
         ),
         specView(
           Option.match(model.maybeLastAction, {
-            onNone: () =>
-              "each row's more menu, and the same items on a right click",
-            onSome: (action) =>
-              `each row's more menu, and the same items on a right click: ${action}`,
+            onNone: () => "each row's more menu",
+            onSome: (action) => `each row's more menu: ${action}`,
           }),
           [sampleRowsView(model, h)],
           h

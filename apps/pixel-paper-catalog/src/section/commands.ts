@@ -126,7 +126,7 @@ export const sections = <ParentMessage>(
       title: "Menus",
       file: "menus.ts",
       about:
-        "A printed slip under its toggle. Its rows take focus: the arrows move and wrap, stopping on rows that cannot run so their reason is read; Enter or a click picks one and the slip closes, except a check, which toggles in place. Radio rows say which is checked and print it inverted. A right click, or the context menu key, opens the same items for the row it was on.",
+        "A printed slip under its toggle. Its rows take focus: the arrows move and wrap, stopping on rows that cannot run so their reason is read; Enter or a click picks one and the slip closes, except a check, which toggles in place. Radio rows say which is checked and print it inverted.",
       body: () =>
         h.submodel({
           slotId: "menus-example",

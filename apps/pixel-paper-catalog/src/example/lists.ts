@@ -1,10 +1,4 @@
-import {
-  Button,
-  Chip,
-  IconButton,
-  Rows,
-  SelectAll,
-} from "@gjermundgaraba/pixel-paper";
+import { Chip, IconButton, Rows } from "@gjermundgaraba/pixel-paper";
 import { Array, Option, Schema } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -24,8 +18,6 @@ const SAMPLE_ITEMS: readonly Item[] = [
   { id: "drafts", title: "Archive the drafts (sample)", isDone: true },
 ];
 
-const allIds = Array.map(SAMPLE_ITEMS, ({ id }) => id);
-
 const OutlineId = Schema.Literals(["notes", "agenda", "minutes", "later"]);
 
 export type OutlineId = typeof OutlineId.Type;
@@ -40,10 +32,8 @@ export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   ToggledItem: { id: Schema.String, isChecked: Schema.Boolean },
-  ToggledAll: { isAll: Schema.Boolean },
   ToggledNotes: {},
   MovedCursor: { id: OutlineId },
-  ClickedArchive: {},
 });
 
 export type Message = typeof Message.Type;
@@ -140,9 +130,6 @@ export const update = (model: Model, message: Message) =>
             : Array.filter(ids, (kept) => kept !== id),
       }),
     }),
-    ToggledAll: ({ isAll }) => ({
-      model: modifyFields(model, { selectedIds: () => (isAll ? allIds : []) }),
-    }),
     ToggledNotes: () => ({
       model: modifyFields(model, {
         isNotesOpen: (isOpen) => !isOpen,
@@ -152,9 +139,6 @@ export const update = (model: Model, message: Message) =>
     }),
     MovedCursor: ({ id }) => ({
       model: modifyFields(model, { cursorId: () => id }),
-    }),
-    ClickedArchive: () => ({
-      model: modifyFields(model, { selectedIds: () => [] }),
     }),
   });
 
@@ -175,42 +159,14 @@ const itemRow = (model: Model, item: Item, h: HtmlBuilder<Message>): Html =>
     h
   );
 
-const selectableView = (model: Model, h: HtmlBuilder<Message>): Html => {
-  const selected = model.selectedIds.length;
-
-  return h.div(
-    [],
-    [
-      SelectAll.view(
-        {
-          id: "items-select-all",
-          total: SAMPLE_ITEMS.length,
-          selected,
-          onToggle: (isAll) => Message.ToggledAll({ isAll }),
-          actions: [
-            Button.view(
-              {
-                label: "archive",
-                isSmall: true,
-                isDisabled: selected === 0,
-                onClick: Message.ClickedArchive(),
-              },
-              h
-            ),
-          ],
-        },
-        h
-      ),
-      Rows.view(
-        {
-          label: "Items (sample)",
-          rows: Array.map(SAMPLE_ITEMS, (item) => itemRow(model, item, h)),
-        },
-        h
-      ),
-    ]
+const selectableView = (model: Model, h: HtmlBuilder<Message>): Html =>
+  Rows.view(
+    {
+      label: "Items (sample)",
+      rows: Array.map(SAMPLE_ITEMS, (item) => itemRow(model, item, h)),
+    },
+    h
   );
-};
 
 const OUTLINE_ROW_KEY = "outline-row";
 
@@ -374,7 +330,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
   rowView(
     [
       specView(
-        "selectable rows: the head is checked, clear or mixed",
+        "selectable rows: a box on each row",
         [selectableView(model, h)],
         h
       ),

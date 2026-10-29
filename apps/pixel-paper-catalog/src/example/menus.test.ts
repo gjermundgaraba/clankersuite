@@ -1,4 +1,4 @@
-import { ContextMenu, Menu } from "@gjermundgaraba/pixel-paper";
+import { Menu } from "@gjermundgaraba/pixel-paper";
 import { Option } from "effect";
 import { Story } from "foldkit";
 import { describe, expect, it } from "vite-plus/test";
@@ -55,34 +55,6 @@ describe("Menu examples", () => {
         );
       }),
       Story.message(pinRow),
-      Story.model((model) => {
-        expect(model.pinnedIds).toStrictEqual([]);
-      })
-    );
-  });
-
-  it("pins a row from its context menu, and unpins it", () => {
-    const pinFromContextMenu = MenusExample.Message.GotRowMenuMessage({
-      message: ContextMenu.Message.SelectedItem({ id: "pin", kind: "Check" }),
-    });
-
-    Story.story(
-      MenusExample.update,
-      Story.given(MenusExample.init()),
-      Story.message(
-        MenusExample.Message.GotRowMenuMessage({
-          message: ContextMenu.Message.RequestedMenu({
-            point: { x: 40, y: 40 },
-            targetId: "row-budget",
-            maybeReturnFocusId: Option.none(),
-          }),
-        })
-      ),
-      Story.message(pinFromContextMenu),
-      Story.model((model) => {
-        expect(model.pinnedIds).toStrictEqual(["row-budget"]);
-      }),
-      Story.message(pinFromContextMenu),
       Story.model((model) => {
         expect(model.pinnedIds).toStrictEqual([]);
       })

@@ -32,7 +32,6 @@ import * as DocIndex from "./doc-index.ts";
 import * as BoardExample from "./example/board.ts";
 import * as ButtonsExample from "./example/buttons.ts";
 import * as CodeExample from "./example/code.ts";
-import * as DiagramsExample from "./example/diagrams.ts";
 import * as DialogsExample from "./example/dialogs.ts";
 import * as FilesExample from "./example/files.ts";
 import * as FiltersExample from "./example/filters.ts";
@@ -40,7 +39,6 @@ import * as FormsExample from "./example/forms.ts";
 import * as FramesExample from "./example/frames.ts";
 import * as HistoryExample from "./example/history.ts";
 import * as ListsExample from "./example/lists.ts";
-import * as MediaExample from "./example/media.ts";
 import * as RailExample from "./example/rail.ts";
 import * as ReadingExample from "./example/reading.ts";
 import * as ReelExample from "./example/reel.ts";
@@ -116,7 +114,6 @@ export const init: Runtime.RoutingApplicationInit<Model, Message> = (url) => {
       lists: ListsExample.init(),
       code: CodeExample.init(),
       reading: ReadingExample.init(),
-      media: MediaExample.init(),
       commands: CommandExamples.init(),
       board: BoardExample.init(),
       sortable: SortableExample.init(),
@@ -125,7 +122,6 @@ export const init: Runtime.RoutingApplicationInit<Model, Message> = (url) => {
       files: FilesExample.init(),
       rail: RailExample.init(),
       tips: Tips.init({ id: "page-tip" }),
-      diagrams: DiagramsExample.init(),
     }),
     toParentMessage: toSchemeSwitchMessage,
   });
@@ -322,14 +318,6 @@ const foldReadingExample = Update.foldChild({
   toParentMessage: (message) => Message.GotReadingExampleMessage({ message }),
 });
 
-const foldMediaExample = Update.foldChild({
-  update: MediaExample.update,
-  read: (model: Model) => Option.some(model.media),
-  write: (model: Model, nextMedia: MediaExample.Model): Model =>
-    modifyFields(model, { media: () => nextMedia }),
-  toParentMessage: (message) => Message.GotMediaExampleMessage({ message }),
-});
-
 const foldBoardExample = Update.foldChild({
   update: BoardExample.update,
   read: (model: Model) => Option.some(model.board),
@@ -384,14 +372,6 @@ const foldTips = Update.foldChild({
   write: (model: Model, nextTips: Tips.Model): Model =>
     modifyFields(model, { tips: () => nextTips }),
   toParentMessage: (message) => Message.GotTipsMessage({ message }),
-});
-
-const foldDiagramsExample = Update.foldChild({
-  update: DiagramsExample.update,
-  read: (model: Model) => Option.some(model.diagrams),
-  write: (model: Model, nextDiagrams: DiagramsExample.Model): Model =>
-    modifyFields(model, { diagrams: () => nextDiagrams }),
-  toParentMessage: (message) => Message.GotDiagramsExampleMessage({ message }),
 });
 
 const foldCommandExamples = Update.foldChild({
@@ -744,8 +724,6 @@ export const update = (model: Model, message: Message) =>
       foldCodeExample(model, codeMessage),
     GotReadingExampleMessage: ({ message: readingMessage }) =>
       foldReadingExample(model, readingMessage),
-    GotMediaExampleMessage: ({ message: mediaMessage }) =>
-      foldMediaExample(model, mediaMessage),
     GotCommandExamplesMessage: ({ message: commandsMessage }) =>
       foldCommandExamples(model, commandsMessage),
     GotBoardExampleMessage: ({ message: boardMessage }) =>
@@ -761,8 +739,6 @@ export const update = (model: Model, message: Message) =>
     GotRailExampleMessage: ({ message: railMessage }) =>
       foldRailExample(model, railMessage),
     GotTipsMessage: ({ message: tipsMessage }) => foldTips(model, tipsMessage),
-    GotDiagramsExampleMessage: ({ message: diagramsMessage }) =>
-      foldDiagramsExample(model, diagramsMessage),
     GotTopBarMessage: () => ({ model }),
   });
 

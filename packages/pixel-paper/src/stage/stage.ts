@@ -6,7 +6,7 @@ import { slotView } from "../slot/slot.ts";
 export type ViewConfig = Readonly<{
   /** The canvas, filling the stage. */
   body: ReadonlyArray<Html | string>;
-  /** A floating Toolbar at the left edge (along the bottom on a phone). */
+  /** Tools pinned at the left edge (along the bottom on a phone). */
   tools?: readonly Html[];
   /** Along the top edge: the connection, a notice, a count. */
   bar?: ReadonlyArray<Html | string>;

@@ -1,4 +1,4 @@
-import { Identity, Monogram, Wordmark } from "@gjermundgaraba/pixel-paper";
+import { Identity, Wordmark } from "@gjermundgaraba/pixel-paper";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { rowView, specView } from "../spec.ts";
@@ -63,23 +63,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
               isLarge: true,
             },
             h
-          ),
-        ],
-        h
-      ),
-      specView(
-        "monograms: you among others inverts",
-        [
-          h.span(
-            [h.Class("spec-inline")],
-            [
-              Monogram.view(
-                { label: "Sam Rivera (sample)", isCurrent: true },
-                h
-              ),
-              Monogram.view({ label: "ops-bot (sample)" }, h),
-              Monogram.view({ label: "Ada Lovelace (sample)" }, h),
-            ]
           ),
         ],
         h

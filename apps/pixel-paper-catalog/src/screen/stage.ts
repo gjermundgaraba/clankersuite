@@ -6,12 +6,10 @@ import {
   ConfirmDialog,
   IconButton,
   LinkState,
-  Monogram,
   Notice,
   PropsList,
   Stage,
   StatusBar,
-  Toolbar,
   Window,
 } from "@gjermundgaraba/pixel-paper";
 import type { Glyph, KeyHint } from "@gjermundgaraba/pixel-paper";
@@ -48,7 +46,6 @@ export type Model = typeof Model.Type;
 export const Message = defineMessageUnion({
   GotStatusBarMessage: { message: StatusBar.Message },
   SelectedTool: { tool: Tool },
-  GotToolbarMessage: { message: Toolbar.Message },
   ClickedDropLink: {},
   CompletedWaitBeforeLinkReturn: {},
   ClickedReopen: {},
@@ -120,7 +117,6 @@ export const update = (model: Model, message: Message) =>
     SelectedTool: ({ tool }) => ({
       model: modifyFields(model, { tool: () => tool }),
     }),
-    GotToolbarMessage: () => ({ model }),
     ClickedDropLink: () =>
       model.isLinkDropped
         ? { model }
@@ -176,25 +172,23 @@ const isOpen = (model: Model, stageWindow: StageWindow): boolean =>
   !Array.contains(model.closed, stageWindow);
 
 const toolsView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Toolbar.view(
-    {
-      label: "Sample canvas tools",
-      orientation: "Vertical",
-      isFloating: true,
-      toParentMessage: (message) => Message.GotToolbarMessage({ message }),
-      tools: Array.map(TOOLS, ([glyph, tool]) =>
-        IconButton.view(
-          {
-            glyph,
-            label: tool,
-            onClick: Message.SelectedTool({ tool }),
-            attributes: [Button.pressedAttribute(model.tool === tool, h)],
-          },
-          h
-        )
-      ),
-    },
-    h
+  h.div(
+    [
+      h.Role("group"),
+      h.AriaLabel("Sample canvas tools"),
+      h.Class("stack gap-s"),
+    ],
+    Array.map(TOOLS, ([glyph, tool]) =>
+      IconButton.view(
+        {
+          glyph,
+          label: tool,
+          onClick: Message.SelectedTool({ tool }),
+          attributes: [Button.pressedAttribute(model.tool === tool, h)],
+        },
+        h
+      )
+    )
   );
 
 const barView = (
@@ -210,8 +204,6 @@ const barView = (
         { state: model.isLinkDropped ? "Reconnecting" : "Online" },
         h
       ),
-      Monogram.view({ label: "You", letters: "me", isCurrent: true }, h),
-      Monogram.view({ label: "Ada Byrne" }, h),
       Button.view(
         {
           label: "drop the link",

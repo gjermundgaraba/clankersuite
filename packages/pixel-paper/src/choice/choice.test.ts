@@ -5,7 +5,6 @@ import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 import { describe, it } from "vite-plus/test";
 
-import * as Choices from "../choices/choices.ts";
 import * as Choice from "./choice.ts";
 
 const Model = Schema.Struct({ isNotifying: Schema.Boolean });
@@ -26,32 +25,29 @@ const update = (model: Model, message: Message) =>
   });
 
 const choiceView = (model: Model, h: HtmlBuilder<Message>) =>
-  Choices.view(
-    {
-      isInline: true,
-      body: [
-        Choice.view(
-          {
-            id: "notify",
-            label: "Notify me",
-            note: "When it lands.",
-            isChecked: model.isNotifying,
-            onToggle: (isChecked) => Message.ToggledNotify({ isChecked }),
-          },
-          h
-        ),
-        Choice.view(
-          {
-            id: "plain",
-            label: "Plain",
-            isChecked: false,
-            onToggle: (isChecked) => Message.ToggledNotify({ isChecked }),
-          },
-          h
-        ),
-      ],
-    },
-    h
+  h.div(
+    [],
+    [
+      Choice.view(
+        {
+          id: "notify",
+          label: "Notify me",
+          note: "When it lands.",
+          isChecked: model.isNotifying,
+          onToggle: (isChecked) => Message.ToggledNotify({ isChecked }),
+        },
+        h
+      ),
+      Choice.view(
+        {
+          id: "plain",
+          label: "Plain",
+          isChecked: false,
+          onToggle: (isChecked) => Message.ToggledNotify({ isChecked }),
+        },
+        h
+      ),
+    ]
   );
 
 const box = Scene.role("checkbox", { name: "Notify me" });
@@ -61,7 +57,6 @@ describe("Choice", () => {
     Scene.scene(
       { update, view: choiceView },
       Scene.given<Model>({ isNotifying: false }),
-      Scene.expect(Scene.selector(".choices")).toHaveClass("inline"),
       Scene.expect(box).toHaveAttr("aria-checked", "false"),
       Scene.expect(box).toHaveAttr("aria-describedby", "notify-description"),
       Scene.expect(Scene.role("checkbox", { name: "Plain" })).not.toHaveAttr(

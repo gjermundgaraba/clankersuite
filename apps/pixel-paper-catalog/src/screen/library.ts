@@ -2,7 +2,6 @@ import {
   CodeSurface,
   Crumbs,
   Deck,
-  FileTree,
   History,
   LinkState,
   Panel,
@@ -30,7 +29,6 @@ export const Model = Schema.Struct({
   rail: Rail.Model,
   maybeRailWidth: Schema.Option(Schema.Finite),
   isRailHidden: Schema.Boolean,
-  fileTree: FileTree.Model,
   openPath: Schema.String,
   set: Schema.String,
 });
@@ -40,7 +38,7 @@ export type Model = typeof Model.Type;
 export const Message = defineMessageUnion({
   GotStatusBarMessage: { message: StatusBar.Message },
   GotRailMessage: { message: Rail.Message },
-  GotFileTreeMessage: { message: FileTree.Message },
+  SelectedFile: { path: Schema.String },
   SelectedSet: { name: Schema.String },
 });
 
@@ -50,7 +48,6 @@ export const init = (): Model => ({
   rail: Rail.init({ id: "library-rail" }),
   maybeRailWidth: Option.none(),
   isRailHidden: false,
-  fileTree: FileTree.init({ id: "library-files" }),
   openPath: "service.toml",
   set: "deploy",
 });
@@ -82,27 +79,12 @@ const foldRail = Update.foldChild({
 
 const foldRailClose = Update.foldChildStep({ update: Rail.close, ...railFold });
 
-const foldFileTree = Update.foldChild({
-  update: FileTree.update,
-  read: (model: Model) => Option.some(model.fileTree),
-  write: (model: Model, nextFileTree: FileTree.Model): Model =>
-    modifyFields(model, { fileTree: () => nextFileTree }),
-  toParentMessage: (message: FileTree.Message) =>
-    Message.GotFileTreeMessage({ message }),
-  foldOutMessage: FileTree.OutMessage.match<Update.Step<Model, Message>>({
-    OpenedFile:
-      ({ path }) =>
-      (model) =>
-        foldRailClose(modifyFields(model, { openPath: () => path })),
-  }),
-});
-
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     GotStatusBarMessage: () => ({ model }),
     GotRailMessage: ({ message: railMessage }) => foldRail(model, railMessage),
-    GotFileTreeMessage: ({ message: fileTreeMessage }) =>
-      foldFileTree(model, fileTreeMessage),
+    SelectedFile: ({ path }) =>
+      foldRailClose(modifyFields(model, { openPath: () => path })),
     SelectedSet: ({ name }) =>
       foldRailClose(modifyFields(model, { set: () => name })),
   });
@@ -138,21 +120,22 @@ const filesPanelView = (
     {
       id: "library-files-panel",
       title: "Files",
-      meta: "5",
+      meta: `${FILES.length}`,
       lead: [toggle],
       isFlush: true,
       body: [
-        h.submodel({
-          slotId: FileTree.id(model.fileTree),
-          model: model.fileTree,
-          view: FileTree.view,
-          viewInputs: {
+        Places.view(
+          {
             label: "Sample files",
-            nodes: FILES,
-            currentPath: model.openPath,
+            places: Array.map(FILES, (path) => ({
+              id: path,
+              label: path,
+              isCurrent: model.openPath === path,
+              onSelect: Message.SelectedFile({ path }),
+            })),
           },
-          toParentMessage: (message) => Message.GotFileTreeMessage({ message }),
-        }),
+          h
+        ),
       ],
     },
     h

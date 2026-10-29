@@ -1,9 +1,4 @@
-import {
-  Announcer,
-  DropZone,
-  FileTree,
-  FlashWord,
-} from "@gjermundgaraba/pixel-paper";
+import { Announcer, DropZone, FlashWord } from "@gjermundgaraba/pixel-paper";
 import { Option, Schema } from "effect";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -16,8 +11,6 @@ import * as HeldWord from "../held-word.ts";
 import { rowView, specView } from "../spec.ts";
 
 export const Model = Schema.Struct({
-  fileTree: FileTree.Model,
-  currentPath: Schema.String,
   dropZone: DropZone.Model,
   receivedWord: HeldWord.Model,
 });
@@ -25,7 +18,6 @@ export const Model = Schema.Struct({
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
-  GotFileTreeMessage: { message: FileTree.Message },
   GotDropZoneMessage: { message: DropZone.Message },
   CompletedAnnounce: {},
   GotReceivedWordMessage: { message: HeldWord.Message },
@@ -34,24 +26,8 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 export const init = (): Model => ({
-  fileTree: FileTree.init({ id: "sample-files", folded: ["config/keys"] }),
-  currentPath: "config/app.toml",
   dropZone: DropZone.init({ id: "sample-uploads" }),
   receivedWord: HeldWord.init(),
-});
-
-const foldFileTree = Update.foldChild({
-  update: FileTree.update,
-  read: (model: Model) => Option.some(model.fileTree),
-  write: (model: Model, nextFileTree: FileTree.Model): Model =>
-    modifyFields(model, { fileTree: () => nextFileTree }),
-  toParentMessage: (message: FileTree.Message) =>
-    Message.GotFileTreeMessage({ message }),
-  foldOutMessage: FileTree.OutMessage.match<Update.Step<Model, Message>>({
-    OpenedFile:
-      ({ path }) =>
-      (model) => ({ model: modifyFields(model, { currentPath: () => path }) }),
-  }),
 });
 
 const filesWord = (count: number): string =>
@@ -98,33 +74,12 @@ const foldDropZone = Update.foldChild({
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
-    GotFileTreeMessage: ({ message: fileTreeMessage }) =>
-      foldFileTree(model, fileTreeMessage),
     GotDropZoneMessage: ({ message: dropZoneMessage }) =>
       foldDropZone(model, dropZoneMessage),
     CompletedAnnounce: () => ({ model }),
     GotReceivedWordMessage: ({ message: wordMessage }) =>
       foldReceivedWord(model, wordMessage),
   });
-
-const NODES: readonly FileTree.FileNode[] = [
-  {
-    name: "config",
-    path: "config",
-    children: [
-      { name: "app.toml", path: "config/app.toml", tag: "main" },
-      { name: "routes.toml", path: "config/routes.toml" },
-      {
-        name: "keys",
-        path: "config/keys",
-        children: [
-          { name: "deploy.pem", path: "config/keys/deploy.pem", glyph: "key" },
-        ],
-      },
-    ],
-  },
-  { name: "README.md", path: "README.md", glyph: "note" },
-];
 
 const SAMPLE_LINK = "https://example.com/share/sample";
 const SAMPLE_COMMAND = "vp run pixel-paper#dev";
@@ -138,24 +93,6 @@ export const view = defineView<Model, Message, ViewInputs>(
       [
         rowView(
           [
-            specView(
-              `a file tree: ${model.currentPath} is open (sample); arrows move, right and left fold`,
-              [
-                h.submodel({
-                  slotId: FileTree.id(model.fileTree),
-                  model: model.fileTree,
-                  view: FileTree.view,
-                  viewInputs: {
-                    label: "Files in sample project",
-                    nodes: NODES,
-                    currentPath: model.currentPath,
-                  },
-                  toParentMessage: (message) =>
-                    Message.GotFileTreeMessage({ message }),
-                }),
-              ],
-              h
-            ),
             specView(
               "copy: the glyph turns to a check, the button's word to copied",
               [

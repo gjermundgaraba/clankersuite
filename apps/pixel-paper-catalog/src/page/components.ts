@@ -1,4 +1,4 @@
-import { CodeSurface, Disclosure, Scheme } from "@gjermundgaraba/pixel-paper";
+import { CodeSurface, Disclosure } from "@gjermundgaraba/pixel-paper";
 import type { KeyHelp } from "@gjermundgaraba/pixel-paper";
 import { Array, Record } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -8,9 +8,7 @@ import { COMPONENTS } from "../covers.ts";
 import type * as DocIndex from "../doc-index.ts";
 import * as BoardExample from "../example/board.ts";
 import * as ButtonsExample from "../example/buttons.ts";
-import * as ChartsExample from "../example/charts.ts";
 import * as CodeExample from "../example/code.ts";
-import * as DiagramsExample from "../example/diagrams.ts";
 import * as DialogsExample from "../example/dialogs.ts";
 import * as FilesExample from "../example/files.ts";
 import * as FiltersExample from "../example/filters.ts";
@@ -21,7 +19,6 @@ import * as IdentityExample from "../example/identity.ts";
 import * as KeysExample from "../example/keys.ts";
 import * as LayoutExample from "../example/layout.ts";
 import * as ListsExample from "../example/lists.ts";
-import * as MediaExample from "../example/media.ts";
 import * as MetersExample from "../example/meters.ts";
 import * as RailExample from "../example/rail.ts";
 import * as ReadingExample from "../example/reading.ts";
@@ -101,7 +98,7 @@ export const sections = (
       title: "Frames",
       file: "frames.ts",
       about:
-        "The bars, tools and places an interface is framed by. This page's own top bar and skip link are the components, and its body is a Deck, the main landmark the skip link moves to; a Bench, a Stage and a Wall are main landmarks too, so they are whole screens (the Workspace, the Stage, the walls), not specimens. The toolbar is one Tab stop: the arrows move between its tools.",
+        "The bars, tools and places an interface is framed by. This page's own top bar and skip link are the components, and its body is a Deck, the main landmark the skip link moves to; a Bench, a Stage and a Wall are main landmarks too, so they are whole screens (the Workspace, the Stage, the walls), not specimens.",
       body: () =>
         h.submodel({
           slotId: "frames-example",
@@ -145,23 +142,6 @@ export const sections = (
           view: FiltersExample.view,
           toParentMessage: (message) =>
             Message.GotFiltersExampleMessage({ message }),
-        }),
-    },
-    diagrams: {
-      title: "Diagrams",
-      file: "diagrams.ts",
-      about:
-        "Mermaid in pixel paper, through the optional adapter pixel-paper/adapters/mermaid: a View whose Mount draws the diagram once its box is on the page, keyed by the palette the SchemeSwitch reports (under System, the one the reader's system prefers, followed as it changes), so a new palette draws it again. Mermaid is the adopter's dependency, loaded only in the browser. Nodes print like slips, edges step, authored words are in the sans and mermaid's own in the pixel face. Each diagram names itself to screen readers with accTitle and accDescr in its source.",
-      body: () =>
-        h.submodel({
-          slotId: "diagrams-example",
-          model: model.diagrams,
-          view: DiagramsExample.view,
-          viewInputs: {
-            palette: Scheme.SchemeSwitch.palette(model.schemeSwitch),
-          },
-          toParentMessage: (message) =>
-            Message.GotDiagramsExampleMessage({ message }),
         }),
     },
     time: {
@@ -232,7 +212,7 @@ export const sections = (
       title: "Rows and selection",
       file: "lists.ts",
       about:
-        "Rows of 34px with a glyph, a title, a slot and tools. A selectable list keeps its selection in the Model; its head is checked, clear or mixed.",
+        "Rows of 34px with a glyph, a title, a slot and tools. A selectable list keeps its selection in the Model.",
       body: () =>
         h.submodel({
           slotId: "lists-example",
@@ -255,13 +235,6 @@ export const sections = (
       about:
         "Readings against a maximum as twenty cells, amber from 80% and a red chip at the maximum, and figures in ruled cells with their change.",
       body: () => MetersExample.view(h),
-    },
-    charts: {
-      title: "Charts",
-      file: "charts.ts",
-      about:
-        "Amounts as lit cells and readings as stepped lines in whole pixels. The picture is hidden from screen readers, who read a table of the same numbers.",
-      body: () => ChartsExample.view(h),
     },
     code: {
       title: "Code and diffs",
@@ -289,20 +262,6 @@ export const sections = (
           view: ReadingExample.view,
           toParentMessage: (message) =>
             Message.GotReadingExampleMessage({ message }),
-        }),
-    },
-    media: {
-      title: "Images and media",
-      file: "media.ts",
-      about:
-        "Every picture, video and sound here is sample art drawn for the specimen. The loading states are held so they stay still; the broken ones point at sources that are not there.",
-      body: () =>
-        h.submodel({
-          slotId: "media-example",
-          model: model.media,
-          view: MediaExample.view,
-          toParentMessage: (message) =>
-            Message.GotMediaExampleMessage({ message }),
         }),
     },
     board: {
@@ -343,7 +302,6 @@ export const sections = (
           slotId: "reel-example",
           model: model.reel,
           view: ReelExample.view,
-          viewInputs: { platform: model.platform },
           toParentMessage: (message) =>
             Message.GotReelExampleMessage({ message }),
         }),
@@ -366,7 +324,7 @@ export const sections = (
       title: "Files and copying",
       file: "files.ts",
       about:
-        "A file tree is one stop for Tab, with the arrows of a tree. A copy button writes through Effect's Clipboard port, which the application provides, and says it copied.",
+        "A copy button writes through Effect's Clipboard port, which the application provides, and says it copied.",
       body: () =>
         h.submodel({
           slotId: "files-example",

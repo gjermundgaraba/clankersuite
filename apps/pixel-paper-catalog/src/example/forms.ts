@@ -1,11 +1,9 @@
 import {
   Button,
   Choice,
-  Choices,
   ErrorSummary,
   Field,
   FieldGrid,
-  Fields,
   Fieldset,
   Focus,
   IconButton,
@@ -282,30 +280,22 @@ const notifyView = (model: Model, h: HtmlBuilder<Message>): Html =>
       label: "Notify",
       help: "Who hears when it changes.",
       body: [
-        Choices.view(
+        Choice.view(
           {
-            isInline: true,
-            body: [
-              Choice.view(
-                {
-                  id: "sample-mailed",
-                  label: "by mail",
-                  isChecked: model.isMailed,
-                  onToggle: (isChecked) => Message.ToggledMailed({ isChecked }),
-                },
-                h
-              ),
-              Choice.view(
-                {
-                  id: "sample-daily",
-                  label: "daily digest",
-                  note: "One message a day, at nine.",
-                  isChecked: model.isDaily,
-                  onToggle: (isChecked) => Message.ToggledDaily({ isChecked }),
-                },
-                h
-              ),
-            ],
+            id: "sample-mailed",
+            label: "by mail",
+            isChecked: model.isMailed,
+            onToggle: (isChecked) => Message.ToggledMailed({ isChecked }),
+          },
+          h
+        ),
+        Choice.view(
+          {
+            id: "sample-daily",
+            label: "daily digest",
+            note: "One message a day, at nine.",
+            isChecked: model.isDaily,
+            onToggle: (isChecked) => Message.ToggledDaily({ isChecked }),
           },
           h
         ),
@@ -373,18 +363,18 @@ const formView = (model: Model, h: HtmlBuilder<Message>): Html =>
     ],
     [
       ErrorSummary.view({ id: ERROR_SUMMARY_ID, errors: model.errors }, h),
-      Fields.view(
-        {
-          isBusy: model.isSaving,
-          body: [
-            projectView(model, h),
-            ...detailsView(model, h),
-            notifyView(model, h),
-            planView(model, h),
-            passwordView(model, h),
-          ],
-        },
-        h
+      h.fieldset(
+        [
+          ...(model.isSaving ? [h.Disabled(true), h.AriaBusy(true)] : []),
+          h.Class("stack gap-m"),
+        ],
+        [
+          projectView(model, h),
+          ...detailsView(model, h),
+          notifyView(model, h),
+          planView(model, h),
+          passwordView(model, h),
+        ]
       ),
       Button.view(
         {

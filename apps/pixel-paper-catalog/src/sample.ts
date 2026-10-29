@@ -1,5 +1,5 @@
 import { PasswordField } from "@gjermundgaraba/pixel-paper";
-import type { FileTree, History } from "@gjermundgaraba/pixel-paper";
+import type { History } from "@gjermundgaraba/pixel-paper";
 import { Array, Option, Record, Schema } from "effect";
 
 import type { CopyKey } from "./copies.ts";
@@ -245,32 +245,12 @@ export const PATCH = `--- a/rollout.md
 +5. Switch the rest.
 `;
 
-export const FILES: readonly FileTree.FileNode[] = [
-  { name: "service.toml", path: "service.toml", glyph: "key", tag: "main" },
-  {
-    name: "hooks",
-    path: "hooks",
-    children: [
-      {
-        name: "before-deploy.sh",
-        path: "hooks/before-deploy.sh",
-        glyph: "script",
-      },
-      {
-        name: "after-deploy.sh",
-        path: "hooks/after-deploy.sh",
-        glyph: "script",
-      },
-    ],
-  },
-  {
-    name: "templates",
-    path: "templates",
-    children: [
-      { name: "notice.txt", path: "templates/notice.txt", glyph: "copy" },
-    ],
-  },
-  { name: "README.md", path: "README.md" },
+export const FILES: readonly string[] = [
+  "service.toml",
+  "hooks/before-deploy.sh",
+  "hooks/after-deploy.sh",
+  "templates/notice.txt",
+  "README.md",
 ];
 
 const FILE_BODIES: Record.ReadonlyRecord<string, string> = {

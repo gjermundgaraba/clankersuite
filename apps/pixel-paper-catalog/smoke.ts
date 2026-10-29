@@ -459,28 +459,6 @@ try {
       `first entry ${band.gap}px under the title bar, padding ${pad}px`
     );
 
-    const heldFigure = page
-      .locator("#media .spec-item", { hasText: "loading: the space is kept" })
-      .locator("figure.image");
-
-    const heldOffset = await heldFigure.evaluate((figure) => {
-      const frame = figure
-        .querySelector(".image-frame")
-        ?.getBoundingClientRect();
-
-      const box = figure.getBoundingClientRect();
-
-      return frame === undefined
-        ? Number.NaN
-        : Math.abs(frame.top - box.top) + Math.abs(frame.left - box.left);
-    });
-
-    check(
-      "a picture held loading sits flush in its figure",
-      heldOffset < 1,
-      `frame ${heldOffset}px off the figure's corner`
-    );
-
     const sampleForm = page.locator("#forms form");
     await sampleForm.getByRole("button", { name: "save" }).click();
     await settle();

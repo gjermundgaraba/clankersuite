@@ -1,12 +1,5 @@
-import {
-  Button,
-  Glyph,
-  KeyHelp,
-  Keymap,
-  Reel,
-  Window,
-} from "@gjermundgaraba/pixel-paper";
-import type { KeyHint } from "@gjermundgaraba/pixel-paper";
+import { Button, Glyph, Reel, Window } from "@gjermundgaraba/pixel-paper";
+import type { KeyHelp } from "@gjermundgaraba/pixel-paper";
 import {
   Array,
   Effect,
@@ -406,8 +399,6 @@ export const paneView =
     );
   };
 
-export type ViewInputs = Readonly<{ platform: KeyHint.KeyPlatform }>;
-
 const reelFrame = (
   model: Model,
   field: ReelField,
@@ -436,69 +427,61 @@ const reelFrame = (
     ]
   );
 
-export const view = defineView<Model, Message, ViewInputs>(
-  (model, { platform }, h): Html =>
-    h.div(
-      [h.Class("spec-rows")],
-      [
-        wideSpecView(
-          "a reel wider than its frame (sample): drag a pane by its grip into another column or a gap, or a splitter",
-          [
-            reelFrame(model, "paper", "spec-scheme paper", "Sample panes", h, [
-              h.OnMount(BindReelKeys()),
-            ]),
-          ],
-          h
-        ),
-        wideSpecView(
-          "the same layout in a second client, in plum: its own focus and scroll, and down where a column is taller than its frame",
-          [
-            reelFrame(
-              model,
-              "plum",
-              "short spec-scheme plum",
-              "Sample panes, second client",
-              h
-            ),
-          ],
-          h
-        ),
-        wideSpecView(
-          "the same layout as tabs in a third client: each pane at the reel's full size, one at a time, a press or the arrows on the tabs choosing it",
-          [
-            reelFrame(
-              model,
-              "tabs",
-              "spec-scheme paper",
-              "Sample panes, as tabs",
-              h,
-              [],
-              "Tabs"
-            ),
-          ],
-          h
-        ),
-        specView(
-          "the keys the page binds for the first reel, after herdr's",
-          [
-            Keymap.view(
-              {
-                groups: KeyHelp.toKeymapGroups(REEL_BINDINGS, platform, ""),
-                note: "They act while focus is in the reel, its fields too. A browser keeps some of them for itself.",
-              },
-              h
-            ),
-            Button.view(
-              {
-                label: "reset the layout",
-                isSmall: true,
-                onClick: Message.ClickedReset(),
-              },
-              h
-            ),
-          ],
-          h
-        ),
-      ]
-    )
+export const view = defineView<Model, Message>((model, h): Html =>
+  h.div(
+    [h.Class("spec-rows")],
+    [
+      wideSpecView(
+        "a reel wider than its frame (sample): drag a pane by its grip into another column or a gap, or a splitter",
+        [
+          reelFrame(model, "paper", "spec-scheme paper", "Sample panes", h, [
+            h.OnMount(BindReelKeys()),
+          ]),
+        ],
+        h
+      ),
+      wideSpecView(
+        "the same layout in a second client, in plum: its own focus and scroll, and down where a column is taller than its frame",
+        [
+          reelFrame(
+            model,
+            "plum",
+            "short spec-scheme plum",
+            "Sample panes, second client",
+            h
+          ),
+        ],
+        h
+      ),
+      wideSpecView(
+        "the same layout as tabs in a third client: each pane at the reel's full size, one at a time, a press or the arrows on the tabs choosing it",
+        [
+          reelFrame(
+            model,
+            "tabs",
+            "spec-scheme paper",
+            "Sample panes, as tabs",
+            h,
+            [],
+            "Tabs"
+          ),
+        ],
+        h
+      ),
+      specView(
+        "the one layout the three reels show, as it began",
+        [
+          Button.view(
+            {
+              label: "reset the layout",
+              isSmall: true,
+              onClick: Message.ClickedReset(),
+            },
+            h
+          ),
+        ],
+        h
+      ),
+    ]
+  )
 );

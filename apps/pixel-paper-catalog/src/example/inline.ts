@@ -1,9 +1,4 @@
-import {
-  Button,
-  EditableTitle,
-  Focus,
-  InlineInput,
-} from "@gjermundgaraba/pixel-paper";
+import { Button, Focus, InlineInput } from "@gjermundgaraba/pixel-paper";
 import { Array, Duration, Effect, Option, Schema, String } from "effect";
 import * as Command from "foldkit/command";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -19,8 +14,6 @@ export const Model = Schema.Struct({
     Schema.Struct({ id: Schema.String, title: Schema.String })
   ),
   maybeAdding: Schema.Option(InlineInput.Model),
-  heading: EditableTitle.Model,
-  headingText: Schema.String,
 });
 
 export type Model = typeof Model.Type;
@@ -30,8 +23,6 @@ export const Message = defineMessageUnion({
   GotAddingMessage: { message: InlineInput.Message },
   CompletedSaveItem: { text: Schema.String },
   CompletedFocus: {},
-  GotHeadingMessage: { message: EditableTitle.Message },
-  CompletedSaveHeading: { text: Schema.String },
 });
 
 export type Message = typeof Message.Type;
@@ -39,14 +30,11 @@ export type Message = typeof Message.Type;
 export const init = (): Model => ({
   items: [{ id: "item-0", title: "Renew the certificate" }],
   maybeAdding: Option.none(),
-  heading: EditableTitle.init({ id: "inline-heading" }),
-  headingText: "Field notes",
 });
 
 const ADD_ID = "inline-add";
 const ADD_BUTTON_ID = "inline-add-button";
 const SAVE_TIME = Duration.millis(250);
-const LONGEST_HEADING = 40;
 
 export const SaveItem = Command.define("SaveItem", {
   args: { text: Schema.String },
@@ -54,15 +42,6 @@ export const SaveItem = Command.define("SaveItem", {
   execute: ({ text }) =>
     Effect.sleep(SAVE_TIME).pipe(
       Effect.as(Message.CompletedSaveItem({ text }))
-    ),
-});
-
-export const SaveHeading = Command.define("SaveHeading", {
-  args: { text: Schema.String },
-  messages: [Message.CompletedSaveHeading],
-  execute: ({ text }) =>
-    Effect.sleep(SAVE_TIME).pipe(
-      Effect.as(Message.CompletedSaveHeading({ text }))
     ),
 });
 
@@ -142,42 +121,6 @@ const saveItem = (model: Model, text: string): UpdateReturn => {
   );
 };
 
-const headingFold = {
-  read: (model: Model) => Option.some(model.heading),
-  write: (model: Model, nextHeading: EditableTitle.Model): Model =>
-    modifyFields(model, { heading: () => nextHeading }),
-  toParentMessage: (message: EditableTitle.Message) =>
-    Message.GotHeadingMessage({ message }),
-  foldOutMessage: EditableTitle.OutMessage.match<Update.Step<Model, Message>>({
-    Committed:
-      ({ text }) =>
-      (model) => ({ model, commands: [SaveHeading({ text })] }),
-  }),
-};
-
-const foldHeading = Update.foldChild({
-  update: EditableTitle.update,
-  ...headingFold,
-});
-
-const foldHeadingFailed = Update.foldChild({
-  update: EditableTitle.failed,
-  ...headingFold,
-});
-
-const foldHeadingSucceeded = Update.foldChildStep({
-  update: EditableTitle.succeeded,
-  ...headingFold,
-});
-
-const saveHeading = (model: Model, text: string): UpdateReturn =>
-  text.length > LONGEST_HEADING
-    ? foldHeadingFailed(
-        model,
-        `Keep it under ${LONGEST_HEADING} letters (sample).`
-      )
-    : foldHeadingSucceeded(modifyFields(model, { headingText: () => text }));
-
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     ClickedAdd: () => startAdding(model),
@@ -185,9 +128,6 @@ export const update = (model: Model, message: Message) =>
       foldAdding(model, addingMessage),
     CompletedSaveItem: ({ text }) => saveItem(model, text),
     CompletedFocus: () => ({ model }),
-    GotHeadingMessage: ({ message: headingMessage }) =>
-      foldHeading(model, headingMessage),
-    CompletedSaveHeading: ({ text }) => saveHeading(model, text),
   });
 
 const addingView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
@@ -218,20 +158,6 @@ const addingView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
 export const view = defineView<Model, Message>((model, h): Html =>
   rowView(
     [
-      specView(
-        "click the title to rename it; enter saves, escape keeps it (sample)",
-        [
-          h.submodel({
-            slotId: EditableTitle.id(model.heading),
-            model: model.heading,
-            view: EditableTitle.view,
-            viewInputs: { value: model.headingText },
-            toParentMessage: (message) =>
-              Message.GotHeadingMessage({ message }),
-          }),
-        ],
-        h
-      ),
       specView(
         "add: enter saves and opens the next, escape ends; a duplicate is refused (sample)",
         [

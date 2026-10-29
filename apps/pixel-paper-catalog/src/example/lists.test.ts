@@ -15,7 +15,7 @@ const target = (
   ]);
 
 describe("Lists example", () => {
-  it("selects rows one by one or all at once, and archiving clears the selection", () => {
+  it("selects and clears rows one by one", () => {
     Story.story(
       ListsExample.update,
       Story.given(ListsExample.init()),
@@ -30,14 +30,6 @@ describe("Lists example", () => {
       ),
       Story.model((model) => {
         expect(model.selectedIds).toStrictEqual(["notes"]);
-      }),
-      Story.message(ListsExample.Message.ToggledAll({ isAll: true })),
-      Story.model((model) => {
-        expect(model.selectedIds).toStrictEqual(["notes", "room", "drafts"]);
-      }),
-      Story.message(ListsExample.Message.ClickedArchive()),
-      Story.model((model) => {
-        expect(model.selectedIds).toStrictEqual([]);
       })
     );
   });

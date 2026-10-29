@@ -9,7 +9,7 @@ const stageView =
     Stage.view(
       {
         body: [h.canvas([])],
-        tools: [h.div([h.Class("toolbar")], [])],
+        tools: [h.div([h.Class("tools")], [])],
         bar: ["3 here"],
         ...(isPaused ? { paused: ["The link dropped."] } : {}),
       },
@@ -23,7 +23,7 @@ describe("Stage", () => {
       Scene.given(null),
       Scene.expect(Scene.role("main")).toHaveId("main"),
       Scene.expect(Scene.selector(".stage-canvas canvas")).toExist(),
-      Scene.expect(Scene.selector(".stage-tools .toolbar")).toExist(),
+      Scene.expect(Scene.selector(".stage-tools .tools")).toExist(),
       Scene.expect(Scene.selector(".stage-bar")).toHaveText("3 here"),
       Scene.expect(Scene.selector(".stage-work")).not.toHaveAttr("inert"),
       Scene.expect(Scene.role("status")).toBeEmpty(),

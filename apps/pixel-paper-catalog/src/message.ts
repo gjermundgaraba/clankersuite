@@ -19,7 +19,6 @@ import * as DocIndex from "./doc-index.ts";
 import * as BoardExample from "./example/board.ts";
 import * as ButtonsExample from "./example/buttons.ts";
 import * as CodeExample from "./example/code.ts";
-import * as DiagramsExample from "./example/diagrams.ts";
 import * as DialogsExample from "./example/dialogs.ts";
 import * as FilesExample from "./example/files.ts";
 import * as FiltersExample from "./example/filters.ts";
@@ -27,7 +26,6 @@ import * as FormsExample from "./example/forms.ts";
 import * as FramesExample from "./example/frames.ts";
 import * as HistoryExample from "./example/history.ts";
 import * as ListsExample from "./example/lists.ts";
-import * as MediaExample from "./example/media.ts";
 import * as RailExample from "./example/rail.ts";
 import * as ReadingExample from "./example/reading.ts";
 import * as ReelExample from "./example/reel.ts";
@@ -69,7 +67,6 @@ export const Message = defineMessageUnion({
   GotListsExampleMessage: { message: ListsExample.Message },
   GotCodeExampleMessage: { message: CodeExample.Message },
   GotReadingExampleMessage: { message: ReadingExample.Message },
-  GotMediaExampleMessage: { message: MediaExample.Message },
   GotCommandExamplesMessage: { message: CommandExamples.Message },
   GotBoardExampleMessage: { message: BoardExample.Message },
   GotSortableExampleMessage: { message: SortableExample.Message },
@@ -78,7 +75,6 @@ export const Message = defineMessageUnion({
   GotFilesExampleMessage: { message: FilesExample.Message },
   GotRailExampleMessage: { message: RailExample.Message },
   GotTipsMessage: { message: Tips.Message },
-  GotDiagramsExampleMessage: { message: DiagramsExample.Message },
   GotTopBarMessage: { message: TopBar.Message },
 });
 

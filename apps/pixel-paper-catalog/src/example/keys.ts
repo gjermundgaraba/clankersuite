@@ -1,4 +1,4 @@
-import { Button, KeyHelp, KeyHint, Keymap } from "@gjermundgaraba/pixel-paper";
+import { Button, KeyHelp, KeyHint } from "@gjermundgaraba/pixel-paper";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
@@ -22,19 +22,6 @@ export const view = <Message>(
                 KeyHint.view({ keys, platform }, h)
               )
             )
-          ),
-        ],
-        h
-      ),
-      specView(
-        "the keymap a narrow card holds",
-        [
-          Keymap.view(
-            {
-              groups: KeyHelp.toKeymapGroups(bindings, platform, ""),
-              note: "Keys wait while you type in a field.",
-            },
-            h
           ),
         ],
         h

@@ -9,7 +9,6 @@ import {
   NavStrip,
   Places,
   StatusBar,
-  Toolbar,
   TopBar,
   Wall,
   Window,
@@ -25,16 +24,11 @@ import type * as Update from "foldkit/update";
 
 import { rowView, specView } from "../spec.ts";
 
-const Tool = Schema.Literals(["Pointer", "Hand", "Text"]);
-
-type Tool = typeof Tool.Type;
-
 const Area = Schema.Literals(["Inbox", "Later", "Archive"]);
 
 type Area = typeof Area.Type;
 
 export const Model = Schema.Struct({
-  tool: Tool,
   area: Area,
   isRunning: Schema.Boolean,
   address: Schema.String,
@@ -43,8 +37,6 @@ export const Model = Schema.Struct({
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
-  SelectedTool: { tool: Tool },
-  GotToolbarMessage: { message: Toolbar.Message },
   GotTopBarMessage: { message: TopBar.Message },
   GotStatusBarMessage: { message: StatusBar.Message },
   SelectedArea: { area: Area },
@@ -58,7 +50,6 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 export const init = (): Model => ({
-  tool: "Pointer",
   area: "Inbox",
   isRunning: true,
   address: "https://example.com/",
@@ -69,10 +60,6 @@ const SAMPLE_BANNER =
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
-    SelectedTool: ({ tool }) => ({
-      model: modifyFields(model, { tool: () => tool }),
-    }),
-    GotToolbarMessage: () => ({ model }),
     GotTopBarMessage: () => ({ model }),
     GotStatusBarMessage: () => ({ model }),
     SelectedArea: ({ area }) => ({
@@ -96,36 +83,6 @@ export const update = (model: Model, message: Message) =>
   });
 
 export type ViewInputs = Readonly<{ platform: KeyHint.KeyPlatform }>;
-
-const TOOLS: ReadonlyArray<
-  Readonly<{ tool: Tool; label: string; glyph: "pointer" | "hand" | "text" }>
-> = [
-  { tool: "Pointer", label: "Select", glyph: "pointer" },
-  { tool: "Hand", label: "Pan", glyph: "hand" },
-  { tool: "Text", label: "Write", glyph: "text" },
-];
-
-const toolbarView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Toolbar.view(
-    {
-      label: "Canvas tools (sample)",
-      orientation: "Vertical",
-      isFloating: true,
-      toParentMessage: (message) => Message.GotToolbarMessage({ message }),
-      tools: Array.map(TOOLS, ({ tool, label, glyph }) =>
-        IconButton.view(
-          {
-            glyph,
-            label,
-            onClick: Message.SelectedTool({ tool }),
-            attributes: [Button.pressedAttribute(model.tool === tool, h)],
-          },
-          h
-        )
-      ),
-    },
-    h
-  );
 
 const sampleTopBar = (h: HtmlBuilder<Message>): Html =>
   TopBar.view(
@@ -350,11 +307,6 @@ const connectionView = (h: HtmlBuilder<Message>): Html =>
 const toolsView = (model: Model, h: HtmlBuilder<Message>): Html =>
   rowView(
     [
-      specView(
-        "toolbar: one Tab stop, arrows between tools",
-        [h.div([h.Class("spec-stage")], [toolbarView(model, h)])],
-        h
-      ),
       specView(
         "window: kind, state and tools in its title bar",
         [

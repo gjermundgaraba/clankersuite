@@ -1,4 +1,4 @@
-import { FileTree, Rail } from "@gjermundgaraba/pixel-paper";
+import { Rail } from "@gjermundgaraba/pixel-paper";
 import { Story } from "foldkit";
 import { describe, expect, it } from "vite-plus/test";
 
@@ -34,18 +34,14 @@ describe("Library screen", () => {
     );
   });
 
-  it("opens the file chosen in the tree and closes the drawer", () => {
+  it("opens the file chosen in the list and closes the drawer", () => {
     Story.story(
       LibraryScreen.update,
       Story.given(LibraryScreen.init()),
       Story.message(openRail),
       resolveShow,
       Story.message(
-        LibraryScreen.Message.GotFileTreeMessage({
-          message: FileTree.Message.ClickedFile({
-            path: "hooks/before-deploy.sh",
-          }),
-        })
+        LibraryScreen.Message.SelectedFile({ path: "hooks/before-deploy.sh" })
       ),
       Story.Command.expectExact(Rail.HideRailDrawer),
       resolveHide,

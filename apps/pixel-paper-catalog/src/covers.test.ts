@@ -1,5 +1,5 @@
 import * as PixelPaper from "@gjermundgaraba/pixel-paper";
-import { Array, Record } from "effect";
+import { Array, Record, String } from "effect";
 import { describe, expect, it } from "vite-plus/test";
 
 import { COMPONENTS, FOUNDATIONS, exportsShown } from "./covers.ts";
@@ -19,6 +19,18 @@ describe("covers", () => {
   it("shows every namespace src/index.ts exports in some section", () => {
     expect(
       Array.filter(Record.keys(PixelPaper), (namespace) => !isShown(namespace))
+    ).toStrictEqual([]);
+  });
+
+  it("names only namespaces src/index.ts exports", () => {
+    const exported = Record.keys(PixelPaper);
+
+    expect(
+      Array.filter(
+        shown,
+        (name) =>
+          !Array.contains(exported, Array.headNonEmpty(String.split(name, ".")))
+      )
     ).toStrictEqual([]);
   });
 });
