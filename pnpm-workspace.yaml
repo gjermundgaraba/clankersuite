@@ -3,22 +3,44 @@ packages:
   - packages/*
 
 catalogMode: prefer
+saveExact: true
 
 catalog:
   "@clanker-stuff/oxlint-config": 0.1.0
+  "@effect/platform-browser": 4.0.6
   "@effect/tsgo": 0.57.0
+  "@foldkit/oxlint-plugin": 0.15.3
+  "@foldkit/ui": 0.169.0
+  "@foldkit/vite-plugin": 0.28.0
   "@types/node": 26.6.5
+  diff: 9.0.0
+  effect: 4.0.6
+  foldkit: 0.169.0
+  happy-dom: 21.0.4
+  mermaid: 12.2.0
+  playwright: 1.64.1
   typescript: 7.0.2
   ultracite: 8.0.2
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
+  vitest: 5.0.5
 overrides:
   vite@*: "catalog:"
+  vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
     - vite
+    - vitest
   allowedVersions:
+    # Foldkit 0.169 pins effect 4.0.0 as an exact peer; one effect 4.0.6 instance serves all.
+    effect: 4.0.6
+    "@effect/platform-browser": 4.0.6
     vite: "*"
+    vitest: "*"
+patchedDependencies:
+  # The plugin reads Crypto.randomUUIDv4 as effect 4.0.0's value; from 4.0.3 it is a method,
+  # so without this its DevTools MCP relay fails to start under the effect pinned here.
+  "@foldkit/vite-plugin@0.28.0": patches/@foldkit__vite-plugin@0.28.0.patch
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - vite-plus
@@ -31,6 +53,7 @@ minimumReleaseAgeExclude:
   - "@oxfmt/*"
   - vitest
   - "@vitest/*"
+  - "@gjermundgaraba/*"
   - effect
   - "@effect/*"
   - "@clanker-stuff/*"

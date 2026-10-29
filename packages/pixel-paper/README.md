@@ -1,0 +1,51 @@
+# @gjermundgaraba/pixel-paper
+
+Printed paper panels for [Foldkit](https://foldkit.dev) applications: Departure Mono, 2px ink borders, solid offset shadows, 12×12 pixel glyphs, paper and plum palettes. For dense working interfaces: queues, boards, consoles, editors.
+
+## Install
+
+```bash
+pnpm add @gjermundgaraba/pixel-paper foldkit @foldkit/ui effect @effect/platform-browser
+```
+
+Foldkit pins `effect` and `@effect/platform-browser` exactly as peers. An app on a later patch keeps one Effect instance by allowing it:
+
+```yaml
+# pnpm-workspace.yaml
+peerDependencyRules:
+  allowedVersions:
+    effect: <the app's version>
+    "@effect/platform-browser": <the app's version>
+```
+
+## Set up
+
+The views ship branded for Foldkit's view identity, so the app's build needs only `foldkit()`. Import the stylesheet once, from the client entry:
+
+```ts
+import "@gjermundgaraba/pixel-paper/pixel-paper.css";
+```
+
+The stylesheet follows the reader's colour scheme. `Scheme.SchemeSwitch` lets them pin one, and `schemeScript` applies it before first paint; write it into the head:
+
+```ts
+import { schemeScript } from "@gjermundgaraba/pixel-paper/scheme";
+
+export default defineConfig({
+  plugins: [
+    foldkit(),
+    {
+      name: "scheme-script",
+      transformIndexHtml: () => [
+        { tag: "script", children: schemeScript, injectTo: "head-prepend" },
+      ],
+    },
+  ],
+});
+```
+
+Provide `Clipboard.layer` as the application's resources where a component copies.
+
+## Licence
+
+MIT. Departure Mono, in `fonts/`, carries its own licence beside it.

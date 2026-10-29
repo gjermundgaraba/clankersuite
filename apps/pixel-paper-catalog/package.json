@@ -1,0 +1,33 @@
+{
+  "name": "pixel-paper-catalog",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "./src/entry.ts"
+  ],
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "test": "vp test"
+  },
+  "dependencies": {
+    "@effect/platform-browser": "catalog:",
+    "@foldkit/ui": "catalog:",
+    "@gjermundgaraba/pixel-paper": "workspace:*",
+    "effect": "catalog:",
+    "foldkit": "catalog:",
+    "mermaid": "catalog:"
+  },
+  "devDependencies": {
+    "@foldkit/vite-plugin": "catalog:",
+    "@types/node": "catalog:",
+    "happy-dom": "catalog:",
+    "playwright": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

@@ -1,0 +1,2 @@
+Departure Mono v1.500 — (c) 2024 Helena Zhang & Tobias Fried, MIT License
+https://github.com/rektdeckard/departure-mono

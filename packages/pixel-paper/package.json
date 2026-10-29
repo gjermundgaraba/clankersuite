@@ -1,0 +1,75 @@
+{
+  "name": "@gjermundgaraba/pixel-paper",
+  "version": "0.1.0",
+  "description": "Printed-paper Foldkit components, tokens and stylesheet.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
+    "directory": "packages/pixel-paper"
+  },
+  "files": [
+    "dist",
+    "fonts",
+    "src/pixel-paper.css",
+    "src/tokens.css"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./scheme": "./src/scheme/script.ts",
+    "./pixel-paper.css": "./src/pixel-paper.css",
+    "./tokens.css": "./src/tokens.css",
+    "./adapters/mermaid": "./src/adapters/mermaid.ts"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./scheme": {
+        "types": "./dist/scheme/script.d.ts",
+        "default": "./dist/scheme/script.js"
+      },
+      "./pixel-paper.css": "./src/pixel-paper.css"
+    },
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "test": "vp test",
+    "prepack": "vp pack"
+  },
+  "dependencies": {
+    "diff": "^9.0.0"
+  },
+  "devDependencies": {
+    "@effect/platform-browser": "catalog:",
+    "@foldkit/ui": "catalog:",
+    "@foldkit/vite-plugin": "catalog:",
+    "@types/node": "catalog:",
+    "effect": "catalog:",
+    "foldkit": "catalog:",
+    "happy-dom": "catalog:",
+    "mermaid": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "@effect/platform-browser": "^4.0.0",
+    "@foldkit/ui": "^0.169.0",
+    "effect": "^4.0.0",
+    "foldkit": "^0.169.0",
+    "mermaid": "^12"
+  },
+  "peerDependenciesMeta": {
+    "mermaid": {
+      "optional": true
+    }
+  }
+}

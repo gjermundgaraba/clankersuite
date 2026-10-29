@@ -1,0 +1,160 @@
+/* pixel paper tokens: every colour, type, space, shadow and motion value the system uses.
+   Paper (light) and plum (dark) are two palettes of this one set. With no data-scheme the
+   page follows the OS; data-scheme="light" (paper) or "dark" (plum) on <html> pins one.
+   The rules behind each value live in DESIGN.md. */
+
+@font-face {
+  font-family: "Departure Mono";
+  src: url("../fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+
+  --ink: light-dark(#16150f, #efecf3);
+  --paper: light-dark(#fdfdfa, #3b3640);
+  --ground: light-dark(#dcdcd4, #2d2931);
+  --rule: light-dark(#d8d8d0, #534c5a);
+  --head: light-dark(#efefe8, #453f4b);
+  --muted: light-dark(#5d5c52, #aea7b8);
+
+  --amber: #f5a623;
+  --green: #2fbf71;
+  --red: light-dark(#b3251e, #ff8074);
+
+  --on-status: #16150f;
+  --on-red: light-dark(#fdfdfa, #16150f);
+  /* muted misses AA on plum's head tint; text on a head fill uses this */
+  --on-head: light-dark(#5d5c52, #b6afc1);
+
+  /* Sixteen printer's inks for what a program prints: terminal colours, syntax. Never on
+     chrome. Each reads at AA on the head tint, the ground code sits on, except black on
+     plum, which is the ground's own tone. On paper the whites print as greys and ink,
+     because a white on paper cannot be read. */
+  --term-black: #16150f;
+  --term-red: light-dark(#a3271f, #ff9589);
+  --term-green: light-dark(#2b6a2e, #8fd49a);
+  --term-yellow: light-dark(#735600, #e6c86e);
+  --term-blue: light-dark(#274b8c, #a9c1fb);
+  --term-magenta: light-dark(#7a2a5c, #f2a7d4);
+  --term-cyan: light-dark(#23605c, #8fd3cb);
+  --term-white: light-dark(#5d5c52, #d9d4e0);
+  --term-bright-black: light-dark(#45443c, #b6afc1);
+  --term-bright-red: light-dark(#b8321f, #ffa89d);
+  --term-bright-green: light-dark(#347a36, #a8e3b1);
+  --term-bright-yellow: light-dark(#7d6200, #f0d98f);
+  --term-bright-blue: light-dark(#3059a3, #c0d2fd);
+  --term-bright-magenta: light-dark(#8f3570, #f7c1e2);
+  --term-bright-cyan: light-dark(#2a6f6a, #aee3dc);
+  --term-bright-white: light-dark(#16150f, #efecf3);
+  --code-keyword: var(--term-magenta);
+  --code-string: var(--term-cyan);
+  --code-number: var(--term-yellow);
+  --code-function: var(--term-blue);
+  --code-type: var(--term-green);
+  --code-comment: var(--on-head);
+
+  --shadow-color: light-dark(rgba(22, 21, 15, 0.85), rgba(0, 0, 0, 0.8));
+  --shadow-danger-color: light-dark(rgba(179, 37, 30, 0.6), rgba(0, 0, 0, 0.8));
+  --veil: rgba(22, 21, 15, 0.4);
+  /* The grain and the dither are drawn with gradients, not images, so a host's
+     Content-Security-Policy needs no img-src for them. Each is a 4px tile with 1px dots at
+     (0, 0) and (2, 2), one conic layer per dot, and a background shorthand rather than an
+     image: write background: var(--dither) for the ground (it paints its own base) and
+     background: var(--veil-grain), var(--veil) for a veil. */
+  --veil-grain:
+    conic-gradient(at 1px 1px, #0000 75%, rgb(22 21 15 / 0.5) 0) 0 0 / 4px 4px,
+    conic-gradient(at 1px 1px, #0000 75%, rgb(22 21 15 / 0.5) 0) 2px 2px / 4px
+      4px;
+  --dither-base: light-dark(#e0e0d8, #2f2b33);
+  --dither-dot: light-dark(#bcbcb2, #423d4a);
+  --dither:
+    conic-gradient(at 1px 1px, #0000 75%, var(--dither-dot) 0) 0 0 / 4px 4px,
+    conic-gradient(at 1px 1px, #0000 75%, var(--dither-dot) 0) 2px 2px / 4px 4px,
+    var(--dither-base);
+
+  --fade-on-ink: 0.75; /* what prints muted on paper, printed in paper on an inverted fill */
+  --fade-held: 0.6; /* a held control on an ink title bar */
+  --fade-dragged: 0.4; /* a held item, dimmed in place while its copy follows the pointer */
+
+  --font-px: "Departure Mono", ui-monospace, Menlo, Monaco, monospace;
+  --font-body: system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-code: ui-monospace, Menlo, Monaco, monospace;
+
+  --type-label: 10px; /* labels, field labels, table heads, meta */
+  --type-state: 11px; /* chips, tabs, ages, counts, state words */
+  --type-control: 12px; /* buttons, nav, menus, code, notices */
+  --type-body: 13px; /* body text, title bars */
+  --type-name: 14px; /* a group's or a meter's name */
+  --type-title: 16px; /* an editable title in a card */
+  --type-page: 22px; /* a working screen's name (PageHead) */
+  --type-page-narrow: 18px; /* the same name on a phone */
+  --type-wordmark: 18px;
+  --type-wordmark-wall: 22px;
+  --tracking-caps: 0.04em; /* uppercase pixel controls */
+  --tracking-state: 0.05em; /* chips, tabs, tips: words that report state */
+  --tracking-head: 0.06em; /* a card's title bar, a notice's or outcome's headline */
+  --tracking-title: 0.08em; /* a panel's title bar, an empty state's headline, the flash word */
+  --tracking-label: 0.1em; /* uppercase pixel labels */
+
+  --read-body: 15px;
+  --read-h3: 15px;
+  --read-h2: 20px;
+  --read-title: 30px;
+  --read-weight: 650;
+  --read-measure: 68ch;
+
+  --line: 2px; /* anything that contains: ink */
+  --hair: 1px; /* anything that divides: rule */
+
+  --row: 34px; /* the height of a row */
+  --pad: 16px; /* inside a panel or card */
+  --gap: 24px; /* between panels */
+  --deck: 1160px; /* the widest a deck of panels runs */
+  --rail: 272px; /* the column of panels beside a deck, until the reader sizes it */
+  --rail-drawer: 320px; /* the rail as a drawer, whatever width the reader gave it */
+  --rail-folded: 64px; /* the rail folded to its first panel's bar, stood on end */
+
+  --space-s: 8px; /* things in one line: buttons, chips, a glyph and its word */
+  --space-m: 14px; /* the parts of one body: a panel's, a card's, a window's */
+  --space-l: var(
+    --gap
+  ); /* whole surfaces: panels, a card and what stands beside it */
+
+  --type-figure: 30px; /* a stat's value */
+  --type-figure-narrow: 22px; /* the same value at 900px and under, a step down the ramp */
+
+  --shadow-card: 8px 8px 0 var(--shadow-color);
+  --shadow-panel: 5px 5px 0 var(--shadow-color);
+  --shadow-button: 3px 3px 0 var(--shadow-color);
+  --shadow-button-small: 2px 2px 0 var(--shadow-color);
+  --shadow-pressed: 1px 1px 0 var(--shadow-color);
+  --shadow-danger: 3px 3px 0 var(--shadow-danger-color);
+
+  --reel-gutter: 16px; /* between columns, and between the panes of a column */
+  --reel-column-min: 280px; /* the narrowest a column prints, whatever its width */
+  --reel-pane-min: 120px; /* the shortest a pane prints */
+
+  --bench-work-min: 152px; /* the least of its height the work keeps: a 120px pane, 16px gutters */
+  --bench-head-min: 64px; /* the least of its head a short window keeps: its padding and a small button */
+
+  --chart-plot: 160px; /* a line chart's plot, between its top line and its axis */
+
+  --motion-flash: 0.7s;
+  --motion-blink: 1.2s;
+  --motion-card: 0.14s;
+  --motion-veil: 0.12s;
+
+  --toast-hold: 5s; /* how long a toast that is not an error stays while nothing holds it */
+}
+
+:root[data-scheme="light"] {
+  color-scheme: light;
+}
+
+:root[data-scheme="dark"] {
+  color-scheme: dark;
+}
