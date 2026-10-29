@@ -11,7 +11,7 @@ import { specView } from "../spec.ts";
 
 // SAMPLE
 
-const ENTRIES: readonly Toc.Entry[] = [
+const ENTRIES: Toc.ViewConfig["entries"] = [
   { id: "reading-before", label: "Before the window", level: 2 },
   { id: "reading-during", label: "During", level: 3 },
   { id: "reading-links", label: "Links", level: 2 },

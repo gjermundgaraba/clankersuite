@@ -8,12 +8,11 @@ type Client = Readonly<{
   id: string;
   name: string;
   requests: number;
-  isPaused: boolean;
 }>;
 
 const clients: readonly Client[] = [
-  { id: "a", name: "Northwind", requests: 41_200, isPaused: false },
-  { id: "b", name: "Contoso", requests: 12, isPaused: true },
+  { id: "a", name: "Northwind", requests: 41_200 },
+  { id: "b", name: "Contoso", requests: 12 },
 ];
 
 const columns: ReadonlyArray<Table.Column<Client>> = [
@@ -21,7 +20,6 @@ const columns: ReadonlyArray<Table.Column<Client>> = [
   {
     key: "requests",
     header: "Requests",
-    isNumeric: true,
     cell: ({ requests }) => [requests.toLocaleString("en")],
   },
 ];
@@ -41,7 +39,6 @@ describe("Table", () => {
               actions: ({ name }) => [
                 h.button([h.AriaLabel(`Edit ${name}`)], ["edit"]),
               ],
-              isOff: ({ isPaused }) => isPaused,
             },
             h
           ),
@@ -57,21 +54,12 @@ describe("Table", () => {
         "scope",
         "col"
       ),
-      Scene.expect(
-        Scene.role("columnheader", { name: "Requests" })
-      ).toHaveClass("num"),
       Scene.expect(Scene.role("columnheader", { name: "Actions" })).toExist(),
       Scene.expect(Scene.role("cell", { name: "41,200" })).toHaveAttr(
         "data-label",
         "Requests"
       ),
-      Scene.expect(Scene.role("button", { name: "Edit Contoso" })).toExist(),
-      Scene.expect(Scene.last(Scene.all.selector("tbody tr"))).toHaveClass(
-        "off"
-      ),
-      Scene.expect(Scene.first(Scene.all.selector("tbody tr"))).not.toHaveClass(
-        "off"
-      )
+      Scene.expect(Scene.role("button", { name: "Edit Contoso" })).toExist()
     );
   });
 

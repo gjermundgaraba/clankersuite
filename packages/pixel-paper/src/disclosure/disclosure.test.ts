@@ -22,7 +22,6 @@ const disclosureView = (isOpen: boolean, h: HtmlBuilder<Message>) =>
     {
       id: "grants",
       label: "edit grants",
-      meta: "3",
       isOpen,
       onToggle: (nextOpen) => Message.ToggledGrants({ isOpen: nextOpen }),
       body: [h.p([], ["Three people can edit."])],
@@ -30,7 +29,7 @@ const disclosureView = (isOpen: boolean, h: HtmlBuilder<Message>) =>
     h
   );
 
-const line = Scene.role("button", { name: "edit grants 3" });
+const line = Scene.role("button", { name: "edit grants" });
 
 describe("Disclosure", () => {
   it("is a collapsed button whose body stays on the page, hidden", () => {

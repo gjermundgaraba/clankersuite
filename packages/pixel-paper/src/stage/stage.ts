@@ -1,15 +1,9 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import { slotView } from "../slot/slot.ts";
-
 /** Configuration for rendering a stage with `view`. */
 export type ViewConfig = Readonly<{
   /** The canvas, filling the stage. */
   body: ReadonlyArray<Html | string>;
-  /** Tools pinned at the left edge (along the bottom on a phone). */
-  tools?: readonly Html[];
-  /** Along the top edge: the connection, a notice, a count. */
-  bar?: ReadonlyArray<Html | string>;
   /** Editing is paused: a Notice that says why (the link dropped, the page is read-only). The
    *  veil comes down over the work, which is inert until this is cleared. */
   paused?: ReadonlyArray<Html | string>;
@@ -23,7 +17,7 @@ export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { body, tools = [], bar = [], paused } = config;
+  const { body, paused } = config;
 
   return h.main(
     [h.Id("main"), h.Class("stage")],
@@ -33,11 +27,7 @@ export const view = <Message>(
           h.Class("stage-work"),
           ...(paused === undefined ? [] : [h.Inert(true)]),
         ],
-        [
-          h.div([h.Class("stage-canvas")], body),
-          ...slotView("div", "stage-tools", tools, h),
-          ...slotView("div", "stage-bar", bar, h),
-        ]
+        [h.div([h.Class("stage-canvas")], body)]
       ),
       h.div(
         [h.Role("status")],

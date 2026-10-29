@@ -1,7 +1,6 @@
 import {
   Announcer,
   Board,
-  Button,
   EmptyState,
   Focus,
   IconButton,
@@ -43,7 +42,6 @@ export const Model = Schema.Struct({
   items: Schema.Array(Item),
   maybeCursorId: Schema.Option(Schema.String),
   maybeRenaming: Schema.Option(Renaming),
-  isWorking: Schema.Boolean,
 });
 
 export type Model = typeof Model.Type;
@@ -52,8 +50,6 @@ export const Message = defineMessageUnion({
   GotBoardMessage: { message: Board.Message },
   ClickedItem: { title: Schema.String },
   ClickedArea: { area: Schema.String },
-  ClickedCapture: { status: Status },
-  ToggledWorking: {},
   ClickedRename: { itemId: Schema.String },
   GotRenameMessage: { message: InlineInput.Message },
   CompletedSaveRename: { itemId: Schema.String, text: Schema.String },
@@ -100,7 +96,6 @@ export const init = (): Model => ({
   items: SAMPLE_ITEMS,
   maybeCursorId: Option.none(),
   maybeRenaming: Option.none(),
-  isWorking: false,
 });
 
 const RENAME_ID = "sample-card-rename";
@@ -207,16 +202,6 @@ const boardFold = {
 
 const foldBoard = Update.foldChild({ update: Board.update, ...boardFold });
 
-const foldBoardStart = Update.foldChildStep({
-  update: (board: Board.Model) => Board.setMovable(board, false),
-  ...boardFold,
-});
-
-const foldBoardStop = Update.foldChildStep({
-  update: (board: Board.Model) => Board.setMovable(board, true),
-  ...boardFold,
-});
-
 const renamingItemId = (model: Model): Option.Option<string> =>
   Option.map(model.maybeRenaming, ({ itemId }) => itemId);
 
@@ -307,21 +292,6 @@ export const update = (model: Model, message: Message) =>
       model,
       commands: [Announcer.Announce({ text: `Showing ${area} (sample).` })],
     }),
-    ClickedCapture: ({ status }) => ({
-      model,
-      commands: [
-        Announcer.Announce({ text: `Capturing into ${status} (sample).` }),
-      ],
-    }),
-    ToggledWorking: () => {
-      const toggled = modifyFields(model, {
-        isWorking: (isWorking) => !isWorking,
-      });
-
-      return toggled.isWorking
-        ? foldBoardStart(toggled)
-        : foldBoardStop(toggled);
-    },
     ClickedRename: ({ itemId }) => startRename(model, itemId),
     GotRenameMessage: ({ message: renameMessage }) =>
       foldRename(model, renameMessage),
@@ -380,7 +350,6 @@ const cardView = (
       render,
       title: item.title,
       onOpen: Message.ClickedItem({ title: item.title }),
-      isDisabled: model.isWorking,
       editor: renameView(model, item, h),
       attributes: [
         h.Id(cardId(item.id)),
@@ -413,9 +382,9 @@ const cardView = (
 
 const itemCardView =
   (model: Model, h: HtmlBuilder<Message>) =>
-  (card: Board.Card, render: Board.CardRender): Html =>
+  ({ id }: Readonly<{ id: string }>, render: Board.CardRender): Html =>
     Option.match(
-      Array.findFirst(model.items, (item) => item.id === card.id),
+      Array.findFirst(model.items, (item) => item.id === id),
       {
         onNone: () => h.empty,
         onSome: (item) => cardView(model, item, render, h),
@@ -435,20 +404,6 @@ const emptyColumnView =
     ),
   ];
 
-const columnActionsView =
-  (h: HtmlBuilder<Message>) =>
-  (column: Board.Column): readonly Html[] => [
-    IconButton.view(
-      {
-        glyph: "plus",
-        label: `Capture in ${column.title}`,
-        isQuiet: true,
-        onClick: Message.ClickedCapture({ status: statusOf(column.id) }),
-      },
-      h
-    ),
-  ];
-
 export const boardColumns = (model: Model): readonly Board.Column[] =>
   Array.map(COLUMNS, ({ status, title }) => ({
     id: status,
@@ -461,16 +416,8 @@ export const boardColumns = (model: Model): readonly Board.Column[] =>
 
 export const view = defineView<Model, Message>((model, h): Html =>
   specView(
-    "drag a card, or take its grip with space and the arrow keys; a press on a card selects it; the pencil renames it in place; while work runs nothing moves or opens",
+    "drag a card, or take its grip with space and the arrow keys; a press on a card selects it; the pencil renames it in place",
     [
-      Button.view(
-        {
-          label: model.isWorking ? "stop the work" : "start work",
-          isSmall: true,
-          onClick: Message.ToggledWorking(),
-        },
-        h
-      ),
       h.submodel({
         slotId: Board.id(model.board),
         model: model.board,
@@ -479,7 +426,6 @@ export const view = defineView<Model, Message>((model, h): Html =>
           columns: boardColumns(model),
           toCardView: itemCardView(model, h),
           toEmptyView: emptyColumnView(h),
-          toColumnActions: columnActionsView(h),
         },
         toParentMessage: (message) => Message.GotBoardMessage({ message }),
       }),

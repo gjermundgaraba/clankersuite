@@ -116,7 +116,6 @@ kbd {
 
 :is(
   .nav.tabs button,
-  .switch > button,
   :is(button, label).fchip,
   button.glyph,
   button.mark,
@@ -130,7 +129,6 @@ kbd {
 
 :is(
   .nav.tabs button,
-  .switch > button,
   :is(button, label).fchip,
   button.glyph,
   button.mark,
@@ -537,24 +535,12 @@ a.textbtn {
   overflow-wrap: anywhere;
 }
 
-.place-count {
-  flex: none;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
-}
-
-.place-tools {
-  flex: none;
-  padding-right: 4px;
-}
-
 .places li:has(> [aria-current]) {
   background-color: var(--ink);
   color: var(--paper);
 }
 
-.places li:has(> [aria-current]) :is(.place-count, .iconbtn.quiet) {
+.places li:has(> [aria-current]) .iconbtn.quiet {
   color: inherit;
   opacity: var(--fade-on-ink);
 }
@@ -581,7 +567,7 @@ a.textbtn {
   white-space: nowrap;
 }
 
-/* aria-disabled is the held state (busy, done or unavailable): unavailable like :disabled,
+/* aria-disabled is the held state (busy or unavailable): unavailable like :disabled,
    but focusable, so a click can still match :active and must not depress a button that
    ignores it */
 .btn:not([aria-disabled="true"]):active {
@@ -702,25 +688,6 @@ a.textbtn {
   height: 9px;
 }
 
-.btn.done[aria-disabled="true"] {
-  color: var(--paper);
-  background: var(--ink);
-  border-color: var(--ink);
-  box-shadow: none;
-}
-
-.btn-words {
-  display: inline-grid;
-}
-
-.btn-words > * {
-  grid-area: 1 / 1;
-}
-
-.btn-words > [aria-hidden="true"] {
-  visibility: hidden;
-}
-
 /* hung under its toggle by @foldkit/ui's Anchor, which positions it and flips it near the
    window edge, in the page's top layer (inside the open dialog when there is one). Anchor
    writes left and top for an absolute box (fixed it sets itself, under a fixed toggle), so
@@ -776,7 +743,6 @@ a.textbtn {
   cursor: default;
 }
 
-.menu [role="menuitem"][aria-current="page"],
 .menu [role="menuitemradio"][aria-checked="true"] {
   background: var(--ink);
   color: var(--paper);
@@ -795,9 +761,7 @@ a.textbtn {
   color: var(--muted);
 }
 
-.menu
-  :is([aria-current="page"], [role="menuitemradio"][aria-checked="true"])
-  .key-hint {
+.menu [role="menuitemradio"][aria-checked="true"] .key-hint {
   color: inherit;
   opacity: var(--fade-on-ink);
 }
@@ -994,37 +958,6 @@ a.textbtn {
   border: var(--line) solid var(--ink);
   box-shadow: var(--shadow-button);
   padding: 8px 12px;
-}
-
-.switch {
-  display: inline-flex;
-  border: var(--line) solid var(--ink);
-  flex: none;
-}
-
-.switch button {
-  width: 26px;
-  height: 22px;
-  display: inline-grid;
-  place-items: center;
-  background: var(--paper);
-  color: var(--ink);
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-}
-
-.switch > button + button {
-  border-left: var(--line) solid var(--ink);
-}
-
-.switch [aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.switch button:active {
-  transform: translate(1px, 1px);
 }
 
 .fchip {
@@ -1698,14 +1631,6 @@ button.choice {
   background: var(--ink);
 }
 
-.choices[aria-invalid="true"] > .choice[role="radio"] > .choice-box {
-  border-color: var(--red);
-}
-
-.choices[aria-invalid="true"] > .choice[role="radio"] .choice-name {
-  color: var(--red);
-}
-
 .choice-box[aria-disabled="true"],
 .choice[role="radio"][aria-disabled="true"] > .choice-box {
   border-color: var(--muted);
@@ -1823,13 +1748,6 @@ textarea::-webkit-resizer {
   padding-right: 32px;
 }
 
-.field .strength {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 6px;
-}
-
 .field.boxed input[type="date"] {
   min-height: 30px;
   padding: 3px 8px;
@@ -1841,12 +1759,6 @@ textarea::-webkit-resizer {
 .field.mono textarea {
   font-family: var(--font-code);
   font-size: var(--type-control);
-}
-
-input.inline-input.title-edit {
-  font-size: var(--type-title);
-  font-weight: 600;
-  width: 100%;
 }
 
 .notice {
@@ -1976,15 +1888,6 @@ select[aria-invalid="true"] {
   background: var(--head);
 }
 
-.table td.num,
-.table th.num {
-  text-align: right;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
 .table td.acts {
   text-align: right;
   white-space: nowrap;
@@ -2042,7 +1945,6 @@ select[aria-invalid="true"] {
   }
 
   .table td,
-  .table td.num,
   .table td.acts {
     position: static;
     box-shadow: none;
@@ -2067,14 +1969,6 @@ select[aria-invalid="true"] {
   .table td.acts {
     padding-top: 8px;
   }
-}
-
-.table tr.off td:not(.acts) {
-  color: var(--muted);
-}
-
-.table tr.off td .name {
-  text-decoration: line-through;
 }
 
 .props {
@@ -2874,38 +2768,6 @@ dialog.veil:focus {
   color: var(--ink);
 }
 
-.wall-corner {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-width: calc(100% - 24px);
-  padding: 6px 8px;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
-}
-
-.wall-corner ~ .wall {
-  padding-top: 72px;
-}
-
-@media (max-width: 600px) {
-  .wall-corner {
-    position: static;
-    width: fit-content;
-    margin: 12px 12px 0;
-  }
-
-  .wall-corner ~ .wall {
-    padding-top: 24px;
-  }
-}
-
 .card-body > .rows {
   margin-inline: calc(-1 * var(--pad));
   border-block: var(--hair) solid var(--rule);
@@ -3299,13 +3161,8 @@ dialog.veil:focus {
   background: var(--ink);
 }
 
-.cells.short .cell {
-  width: 24px;
-  height: 8px;
-}
-
 @media (max-width: 600px) {
-  .cells:not(.short, .meters *) .cell {
+  .cells:not(.meters *) .cell {
     width: 8px;
   }
 }
@@ -3384,12 +3241,6 @@ dialog.veil:focus {
   letter-spacing: var(--tracking-caps);
 }
 
-.meter-detail {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
-  color: var(--muted);
-}
-
 .meter-line {
   display: flex;
   align-items: center;
@@ -3447,10 +3298,6 @@ dialog.veil:focus {
 .history-list.checks .who {
   width: 20ch;
   max-width: none;
-}
-
-.history-list .what.failed {
-  color: var(--red);
 }
 
 @media (max-width: 600px) {
@@ -3852,11 +3699,6 @@ dialog.veil:focus {
   color: var(--muted);
 }
 
-.toc-entry {
-  display: grid;
-  gap: 2px;
-}
-
 .toc a::before {
   content: "";
   flex: none;
@@ -3927,18 +3769,9 @@ dialog.veil:focus {
   font-size: var(--type-name);
 }
 
-.monogram.current {
-  background: var(--ink);
-  color: var(--paper);
-}
-
 .monogram.drawn {
   border: 0;
   background: none;
-}
-
-.monogram.drawn.current {
-  background: var(--ink);
 }
 
 .identity {
@@ -4009,54 +3842,6 @@ dialog.veil:focus {
   color: var(--muted);
 }
 
-.stat-value .cursor {
-  width: 12px;
-  height: 24px;
-  vertical-align: -2px;
-}
-
-.stat-unit {
-  margin-left: 6px;
-  font-size: var(--type-control);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
-  color: var(--muted);
-}
-
-.stat-delta {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  letter-spacing: var(--tracking-state);
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-}
-
-.stat-delta.warn,
-.stat-delta.error {
-  padding: 1px 6px;
-  border: var(--line) solid var(--ink);
-}
-
-.stat-delta.warn {
-  background: var(--amber);
-  color: var(--on-status);
-}
-
-.stat-delta.error {
-  background: var(--paper);
-  color: var(--red);
-  border-color: var(--red);
-}
-
-.stat-note {
-  max-width: 46ch;
-  font: var(--type-control) / 1.45 var(--font-body);
-  color: var(--muted);
-}
-
 .stat:last-child {
   border-right: 0;
 }
@@ -4064,11 +3849,6 @@ dialog.veil:focus {
 @media (max-width: 900px) {
   .stat-value {
     font-size: var(--type-figure-narrow);
-  }
-
-  .stat-value .cursor {
-    width: 9px;
-    height: 18px;
   }
 }
 
@@ -4167,10 +3947,6 @@ dialog.veil:focus {
   > .disclosure-summary[aria-disabled="true"]:hover
   .disclosure-label {
   border-bottom-color: transparent;
-}
-
-.disclosure > :is(summary, .disclosure-summary) .meta {
-  margin-left: auto;
 }
 
 .disclosure-body {
@@ -4471,29 +4247,6 @@ dialog.veil:focus {
   inset: 0;
 }
 
-.stage-tools {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  z-index: 10;
-  translate: 0 -50%;
-}
-
-.stage-bar {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  z-index: 10;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: max-content;
-  max-width: calc(100% - 32px);
-  translate: -50% 0;
-}
-
 .stage-paused {
   position: absolute;
   inset: 0;
@@ -4507,15 +4260,6 @@ dialog.veil:focus {
 .stage-paused > .notice {
   width: min(460px, 100%);
   box-shadow: var(--shadow-button);
-}
-
-@media (max-width: 600px) {
-  .stage-tools {
-    top: auto;
-    bottom: 16px;
-    left: 50%;
-    translate: -50% 0;
-  }
 }
 
 .window {

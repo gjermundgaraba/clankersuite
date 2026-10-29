@@ -1,5 +1,3 @@
-export { Palette, Scheme } from "./scheme.ts";
-
-export { schemeScript } from "./script.ts";
+export { Scheme } from "./scheme.ts";
 
 export * as SchemeSwitch from "./scheme-switch.ts";

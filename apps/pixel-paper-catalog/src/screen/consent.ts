@@ -106,7 +106,6 @@ const answeredView = (isAllowed: boolean, h: HtmlBuilder<Message>): Html =>
           : Outcome.view(
               {
                 tone: "Quiet",
-                glyph: "cross",
                 title: "Access denied",
                 body: [`${ASKING.name} was told no, and was given nothing.`],
               },
@@ -181,7 +180,6 @@ const claimsView = (model: Model, h: HtmlBuilder<Message>): Html =>
     {
       id: "consent-claims",
       label: "claims it asked for",
-      meta: "1",
       isOpen: model.isClaimsOpen,
       onToggle: (isOpen) => Message.ToggledClaims({ isOpen }),
       body: [

@@ -69,7 +69,7 @@ export const update = (model: Model, message: Message) =>
     }),
   });
 
-const ENTRIES: readonly Toc.Entry[] = [
+const ENTRIES: Toc.ViewConfig["entries"] = [
   { id: "doc-why", label: "Why two steps", level: 2 },
   { id: "doc-before", label: "Before the window", level: 2 },
   { id: "doc-during", label: "During the window", level: 2 },
@@ -189,7 +189,7 @@ const pageView = (model: Model, h: HtmlBuilder<Message>): Html =>
             label: "Page",
             tabs: [
               { value: "Read", label: "read" },
-              { value: "History", label: "history", count: VERSIONS.length },
+              { value: "History", label: "history" },
             ],
             selectedValue: model.tab,
             toPanelView: () => [

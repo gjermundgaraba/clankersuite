@@ -41,36 +41,6 @@ describe("Toc view", () => {
     );
   });
 
-  it("puts an entry's detail under its words, inside the link", () => {
-    Scene.scene(
-      {
-        update: (model: Option.Option<string>) => ({ model }),
-        view: (model: Option.Option<string>, h: HtmlBuilder<never>) =>
-          Toc.view(
-            {
-              entries: [
-                {
-                  id: "board",
-                  label: "Board",
-                  level: 2,
-                  detail: [h.small([], ["Board.view"])],
-                },
-              ],
-              maybeCurrentId: model,
-            },
-            h
-          ),
-      },
-      Scene.given(Option.none()),
-      Scene.expect(
-        Scene.selector("a[href='#board'] .toc-entry small")
-      ).toHaveText("Board.view"),
-      Scene.expect(Scene.selector("a[href='#board'] .toc-entry")).toHaveText(
-        "BoardBoard.view"
-      )
-    );
-  });
-
   it("marks the first heading before the position is known", () => {
     Scene.scene(
       tocScene,

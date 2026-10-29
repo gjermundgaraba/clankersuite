@@ -5,39 +5,30 @@ import { describe, it } from "vite-plus/test";
 import * as Wall from "./wall.ts";
 
 const wallView = (_model: null, h: HtmlBuilder<never>) =>
-  h.div(
-    [],
-    [
-      Wall.cornerView({ label: "Display", body: [h.button([], ["plum"])] }, h),
-      Wall.view(
-        {
-          body: [
-            h.div(
-              [h.Class("card")],
-              [
-                Wall.markView(
-                  { brand: [h.span([h.Class("wordmark")], ["ledger"])] },
-                  h
-                ),
-              ]
+  Wall.view(
+    {
+      body: [
+        h.div(
+          [h.Class("card")],
+          [
+            Wall.markView(
+              { brand: [h.span([h.Class("wordmark")], ["ledger"])] },
+              h
             ),
-          ],
-        },
-        h
-      ),
-    ]
+          ]
+        ),
+      ],
+    },
+    h
   );
 
 describe("Wall", () => {
-  it("is the main landmark beside a named corner slip, its card under the mark", () => {
+  it("is the main landmark, its card under the mark", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: wallView },
       Scene.given(null),
       Scene.expect(Scene.role("main")).toHaveClass("wall"),
       Scene.expect(Scene.role("main")).toHaveId("main"),
-      Scene.expect(
-        Scene.role("complementary", { name: "Display" })
-      ).toHaveClass("wall-corner"),
       Scene.expect(Scene.selector(".wall-mark .glyph svg")).toExist(),
       Scene.expect(Scene.selector(".wall-mark .wordmark")).toHaveText("ledger")
     );

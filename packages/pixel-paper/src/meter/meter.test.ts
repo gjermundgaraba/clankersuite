@@ -23,10 +23,8 @@ describe("Meter", () => {
               {
                 id: "requests",
                 label: "Requests",
-                detail: ["this month"],
                 value: 41_200,
                 max: 50_000,
-                unit: "requests",
                 foot: ["Resets in 4 days"],
               },
             ],
@@ -38,13 +36,9 @@ describe("Meter", () => {
       Scene.expect(meter).toHaveAttr("aria-valuenow", "41200"),
       Scene.expect(meter).toHaveAttr("aria-valuemin", "0"),
       Scene.expect(meter).toHaveAttr("aria-valuemax", "50000"),
-      Scene.expect(meter).toHaveAttr(
-        "aria-valuetext",
-        "41,200 / 50,000 requests"
-      ),
+      Scene.expect(meter).toHaveAttr("aria-valuetext", "41,200 / 50,000"),
       Scene.expectAll(Scene.all.selector(".cells .cell.on")).toHaveCount(16),
       Scene.expect(Scene.selector(".mark.reading")).toHaveText("82%"),
-      Scene.expect(Scene.selector(".meter-detail")).toHaveText("this month"),
       Scene.expect(Scene.selector(".meter-foot")).toHaveText(
         "Resets in 4 days"
       ),
@@ -64,7 +58,6 @@ describe("Meter", () => {
                 label: "Seats",
                 value: 5,
                 max: 5,
-                full: "full",
                 isStale: true,
               },
             ],
@@ -74,7 +67,7 @@ describe("Meter", () => {
       ),
       Scene.given(null),
       Scene.expect(Scene.selector(".pct")).toHaveText("10%"),
-      Scene.expect(Scene.selector(".chip.blocked")).toHaveText("full"),
+      Scene.expect(Scene.selector(".chip.blocked")).toHaveText("100%"),
       Scene.expect(Scene.last(Scene.all.selector(".meter-row"))).toHaveClass(
         "stale"
       ),
@@ -180,35 +173,6 @@ describe("Meter", () => {
       ).not.toHaveClass("toned"),
       Scene.expectAll(Scene.all.selector(".mark.reading")).toHaveCount(2),
       Scene.expect(Scene.selector(".chip.blocked")).toHaveText("100%")
-    );
-  });
-});
-
-describe("Meter cells", () => {
-  it("is a meter from none to its count, read as its value text", () => {
-    Scene.scene(
-      staticScene((h) =>
-        Meter.cellsView(
-          {
-            id: "strength",
-            count: 4,
-            on: 3,
-            label: "Strength",
-            valueText: "strong",
-            isShort: true,
-          },
-          h
-        )
-      ),
-      Scene.given(null),
-      Scene.expect(Scene.role("meter", { name: "Strength" })).toHaveAttr(
-        "aria-valuenow",
-        "3"
-      ),
-      Scene.expect(Scene.role("meter")).toHaveAttr("aria-valuemax", "4"),
-      Scene.expect(Scene.role("meter")).toHaveAttr("aria-valuetext", "strong"),
-      Scene.expect(Scene.role("meter")).toHaveClass("short"),
-      Scene.expectAll(Scene.all.selector(".cell.on")).toHaveCount(3)
     );
   });
 });

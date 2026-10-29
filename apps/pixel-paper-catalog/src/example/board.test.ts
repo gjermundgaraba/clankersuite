@@ -75,7 +75,7 @@ const sinkTitle = (model: BoardExample.Model): Option.Option<string> =>
   );
 
 describe("Board example", () => {
-  it("says what a card, an area and a column's capture would do", () => {
+  it("says what a card and an area would do", () => {
     Story.story(
       BoardExample.update,
       Story.given(BoardExample.init()),
@@ -89,11 +89,6 @@ describe("Board example", () => {
       Story.message(BoardExample.Message.ClickedArea({ area: "Home" })),
       Story.Command.expectExact(
         Announcer.Announce({ text: "Showing Home (sample)." })
-      ),
-      resolveAnnounce,
-      Story.message(BoardExample.Message.ClickedCapture({ status: "Doing" })),
-      Story.Command.expectExact(
-        Announcer.Announce({ text: "Capturing into Doing (sample)." })
       ),
       resolveAnnounce
     );
@@ -111,23 +106,6 @@ describe("Board example", () => {
           Option.some("Fix the bathroom sink")
         );
         expect(model.maybeRenaming).toStrictEqual(Option.none());
-      })
-    );
-  });
-
-  it("holds every card still while work runs", () => {
-    Story.story(
-      BoardExample.update,
-      Story.given(BoardExample.init()),
-      Story.message(BoardExample.Message.ToggledWorking()),
-      Story.model((model) => {
-        expect(model.isWorking).toBe(true);
-        expect(model.board.isMovable).toBe(false);
-      }),
-      Story.message(BoardExample.Message.ToggledWorking()),
-      Story.model((model) => {
-        expect(model.isWorking).toBe(false);
-        expect(model.board.isMovable).toBe(true);
       })
     );
   });

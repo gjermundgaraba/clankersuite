@@ -59,21 +59,15 @@ export const place = <Host extends string>(
 export type ViewConfig = Readonly<{
   /** The page's Toast stack (its `h.submodel`), when it has one. */
   toasts?: Html;
-  /** The Banner in force, when one is: it stays in reach while a dialog is open. */
-  banner?: Html;
 }>;
 
 /** The page's live parts together, for `place`: the Announcer's region, then the toast stack
- *  and the banner the application gives. */
+ *  the application gives. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
     [],
-    [
-      Announcer.view(h),
-      ...(config.toasts === undefined ? [] : [config.toasts]),
-      ...(config.banner === undefined ? [] : [config.banner]),
-    ]
+    [Announcer.view(h), ...(config.toasts === undefined ? [] : [config.toasts])]
   );

@@ -1,4 +1,4 @@
-import { Effect, Match, Option, Schema } from "effect";
+import { Effect, Option, Schema } from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html } from "foldkit/html";
@@ -53,9 +53,7 @@ export const PinScheme = Command.define("PinScheme", {
     }).pipe(Effect.ignore, Effect.as(Message.CompletedPinScheme())),
 });
 
-/** Reads the scheme in force from `<html data-scheme>`: what `schemeScript` pinned before the
- *  page ran, or `System` without it. */
-export const ReadScheme = Command.define("ReadScheme", {
+const ReadScheme = Command.define("ReadScheme", {
   messages: [Message.CompletedReadScheme],
   execute: Effect.sync(() =>
     Message.CompletedReadScheme({
@@ -66,9 +64,9 @@ export const ReadScheme = Command.define("ReadScheme", {
   ),
 });
 
-/** Creates the switch on `System` in the paper palette, as the server renders it, with
- *  `ReadScheme`, which the client runs after hydration to pick up the scheme `schemeScript`
- *  pinned before first paint (the server ignores it). The `subscriptions` bring in the
+/** Creates the switch on `System` in the paper palette, as the server renders it, with a
+ *  Command that reads `<html data-scheme>` once the client runs it after hydration: the scheme
+ *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. The `subscriptions` bring in the
  *  system's palette. A change made in another tab is seen on the next load, not live. */
 export const init = (): Update.Return<Model, Message> => ({
   model: { scheme: "System", systemPalette: "Paper" },
@@ -77,17 +75,6 @@ export const init = (): Update.Return<Model, Message> => ({
 
 /** The scheme in force: the reader's choice, or `System`. */
 export const scheme = (model: Model): Scheme => model.scheme;
-
-/** The palette the page prints in: the pinned one, or under `System` the one the reader's
- *  system prefers, followed as it changes. */
-export const palette = (model: Model): Palette =>
-  Match.value(model.scheme).pipe(
-    Match.withReturnType<Palette>(),
-    Match.when("System", () => model.systemPalette),
-    Match.when("Paper", () => "Paper"),
-    Match.when("Plum", () => "Plum"),
-    Match.exhaustive
-  );
 
 type UpdateReturn = Update.Return<Model, Message>;
 

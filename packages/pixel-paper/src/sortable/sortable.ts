@@ -67,11 +67,10 @@ const Held = Schema.Struct({
 
 type Held = typeof Held.Type;
 
-/** Schema for a sortable: the `@foldkit/ui` DragAndDrop it moves items with, whether items may
- *  move, and what it keeps while an item is held. The items are the parent's. */
+/** Schema for a sortable: the `@foldkit/ui` DragAndDrop it moves items with, and what it keeps
+ *  while an item is held. The items are the parent's. */
 export const Model = Schema.Struct({
   dragAndDrop: UiDragAndDrop.Model,
-  isMovable: Schema.Boolean,
   maybeHeld: Schema.Option(Held),
 });
 
@@ -133,10 +132,9 @@ export type OutMessage = typeof OutMessage.Type;
  *  the list's DOM hooks are scoped by it. */
 export type InitConfig = Readonly<{ id: string }>;
 
-/** Creates a sortable whose items may move, with nothing held. */
+/** Creates a sortable with nothing held. */
 export const init = (config: InitConfig): Model => ({
   dragAndDrop: UiDragAndDrop.init({ id: config.id }),
-  isMovable: true,
   maybeHeld: Option.none(),
 });
 
@@ -181,17 +179,13 @@ const targetIndex = (model: Model, held: Held): Option.Option<number> =>
     Math.min(Math.max(index, 0), held.items.length - 1)
   );
 
-const placementOf = (
-  model: Model,
-  held: Held,
-  rawIndex: number
-): Option.Option<OutMessage> =>
+const placementOf = (held: Held, rawIndex: number): Option.Option<OutMessage> =>
   Option.gen(function* () {
     const fromIndex = yield* indexOf(held.items, held.item.id);
     const others = Array.filter(held.items, (item) => item.id !== held.item.id);
     const toIndex = Math.min(Math.max(rawIndex, 0), others.length);
 
-    if (toIndex === fromIndex || !model.isMovable) {
+    if (toIndex === fromIndex) {
       return yield* Option.none();
     }
 
@@ -220,7 +214,7 @@ const foldDragAndDropOutMessage = UiDragAndDrop.OutMessage.match<
         { model: stepModel },
         Option.getOrUndefined(
           Option.flatMap(stepModel.maybeHeld, (held) =>
-            placementOf(stepModel, held, toIndex)
+            placementOf(held, toIndex)
           )
         )
       ),
@@ -443,14 +437,6 @@ export const update = (model: Model, message: Message) =>
     CompletedAnnounceReorder: () => ({ model }),
     CompletedSizeLiftedItem: () => ({ model }),
   });
-
-/** Lets items move, or stops them: while work runs, nothing moves. Stopping cancels an item
- *  that is pressed or held, so no `Moved` arrives for it. */
-export const setMovable = (model: Model, isMovable: boolean): UpdateReturn => {
-  const next = modifyFields(model, { isMovable: () => isMovable });
-
-  return isMovable ? { model: next } : cancelDrag(next);
-};
 
 const pointerIndex = (
   listId: string,
@@ -878,7 +864,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     const info: ListInfo = {
       model,
       layout,
-      isMovable: model.isMovable && !isReadOnly,
+      isMovable: !isReadOnly,
       items,
       maybeDropMark: dropMarkOf(model),
       toItemView,

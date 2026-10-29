@@ -2,9 +2,6 @@ import { Button as UiButton } from "@foldkit/ui";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import { LOCALE } from "../locale/locale.ts";
-import { slotView } from "../slot/slot.ts";
-
 /** One place in Places: a link to its address (`href`), or a button that shows it in the page
  *  (`onSelect`). */
 export type Place<Message> = PlaceContent & PlaceTarget<Message>;
@@ -17,10 +14,6 @@ export type PlaceContent = Readonly<{
   label: string;
   /** The place you are in: `aria-current="page"`, printed inverted. */
   isCurrent?: boolean;
-  /** How many things it holds, in the pixel face at the right. */
-  count?: number;
-  /** A quiet IconButton after it that acts on the place itself (remove a saved filter). */
-  tools?: readonly Html[];
 }>;
 
 export type PlaceTarget<Message> =
@@ -46,18 +39,9 @@ const lineView = <Message>(
   place: Place<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, isCurrent = false, count } = place;
+  const { label, isCurrent = false } = place;
   const current = isCurrent ? [h.AriaCurrent("page")] : [];
-
-  const content = [
-    h.span([h.Class("place-name")], [label]),
-    ...(count === undefined
-      ? []
-      : [
-          " ",
-          h.span([h.Class("place-count")], [count.toLocaleString(LOCALE)]),
-        ]),
-  ];
+  const content = [h.span([h.Class("place-name")], [label])];
 
   return place.href === undefined
     ? UiButton.view(
@@ -73,14 +57,7 @@ const lineView = <Message>(
 const placeView =
   <Message>(h: HtmlBuilder<Message>) =>
   (place: Place<Message>): Html =>
-    h.keyed("li")(
-      place.id,
-      [],
-      [
-        lineView(place, h),
-        ...slotView("span", "place-tools", place.tools ?? [], h),
-      ]
-    );
+    h.keyed("li")(place.id, [], [lineView(place, h)]);
 
 /** A column of places to go (areas, collections, saved filters), flush in a rail panel: a
  *  navigation landmark named by its label, one line each a link to the place or a button built

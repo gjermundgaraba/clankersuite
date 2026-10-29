@@ -1,11 +1,9 @@
 import { Array, Predicate, Schema, String, pipe } from "effect";
-import * as Dom from "foldkit/dom";
 import type { KeySequence } from "foldkit/dom";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
-import * as Subscription from "foldkit/subscription";
 import type * as Update from "foldkit/update";
 
 import * as Button from "../button/button.ts";
@@ -35,7 +33,7 @@ export type Binding = Readonly<{
   does: string;
 }>;
 
-/** The key that opens the help, `?`. The help listens for it itself while closed. */
+/** The key that opens the help, `?`, which the application binds. */
 export const HELP_KEYS: KeySequence = "Shift+?";
 
 /** The help's own line in its listing. */
@@ -110,26 +108,6 @@ export const id = (model: Model): string => Dialog.id(model.dialog);
 
 /** Whether the key help is open. */
 export const isOpen = (model: Model): boolean => Dialog.isOpen(model.dialog);
-
-/** Opens the help on `?` while it is closed. Lift it into the application's Subscriptions. */
-export const subscriptions = Subscription.make<Model, Message>()((entry) => ({
-  helpKey: entry(
-    { isOpen: Schema.Boolean },
-    {
-      modelToDependencies: (model) => ({ isOpen: isOpen(model) }),
-      dependenciesToStream: ({ isOpen: isHelpOpen }) =>
-        Dom.streamFromKeyBindings({
-          bindings: [
-            {
-              keys: HELP_KEYS,
-              isEnabled: !isHelpOpen,
-              mapEvent: () => Message.PressedHelpKey(),
-            },
-          ],
-        }),
-    }
-  ),
-}));
 
 const isFound = (binding: Binding, labels: string, query: string): boolean =>
   pipe(
@@ -254,7 +232,7 @@ const cardView = (
 };
 
 /** The keyboard's help: every key in force, under its group, with a field that finds one by
- *  its keys or its words. `?` opens it (see `subscriptions`), and so does `open`. Render it
+ *  its keys or its words. `open` opens it, from `HELP_KEYS` or a button. Render it
  *  once per page. */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html =>

@@ -3,9 +3,9 @@ import { Array, Record } from "effect";
 type Covers = Readonly<Record<string, readonly string[]>>;
 
 export const FOUNDATIONS = {
-  setup: ["Scheme.schemeScript", "LiveRegion"],
+  setup: ["LiveRegion"],
   motion: ["Announcer.Flash"],
-  glyphs: ["Glyph.view", "Glyph.glyphs", "Glyph.glyphFamilies"],
+  glyphs: ["Glyph.view"],
 } as const satisfies Covers;
 
 export const COMPONENTS = {
@@ -66,7 +66,7 @@ export const COMPONENTS = {
   tips: ["Tips"],
   time: ["Time"],
   keys: ["KeyHint", "KeyHelp"],
-  scheme: ["Scheme.SchemeSwitch", "Scheme.schemeScript", "Segmented"],
+  scheme: ["Scheme.SchemeSwitch", "Segmented"],
 } as const satisfies Covers;
 
 type ExportShown = Readonly<{ name: string; sectionId: string }>;

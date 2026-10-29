@@ -12,7 +12,7 @@ import {
   StatusBar,
   Window,
 } from "@gjermundgaraba/pixel-paper";
-import type { Glyph, KeyHint } from "@gjermundgaraba/pixel-paper";
+import type { KeyHint } from "@gjermundgaraba/pixel-paper";
 import { Array, Duration, Effect, Option, Schema } from "effect";
 import * as Command from "foldkit/command";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -24,16 +24,11 @@ import * as Update from "foldkit/update";
 import { TERMINAL_LINES } from "../sample.ts";
 import { SITE_KEY_NOTES } from "../site-keys.ts";
 
-const Tool = Schema.Literals(["Select", "Note", "Terminal", "Machine"]);
-
-type Tool = typeof Tool.Type;
-
 const StageWindow = Schema.Literals(["Note", "Terminal", "Machine"]);
 
 type StageWindow = typeof StageWindow.Type;
 
 export const Model = Schema.Struct({
-  tool: Tool,
   isLinkDropped: Schema.Boolean,
   isStarting: Schema.Boolean,
   closed: Schema.Array(StageWindow),
@@ -45,7 +40,6 @@ export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   GotStatusBarMessage: { message: StatusBar.Message },
-  SelectedTool: { tool: Tool },
   ClickedDropLink: {},
   CompletedWaitBeforeLinkReturn: {},
   ClickedReopen: {},
@@ -60,7 +54,6 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 export const init = (): Model => ({
-  tool: "Select",
   isLinkDropped: false,
   isStarting: false,
   closed: [],
@@ -114,9 +107,6 @@ const foldStopConfirm = Update.foldChild({
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     GotStatusBarMessage: () => ({ model }),
-    SelectedTool: ({ tool }) => ({
-      model: modifyFields(model, { tool: () => tool }),
-    }),
     ClickedDropLink: () =>
       model.isLinkDropped
         ? { model }
@@ -161,73 +151,50 @@ export type ViewInputs = Readonly<{
   toLiveRegionView?: (() => Html) | undefined;
 }>;
 
-const TOOLS: ReadonlyArray<readonly [Glyph.GlyphName, Tool]> = [
-  ["pointer", "Select"],
-  ["note", "Note"],
-  ["terminal", "Terminal"],
-  ["machine", "Machine"],
-];
-
 const isOpen = (model: Model, stageWindow: StageWindow): boolean =>
   !Array.contains(model.closed, stageWindow);
-
-const toolsView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  h.div(
-    [
-      h.Role("group"),
-      h.AriaLabel("Sample canvas tools"),
-      h.Class("stack gap-s"),
-    ],
-    Array.map(TOOLS, ([glyph, tool]) =>
-      IconButton.view(
-        {
-          glyph,
-          label: tool,
-          onClick: Message.SelectedTool({ tool }),
-          attributes: [Button.pressedAttribute(model.tool === tool, h)],
-        },
-        h
-      )
-    )
-  );
 
 const barView = (
   model: Model,
   viewInputs: ViewInputs,
   h: HtmlBuilder<Message>
-): readonly Html[] => [
-  viewInputs.toScreenNavView(),
-  h.span(
-    [h.Class("spec-bar-slip")],
+): Html =>
+  h.div(
+    [h.Class("spec-stage-bar")],
     [
-      LinkState.view(
-        { state: model.isLinkDropped ? "Reconnecting" : "Online" },
-        h
+      viewInputs.toScreenNavView(),
+      h.span(
+        [h.Class("spec-bar-slip")],
+        [
+          LinkState.view(
+            { state: model.isLinkDropped ? "Reconnecting" : "Online" },
+            h
+          ),
+          Button.view(
+            {
+              label: "drop the link",
+              isSmall: true,
+              isDisabled: model.isLinkDropped,
+              onClick: Message.ClickedDropLink(),
+            },
+            h
+          ),
+          ...(Array.isReadonlyArrayNonEmpty(model.closed)
+            ? [
+                Button.view(
+                  {
+                    label: `reopen ${model.closed.length}`,
+                    isSmall: true,
+                    onClick: Message.ClickedReopen(),
+                  },
+                  h
+                ),
+              ]
+            : []),
+        ]
       ),
-      Button.view(
-        {
-          label: "drop the link",
-          isSmall: true,
-          isDisabled: model.isLinkDropped,
-          onClick: Message.ClickedDropLink(),
-        },
-        h
-      ),
-      ...(Array.isReadonlyArrayNonEmpty(model.closed)
-        ? [
-            Button.view(
-              {
-                label: `reopen ${model.closed.length}`,
-                isSmall: true,
-                onClick: Message.ClickedReopen(),
-              },
-              h
-            ),
-          ]
-        : []),
     ]
-  ),
-];
+  );
 
 const noteView = (h: HtmlBuilder<Message>): Html =>
   h.keyed("div")(
@@ -331,23 +298,16 @@ const machineView = (model: Model, h: HtmlBuilder<Message>): Html =>
               },
               h
             ),
-          ],
-          foot: [
-            h.span(
-              [h.Class("push")],
-              [
-                Button.view(
-                  {
-                    label: model.isStarting ? "stop" : "start",
-                    glyph: model.isStarting ? "stop" : "play",
-                    isSmall: true,
-                    onClick: model.isStarting
-                      ? Message.ClickedStop()
-                      : Message.ClickedStart(),
-                  },
-                  h
-                ),
-              ]
+            Button.view(
+              {
+                label: model.isStarting ? "stop" : "start",
+                glyph: model.isStarting ? "stop" : "play",
+                isSmall: true,
+                onClick: model.isStarting
+                  ? Message.ClickedStop()
+                  : Message.ClickedStart(),
+              },
+              h
             ),
           ],
         },
@@ -356,8 +316,7 @@ const machineView = (model: Model, h: HtmlBuilder<Message>): Html =>
     ]
   );
 
-export const DESCRIPTION =
-  "The ground as a canvas: windows on it, tools at its edge.";
+export const DESCRIPTION = "The ground as a canvas, with windows on it.";
 
 const pausedView = (h: HtmlBuilder<Message>): Html =>
   Notice.view(
@@ -391,10 +350,9 @@ export const view = defineView<Model, Message, ViewInputs>(
         Stage.view(
           {
             ...(model.isLinkDropped && { paused: [pausedView(h)] }),
-            tools: [toolsView(model, h)],
-            bar: barView(model, viewInputs, h),
             body: [
               canvasView(model, h),
+              barView(model, viewInputs, h),
               h.submodel({
                 slotId: ConfirmDialog.id(model.stopConfirm),
                 model: model.stopConfirm,

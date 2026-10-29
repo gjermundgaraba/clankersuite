@@ -79,11 +79,10 @@ const Held = Schema.Struct({
 
 type Held = typeof Held.Type;
 
-/** Schema for a board: the `@foldkit/ui` DragAndDrop it moves cards with, whether cards may
- *  move, and what it keeps while a card is held. The cards and columns are the parent's. */
+/** Schema for a board: the `@foldkit/ui` DragAndDrop it moves cards with, and what it keeps
+ *  while a card is held. The cards and columns are the parent's. */
 export const Model = Schema.Struct({
   dragAndDrop: UiDragAndDrop.Model,
-  isMovable: Schema.Boolean,
   maybeHeld: Schema.Option(Held),
 });
 
@@ -147,16 +146,11 @@ export type OutMessage = typeof OutMessage.Type;
  *  the board's DOM hooks are scoped by it, so two boards on a page keep to their own cards. */
 export type InitConfig = Readonly<{
   id: string;
-  /** Whether cards may move from the start (the default); false for a board whose moves wait
-   *  on something (writes not yet accepted), which `setMovable` turns on later. */
-  isMovable?: boolean;
 }>;
 
-/** Creates a board with nothing held, its cards free to move unless `isMovable` is false
- *  (`setMovable` changes it). */
+/** Creates a board with nothing held. */
 export const init = (config: InitConfig): Model => ({
   dragAndDrop: UiDragAndDrop.init({ id: config.id }),
-  isMovable: config.isMovable ?? true,
   maybeHeld: Option.none(),
 });
 
@@ -246,7 +240,7 @@ const placementOf = (
     const toIndex = Math.min(Math.max(pastItself, 0), others.length);
     const isWhereItWas = isSameColumn && (isKeyboard || toIndex === from.index);
 
-    if (isWhereItWas || !model.isMovable) {
+    if (isWhereItWas) {
       return yield* Option.none();
     }
 
@@ -532,16 +526,6 @@ export const update = (model: Model, message: Message) =>
     CompletedSizeLiftedCard: () => ({ model }),
   });
 
-/**
- * Lets cards move, or stops them: while work runs, nothing moves. Stopping cancels a card
- * that is pressed or held, so no `Moved` arrives for it.
- */
-export const setMovable = (model: Model, isMovable: boolean): UpdateReturn => {
-  const next = modifyFields(model, { isMovable: () => isMovable });
-
-  return isMovable ? { model: next } : cancel(next);
-};
-
 const dragSubscriptions = Subscription.lift({
   pointer: UiDragAndDrop.subscriptions.documentPointer,
   keyboard: UiDragAndDrop.subscriptions.documentKeyboard,
@@ -592,12 +576,12 @@ export const SizeLiftedCard = Mount.define("SizeLiftedCard", {
 export type CardRender = Readonly<{
   /** For the card's root: the press that selects it, and lifts it under a mouse. */
   attributes: readonly ChildAttribute[];
-  /** Cards may move: the card prints the grab cursor (`movable`). */
+  /** Cards may move: the card prints the grab cursor (`movable`). False on the held copy. */
   isMovable: boolean;
   /** The card is the one held: it dims in place (`drag-dim`). */
   isHeld: boolean;
   /** The grip, last in the meta row: a quiet glyph button named "Move <label>" that touch and
-   *  the keyboard take. Empty when cards may not move. */
+   *  the keyboard take. */
   grip: readonly Html[];
   /** This render is the held copy (`lifted`): hidden from screen readers and inert, taking
    *  none of the caller's attributes. */
@@ -615,8 +599,6 @@ export type ViewInputs = Readonly<{
   toCardView: (card: Card, render: CardRender) => Html;
   /** What a column holding nothing prints, usually an EmptyState. */
   toEmptyView?: (column: Column) => readonly Html[];
-  /** Controls at the right of a column's head, after its count ("capture here"). */
-  toColumnActions?: (column: Column) => readonly Html[];
 }>;
 
 const INNER_CONTROL = innerControls(
@@ -655,7 +637,6 @@ type PlaceInfo = Readonly<{
   columns: readonly Column[];
   toCardView: (card: Card, render: CardRender) => Html;
   toEmptyView: (column: Column) => readonly Html[];
-  toColumnActions: (column: Column) => readonly Html[];
 }>;
 
 const gripHelpId = (model: Model): string => `${id(model)}-grip-help`;
@@ -734,30 +715,28 @@ const cardRender = (
     )
   );
 
-  const grip = model.isMovable
-    ? [
-        IconButton.view(
-          {
-            glyph: "grip",
-            label: fill(COPY.gripLabel, card.label),
-            isQuiet: true,
-            attributes: [
-              h.DataAttribute("draggable-id", cardHook(model, card.id)),
-              h.DataAttribute(GRIP_ATTRIBUTE, ""),
-              h.AriaRoleDescription("draggable"),
-              h.AriaDescribedBy(gripHelpId(model)),
-              Button.pressedAttribute(isHeld, h),
-              onGripKey,
-            ],
-          },
-          h
-        ),
-      ]
-    : [];
+  const grip = [
+    IconButton.view(
+      {
+        glyph: "grip",
+        label: fill(COPY.gripLabel, card.label),
+        isQuiet: true,
+        attributes: [
+          h.DataAttribute("draggable-id", cardHook(model, card.id)),
+          h.DataAttribute(GRIP_ATTRIBUTE, ""),
+          h.AriaRoleDescription("draggable"),
+          h.AriaDescribedBy(gripHelpId(model)),
+          Button.pressedAttribute(isHeld, h),
+          onGripKey,
+        ],
+      },
+      h
+    ),
+  ];
 
   return {
     attributes: childAttributes([h.DataAttribute(CARD_ATTRIBUTE, ""), onPress]),
-    isMovable: model.isMovable,
+    isMovable: true,
     isHeld,
     grip,
     isLifted: false,
@@ -778,9 +757,6 @@ export type CardViewConfig<ParentMessage> = Readonly<{
   title: string;
   /** Opens the item: the title is its button. */
   onOpen?: ParentMessage;
-  /** Opening is not possible now: the title is held (`aria-disabled`) and keeps its place in
-   *  the keyboard. */
-  isDisabled?: boolean;
   /** Shown in the title's place while the card's title is edited, such as an `InlineInput`
    *  and its `errorView`. The held copy shows `title`. */
   editor?: ReadonlyArray<Html | string>;
@@ -803,14 +779,7 @@ export const cardView = <ParentMessage>(
   config: CardViewConfig<ParentMessage>,
   h: HtmlBuilder<ParentMessage>
 ): Html => {
-  const {
-    render,
-    title,
-    onOpen,
-    isDisabled = false,
-    editor = [],
-    meta = [],
-  } = config;
+  const { render, title, onOpen, editor = [], meta = [] } = config;
 
   const attributes = render.isLifted ? [] : (config.attributes ?? []);
   const isEditing = !render.isLifted && Array.isReadonlyArrayNonEmpty(editor);
@@ -821,7 +790,6 @@ export const cardView = <ParentMessage>(
       : UiButton.view(
           {
             onClick: onOpen,
-            isDisabled,
             toView: (groups) =>
               h.button(
                 [
@@ -923,7 +891,6 @@ const columnView = (
                 [h.Class("meta")],
                 [column.cards.length.toLocaleString(LOCALE)]
               ),
-              ...info.toColumnActions(column),
             ]
           ),
           ...Array.match(items, {
@@ -988,33 +955,20 @@ const liftedCopyView = (
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const {
-      columns,
-      toCardView,
-      toEmptyView = () => [],
-      toColumnActions = () => [],
-    } = viewInputs;
+    const { columns, toCardView, toEmptyView = () => [] } = viewInputs;
 
     const info: PlaceInfo = {
       model,
       columns,
       toCardView,
       toEmptyView,
-      toColumnActions,
     };
 
     return h.div(
       [h.Class("board"), h.Style({ "--cols": `${columns.length}` })],
       [
         ...Array.map(columns, (column) => columnView(info, column, h)),
-        ...(model.isMovable
-          ? [
-              h.p(
-                [h.Id(gripHelpId(model)), h.Class("sr-only")],
-                [COPY.gripHelp]
-              ),
-            ]
-          : []),
+        h.p([h.Id(gripHelpId(model)), h.Class("sr-only")], [COPY.gripHelp]),
         ...liftedCopyView(info, h),
       ]
     );

@@ -1,6 +1,5 @@
-import { PasswordField } from "@gjermundgaraba/pixel-paper";
 import type { History } from "@gjermundgaraba/pixel-paper";
-import { Array, Option, Record, Schema } from "effect";
+import { Option, Record, Schema } from "effect";
 
 import type { CopyKey } from "./copies.ts";
 
@@ -212,13 +211,7 @@ export const isNearLimit = (allowance: Allowance): boolean =>
 export const CHECKS: readonly History.Entry[] = [
   { id: "k1", at: ["3m"], who: ["Requests"], what: ["read 41,200 of 50,000"] },
   { id: "k2", at: ["3m"], who: ["Storage"], what: ["read 12,800 of 50,000"] },
-  {
-    id: "k3",
-    at: ["1h"],
-    who: ["Mail relay"],
-    what: ["sign-in rejected"],
-    isFailed: true,
-  },
+  { id: "k3", at: ["1h"], who: ["Mail relay"], what: ["sign-in rejected"] },
   { id: "k4", at: ["1h"], who: ["Seats"], what: ["read 10 of 10"] },
 ];
 
@@ -337,21 +330,6 @@ export const TERMINAL_LINES: ReadonlyArray<
   { id: "t7", prompt: "$ ", ink: "ink", text: "" },
 ];
 
-export const sampleStrength = (password: string): PasswordField.Strength => {
-  const score =
-    Math.floor(password.length / 4) +
-    (/[^a-z]/iu.test(password) ? 1 : 0) -
-    (password.length < 8 ? 1 : 0);
-
-  return Option.getOrElse(
-    Array.findLast(
-      PasswordField.Strength.literals,
-      (strength) => strength <= score
-    ),
-    () => 0
-  );
-};
-
 export type Room = Readonly<{
   id: string;
   name: string;
@@ -388,10 +366,7 @@ export const ROOMS: readonly Room[] = [
 
 export const TODAY = {
   requests: 41_200,
-  requestsChange: 12,
   signIns: 318,
-  signInsChange: -4,
   failed: 27,
-  failedChange: 19,
   clients: 4,
 } as const;

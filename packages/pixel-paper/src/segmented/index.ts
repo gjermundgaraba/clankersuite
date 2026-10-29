@@ -1,3 +1,3 @@
 export { view } from "./segmented.ts";
 
-export type { Segment, ViewConfig } from "./segmented.ts";
+export type { ViewConfig } from "./segmented.ts";

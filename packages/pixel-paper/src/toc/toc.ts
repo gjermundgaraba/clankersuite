@@ -14,8 +14,6 @@ export type Entry = Readonly<{
   /** The heading's words, the link's name. */
   label: string;
   level: Level;
-  /** Further content under the words, inside the link (what the section holds). */
-  detail?: ReadonlyArray<Html | string>;
 }>;
 
 /** Configuration for rendering a table of contents with `view`. */
@@ -24,8 +22,6 @@ export type ViewConfig = Readonly<{
   /** The heading being read, from the caller's Model, kept by `readingPositionEntry`. `None`
    *  until it first reports, as during a server render: the first heading is marked. */
   maybeCurrentId: Option.Option<string>;
-  /** Names the navigation. `"On this page"` by default. */
-  label?: string;
 }>;
 
 const currentId = (
@@ -36,21 +32,21 @@ const currentId = (
     Option.map(Array.head(entries), ({ id }) => id)
   );
 
-/** The page's headings as plain links in a `<nav>`. One ink cell marks the heading being read,
- *  which is also `aria-current`. An entry's `detail` sits under its words, in the link. */
+/** The page's headings as plain links in a `<nav>` named "On this page". One ink cell marks the
+ *  heading being read, which is also `aria-current`. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { entries, label = "On this page" } = config;
+  const { entries } = config;
   const maybeCurrent = currentId(entries, config.maybeCurrentId);
 
   return h.nav(
-    [h.AriaLabel(label)],
+    [h.AriaLabel("On this page")],
     [
       h.ul(
         [h.Class("toc")],
-        Array.map(entries, ({ id, label: words, level, detail = [] }) =>
+        Array.map(entries, ({ id, label, level }) =>
           h.keyed("li")(id, level === 3 ? [h.Class("l3")] : [], [
             h.a(
               [
@@ -59,12 +55,7 @@ export const view = <Message>(
                   ? [h.AriaCurrent("true")]
                   : []),
               ],
-              Array.match(detail, {
-                onEmpty: () => [words],
-                onNonEmpty: (aside) => [
-                  h.span([h.Class("toc-entry")], [words, ...aside]),
-                ],
-              })
+              [label]
             ),
           ])
         )

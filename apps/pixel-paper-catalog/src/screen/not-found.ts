@@ -58,11 +58,10 @@ export const view = <ParentMessage>(
         ),
       ],
       body: [
-        Wall.markView({ brand: brandView(h), glyph: "home" }, h),
+        Wall.markView({ brand: brandView(h) }, h),
         Outcome.view(
           {
             tone: "Error",
-            glyph: "question",
             title: "No page here",
             body: [
               "Nothing lives at this address. The space it named may have been removed, or the link was copied wrong.",

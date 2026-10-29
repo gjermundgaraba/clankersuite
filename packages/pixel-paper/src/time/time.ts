@@ -46,8 +46,6 @@ export type ViewConfig = Readonly<{
   maybeNow: Option.Option<number>;
   /** `Until`: printed once the moment has gone (`"reset due"`, `"expired"`). */
   passed?: string;
-  /** `Until`: a passed moment prints red, as a late due day. */
-  isLate?: boolean;
   /** `Age` and `Ago`: older than this prints red, as a stale age. */
   staleAfter?: Duration.Duration;
 }>;
@@ -60,10 +58,10 @@ const utcLook = (at: number, format: TimeFormat): Look => ({
       : `${formatDateTime(new Date(at), UTC)} UTC`,
 });
 
-const untilLook = (left: number, passed: string, isLate: boolean): Look =>
-  left <= 0
-    ? { maybeClass: Option.some(isLate ? "due late" : "due"), text: passed }
-    : { maybeClass: Option.some("due"), text: `in ${formatRemaining(left)}` };
+const untilLook = (left: number, passed: string): Look => ({
+  maybeClass: Option.some("due"),
+  text: left <= 0 ? passed : `in ${formatRemaining(left)}`,
+});
 
 const ageLook = (
   age: number,
@@ -105,7 +103,7 @@ const localLook = (
       text: formatDateTime(new Date(config.at)),
     })),
     Match.when("Until", () =>
-      untilLook(config.at - now, config.passed ?? "now", config.isLate ?? false)
+      untilLook(config.at - now, config.passed ?? "now")
     ),
     Match.when("Age", () => ageLook(now - config.at, "Age", maybeStaleAfter)),
     Match.when("Ago", () => ageLook(now - config.at, "Ago", maybeStaleAfter)),
@@ -114,7 +112,7 @@ const localLook = (
 };
 
 /** A moment, said relative to the caller's `maybeNow` or as a date, in a `<time>` whose
- *  `datetime` is the moment in ISO form. Stale ages and late due days print red. */
+ *  `datetime` is the moment in ISO form. Stale ages print red. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>

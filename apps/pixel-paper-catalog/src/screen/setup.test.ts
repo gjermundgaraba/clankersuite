@@ -59,7 +59,7 @@ describe("Setup screen", () => {
         SetupScreen.Message.UpdatedPasswordAgain({ value: PASSWORD })
       ),
       Story.message(SetupScreen.Message.SubmittedSetup()),
-      Story.Command.expectExact(Focus.Focus({ id: "su-console" })),
+      Story.Command.expectExact(Focus.Focus({ id: "su-result" })),
       resolveFocus,
       Story.model((model) => {
         expect(model.isOwnerMade).toBe(true);

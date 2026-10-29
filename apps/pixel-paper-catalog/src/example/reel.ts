@@ -393,7 +393,6 @@ export const paneView =
               ]
             : []),
         ],
-        foot: ["sample"],
       },
       h
     );

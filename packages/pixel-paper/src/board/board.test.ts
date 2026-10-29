@@ -289,28 +289,6 @@ describe("Board update", () => {
       })
     );
   });
-
-  it("cancels a held card when cards stop moving, and reports no move after", () => {
-    const held = Board.update(fresh, pressGrip).model;
-    const stopped = Board.setMovable(held, false);
-
-    expect(isHolding(stopped.model)).toBe(false);
-    expect(stopped.model.isMovable).toBe(false);
-    expect(stopped.outMessage).toBeUndefined();
-
-    Story.story(
-      Board.update,
-      Story.given(stopped.model),
-      Story.message(Got(UiDragAndDrop.Message.ConfirmedKeyboardDrop())),
-      Story.expectNoOutMessage(),
-      Story.Command.expectNone(),
-      Story.message(pressGrip),
-      Story.Command.expectNone(),
-      Story.model((model) => {
-        expect(isHolding(model)).toBe(false);
-      })
-    );
-  });
 });
 
 const lift = (keyPrefix: string) =>
@@ -337,8 +315,6 @@ describe("Board subscriptions", () => {
   });
 });
 
-const isOpenable = (card: Board.Card): boolean => card.id !== "tax";
-
 const itemCardView =
   (h: HtmlBuilder<Board.Message>) =>
   (card: Board.Card, render: Board.CardRender) =>
@@ -347,7 +323,6 @@ const itemCardView =
         render,
         title: card.label,
         onOpen: Board.Message.CompletedAnnounceMove(),
-        isDisabled: !isOpenable(card),
         meta: [
           h.span([h.Class("age")], ["2d"]),
           h.button([h.Type("button"), h.Class("tool")], ["snooze"]),
@@ -365,12 +340,6 @@ const boardView = (model: Board.Model, h: HtmlBuilder<Board.Message>) =>
       columns: COLUMNS,
       toCardView: itemCardView(h),
       toEmptyView: () => [h.p([h.Class("empty")], ["Nothing here."])],
-      toColumnActions: (column) => [
-        h.button(
-          [h.Type("button"), h.Class("capture")],
-          [`capture in ${column.title}`]
-        ),
-      ],
     },
     h
   );
@@ -414,7 +383,7 @@ const keyboardHeld = [
 ] as const;
 
 describe("Board view", () => {
-  it("prints each column as a panel named by its title, with a count and actions", () => {
+  it("prints each column as a panel named by its title, with a count", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
@@ -425,7 +394,6 @@ describe("Board view", () => {
       Scene.expect(Scene.role("region", { name: "Done" })).toContainText(
         "Nothing here."
       ),
-      Scene.expect(Scene.role("button", { name: "capture in Done" })).toExist(),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
       ).toHaveClass("board-col"),
@@ -448,45 +416,11 @@ describe("Board view", () => {
     );
   });
 
-  it("holds a title while opening is not possible, and keeps the caller's attributes", () => {
+  it("keeps the caller's attributes", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
-      Scene.expect(Scene.role("button", { name: "File taxes" })).toHaveAttr(
-        "aria-disabled",
-        "true"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Fix the sink" })
-      ).not.toHaveAttr("aria-disabled"),
       Scene.expect(sinkCard).toHaveAttr("aria-current", "true")
-    );
-  });
-
-  it("has no grips and lifts nothing while cards may not move, but still selects", () => {
-    Scene.scene(
-      { update: Board.update, view: boardView },
-      Scene.given(Board.setMovable(fresh, false).model),
-      Scene.expect(grip).toBeAbsent(),
-      Scene.expect(Scene.selector(".board-card.movable")).toBeAbsent(),
-      Scene.pointerDown(sinkCard, { pointerType: "mouse" }),
-      Scene.expectOutMessage(Board.OutMessage.SelectedCard({ cardId: "sink" })),
-      Scene.expect(Scene.selector(".board-card.drag-dim")).toBeAbsent()
-    );
-  });
-
-  it("starts with no grips when made unmovable, and gets them once cards may move", () => {
-    const unmovable = Board.init({ id: "work", isMovable: false });
-    Scene.scene(
-      { update: Board.update, view: boardView },
-      Scene.given(unmovable),
-      Scene.expect(grip).toBeAbsent(),
-      Scene.expect(Scene.selector(".board-card.movable")).toBeAbsent()
-    );
-    Scene.scene(
-      { update: Board.update, view: boardView },
-      Scene.given(Board.setMovable(unmovable, true).model),
-      Scene.expect(grip).toExist()
     );
   });
 
@@ -655,18 +589,6 @@ describe("Board view", () => {
       ),
       Scene.expectIgnored(),
       Scene.expect(Scene.selector(".board-card.drag-dim")).toBeAbsent()
-    );
-  });
-
-  it("cancels the move when cards stop moving mid-drag, taking the grips away", () => {
-    const held = Board.update(fresh, pressGrip).model;
-
-    Scene.scene(
-      { update: Board.update, view: boardView },
-      Scene.given(Board.setMovable(held, false).model),
-      Scene.expect(grip).toBeAbsent(),
-      Scene.expect(Scene.selector(".board-card.drag-dim")).toBeAbsent(),
-      Scene.expect(Scene.selector(".board-lift-slot")).toBeAbsent()
     );
   });
 });

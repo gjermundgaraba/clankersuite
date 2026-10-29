@@ -72,7 +72,7 @@ describe("Time.view", () => {
     );
   });
 
-  it("counts down, then prints the passed word, red when late", () => {
+  it("counts down, then prints the passed word", () => {
     timeScene(
       { at: AT, format: "Until", maybeNow: Option.some(AT - minutes(101)) },
       Scene.expect(time).toHaveText("in 1h 41m"),
@@ -84,10 +84,9 @@ describe("Time.view", () => {
         format: "Until",
         maybeNow: Option.some(AT + 1),
         passed: "expired",
-        isLate: true,
       },
       Scene.expect(time).toHaveText("expired"),
-      Scene.expect(time).toHaveClass("late")
+      Scene.expect(time).toHaveClass("due")
     );
   });
 });

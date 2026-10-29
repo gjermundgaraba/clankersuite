@@ -3,15 +3,11 @@ import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { pressedAttribute } from "../button/button.ts";
-import * as Glyph from "../glyph/glyph.ts";
-import type { GlyphName } from "../glyph/glyphs.ts";
 
-/** One segment: its value, its words, and optionally a glyph printed instead of the words. */
+/** One segment: its value and its words. */
 export type Segment<Value extends string> = Readonly<{
   value: Value;
   label: string;
-  /** Prints the glyph alone; the label becomes its accessible name and its tip. */
-  glyph?: GlyphName;
 }>;
 
 /** Configuration for rendering a segmented choice with `view`. */
@@ -37,41 +33,20 @@ const segmentView = <Value extends string, Message>(
           [
             ...groups.button,
             pressedAttribute(option.value === config.value, h),
-            ...(option.glyph === undefined
-              ? []
-              : [
-                  h.AriaLabel(option.label),
-                  h.DataAttribute("tip", option.label),
-                ]),
           ],
-          [
-            option.glyph === undefined
-              ? option.label
-              : Glyph.view({ name: option.glyph }, h),
-          ]
+          [option.label]
         ),
     },
     h
   );
 
 /** A choice of one: the pressed segment inverts and is `aria-pressed="true"`, the others
- *  `"false"`, in a `role="group"` named by the label. Words print as the nav strip; glyphs print as
- *  a compact switch of 26px cells (a layout, a density). */
+ *  `"false"`, in a `role="group"` named by the label, printed as the nav strip. */
 export const view = <Value extends string, Message>(
   config: ViewConfig<Value, Message>,
   h: HtmlBuilder<Message>
-): Html => {
-  const isGlyphs = Array.every(
-    config.options,
-    (option) => option.glyph !== undefined
-  );
-
-  return h.div(
-    [
-      h.Role("group"),
-      h.AriaLabel(config.label),
-      h.Class(isGlyphs ? "switch" : "nav"),
-    ],
+): Html =>
+  h.div(
+    [h.Role("group"), h.AriaLabel(config.label), h.Class("nav")],
     Array.map(config.options, (option) => segmentView(config, option, h))
   );
-};

@@ -8,20 +8,10 @@ export const Tone = Schema.Literals(["Ok", "Error", "Quiet"]);
 
 export type Tone = typeof Tone.Type;
 
-/** One small action on a slip (undo, retry). Pressing it reports `SelectedAction` with its id
- *  and dismisses the slip. */
-export const Action = Schema.Struct({
-  id: Schema.String,
-  label: Schema.String,
-});
-
-export type Action = typeof Action.Type;
-
 export const Payload = Schema.Struct({
   tone: Tone,
   title: Schema.String,
   maybeBody: Schema.Option(Schema.String),
-  maybeAction: Schema.Option(Action),
 });
 
 export type Payload = typeof Payload.Type;

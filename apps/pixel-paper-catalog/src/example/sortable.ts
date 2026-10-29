@@ -27,7 +27,6 @@ type Entry = typeof Entry.Type;
 export const Model = Schema.Struct({
   order: Sortable.Model,
   rows: Schema.Array(Entry),
-  isOrderHeld: Schema.Boolean,
   tiles: Sortable.Model,
   shelf: Schema.Array(Entry),
   panels: Sortable.Model,
@@ -41,7 +40,6 @@ export const Message = defineMessageUnion({
   GotOrderMessage: { message: Sortable.Message },
   GotTilesMessage: { message: Sortable.Message },
   GotPanelsMessage: { message: Sortable.Message },
-  ToggledOrderHeld: {},
   ToggledDeskReadOnly: {},
   CompletedFlash: {},
 });
@@ -82,7 +80,6 @@ const SAMPLE_DESK: readonly Entry[] = [
 export const init = (): Model => ({
   order: Sortable.init({ id: "sample-order" }),
   rows: SAMPLE_ROWS,
-  isOrderHeld: false,
   tiles: Sortable.init({ id: "sample-tiles" }),
   shelf: SAMPLE_SHELF,
   panels: Sortable.init({ id: "sample-panels" }),
@@ -169,12 +166,6 @@ const listFold = (key: ListKey) => {
 const foldList = (key: ListKey) =>
   Update.foldChild({ update: Sortable.update, ...listFold(key) });
 
-const setOrderMovable = (isMovable: boolean) =>
-  Update.foldChildStep({
-    update: (order: Sortable.Model) => Sortable.setMovable(order, isMovable),
-    ...listFold("order"),
-  });
-
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     GotOrderMessage: ({ message: orderMessage }) =>
@@ -183,11 +174,6 @@ export const update = (model: Model, message: Message) =>
       foldList("tiles")(model, tilesMessage),
     GotPanelsMessage: ({ message: panelsMessage }) =>
       foldList("panels")(model, panelsMessage),
-    ToggledOrderHeld: () => {
-      const toggled = modifyFields(model, { isOrderHeld: (isHeld) => !isHeld });
-
-      return setOrderMovable(!toggled.isOrderHeld)(toggled);
-    },
     ToggledDeskReadOnly: () => ({
       model: modifyFields(model, {
         isDeskReadOnly: (isReadOnly) => !isReadOnly,
@@ -225,7 +211,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
     [h.Class("spec-rows")],
     [
       wideSpecView(
-        "a list: rows by their grips, a long name, moves held while work runs",
+        "a list: rows by their grips, a long name",
         [
           Panel.view(
             {
@@ -233,17 +219,6 @@ export const view = defineView<Model, Message>((model, h): Html =>
               title: "Order (sample)",
               meta: `${model.rows.length} plans`,
               isFlush: true,
-              actions: [
-                Button.view(
-                  {
-                    label: "hold moves",
-                    isSmall: true,
-                    onClick: Message.ToggledOrderHeld(),
-                    attributes: [Button.pressedAttribute(model.isOrderHeld, h)],
-                  },
-                  h
-                ),
-              ],
               body: [
                 h.submodel({
                   slotId: "sample-order",

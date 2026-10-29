@@ -1,7 +1,6 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
-import type { GlyphName } from "../glyph/glyphs.ts";
 import * as Notice from "../notice/notice.ts";
 
 /** Configuration for rendering an outcome with `view`. */
@@ -11,7 +10,6 @@ export type ViewConfig<Message> = Readonly<{
   /** One sans sentence: why, and what to do next. */
   body: ReadonlyArray<Html | string>;
   tone?: Notice.Tone;
-  glyph?: GlyphName;
   /** What follows the sentence: a code, the details, a list of what was asked. */
   detail?: ReadonlyArray<Html | string>;
   /** Attributes for the title and sentence together, such as the `description` group of the
@@ -29,7 +27,6 @@ export const view = <Message>(
     title,
     body,
     tone = "Warn",
-    glyph,
     detail = [],
     bodyAttributes = [],
   } = config;
@@ -37,7 +34,7 @@ export const view = <Message>(
   return h.div(
     [h.Class("outcome")],
     [
-      Notice.toneGlyphView({ tone, ...(glyph !== undefined && { glyph }) }, h),
+      Notice.toneGlyphView({ tone }, h),
       h.div(
         [...bodyAttributes, h.Class("outcome-body")],
         [h.strong([], [title]), h.p([], body), ...detail]

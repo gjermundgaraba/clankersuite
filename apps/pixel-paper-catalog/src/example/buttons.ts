@@ -15,21 +15,18 @@ import type * as Update from "foldkit/update";
 
 import { rowView, specView } from "../spec.ts";
 
-export const Model = Schema.Struct({
-  sendState: Schema.Literals(["Rest", "Busy", "Done"]),
-});
+export const Model = Schema.Struct({ isSending: Schema.Boolean });
 
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   ClickedSend: {},
   CompletedWaitForSend: {},
-  ClickedSendAnother: {},
 });
 
 export type Message = typeof Message.Type;
 
-export const init = (): Model => ({ sendState: "Rest" });
+export const init = (): Model => ({ isSending: false });
 
 const SAMPLE_SEND_DURATION = Duration.millis(1600);
 
@@ -43,14 +40,11 @@ export const WaitForSend = Command.define("WaitForSend", {
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     ClickedSend: () => ({
-      model: modifyFields(model, { sendState: () => "Busy" }),
+      model: modifyFields(model, { isSending: () => true }),
       commands: [WaitForSend()],
     }),
     CompletedWaitForSend: () => ({
-      model: modifyFields(model, { sendState: () => "Done" }),
-    }),
-    ClickedSendAnother: () => ({
-      model: modifyFields(model, { sendState: () => "Rest" }),
+      model: modifyFields(model, { isSending: () => false }),
     }),
   });
 
@@ -66,29 +60,15 @@ const busyPair = (
   );
 
 const sendView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  h.span(
-    [h.Class("spec-inline")],
-    [
-      Button.view(
-        {
-          label: "send",
-          variant: "Primary",
-          glyph: "send",
-          onClick: Message.ClickedSend(),
-          isBusy: model.sendState === "Busy",
-          done: { isDone: model.sendState === "Done", label: "sent" },
-        },
-        h
-      ),
-      ...(model.sendState === "Done"
-        ? [
-            TextButton.view(
-              { label: "send another", onClick: Message.ClickedSendAnother() },
-              h
-            ),
-          ]
-        : []),
-    ]
+  Button.view(
+    {
+      label: "send",
+      variant: "Primary",
+      glyph: "send",
+      onClick: Message.ClickedSend(),
+      isBusy: model.isSending,
+    },
+    h
   );
 
 const variantsView = (h: HtmlBuilder<Message>): Html =>
@@ -142,21 +122,6 @@ const statesView = (
         h
       ),
       specView("small", [busyPair({ label: "retry", isSmall: true }, h)], h),
-      specView(
-        "done: ink, flat, the check in the glyph's place",
-        [
-          Button.view(
-            {
-              label: "save",
-              glyph: "save",
-              isSmall: true,
-              done: { isDone: true, label: "saved" },
-            },
-            h
-          ),
-        ],
-        h
-      ),
       specView(
         "with the key that does the same",
         [
@@ -231,7 +196,7 @@ export const view = defineView<Model, Message, ViewInputs>(
         rowView(
           [
             specView(
-              "send, then busy, then done: press it",
+              "send, then busy until it lands: press it",
               [sendView(model, h)],
               h
             ),

@@ -77,24 +77,25 @@ describe("Reel example", () => {
   });
 
   it("moves a reel's focus, and the keyboard, to the neighbour of a pane closed under it", () => {
-    Story.story(
-      ReelExample.update,
-      Story.given(ReelExample.init()),
-      Story.message(
-        ReelExample.Message.GotPaperMessage({
-          message: Reel.Message.FocusedPane({ paneId: "diff" }),
-        })
-      ),
-      Story.message(ReelExample.Message.ClickedClose({ paneId: "diff" })),
-      Story.Command.resolve(
-        Reel.RestoreFocus({ paneHook: "sample-reel/pane/canvas" }),
-        Reel.Message.CompletedRestoreFocus()
-      ),
-      Story.model((model) => {
-        expect(Reel.focusedPaneId(model.paper, model.layout)).toStrictEqual(
-          Option.some("canvas")
-        );
+    const focused = ReelExample.update(
+      ReelExample.init(),
+      ReelExample.Message.GotPaperMessage({
+        message: Reel.Message.FocusedPane({ paneId: "diff" }),
       })
+    ).model;
+
+    const closed = ReelExample.update(
+      focused,
+      ReelExample.Message.ClickedClose({ paneId: "diff" })
     );
+
+    expect(
+      Reel.focusedPaneId(closed.model.paper, closed.model.layout)
+    ).toStrictEqual(Option.some("canvas"));
+    expect(
+      Array.map(closed.commands ?? [], ({ name, args }) => ({ name, args }))
+    ).toStrictEqual([
+      { name: "RestoreFocus", args: { paneHook: "sample-reel/pane/canvas" } },
+    ]);
   });
 });

@@ -37,7 +37,6 @@ const NOT_SENT: Toast.ShowConfig = {
   tone: "Error",
   title: "Not sent",
   body: "The server did not answer. Try again.",
-  action: { id: "retry", label: "retry" },
 };
 
 const leave = (entryId: string) => UiToast.test.drainEntry({ entryId });
@@ -91,29 +90,6 @@ describe("Toast update", () => {
       "Four",
       "Not sent",
     ]);
-  });
-
-  it("reports a slip's action with the slip's id and dismisses the slip", () => {
-    Story.story(
-      Toast.update,
-      Story.given(raise(emptyStack, NOT_SENT)),
-      Story.message(
-        Toast.Message.ClickedAction({
-          entryId: "toasts-entry-0",
-          action: { id: "retry", label: "retry" },
-        })
-      ),
-      Story.expectOutMessage(
-        Toast.OutMessage.SelectedAction({
-          id: "retry",
-          entryId: "toasts-entry-0",
-        })
-      ),
-      Story.model((model) => {
-        expect(titles(model)).toStrictEqual([]);
-      }),
-      leave("toasts-entry-0")
-    );
   });
 
   it("takes the newest on Escape, keeping the keyboard on the slip in its place", () => {
@@ -308,23 +284,6 @@ describe("Toast view", () => {
       Scene.given(raise(emptyStack, NOT_SENT)),
       resolveStack,
       Scene.click(Scene.role("button", { name: "Dismiss: Not sent" })),
-      ...resolveLeave,
-      Scene.expect(Scene.selector(".toast")).toBeAbsent()
-    );
-  });
-
-  it("prints a slip's action, which reports itself and takes the slip away", () => {
-    Scene.scene(
-      { update: Toast.update, view: stackView },
-      Scene.given(raise(emptyStack, NOT_SENT)),
-      resolveStack,
-      Scene.click(Scene.role("button", { name: "retry" })),
-      Scene.expectOutMessage(
-        Toast.OutMessage.SelectedAction({
-          id: "retry",
-          entryId: "toasts-entry-0",
-        })
-      ),
       ...resolveLeave,
       Scene.expect(Scene.selector(".toast")).toBeAbsent()
     );

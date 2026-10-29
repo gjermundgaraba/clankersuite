@@ -11,22 +11,6 @@ const METER_CELLS = 20;
 const HIGH_SHARE = 0.8;
 const PERCENT = 100;
 
-/** Configuration for rendering cells with `cellsView`. */
-export type CellsConfig = Readonly<{
-  /** Unique in the document; names the meter's parts. */
-  id: string;
-  /** How many cells; 20 for a meter, 4 for a strength reading. */
-  count: number;
-  /** How many print ink. */
-  on: number;
-  /** Names the reading for screen readers. */
-  label: string;
-  /** What a screen reader hears for the value: `"3 of 4"`, `"strong"`. */
-  valueText: string;
-  /** Wide, short cells: a strength or a step count. */
-  isShort?: boolean;
-}>;
-
 const cellRowView = <Message>(
   count: number,
   on: number,
@@ -36,52 +20,20 @@ const cellRowView = <Message>(
     h.span([h.Class(index < on ? "cell on" : "cell")])
   );
 
-/** A reading printed as ink cells in a 2px box: a `meter` (built on `@foldkit/ui`'s Meter)
- *  from none to `count`, named by `label` and read out as `valueText`. */
-export const cellsView = <Message>(
-  config: CellsConfig,
-  h: HtmlBuilder<Message>
-): Html => {
-  const { id, count, on, label, valueText, isShort = false } = config;
-
-  return UiMeter.view(
-    {
-      id,
-      value: on,
-      min: 0,
-      max: count,
-      valueText,
-      ariaLabel: label,
-      toView: (groups) =>
-        h.span(
-          [...groups.meter, h.Class(isShort ? "cells short" : "cells")],
-          cellRowView(count, on, h)
-        ),
-    },
-    h
-  );
-};
-
 /** One meter in a `listView`. */
 export type MeterConfig = Readonly<{
   /** Unique in the document; names the meter's parts. */
   id: string;
   /** What is measured; it names the meter. */
   label: string;
-  /** A line under the label: what the reading belongs to. */
-  detail?: ReadonlyArray<Html | string>;
   value: number;
   max: number;
-  /** After the numbers: `"requests"`, `"MB"`. */
-  unit?: string;
   /** Replaces the printed numbers and what screen readers hear:
    *  `"41,200 of 50,000 requests"`. */
   valueText?: string;
   /** Prints the numbers line (the default). Leave it out where it would repeat the
    *  percentage (`valueText: "62% used"`); screen readers still hear `valueText`. */
   hasNumbers?: boolean;
-  /** In a red chip once the value reaches `max`. The percentage by default. */
-  full?: string;
   /** The lit cells take the reading's tone as well: amber from 80%, red at `max`. For a page
    *  of readings scanned for their level, such as a wall of limits; the reading beside the
    *  cells still says it in a mark or a chip. */
@@ -100,15 +52,8 @@ const scaled = (share: number, whole: number, isFull: boolean): number => {
   return isFull ? rounded : Math.min(whole - 1, rounded);
 };
 
-const numbersText = (
-  value: number,
-  max: number,
-  unit: string | undefined
-): string => {
-  const numbers = `${value.toLocaleString(LOCALE)} / ${max.toLocaleString(LOCALE)}`;
-
-  return unit === undefined ? numbers : `${numbers} ${unit}`;
-};
+const numbersText = (value: number, max: number): string =>
+  `${value.toLocaleString(LOCALE)} / ${max.toLocaleString(LOCALE)}`;
 
 type Level = "Full" | "High" | "Calm";
 
@@ -123,7 +68,6 @@ const levelOf = (value: number, max: number): Level => {
 };
 
 const percentView = <Message>(
-  config: MeterConfig,
   percent: number,
   level: Level,
   h: HtmlBuilder<Message>
@@ -131,7 +75,7 @@ const percentView = <Message>(
   const percentText = `${percent}%`;
 
   if (level === "Full") {
-    return Chip.view({ label: config.full ?? percentText, tone: "Blocked" }, h);
+    return Chip.view({ label: percentText, tone: "Blocked" }, h);
   } else if (level === "High") {
     return Mark.readingView({ label: percentText }, h);
   }
@@ -154,7 +98,6 @@ const meterView = <Message>(
     label,
     value,
     max,
-    detail = [],
     foot = [],
     isStale = false,
     hasNumbers = true,
@@ -164,7 +107,7 @@ const meterView = <Message>(
   const share = max > 0 ? Math.min(1, Math.max(0, value / max)) : 0;
   const level = levelOf(value, max);
   const isFull = level === "Full";
-  const numbers = config.valueText ?? numbersText(value, max, config.unit);
+  const numbers = config.valueText ?? numbersText(value, max);
   const rowClass = `meter-row${isStale ? " stale" : ""}${isToned ? TONE_CLASS[level] : ""}`;
 
   return UiMeter.view(
@@ -191,7 +134,6 @@ const meterView = <Message>(
                       : []),
                   ]
                 ),
-                ...slotView("span", "meter-detail", detail, h),
               ]
             ),
             h.div(
@@ -205,7 +147,7 @@ const meterView = <Message>(
                     h
                   )
                 ),
-                percentView(config, scaled(share, PERCENT, isFull), level, h),
+                percentView(scaled(share, PERCENT, isFull), level, h),
                 ...(hasNumbers
                   ? [h.span([h.Class("meter-num tnum")], [numbers])]
                   : []),

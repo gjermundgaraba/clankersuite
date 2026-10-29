@@ -9,7 +9,6 @@ import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
 import * as Announcer from "../announcer/announcer.ts";
-import * as Button from "../button/button.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 
 export const CopyState = defineTaggedUnion({
@@ -119,57 +118,32 @@ export const update = (model: Model, message: Message) =>
     CompletedAnnounceCopy: () => ({ model }),
   });
 
-/** How the button prints: the quiet copy glyph (a check once copied), or a small button
- *  whose word turns to "copied". */
-export const Variant = Schema.Literals(["Icon", "Button"]);
-
-export type Variant = typeof Variant.Type;
-
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** What goes on the clipboard. */
   text: string;
-  /** The button's words: the glyph's name and tip (`"Copy link"`), or the small button's
-   *  word (`"copy"`). */
+  /** The button's words: the glyph's name and tip (`"Copy link"`). */
   label: string;
-  variant?: Variant;
 }>;
 
 /**
- * Copies text to the clipboard and says so, on the button and to screen readers. As a glyph
- * (the default) it is a quiet IconButton whose copy glyph turns to a check for a beat; as a
- * `Button` it is a small button whose word turns to "copied", held for that beat. A failed
- * copy is said too. Its `CopyText` Command needs `Clipboard.layer` in the application's
+ * Copies text to the clipboard and says so, on the button and to screen readers: a quiet
+ * IconButton whose copy glyph turns to a check for a beat. A failed copy is said too. Its `CopyText` Command needs `Clipboard.layer` in the application's
  * resources.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const { text, label, variant = "Icon" } = viewInputs;
-    const isDone = isCopied(model);
-    const buttonAttributes = [h.Id(id(model))];
-    const onClick = Message.ClickedCopy({ text });
+    const { text, label } = viewInputs;
 
-    return variant === "Icon"
-      ? IconButton.view(
-          {
-            glyph: isDone ? "check" : "copy",
-            label,
-            onClick,
-            isQuiet: true,
-            attributes: buttonAttributes,
-          },
-          h
-        )
-      : Button.view(
-          {
-            label,
-            glyph: "copy",
-            done: { isDone, label: "copied" },
-            isSmall: true,
-            onClick,
-            attributes: buttonAttributes,
-          },
-          h
-        );
+    return IconButton.view(
+      {
+        glyph: isCopied(model) ? "check" : "copy",
+        label,
+        onClick: Message.ClickedCopy({ text }),
+        isQuiet: true,
+        attributes: [h.Id(id(model))],
+      },
+      h
+    );
   }
 );

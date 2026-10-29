@@ -70,7 +70,6 @@ const stripView = (model: Model, h: HtmlBuilder<Message>): Html =>
       body: [
         FilterChip.view(
           {
-            name: "status",
             label: "open",
             isPressed: model.isOpenOnly,
             onToggle: Message.ToggledOpenOnly(),
@@ -79,14 +78,13 @@ const stripView = (model: Model, h: HtmlBuilder<Message>): Html =>
         ),
         FilterChip.view(
           {
-            name: "due",
             label: "this week",
             isPressed: model.isDueSoon,
             onToggle: Message.ToggledDueSoon(),
           },
           h
         ),
-        FilterChip.view({ name: "owner", label: "me", isPressed: true }, h),
+        FilterChip.view({ label: "mine", isPressed: true }, h),
         QueryChip.view(
           {
             id: "sample-query",

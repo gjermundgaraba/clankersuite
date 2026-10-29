@@ -7,7 +7,6 @@ import { rowView, specView, wideSpecView } from "../spec.ts";
 const columnView = <Message>(
   id: string,
   title: string,
-  period: string,
   percent: number,
   h: HtmlBuilder<Message>
 ): Html =>
@@ -23,7 +22,6 @@ const columnView = <Message>(
               {
                 id: `${id}-tokens`,
                 label: "Tokens",
-                detail: [`${period} limit`],
                 value: percent,
                 max: 100,
                 valueText: `${percent}% used`,
@@ -66,16 +64,13 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                           {
                             id: "meter-storage",
                             label: "Storage",
-                            detail: ["workspace (sample)"],
                             value: 1200,
                             max: 5000,
-                            unit: "MB",
                             foot: ["Read a minute ago"],
                           },
                           {
                             id: "meter-requests",
                             label: "Requests",
-                            detail: ["this month (sample)"],
                             value: 41_200,
                             max: 50_000,
                             foot: ["Resets in 4 days"],
@@ -85,7 +80,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                             label: "Seats",
                             value: 5,
                             max: 5,
-                            full: "full",
                           },
                           {
                             id: "meter-builds",
@@ -115,23 +109,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             ],
             h
           ),
-          specView(
-            "cells: a strength",
-            [
-              Meter.cellsView(
-                {
-                  id: "meter-strength",
-                  count: 4,
-                  on: 3,
-                  label: "Password strength",
-                  valueText: "strong",
-                  isShort: true,
-                },
-                h
-              ),
-            ],
-            h
-          ),
         ],
         h
       ),
@@ -141,8 +118,8 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
           h.div(
             [h.Class("spec-grid")],
             [
-              columnView("meters-column-a", "Daily (sample)", "daily", 18, h),
-              columnView("meters-column-b", "Weekly (sample)", "weekly", 87, h),
+              columnView("meters-column-a", "Daily (sample)", 18, h),
+              columnView("meters-column-b", "Weekly (sample)", 87, h),
             ]
           ),
         ],
@@ -202,28 +179,14 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         h
       ),
       specView(
-        "stats: a figure, a change, one not known, one on its way",
+        "stats: figures, and one not known",
         [
           Stat.listView(
             {
               stats: [
-                {
-                  label: "Requests today",
-                  maybeValue: Option.some(41_200),
-                  delta: 12,
-                  deltaUnit: "%",
-                  note: ["against yesterday (sample)"],
-                },
-                {
-                  label: "Median latency",
-                  maybeValue: Option.some(84),
-                  unit: "ms",
-                  delta: 31,
-                  deltaUnit: " ms",
-                  tone: "Warn",
-                },
+                { label: "Requests today", maybeValue: Option.some(41_200) },
+                { label: "Seats", maybeValue: Option.some(10) },
                 { label: "Errors", maybeValue: Option.none() },
-                { label: "Queue", maybeValue: Option.none(), isLoading: true },
               ],
             },
             h

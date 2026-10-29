@@ -19,9 +19,8 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
-import * as Update from "foldkit/update";
+import type * as Update from "foldkit/update";
 
-import { sampleStrength } from "../sample.ts";
 import { rowView, specView } from "../spec.ts";
 
 const FieldError = Schema.Struct({ id: Schema.String, message: Schema.String });
@@ -62,6 +61,8 @@ export const Message = defineMessageUnion({
 
 export type Message = typeof Message.Type;
 
+const PLAN_ID = "sample-plan";
+
 export const init = (): Model => ({
   name: "",
   owner: "",
@@ -70,7 +71,7 @@ export const init = (): Model => ({
   hosts: "",
   isMailed: true,
   isDaily: false,
-  plan: RadioChoices.init({ id: "sample-plan" }),
+  plan: RadioChoices.init({ id: PLAN_ID }),
   maybePlan: Option.none(),
   password: "",
   isPasswordShown: false,
@@ -90,20 +91,25 @@ export const WaitForSave = Command.define("WaitForSave", {
 
 type UpdateReturn = Update.Return<Model, Message>;
 
-const foldPlan = Update.foldChild({
-  update: RadioChoices.update,
-  read: (model: Model) => Option.some(model.plan),
-  write: (model: Model, nextPlan: RadioChoices.Model): Model =>
-    modifyFields(model, { plan: () => nextPlan }),
-  toParentMessage: (message) => Message.GotPlanMessage({ message }),
-  foldOutMessage: RadioChoices.OutMessage.match<Update.Step<Model, Message>>({
-    Selected:
-      ({ value }) =>
-      (model) => ({
-        model: modifyFields(model, { maybePlan: () => Option.some(value) }),
-      }),
-  }),
-});
+const foldPlan = (
+  model: Model,
+  message: RadioChoices.Message
+): UpdateReturn => {
+  const next = RadioChoices.update(model.plan, message);
+
+  return {
+    model: modifyFields(model, {
+      plan: () => next.model,
+      maybePlan: (held) =>
+        next.outMessage === undefined
+          ? held
+          : Option.some(next.outMessage.value),
+    }),
+    commands: Command.mapMessages(next.commands ?? [], (planMessage) =>
+      Message.GotPlanMessage({ message: planMessage })
+    ),
+  };
+};
 
 const errorsOf = (model: Model): ReadonlyArray<typeof FieldError.Type> =>
   Array.getSomes([
@@ -113,10 +119,6 @@ const errorsOf = (model: Model): ReadonlyArray<typeof FieldError.Type> =>
     ),
     Option.liftPredicate({ id: "sample-hosts", message: "Enter a host." }, () =>
       String.isEmpty(String.trim(model.hosts))
-    ),
-    Option.liftPredicate(
-      { id: RadioChoices.firstOptionId(model.plan), message: "Choose a plan." },
-      () => Option.isNone(model.maybePlan)
     ),
     Option.liftPredicate(
       { id: "sample-password", message: "Enter a password." },
@@ -278,7 +280,6 @@ const notifyView = (model: Model, h: HtmlBuilder<Message>): Html =>
     {
       id: "sample-notify",
       label: "Notify",
-      help: "Who hears when it changes.",
       body: [
         Choice.view(
           {
@@ -309,10 +310,9 @@ const planView = (model: Model, h: HtmlBuilder<Message>): Html =>
     {
       id: "sample-plan-set",
       label: "Plan",
-      error: errorOf(model, RadioChoices.firstOptionId(model.plan)),
       body: [
         h.submodel({
-          slotId: RadioChoices.id(model.plan),
+          slotId: PLAN_ID,
           model: model.plan,
           view: RadioChoices.view,
           viewInputs: {
@@ -326,9 +326,6 @@ const planView = (model: Model, h: HtmlBuilder<Message>): Html =>
               { value: "Yearly", label: "yearly", note: "Two months free." },
             ],
             selectedValue: model.maybePlan,
-            isInvalid:
-              errorOf(model, RadioChoices.firstOptionId(model.plan)) !==
-              undefined,
           },
           toParentMessage: (message) => Message.GotPlanMessage({ message }),
         }),
@@ -348,7 +345,6 @@ const passwordView = (model: Model, h: HtmlBuilder<Message>): Html =>
       onToggleShown: Message.ToggledShowPassword(),
       error: errorOf(model, "sample-password"),
       isRequired: true,
-      strength: sampleStrength(model.password),
       autocomplete: "new-password",
     },
     h

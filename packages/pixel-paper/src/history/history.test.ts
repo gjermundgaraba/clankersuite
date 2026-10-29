@@ -12,7 +12,7 @@ const entries: readonly History.Entry[] = [
     what: ["Raised the limit"],
     isCurrent: true,
   },
-  { id: "3", at: ["v3"], what: ["Rollback failed"], isFailed: true },
+  { id: "3", at: ["v3"], what: ["Rolled back"] },
 ];
 
 describe("History", () => {
@@ -55,10 +55,7 @@ describe("History", () => {
       ).toHaveText("sam"),
       Scene.expect(
         Scene.last(Scene.all.selector(".history-list .what"))
-      ).toHaveClass("failed"),
-      Scene.expect(
-        Scene.last(Scene.all.selector(".history-list .what"))
-      ).toHaveText("Rollback failed (failed)"),
+      ).toHaveText("Rolled back"),
       Scene.expectAll(Scene.all.selector(".history-list .who")).toHaveCount(1)
     );
   });

@@ -43,7 +43,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
           Identity.view(
             {
               label: "Northwind Traders (sample)",
-              letters: "NW",
               meta: ["provider"],
               isLarge: true,
             },

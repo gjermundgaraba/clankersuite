@@ -174,7 +174,7 @@ const outlineRow = (
   model: Model,
   id: OutlineId,
   config: Omit<Rows.RowConfig<Message>, "key" | "treegrid" | "attributes">,
-  place: Rows.TreegridPlace,
+  place: NonNullable<Rows.RowConfig<Message>["treegrid"]>,
   h: HtmlBuilder<Message>
 ): Html =>
   Rows.rowView(

@@ -10,7 +10,7 @@ const schemeSwitchInit = SchemeSwitch.init();
 describe("SchemeSwitch init", () => {
   it("starts on System and takes up the scheme schemeScript pinned before the page ran", () => {
     expect(SchemeSwitch.scheme(schemeSwitchInit.model)).toBe("System");
-    expect(SchemeSwitch.palette(schemeSwitchInit.model)).toBe("Paper");
+    expect(schemeSwitchInit.model.systemPalette).toBe("Paper");
     expect(schemeSwitchInit.commands?.map(({ name }) => name)).toStrictEqual([
       "ReadScheme",
     ]);
@@ -58,31 +58,32 @@ describe("SchemeSwitch update", () => {
   });
 });
 
-describe("SchemeSwitch palette", () => {
-  it("prints System in the system's palette, followed as it changes, and a pin in its own", () => {
+describe("SchemeSwitch system palette", () => {
+  it("follows the palette the reader's system prefers, whatever is pinned", () => {
     Story.story(
       SchemeSwitch.update,
       Story.given(schemeSwitchInit.model),
-      Story.model((model) => {
-        expect(SchemeSwitch.palette(model)).toBe("Paper");
-      }),
       Story.message(
         SchemeSwitch.Message.UpdatedSystemPalette({ palette: "Plum" })
       ),
       Story.Command.expectNone(),
       Story.model((model) => {
         expect(SchemeSwitch.scheme(model)).toBe("System");
-        expect(SchemeSwitch.palette(model)).toBe("Plum");
+        expect(model.systemPalette).toBe("Plum");
       }),
       Story.message(
         SchemeSwitch.Message.CompletedReadScheme({ scheme: "Paper" })
       ),
       Story.model((model) => {
-        expect(SchemeSwitch.palette(model)).toBe("Paper");
+        expect(SchemeSwitch.scheme(model)).toBe("Paper");
+        expect(model.systemPalette).toBe("Plum");
       })
     );
   });
 });
+
+const readScheme = () =>
+  SchemeSwitch.init().commands?.map(({ effect }) => Effect.runSync(effect));
 
 const refuse = () => {
   throw new Error("storage refused");
@@ -117,16 +118,16 @@ describe("SchemeSwitch commands", () => {
     expect(document.documentElement.hasAttribute(SCHEME_ATTRIBUTE)).toBe(false);
   });
 
-  it("reads the scheme pinned on <html>, and System without one", () => {
-    expect(Effect.runSync(SchemeSwitch.ReadScheme().effect)).toStrictEqual(
-      SchemeSwitch.Message.CompletedReadScheme({ scheme: "System" })
-    );
+  it("reads the scheme pinned on <html> on init, and System without one", () => {
+    expect(readScheme()).toStrictEqual([
+      SchemeSwitch.Message.CompletedReadScheme({ scheme: "System" }),
+    ]);
 
     document.documentElement.setAttribute(SCHEME_ATTRIBUTE, "dark");
 
-    expect(Effect.runSync(SchemeSwitch.ReadScheme().effect)).toStrictEqual(
-      SchemeSwitch.Message.CompletedReadScheme({ scheme: "Plum" })
-    );
+    expect(readScheme()).toStrictEqual([
+      SchemeSwitch.Message.CompletedReadScheme({ scheme: "Plum" }),
+    ]);
   });
 });
 

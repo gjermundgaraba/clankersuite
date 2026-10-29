@@ -39,9 +39,6 @@ export const init = (config: InitConfig): Model => ({
 /** The radio choice's id, unique in the document. */
 export const id = (model: Model): string => model.radioGroup.id;
 
-/** The id of the group's first option, where a link to the group lands (an ErrorSummary's). */
-export const firstOptionId = (model: Model): string => `${id(model)}-option-0`;
-
 const RadioGroup = UiRadioGroup.create();
 
 const foldRadioGroup = Update.foldChild({
@@ -80,9 +77,6 @@ export type ViewInputs = Readonly<{
   options: readonly RadioOption[];
   /** The parent's selection. */
   selectedValue: Option.Option<string>;
-  /** The group is `aria-invalid` and its marks and names turn red; say why in its
-   *  Fieldset's `error` and in an ErrorSummary above the form. */
-  isInvalid?: boolean;
 }>;
 
 /**
@@ -94,7 +88,7 @@ export type ViewInputs = Readonly<{
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const { label, options, selectedValue, isInvalid = false } = viewInputs;
+    const { label, options, selectedValue } = viewInputs;
 
     const optionView = (
       option: RadioOption,
@@ -138,11 +132,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ),
         toView: (render) =>
           h.div(
-            [
-              ...render.group,
-              ...(isInvalid ? [h.AriaInvalid(true)] : []),
-              h.Class("choices"),
-            ],
+            [...render.group, h.Class("choices")],
             Array.zipWith(options, render.options, optionView)
           ),
       },

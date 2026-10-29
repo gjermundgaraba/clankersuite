@@ -15,7 +15,6 @@ export const Copies = defineCopies(
     "refused-asked",
     "not-found-address",
     "files-link",
-    "files-command",
   ],
   {
     Model: CopyButton.Model,

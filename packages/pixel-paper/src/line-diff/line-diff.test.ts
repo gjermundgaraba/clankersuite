@@ -6,9 +6,6 @@ import { describe, expect, it } from "vite-plus/test";
 import * as Diff from "./diff.ts";
 import * as LineDiff from "./line-diff.ts";
 
-const BEFORE = ["a", "b", "c", "d", "e", "f", "g", "h"].join("\n");
-const AFTER = ["a", "b", "c", "d", "e", "f", "G", "h"].join("\n");
-
 const PATCH = [
   "--- a/notes.md",
   "+++ b/notes.md",
@@ -55,125 +52,6 @@ const rowText = (row: Diff.DiffRow): string =>
     Removed: ({ text, oldNumber }) => `Removed ${text} ${oldNumber}:-`,
     Fold: ({ count, firstOldNumber }) => `Fold ${count} from ${firstOldNumber}`,
   });
-
-const SPREAD = Diff.diffRowsOf(
-  ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"].join(
-    "\n"
-  ),
-  [
-    "a",
-    "B",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "I",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-  ].join("\n")
-);
-
-describe("LineDiff rows", () => {
-  it("numbers each line on its side, and a missing final newline is no change", () => {
-    expect(
-      Array.map(Diff.diffRowsOf("one\ntwo", "one\nzwei\n"), rowText)
-    ).toStrictEqual(["Same one 1:1", "Removed two 2:-", "Added zwei -:2"]);
-    expect(Diff.hasChanges(Diff.diffRowsOf("same", "same\n"))).toBe(false);
-  });
-
-  it("keeps the context around a change and folds the rest", () => {
-    expect(
-      Array.map(Diff.foldUnchanged(Diff.diffRowsOf(BEFORE, AFTER), 2), rowText)
-    ).toStrictEqual([
-      "Fold 4 from 1",
-      "Same e 5:5",
-      "Same f 6:6",
-      "Removed g 7:-",
-      "Added G -:7",
-      "Same h 8:8",
-    ]);
-  });
-
-  it("keeps a run of one unchanged line as a line, never a fold of one", () => {
-    const before = ["a", "b", "c", "d", "e", "f", "g"].join("\n");
-    const after = ["A", "b", "c", "d", "e", "f", "G"].join("\n");
-    const rows = Diff.foldUnchanged(Diff.diffRowsOf(before, after), 2);
-
-    expect(Array.filter(rows, (row) => row._tag === "Fold")).toStrictEqual([]);
-    expect(Array.length(rows)).toBe(9);
-  });
-
-  it.each([
-    [
-      0,
-      [
-        "Same a 1:1",
-        "Removed b 2:-",
-        "Added B -:2",
-        "Fold 6 from 3",
-        "Removed i 9:-",
-        "Added I -:9",
-        "Fold 5 from 10",
-        "Added o -:15",
-      ],
-    ],
-    [
-      1,
-      [
-        "Same a 1:1",
-        "Removed b 2:-",
-        "Added B -:2",
-        "Same c 3:3",
-        "Fold 4 from 4",
-        "Same h 8:8",
-        "Removed i 9:-",
-        "Added I -:9",
-        "Same j 10:10",
-        "Fold 3 from 11",
-        "Same n 14:14",
-        "Added o -:15",
-      ],
-    ],
-    [
-      2,
-      [
-        "Same a 1:1",
-        "Removed b 2:-",
-        "Added B -:2",
-        "Same c 3:3",
-        "Same d 4:4",
-        "Fold 2 from 5",
-        "Same g 7:7",
-        "Same h 8:8",
-        "Removed i 9:-",
-        "Added I -:9",
-        "Same j 10:10",
-        "Same k 11:11",
-        "Same l 12:12",
-        "Same m 13:13",
-        "Same n 14:14",
-        "Added o -:15",
-      ],
-    ],
-  ])(
-    "keeps %i lines of context on each side of each change, at both ends",
-    (context, folded) => {
-      expect(
-        Array.map(Diff.foldUnchanged(SPREAD, context), rowText)
-      ).toStrictEqual(folded);
-    }
-  );
-
-  it("folds nothing when the context is as long as the text", () => {
-    expect(Diff.foldUnchanged(SPREAD, SPREAD.length)).toStrictEqual(SPREAD);
-  });
-});
 
 describe("LineDiff patch", () => {
   it("numbers a patch's lines from its hunks and folds the lines between them", () => {
@@ -260,60 +138,7 @@ describe("LineDiff patch", () => {
 });
 
 describe("LineDiff view", () => {
-  it("is a named table whose signs are said, with folded runs counted", () => {
-    Scene.scene(
-      {
-        update: (model: null) => ({ model }),
-        view: (_model: null, h: HtmlBuilder<never>) =>
-          LineDiff.view(
-            {
-              before: BEFORE,
-              after: AFTER,
-              label: "Version 3 against version 4",
-            },
-            h
-          ),
-      },
-      Scene.given(null),
-      Scene.expect(
-        Scene.role("table", { name: "Version 3 against version 4" })
-      ).toExist(),
-      Scene.expect(Scene.selector("tr.fold")).toHaveText("4 unchanged lines"),
-      Scene.expect(Scene.selector("tr.del td.sign")).toHaveAttr(
-        "aria-label",
-        "removed"
-      ),
-      Scene.expect(Scene.selector("tr.add td.sign")).toHaveAttr(
-        "aria-label",
-        "added"
-      ),
-      Scene.expect(Scene.selector("tr.add td.line")).toHaveText("G")
-    );
-  });
-
-  it("says so when both sides are the same", () => {
-    Scene.scene(
-      {
-        update: (model: null) => ({ model }),
-        view: (_model: null, h: HtmlBuilder<never>) =>
-          LineDiff.view(
-            {
-              before: "same",
-              after: "same",
-              label: "Unchanged",
-            },
-            h
-          ),
-      },
-      Scene.given(null),
-      Scene.expect(Scene.role("table")).toBeAbsent(),
-      Scene.expect(Scene.selector(".note-line")).toHaveText(
-        "No difference: both sides hold the same text."
-      )
-    );
-  });
-
-  it("shows a patch as the same table, counting one folded line as one", () => {
+  it("is a named table whose signs are said, counting one folded line as one", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),
@@ -328,6 +153,14 @@ describe("LineDiff view", () => {
         Scene.role("table", { name: "Version 3 against version 4" })
       ).toExist(),
       Scene.expect(Scene.selector("tr.fold")).toHaveText("1 unchanged line"),
+      Scene.expect(Scene.selector("tr.del td.sign")).toHaveAttr(
+        "aria-label",
+        "removed"
+      ),
+      Scene.expect(Scene.selector("tr.add td.sign")).toHaveAttr(
+        "aria-label",
+        "added"
+      ),
       Scene.expect(Scene.selector("tr.add td.line")).toHaveText("C")
     );
   });

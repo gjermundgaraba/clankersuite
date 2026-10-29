@@ -1,17 +1,14 @@
 import { Button as UiButton } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import type { Attributes } from "../attributes/attributes.ts";
 import { pressedAttribute } from "../button/button.ts";
 
 /** Configuration for rendering a filter chip with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** The value, the chip's words: "open", "this week". */
   label: string;
-  /** The dimension, muted, before the value: "status", "due". */
-  name?: string;
   /** The chip written out, when its words alone do not say it ("Clear scope: Operations" for
-   *  "scope: Operations ×"): its name for screen readers and its tip for everyone else. */
+   *  "Operations ×"): its name for screen readers and its tip for everyone else. */
   full?: string;
   /** In force: printed inverted. */
   isPressed?: boolean;
@@ -32,7 +29,6 @@ export const view = <Message>(
 ): Html => {
   const {
     label,
-    name,
     full,
     isPressed = false,
     onToggle,
@@ -42,13 +38,6 @@ export const view = <Message>(
 
   const fullAttributes =
     full === undefined ? [] : [h.DataAttribute("tip", full)];
-
-  const nameView = (
-    attributes: Attributes<Message>
-  ): ReadonlyArray<Html | string> =>
-    name === undefined
-      ? []
-      : [h.span([...attributes, h.Class("fchip-name")], [name]), " "];
 
   const keyAttributes = key === undefined ? [] : [h.Key(key)];
 
@@ -60,9 +49,8 @@ export const view = <Message>(
           h.Class(isPressed ? "fchip pinned" : "fchip"),
         ],
         full === undefined
-          ? [...nameView([]), label]
+          ? [label]
           : [
-              ...nameView([h.AriaHidden(true)]),
               h.span([h.AriaHidden(true)], [label]),
               h.span([h.Class("sr-only")], [full]),
             ]
@@ -80,7 +68,7 @@ export const view = <Message>(
                 ...(isReset ? [] : [pressedAttribute(isPressed, h)]),
                 h.Class(isReset ? "fchip reset" : "fchip"),
               ],
-              [...nameView([]), label]
+              [label]
             ),
         },
         h

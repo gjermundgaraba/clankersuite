@@ -57,12 +57,13 @@ export const update = (model: Model, message: Message) =>
     }),
   });
 
-const TABS: ReadonlyArray<Tabs.Tab & Readonly<{ text: string }>> = [
-  { value: "open", label: "open", count: 4, text: "Four open items (sample)." },
+const TABS: ReadonlyArray<
+  Readonly<{ value: string; label: string; text: string }>
+> = [
+  { value: "open", label: "open", text: "Four open items (sample)." },
   {
     value: "waiting",
     label: "waiting",
-    count: 2,
     text: "Two items waiting on someone (sample).",
   },
   {
@@ -112,7 +113,6 @@ const disclosuresView = (model: Model, h: HtmlBuilder<Message>): Html =>
         {
           id: "sample-grants",
           label: "edit grants",
-          meta: "3",
           isOpen: model.isGrantsOpen,
           onToggle: (isOpen) => Message.ToggledGrants({ isOpen }),
           body: [

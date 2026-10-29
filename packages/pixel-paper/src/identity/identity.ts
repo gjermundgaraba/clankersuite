@@ -7,8 +7,6 @@ import { slotView } from "../slot/slot.ts";
 export type ViewConfig = Readonly<{
   /** Whose: a person, a client, a provider, a source. */
   label: string;
-  /** The monogram's letters, when the name's initials are not the ones people know. */
-  letters?: string;
   /** The monogram's mark drawn in cells, in place of its letters (see Monogram). */
   drawing?: string;
   /** A line under the name: an id, a kind, a scope. */
@@ -23,7 +21,7 @@ export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, letters, drawing, meta = [], isLarge = false } = config;
+  const { label, drawing, meta = [], isLarge = false } = config;
 
   return h.div(
     [h.Class(isLarge ? "identity large" : "identity")],
@@ -31,10 +29,8 @@ export const view = <Message>(
       Monogram.view(
         {
           label,
-          ...(letters !== undefined && { letters }),
           ...(drawing !== undefined && { drawing }),
           isLarge,
-          isDecorative: true,
         },
         h
       ),

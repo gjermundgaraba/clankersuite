@@ -15,7 +15,6 @@ export {
 
 export type {
   InitConfig,
-  Placement,
   RenderInfo,
   UpdateContext,
   ViewInputs,

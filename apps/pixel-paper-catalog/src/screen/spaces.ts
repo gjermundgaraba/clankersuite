@@ -62,10 +62,9 @@ const roomRow = (room: Room, h: HtmlBuilder<Message>): Html =>
       actions: [
         LinkButton.view(
           {
-            label: "enter",
+            label: `enter ${room.name}`,
             href: screenUrl("stage"),
             isSmall: true,
-            attributes: [h.AriaLabel(`enter ${room.name}`)],
           },
           h
         ),
@@ -140,7 +139,7 @@ export const view = defineView<Model, Message>((model, h): Html => {
           ]
         : [],
       body: [
-        Wall.markView({ brand: brandView(h), glyph: "home" }, h),
+        Wall.markView({ brand: brandView(h) }, h),
         roomsView(rooms, h),
         Notice.view(
           {

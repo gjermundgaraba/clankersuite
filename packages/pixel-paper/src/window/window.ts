@@ -25,8 +25,6 @@ export type ViewConfig<Message> = Readonly<{
   /** The close glyph's Message; the glyph prints when it is given. */
   onClose?: Message;
   body: ReadonlyArray<Html | string>;
-  /** A ruled foot: a notice, a note line, actions pushed right. */
-  foot?: ReadonlyArray<Html | string>;
   /** The body meets the border: a terminal, an editor, rows. */
   isFlush?: boolean;
 }>;
@@ -47,7 +45,6 @@ export const view = <Message>(
     tools = [],
     onClose,
     body,
-    foot = [],
     isFlush = false,
   } = config;
 
@@ -77,7 +74,6 @@ export const view = <Message>(
         ]
       ),
       h.div([h.Class("window-body")], body),
-      ...slotView("div", "panel-foot", foot, h),
     ]
   );
 };

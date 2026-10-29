@@ -1,16 +1,14 @@
 import { Match, Schema } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** `S`: things in one line (8px). `M`: the parts of one body (14px). `L`: whole surfaces,
- *  panel to panel (24px). */
-export const Space = Schema.Literals(["S", "M", "L"]);
+/** `M`: the parts of one body (14px). `L`: whole surfaces, panel to panel (24px). */
+export const Space = Schema.Literals(["M", "L"]);
 
 export type Space = typeof Space.Type;
 
 const gapClassName = (gap: Space): string =>
   Match.value(gap).pipe(
     Match.withReturnType<string>(),
-    Match.when("S", () => "gap-s"),
     Match.when("M", () => "gap-m"),
     Match.when("L", () => "gap-l"),
     Match.exhaustive

@@ -44,7 +44,6 @@ const fieldView = (model: Model, h: HtmlBuilder<Message>) =>
       help: "Twelve characters at least.",
       error: model.password === "" ? "Enter a password." : undefined,
       isRequired: true,
-      strength: model.password === "" ? 0 : 3,
       autocomplete: "new-password",
     },
     h
@@ -70,16 +69,12 @@ describe("PasswordField", () => {
       ),
       Scene.expect(input).toHaveAttr("autocomplete", "new-password"),
       Scene.expect(toggle).toHaveAttr("aria-pressed", "false"),
-      Scene.expect(
-        Scene.role("meter", { name: "Password strength" })
-      ).toHaveAttr("aria-valuetext", "too short"),
       Scene.type(input, "correct horse"),
       Scene.expect(input).not.toHaveAttr("aria-invalid"),
       Scene.expect(input).toHaveAttr(
         "aria-describedby",
         "new-password-description"
       ),
-      Scene.expect(Scene.selector(".strength .age")).toHaveText("good"),
       Scene.click(toggle),
       Scene.expect(input).toHaveAttr("type", "text"),
       Scene.expect(toggle).toHaveAttr("aria-pressed", "true")
@@ -111,40 +106,4 @@ describe("PasswordField", () => {
       ).toExist()
     );
   });
-
-  it.each([
-    [0, "too short"],
-    [1, "weak"],
-    [2, "fair"],
-    [3, "good"],
-    [4, "strong"],
-  ] as const)(
-    "says strength %i as %s, on the meter and under the box",
-    (strength, word) => {
-      Scene.scene(
-        {
-          update,
-          view: (model: Model, h: HtmlBuilder<Message>) =>
-            PasswordField.view(
-              {
-                id: "new-password",
-                label: "New password",
-                value: model.password,
-                onInput: (value) => Message.UpdatedPassword({ value }),
-                isShown: model.isShown,
-                onToggleShown: Message.ToggledShowPassword(),
-                strength,
-              },
-              h
-            ),
-        },
-        Scene.given<Model>({ password: "", isShown: false }),
-        Scene.expect(input).not.toHaveAttr("aria-required"),
-        Scene.expect(
-          Scene.role("meter", { name: "Password strength" })
-        ).toHaveAttr("aria-valuetext", word),
-        Scene.expect(Scene.selector(".strength .age")).toHaveText(word)
-      );
-    }
-  );
 });

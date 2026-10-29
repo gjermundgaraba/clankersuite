@@ -26,7 +26,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             [
               Stack.view(
                 {
-                  gap: "S",
                   body: [
                     Crumbs.view(
                       {

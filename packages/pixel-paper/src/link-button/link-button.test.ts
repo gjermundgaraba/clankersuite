@@ -25,7 +25,6 @@ describe("LinkButton", () => {
               href: "/docs",
               glyph: "arrow-right",
               variant: "Primary",
-              attributes: [h.Rel("noopener")],
             },
             h
           ),
@@ -40,10 +39,6 @@ describe("LinkButton", () => {
       ),
       Scene.expect(Scene.role("link", { name: "open the docs" })).toHaveClass(
         "primary"
-      ),
-      Scene.expect(Scene.role("link", { name: "open the docs" })).toHaveAttr(
-        "rel",
-        "noopener"
       )
     );
   });

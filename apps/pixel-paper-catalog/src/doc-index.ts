@@ -118,7 +118,6 @@ export const subscriptionsFor = <ParentModel, ParentMessage>(
 export type Entry = Readonly<{
   id: string;
   title: string;
-  names?: readonly string[];
 }>;
 
 const currentId = (
@@ -131,21 +130,6 @@ const currentId = (
     ),
     () => Option.map(Array.head(entries), ({ id }) => id)
   );
-
-const tocEntry = <ParentMessage>(
-  entry: Entry,
-  h: HtmlBuilder<ParentMessage>
-): Toc.Entry => ({
-  id: entry.id,
-  label: entry.title,
-  level: 2,
-  detail: Array.match(entry.names ?? [], {
-    onEmpty: () => [],
-    onNonEmpty: (names) => [
-      h.span([h.Class("spec-toc-names")], [names.join(" · ")]),
-    ],
-  }),
-});
 
 export type ViewConfig<ParentMessage> = Readonly<{
   label: string;
@@ -181,9 +165,12 @@ export const view = <ParentMessage>(
         ),
         Toc.view(
           {
-            entries: Array.map(entries, (entry) => tocEntry(entry, h)),
+            entries: Array.map(entries, ({ id, title }) => ({
+              id,
+              label: title,
+              level: 2,
+            })),
             maybeCurrentId: maybeCurrent,
-            label,
           },
           h
         ),
@@ -203,7 +190,6 @@ export const view = <ParentMessage>(
                 id,
                 label: title,
                 href: `#${id}`,
-                isCurrent: Option.contains(maybeCurrent, id),
               })
             ),
           },

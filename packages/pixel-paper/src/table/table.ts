@@ -7,8 +7,6 @@ export type Column<Row> = Readonly<{
   key: string;
   /** The column's head, in pixel caps; on a phone, each cell's label. */
   header: string;
-  /** Numbers: right-aligned, in the pixel face, with tabular figures. */
-  isNumeric?: boolean;
   /** The cell for a row. A function because it receives the row. */
   cell: (row: Row) => ReadonlyArray<Html | string>;
 }>;
@@ -24,14 +22,7 @@ export type ViewConfig<Row> = Readonly<{
   /** The row's buttons, in a last column pinned right while the table scrolls under it. Its
    *  head is named "Actions" for screen readers. A function because it receives the row. */
   actions?: (row: Row) => ReadonlyArray<Html | string>;
-  /** Rows that are switched off print muted. */
-  isOff?: (row: Row) => boolean;
 }>;
-
-const numericClass = <Message>(
-  isNumeric: boolean | undefined,
-  h: HtmlBuilder<Message>
-) => (isNumeric === true ? [h.Class("num")] : []);
 
 /** A ruled table: head-tinted pixel-caps heads, 1px rules, and a tint under the row the
  *  pointer is on. Every head is a column header (`scope="col"`); on a phone each row becomes a
@@ -40,7 +31,7 @@ export const view = <Row, Message>(
   config: ViewConfig<Row>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, columns, rows, rowKey, actions, isOff } = config;
+  const { label, columns, rows, rowKey, actions } = config;
 
   const headView = h.thead(
     [],
@@ -49,11 +40,7 @@ export const view = <Row, Message>(
         [],
         [
           ...Array.map(columns, (column) =>
-            h.keyed("th")(
-              column.key,
-              [...numericClass(column.isNumeric, h), h.Scope("col")],
-              [column.header]
-            )
+            h.keyed("th")(column.key, [h.Scope("col")], [column.header])
           ),
           ...(actions === undefined
             ? []
@@ -71,15 +58,12 @@ export const view = <Row, Message>(
   const rowView = (row: Row): Html =>
     h.keyed("tr")(
       rowKey(row),
-      isOff !== undefined && isOff(row) ? [h.Class("off")] : [],
+      [],
       [
         ...Array.map(columns, (column) =>
           h.keyed("td")(
             column.key,
-            [
-              ...numericClass(column.isNumeric, h),
-              h.DataAttribute("label", column.header),
-            ],
+            [h.DataAttribute("label", column.header)],
             column.cell(row)
           )
         ),

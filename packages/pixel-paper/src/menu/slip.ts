@@ -15,8 +15,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import type { Attributes } from "../attributes/attributes.ts";
 import type { KeyHintConfig } from "../button/button.ts";
 import { htmlElement } from "../dom/html-element.ts";
-import * as Glyph from "../glyph/glyph.ts";
-import type { GlyphName } from "../glyph/glyphs.ts";
 import * as KeyHint from "../key-hint/key-hint.ts";
 import { isPlain } from "../keys/keys.ts";
 import { Item } from "./item.ts";
@@ -38,17 +36,13 @@ export type Edge = typeof Edge.Type;
 export const edgeSelector = (edge: Edge): string =>
   edge === "First" ? `[${FIRST_ATTRIBUTE}]` : `[${LAST_ATTRIBUTE}]`;
 
-type Choosable = Exclude<Entry, Readonly<{ _tag: "Note" }>>;
-
 const isGroup = Item.$is("Group");
-
-const isNote = Item.$is("Note");
 
 const entriesOf = (items: readonly Item[]): readonly Entry[] =>
   Array.flatMap(items, (item) => (isGroup(item) ? item.items : [item]));
 
-const choosableIds = (items: readonly Item[]): readonly string[] =>
-  Array.flatMap(entriesOf(items), (entry) => (isNote(entry) ? [] : [entry.id]));
+const entryIds = (items: readonly Item[]): readonly string[] =>
+  Array.map(entriesOf(items), (entry) => entry.id);
 
 type RowContext<Message> = Readonly<{
   firstId: Option.Option<string>;
@@ -72,19 +66,17 @@ const edgeAttributes = <Message>(
 const wordsView = <Message>(
   entry: Readonly<{
     label: string;
-    glyph?: GlyphName;
     keyHint?: KeyHintConfig;
   }>,
   h: HtmlBuilder<Message>
 ): readonly Html[] => [
-  ...(entry.glyph === undefined ? [] : [Glyph.view({ name: entry.glyph }, h)]),
   h.span([h.Class("menu-label")], [entry.label]),
   ...(entry.keyHint === undefined ? [] : [KeyHint.view(entry.keyHint, h)]),
 ];
 
 const buttonRowView = <Message>(
   config: Readonly<{
-    entry: Exclude<Choosable, Readonly<{ _tag: "Link" }>>;
+    entry: Exclude<Entry, Readonly<{ _tag: "Link" }>>;
     isDisabled: boolean;
     attributes: Attributes<Message>;
     children: readonly Html[];
@@ -114,8 +106,8 @@ const buttonRowView = <Message>(
   );
 };
 
-const choosableView = <Message>(
-  entry: Choosable,
+const entryView = <Message>(
+  entry: Entry,
   context: RowContext<Message>,
   h: HtmlBuilder<Message>
 ): Html =>
@@ -137,7 +129,7 @@ const choosableView = <Message>(
       buttonRowView(
         {
           entry: radio,
-          isDisabled: radio.isDisabled === true,
+          isDisabled: false,
           attributes: [h.Role("menuitemradio"), h.AriaChecked(radio.isChecked)],
           children: wordsView(radio, h),
         },
@@ -169,7 +161,6 @@ const choosableView = <Message>(
         [
           h.Role("menuitem"),
           h.Href(link.href),
-          ...(link.isCurrent === true ? [h.AriaCurrent("page")] : []),
           h.Tabindex(-1),
           h.OnClick(context.toChoose(link.id, link._tag)),
           ...edgeAttributes(context, link.id, h),
@@ -180,15 +171,6 @@ const choosableView = <Message>(
     Match.exhaustive
   );
 
-const entryView = <Message>(
-  entry: Entry,
-  context: RowContext<Message>,
-  h: HtmlBuilder<Message>
-): Html =>
-  isNote(entry)
-    ? h.span([h.Class("menu-note"), h.Role("none")], [entry.text])
-    : choosableView(entry, context, h);
-
 export const rowsView = <Message>(
   config: Readonly<{
     slipId: string;
@@ -197,7 +179,7 @@ export const rowsView = <Message>(
   }>,
   h: HtmlBuilder<Message>
 ): readonly Html[] => {
-  const ids = choosableIds(config.items);
+  const ids = entryIds(config.items);
 
   const context: RowContext<Message> = {
     firstId: Array.head(ids),

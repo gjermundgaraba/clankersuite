@@ -1,13 +1,4 @@
-import {
-  Array,
-  Duration,
-  Effect,
-  Match,
-  Option,
-  Schema,
-  Stream,
-  pipe,
-} from "effect";
+import { Array, Duration, Effect, Match, Option, Schema, Stream } from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -19,14 +10,12 @@ import { defineView } from "foldkit/submodel";
 import * as Update from "foldkit/update";
 
 import * as Announcer from "../announcer/announcer.ts";
-import * as Button from "../button/button.ts";
 import { htmlElement } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 import * as Stack from "./stack.ts";
-import { Action } from "./stack.ts";
 import type { Payload, Tone } from "./stack.ts";
 
 /** Schema for the page's toast stack: the `@foldkit/ui` Toast stack it is built on, which
@@ -48,7 +37,6 @@ export const Message = defineMessageUnion({
   BlurredStack: {},
   PressedEscape: {},
   MovedHost: {},
-  ClickedAction: { entryId: Schema.String, action: Action },
   ClickedDismiss: { entryId: Schema.String },
   CompletedFocusSlip: {},
   CompletedFocus: {},
@@ -56,14 +44,6 @@ export const Message = defineMessageUnion({
 });
 
 export type Message = typeof Message.Type;
-
-/** Union of OutMessages the toast stack reports: a slip's action was pressed (the slip is on
- *  its way out), with the action's id and the slip's. */
-export const OutMessage = defineMessageUnion({
-  SelectedAction: { id: Schema.String, entryId: Schema.String },
-});
-
-export type OutMessage = typeof OutMessage.Type;
 
 const TOAST_HOLD = Duration.seconds(5);
 
@@ -89,7 +69,7 @@ const isHeld = (model: Model): boolean => model.isPointerIn || model.isFocusIn;
 const slips = (model: Model): readonly Stack.Entry[] =>
   Stack.showing(model.stack);
 
-type UpdateReturn = Update.ReturnWithOutMessage<Model, Message, OutMessage>;
+type UpdateReturn = Update.Return<Model, Message>;
 
 type StepReturn = Update.Return<Model, Message>;
 
@@ -271,7 +251,7 @@ const dismissKeepingFocus = (model: Model, entryId: string): StepReturn =>
         : { model: stepModel },
   ]);
 
-/** Processes a toast stack Message and returns the next Model, Commands and OutMessage. */
+/** Processes a toast stack Message and returns the next Model and Commands. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotStackMessage: ({ message: stackMessage }) =>
@@ -304,13 +284,6 @@ export const update = (model: Model, message: Message) =>
         }),
         Option.none()
       ),
-    ClickedAction: ({ entryId, action }) =>
-      pipe(
-        dismissKeepingFocus(model, entryId),
-        Update.withOutMessage(
-          OutMessage.SelectedAction({ id: action.id, entryId })
-        )
-      ),
     ClickedDismiss: ({ entryId }) => dismissKeepingFocus(model, entryId),
     CompletedFocusSlip: () => ({ model }),
     CompletedFocus: () => ({ model }),
@@ -324,7 +297,6 @@ export type ShowConfig = Readonly<{
   title: string;
   /** One sans sentence: what it means, and for an error what to do. */
   body?: string;
-  action?: Action;
 }>;
 
 const oldestCalm = (model: Model): Option.Option<Stack.Entry> => {
@@ -358,7 +330,6 @@ export const show = (model: Model, config: ShowConfig): ShowReturn => {
     tone: config.tone,
     title: config.title,
     maybeBody: Option.fromNullishOr(config.body),
-    maybeAction: Option.fromNullishOr(config.action),
   };
 
   const maybeReplaced = Option.filter(
@@ -408,25 +379,13 @@ export const dismiss = (model: Model, entryId: string): StepReturn =>
   dismissKeepingFocus(model, entryId);
 
 const slipView = (entry: Stack.Entry, h: HtmlBuilder<Message>): Html => {
-  const { tone, title, maybeBody, maybeAction } = entry.payload;
+  const { tone, title, maybeBody } = entry.payload;
 
   return h.div(
     [h.Class(`notice toast${Notice.TONE_CLASS[tone]}`)],
     [
       Notice.toneGlyphView({ tone }, h),
       h.div([], [h.strong([], [title]), ...Option.toArray(maybeBody)]),
-      ...Array.fromOption(
-        Option.map(maybeAction, (action) =>
-          Button.view(
-            {
-              label: action.label,
-              isSmall: true,
-              onClick: Message.ClickedAction({ entryId: entry.id, action }),
-            },
-            h
-          )
-        )
-      ),
       IconButton.view(
         {
           glyph: "cross",

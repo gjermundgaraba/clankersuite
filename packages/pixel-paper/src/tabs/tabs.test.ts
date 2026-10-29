@@ -10,7 +10,7 @@ import { describe, it } from "vite-plus/test";
 import * as Tabs from "./tabs.ts";
 
 const TABS: readonly Tabs.Tab[] = [
-  { value: "open", label: "open", count: 3 },
+  { value: "open", label: "open" },
   { value: "done", label: "done" },
   { value: "all", label: "all" },
 ];
@@ -91,11 +91,9 @@ describe("Tabs", () => {
       Scene.expect(Scene.role("tablist", { name: "Items" })).toHaveClass(
         "tabs"
       ),
-      Scene.expect(tab("open 3")).toHaveAttr("aria-selected", "true"),
+      Scene.expect(tab("open")).toHaveAttr("aria-selected", "true"),
       Scene.expect(tab("done")).toHaveAttr("aria-selected", "false"),
-      Scene.expect(Scene.selector(".navnum")).toHaveText("3"),
-      Scene.expect(Scene.selector('[role="tab"] .sr-only')).toExist(),
-      Scene.expect(Scene.role("tabpanel", { name: "open 3" })).toHaveText(
+      Scene.expect(Scene.role("tabpanel", { name: "open" })).toHaveText(
         "the open items"
       )
     );
@@ -125,8 +123,8 @@ describe("Tabs", () => {
         UiTabs.FocusTab,
         UiTabs.Message.CompletedFocusTab()
       ),
-      Scene.expect(tab("open 3")).toHaveAttr("aria-selected", "true"),
-      Scene.keydown(tab("open 3"), "End"),
+      Scene.expect(tab("open")).toHaveAttr("aria-selected", "true"),
+      Scene.keydown(tab("open"), "End"),
       Scene.Command.resolve(
         UiTabs.FocusTab,
         UiTabs.Message.CompletedFocusTab()
@@ -137,7 +135,7 @@ describe("Tabs", () => {
         UiTabs.FocusTab,
         UiTabs.Message.CompletedFocusTab()
       ),
-      Scene.expect(tab("open 3")).toHaveAttr("aria-selected", "true")
+      Scene.expect(tab("open")).toHaveAttr("aria-selected", "true")
     );
   });
 });

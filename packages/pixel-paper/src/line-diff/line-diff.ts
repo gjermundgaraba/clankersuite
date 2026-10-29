@@ -2,23 +2,11 @@ import { Array, Option } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { LOCALE } from "../locale/locale.ts";
-import { DiffRow, diffRowsOf, foldUnchanged, hasChanges } from "./diff.ts";
+import { DiffRow } from "./diff.ts";
 import type { LineKind } from "./diff.ts";
 import { SAME_NOTE, readPatch } from "./patch.ts";
 
-const DEFAULT_CONTEXT = 2;
 const COLUMN_COUNT = 4;
-
-/** Configuration for rendering a line diff with `view`. */
-export type ViewConfig = Readonly<{
-  before: string;
-  after: string;
-  /** Names the two sides for screen readers: `"Version 3 against version 4"`. */
-  label: string;
-  /** Unchanged lines kept around each change; longer runs fold into one ruled row. 2 by
-   *  default. */
-  context?: number;
-}>;
 
 /** Configuration for rendering a unified diff with `patchView`. */
 export type PatchViewConfig = Readonly<{
@@ -110,29 +98,16 @@ const tableView = <Message>(
     ]
   );
 
-/** A line diff as a ruled table: the old and new numbers, a sign, the line. Added lines sit on
- *  the head tint behind an ink +; removed lines go muted behind a red −, and each sign is
- *  named for screen readers. Two texts that are the same say so in a sentence. */
-export const view = <Message>(
-  config: ViewConfig,
-  h: HtmlBuilder<Message>
-): Html => {
-  const { before, after, label, context = DEFAULT_CONTEXT } = config;
-  const rows = diffRowsOf(before, after);
-
-  return hasChanges(rows)
-    ? tableView(foldUnchanged(rows, context), label, h)
-    : noteView(SAME_NOTE, h);
-};
-
-/** A unified diff the caller already has (from a server, or `git diff -- <path>`) as `view`'s
- *  table: its hunks' lines, numbered from their headers, and the unchanged lines between hunks
+/** A unified diff the caller already has (from a server, or `git diff -- <path>`) as a ruled
+ *  table: the old and new numbers, a sign, the line. Added lines sit on the head tint behind an
+ *  ink +; removed lines go muted behind a red −, and each sign is named for screen readers. Its
+ *  hunks' lines are numbered from their headers, and the unchanged lines between hunks
  *  folded into a counted row. Lines past the last hunk are not in the patch, so nothing counts
  *  them. What git's header says beyond the lines prints as a note line above the table, or in
  *  its place: a rename, a mode change, an empty or binary file (`describePatch` has the
  *  sentences). A file whose type changed (a file that became a symlink) is two sections, each
  *  its own table under one note, named for its side (`"<label>, as it was"`). An empty patch
- *  says there is no difference, as `view` does; text that is not a diff, or holds several
+ *  says there is no difference; text that is not a diff, or holds several
  *  files, says it cannot be shown as lines. */
 export const patchView = <Message>(
   config: PatchViewConfig,

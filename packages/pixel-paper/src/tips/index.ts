@@ -1,11 +1,6 @@
 export {
-  HideTip,
   Message,
   Model,
-  ShowTip,
-  WaitBeforeCooling,
-  WaitBeforeHiding,
-  WaitBeforeShowing,
   id,
   init,
   subscriptions,

@@ -43,21 +43,9 @@ export const show: (model: Model, config: Toast.ShowConfig) => UpdateReturn =
     ...toastsFold,
   });
 
-const foldToastsOutMessage = Toast.OutMessage.match<
-  Update.Step<Model, Message>
->({
-  SelectedAction: () => (model) =>
-    show(model, {
-      tone: "Quiet",
-      title: "Put back",
-      body: "field-notes.md is where it was (sample).",
-    }),
-});
-
 const foldToasts = Update.foldChild({
   update: Toast.update,
   ...toastsFold,
-  foldOutMessage: foldToastsOutMessage,
 });
 
 export const update = (model: Model, message: Message) =>
@@ -67,7 +55,6 @@ export const update = (model: Model, message: Message) =>
         tone: "Ok",
         title: "Moved to archive",
         body: "field-notes.md (sample)",
-        action: { id: "undo", label: "undo" },
       }),
     ClickedSync: () =>
       show(model, {
@@ -102,7 +89,7 @@ export const view = defineView<Model, Message>((_model, h): Html =>
   rowView(
     [
       specView(
-        "ok leaves after the hold, its undo puts it back",
+        "ok leaves after the hold",
         [
           Button.view(
             {

@@ -46,6 +46,7 @@ export const Message = defineMessageUnion({
   TickedClock: { now: Schema.Finite },
   PressedGoKey: { url: Schema.String },
   PressedPaletteKey: {},
+  PressedHelpKey: {},
   ClickedShowKeys: {},
   ClickedOpenPalette: {},
   ToggledMarkup: { sectionId: Schema.String, isOpen: Schema.Boolean },

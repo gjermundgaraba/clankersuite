@@ -13,7 +13,7 @@ import { disposeEmbedded, embed } from "../test/embed.ts";
 import { keydown, readDuringDispatch } from "../test/events.ts";
 import { byId, renderOnPage } from "../test/fixture.ts";
 import { settleUntil } from "../test/settle.ts";
-import { action, check, group, link, note, radio } from "./item.ts";
+import { action, check, group, link, radio } from "./item.ts";
 import type { Item } from "./item.ts";
 import { toggleKey } from "./menu.ts";
 import * as Menu from "./menu.ts";
@@ -27,16 +27,9 @@ const SETTINGS: readonly Item[] = [
   group("Layout", [
     check({ id: "dense", label: "Dense rows", isChecked: true }),
   ]),
-  note("Export needs a connection."),
   action({ id: "export", label: "Export", isDisabled: true }),
   group("Account", [
     link({ id: "sign-out", label: "Sign out", href: "/sign-out" }),
-    link({
-      id: "profile",
-      label: "Profile",
-      href: "/profile",
-      isCurrent: true,
-    }),
   ]),
 ];
 
@@ -302,7 +295,7 @@ describe("Menu slip", () => {
     );
   });
 
-  it("makes a link a menu item with its href, the current page marked on the item itself", () => {
+  it("makes a link a menu item with its href", () => {
     Scene.scene(
       { update: Menu.update, view: menuView(SETTINGS) },
       Scene.given(openMenu),
@@ -311,55 +304,11 @@ describe("Menu slip", () => {
       Scene.expect(Scene.role("menuitem", { name: "Sign out" })).toHaveAttr(
         "href",
         "/sign-out"
-      ),
-      Scene.expect(Scene.role("menuitem", { name: "Profile" })).toHaveAttr(
-        "aria-current",
-        "page"
-      ),
-      Scene.expect(Scene.role("menuitem", { name: "Sign out" })).not.toHaveAttr(
-        "aria-current"
       )
     );
   });
 
-  it("holds an unavailable radio row: aria-disabled, still checked, no handler", () => {
-    Scene.scene(
-      {
-        update: Menu.update,
-        view: menuView([
-          group("Status", [
-            radio({
-              id: "open",
-              label: "Open",
-              isChecked: true,
-              isDisabled: true,
-            }),
-            radio({
-              id: "done",
-              label: "Done",
-              isChecked: false,
-              isDisabled: true,
-            }),
-          ]),
-        ]),
-      },
-      Scene.given(openMenu),
-      ...resolveOpen,
-      Scene.expect(Scene.role("menuitemradio", { name: "Done" })).toHaveAttr(
-        "aria-disabled",
-        "true"
-      ),
-      Scene.expect(
-        Scene.role("menuitemradio", { name: "Done" })
-      ).not.toHaveHandler("click"),
-      Scene.expect(Scene.role("menuitemradio", { name: "Open" })).toHaveAttr(
-        "aria-checked",
-        "true"
-      )
-    );
-  });
-
-  it("holds an unavailable row, prints a note in passing, and shows a key hint", () => {
+  it("holds an unavailable row and shows a key hint", () => {
     Scene.scene(
       { update: Menu.update, view: menuView([...SETTINGS, ...NEW]) },
       Scene.given(openMenu),
@@ -371,10 +320,6 @@ describe("Menu slip", () => {
       Scene.expect(
         Scene.role("menuitem", { name: "Export" })
       ).not.toHaveHandler("click"),
-      Scene.expect(Scene.text("Export needs a connection.")).toHaveAttr(
-        "role",
-        "none"
-      ),
       Scene.expect(Scene.selector('[role="menuitem"] kbd.key-hint')).toHaveText(
         "n"
       ),

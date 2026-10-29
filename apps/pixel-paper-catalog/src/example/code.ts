@@ -1,9 +1,4 @@
-import {
-  CodeEditor,
-  CodeSurface,
-  LineDiff,
-  TextButton,
-} from "@gjermundgaraba/pixel-paper";
+import { CodeEditor, CodeSurface, LineDiff } from "@gjermundgaraba/pixel-paper";
 import { Schema } from "effect";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -61,22 +56,16 @@ export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   UpdatedEditorValue: { value: Schema.String },
-  ClickedRestore: {},
 });
 
 export type Message = typeof Message.Type;
 
-export const init = (): Model => ({
-  editorValue: SAMPLE_CONFIG.replace("batch = 4", "batch = 8"),
-});
+export const init = (): Model => ({ editorValue: SAMPLE_CONFIG });
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     UpdatedEditorValue: ({ value }) => ({
       model: modifyFields(model, { editorValue: () => value }),
-    }),
-    ClickedRestore: () => ({
-      model: modifyFields(model, { editorValue: () => SAMPLE_CONFIG }),
     }),
   });
 
@@ -105,28 +94,6 @@ export const view = defineView<Model, Message>((model, h): Html =>
               value: model.editorValue,
               onInput: (value) => Message.UpdatedEditorValue({ value }),
               label: "rollout.toml (sample)",
-            },
-            h
-          ),
-        ],
-        h
-      ),
-      specView(
-        "the edit against the original",
-        [
-          LineDiff.view(
-            {
-              before: SAMPLE_CONFIG,
-              after: model.editorValue,
-              label: "The original against the edit",
-              context: 1,
-            },
-            h
-          ),
-          TextButton.view(
-            {
-              label: "restore the original",
-              onClick: Message.ClickedRestore(),
             },
             h
           ),

@@ -1,6 +1,6 @@
-import { diffLines, parsePatch } from "diff";
+import { parsePatch } from "diff";
 import type { StructuredPatchHunk } from "diff";
-import { Array, Match, Option, Record, Schema, pipe } from "effect";
+import { Array, Match, Option, Record, Schema } from "effect";
 import { defineTaggedUnion } from "foldkit/schema";
 
 export const DiffRow = defineTaggedUnion({
@@ -16,24 +16,9 @@ export const DiffRow = defineTaggedUnion({
 
 export type DiffRow = typeof DiffRow.Type;
 
-type SameRow = Extract<DiffRow, Readonly<{ _tag: "Same" }>>;
-
 export type LineKind = "Same" | "Added" | "Removed";
 
 type Numbers = Readonly<{ old: number; new: number }>;
-
-const withFinalNewline = (text: string): string =>
-  text.endsWith("\n") ? text : `${text}\n`;
-
-const changeKind = (
-  change: Readonly<{ added: boolean; removed: boolean }>
-): LineKind =>
-  Match.value(change).pipe(
-    Match.withReturnType<LineKind>(),
-    Match.when({ added: true }, () => "Added"),
-    Match.when({ removed: true }, () => "Removed"),
-    Match.orElse(() => "Same")
-  );
 
 const numberLine = (
   numbers: Numbers,
@@ -66,24 +51,6 @@ const numbered = (
   Array.mapAccum(lines, from, (numbers, { kind, text }) =>
     numberLine(numbers, kind, text)
   );
-
-export const diffRowsOf = (before: string, after: string): readonly DiffRow[] =>
-  pipe(
-    diffLines(withFinalNewline(before), withFinalNewline(after)),
-    Array.flatMap((change) =>
-      Array.map(change.value.slice(0, -1).split("\n"), (text) => ({
-        kind: changeKind(change),
-        text,
-      }))
-    ),
-    (lines) => numbered(lines, { old: 1, new: 1 })[1]
-  );
-
-const isChange = (row: DiffRow): boolean =>
-  row._tag === "Added" || row._tag === "Removed";
-
-export const hasChanges = (rows: readonly DiffRow[]): boolean =>
-  Array.some(rows, isChange);
 
 const LINE_KIND_BY_PREFIX: Record.ReadonlyRecord<string, LineKind> = {
   " ": "Same",
@@ -144,53 +111,3 @@ export const diffRowsOfPatch = (
   Option.map(hunksOfPatch(patch), (hunks) =>
     Array.flatten(Array.mapAccum(hunks, 1, readHunk)[1])
   );
-
-type Run = Readonly<{ first: SameRow; count: number }>;
-
-const runRows = (maybeRun: Option.Option<Run>): readonly DiffRow[] =>
-  Option.match(maybeRun, {
-    onNone: () => [],
-    onSome: ({ first, count }) =>
-      count === 1
-        ? [first]
-        : [DiffRow.Fold({ count, firstOldNumber: first.oldNumber })],
-  });
-
-export const foldUnchanged = (
-  rows: readonly DiffRow[],
-  context: number
-): readonly DiffRow[] => {
-  const changesBefore = Array.scan(
-    rows,
-    0,
-    (count, row) => count + (isChange(row) ? 1 : 0)
-  );
-
-  const isKept = (index: number): boolean =>
-    Array.getUnsafe(changesBefore, Math.min(rows.length, index + context + 1)) -
-      Array.getUnsafe(changesBefore, Math.max(0, index - context)) >
-    0;
-
-  const [maybeRun, kept] = Array.mapAccum(
-    rows,
-    Option.none<Run>(),
-    (
-      maybeRunSoFar,
-      row,
-      index
-    ): readonly [Option.Option<Run>, readonly DiffRow[]] =>
-      row._tag === "Same" && !isKept(index)
-        ? [
-            Option.some(
-              Option.match(maybeRunSoFar, {
-                onNone: () => ({ first: row, count: 1 }),
-                onSome: (run) => ({ ...run, count: run.count + 1 }),
-              })
-            ),
-            [],
-          ]
-        : [Option.none(), [...runRows(maybeRunSoFar), row]]
-  );
-
-  return [...Array.flatten(kept), ...runRows(maybeRun)];
-};

@@ -9,8 +9,6 @@ export type ViewConfig<Message> = Readonly<{
   id: string;
   /** What opens, in pixel caps (`"edit grants"`, `"danger zone"`): the button's name. */
   label: string;
-  /** A count or a state at the right of the line. */
-  meta?: string;
   /** Whether it is open, from the parent's Model. */
   isOpen: boolean;
   /** Dispatched with the new state when the line is pressed, or Enter or Space is pressed on
@@ -23,8 +21,8 @@ export type ViewConfig<Message> = Readonly<{
 
 /**
  * A line that opens what is under it, built on `@foldkit/ui`'s Disclosure: the parent owns
- * whether it is open. `div.disclosure > button.disclosure-summary[aria-expanded]` (the caret,
- * the label, an optional meta) and `div.disclosure-body`, which hangs from the caret on a 1px
+ * whether it is open. `div.disclosure > button.disclosure-summary[aria-expanded]` (the caret
+ * and the label) and `div.disclosure-body`, which hangs from the caret on a 1px
  * rule guide. Open, the caret turns a quarter in one step. For what a reader opens on purpose
  * (grants to edit, details, a danger zone), never to hide the one thing the screen is for.
  */
@@ -32,7 +30,7 @@ export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { id, label, meta, isOpen, onToggle, body } = config;
+  const { id, label, isOpen, onToggle, body } = config;
 
   return UiDisclosure.view(
     {
@@ -48,9 +46,6 @@ export const view = <Message>(
               [
                 Glyph.view({ name: "caret-right" }, h),
                 h.span([h.Class("disclosure-label")], [label]),
-                ...(meta === undefined
-                  ? []
-                  : [" ", h.span([h.Class("meta")], [meta])]),
               ]
             ),
             h.div(

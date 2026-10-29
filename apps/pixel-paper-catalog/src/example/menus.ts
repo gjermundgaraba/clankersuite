@@ -89,24 +89,13 @@ const settingsItems = (model: Model): readonly Menu.Item[] => [
   ]),
   Menu.group("Account", [
     Menu.action({ id: "export", label: "Export data", isDisabled: true }),
-    Menu.note("Export opens once the first sync lands."),
-    Menu.link({
-      id: "sign-out",
-      label: "Sign out",
-      href: "#menus",
-      glyph: "log-out",
-    }),
+    Menu.link({ id: "sign-out", label: "Sign out", href: "#menus" }),
   ]),
 ];
 
 const createItems = (platform: KeyHint.KeyPlatform): readonly Menu.Item[] => [
-  Menu.action({
-    id: "task",
-    label: "Task",
-    glyph: "plus",
-    keyHint: { keys: "n", platform },
-  }),
-  Menu.action({ id: "area", label: "Area", glyph: "folder-plus" }),
+  Menu.action({ id: "task", label: "Task", keyHint: { keys: "n", platform } }),
+  Menu.action({ id: "area", label: "Area" }),
 ];
 
 const areaItems = (model: Model): readonly Menu.Item[] =>
@@ -119,14 +108,14 @@ const areaItems = (model: Model): readonly Menu.Item[] =>
   );
 
 const rowItems = (model: Model, rowId: string): readonly Menu.Item[] => [
-  Menu.action({ id: "rename", label: "Rename", glyph: "pencil" }),
-  Menu.action({ id: "duplicate", label: "Duplicate", glyph: "copy" }),
+  Menu.action({ id: "rename", label: "Rename" }),
+  Menu.action({ id: "duplicate", label: "Duplicate" }),
   Menu.check({
     id: "pin",
     label: "Pinned",
     isChecked: Array.contains(model.pinnedIds, rowId),
   }),
-  Menu.action({ id: "delete", label: "Delete", glyph: "trash" }),
+  Menu.action({ id: "delete", label: "Delete" }),
 ];
 
 const isScheme = Schema.is(Scheme);

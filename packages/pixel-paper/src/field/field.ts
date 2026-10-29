@@ -19,10 +19,7 @@ export const errorView = <Message>(
     ? []
     : [h.p([h.Id(errorId(id)), h.Class("field-error")], [error])];
 
-/** Points the control at its error, then at its help line when it has one. After the
- *  `@foldkit/ui` attributes, whose `aria-describedby` names the help line alone; every
- *  `@foldkit/ui` control names that line `<id>-description`, as Input does. */
-export const describedByError = <Message>(
+const describedByError = <Message>(
   id: string,
   error: string | undefined,
   hasHelp: boolean,

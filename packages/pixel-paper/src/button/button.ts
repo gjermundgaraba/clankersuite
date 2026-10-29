@@ -1,5 +1,5 @@
 import { Button as UiButton } from "@foldkit/ui";
-import { Option, Schema } from "effect";
+import { Schema } from "effect";
 import type { KeySequence } from "foldkit/dom";
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 
@@ -37,15 +37,6 @@ export const lookClassName = ({
 }: Look): string =>
   `${VARIANT_CLASS[variant]}${isSmall ? " small" : ""}${isDefault ? " default-ring" : ""}`;
 
-/** A button that can end done: it prints in ink, flat and unavailable, with the check in its
- *  glyph's place. Both words print in one cell, the other hidden, so the button is as wide as
- *  the longer word and never changes width. */
-export type Done = Readonly<{
-  isDone: boolean;
-  /** The word it says once done (`"sent"`). */
-  label: string;
-}>;
-
 /** The key that does the same as the button, printed small after its words. */
 export type KeyHintConfig = Readonly<{
   keys: KeySequence;
@@ -75,32 +66,12 @@ export type ViewConfig<Message> = Look &
     type?: "button" | "submit";
     /** Further attributes for the `<button>`, such as an id or a Submodel's attribute group. */
     attributes?: Attributes<Message>;
-  }> &
-  (
-    | Readonly<{ glyph?: GlyphName; done?: undefined }>
-    | Readonly<{ glyph: GlyphName; done: Done }>
-  );
-
-const wordsView = <Message>(
-  label: string,
-  maybeDone: Option.Option<Done>,
-  h: HtmlBuilder<Message>
-): Html | string =>
-  Option.match(maybeDone, {
-    onNone: () => label,
-    onSome: ({ isDone, label: doneLabel }) =>
-      h.span(
-        [h.Class("btn-words")],
-        [
-          h.span(isDone ? [h.AriaHidden(true)] : [], [label]),
-          h.span(isDone ? [] : [h.AriaHidden(true)], [doneLabel]),
-        ]
-      ),
-  });
+    glyph?: GlyphName;
+  }>;
 
 /**
  * The printed button: pixel caps in a 2px ink box on a 3px print shadow, built on
- * `@foldkit/ui`'s `Button`. It is held while busy, done or disabled: it prints unavailable
+ * `@foldkit/ui`'s `Button`. It is held while busy or disabled: it prints unavailable
  * (`aria-disabled`), has no click handler, keeps its place in the keyboard, and renders as
  * `type="button"` so a held submit button submits nothing, by click or by Enter on itself.
  * While busy it is `aria-busy` too.
@@ -120,19 +91,10 @@ export const view = <Message>(
     type = "button",
     attributes = [],
     glyph,
+    keyHint,
   } = config;
 
-  const maybeDone = Option.fromNullishOr(config.done);
-  const isDone = Option.exists(maybeDone, (done) => done.isDone);
-  const isHeld = isBusy || isDone || isDisabled;
-  const isWorking = isBusy && !isDone;
-
-  const lookClass = isDone
-    ? `${lookClassName({ isSmall: config.isSmall ?? false })} done`
-    : lookClassName(config);
-
-  const glyphName = isDone ? "check" : glyph;
-  const keyHint = isDone ? undefined : config.keyHint;
+  const isHeld = isBusy || isDisabled;
 
   return UiButton.view(
     {
@@ -144,16 +106,14 @@ export const view = <Message>(
           [
             ...attributes,
             ...groups.button,
-            ...(isWorking ? [h.AriaBusy(true)] : []),
-            h.Class(lookClass),
+            ...(isBusy ? [h.AriaBusy(true)] : []),
+            h.Class(lookClassName(config)),
           ],
           [
-            ...(glyphName === undefined
-              ? []
-              : [Glyph.view({ name: glyphName }, h)]),
-            wordsView(label, maybeDone, h),
+            ...(glyph === undefined ? [] : [Glyph.view({ name: glyph }, h)]),
+            label,
             ...(keyHint === undefined ? [] : [KeyHint.view(keyHint, h)]),
-            ...(isWorking
+            ...(isBusy
               ? [h.span([h.Class("cursor"), h.AriaHidden(true)])]
               : []),
           ]

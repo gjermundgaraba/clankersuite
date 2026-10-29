@@ -82,7 +82,6 @@ export const update = (model: Model, message: Message) =>
   });
 
 const SAMPLE_LINK = "https://example.com/share/sample";
-const SAMPLE_COMMAND = "vp run pixel-paper#dev";
 
 export type ViewInputs = Readonly<{ toCopyView: CopyView }>;
 
@@ -94,7 +93,7 @@ export const view = defineView<Model, Message, ViewInputs>(
         rowView(
           [
             specView(
-              "copy: the glyph turns to a check, the button's word to copied",
+              "copy: the glyph turns to a check",
               [
                 h.span(
                   [h.Class("spec-inline")],
@@ -103,17 +102,6 @@ export const view = defineView<Model, Message, ViewInputs>(
                     toCopyView("files-link", {
                       text: SAMPLE_LINK,
                       label: "Copy link",
-                    }),
-                  ]
-                ),
-                h.span(
-                  [h.Class("spec-inline")],
-                  [
-                    h.code([], [SAMPLE_COMMAND]),
-                    toCopyView("files-command", {
-                      text: SAMPLE_COMMAND,
-                      label: "copy",
-                      variant: "Button",
                     }),
                   ]
                 ),

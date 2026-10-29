@@ -68,7 +68,7 @@ export const sections = (
       title: "Buttons",
       file: "buttons.ts",
       about:
-        "A busy button prints the working cursor in its padding, so it keeps its width; a done one prints in ink with a check where its glyph was. Danger fills red only inside the confirm that commits it.",
+        "A busy button prints the working cursor in its padding, so it keeps its width. Danger fills red only inside the confirm that commits it.",
       body: () =>
         h.submodel({
           slotId: "buttons-example",
@@ -233,14 +233,13 @@ export const sections = (
       title: "Meters and stats",
       file: "meters.ts",
       about:
-        "Readings against a maximum as twenty cells, amber from 80% and a red chip at the maximum, and figures in ruled cells with their change.",
+        "Readings against a maximum as twenty cells, amber from 80% and a red chip at the maximum, and figures in ruled cells.",
       body: () => MetersExample.view(h),
     },
     code: {
       title: "Code and diffs",
       file: "code.ts",
-      about:
-        "Code to read, code to edit, and a line diff of the edit that follows every keystroke.",
+      about: "Code to read, code to edit, and a patch from git as a line diff.",
       body: () =>
         h.submodel({
           slotId: "code-example",
@@ -371,11 +370,7 @@ export const sections = (
 export const entries = (
   pageSections: readonly ComponentSection[]
 ): readonly DocIndex.Entry[] =>
-  Array.map(pageSections, ({ id, title }) => ({
-    id,
-    title,
-    names: COMPONENTS[id],
-  }));
+  Array.map(pageSections, ({ id, title }) => ({ id, title }));
 
 const markupView = (
   section: ComponentSection,
@@ -389,7 +384,6 @@ const markupView = (
     {
       id: `${section.id}-markup`,
       label: "markup",
-      meta: "what it renders, for a page without Foldkit",
       isOpen,
       onToggle: (isNextOpen) =>
         Message.ToggledMarkup({ sectionId: section.id, isOpen: isNextOpen }),

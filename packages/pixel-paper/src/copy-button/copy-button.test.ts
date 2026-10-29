@@ -151,23 +151,20 @@ const cellOnlyIn = (name: GlyphName, other: GlyphName): string => {
 const checkCell = Scene.selector(cellOnlyIn("check", "copy"));
 const copyCell = Scene.selector(cellOnlyIn("copy", "check"));
 
-const copyView =
-  (variant: CopyButton.Variant) =>
-  (model: CopyButton.Model, h: HtmlBuilder<CopyButton.Message>) =>
-    CopyButton.view(
-      model,
-      {
-        text: "https://example.com/sample",
-        label: variant === "Icon" ? "Copy link" : "copy",
-        variant,
-      },
-      h
-    );
+const copyView = (
+  model: CopyButton.Model,
+  h: HtmlBuilder<CopyButton.Message>
+) =>
+  CopyButton.view(
+    model,
+    { text: "https://example.com/sample", label: "Copy link" },
+    h
+  );
 
 describe("CopyButton view", () => {
   it("is a quiet glyph named by its label, its tip the same, that turns to a check", () => {
     Scene.scene(
-      { update: CopyButton.update, view: copyView("Icon") },
+      { update: CopyButton.update, view: copyView },
       Scene.given(fresh),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveClass(
         "quiet"
@@ -199,18 +196,6 @@ describe("CopyButton view", () => {
       ),
       Scene.expect(copyCell).toExist(),
       Scene.expect(checkCell).toBeAbsent()
-    );
-  });
-
-  it("as a button, turns its word to copied and holds for the beat", () => {
-    Scene.scene(
-      { update: CopyButton.update, view: copyView("Button") },
-      Scene.given({ ...fresh, state: CopyButton.CopyState.Copied() }),
-      Scene.expect(Scene.role("button")).toHaveClass("done"),
-      Scene.expect(Scene.role("button")).toHaveAttr("aria-disabled", "true"),
-      Scene.expect(Scene.selector(".btn-words [aria-hidden]")).toHaveText(
-        "copy"
-      )
     );
   });
 });

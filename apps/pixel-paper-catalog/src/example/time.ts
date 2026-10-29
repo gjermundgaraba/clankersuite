@@ -69,7 +69,6 @@ export const view = <Message>(
               format: "Until",
               maybeNow,
               passed: "reset due",
-              isLate: true,
             },
             h
           ),

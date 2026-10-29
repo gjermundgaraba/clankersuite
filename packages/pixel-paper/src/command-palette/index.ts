@@ -1,7 +1,6 @@
 export {
   Model,
   OutMessage,
-  ReportPendingKeys,
   ScrollToCursor,
   maybeCursorId,
   id,

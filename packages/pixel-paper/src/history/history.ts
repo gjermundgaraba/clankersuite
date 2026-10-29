@@ -18,8 +18,6 @@ export type Entry = Readonly<{
   what: ReadonlyArray<Html | string>;
   /** The version in force prints inverted. */
   isCurrent?: boolean;
-  /** A failed entry prints red, and screen readers hear "(failed)" after it. */
-  isFailed?: boolean;
   /** Controls at the end of the entry: restore, view. */
   actions?: ReadonlyArray<Html | string>;
 }>;
@@ -50,12 +48,7 @@ const entryView =
         ...(entry.who === undefined
           ? []
           : [h.span([h.Class("who")], entry.who)]),
-        entry.isFailed === true
-          ? h.span(
-              [h.Class("what failed")],
-              [...entry.what, h.span([h.Class("sr-only")], [" (failed)"])]
-            )
-          : h.span([h.Class("what")], entry.what),
+        h.span([h.Class("what")], entry.what),
         ...(entry.actions ?? []),
       ]
     );

@@ -258,11 +258,6 @@ export const BindFieldKeys = Mount.defineStream("BindFieldKeys", {
     }),
 });
 
-/** How tall the field is: a row's words, or a card's 16px title. */
-export const Size = Schema.Literals(["Row", "Title"]);
-
-export type Size = typeof Size.Type;
-
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** The text being replaced; `""` when adding. */
@@ -270,32 +265,21 @@ export type ViewInputs = Readonly<{
   /** Names the field for screen readers (`"Rename Notes"`, `"New item in Operations"`). */
   label: string;
   placeholder?: string;
-  size?: Size;
-  /** What the caller says is wrong while editing (the item's parent was deleted): marks the
-   *  field `aria-invalid` and points it at `errorView`, given the same `error`. A refused
-   *  save's reason shows when there is none. */
-  error?: string | undefined;
 }>;
-
-const shownError = (
-  model: Model,
-  error: string | undefined
-): Option.Option<string> =>
-  Option.orElse(Option.fromNullishOr(error), () => model.maybeError);
 
 /**
  * Text edited in place: an input that takes exactly the height of what it replaces, built on
  * `@foldkit/ui`'s Input. Enter or leaving the field with new text reports `Committed`; the
  * field then holds (`readonly`, `aria-busy`, still focused) until the caller reports
- * `succeeded` or `failed`. A refused save, or the caller's own `error`, keeps the text, marks
- * the field `aria-invalid` and points it at `errorView`. Escape discards the draft and ends. The field moves no focus
+ * `succeeded` or `failed`. A refused save keeps the text, marks the field `aria-invalid` and
+ * points it at `errorView`. Escape discards the draft and ends. The field moves no focus
  * itself: the caller does on `Ended`.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const { value, label, placeholder, size = "Row", error } = viewInputs;
+    const { value, label, placeholder } = viewInputs;
     const isHeld = isSaving(model);
-    const hasError = Option.isSome(shownError(model, error));
+    const hasError = Option.isSome(model.maybeError);
 
     return UiInput.view(
       {
@@ -315,9 +299,7 @@ export const view = defineView<Model, Message, ViewInputs>(
             h.Autocomplete("off"),
             h.OnBlur(Message.BlurredField()),
             h.OnMount(BindFieldKeys()),
-            h.Class(
-              size === "Title" ? "inline-input title-edit" : "inline-input"
-            ),
+            h.Class("inline-input"),
           ]),
       },
       h
@@ -325,15 +307,13 @@ export const view = defineView<Model, Message, ViewInputs>(
   }
 );
 
-/** Why the field is marked: the caller's `error`, else why the last save was refused, as an
- *  error Notice with the id the field points at, or nothing. Place it under the field and
- *  give it the `error` the view has. */
+/** Why the last save was refused, as an error Notice with the id the field points at, or
+ *  nothing. Place it under the field. */
 export const errorView = <ParentMessage>(
   model: Model,
-  h: HtmlBuilder<ParentMessage>,
-  error?: string
+  h: HtmlBuilder<ParentMessage>
 ): Html =>
-  Option.match(shownError(model, error), {
+  Option.match(model.maybeError, {
     onNone: () => h.empty,
     onSome: (shown) =>
       Notice.view(

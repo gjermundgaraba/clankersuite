@@ -228,7 +228,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     rowView(
       [
         specView(
-          "versions: the one in force inverted, a failed one red",
+          "versions: the one in force inverted",
           [
             History.view(
               {
@@ -246,7 +246,6 @@ export const view = defineView<Model, Message, ViewInputs>(
                     at: ["v3"],
                     who: ["ops"],
                     what: ["Rollback"],
-                    isFailed: true,
                     actions: [
                       Button.view(
                         {

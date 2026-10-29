@@ -53,7 +53,6 @@ const planView = (model: Model, h: HtmlBuilder<Message>) =>
         { value: "Yearly", label: "yearly" },
       ],
       selectedValue: model.maybePlan,
-      isInvalid: Option.isNone(model.maybePlan),
     },
     toParentMessage: (message) => Message.GotPlanMessage({ message }),
   });
@@ -102,22 +101,13 @@ describe("RadioChoices view", () => {
       Scene.expect(Scene.role("radiogroup", { name: "Plan" })).toHaveClass(
         "choices"
       ),
-      Scene.expect(Scene.role("radiogroup", { name: "Plan" })).toHaveAttr(
-        "aria-invalid",
-        "true"
-      ),
       Scene.expect(monthly).toHaveClass("choice"),
-      Scene.expect(monthly).toHaveAttr("id", RadioChoices.firstOptionId(plan)),
       Scene.expect(monthly).toHaveAttr("aria-checked", "false"),
-      Scene.expect(monthly).not.toHaveAttr("aria-invalid"),
       Scene.expect(monthly).toHaveAttr("aria-describedby"),
       Scene.expect(yearly).not.toHaveAttr("aria-describedby"),
       Scene.click(yearly),
       focusOption,
-      Scene.expect(yearly).toHaveAttr("aria-checked", "true"),
-      Scene.expect(Scene.role("radiogroup", { name: "Plan" })).not.toHaveAttr(
-        "aria-invalid"
-      )
+      Scene.expect(yearly).toHaveAttr("aria-checked", "true")
     );
   });
 

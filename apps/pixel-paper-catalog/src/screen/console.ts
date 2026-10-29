@@ -175,11 +175,6 @@ export type ViewInputs = Readonly<{
 const count = (total: number, one: string, many: string): string =>
   `${total} ${total === 1 ? one : many}`;
 
-const failingChecks = Array.filter(
-  CHECKS,
-  ({ isFailed }) => isFailed === true
-).length;
-
 const fullMeters = Array.filter(
   METERS,
   ({ used, limit }) => used >= limit
@@ -255,33 +250,10 @@ const todayView = (h: HtmlBuilder<Message>): Html =>
   Stat.listView(
     {
       stats: [
-        {
-          label: "Requests",
-          maybeValue: Option.some(TODAY.requests),
-          delta: TODAY.requestsChange,
-          deltaUnit: "%",
-          note: ["On yesterday."],
-        },
-        {
-          label: "Sign-ins",
-          maybeValue: Option.some(TODAY.signIns),
-          delta: TODAY.signInsChange,
-          deltaUnit: "%",
-          note: ["On yesterday."],
-        },
-        {
-          label: "Failed sign-ins",
-          maybeValue: Option.some(TODAY.failed),
-          delta: TODAY.failedChange,
-          tone: "Warn",
-          note: ["Twice the usual for a weekday."],
-        },
-        {
-          label: "Clients",
-          maybeValue: Option.some(TODAY.clients),
-          delta: 0,
-          note: ["None added or removed."],
-        },
+        { label: "Requests", maybeValue: Option.some(TODAY.requests) },
+        { label: "Sign-ins", maybeValue: Option.some(TODAY.signIns) },
+        { label: "Failed sign-ins", maybeValue: Option.some(TODAY.failed) },
+        { label: "Clients", maybeValue: Option.some(TODAY.clients) },
       ],
     },
     h
@@ -289,7 +261,7 @@ const todayView = (h: HtmlBuilder<Message>): Html =>
 
 const clientColumns = (
   h: HtmlBuilder<Message>
-): ReadonlyArray<Table.Column<Client>> => [
+): Table.ViewConfig<Client>["columns"] => [
   {
     key: "name",
     header: "Client",
@@ -309,7 +281,6 @@ const clientColumns = (
   {
     key: "uses",
     header: "Uses",
-    isNumeric: true,
     cell: ({ uses }) => [uses.toLocaleString(Format.LOCALE)],
   },
 ];
@@ -375,7 +346,6 @@ const clientsPanelView = (model: Model, h: HtmlBuilder<Message>): Html =>
             columns: clientColumns(h),
             rows: model.clients,
             rowKey: ({ id }) => id,
-            isOff: ({ isOff }) => isOff,
             actions: clientActions(h),
           },
           h
@@ -473,7 +443,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           {
             id: "console-checks",
             title: "Checks",
-            meta: `latest ${CHECKS.length} · ${failingChecks} failing`,
+            meta: `latest ${CHECKS.length}`,
             body: [
               History.view(
                 { entries: CHECKS, variant: "Checks", label: "Checks" },

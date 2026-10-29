@@ -33,7 +33,6 @@ export const menuView = <ParentMessage>(
           id: screen,
           label: isWall(screen) ? `${screen} wall` : screen,
           href: screenUrl(screen),
-          isCurrent: screen === config.current,
         })
       ),
     },

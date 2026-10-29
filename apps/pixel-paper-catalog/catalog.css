@@ -161,16 +161,6 @@
   overflow-y: auto;
 }
 
-.spec-toc-names {
-  display: none;
-  font: var(--type-state) / 1.4 var(--font-code);
-  color: var(--muted);
-}
-
-.toc a[aria-current="true"] .spec-toc-names {
-  display: block;
-}
-
 .spec-stack {
   display: grid;
   background: var(--paper);
@@ -426,6 +416,11 @@
   background: var(--head);
 }
 
+.glyph-grid .big svg {
+  width: 24px;
+  height: 24px;
+}
+
 .glyph-grid .names {
   display: flex;
   align-items: center;
@@ -510,16 +505,6 @@
   bottom: calc(var(--statusbar-h) + 12px);
   max-width: calc(100% - 24px);
   box-shadow: var(--shadow-button);
-}
-
-@media (max-width: 600px) {
-  :root {
-    --spec-stage-tools-clearance: 80px;
-  }
-
-  .spec-bare + .sample-line {
-    bottom: calc(var(--statusbar-h) + var(--spec-stage-tools-clearance));
-  }
 }
 
 .spec-code {
@@ -663,7 +648,7 @@
   }
 
   .spec-win.whole {
-    inset: 120px 12px var(--spec-stage-tools-clearance);
+    inset: 120px 12px 12px;
   }
 
   .spec-win.about {
@@ -681,6 +666,21 @@
   }
 }
 
+.spec-stage-bar {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  translate: -50% 0;
+}
+
 .spec-bar-slip {
   display: inline-flex;
   align-items: center;
@@ -691,12 +691,36 @@
   box-shadow: var(--shadow-button);
 }
 
-.spec-corner {
-  position: relative;
-  width: min(320px, 100%);
-  height: 96px;
+.spec-wall-corner {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: calc(100% - 24px);
+  padding: 6px 8px;
+  background: var(--paper);
   border: var(--line) solid var(--ink);
-  background: var(--ground);
+  box-shadow: var(--shadow-button);
+}
+
+.spec-wall-corner ~ .wall {
+  padding-top: 72px;
+}
+
+@media (max-width: 600px) {
+  .spec-wall-corner {
+    position: static;
+    width: fit-content;
+    margin: 12px 12px 0;
+  }
+
+  .spec-wall-corner ~ .wall {
+    padding-top: 24px;
+  }
 }
 
 .spec-frame {

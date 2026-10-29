@@ -81,17 +81,6 @@ describe("KeyHelp update", () => {
       })
     );
   });
-
-  it("listens for its key only while closed", () => {
-    const { helpKey } = KeyHelp.subscriptions;
-
-    expect(helpKey.modelToDependencies(closedHelp)).toStrictEqual({
-      isOpen: false,
-    });
-    expect(helpKey.modelToDependencies(openHelp)).toStrictEqual({
-      isOpen: true,
-    });
-  });
 });
 
 const helpView = (model: KeyHelp.Model, h: HtmlBuilder<KeyHelp.Message>) =>

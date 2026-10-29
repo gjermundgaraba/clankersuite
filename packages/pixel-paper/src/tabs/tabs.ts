@@ -6,8 +6,6 @@ import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Update from "foldkit/update";
 
-import { countView } from "../nav-strip/nav-strip.ts";
-
 /** Schema for a tab strip: the `@foldkit/ui` Tabs it is built on, which keeps where the
  *  keyboard is. Which tab is selected is the parent's: pass it in as `selectedValue`. */
 export const Model = Schema.Struct({
@@ -67,11 +65,10 @@ export const update = (model: Model, message: Message) =>
     }
   );
 
-/** One tab: its value, its words and an optional count printed after them. */
+/** One tab: its value and its words. */
 export type Tab = Readonly<{
   value: string;
   label: string;
-  count?: number;
 }>;
 
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
@@ -98,10 +95,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     const { label, tabs, selectedValue, toPanelView } = viewInputs;
 
     const toTabView = (tab: Tab, info: UiTabs.TabInfo): Html =>
-      h.keyed("button")(tab.value, info.tab, [
-        tab.label,
-        ...(tab.count === undefined ? [] : countView(tab.count, h)),
-      ]);
+      h.keyed("button")(tab.value, info.tab, [tab.label]);
 
     const toView = (render: UiTabs.RenderInfo): Html =>
       h.div(

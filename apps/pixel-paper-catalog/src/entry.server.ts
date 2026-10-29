@@ -1,4 +1,4 @@
-import { Scheme } from "@gjermundgaraba/pixel-paper";
+import { schemeScript } from "@gjermundgaraba/pixel-paper/scheme";
 import { Effect } from "effect";
 import { Server } from "foldkit/experimental";
 
@@ -6,7 +6,7 @@ import { PATHS, init, view } from "./main.ts";
 
 const HEAD = [
   '<link rel="icon" type="image/svg+xml" href="/favicon.svg">',
-  `<script>${Scheme.schemeScript}</script>`,
+  `<script>${schemeScript}</script>`,
 ].join("");
 
 export const renderDocument: Server.DocumentRenderer = (application, assets) =>

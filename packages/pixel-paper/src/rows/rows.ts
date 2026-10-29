@@ -35,8 +35,7 @@ export const view = <Message>(
   );
 
 /** A selectable row's checkbox, held in the caller's Model. Its cell inverts while checked; the
- *  row's text is its label, so a click anywhere on the text toggles it, unless the text holds
- *  a button or a link (a `titleView`): then give `label`, and the box's cell is the target. */
+ *  row's text is its label, so a click anywhere on the text toggles it. */
 export type RowSelect<Message> = Readonly<{
   /** Unique in the document: the id of the box's name is made from it. The box itself has no
    *  id. */
@@ -44,9 +43,6 @@ export type RowSelect<Message> = Readonly<{
   isChecked: boolean;
   /** The box's next state. */
   onToggle: (isChecked: boolean) => Message;
-  /** Names the box when the row's text holds a button or a link. As the box's label the text
-   *  toggles it wherever it is clicked, on the button or the link too. */
-  label?: string;
 }>;
 
 /** A row's place in a treegrid (`view`'s `isTreegrid`): its line is a `role="row"` and each
@@ -193,44 +189,23 @@ const selectableLineView = <Message>(
       id: select.id,
       isChecked: select.isChecked,
       onToggle: select.onToggle,
-      toView: (groups) => {
-        const boxView = (name: readonly Html[]): Html =>
-          h.span(
-            [...cellRole(config, h), h.Class("row-check")],
-            [h.button(groups.checkbox), ...name]
-          );
-
-        const label = h.label(
-          [...groups.label, h.Class("grow")],
-          textOf(config, h)
-        );
-
-        return select.label === undefined
-          ? lineView(
-              config,
-              [boxView([])],
-              config.treegrid === undefined
-                ? label
-                : h.span(
-                    [...cellRole(config, h), h.Class("cell grow-cell")],
-                    [label]
-                  ),
-              h
-            )
-          : lineView(
-              config,
-              [
-                boxView([
-                  h.span([...groups.label, h.Class("sr-only")], [select.label]),
-                ]),
-              ],
-              h.div(
-                [...cellRole(config, h), h.Class("grow")],
-                textOf(config, h)
+      toView: (groups) =>
+        lineView(
+          config,
+          [
+            h.span(
+              [...cellRole(config, h), h.Class("row-check")],
+              [h.button(groups.checkbox)]
+            ),
+          ],
+          config.treegrid === undefined
+            ? h.label([...groups.label, h.Class("grow")], textOf(config, h))
+            : h.span(
+                [...cellRole(config, h), h.Class("cell grow-cell")],
+                [h.label([...groups.label, h.Class("grow")], textOf(config, h))]
               ),
-              h
-            );
-      },
+          h
+        ),
     },
     h
   );

@@ -93,13 +93,6 @@ const view = (model: Model, h: HtmlBuilder<Message>) =>
                 h
               ),
             ],
-            select: {
-              id: "row-drafts",
-              isChecked: Array.contains(model.selectedIds, "drafts"),
-              onToggle: (isChecked) =>
-                Message.ToggledRow({ id: "drafts", isChecked }),
-              label: "Select Archive the drafts",
-            },
           },
           h
         ),
@@ -109,7 +102,6 @@ const view = (model: Model, h: HtmlBuilder<Message>) =>
   );
 
 const notesBox = Scene.role("checkbox", { name: "Write the notes" });
-const draftsBox = Scene.role("checkbox", { name: "Select Archive the drafts" });
 
 describe("Rows", () => {
   it("is a named list whose row text labels the row's box, and toggles it", () => {
@@ -125,18 +117,13 @@ describe("Rows", () => {
     );
   });
 
-  it("names a box whose text is a button, and leaves the text out of the toggle", () => {
+  it("prints a done title muted, as the button that opens it", () => {
     Scene.scene(
       { update, view },
       Scene.given({ selectedIds: [], isExpanded: false }),
-      Scene.expect(draftsBox).toHaveAttr("aria-checked", "false"),
       Scene.expect(
         Scene.role("button", { name: "Archive the drafts" })
-      ).toHaveClass("done-title"),
-      Scene.click(Scene.role("button", { name: "Archive the drafts" })),
-      Scene.expect(draftsBox).toHaveAttr("aria-checked", "false"),
-      Scene.click(draftsBox),
-      Scene.expect(draftsBox).toHaveAttr("aria-checked", "true")
+      ).toHaveClass("done-title")
     );
   });
 

@@ -1,3 +1,3 @@
-export { cellsView, listView } from "./meter.ts";
+export { listView } from "./meter.ts";
 
-export type { CellsConfig, ListViewConfig, MeterConfig } from "./meter.ts";
+export type { ListViewConfig, MeterConfig } from "./meter.ts";

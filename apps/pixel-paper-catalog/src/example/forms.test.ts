@@ -33,12 +33,7 @@ describe("Forms example", () => {
       resolveFocus,
       Story.model((model) => {
         expect(Array.map(model.errors, ({ message }) => message)).toStrictEqual(
-          [
-            "Enter the project's name.",
-            "Enter a host.",
-            "Choose a plan.",
-            "Enter a password.",
-          ]
+          ["Enter the project's name.", "Enter a host.", "Enter a password."]
         );
         expect(model.isSaving).toBe(false);
       })

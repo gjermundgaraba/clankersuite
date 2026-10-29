@@ -20,7 +20,7 @@ export type ViewConfig = Readonly<{
   items: readonly NavItem[];
 }>;
 
-export const countView = <Message>(
+const countView = <Message>(
   count: number,
   h: HtmlBuilder<Message>
 ): readonly Html[] => [

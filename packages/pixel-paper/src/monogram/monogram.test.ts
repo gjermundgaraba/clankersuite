@@ -5,34 +5,20 @@ import { describe, it } from "vite-plus/test";
 import * as Monogram from "./monogram.ts";
 
 describe("Monogram", () => {
-  it("is an image named by whose mark it is", () => {
+  it("prints the initials, hidden from screen readers", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),
         view: (_model: null, h: HtmlBuilder<never>) =>
-          Monogram.view(
-            { label: "Sam Rivera", isCurrent: true, isLarge: true },
-            h
-          ),
+          Monogram.view({ label: "Sam Rivera", isLarge: true }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("img", { name: "Sam Rivera" })).toHaveText("SR"),
-      Scene.expect(Scene.role("img")).toHaveClass("current"),
-      Scene.expect(Scene.role("img")).toHaveClass("large")
-    );
-  });
-
-  it("prints given letters in place of the initials", () => {
-    Scene.scene(
-      {
-        update: (model: null) => ({ model }),
-        view: (_model: null, h: HtmlBuilder<never>) =>
-          Monogram.view({ label: "Northwind Traders", letters: "N" }, h),
-      },
-      Scene.given(null),
-      Scene.expect(Scene.role("img", { name: "Northwind Traders" })).toHaveText(
-        "N"
-      )
+      Scene.expect(Scene.selector(".monogram")).toHaveText("SR"),
+      Scene.expect(Scene.selector(".monogram")).toHaveAttr(
+        "aria-hidden",
+        "true"
+      ),
+      Scene.expect(Scene.selector(".monogram")).toHaveClass("large")
     );
   });
 
@@ -56,12 +42,8 @@ describe("Monogram", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(
-        Scene.role("img", { name: "Northwind Traders" })
-      ).toHaveClass("drawn"),
-      Scene.expect(Scene.role("img", { name: "Northwind Traders" })).toHaveText(
-        ""
-      ),
+      Scene.expect(Scene.selector(".monogram")).toHaveClass("drawn"),
+      Scene.expect(Scene.selector(".monogram")).toHaveText(""),
       Scene.expect(Scene.selector(".monogram svg")).toHaveAttr(
         "viewBox",
         "0 0 4 4"
@@ -85,10 +67,10 @@ describe("Monogram", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("img", { name: "ops-bot.daily" })).toHaveText(
+      Scene.expect(Scene.first(Scene.all.selector(".monogram"))).toHaveText(
         "ob"
       ),
-      Scene.expect(Scene.role("img", { name: "acme" })).toHaveText("ac")
+      Scene.expect(Scene.last(Scene.all.selector(".monogram"))).toHaveText("ac")
     );
   });
 });

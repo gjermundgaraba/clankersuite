@@ -20,35 +20,22 @@ const showing = (model: ToastsExample.Model): readonly string[] =>
     (entry) => entry.payload.title
   );
 
-const archived = ToastsExample.update(
-  ToastsExample.init(),
-  ToastsExample.Message.ClickedArchive()
-).model;
-
 describe("Toasts example", () => {
-  it("puts the archived file back when the slip's undo is pressed", () => {
+  it("raises a slip for the archived file and says it once", () => {
     Story.story(
       ToastsExample.update,
-      Story.given(archived),
-      Story.message(
-        ToastsExample.Message.GotToastsMessage({
-          message: Toast.Message.ClickedAction({
-            entryId: "page-toasts-entry-0",
-            action: { id: "undo", label: "undo" },
-          }),
-        })
-      ),
+      Story.given(ToastsExample.init()),
+      Story.message(ToastsExample.Message.ClickedArchive()),
       Story.model((model) => {
-        expect(showing(model)).toStrictEqual(["Put back"]);
+        expect(showing(model)).toStrictEqual(["Moved to archive"]);
       }),
       Story.Command.expectHas(
         Toast.AnnounceSlip({
           stackId: "page-toasts",
-          text: "Put back. field-notes.md is where it was (sample).",
+          text: "Moved to archive. field-notes.md (sample)",
         })
       ),
       resolveAnnounceSlip,
-      UiToast.test.drainEntry({ entryId: "page-toasts-entry-1" }),
       UiToast.test.drainEntry({ entryId: "page-toasts-entry-0" }),
       Story.model((model) => {
         expect(showing(model)).toStrictEqual([]);

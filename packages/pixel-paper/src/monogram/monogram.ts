@@ -54,10 +54,8 @@ const drawingView = <Message>(
 
 /** Configuration for rendering a monogram with `view`. */
 export type ViewConfig = Readonly<{
-  /** Whose mark it is; screen readers read it, and it gives the letters. */
+  /** Whose mark it is: it gives the letters. */
   label: string;
-  /** One or two letters, when the name's initials are not the ones people know. */
-  letters?: string;
   /** A mark the product draws in cells, in place of the letters: rows of `#` (ink) and `.`,
    *  as a glyph is drawn, on a grid of up to 16 for a large monogram. It prints bare, in ink,
    *  a pixel per cell (two when large): a provider's own mark redrawn in the system's
@@ -65,41 +63,24 @@ export type ViewConfig = Readonly<{
   drawing?: string;
   /** 34px, beside a name set large (a card of readings, a wall). */
   isLarge?: boolean;
-  /** You, among others: the monogram inverts. */
-  isCurrent?: boolean;
-  /** Beside the same name in words (as in Identity): hidden from screen readers, which read
-   *  the name once, from the words. */
-  isDecorative?: boolean;
 }>;
 
 /** Letters in an ink square, or a mark the product draws in cells: the identity of a person,
- *  a provider or a source. An image named by `label`, or hidden when `isDecorative`. */
+ *  a provider or a source. It sits beside the same name in words (as in Identity), so it is
+ *  hidden from screen readers, which read the name once, from the words. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const {
-    label,
-    letters,
-    drawing,
-    isLarge = false,
-    isCurrent = false,
-    isDecorative = false,
-  } = config;
+  const { label, drawing, isLarge = false } = config;
 
   return h.span(
     [
-      ...(isDecorative
-        ? [h.AriaHidden(true)]
-        : [h.Role("img"), h.AriaLabel(label)]),
+      h.AriaHidden(true),
       h.Class(
-        `monogram${drawing === undefined ? "" : " drawn"}${isLarge ? " large" : ""}${isCurrent ? " current" : ""}`
+        `monogram${drawing === undefined ? "" : " drawn"}${isLarge ? " large" : ""}`
       ),
     ],
-    [
-      drawing === undefined
-        ? (letters ?? initials(label))
-        : drawingView(drawing, isLarge, h),
-    ]
+    [drawing === undefined ? initials(label) : drawingView(drawing, isLarge, h)]
   );
 };

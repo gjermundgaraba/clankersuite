@@ -15,7 +15,6 @@ type Client = Readonly<{
   name: string;
   scope: string;
   requests: number;
-  isPaused: boolean;
 }>;
 
 const SAMPLE_CLIENTS: readonly Client[] = [
@@ -24,31 +23,27 @@ const SAMPLE_CLIENTS: readonly Client[] = [
     name: "Northwind (sample)",
     scope: "read, write",
     requests: 41_200,
-    isPaused: false,
   },
   {
     id: "91c0",
     name: "Contoso (sample)",
     scope: "read",
     requests: 1250,
-    isPaused: false,
   },
   {
     id: "7d3e",
     name: "Fabrikam (sample)",
     scope: "read",
     requests: 0,
-    isPaused: true,
   },
 ];
 
-const columns: ReadonlyArray<Table.Column<Client>> = [
+const columns: Table.ViewConfig<Client>["columns"] = [
   { key: "name", header: "Client", cell: ({ name }) => [name] },
   { key: "scope", header: "Scope", cell: ({ scope }) => [scope] },
   {
     key: "requests",
     header: "Requests",
-    isNumeric: true,
     cell: ({ requests }) => [requests.toLocaleString(Format.LOCALE)],
   },
 ];
@@ -57,7 +52,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   rowView(
     [
       specView(
-        "a table: heads, numbers right, row tools pinned, a paused row muted",
+        "a table: heads, row tools pinned",
         [
           Table.view(
             {
@@ -76,7 +71,6 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                   h
                 ),
               ],
-              isOff: ({ isPaused }) => isPaused,
             },
             h
           ),

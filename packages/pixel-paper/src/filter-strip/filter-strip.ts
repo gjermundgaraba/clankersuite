@@ -2,7 +2,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** Configuration for rendering a filter strip with `view`. */
 export type ViewConfig = Readonly<{
-  /** FilterChips, a QueryChip, a glyph Segmented; `h.span([h.Class("spacer")])` pushes what
+  /** FilterChips, a QueryChip, a Segmented; `h.span([h.Class("spacer")])` pushes what
    *  follows right. */
   body: ReadonlyArray<Html | string>;
   /** Names the group for screen readers. */

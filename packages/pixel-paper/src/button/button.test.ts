@@ -8,7 +8,7 @@ import { describe, it } from "vite-plus/test";
 
 import * as Button from "./button.ts";
 
-const SendState = Schema.Literals(["Rest", "Busy", "Done"]);
+const SendState = Schema.Literals(["Rest", "Busy"]);
 
 const Model = Schema.Struct({ sendState: SendState });
 
@@ -33,7 +33,6 @@ const sendView = (model: Model, h: HtmlBuilder<Message>) =>
       glyph: "send",
       onClick: Message.ClickedSend(),
       isBusy: model.sendState === "Busy",
-      done: { isDone: model.sendState === "Done", label: "sent" },
       keyHint: { keys: "Mod+Enter", platform: "Other" },
     },
     h
@@ -70,23 +69,6 @@ describe("Button", () => {
       Scene.expect(button).not.toHaveAttr("disabled"),
       Scene.expect(button).not.toHaveHandler("click"),
       Scene.expect(Scene.selector(".cursor")).toExist()
-    );
-  });
-
-  it("prints done in ink with the check and the done word, keeping both words", () => {
-    Scene.scene(
-      { update, view: sendView },
-      Scene.given({ sendState: "Done" }),
-      Scene.expect(button).toHaveClass("done"),
-      Scene.expect(button).not.toHaveClass("primary"),
-      Scene.expect(button).toHaveAttr("aria-disabled", "true"),
-      Scene.expect(Scene.selector(".btn-words")).toHaveText("sendsent"),
-      Scene.expect(Scene.selector(".btn-words span[aria-hidden]")).toHaveText(
-        "send"
-      ),
-      Scene.expect(Scene.selector(".key-hint")).toBeAbsent(),
-      Scene.expect(button).not.toHaveAttr("aria-busy"),
-      Scene.expect(Scene.selector(".cursor")).toBeAbsent()
     );
   });
 

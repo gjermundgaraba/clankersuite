@@ -17,7 +17,7 @@ import {
   Wall,
   Wordmark,
 } from "@gjermundgaraba/pixel-paper";
-import { Array, Effect, Option, Record, Schema } from "effect";
+import { Array, Effect, Option, Predicate, Record, Schema } from "effect";
 import type { Runtime } from "foldkit";
 import { Command, Dom, Subscription, Update } from "foldkit";
 import type { Document, Html, HtmlBuilder } from "foldkit/html";
@@ -231,8 +231,12 @@ const foldCopies = Copies.fold({
   toParentMessage: toCopyMessage,
 });
 
-const noteCopied = (model: Model, key: CopyKey): Model =>
-  CopyButton.isCopied(model.copies[key])
+const noteCopied = (
+  model: Model,
+  key: CopyKey,
+  message: CopyButton.Message
+): Model =>
+  Schema.is(CopyButton.Message.SucceededCopyText)(message)
     ? modifyFields(model, {
         screens: (screens) => Screens.noteCopied(screens, key),
       })
@@ -674,6 +678,8 @@ export const update = (model: Model, message: Message) =>
     }),
     PressedGoKey: ({ url }) => navigateTo(url)(model),
     PressedPaletteKey: () => foldPaletteOpen(model),
+    PressedHelpKey: () =>
+      KeyHelp.isOpen(model.keyHelp) ? { model } : foldKeyHelpOpen(model),
     ClickedShowKeys: () => foldKeyHelpOpen(model),
     ClickedOpenPalette: () => foldPaletteOpen(model),
     ToggledMarkup: ({ sectionId, isOpen }) => ({
@@ -702,7 +708,7 @@ export const update = (model: Model, message: Message) =>
     GotCopyButtonMessage: ({ id, message: copyMessage }) =>
       Update.combine(model, [
         (stepModel) => foldCopies(stepModel, id, copyMessage),
-        (stepModel) => ({ model: noteCopied(stepModel, id) }),
+        (stepModel) => ({ model: noteCopied(stepModel, id, copyMessage) }),
       ]),
     GotButtonsExampleMessage: ({ message: buttonsMessage }) =>
       foldButtonsExample(model, buttonsMessage),
@@ -753,6 +759,12 @@ const siteKeys = Dom.streamFromKeyBindings<Message>({
       whileTyping: "Allow",
       mapEvent: () => Message.PressedPaletteKey(),
     },
+    ...Array.fromOption(
+      Option.map(
+        Option.liftPredicate(KeyHelp.HELP_KEYS, Predicate.isString),
+        (keys) => ({ keys, mapEvent: () => Message.PressedHelpKey() })
+      )
+    ),
   ],
 });
 
@@ -785,14 +797,6 @@ const schemeSwitchSubscriptions = Subscription.lift(
 )<Model, Message>({
   read: (model) => Option.some(model.schemeSwitch),
   toParentMessage: toSchemeSwitchMessage,
-});
-
-const keyHelpSubscriptions = Subscription.lift(KeyHelp.subscriptions)<
-  Model,
-  Message
->({
-  read: (model) => Option.some(model.keyHelp),
-  toParentMessage: (message) => Message.GotKeyHelpMessage({ message }),
 });
 
 const readingExampleSubscriptions = Subscription.lift(
@@ -852,7 +856,6 @@ export const subscriptions = Subscription.aggregate(
   siteSubscriptions,
   docIndexSubscriptions,
   schemeSwitchSubscriptions,
-  keyHelpSubscriptions,
   readingExampleSubscriptions,
   boardExampleSubscriptions,
   sortableExampleSubscriptions,
@@ -1012,23 +1015,20 @@ const bareScreenView: ScreenFrame = (model, screen, h) => [
 
 const wallScreenView: ScreenFrame = (model, screen, h) => [
   SkipLink.view(h),
-  Wall.cornerView(
-    {
-      label: "Specimen",
-      body: [
-        ScreenNav.menuView(screenNavConfig(model, screen), h),
-        IconButton.view(
-          {
-            glyph: "search",
-            label: "Commands",
-            onClick: Message.ClickedOpenPalette(),
-          },
-          h
-        ),
-        schemeSwitchView(model, h),
-      ],
-    },
-    h
+  h.aside(
+    [h.AriaLabel("Specimen"), h.Class("spec-wall-corner")],
+    [
+      ScreenNav.menuView(screenNavConfig(model, screen), h),
+      IconButton.view(
+        {
+          glyph: "search",
+          label: "Commands",
+          onClick: Message.ClickedOpenPalette(),
+        },
+        h
+      ),
+      schemeSwitchView(model, h),
+    ]
   ),
   Wall.view(
     { body: [...screenHeadingView(screen, h), screenView(model, screen, h)] },

@@ -229,11 +229,6 @@ const shownItems = (model: Model): readonly Item[] => {
 const isFiltered = (model: Model): boolean =>
   model.isMarkedOnly || model.query !== "";
 
-const LAYOUTS: ReadonlyArray<Segmented.Segment<Layout>> = [
-  { value: "Outline", label: "Outline", glyph: "outline" },
-  { value: "Board", label: "Board", glyph: "columns" },
-];
-
 const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
   FilterStrip.view(
     {
@@ -241,7 +236,6 @@ const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
         FilterChip.view(
           {
             label: "marked",
-            name: "only",
             isPressed: model.isMarkedOnly,
             onToggle: Message.ToggledMarkedOnly(),
           },
@@ -273,7 +267,10 @@ const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
         Segmented.view(
           {
             label: "Layout",
-            options: LAYOUTS,
+            options: Array.map(Layout.literals, (layout) => ({
+              value: layout,
+              label: layout,
+            })),
             value: model.layout,
             onSelect: (layout) => Message.SelectedLayout({ layout }),
           },
@@ -398,9 +395,9 @@ const outlineView = (model: Model, h: HtmlBuilder<Message>): Html => {
 
 const boardCardView =
   (model: Model, h: HtmlBuilder<Message>) =>
-  (card: Board.Card, render: Board.CardRender): Html =>
+  ({ id }: Readonly<{ id: string }>, render: Board.CardRender): Html =>
     Option.match(
-      Array.findFirst(model.items, (item) => item.id === card.id),
+      Array.findFirst(model.items, (item) => item.id === id),
       {
         onNone: () => h.empty,
         onSome: (item) =>

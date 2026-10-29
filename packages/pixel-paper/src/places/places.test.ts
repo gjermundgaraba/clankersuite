@@ -28,7 +28,6 @@ const placesView = (model: Area, h: HtmlBuilder<Message>) =>
         {
           id: "inbox",
           label: "Inbox",
-          count: 4,
           isCurrent: model === "Inbox",
           onSelect: Message.SelectedArea({ area: "Inbox" }),
         },
@@ -42,7 +41,6 @@ const placesView = (model: Area, h: HtmlBuilder<Message>) =>
           id: "archive",
           label: "Archive",
           onSelect: Message.SelectedArea({ area: "Archive" }),
-          tools: [h.button([], ["remove"])],
         },
       ],
     },
@@ -57,20 +55,19 @@ describe("Places", () => {
       Scene.expect(Scene.role("navigation", { name: "Areas" })).toHaveClass(
         "places"
       ),
-      Scene.expect(Scene.role("button", { name: "Inbox 4" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Inbox" })).toHaveAttr(
         "aria-current",
         "page"
       ),
       Scene.expect(Scene.role("button", { name: "Later" })).not.toHaveAttr(
         "aria-current"
       ),
-      Scene.expect(Scene.selector(".place-tools button")).toHaveText("remove"),
       Scene.click(Scene.role("button", { name: "Later" })),
       Scene.expect(Scene.role("button", { name: "Later" })).toHaveAttr(
         "aria-current",
         "page"
       ),
-      Scene.expect(Scene.role("button", { name: "Inbox 4" })).not.toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Inbox" })).not.toHaveAttr(
         "aria-current"
       )
     );
@@ -85,14 +82,12 @@ describe("Places", () => {
             {
               id: "inbox",
               label: "Inbox",
-              count: 1,
               isCurrent: model === "Inbox",
               onSelect: Message.SelectedArea({ area: "Inbox" }),
             },
             {
               id: "later",
               label: "Inbox",
-              count: 2,
               isCurrent: model === "Later",
               onSelect: Message.SelectedArea({ area: "Later" }),
             },
@@ -104,14 +99,13 @@ describe("Places", () => {
     Scene.scene(
       { update, view: twins },
       Scene.given<Area>("Inbox"),
-      Scene.click(Scene.role("button", { name: "Inbox 2" })),
-      Scene.expect(Scene.role("button", { name: "Inbox 2" })).toHaveAttr(
-        "aria-current",
-        "page"
-      ),
-      Scene.expect(Scene.role("button", { name: "Inbox 1" })).not.toHaveAttr(
-        "aria-current"
-      )
+      Scene.click(Scene.last(Scene.all.role("button", { name: "Inbox" }))),
+      Scene.expect(
+        Scene.last(Scene.all.role("button", { name: "Inbox" }))
+      ).toHaveAttr("aria-current", "page"),
+      Scene.expect(
+        Scene.first(Scene.all.role("button", { name: "Inbox" }))
+      ).not.toHaveAttr("aria-current")
     );
   });
 
@@ -124,7 +118,6 @@ describe("Places", () => {
             {
               id: "inbox",
               label: "Inbox",
-              count: 4,
               isCurrent: true,
               href: "/areas/inbox",
             },
@@ -137,11 +130,11 @@ describe("Places", () => {
     Scene.scene(
       { update, view: links },
       Scene.given<Area>("Inbox"),
-      Scene.expect(Scene.role("link", { name: "Inbox 4" })).toHaveAttr(
+      Scene.expect(Scene.role("link", { name: "Inbox" })).toHaveAttr(
         "aria-current",
         "page"
       ),
-      Scene.expect(Scene.role("link", { name: "Inbox 4" })).toHaveAttr(
+      Scene.expect(Scene.role("link", { name: "Inbox" })).toHaveAttr(
         "href",
         "/areas/inbox"
       ),

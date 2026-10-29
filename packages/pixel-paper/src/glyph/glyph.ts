@@ -9,8 +9,6 @@ const DRAWN_SIZE = 12;
 /** Configuration for rendering a glyph with `view`. */
 export type ViewConfig = Readonly<{
   name: GlyphName;
-  /** Rendered size in px. The grid is always 12x12; 12 is the size it was drawn for. */
-  size?: number;
 }>;
 
 export const cellView =
@@ -24,19 +22,19 @@ export const cellView =
       h.Fill("currentColor"),
     ]);
 
-/** One glyph from the inventory, in `currentColor`. Decorative: label the control that holds
- *  it. */
+/** One glyph from the inventory, in `currentColor`, at the 12px it was drawn for. Decorative:
+ *  label the control that holds it. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { name, size = DRAWN_SIZE } = config;
+  const { name } = config;
 
   return h.svg(
     [
       h.ViewBox(`0 0 ${DRAWN_SIZE} ${DRAWN_SIZE}`),
-      h.Width(`${size}`),
-      h.Height(`${size}`),
+      h.Width(`${DRAWN_SIZE}`),
+      h.Height(`${DRAWN_SIZE}`),
       h.AriaHidden(true),
       h.Class("px-icon"),
     ],

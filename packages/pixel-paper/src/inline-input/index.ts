@@ -14,4 +14,4 @@ export {
   view,
 } from "./inline-input.ts";
 
-export type { InitConfig, Size, ViewInputs } from "./inline-input.ts";
+export type { InitConfig, ViewInputs } from "./inline-input.ts";

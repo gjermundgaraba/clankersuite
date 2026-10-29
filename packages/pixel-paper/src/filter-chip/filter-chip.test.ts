@@ -21,14 +21,13 @@ const chipsView = (isOpenOnly: boolean, h: HtmlBuilder<Message>) =>
     [
       FilterChip.view(
         {
-          name: "status",
           label: "open",
           isPressed: isOpenOnly,
           onToggle: Message.ToggledOpenOnly(),
         },
         h
       ),
-      FilterChip.view({ name: "owner", label: "me", isPressed: true }, h),
+      FilterChip.view({ label: "me", isPressed: true }, h),
       FilterChip.view(
         { label: "reset", isReset: true, onToggle: Message.ClickedReset() },
         h
@@ -42,7 +41,6 @@ const fullChipsView = (_isOpenOnly: boolean, h: HtmlBuilder<Message>) =>
     [
       FilterChip.view(
         {
-          name: "scope",
           label: "Operations ×",
           full: "Clear scope: Operations",
           isReset: true,
@@ -50,14 +48,11 @@ const fullChipsView = (_isOpenOnly: boolean, h: HtmlBuilder<Message>) =>
         },
         h
       ),
-      FilterChip.view(
-        { name: "owner", label: "me", full: "Owned by me", isPressed: true },
-        h
-      ),
+      FilterChip.view({ label: "me", full: "Owned by me", isPressed: true }, h),
     ]
   );
 
-const openChip = Scene.role("button", { name: "status open" });
+const openChip = Scene.role("button", { name: "open" });
 const reset = Scene.role("button", { name: "reset" });
 const clearScope = Scene.role("button", { name: "Clear scope: Operations" });
 
@@ -78,7 +73,7 @@ describe("FilterChip", () => {
       { update, view: chipsView },
       Scene.given(true),
       Scene.expect(Scene.selector("span.fchip")).toHaveClass("pinned"),
-      Scene.expect(Scene.selector("span.fchip")).toHaveText("owner me"),
+      Scene.expect(Scene.selector("span.fchip")).toHaveText("me"),
       Scene.expect(reset).toHaveClass("reset"),
       Scene.expect(reset).not.toHaveAttr("aria-pressed"),
       Scene.click(reset),
@@ -91,7 +86,7 @@ describe("FilterChip", () => {
       { update, view: fullChipsView },
       Scene.given(true),
       Scene.expect(clearScope).toHaveClass("reset"),
-      Scene.expect(clearScope).toHaveText("scope Operations ×"),
+      Scene.expect(clearScope).toHaveText("Operations ×"),
       Scene.expect(clearScope).toHaveAttr(
         "data-tip",
         "Clear scope: Operations"
@@ -103,13 +98,7 @@ describe("FilterChip", () => {
       Scene.expect(Scene.selector("span.fchip .sr-only")).toHaveText(
         "Owned by me"
       ),
-      Scene.expect(Scene.selector("span.fchip .fchip-name")).toHaveAttr(
-        "aria-hidden",
-        "true"
-      ),
-      Scene.expect(
-        Scene.selector("span.fchip [aria-hidden]:not(.fchip-name)")
-      ).toHaveText("me")
+      Scene.expect(Scene.selector("span.fchip [aria-hidden]")).toHaveText("me")
     );
   });
 });

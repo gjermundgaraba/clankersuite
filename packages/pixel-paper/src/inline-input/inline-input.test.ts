@@ -306,58 +306,6 @@ describe("InlineInput view", () => {
       resolveKeys
     );
   });
-
-  it("marks the field with the caller's own error and points it at the reason", () => {
-    Scene.scene(
-      {
-        update: InlineInput.update,
-        view: (model: InlineInput.Model, h: HtmlBuilder<InlineInput.Message>) =>
-          h.div(
-            [],
-            [
-              InlineInput.view(
-                model,
-                {
-                  value: "",
-                  label: "New item",
-                  error: "Its project was deleted.",
-                },
-                h
-              ),
-              InlineInput.errorView(model, h, "Its project was deleted."),
-            ]
-          ),
-      },
-      Scene.given(fresh),
-      Scene.expect(Scene.label("New item")).toHaveAttr("aria-invalid", "true"),
-      Scene.expect(Scene.label("New item")).toHaveAttr(
-        "aria-describedby",
-        errorId
-      ),
-      Scene.expect(Scene.role("alert")).toHaveId(errorId),
-      Scene.expect(Scene.role("alert")).toContainText(
-        "Its project was deleted."
-      ),
-      resolveKeys
-    );
-  });
-
-  it("prints a card's title at the title size", () => {
-    Scene.scene(
-      {
-        update: InlineInput.update,
-        view: (model: InlineInput.Model, h: HtmlBuilder<InlineInput.Message>) =>
-          InlineInput.view(
-            model,
-            { value: "Notes", label: "Title", size: "Title" },
-            h
-          ),
-      },
-      Scene.given(fresh),
-      Scene.expect(Scene.label("Title")).toHaveClass("title-edit"),
-      resolveKeys
-    );
-  });
 });
 
 describe("toWrite", () => {

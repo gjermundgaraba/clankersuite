@@ -27,7 +27,6 @@ export const isCarrying = (phase: Phase): boolean =>
 
 type Holder = Readonly<{
   dragAndDrop: UiDragAndDrop.Model;
-  isMovable: boolean;
   maybeHeld: Option.Option<unknown>;
 }>;
 
@@ -37,8 +36,7 @@ type Holder = Readonly<{
 export const isHolding = (model: Holder): boolean =>
   phaseOf(model.dragAndDrop) !== "Idle";
 
-export const canLift = (model: Holder): boolean =>
-  model.isMovable && !isHolding(model);
+export const canLift = (model: Holder): boolean => !isHolding(model);
 
 export const settle = <Model extends Holder, Message, OutMessage>(
   step: Update.ReturnWithOutMessage<Model, Message, OutMessage>,

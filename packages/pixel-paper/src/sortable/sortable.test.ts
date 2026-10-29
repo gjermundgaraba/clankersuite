@@ -227,23 +227,6 @@ describe("Sortable update", () => {
       })
     );
   });
-
-  it("lifts nothing while items may not move, and stopping them cancels a hold", () => {
-    const held = Sortable.update(
-      fresh,
-      Sortable.Message.PressedGripKey({ itemId: "beta", items: ITEMS })
-    ).model;
-
-    expect(isHolding(Sortable.setMovable(held, false).model)).toBe(false);
-    expect(
-      isHolding(
-        Sortable.update(
-          Sortable.setMovable(fresh, false).model,
-          Sortable.Message.PressedGripKey({ itemId: "beta", items: ITEMS })
-        ).model
-      )
-    ).toBe(false);
-  });
 });
 
 const listView =
@@ -404,24 +387,6 @@ describe("Sortable view", () => {
       sizeLifted,
       Scene.expect(Scene.selector(".drop-before")).toBeAbsent(),
       Scene.expect(Scene.selector(".drop-after")).toBeAbsent()
-    );
-  });
-
-  it("holds each grip in the keyboard while items may not move", () => {
-    Scene.scene(
-      { update: Sortable.update, view: listView(ITEMS) },
-      Scene.given(Sortable.setMovable(fresh, false).model),
-      Scene.expect(Scene.role("button", { name: "Move Beta" })).toHaveAttr(
-        "aria-disabled",
-        "true"
-      ),
-      Scene.expect(Scene.role("button", { name: "Move Beta" })).not.toHaveAttr(
-        "disabled"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Move Beta" })
-      ).not.toHaveHandler("keydown"),
-      Scene.expect(Scene.selector(".sortable-item")).not.toHaveClass("movable")
     );
   });
 });

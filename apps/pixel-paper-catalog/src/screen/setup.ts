@@ -16,7 +16,6 @@ import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
 import { screenUrl } from "../route.ts";
-import { sampleStrength } from "../sample.ts";
 import { brandView } from "../spec.ts";
 
 const InvalidField = Schema.Literals(["Name", "Password", "PasswordAgain"]);
@@ -63,7 +62,7 @@ const FIELD_IDS: Readonly<Record<InvalidField, string>> = {
   PasswordAgain: "su-again",
 };
 
-const CONSOLE_ID = "su-console";
+const RESULT_ID = "su-result";
 
 const MINIMUM_LENGTH = 12;
 
@@ -111,7 +110,7 @@ export const update = (model: Model, message: Message) =>
             maybeInvalid: () => maybeInvalid,
             isOwnerMade: () => true,
           }),
-          commands: [Focus.Focus({ id: CONSOLE_ID })],
+          commands: [Focus.Focus({ id: RESULT_ID })],
         }),
         onSome: (invalid) => ({
           model: modifyFields(model, { maybeInvalid: () => maybeInvalid }),
@@ -140,7 +139,6 @@ const ownerMadeView = (model: Model, h: HtmlBuilder<Message>): Html =>
             label: "open the console",
             href: screenUrl("console"),
             variant: "Primary",
-            attributes: [h.Id(CONSOLE_ID)],
           },
           h
         ),
@@ -154,6 +152,7 @@ const ownerMadeView = (model: Model, h: HtmlBuilder<Message>): Html =>
             body: [
               `${model.name.trim()} owns this service now. Sign-up is closed: nobody else can make an account here.`,
             ],
+            bodyAttributes: [h.Id(RESULT_ID), h.Tabindex(-1)],
           },
           h
         ),
@@ -210,7 +209,6 @@ const passwordFieldsView = (
       onToggleShown: Message.ToggledPasswordShown(),
       error: errorOf(model, "Password"),
       help: `At least ${MINIMUM_LENGTH} characters. There is no recovery: keep it in a password manager.`,
-      strength: sampleStrength(model.password),
       autocomplete: "new-password",
     },
     h
@@ -241,7 +239,7 @@ const formView = (model: Model, h: HtmlBuilder<Message>): Html =>
       onSubmit: Message.SubmittedSetup(),
       submit: "make the owner",
       body: [
-        Wall.markView({ brand: brandView(h), glyph: "user" }, h),
+        Wall.markView({ brand: brandView(h) }, h),
         h.p(
           [h.Class("note-line")],
           [

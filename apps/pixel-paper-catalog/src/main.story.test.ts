@@ -137,6 +137,20 @@ describe("the palette's commands", () => {
     );
   });
 
+  it("opens the key help on its key, and leaves it be once open", () => {
+    Story.story(
+      update,
+      Story.given(model),
+      Story.message(Message.PressedHelpKey()),
+      resolveShow,
+      Story.message(Message.PressedHelpKey()),
+      Story.Command.expectNone(),
+      Story.model((next) => {
+        expect(KeyHelp.isOpen(next.keyHelp)).toBe(true);
+      })
+    );
+  });
+
   it("opens the key help", () => {
     Story.story(
       update,
@@ -153,47 +167,17 @@ describe("the palette's commands", () => {
   });
 });
 
-const copy = (key: CopyKey) =>
-  toCopyMessage(key, CopyButton.Message.ClickedCopy({ text: "sample" }));
+const copied = (key: CopyKey) =>
+  update(model, toCopyMessage(key, CopyButton.Message.SucceededCopyText()))
+    .model;
 
 describe("a Copy button that copied", () => {
-  const copiedSteps = [
-    Story.Command.resolve(
-      CopyButton.CopyText,
-      CopyButton.Message.SucceededCopyText()
-    ),
-    Story.Command.resolve(
-      CopyButton.AnnounceCopy,
-      CopyButton.Message.CompletedAnnounceCopy()
-    ),
-    Story.Command.resolve(
-      CopyButton.WaitBeforeResettingWord,
-      CopyButton.Message.CompletedWaitBeforeResettingWord()
-    ),
-  ];
-
   it("tells the console its secret was copied", () => {
-    Story.story(
-      update,
-      Story.given(model),
-      Story.message(copy("console-secret")),
-      ...copiedSteps,
-      Story.model((next) => {
-        expect(next.screens.console.isSecretStored).toBe(true);
-      })
-    );
+    expect(copied("console-secret").screens.console.isSecretStored).toBe(true);
   });
 
   it("leaves the console's secret alone when another button copies", () => {
-    Story.story(
-      update,
-      Story.given(model),
-      Story.message(copy("console-issuer")),
-      ...copiedSteps,
-      Story.model((next) => {
-        expect(next.screens.console.isSecretStored).toBe(false);
-      })
-    );
+    expect(copied("console-issuer").screens.console.isSecretStored).toBe(false);
   });
 });
 

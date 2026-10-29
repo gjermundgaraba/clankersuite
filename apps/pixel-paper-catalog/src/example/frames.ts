@@ -198,20 +198,13 @@ const sampleBrowser = (model: Model, h: HtmlBuilder<Message>): Html =>
     h
   );
 
-const AREAS: ReadonlyArray<Readonly<{ area: Area; count: number }>> = [
-  { area: "Inbox", count: 4 },
-  { area: "Later", count: 12 },
-  { area: "Archive", count: 230 },
-];
-
 const placesView = (model: Model, h: HtmlBuilder<Message>): Html =>
   Places.view(
     {
       label: "Sample areas",
-      places: Array.map(AREAS, ({ area, count }) => ({
+      places: Array.map(Area.literals, (area) => ({
         id: area,
         label: area,
-        count,
         isCurrent: model.area === area,
         onSelect: Message.SelectedArea({ area }),
       })),
@@ -227,14 +220,12 @@ const linkPlacesView = (h: HtmlBuilder<Message>): Html =>
         {
           id: "reading",
           label: "Reading",
-          count: 18,
           isCurrent: true,
           href: "#frames-reading",
         },
         {
           id: "listening",
           label: "Listening",
-          count: 7,
           href: "#frames-listening",
         },
       ],
@@ -347,16 +338,6 @@ const wallView = (h: HtmlBuilder<Message>): Html =>
       specView(
         "wall mark: the name over a wall's card",
         [Wall.markView({ brand: [Wordmark.view({ label: "ledger" }, h)] }, h)],
-        h
-      ),
-      specView(
-        "wall corner: what a top bar would hold",
-        [
-          h.div(
-            [h.Class("spec-corner")],
-            [Wall.cornerView({ label: "Sample display", body: ["plum"] }, h)]
-          ),
-        ],
         h
       ),
     ],

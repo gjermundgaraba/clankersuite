@@ -17,10 +17,12 @@ export const view = <Message>(
         [
           h.span(
             [h.Class("spec-inline")],
-            Array.flatMap([...bindings, KeyHelp.helpBinding], (binding) =>
-              Array.map(binding.keys, (keys) =>
-                KeyHint.view({ keys, platform }, h)
-              )
+            Array.map(
+              [
+                ...Array.flatMap(bindings, ({ keys }) => keys),
+                KeyHelp.HELP_KEYS,
+              ],
+              (keys) => KeyHint.view({ keys, platform }, h)
             )
           ),
         ],

@@ -432,18 +432,231 @@ const tokenSectionConfig = (
   };
 };
 
-const FAMILIES: ReadonlyArray<readonly [string, readonly Glyph.GlyphName[]]> =
-  Array.map(
-    Record.toEntries(Glyph.glyphFamilies),
-    ([family, members]): readonly [string, readonly Glyph.GlyphName[]] => [
-      family,
-      Array.filter(Record.keys(Glyph.glyphs), (name) => name in members),
-    ]
-  );
+type GlyphName = Glyph.ViewConfig["name"];
+
+const FAMILIES: ReadonlyArray<readonly [string, readonly GlyphName[]]> = [
+  [
+    "direction",
+    [
+      "caret-down",
+      "caret-right",
+      "caret-up",
+      "arrow-up",
+      "arrow-down",
+      "arrow-left",
+      "arrow-right",
+      "arrow-up-right",
+      "back",
+      "backlink",
+      "external",
+      "corner-down-right",
+      "enter",
+      "swap",
+      "move",
+      "sort",
+      "expand",
+      "shrink",
+      "upload",
+      "download",
+      "skip-back",
+      "skip-next",
+    ],
+  ],
+  [
+    "actions",
+    [
+      "plus",
+      "minus",
+      "cross",
+      "check",
+      "pencil",
+      "copy",
+      "clipboard",
+      "trash",
+      "save",
+      "search",
+      "zoom-in",
+      "zoom-out",
+      "filter",
+      "more",
+      "more-vertical",
+      "settings",
+      "gear",
+      "undo",
+      "redo",
+      "sync",
+      "refresh",
+      "link",
+      "unlink",
+      "pin",
+      "send",
+      "log-in",
+      "log-out",
+    ],
+  ],
+  [
+    "state",
+    [
+      "bang",
+      "info",
+      "question",
+      "warning",
+      "ban",
+      "dot",
+      "mark",
+      "ring",
+      "ring-closed",
+      "box",
+      "box-done",
+      "circle",
+      "star",
+      "bookmark",
+      "flag",
+      "bell",
+      "bell-off",
+      "eye",
+      "eye-off",
+      "lock",
+      "unlock",
+      "clock",
+      "hourglass",
+      "spark",
+      "sun",
+      "moon",
+      "contrast",
+    ],
+  ],
+  [
+    "media",
+    [
+      "play",
+      "pause",
+      "stop",
+      "record",
+      "power",
+      "mic",
+      "mic-off",
+      "volume",
+      "volume-off",
+      "image",
+      "captions",
+    ],
+  ],
+  [
+    "layout",
+    [
+      "outline",
+      "list",
+      "bars",
+      "columns",
+      "grid",
+      "tiles",
+      "table",
+      "fit",
+      "sidebar",
+      "panel-right",
+      "panel-bottom",
+      "split",
+      "window",
+      "layers",
+      "grip",
+      "pointer",
+      "hand",
+      "text",
+    ],
+  ],
+  [
+    "documents",
+    [
+      "page",
+      "file-plus",
+      "note",
+      "script",
+      "folder",
+      "folder-open",
+      "folder-plus",
+      "stack",
+      "archive",
+      "inbox",
+      "embed",
+      "book",
+      "heading",
+      "quote",
+      "code",
+      "hash",
+      "calendar",
+    ],
+  ],
+  [
+    "people",
+    [
+      "user",
+      "users",
+      "user-plus",
+      "id-card",
+      "key",
+      "shield",
+      "shield-check",
+      "bot",
+      "mail",
+      "chat",
+      "globe",
+      "home",
+      "location",
+    ],
+  ],
+  [
+    "systems",
+    [
+      "terminal",
+      "machine",
+      "drum",
+      "chip",
+      "network",
+      "cloud",
+      "cloud-off",
+      "wifi",
+      "wifi-off",
+      "plug",
+      "puzzle",
+      "package",
+      "rocket",
+      "bug",
+      "flask",
+      "monitor",
+      "phone",
+      "keyboard",
+    ],
+  ],
+  [
+    "versions",
+    ["branch", "merge", "fork", "commit", "diff", "snapshot", "tag"],
+  ],
+  [
+    "readings",
+    [
+      "chart-bar",
+      "trend-up",
+      "trend-down",
+      "activity",
+      "percent",
+      "bolt",
+      "battery",
+      "card",
+      "receipt",
+    ],
+  ],
+];
+
+const GLYPH_COUNT = Array.reduce(
+  FAMILIES,
+  0,
+  (count, [, names]) => count + names.length
+);
 
 const shownFamilies = (
   model: Model
-): ReadonlyArray<readonly [string, readonly Glyph.GlyphName[]]> => {
+): ReadonlyArray<readonly [string, readonly GlyphName[]]> => {
   const query = model.glyphQuery.trim().toLowerCase();
 
   return pipe(
@@ -461,7 +674,7 @@ const shownFamilies = (
   );
 };
 
-const glyphTileView = (name: Glyph.GlyphName, h: HtmlBuilder<Message>): Html =>
+const glyphTileView = (name: GlyphName, h: HtmlBuilder<Message>): Html =>
   h.keyed("li")(
     name,
     [],
@@ -477,7 +690,7 @@ const glyphTileView = (name: Glyph.GlyphName, h: HtmlBuilder<Message>): Html =>
                 h.AriaLabel(`Copy ${name}`),
               ],
               [
-                h.span([h.Class("big")], [Glyph.view({ name, size: 24 }, h)]),
+                h.span([h.Class("big")], [Glyph.view({ name }, h)]),
                 h.span([h.Class("names")], [Glyph.view({ name }, h), name]),
               ]
             ),
@@ -489,7 +702,7 @@ const glyphTileView = (name: Glyph.GlyphName, h: HtmlBuilder<Message>): Html =>
 
 const familyView = (
   family: string,
-  names: readonly Glyph.GlyphName[],
+  names: readonly GlyphName[],
   h: HtmlBuilder<Message>
 ): Html =>
   h.keyed("section")(
@@ -606,7 +819,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
           title: "Setting up",
           meta: "once per app",
           about:
-            "What an application does once: import the stylesheet, put schemeScript in the head before it, and provide Clipboard.layer as the application's resources, for CopyButton. Place the page's live parts with LiveRegion.place on every render, so what Announcer.Announce says is heard and the toasts can be reached while a dialog is open, and return SkipLink.ScrollToFragment from the URL handler. These are this specimen's own entries.",
+            "What an application does once: import the stylesheet, put schemeScript, from the scheme entry, in the head before it, and provide Clipboard.layer as the application's resources, for CopyButton. Place the page's live parts with LiveRegion.place on every render, so what Announcer.Announce says is heard and the toasts can be reached while a dialog is open, and return SkipLink.ScrollToFragment from the URL handler. These are this specimen's own entries.",
           covers: FOUNDATIONS.setup,
           body: [
             sourceView("entry.ts", ENTRY_SOURCE, h),
@@ -623,7 +836,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
         {
           id: "glyphs",
           title: "Glyphs",
-          meta: `${Record.size(Glyph.glyphs)} on one 12×12 grid`,
+          meta: `${GLYPH_COUNT} on one 12×12 grid`,
           covers: FOUNDATIONS.glyphs,
           about:
             "Filled cells only: no curves, no other icon set. Each is shown at 24px to read the cells and at 12px, the size it is drawn for. Find one by name or family; press one to copy its name.",
