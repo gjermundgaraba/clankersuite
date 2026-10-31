@@ -12,7 +12,8 @@
     "dist",
     "fonts",
     "src/pixel-paper.css",
-    "src/tokens.css"
+    "src/tokens.css",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "type": "module",
   "sideEffects": [
@@ -44,6 +45,14 @@
     "prepack": "vp pack"
   },
   "dependencies": {
+    "@codemirror/commands": "catalog:",
+    "@codemirror/lang-markdown": "catalog:",
+    "@codemirror/language": "catalog:",
+    "@codemirror/merge": "catalog:",
+    "@codemirror/state": "catalog:",
+    "@codemirror/view": "catalog:",
+    "@lezer/common": "catalog:",
+    "@lezer/markdown": "catalog:",
     "diff": "^9.0.0"
   },
   "devDependencies": {

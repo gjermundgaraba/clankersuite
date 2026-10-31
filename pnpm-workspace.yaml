@@ -7,11 +7,19 @@ saveExact: true
 
 catalog:
   "@clanker-stuff/oxlint-config": 0.1.0
+  "@codemirror/commands": 6.11.1
+  "@codemirror/lang-markdown": 6.5.2
+  "@codemirror/language": 6.13.1
+  "@codemirror/merge": 6.12.3
+  "@codemirror/state": 6.7.6
+  "@codemirror/view": 6.43.15
   "@effect/platform-browser": 4.0.6
   "@effect/tsgo": 0.57.0
   "@foldkit/oxlint-plugin": 0.15.3
   "@foldkit/ui": 0.169.0
   "@foldkit/vite-plugin": 0.28.0
+  "@lezer/common": 1.5.4
+  "@lezer/markdown": 1.8.1
   "@types/node": 26.6.5
   diff: 9.0.0
   effect: 4.0.6

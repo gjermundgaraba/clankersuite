@@ -1,7 +1,10 @@
 import { config } from "@clanker-stuff/oxlint-config";
 import foldkit from "@foldkit/oxlint-plugin";
 
-export const ignorePatterns = ["repos/"];
+export const ignorePatterns = [
+  "repos/",
+  "packages/pixel-paper/src/markdown-editor/live/",
+];
 
 const foldkitFiles = [
   "packages/pixel-paper/src/**",
