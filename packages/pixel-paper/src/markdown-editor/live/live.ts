@@ -1,22 +1,28 @@
 import { syntaxTree } from "@codemirror/language";
-import { RangeSetBuilder, StateEffect, StateField } from "@codemirror/state";
-import type { EditorState, Extension } from "@codemirror/state";
+import {
+  Prec,
+  RangeSetBuilder,
+  StateEffect,
+  StateField,
+} from "@codemirror/state";
+import type {
+  EditorState,
+  Extension,
+  StateEffectType,
+  Transaction,
+} from "@codemirror/state";
 import {
   Decoration,
   EditorView,
   ViewPlugin,
   WidgetType,
+  keymap,
 } from "@codemirror/view";
 import type { DecorationSet, ViewUpdate } from "@codemirror/view";
 import type { SyntaxNode } from "@lezer/common";
 
+import { safeHref, safeImageSource } from "../link-policy.ts";
 import { liveMarkdownTheme } from "./theme.ts";
-
-/** What the live layer takes from its host. */
-export type LiveMarkdownOptions = Readonly<{
-  /** Ctrl or Cmd and a click on a link. Opens a new tab when not given. */
-  openLink?: (url: string) => void;
-}>;
 
 const UNKNOWN_HEIGHT = -1;
 const TABLE_ROW_HEIGHT = 32;
@@ -101,6 +107,16 @@ const imageWidget = (source: string, alt: string) =>
     key: `image:${source}\n${alt}`,
     draw: () => {
       const box = spanOf("lmd-img-box", "");
+      const safeSource = safeImageSource(source, document.baseURI);
+
+      if (safeSource === undefined) {
+        box.append(
+          spanOf("lmd-img-note", alt === "" ? "Image not shown" : alt)
+        );
+
+        return box;
+      }
+
       const image = document.createElement("img");
 
       image.className = "lmd-img";
@@ -117,7 +133,7 @@ const imageWidget = (source: string, alt: string) =>
         },
         { once: true }
       );
-      image.src = source;
+      image.src = safeSource;
       box.append(image);
 
       return box;
@@ -633,7 +649,48 @@ const tableWidget = (text: string) =>
     takesOwnEvents: true,
   });
 
+const lastValueOf = <Value>(
+  transaction: Transaction,
+  type: StateEffectType<Value>,
+  held: Value
+): Value => {
+  const last = transaction.effects.findLast(
+    (effect): effect is StateEffect<Value> => effect.is(type)
+  );
+
+  return last === undefined ? held : last.value;
+};
+
 const setFocus = StateEffect.define<boolean>();
+const setPointerDown = StateEffect.define<boolean>();
+
+const pointerDownField = StateField.define<boolean>({
+  create: () => false,
+  update: (isDown, transaction) =>
+    lastValueOf(transaction, setPointerDown, isDown),
+});
+
+const POINTER_RELEASE_EVENTS = ["mouseup", "dragend", "contextmenu"] as const;
+
+const holdRevealUntilPointerRelease = (view: EditorView): void => {
+  const { ownerDocument } = view.dom;
+
+  const release = () => {
+    for (const name of POINTER_RELEASE_EVENTS) {
+      ownerDocument.removeEventListener(name, release);
+    }
+
+    setTimeout(() => {
+      view.dispatch({ effects: setPointerDown.of(false) });
+    }, 0);
+  };
+
+  view.dispatch({ effects: setPointerDown.of(true) });
+
+  for (const name of POINTER_RELEASE_EVENTS) {
+    ownerDocument.addEventListener(name, release);
+  }
+};
 
 const buildTables = (state: EditorState, isFocused: boolean): DecorationSet => {
   const builder = new RangeSetBuilder<Decoration>();
@@ -685,15 +742,16 @@ const tablesField = StateField.define<TablesState>({
     decorations: buildTables(state, false),
   }),
   update: (value, transaction) => {
-    let { isFocused } = value;
+    const isFocused = lastValueOf(transaction, setFocus, value.isFocused);
+    const wasDown = transaction.startState.field(pointerDownField);
+    const isDown = transaction.state.field(pointerDownField);
 
-    for (const effect of transaction.effects) {
-      if (effect.is(setFocus)) {
-        isFocused = effect.value;
-      }
+    if (isDown && !transaction.docChanged) {
+      return { isFocused, decorations: value.decorations };
     }
 
     return isFocused === value.isFocused &&
+      wasDown === isDown &&
       !transaction.docChanged &&
       transaction.selection === undefined &&
       syntaxTree(transaction.startState) === syntaxTree(transaction.state)
@@ -739,16 +797,57 @@ const toggleCheckbox = (view: EditorView, box: HTMLInputElement): boolean => {
   return true;
 };
 
-/** Markdown drawn over its own text, as in Obsidian's Live Preview: the document stays
- *  Markdown, and its marks show only around the selection. */
-export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
-  const openLink =
-    options.openLink ??
-    ((url: string) => window.open(url, "_blank", "noreferrer"));
+const linkAt = (
+  state: EditorState,
+  position: number,
+  side: -1 | 1
+): string | undefined => {
+  for (
+    let node: SyntaxNode | null = syntaxTree(state).resolveInner(
+      position,
+      side
+    );
+    node !== null;
+    node = node.parent
+  ) {
+    if (isLinkNode(state, node)) {
+      return linkHref(state, node);
+    }
+  }
 
+  return undefined;
+};
+
+const openLink = (url: string): void => {
+  const href = safeHref(url, document.baseURI);
+
+  if (href !== undefined) {
+    window.open(href, "_blank", "noopener,noreferrer");
+  }
+};
+
+const openLinkAtCaret = (view: EditorView): boolean => {
+  const { head } = view.state.selection.main;
+  const url = linkAt(view.state, head, 1) ?? linkAt(view.state, head, -1);
+
+  if (url === undefined) {
+    return false;
+  }
+
+  openLink(url);
+
+  return true;
+};
+
+/** Markdown drawn over its own text, as in Obsidian's Live Preview: the document stays
+ *  Markdown, and its marks show only around the selection. Redrawing a reveal moves text, so
+ *  nothing redraws under an IME's composition or a pressed mouse button. */
+export const liveMarkdown = (): Extension => {
   const preview = ViewPlugin.fromClass(
     class {
       decorations: DecorationSet;
+
+      isStale = false;
 
       constructor(view: EditorView) {
         this.decorations = build(view);
@@ -756,6 +855,13 @@ export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
 
       update(update: ViewUpdate) {
         if (
+          update.view.composing ||
+          (update.state.field(pointerDownField) && !update.docChanged)
+        ) {
+          this.decorations = this.decorations.map(update.changes);
+          this.isStale = true;
+        } else if (
+          this.isStale ||
           update.docChanged ||
           update.selectionSet ||
           update.focusChanged ||
@@ -763,11 +869,19 @@ export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
           syntaxTree(update.startState) !== syntaxTree(update.state)
         ) {
           this.decorations = build(update.view);
+          this.isStale = false;
         }
       }
     },
     {
       decorations: (plugin) => plugin.decorations,
+      eventObservers: {
+        compositionend: (_, view) => {
+          setTimeout(() => {
+            view.dispatch({});
+          }, 0);
+        },
+      },
       eventHandlers: {
         mousedown: (event, view) => {
           if (
@@ -780,38 +894,25 @@ export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
             return true;
           }
 
-          if (!event.metaKey && !event.ctrlKey) {
-            return false;
-          }
+          if (event.metaKey || event.ctrlKey) {
+            const position = view.posAtCoords({
+              x: event.clientX,
+              y: event.clientY,
+            });
 
-          const position = view.posAtCoords({
-            x: event.clientX,
-            y: event.clientY,
-          });
+            const url =
+              position === null ? undefined : linkAt(view.state, position, 1);
 
-          if (position === null) {
-            return false;
-          }
-
-          for (
-            let node: SyntaxNode | null = syntaxTree(view.state).resolveInner(
-              position,
-              1
-            );
-            node !== null;
-            node = node.parent
-          ) {
-            if (isLinkNode(view.state, node)) {
-              const href = linkHref(view.state, node);
-
-              if (href !== undefined) {
-                openLink(href);
-              }
-
+            if (url !== undefined) {
+              openLink(url);
               event.preventDefault();
 
               return true;
             }
+          }
+
+          if (event.button === 0) {
+            holdRevealUntilPointerRelease(view);
           }
 
           return false;
@@ -821,8 +922,10 @@ export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
   );
 
   return [
+    pointerDownField,
     preview,
     tablesField,
+    Prec.high(keymap.of([{ key: "Mod-Enter", run: openLinkAtCaret }])),
     EditorView.focusChangeEffect.of((_, isFocusing) => setFocus.of(isFocusing)),
     liveMarkdownTheme,
   ];

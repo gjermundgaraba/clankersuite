@@ -7,6 +7,7 @@ import {
   Fieldset,
   Focus,
   IconButton,
+  MarkdownEditor,
   PasswordField,
   RadioChoices,
   Secret,
@@ -30,6 +31,7 @@ export const Model = Schema.Struct({
   owner: Schema.String,
   kind: Schema.String,
   notes: Schema.String,
+  brief: Schema.String,
   hosts: Schema.String,
   isMailed: Schema.Boolean,
   isDaily: Schema.Boolean,
@@ -48,6 +50,7 @@ export const Message = defineMessageUnion({
   UpdatedOwner: { value: Schema.String },
   ChangedKind: { value: Schema.String },
   UpdatedNotes: { value: Schema.String },
+  UpdatedBrief: { value: Schema.String },
   UpdatedHosts: { value: Schema.String },
   ToggledMailed: { isChecked: Schema.Boolean },
   ToggledDaily: { isChecked: Schema.Boolean },
@@ -68,6 +71,7 @@ export const init = (): Model => ({
   owner: "",
   kind: "internal",
   notes: "",
+  brief: "",
   hosts: "",
   isMailed: true,
   isDaily: false,
@@ -151,6 +155,9 @@ export const update = (model: Model, message: Message) =>
     }),
     UpdatedNotes: ({ value }) => ({
       model: modifyFields(model, { notes: () => value }),
+    }),
+    UpdatedBrief: ({ value }) => ({
+      model: modifyFields(model, { brief: () => value }),
     }),
     UpdatedHosts: ({ value }) => ({
       model: modifyFields(model, { hosts: () => value }),
@@ -250,6 +257,17 @@ const detailsView = (
       value: model.notes,
       onInput: (value) => Message.UpdatedNotes({ value }),
       help: "What the team should know first.",
+      rows: 3,
+    },
+    h
+  ),
+  MarkdownEditor.view(
+    {
+      id: "sample-brief",
+      label: "Markdown editor",
+      value: model.brief,
+      onInput: (value) => Message.UpdatedBrief({ value }),
+      help: "Marks show only around the caret.",
       rows: 3,
     },
     h

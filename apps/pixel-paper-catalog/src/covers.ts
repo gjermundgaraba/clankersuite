@@ -41,6 +41,7 @@ export const COMPONENTS = {
     "PasswordField",
     "SelectField",
     "TextareaField",
+    "MarkdownEditor",
     "ErrorSummary",
     "Secret",
   ],

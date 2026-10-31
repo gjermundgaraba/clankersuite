@@ -1,6 +1,6 @@
 {
   "name": "@gjermundgaraba/pixel-paper",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Printed-paper Foldkit components, tokens and stylesheet.",
   "license": "MIT",
   "repository": {
@@ -22,6 +22,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./scheme": "./src/scheme/script.ts",
+    "./markdown-editor/element": "./src/markdown-editor/element.ts",
     "./pixel-paper.css": "./src/pixel-paper.css",
     "./tokens.css": "./src/tokens.css"
   },
@@ -34,6 +35,10 @@
       "./scheme": {
         "types": "./dist/scheme/script.d.ts",
         "default": "./dist/scheme/script.js"
+      },
+      "./markdown-editor/element": {
+        "types": "./dist/markdown-editor/element.d.ts",
+        "default": "./dist/markdown-editor/element.js"
       },
       "./pixel-paper.css": "./src/pixel-paper.css"
     },
@@ -57,6 +62,7 @@
   },
   "devDependencies": {
     "@effect/platform-browser": "catalog:",
+    "@effect/vitest": "catalog:",
     "@foldkit/ui": "catalog:",
     "@foldkit/vite-plugin": "catalog:",
     "@types/node": "catalog:",

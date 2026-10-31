@@ -191,6 +191,9 @@ catalogs:
     '@effect/tsgo':
       specifier: 0.57.0
       version: 0.57.0
+    '@effect/vitest':
+      specifier: 4.0.6
+      version: 4.0.6
     '@foldkit/oxlint-plugin':
       specifier: 0.15.3
       version: 0.15.3
@@ -334,6 +337,9 @@ importers:
       '@effect/platform-browser':
         specifier: 'catalog:'
         version: 4.0.6(effect@4.0.6)
+      '@effect/vitest':
+        specifier: 'catalog:'
+        version: 4.0.6(effect@4.0.6)(vitest@5.0.5)
       '@foldkit/ui':
         specifier: 'catalog:'
         version: 0.169.0(effect@4.0.6)(foldkit@0.169.0(@effect/platform-browser@4.0.6(effect@4.0.6))(effect@4.0.6))
@@ -501,6 +507,12 @@ packages:
   '@effect/tsgo@0.57.0':
     resolution: {integrity: sha512-L6ld3X5urPKLozMngSJK6XflqZhrA+o34Rd0X3qVu3vAK/girV+mt4RE3TxWZqOusfthPnOVIhLsC8Lke+pkMA==}
     hasBin: true
+
+  '@effect/vitest@4.0.6':
+    resolution: {integrity: sha512-oKNbtyUHK5+0o730CXwojULEu7f3+c235pYFD4U5T//o+hHrJbYbZU4bRkcv936tPr5IOnmujeyQiC/LuJJjHw==}
+    peerDependencies:
+      effect: ^4.0.6
+      vitest: 5.0.5
 
   '@floating-ui/core@1.8.0':
     resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
@@ -2184,6 +2196,11 @@ snapshots:
       '@effect/tsgo-linux-x64': 0.57.0
       '@effect/tsgo-win32-arm64': 0.57.0
       '@effect/tsgo-win32-x64': 0.57.0
+
+  '@effect/vitest@4.0.6(effect@4.0.6)(vitest@5.0.5)':
+    dependencies:
+      effect: 4.0.6
+      vitest: 5.0.5(@types/node@26.6.5)(@vitest/browser-preview@5.0.5)(@vitest/ui@5.0.5)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(happy-dom@21.0.4)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1)
 
   '@floating-ui/core@1.8.0':
     dependencies:

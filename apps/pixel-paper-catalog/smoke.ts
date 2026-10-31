@@ -473,6 +473,225 @@ try {
       `${firstFocus}, then ${await focusedId()}`
     );
 
+    const briefEditor = sampleForm.locator("pp-markdown-editor");
+    const briefContent = briefEditor.locator(".cm-content");
+    const briefLine = briefContent.locator(".cm-line").first();
+    const briefValue = sampleForm.locator("#sample-brief");
+    const briefSource = "plain **bold** end";
+
+    const isBriefFocused = async (): Promise<boolean> =>
+      await page.evaluate(
+        () => document.activeElement?.classList.contains("cm-content") === true
+      );
+
+    const replaceBrief = async (text: string): Promise<void> => {
+      await briefContent.click();
+      await page.keyboard.press("ControlOrMeta+a");
+      await page.keyboard.press("Delete");
+      await page.keyboard.type(text);
+      await settle();
+    };
+
+    const moveCaretHome = async (rightBy: number): Promise<void> => {
+      await page.keyboard.press("Home");
+
+      for (let step = 0; step < rightBy; step += 1) {
+        await page.keyboard.press("ArrowRight");
+      }
+
+      await settle();
+    };
+
+    check(
+      "the Markdown editor is one textbox, named by its label",
+      (await page.getByRole("textbox", { name: "Markdown editor" }).count()) ===
+        1 && (await briefEditor.locator(".cm-editor").count()) === 1
+    );
+
+    await sampleForm.getByText("Markdown editor", { exact: true }).click();
+    await settle();
+    check(
+      "a click on the Markdown editor's label focuses the editor",
+      await isBriefFocused()
+    );
+
+    await page.keyboard.type(briefSource);
+    await settle();
+    const hiddenMarks = await briefLine.textContent();
+    await moveCaretHome(8);
+    const shownMarks = await briefLine.textContent();
+    check(
+      "the Markdown editor hides marks, and shows them around the caret",
+      hiddenMarks === "plain bold end" && shownMarks === briefSource,
+      `${hiddenMarks}, then ${shownMarks}`
+    );
+    check(
+      "the Markdown editor's edits reach the Model",
+      (await briefValue.inputValue()) === briefSource
+    );
+
+    await page.keyboard.press("ControlOrMeta+b");
+    await page.keyboard.press("ControlOrMeta+k");
+    await settle();
+    const textAfterShortcuts = await briefValue.inputValue();
+    const paletteOpened = await page.locator("#site-palette").isVisible();
+    await page.keyboard.press("Escape");
+    await settle();
+    check(
+      "the Markdown editor binds no formatting shortcut, and Mod-k stays the palette's",
+      textAfterShortcuts === briefSource && paletteOpened
+    );
+
+    await briefContent.click();
+    await page.keyboard.press("Tab");
+    await settle();
+    check(
+      "Tab leaves the Markdown editor and changes nothing",
+      !(await isBriefFocused()) &&
+        (await briefValue.inputValue()) === briefSource
+    );
+
+    await briefContent.locator(".lmd-strong").scrollIntoViewIfNeeded();
+    const strongBox = await briefContent.locator(".lmd-strong").boundingBox();
+
+    if (strongBox === null) {
+      throw new Error("The bold run has no box.");
+    }
+
+    await page.mouse.move(
+      strongBox.x + strongBox.width / 2,
+      strongBox.y + strongBox.height / 2
+    );
+    await page.mouse.down();
+    await settle();
+    const textWhileDown = await briefLine.textContent();
+    await page.mouse.up();
+    await settle();
+    const textAfterRelease = await briefLine.textContent();
+    check(
+      "a pressed mouse button holds the reveal until it lets go",
+      textWhileDown === "plain bold end" && textAfterRelease === briefSource,
+      `${textWhileDown}, then ${textAfterRelease}`
+    );
+
+    await replaceBrief("plain **bold*");
+    const composition = await page.context().newCDPSession(page);
+    await composition.send("Input.imeSetComposition", {
+      text: "*",
+      selectionStart: 1,
+      selectionEnd: 1,
+    });
+    await settle();
+
+    const boldRunsWhileComposing = await briefContent
+      .locator(".lmd-strong")
+      .count();
+
+    const textWhileComposing = await briefValue.inputValue();
+    await composition.send("Input.insertText", { text: "*" });
+    await settle();
+
+    const boldRunsAfterComposing = await briefContent
+      .locator(".lmd-strong")
+      .count();
+
+    check(
+      "a composition redraws nothing until it ends",
+      textWhileComposing === "plain **bold**" &&
+        boldRunsWhileComposing === 0 &&
+        boldRunsAfterComposing === 1,
+      `${textWhileComposing}, ${boldRunsWhileComposing} bold runs, then ${boldRunsAfterComposing}`
+    );
+
+    await replaceBrief("# Heading");
+    check(
+      "a heading is a styled line, with no heading element in the textbox",
+      (await briefContent.locator(".lmd-h1").count()) === 1 &&
+        (await briefContent.locator("h1, h2, h3, h4, h5, h6").count()) === 0
+    );
+
+    await replaceBrief("- [ ] task");
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Enter");
+    await page.keyboard.type("next");
+    await settle();
+    await briefContent.locator(".lmd-check").first().click();
+    await settle();
+    const textAfterToggle = await briefValue.inputValue();
+    check(
+      "a rendered task checkbox toggles its source",
+      textAfterToggle.startsWith("- [x] task"),
+      textAfterToggle
+    );
+
+    await page.evaluate(() => {
+      document.body.dataset["opened"] = "";
+      window.open = (...target) => {
+        document.body.dataset["opened"] += `${JSON.stringify(target)}\n`;
+
+        return null;
+      };
+    });
+
+    const openedLinks = async (): Promise<string> =>
+      (await page.locator("body").getAttribute("data-opened")) ?? "";
+
+    await replaceBrief(
+      "[site](https://example.com/a) [bad](javascript:alert(1))"
+    );
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await settle();
+    const afterScriptLink = await openedLinks();
+    await moveCaretHome(2);
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await settle();
+
+    const expectedOpen = `${JSON.stringify([
+      "https://example.com/a",
+      "_blank",
+      "noopener,noreferrer",
+    ])}\n`;
+
+    check(
+      "the keyboard opens a safe link at the caret and refuses a script link",
+      afterScriptLink === "" && (await openedLinks()) === expectedOpen,
+      await openedLinks()
+    );
+
+    await briefContent.locator(".lmd-link").first().click();
+    await settle();
+    const afterPlainClick = await openedLinks();
+    await briefContent
+      .locator(".lmd-link")
+      .first()
+      .click({ modifiers: ["ControlOrMeta"] });
+    await settle();
+    check(
+      "a modified click opens a link, and a plain click does not",
+      afterPlainClick === expectedOpen &&
+        (await openedLinks()) === `${expectedOpen}${expectedOpen}`,
+      await openedLinks()
+    );
+
+    await replaceBrief("- item");
+    await sampleForm.getByLabel("Project").fill("Field notes");
+    await sampleForm.getByLabel("Hosts").fill("app.example.com");
+    await sampleForm.getByLabel("New password").fill("a sample password");
+    await sampleForm.getByRole("button", { name: "save" }).click();
+    await briefContent.click({ force: true });
+    const readOnlyDuringSave = await briefContent.getAttribute("aria-readonly");
+    await page.keyboard.press("Enter");
+    await page.keyboard.type("x");
+    await settle();
+    const linesDuringSave = await briefContent.locator(".cm-line").count();
+    check(
+      "the Markdown editor refuses Enter and typing while read-only",
+      readOnlyDuringSave === "true" &&
+        linesDuringSave === 1 &&
+        (await briefValue.inputValue()) === "- item",
+      `aria-readonly ${readOnlyDuringSave}, ${linesDuringSave} lines`
+    );
+
     const buttonsFoot = page.locator("#buttons .spec-foot");
     await buttonsFoot.locator(".disclosure-summary").click();
     await settle();

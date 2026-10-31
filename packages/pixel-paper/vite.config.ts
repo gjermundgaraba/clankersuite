@@ -6,7 +6,11 @@ import manifest from "./package.json" with { type: "json" };
 export default defineConfig({
   plugins: [foldkitViewIdentity()],
   pack: {
-    entry: ["src/index.ts", "src/scheme/script.ts"],
+    entry: [
+      "src/index.ts",
+      "src/scheme/script.ts",
+      "src/markdown-editor/element.ts",
+    ],
     platform: "browser",
     unbundle: true,
     dts: { generator: "tsgo" },

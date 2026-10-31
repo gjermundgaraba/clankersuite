@@ -46,6 +46,16 @@ export default defineConfig({
 
 Provide `Clipboard.layer` as the application's resources where a component copies.
 
+`MarkdownEditor.view` edits Markdown in place, and needs its element registered once, from the client entry, before the first render:
+
+```ts
+import { defineMarkdownEditorElement } from "@gjermundgaraba/pixel-paper/markdown-editor/element";
+
+defineMarkdownEditorElement();
+```
+
+Only that subpath loads CodeMirror, so an application that never imports it pays nothing and shows a plain textarea. Links open with Ctrl or Cmd and a click, or Ctrl or Cmd and Enter at the caret. A disabled fieldset makes the editor read-only.
+
 ## Licence
 
-MIT. Departure Mono, in `fonts/`, carries its own licence beside it.
+MIT. Departure Mono, in `fonts/`, carries its own licence beside it. `THIRD_PARTY_NOTICES.md` carries the licence of the Markdown editor's live layer.

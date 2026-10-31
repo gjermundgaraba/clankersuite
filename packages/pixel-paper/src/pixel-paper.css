@@ -1673,6 +1673,52 @@ button.choice {
   font: var(--type-body)/1.5 var(--font-body);
 }
 
+pp-markdown-editor {
+  display: block;
+  position: relative;
+}
+
+pp-markdown-editor:defined textarea {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  clip-path: inset(50%);
+  resize: none;
+}
+
+.markdown-surface {
+  border-bottom: 1px dotted var(--muted);
+  padding-bottom: 1px;
+}
+
+.markdown-surface .cm-scroller {
+  min-height: max(96px, calc(var(--rows) * 1lh));
+}
+
+.markdown-surface:focus-within,
+.field:has([aria-invalid="true"]) .markdown-surface {
+  border-bottom: var(--line) solid var(--ink);
+  padding-bottom: 0;
+}
+
+.field:has([aria-invalid="true"]) .markdown-surface {
+  border-bottom-color: var(--red);
+}
+
+pp-markdown-editor:disabled .markdown-surface {
+  border-bottom-color: transparent;
+}
+
+pp-markdown-editor:disabled .cm-content {
+  color: var(--muted);
+}
+
 textarea::-webkit-resizer {
   background: linear-gradient(135deg, transparent 0 50%, var(--ink) 50% 100%);
 }
