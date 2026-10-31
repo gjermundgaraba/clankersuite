@@ -1,228 +1,331 @@
-import { syntaxTree } from '@codemirror/language';
-import { RangeSetBuilder, StateEffect, StateField, type EditorState, type Extension } from '@codemirror/state';
-import { Decoration, EditorView, ViewPlugin, WidgetType, type DecorationSet, type ViewUpdate } from '@codemirror/view';
-import type { SyntaxNode } from '@lezer/common';
-import { liveMarkdownTheme } from './theme.ts';
+import { syntaxTree } from "@codemirror/language";
+import { RangeSetBuilder, StateEffect, StateField } from "@codemirror/state";
+import type { EditorState, Extension } from "@codemirror/state";
+import {
+  Decoration,
+  EditorView,
+  ViewPlugin,
+  WidgetType,
+} from "@codemirror/view";
+import type { DecorationSet, ViewUpdate } from "@codemirror/view";
+import type { SyntaxNode } from "@lezer/common";
 
-/**
- * «Живой» Markdown, как Live Preview в Obsidian: текст остаётся Markdown, оформление рисуется поверх,
- * служебные символы видны только там, где стоит курсор. Без фокуса весь текст показан оформлённым.
- */
+import { liveMarkdownTheme } from "./theme.ts";
 
-// ------------------------------------------------------------------ настройки
-
-export interface LiveMarkdownOptions {
-  /** Ctrl/Cmd+клик по ссылке. По умолчанию — новая вкладка */
+/** What the live layer takes from its host. */
+export type LiveMarkdownOptions = Readonly<{
+  /** Ctrl or Cmd and a click on a link. Opens a new tab when not given. */
   openLink?: (url: string) => void;
-}
+}>;
 
-// ------------------------------------------------------------------ виджеты
+const UNKNOWN_HEIGHT = -1;
+const TABLE_ROW_HEIGHT = 32;
+const IMAGE_ESTIMATED_HEIGHT = 240;
+const TABLE_HINT = "Click to edit the table";
 
-/** Оформление не меняет исходник: при наведении курсора снова видна разметка. */
-class TypographyWidget extends WidgetType {
-  readonly text: string;
-  readonly divider: boolean;
-  constructor(text: string, divider = false) {
+type Drawing = Readonly<{
+  key: string;
+  draw: (view: EditorView) => HTMLElement;
+  estimatedHeight: number;
+  takesOwnEvents: boolean;
+}>;
+
+class DrawnWidget extends WidgetType {
+  readonly drawing: Drawing;
+
+  constructor(drawing: Drawing) {
     super();
-    this.text = text;
-    this.divider = divider;
+    this.drawing = drawing;
   }
-  eq(other: TypographyWidget) {
-    return this.text === other.text && this.divider === other.divider;
+
+  override eq(other: DrawnWidget) {
+    return other.drawing.key === this.drawing.key;
   }
-  toDOM() {
-    const dom = document.createElement('span');
-    dom.textContent = this.text;
-    if (this.divider) dom.className = 'lmd-labeled-rule';
-    return dom;
+
+  override toDOM(view: EditorView) {
+    return this.drawing.draw(view);
   }
-  ignoreEvent() {
-    return false;
+
+  override get estimatedHeight() {
+    return this.drawing.estimatedHeight;
+  }
+
+  override ignoreEvent() {
+    return this.drawing.takesOwnEvents;
   }
 }
 
-class CheckboxWidget extends WidgetType {
-  readonly checked: boolean;
-  constructor(checked: boolean) {
-    super();
-    this.checked = checked;
-  }
-  eq(other: CheckboxWidget) {
-    return other.checked === this.checked;
-  }
-  toDOM() {
-    const box = document.createElement('input');
-    box.type = 'checkbox';
-    box.checked = this.checked;
-    box.className = 'lmd-check';
-    return box;
-  }
-  ignoreEvent() {
-    return false;
-  }
-}
+const spanOf = (className: string, text: string): HTMLElement => {
+  const span = document.createElement("span");
 
-/** Маркер пункта вне курсора: «• •» по уровню вложенности или номер «3.1.» */
-class ListMarkWidget extends WidgetType {
-  readonly text: string;
-  constructor(text: string) {
-    super();
-    this.text = text;
-  }
-  eq(other: ListMarkWidget) {
-    return other.text === this.text;
-  }
-  toDOM() {
-    const mark = document.createElement('span');
-    mark.className = 'lmd-bullet';
-    mark.textContent = this.text;
-    return mark;
-  }
-}
+  span.className = className;
+  span.textContent = text;
 
-class ImageWidget extends WidgetType {
-  readonly src: string;
-  readonly alt: string;
-  constructor(src: string, alt: string) {
-    super();
-    this.src = src;
-    this.alt = alt;
-  }
-  eq(other: ImageWidget) {
-    return other.src === this.src && other.alt === this.alt;
-  }
-  toDOM() {
-    const note = (text: string) => {
-      const span = document.createElement('span');
-      span.className = 'lmd-img-note';
-      span.textContent = text;
-      return span;
-    };
-    // Корень виджета не подменяем: CodeMirror принял бы новый узел за набранный текст и вписал подпись в документ
-    const box = document.createElement('span');
-    box.className = 'lmd-img-box';
-    const img = document.createElement('img');
-    img.className = 'lmd-img';
-    img.alt = this.alt;
-    img.addEventListener(
-      'error',
-      () => img.replaceWith(note(this.alt ? `Image not found: ${this.alt}` : 'Image not found')),
-      { once: true },
-    );
-    img.src = this.src;
-    box.append(img);
-    return box;
-  }
-  get estimatedHeight() {
-    return 240;
-  }
-  ignoreEvent() {
-    return false;
-  }
-}
+  return span;
+};
 
-// ------------------------------------------------------------------ списки
+const typographyWidget = (text: string, isDivider: boolean) =>
+  new DrawnWidget({
+    key: `typography:${isDivider}:${text}`,
+    draw: () => spanOf(isDivider ? "lmd-labeled-rule" : "", text),
+    estimatedHeight: UNKNOWN_HEIGHT,
+    takesOwnEvents: false,
+  });
 
-const isList = (n: SyntaxNode | null) => n?.name === 'BulletList' || n?.name === 'OrderedList';
+const checkboxWidget = (isChecked: boolean) =>
+  new DrawnWidget({
+    key: `checkbox:${isChecked}`,
+    draw: () => {
+      const box = document.createElement("input");
 
-/** Уровень пункта: сколько списков над ним (1 — верхний) */
-function listDepth(item: SyntaxNode) {
+      box.type = "checkbox";
+      box.checked = isChecked;
+      box.className = "lmd-check";
+
+      return box;
+    },
+    estimatedHeight: UNKNOWN_HEIGHT,
+    takesOwnEvents: false,
+  });
+
+const listMarkWidget = (text: string) =>
+  new DrawnWidget({
+    key: `list-mark:${text}`,
+    draw: () => spanOf("lmd-bullet", text),
+    estimatedHeight: UNKNOWN_HEIGHT,
+    takesOwnEvents: true,
+  });
+
+const imageWidget = (source: string, alt: string) =>
+  new DrawnWidget({
+    key: `image:${source}\n${alt}`,
+    draw: () => {
+      const box = spanOf("lmd-img-box", "");
+      const image = document.createElement("img");
+
+      image.className = "lmd-img";
+      image.alt = alt;
+      image.addEventListener(
+        "error",
+        () => {
+          image.replaceWith(
+            spanOf(
+              "lmd-img-note",
+              alt === "" ? "Image not found" : `Image not found: ${alt}`
+            )
+          );
+        },
+        { once: true }
+      );
+      image.src = source;
+      box.append(image);
+
+      return box;
+    },
+    estimatedHeight: IMAGE_ESTIMATED_HEIGHT,
+    takesOwnEvents: false,
+  });
+
+const isList = (node: SyntaxNode | null) =>
+  node?.name === "BulletList" || node?.name === "OrderedList";
+
+const listDepth = (item: SyntaxNode): number => {
   let depth = 0;
-  for (let n: SyntaxNode | null = item.parent; n; n = n.parent) if (isList(n)) depth++;
+
+  for (let node = item.parent; node !== null; node = node.parent) {
+    if (isList(node)) {
+      depth += 1;
+    }
+  }
+
   return depth;
-}
+};
 
-/** Номер пункта: номер первого пункта списка + место среди соседей */
-function itemNumber(state: EditorState, item: SyntaxNode) {
-  const mark = item.parent?.firstChild?.getChild('ListMark');
-  const start = mark ? parseInt(state.sliceDoc(mark.from, mark.to), 10) || 1 : 1;
+const firstMarkOf = (
+  state: EditorState,
+  item: SyntaxNode
+): string | undefined => {
+  const mark = item.parent?.firstChild?.getChild("ListMark");
+
+  return mark === undefined || mark === null
+    ? undefined
+    : state.sliceDoc(mark.from, mark.to);
+};
+
+const itemNumber = (state: EditorState, item: SyntaxNode): number => {
+  const start = Number(/^\d+/u.exec(firstMarkOf(state, item) ?? "")?.[0] ?? 1);
   let index = 0;
-  for (let n = item.prevSibling; n; n = n.prevSibling) if (n.name === 'ListItem') index++;
+
+  for (let node = item.prevSibling; node !== null; node = node.prevSibling) {
+    if (node.name === "ListItem") {
+      index += 1;
+    }
+  }
+
   return start + index;
-}
+};
 
-/** Разделитель нумерованного списка, как набран в исходнике: «.» или «)» (иначе «.») */
-function listDelim(state: EditorState, item: SyntaxNode) {
-  const mark = item.parent?.firstChild?.getChild('ListMark');
-  const m = mark ? /[.)]$/.exec(state.sliceDoc(mark.from, mark.to)) : null;
-  return m ? m[0] : '.';
-}
+const listDelimiter = (state: EditorState, item: SyntaxNode): string =>
+  /[.)]$/u.exec(firstMarkOf(state, item) ?? "")?.[0] ?? ".";
 
-/** «3.1.2.» / «3.1.2)» — номера всех нумерованных пунктов-предков; разделитель — как в исходнике */
-function outlineNumber(state: EditorState, item: SyntaxNode) {
+const outlineNumber = (state: EditorState, item: SyntaxNode): string => {
   const parts: number[] = [];
-  for (let n: SyntaxNode | null = item; n; n = n.parent)
-    if (n.name === 'ListItem' && n.parent?.name === 'OrderedList') parts.unshift(itemNumber(state, n));
-  return `${parts.join('.')}${listDelim(state, item)}`;
-}
 
-/** Текст маркера пункта вне курсора: «• •» по уровню вложенности или номер «3.1.» / «3.1)» */
-function listMarker(state: EditorState, item: SyntaxNode) {
+  for (let node: SyntaxNode | null = item; node !== null; node = node.parent) {
+    if (node.name === "ListItem" && node.parent?.name === "OrderedList") {
+      parts.unshift(itemNumber(state, node));
+    }
+  }
+
+  return `${parts.join(".")}${listDelimiter(state, item)}`;
+};
+
+const listMarker = (state: EditorState, item: SyntaxNode): string => {
   const list = item.parent;
-  if (list?.name === 'BulletList') return Array(listDepth(item)).fill('•').join(' ');
-  return list?.name === 'OrderedList' ? outlineNumber(state, item) : '';
-}
 
-// ------------------------------------------------------------------ оформление по дереву
+  if (list?.name === "BulletList") {
+    return Array.from({ length: listDepth(item) }, () => "•").join(" ");
+  }
+
+  return list?.name === "OrderedList" ? outlineNumber(state, item) : "";
+};
 
 const hide = Decoration.replace({});
-const mark = (cls: string) => Decoration.mark({ class: cls });
-const line = (cls: string) => Decoration.line({ class: cls });
 
-const INLINE: Record<string, string> = {
-  Emphasis: 'lmd-em',
-  StrongEmphasis: 'lmd-strong',
-  Strikethrough: 'lmd-strike',
-  InlineCode: 'lmd-code',
-  Link: 'lmd-link',
-};
-const HIDDEN_MARKS = new Set(['EmphasisMark', 'StrikethroughMark', 'LinkMark', 'URL']);
-/** Адрес внутри [текст](адрес) или ![](адрес) — служебная часть, прячется вне курсора */
-const isLinkLike = (node: SyntaxNode | null) => node?.name === 'Link' || node?.name === 'Image';
+const mark = (className: string) => Decoration.mark({ class: className });
 
-const normLabel = (s: string) => s.trim().replace(/\s+/g, ' ').toLowerCase();
+const line = (className: string) => Decoration.line({ class: className });
 
-/** Подписи сносок `[подпись]: адрес` документа — они стоят только на верхнем уровне */
-function linkDefinitions(state: EditorState) {
+const INLINE = new Map([
+  ["Emphasis", "lmd-em"],
+  ["StrongEmphasis", "lmd-strong"],
+  ["Strikethrough", "lmd-strike"],
+  ["InlineCode", "lmd-code"],
+  ["Link", "lmd-link"],
+]);
+
+const HIDDEN_MARKS = new Set([
+  "EmphasisMark",
+  "StrikethroughMark",
+  "LinkMark",
+  "URL",
+]);
+
+const LABELED_RULE =
+  /^ {0,3}---[ \t]+(?<title>\S(?:[^\n]*?\S)?)[ \t]+---[ \t]*$/gmu;
+
+const ATX_HEADING = /^ATXHeading(?<level>\d)$/u;
+const STANDALONE_DASHES = /(?<![\S\\])--(?!\S)/gu;
+const NOT_PLAIN_TEXT = /Code|Link|URL|Image|HTML|HorizontalRule|Table|Escape/u;
+
+const isLinkLike = (node: SyntaxNode | null) =>
+  node?.name === "Link" || node?.name === "Image";
+
+const normalizedLabel = (label: string): string =>
+  label.trim().replaceAll(/\s+/gu, " ").toLowerCase();
+
+const linkDefinitions = (state: EditorState): ReadonlySet<string> => {
   const labels = new Set<string>();
-  for (let n = syntaxTree(state).topNode.firstChild; n; n = n.nextSibling) {
-    if (n.name !== 'LinkReference') continue;
-    const label = n.getChild('LinkLabel');
-    if (label) labels.add(normLabel(state.sliceDoc(label.from + 1, label.to - 1)));
+
+  for (
+    let node = syntaxTree(state).topNode.firstChild;
+    node !== null;
+    node = node.nextSibling
+  ) {
+    const label =
+      node.name === "LinkReference" ? node.getChild("LinkLabel") : null;
+
+    if (label !== null) {
+      labels.add(normalizedLabel(state.sliceDoc(label.from + 1, label.to - 1)));
+    }
   }
+
   return labels;
-}
+};
 
-/**
- * Ссылка без адреса — `[текст]`, `[текст][]`, `[текст][метка]` или `![подпись]` — и без сноски с такой меткой.
- * Парсер считает её ссылкой, а при показе это обычный текст в скобках: скобки не прячем.
- */
-function isPlainBrackets(state: EditorState, node: SyntaxNode, definitions = linkDefinitions(state)) {
-  if (!isLinkLike(node) || node.getChild('URL')) return false;
-  const marks = node.getChildren('LinkMark');
-  const label = node.getChild('LinkLabel');
-  let text = label ? state.sliceDoc(label.from + 1, label.to - 1) : '';
-  if (!normLabel(text) && marks.length >= 2) text = state.sliceDoc(marks[0].to, marks[1].from);
-  return !definitions.has(normLabel(text));
-}
+const bracketedText = (state: EditorState, node: SyntaxNode): string => {
+  const label = node.getChild("LinkLabel");
 
-function build(view: EditorView): DecorationSet {
+  const text =
+    label === null ? "" : state.sliceDoc(label.from + 1, label.to - 1);
+
+  const [opening, closing] = node.getChildren("LinkMark");
+
+  return normalizedLabel(text) === "" &&
+    opening !== undefined &&
+    closing !== undefined
+    ? state.sliceDoc(opening.to, closing.from)
+    : text;
+};
+
+const isPlainBrackets = (
+  state: EditorState,
+  node: SyntaxNode,
+  definitions: ReadonlySet<string> = linkDefinitions(state)
+): boolean =>
+  isLinkLike(node) &&
+  node.getChild("URL") === null &&
+  !definitions.has(normalizedLabel(bracketedText(state, node)));
+
+type Placed = Readonly<{
+  from: number;
+  to: number;
+  decoration: Decoration;
+  isReplace: boolean;
+}>;
+
+const build = (view: EditorView): DecorationSet => {
   const { state } = view;
-  const sel = state.selection.ranges;
-  // Без фокуса показываем всё оформлённым, как в просмотре
-  const focused = view.hasFocus;
-  /** Участок [from, to] задевает курсор/выделение — показываем исходник */
-  const touched = (from: number, to: number) => focused && sel.some((r) => r.from <= to && r.to >= from);
-  const activeLine = (pos: number) => {
-    const l = state.doc.lineAt(pos);
-    return touched(l.from, l.to);
+  const { ranges } = state.selection;
+  const isFocused = view.hasFocus;
+
+  const touched = (from: number, to: number) =>
+    isFocused && ranges.some((range) => range.from <= to && range.to >= from);
+
+  const activeLine = (position: number) => {
+    const { from, to } = state.doc.lineAt(position);
+
+    return touched(from, to);
   };
 
-  // Декорации собираем списком и сортируем: дерево и регулярки идут вперемешку
-  const out: { from: number; to: number; deco: Decoration }[] = [];
-  const add = (from: number, to: number, deco: Decoration) => out.push({ from, to, deco });
-  const addLine = (pos: number, deco: Decoration) => out.push({ from: pos, to: pos, deco });
-  const labeledRanges: [number, number][] = [];
+  const placed: Placed[] = [];
+
+  const add = (from: number, to: number, decoration: Decoration) => {
+    placed.push({ from, to, decoration, isReplace: decoration === hide });
+  };
+
+  const replace = (from: number, to: number, widget: WidgetType) => {
+    placed.push({
+      from,
+      to,
+      decoration: Decoration.replace({ widget }),
+      isReplace: true,
+    });
+  };
+
+  const addLine = (position: number, decoration: Decoration) => {
+    placed.push({
+      from: position,
+      to: position,
+      decoration,
+      isReplace: false,
+    });
+  };
+
+  const addLines = (from: number, to: number, className: string) => {
+    for (let position = from; position <= to;) {
+      const { from: start, to: end } = state.doc.lineAt(position);
+
+      addLine(start, line(className));
+      position = end + 1;
+    }
+  };
+
+  const hideWithFollowingSpace = (from: number, to: number) => {
+    add(from, Math.min(to + 1, state.doc.lineAt(from).to), hide);
+  };
+
+  const labeledRanges: Array<readonly [number, number]> = [];
   const definitions = linkDefinitions(state);
 
   for (const { from, to } of view.visibleRanges) {
@@ -232,328 +335,495 @@ function build(view: EditorView): DecorationSet {
       from,
       to,
       enter: (node) => {
-        if (labeledRanges.some(([a, b]) => node.from >= a && node.to <= b)) return false;
-        const name = node.name;
-        const parent = node.node.parent;
+        if (
+          labeledRanges.some(
+            ([start, end]) => node.from >= start && node.to <= end
+          )
+        ) {
+          return false;
+        }
 
-        // Разделитель с подписью занимает отдельную строку обычного абзаца.
-        if (name === 'Paragraph' && parent?.name === 'Document') {
+        const { name } = node;
+        const { parent } = node.node;
+
+        if (name === "Paragraph" && parent?.name === "Document") {
           const paragraph = state.sliceDoc(node.from, node.to);
-          for (const label of paragraph.matchAll(/^ {0,3}---[ \t]+(\S(?:[^\n]*?\S)?)[ \t]+---[ \t]*$/gm)) {
-            const start = node.from + label.index;
-            const end = start + label[0].length;
-            if (!activeLine(start)) {
+
+          for (const match of paragraph.matchAll(LABELED_RULE)) {
+            const start = node.from + match.index;
+            const end = start + match[0].length;
+            const title = match.groups?.["title"];
+
+            if (title !== undefined && !activeLine(start)) {
               labeledRanges.push([start, end]);
-              add(start, end, Decoration.replace({ widget: new TypographyWidget(label[1], true) }));
+              replace(start, end, typographyWidget(title, true));
             }
           }
         }
 
-        const heading = /^ATXHeading(\d)$/.exec(name);
-        if (heading) {
-          addLine(state.doc.lineAt(node.from).from, line(`lmd-h lmd-h${heading[1]}`));
-          return;
+        const level = ATX_HEADING.exec(name)?.groups?.["level"];
+
+        if (level !== undefined) {
+          addLine(
+            state.doc.lineAt(node.from).from,
+            line(`lmd-h lmd-h${level}`)
+          );
+
+          return true;
         }
-        if (name === 'HeaderMark' && parent?.name.startsWith('ATXHeading')) {
+
+        if (
+          name === "HeaderMark" &&
+          parent?.name.startsWith("ATXHeading") === true
+        ) {
           if (!activeLine(node.from)) {
-            // Вместе с пробелом после #
-            const end = Math.min(node.to + 1, state.doc.lineAt(node.from).to);
-            add(node.from, end, hide);
+            hideWithFollowingSpace(node.from, node.to);
           }
-          return;
+
+          return true;
         }
-        // [текст] без адреса — обычный текст: скобки видны, внутри работает остальное оформление
-        if (isLinkLike(node.node) && isPlainBrackets(state, node.node, definitions)) return;
-        if (name === 'LinkMark' && parent && isPlainBrackets(state, parent, definitions)) return;
-        // \[ и подобные — обратная черта прячется вне курсора, остаётся сам знак
-        if (name === 'Escape') {
-          if (!touched(node.from, node.to)) add(node.from, node.from + 1, hide);
-          return;
+
+        if (
+          isLinkLike(node.node) &&
+          isPlainBrackets(state, node.node, definitions)
+        ) {
+          return true;
         }
-        if (name === 'Image') {
-          const url = node.node.getChild('URL');
-          if (url && !touched(node.from, node.to)) {
-            const alt = state.sliceDoc(node.from + 2, Math.max(node.from + 2, url.from - 2));
-            add(node.from, node.to, Decoration.replace({ widget: new ImageWidget(state.sliceDoc(url.from, url.to), alt) }));
+
+        if (
+          name === "LinkMark" &&
+          parent !== null &&
+          isPlainBrackets(state, parent, definitions)
+        ) {
+          return true;
+        }
+
+        if (name === "Escape") {
+          if (!touched(node.from, node.to)) {
+            add(node.from, node.from + 1, hide);
           }
-          return;
+
+          return true;
         }
-        if (INLINE[name]) {
-          add(node.from, node.to, mark(INLINE[name]));
-          return;
-        }
-        // Голая ссылка (https://…, www.…) и <https://…> — сам адрес и есть текст: не прячем, оформляем ссылкой
-        if (name === 'URL' && !isLinkLike(parent)) {
-          add(node.from, node.to, mark('lmd-link'));
-          return;
-        }
-        if ((HIDDEN_MARKS.has(name) || (name === 'CodeMark' && parent?.name === 'InlineCode')) && parent) {
-          if (!touched(parent.from, parent.to)) add(node.from, node.to, hide);
-          return;
-        }
-        if (name === 'FencedCode' || name === 'CodeBlock') {
-          for (let pos = node.from; pos <= node.to;) {
-            const l = state.doc.lineAt(pos);
-            addLine(l.from, line('lmd-codeblock'));
-            pos = l.to + 1;
+
+        if (name === "Image") {
+          const url = node.node.getChild("URL");
+
+          if (url !== null && !touched(node.from, node.to)) {
+            const alt = state.sliceDoc(
+              node.from + 2,
+              Math.max(node.from + 2, url.from - 2)
+            );
+
+            replace(
+              node.from,
+              node.to,
+              imageWidget(state.sliceDoc(url.from, url.to), alt)
+            );
           }
-          return false;
+
+          return true;
         }
-        if (name === 'Blockquote') {
-          for (let pos = node.from; pos <= node.to;) {
-            const l = state.doc.lineAt(pos);
-            addLine(l.from, line('lmd-quote'));
-            pos = l.to + 1;
-          }
-          return;
+
+        const inlineClass = INLINE.get(name);
+
+        if (inlineClass !== undefined) {
+          add(node.from, node.to, mark(inlineClass));
+
+          return true;
         }
-        if (name === 'QuoteMark') {
-          if (!activeLine(node.from)) add(node.from, Math.min(node.to + 1, state.doc.lineAt(node.from).to), hide);
-          return;
+
+        if (name === "URL" && !isLinkLike(parent)) {
+          add(node.from, node.to, mark("lmd-link"));
+
+          return true;
         }
-        if (name === 'HorizontalRule') {
-          if (!activeLine(node.from)) {
-            addLine(state.doc.lineAt(node.from).from, line('lmd-hr'));
+
+        if (
+          parent !== null &&
+          (HIDDEN_MARKS.has(name) ||
+            (name === "CodeMark" && parent.name === "InlineCode"))
+        ) {
+          if (!touched(parent.from, parent.to)) {
             add(node.from, node.to, hide);
           }
-          return;
+
+          return true;
         }
-        if (name === 'Table') {
-          for (let pos = node.from; pos <= node.to;) {
-            const l = state.doc.lineAt(pos);
-            addLine(l.from, line('lmd-table'));
-            pos = l.to + 1;
+
+        if (name === "FencedCode" || name === "CodeBlock") {
+          addLines(node.from, node.to, "lmd-codeblock");
+
+          return false;
+        }
+
+        if (name === "Blockquote") {
+          addLines(node.from, node.to, "lmd-quote");
+
+          return true;
+        }
+
+        if (name === "QuoteMark") {
+          if (!activeLine(node.from)) {
+            hideWithFollowingSpace(node.from, node.to);
           }
-          return;
+
+          return true;
         }
-        if (name === 'ListMark' && parent && isList(parent.parent)) {
-          if (activeLine(node.from)) return;
-          // Пункт с чекбоксом: маркер списка прячем совсем, остаётся флажок
-          if (parent.getChild('Task')) {
-            add(node.from, Math.min(node.to + 1, state.doc.lineAt(node.from).to), hide);
-            return;
+
+        if (name === "HorizontalRule") {
+          if (!activeLine(node.from)) {
+            addLine(state.doc.lineAt(node.from).from, line("lmd-hr"));
+            add(node.from, node.to, hide);
           }
-          add(node.from, node.to, Decoration.replace({ widget: new ListMarkWidget(listMarker(state, parent)) }));
-          return;
+
+          return true;
         }
-        if (name === 'TaskMarker') {
-          if (!touched(node.from, node.to)) {
-            const checked = /x/i.test(state.sliceDoc(node.from, node.to));
-            add(node.from, node.to, Decoration.replace({ widget: new CheckboxWidget(checked) }));
-            if (checked && parent) add(node.to, parent.to, mark('lmd-done'));
+
+        if (name === "Table") {
+          addLines(node.from, node.to, "lmd-table");
+
+          return true;
+        }
+
+        if (name === "ListMark" && parent !== null && isList(parent.parent)) {
+          if (activeLine(node.from)) {
+            return true;
           }
-          return;
+
+          if (parent.getChild("Task") === null) {
+            replace(
+              node.from,
+              node.to,
+              listMarkWidget(listMarker(state, parent))
+            );
+          } else {
+            hideWithFollowingSpace(node.from, node.to);
+          }
+
+          return true;
         }
+
+        if (name === "TaskMarker" && !touched(node.from, node.to)) {
+          const isChecked = /x/iu.test(state.sliceDoc(node.from, node.to));
+
+          replace(node.from, node.to, checkboxWidget(isChecked));
+
+          if (isChecked && parent !== null) {
+            add(node.to, parent.to, mark("lmd-done"));
+          }
+        }
+
+        return true;
       },
     });
 
-    // Только отдельное двойное тире в обычном тексте: URL и код сохраняем.
-    for (const match of text.matchAll(/(?<![\S\\])--(?!\S)/g)) {
+    for (const match of text.matchAll(STANDALONE_DASHES)) {
       const start = from + match.index;
       const end = start + 2;
-      if (touched(start, end)) continue;
-      let node: SyntaxNode | null = syntaxTree(state).resolveInner(start, 1);
-      let plain = true;
-      while (node) {
-        if (/Code|Link|URL|Image|HTML|HorizontalRule|Table|Escape/.test(node.name)) {
-          plain = false;
-          break;
+
+      if (!touched(start, end)) {
+        let node: SyntaxNode | null = syntaxTree(state).resolveInner(start, 1);
+        let isPlain = true;
+
+        while (node !== null && isPlain) {
+          isPlain = !NOT_PLAIN_TEXT.test(node.name);
+          node = node.parent;
         }
-        node = node.parent;
+
+        if (isPlain) {
+          replace(start, end, typographyWidget("—", false));
+        }
       }
-      if (plain) add(start, end, Decoration.replace({ widget: new TypographyWidget('—') }));
     }
   }
 
-  out.sort((a, b) => a.from - b.from || a.deco.startSide - b.deco.startSide);
+  placed.sort(
+    (left, right) =>
+      left.from - right.from ||
+      left.decoration.startSide - right.decoration.startSide
+  );
+
   const builder = new RangeSetBuilder<Decoration>();
-  let lastHideEnd = -1;
-  for (const d of out) {
-    // Пересекающиеся замены RangeSetBuilder не любит — внутренние пропускаем
-    const isReplace = d.from !== d.to && (d.deco.spec.widget || d.deco === hide);
-    if (isReplace && d.from < lastHideEnd) continue;
-    builder.add(d.from, d.to, d.deco);
-    if (isReplace) lastHideEnd = d.to;
-  }
-  return builder.finish();
-}
+  let lastReplaceEnd = -1;
 
-// ------------------------------------------------------------------ таблицы — отрисованная таблица вне курсора
+  for (const { from, to, decoration, isReplace } of placed) {
+    const isRangeReplace = from !== to && isReplace;
 
-const TABLE_HINT = 'Click to edit the table';
+    if (!isRangeReplace || from >= lastReplaceEnd) {
+      builder.add(from, to, decoration);
 
-/** Встроенная таблица: текст ячеек как есть, без разметки внутри */
-function renderPlainTable(source: string, dom: HTMLElement) {
-  const cells = (row: string) =>
-    row
-      .trim()
-      .replace(/^\||\|$/g, '')
-      .split(/(?<!\\)\|/)
-      .map((c) => c.trim().replace(/\\\|/g, '|'));
-  const rows = source.split('\n').filter((r) => r.trim());
-  const table = document.createElement('table');
-  table.className = 'lmd-table-view';
-  rows.forEach((row, i) => {
-    if (i === 1 && /^\s*\|?[\s:|-]+\|?\s*$/.test(row)) return;
-    const tr = document.createElement('tr');
-    for (const text of cells(row)) {
-      const cell = document.createElement(i === 0 ? 'th' : 'td');
-      cell.textContent = text;
-      tr.append(cell);
+      if (isRangeReplace) {
+        lastReplaceEnd = to;
+      }
     }
-    (i === 0 ? (table.createTHead() as HTMLElement) : (table.tBodies[0] ?? table.createTBody())).append(tr);
+  }
+
+  return builder.finish();
+};
+
+const DELIMITER_ROW = /^\s*\|?[\s:|-]+\|?\s*$/u;
+
+const tableCells = (row: string): readonly string[] =>
+  row
+    .trim()
+    .replaceAll(/^\||\|$/gu, "")
+    .split(/(?<!\\)\|/u)
+    .map((cell) => cell.trim().replaceAll(String.raw`\|`, "|"));
+
+const tableOf = (source: string): HTMLTableElement => {
+  const table = document.createElement("table");
+  const head = table.createTHead();
+  const body = table.createTBody();
+  const rows = source.split("\n").filter((row) => row.trim() !== "");
+
+  table.className = "lmd-table-view";
+
+  for (const [index, row] of rows.entries()) {
+    if (index !== 1 || !DELIMITER_ROW.test(row)) {
+      const tableRow = document.createElement("tr");
+
+      for (const text of tableCells(row)) {
+        const cell = document.createElement(index === 0 ? "th" : "td");
+
+        cell.textContent = text;
+        tableRow.append(cell);
+      }
+
+      (index === 0 ? head : body).append(tableRow);
+    }
+  }
+
+  return table;
+};
+
+const tableWidget = (text: string) =>
+  new DrawnWidget({
+    key: `table:${text}`,
+    draw: (view) => {
+      const dom = document.createElement("div");
+
+      dom.className = "lmd-table-widget";
+      dom.title = TABLE_HINT;
+      dom.append(tableOf(text));
+      dom.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+
+        const row =
+          event.target instanceof Element ? event.target.closest("tr") : null;
+
+        const rows = [...dom.querySelectorAll("tr")];
+        const rowIndex = row === null ? -1 : rows.indexOf(row);
+        const sourceOffset = rowIndex <= 0 ? 0 : rowIndex + 1;
+        const first = view.state.doc.lineAt(view.posAtDOM(dom));
+
+        const target = view.state.doc.line(
+          Math.min(first.number + sourceOffset, view.state.doc.lines)
+        );
+
+        view.dispatch({
+          selection: { anchor: Math.min(target.from + 2, target.to) },
+        });
+        view.focus();
+      });
+
+      return dom;
+    },
+    estimatedHeight: TABLE_ROW_HEIGHT * text.split("\n").length,
+    takesOwnEvents: true,
   });
-  dom.append(table);
-}
 
-class TableWidget extends WidgetType {
-  readonly text: string;
-  constructor(text: string) {
-    super();
-    this.text = text;
-  }
-  eq(other: TableWidget) {
-    return other.text === this.text;
-  }
-  toDOM(view: EditorView) {
-    const dom = document.createElement('div');
-    dom.className = 'lmd-table-widget';
-    dom.title = TABLE_HINT;
-    renderPlainTable(this.text, dom);
-    // Клик — курсор в ту же строку исходника: таблица раскрывается в текст с |
-    dom.addEventListener('mousedown', (e) => {
-      if ((e.target as HTMLElement).closest('a')) return;
-      e.preventDefault();
-      const rows = [...dom.querySelectorAll('tr')];
-      const row = rows.indexOf((e.target as HTMLElement).closest('tr')!);
-      // Строка-разделитель | --- | есть в исходнике, но не в таблице
-      const lineOffset = row <= 0 ? 0 : row + 1;
-      const first = view.state.doc.lineAt(view.posAtDOM(dom));
-      const target = view.state.doc.line(Math.min(first.number + lineOffset, view.state.doc.lines));
-      view.dispatch({ selection: { anchor: Math.min(target.from + 2, target.to) } });
-      view.focus();
-    });
-    return dom;
-  }
-  get estimatedHeight() {
-    return 32 * this.text.split('\n').length;
-  }
-  ignoreEvent() {
-    return true;
-  }
-}
-
-/** Фокус редактора — в состоянии, чтобы без фокуса таблицы были отрисованы, даже если курсор в них */
 const setFocus = StateEffect.define<boolean>();
 
-function buildTables(state: EditorState, focused: boolean): DecorationSet {
+const buildTables = (state: EditorState, isFocused: boolean): DecorationSet => {
   const builder = new RangeSetBuilder<Decoration>();
+
   syntaxTree(state).iterate({
     enter: (node) => {
-      if (node.name !== 'Table')
+      if (node.name !== "Table") {
         return (
-          node.name === 'Document' ||
-          node.name.endsWith('List') ||
-          node.name === 'ListItem' ||
-          node.name === 'Blockquote'
+          node.name === "Document" ||
+          node.name.endsWith("List") ||
+          node.name === "ListItem" ||
+          node.name === "Blockquote"
         );
-      const from = state.doc.lineAt(node.from).from;
-      const to = state.doc.lineAt(node.to).to;
-      const inside = state.selection.ranges.some((r) => r.from <= to && r.to >= from);
-      // Таблица внутри списка/цитаты — оставляем текстом: префиксы строк не часть таблицы
-      if (from !== node.from) return false;
-      if (!(focused && inside))
-        builder.add(from, to, Decoration.replace({ widget: new TableWidget(state.sliceDoc(from, to)), block: true }));
+      }
+
+      const { from } = state.doc.lineAt(node.from);
+      const { to } = state.doc.lineAt(node.to);
+
+      const isInside = state.selection.ranges.some(
+        (range) => range.from <= to && range.to >= from
+      );
+
+      if (from === node.from && !(isFocused && isInside)) {
+        builder.add(
+          from,
+          to,
+          Decoration.replace({
+            widget: tableWidget(state.sliceDoc(from, to)),
+            block: true,
+          })
+        );
+      }
+
       return false;
     },
   });
+
   return builder.finish();
-}
+};
 
-function tablesField() {
-  return StateField.define<{ focused: boolean; decos: DecorationSet }>({
-    create: (state) => ({ focused: false, decos: buildTables(state, false) }),
-    update(value, tr) {
-      let focused = value.focused;
-      for (const e of tr.effects) if (e.is(setFocus)) focused = e.value;
-      if (
-        focused === value.focused &&
-        !tr.docChanged &&
-        !tr.selection &&
-        syntaxTree(tr.startState) === syntaxTree(tr.state)
-      )
-        return value;
-      return { focused, decos: buildTables(tr.state, focused) };
+type TablesState = Readonly<{
+  isFocused: boolean;
+  decorations: DecorationSet;
+}>;
+
+const tablesField = StateField.define<TablesState>({
+  create: (state) => ({
+    isFocused: false,
+    decorations: buildTables(state, false),
+  }),
+  update: (value, transaction) => {
+    let { isFocused } = value;
+
+    for (const effect of transaction.effects) {
+      if (effect.is(setFocus)) {
+        isFocused = effect.value;
+      }
+    }
+
+    return isFocused === value.isFocused &&
+      !transaction.docChanged &&
+      transaction.selection === undefined &&
+      syntaxTree(transaction.startState) === syntaxTree(transaction.state)
+      ? value
+      : { isFocused, decorations: buildTables(transaction.state, isFocused) };
+  },
+  provide: (field) =>
+    EditorView.decorations.from(field, (value) => value.decorations),
+});
+
+const linkHref = (state: EditorState, node: SyntaxNode): string | undefined => {
+  const url = node.name === "Link" ? node.getChild("URL") : node;
+
+  if (url === null) {
+    return undefined;
+  }
+
+  const href = state.sliceDoc(url.from, url.to);
+
+  return /^www\./iu.test(href) ? `https://${href}` : href;
+};
+
+const isLinkNode = (state: EditorState, node: SyntaxNode): boolean =>
+  !isPlainBrackets(state, node) &&
+  (node.name === "Link" || (node.name === "URL" && !isLinkLike(node.parent)));
+
+const toggleCheckbox = (view: EditorView, box: HTMLInputElement): boolean => {
+  const position = view.posAtDOM(box);
+  const text = view.state.sliceDoc(position, position + 3);
+
+  if (!/^\[[ xX]\]$/u.test(text)) {
+    return false;
+  }
+
+  view.dispatch({
+    changes: {
+      from: position + 1,
+      to: position + 2,
+      insert: text.charAt(1) === " " ? "x" : " ",
     },
-    provide: (f) => EditorView.decorations.from(f, (v) => v.decos),
   });
-}
 
-// ------------------------------------------------------------------ сборка
+  return true;
+};
 
-/** Живой Markdown для CodeMirror 6 — одно расширение со всеми частями */
-export function liveMarkdown(options: LiveMarkdownOptions = {}): Extension {
-  const openLink = options.openLink ?? ((url: string) => window.open(url, '_blank', 'noreferrer'));
+/** Markdown drawn over its own text, as in Obsidian's Live Preview: the document stays
+ *  Markdown, and its marks show only around the selection. */
+export const liveMarkdown = (options: LiveMarkdownOptions = {}): Extension => {
+  const openLink =
+    options.openLink ??
+    ((url: string) => window.open(url, "_blank", "noreferrer"));
 
   const preview = ViewPlugin.fromClass(
     class {
       decorations: DecorationSet;
+
       constructor(view: EditorView) {
         this.decorations = build(view);
       }
-      update(u: ViewUpdate) {
+
+      update(update: ViewUpdate) {
         if (
-          u.docChanged ||
-          u.selectionSet ||
-          u.focusChanged ||
-          u.viewportChanged ||
-          syntaxTree(u.startState) !== syntaxTree(u.state)
-        )
-          this.decorations = build(u.view);
+          update.docChanged ||
+          update.selectionSet ||
+          update.focusChanged ||
+          update.viewportChanged ||
+          syntaxTree(update.startState) !== syntaxTree(update.state)
+        ) {
+          this.decorations = build(update.view);
+        }
       }
     },
     {
-      decorations: (v) => v.decorations,
+      decorations: (plugin) => plugin.decorations,
       eventHandlers: {
-        mousedown(e, view) {
-          const target = e.target as HTMLElement;
-          if (target instanceof HTMLInputElement && target.classList.contains('lmd-check')) {
-            const pos = view.posAtDOM(target);
-            const text = view.state.sliceDoc(pos, pos + 3);
-            if (/^\[[ xX]\]$/.test(text)) {
-              view.dispatch({ changes: { from: pos + 1, to: pos + 2, insert: text[1] === ' ' ? 'x' : ' ' } });
-              e.preventDefault();
-              return true;
-            }
+        mousedown: (event, view) => {
+          if (
+            event.target instanceof HTMLInputElement &&
+            event.target.classList.contains("lmd-check") &&
+            toggleCheckbox(view, event.target)
+          ) {
+            event.preventDefault();
+
+            return true;
           }
-          // Ctrl/Cmd+клик по ссылке — открыть
-          if (e.metaKey || e.ctrlKey) {
-            const pos = view.posAtCoords({ x: e.clientX, y: e.clientY });
-            if (pos === null) return false;
-            for (let n: SyntaxNode | null = syntaxTree(view.state).resolveInner(pos, 1); n; n = n.parent) {
-              let url: SyntaxNode | null;
-              if (isPlainBrackets(view.state, n)) continue;
-              if (n.name === 'Link') url = n.getChild('URL');
-              else if (n.name === 'URL' && !isLinkLike(n.parent)) url = n;
-              else continue;
-              if (url) {
-                const href = view.state.sliceDoc(url.from, url.to);
-                openLink(/^www\./i.test(href) ? `https://${href}` : href);
+
+          if (!event.metaKey && !event.ctrlKey) {
+            return false;
+          }
+
+          const position = view.posAtCoords({
+            x: event.clientX,
+            y: event.clientY,
+          });
+
+          if (position === null) {
+            return false;
+          }
+
+          for (
+            let node: SyntaxNode | null = syntaxTree(view.state).resolveInner(
+              position,
+              1
+            );
+            node !== null;
+            node = node.parent
+          ) {
+            if (isLinkNode(view.state, node)) {
+              const href = linkHref(view.state, node);
+
+              if (href !== undefined) {
+                openLink(href);
               }
-              e.preventDefault();
+
+              event.preventDefault();
+
               return true;
             }
           }
+
           return false;
         },
       },
-    },
+    }
   );
 
   return [
     preview,
-    tablesField(),
-    EditorView.focusChangeEffect.of((_, focusing) => setFocus.of(focusing)),
+    tablesField,
+    EditorView.focusChangeEffect.of((_, isFocusing) => setFocus.of(isFocusing)),
     liveMarkdownTheme,
   ];
-}
+};

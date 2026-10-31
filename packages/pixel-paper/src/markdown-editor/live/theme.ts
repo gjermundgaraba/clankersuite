@@ -1,135 +1,118 @@
-import { EditorView } from '@codemirror/view';
+import { EditorView } from "@codemirror/view";
 
-/**
- * Встроенное оформление. Всё настраивается CSS-переменными на редакторе или любом предке:
- *
- * | переменная | что |
- * | --- | --- |
- * | `--lmd-bg`, `--lmd-text` | фон и текст |
- * | `--lmd-muted`, `--lmd-faint` | маркеры списков и цитаты; зачёркнутое, выполненное, подсказка |
- * | `--lmd-font`, `--lmd-font-size`, `--lmd-line-height`, `--lmd-mono` | шрифты |
- * | `--lmd-padding` | поля текста |
- * | `--lmd-code-bg`, `--lmd-link`, `--lmd-accent` | фон кода, ссылки, флажки |
- * | `--lmd-quote-border`, `--lmd-rule` | черта цитаты, горизонтальная линия |
- * | `--lmd-selection` | выделение (по умолчанию разное для светлой и тёмной темы CodeMirror) |
- */
+const PIXEL_LABEL = {
+  fontFamily: "var(--font-px)",
+  fontWeight: "400",
+  textTransform: "uppercase",
+  letterSpacing: "var(--tracking-label)",
+};
+
+const CODE = {
+  fontFamily: "var(--font-code)",
+  fontSize: "var(--type-control)",
+};
+
+/** The live layer's look, in `tokens.css` values alone, so paper and plum both hold. */
 export const liveMarkdownTheme = EditorView.baseTheme({
-  '&': {
-    height: '100%',
-    background: 'var(--lmd-bg, transparent)',
-    color: 'var(--lmd-text, inherit)',
+  "&": { color: "var(--ink)", background: "var(--paper)" },
+  "&.cm-focused": { outline: "none" },
+  ".cm-scroller": {
+    fontFamily: "var(--font-body)",
+    fontSize: "var(--type-body)",
+    lineHeight: "1.5",
+    overflow: "auto",
   },
-  '&.cm-focused': { outline: 'none' },
-  '.cm-scroller': {
-    fontFamily: 'var(--lmd-font, inherit)',
-    fontSize: 'var(--lmd-font-size, inherit)',
-    lineHeight: 'var(--lmd-line-height, 1.6)',
-    overflow: 'auto',
+  ".cm-content": { padding: "2px 0", caretColor: "var(--ink)" },
+  ".cm-content ::selection": {
+    background: "var(--ink)",
+    color: "var(--paper)",
   },
-  '.cm-content': {
-    padding: 'var(--lmd-padding, 14px 16px)',
-    caretColor: 'var(--lmd-text, currentColor)',
-  },
-  '.cm-line': { padding: '0' },
-  '.cm-cursor': { borderLeftColor: 'var(--lmd-text, currentColor)' },
-  '&light .cm-selectionBackground, &light.cm-focused .cm-selectionBackground, &light .cm-content ::selection': {
-    background: 'var(--lmd-selection, #d7e1fb) !important',
-  },
-  '&dark .cm-selectionBackground, &dark.cm-focused .cm-selectionBackground, &dark .cm-content ::selection': {
-    background: 'var(--lmd-selection, #34405c) !important',
-  },
-  '.cm-placeholder': { color: 'var(--lmd-faint, #999)' },
+  ".cm-cursor": { borderLeftColor: "var(--ink)" },
+  ".cm-line": { padding: "0" },
 
-  // заголовки
-  '.lmd-h': { fontWeight: '650', lineHeight: '1.3' },
-  '.lmd-h1': { fontSize: '1.6em', paddingTop: '0.4em !important' },
-  '.lmd-h2': { fontSize: '1.35em', paddingTop: '0.35em !important' },
-  '.lmd-h3': { fontSize: '1.15em', paddingTop: '0.3em !important' },
-  '.lmd-h4, .lmd-h5, .lmd-h6': { fontSize: '1em' },
-
-  // строчное
-  '.lmd-strong': { fontWeight: '650' },
-  '.lmd-em': { fontStyle: 'italic' },
-  '.lmd-strike, .lmd-done': { textDecoration: 'line-through', color: 'var(--lmd-faint, #999)' },
-  '.lmd-code': {
-    fontFamily: 'var(--lmd-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)',
-    fontSize: '0.9em',
-    background: 'var(--lmd-code-bg, rgba(127, 127, 127, 0.15))',
-    borderRadius: '4px',
-    padding: '1px 3px',
-  },
-  '.lmd-link': {
-    color: 'var(--lmd-link, #3b73d9)',
-    textDecoration: 'underline',
-    textUnderlineOffset: '2px',
-  },
-  '.lmd-token-src': {
-    fontFamily: 'var(--lmd-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)',
-    fontSize: '0.9em',
-    color: 'var(--lmd-muted, #808080)',
+  ".lmd-h": { fontWeight: "var(--read-weight)", lineHeight: "1.3" },
+  ".lmd-h1, .lmd-h2": { fontSize: "var(--read-h2)" },
+  ".lmd-h3": { fontSize: "var(--read-h3)" },
+  ".lmd-h4": { ...PIXEL_LABEL, fontSize: "var(--type-control)" },
+  ".lmd-h5": { fontSize: "var(--type-body)" },
+  ".lmd-h6": {
+    ...PIXEL_LABEL,
+    fontSize: "var(--type-label)",
+    color: "var(--muted)",
   },
 
-  // блоки
-  '.lmd-codeblock': {
-    fontFamily: 'var(--lmd-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)',
-    fontSize: '0.93em',
-    background: 'var(--lmd-code-bg, rgba(127, 127, 127, 0.15))',
-    padding: '0 10px !important',
+  ".lmd-strong": { fontWeight: "var(--read-weight)" },
+  ".lmd-em": { fontStyle: "italic" },
+  ".lmd-strike, .lmd-done": {
+    textDecoration: "line-through",
+    color: "var(--muted)",
   },
-  '.lmd-table': {
-    fontFamily: 'var(--lmd-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace)',
-    fontSize: '0.93em',
+  ".lmd-code": { ...CODE, background: "var(--head)", padding: "1px 5px" },
+  ".lmd-link": {
+    color: "var(--ink)",
+    textDecoration: "underline",
+    textDecorationThickness: "var(--hair)",
+    textUnderlineOffset: "3px",
   },
-  '.lmd-quote': {
-    borderLeft: '3px solid var(--lmd-quote-border, rgba(127, 127, 127, 0.5))',
-    paddingLeft: '12px !important',
-    color: 'var(--lmd-muted, #808080)',
+
+  ".lmd-codeblock": {
+    ...CODE,
+    background: "var(--head)",
+    padding: "0 var(--space-s) !important",
   },
-  '.lmd-labeled-rule': {
-    display: 'inline-flex',
-    width: '100%',
-    alignItems: 'center',
-    gap: '12px',
-    color: 'var(--lmd-muted, #808080)',
-    verticalAlign: 'middle',
+  ".lmd-table": CODE,
+  ".lmd-quote": {
+    borderLeft: "var(--hair) solid var(--ink)",
+    paddingLeft: "var(--space-m) !important",
+    color: "var(--muted)",
   },
-  '.lmd-labeled-rule::before, .lmd-labeled-rule::after': {
+  ".lmd-labeled-rule": {
+    display: "inline-flex",
+    width: "100%",
+    alignItems: "center",
+    gap: "var(--space-s)",
+    color: "var(--muted)",
+    verticalAlign: "middle",
+  },
+  ".lmd-labeled-rule::before, .lmd-labeled-rule::after": {
     content: '""',
-    flex: '1',
-    minWidth: '12px',
-    height: '1px',
-    background: 'var(--lmd-rule, rgba(127, 127, 127, 0.35))',
+    flex: "1",
+    minWidth: "var(--space-s)",
+    height: "var(--hair)",
+    background: "var(--rule)",
   },
-  '.lmd-hr': {
-    height: '0.8em',
+  ".lmd-hr": {
+    height: "0.8em",
     background:
-      'linear-gradient(var(--lmd-rule, rgba(127, 127, 127, 0.35)), var(--lmd-rule, rgba(127, 127, 127, 0.35))) center / 100% 1px no-repeat',
+      "linear-gradient(var(--rule), var(--rule)) center / 100% var(--hair) no-repeat",
   },
 
-  // списки
-  '.lmd-bullet': {
-    color: 'var(--lmd-muted, #808080)',
-    display: 'inline-block',
-    minWidth: '0.7em',
-    fontVariantNumeric: 'tabular-nums',
+  ".lmd-bullet": {
+    color: "var(--muted)",
+    display: "inline-block",
+    minWidth: "0.7em",
+    fontVariantNumeric: "tabular-nums",
   },
-  '.lmd-check': {
-    margin: '0 6px 0 0',
-    verticalAlign: '-2px',
-    cursor: 'pointer',
-    accentColor: 'var(--lmd-accent, auto)',
+  ".lmd-check": {
+    margin: "0 var(--space-s) 0 0",
+    verticalAlign: "-2px",
+    cursor: "pointer",
+    accentColor: "var(--ink)",
   },
 
-  // картинки
-  '.lmd-img': { display: 'block', maxWidth: '100%', maxHeight: '480px', margin: '6px 0' },
-  '.lmd-img-note': { color: 'var(--lmd-faint, #999)', fontStyle: 'italic' },
+  ".lmd-img": {
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "480px",
+    margin: "var(--space-s) 0",
+  },
+  ".lmd-img-note": { color: "var(--muted)", fontStyle: "italic" },
 
-  // таблица, отрисованная вне курсора
-  '.lmd-table-widget': { cursor: 'text', padding: '2px 0' },
-  '.lmd-table-view': { borderCollapse: 'collapse' },
-  '.lmd-table-view th, .lmd-table-view td': {
-    border: '1px solid var(--lmd-rule, rgba(127, 127, 127, 0.35))',
-    padding: '3px 8px',
-    textAlign: 'left',
+  ".lmd-table-widget": { cursor: "text", padding: "2px 0" },
+  ".lmd-table-view": { borderCollapse: "collapse" },
+  ".lmd-table-view th, .lmd-table-view td": {
+    border: "var(--hair) solid var(--rule)",
+    padding: "3px var(--space-s)",
+    textAlign: "left",
   },
 });
