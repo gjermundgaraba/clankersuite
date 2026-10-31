@@ -873,6 +873,7 @@ try {
     const images = await mountStandaloneEditor(
       [
         "![script](javascript:alert(1))",
+        "![bracketed](<https://images.example/a b.png>)",
         `![data](data:image/png;base64,${PIXEL_PNG})`,
         "![file](file:///etc/hosts)",
         "![web](https://images.example/web.png)",
@@ -890,11 +891,21 @@ try {
       );
 
     check(
-      "of four image sources only the https one is requested, with no Referer",
-      JSON.stringify(imageSources) ===
-        JSON.stringify(["https://images.example/web.png"]) &&
-        JSON.stringify(imageRequests) ===
-          JSON.stringify([{ url: "https://images.example/web.png" }]),
+      "of five image sources only the two https ones are requested, without angle brackets or a Referer",
+      JSON.stringify(imageSources.toSorted()) ===
+        JSON.stringify([
+          "https://images.example/a%20b.png",
+          "https://images.example/web.png",
+        ]) &&
+        JSON.stringify(
+          imageRequests.toSorted((left, right) =>
+            left.url.localeCompare(right.url)
+          )
+        ) ===
+          JSON.stringify([
+            { url: "https://images.example/a%20b.png" },
+            { url: "https://images.example/web.png" },
+          ]),
       `${JSON.stringify(imageSources)} ${JSON.stringify(imageRequests)}`
     );
     await unmountStandaloneEditor();

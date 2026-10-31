@@ -299,7 +299,12 @@ export const liveDecorations = (
             replace(
               node.from,
               node.to,
-              imageWidget(state.sliceDoc(url.from, url.to), alt)
+              imageWidget(
+                state
+                  .sliceDoc(url.from, url.to)
+                  .replace(ANGLE_BRACKETED, "$<destination>"),
+                alt
+              )
             );
           }
 
