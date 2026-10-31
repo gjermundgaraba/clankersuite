@@ -15,14 +15,7 @@ export const spec = define({
 /** Configuration for rendering a Markdown editor with `view`. */
 export type ViewConfig<Message> = Pick<
   TextareaField.ViewConfig<Message>,
-  | "id"
-  | "label"
-  | "value"
-  | "onInput"
-  | "help"
-  | "error"
-  | "isRequired"
-  | "rows"
+  "id" | "label" | "value" | "onInput" | "help" | "error" | "rows"
 >;
 
 /** A labelled Markdown field, edited in place: its marks show only around the caret, and the

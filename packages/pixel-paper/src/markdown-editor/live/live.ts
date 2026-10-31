@@ -70,14 +70,6 @@ const spanOf = (className: string, text: string): HTMLElement => {
   return span;
 };
 
-const typographyWidget = (text: string, isDivider: boolean) =>
-  new DrawnWidget({
-    key: `typography:${isDivider}:${text}`,
-    draw: () => spanOf(isDivider ? "lmd-labeled-rule" : "", text),
-    estimatedHeight: UNKNOWN_HEIGHT,
-    takesOwnEvents: false,
-  });
-
 const checkboxWidget = (isChecked: boolean) =>
   new DrawnWidget({
     key: `checkbox:${isChecked}`,
@@ -94,13 +86,12 @@ const checkboxWidget = (isChecked: boolean) =>
     takesOwnEvents: false,
   });
 
-const listMarkWidget = (text: string) =>
-  new DrawnWidget({
-    key: `list-mark:${text}`,
-    draw: () => spanOf("lmd-bullet", text),
-    estimatedHeight: UNKNOWN_HEIGHT,
-    takesOwnEvents: true,
-  });
+const bulletWidget = new DrawnWidget({
+  key: "bullet",
+  draw: () => spanOf("lmd-bullet", "•"),
+  estimatedHeight: UNKNOWN_HEIGHT,
+  takesOwnEvents: true,
+});
 
 const imageWidget = (source: string, alt: string) =>
   new DrawnWidget({
@@ -145,67 +136,6 @@ const imageWidget = (source: string, alt: string) =>
 const isList = (node: SyntaxNode | null) =>
   node?.name === "BulletList" || node?.name === "OrderedList";
 
-const listDepth = (item: SyntaxNode): number => {
-  let depth = 0;
-
-  for (let node = item.parent; node !== null; node = node.parent) {
-    if (isList(node)) {
-      depth += 1;
-    }
-  }
-
-  return depth;
-};
-
-const firstMarkOf = (
-  state: EditorState,
-  item: SyntaxNode
-): string | undefined => {
-  const mark = item.parent?.firstChild?.getChild("ListMark");
-
-  return mark === undefined || mark === null
-    ? undefined
-    : state.sliceDoc(mark.from, mark.to);
-};
-
-const itemNumber = (state: EditorState, item: SyntaxNode): number => {
-  const start = Number(/^\d+/u.exec(firstMarkOf(state, item) ?? "")?.[0] ?? 1);
-  let index = 0;
-
-  for (let node = item.prevSibling; node !== null; node = node.prevSibling) {
-    if (node.name === "ListItem") {
-      index += 1;
-    }
-  }
-
-  return start + index;
-};
-
-const listDelimiter = (state: EditorState, item: SyntaxNode): string =>
-  /[.)]$/u.exec(firstMarkOf(state, item) ?? "")?.[0] ?? ".";
-
-const outlineNumber = (state: EditorState, item: SyntaxNode): string => {
-  const parts: number[] = [];
-
-  for (let node: SyntaxNode | null = item; node !== null; node = node.parent) {
-    if (node.name === "ListItem" && node.parent?.name === "OrderedList") {
-      parts.unshift(itemNumber(state, node));
-    }
-  }
-
-  return `${parts.join(".")}${listDelimiter(state, item)}`;
-};
-
-const listMarker = (state: EditorState, item: SyntaxNode): string => {
-  const list = item.parent;
-
-  if (list?.name === "BulletList") {
-    return Array.from({ length: listDepth(item) }, () => "•").join(" ");
-  }
-
-  return list?.name === "OrderedList" ? outlineNumber(state, item) : "";
-};
-
 const hide = Decoration.replace({});
 
 const mark = (className: string) => Decoration.mark({ class: className });
@@ -227,12 +157,7 @@ const HIDDEN_MARKS = new Set([
   "URL",
 ]);
 
-const LABELED_RULE =
-  /^ {0,3}---[ \t]+(?<title>\S(?:[^\n]*?\S)?)[ \t]+---[ \t]*$/gmu;
-
 const ATX_HEADING = /^ATXHeading(?<level>\d)$/u;
-const STANDALONE_DASHES = /(?<![\S\\])--(?!\S)/gu;
-const NOT_PLAIN_TEXT = /Code|Link|URL|Image|HTML|HorizontalRule|Table|Escape/u;
 
 const isLinkLike = (node: SyntaxNode | null) =>
   node?.name === "Link" || node?.name === "Image";
@@ -341,41 +266,15 @@ const build = (view: EditorView): DecorationSet => {
     add(from, Math.min(to + 1, state.doc.lineAt(from).to), hide);
   };
 
-  const labeledRanges: Array<readonly [number, number]> = [];
   const definitions = linkDefinitions(state);
 
   for (const { from, to } of view.visibleRanges) {
-    const text = state.sliceDoc(from, to);
-
     syntaxTree(state).iterate({
       from,
       to,
       enter: (node) => {
-        if (
-          labeledRanges.some(
-            ([start, end]) => node.from >= start && node.to <= end
-          )
-        ) {
-          return false;
-        }
-
         const { name } = node;
         const { parent } = node.node;
-
-        if (name === "Paragraph" && parent?.name === "Document") {
-          const paragraph = state.sliceDoc(node.from, node.to);
-
-          for (const match of paragraph.matchAll(LABELED_RULE)) {
-            const start = node.from + match.index;
-            const end = start + match[0].length;
-            const title = match.groups?.["title"];
-
-            if (title !== undefined && !activeLine(start)) {
-              labeledRanges.push([start, end]);
-              replace(start, end, typographyWidget(title, true));
-            }
-          }
-        }
 
         const level = ATX_HEADING.exec(name)?.groups?.["level"];
 
@@ -507,14 +406,10 @@ const build = (view: EditorView): DecorationSet => {
             return true;
           }
 
-          if (parent.getChild("Task") === null) {
-            replace(
-              node.from,
-              node.to,
-              listMarkWidget(listMarker(state, parent))
-            );
-          } else {
+          if (parent.getChild("Task") !== null) {
             hideWithFollowingSpace(node.from, node.to);
+          } else if (parent.parent?.name === "BulletList") {
+            replace(node.from, node.to, bulletWidget);
           }
 
           return true;
@@ -533,25 +428,6 @@ const build = (view: EditorView): DecorationSet => {
         return true;
       },
     });
-
-    for (const match of text.matchAll(STANDALONE_DASHES)) {
-      const start = from + match.index;
-      const end = start + 2;
-
-      if (!touched(start, end)) {
-        let node: SyntaxNode | null = syntaxTree(state).resolveInner(start, 1);
-        let isPlain = true;
-
-        while (node !== null && isPlain) {
-          isPlain = !NOT_PLAIN_TEXT.test(node.name);
-          node = node.parent;
-        }
-
-        if (isPlain) {
-          replace(start, end, typographyWidget("—", false));
-        }
-      }
-    }
   }
 
   placed.sort(

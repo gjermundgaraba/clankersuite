@@ -4,11 +4,7 @@ import { spec } from "./markdown-editor.ts";
 import { afterEmission, afterSource } from "./reconcile.ts";
 import type { Pending } from "./reconcile.ts";
 
-const MIRRORED_ATTRIBUTES = [
-  "aria-describedby",
-  "aria-invalid",
-  "aria-required",
-] as const;
+const MIRRORED_ATTRIBUTES = ["aria-describedby", "aria-invalid"] as const;
 
 const MOTION_END_EVENTS = ["animationend", "transitionend"] as const;
 

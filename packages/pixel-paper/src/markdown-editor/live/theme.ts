@@ -66,21 +66,6 @@ export const liveMarkdownTheme = EditorView.baseTheme({
     paddingLeft: "var(--space-m) !important",
     color: "var(--muted)",
   },
-  ".lmd-labeled-rule": {
-    display: "inline-flex",
-    width: "100%",
-    alignItems: "center",
-    gap: "var(--space-s)",
-    color: "var(--muted)",
-    verticalAlign: "middle",
-  },
-  ".lmd-labeled-rule::before, .lmd-labeled-rule::after": {
-    content: '""',
-    flex: "1",
-    minWidth: "var(--space-s)",
-    height: "var(--hair)",
-    background: "var(--rule)",
-  },
   ".lmd-hr": {
     height: "0.8em",
     background:
@@ -91,7 +76,6 @@ export const liveMarkdownTheme = EditorView.baseTheme({
     color: "var(--muted)",
     display: "inline-block",
     minWidth: "0.7em",
-    fontVariantNumeric: "tabular-nums",
   },
   ".lmd-check": {
     margin: "0 var(--space-s) 0 0",

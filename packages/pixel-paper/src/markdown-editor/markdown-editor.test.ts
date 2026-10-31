@@ -46,8 +46,7 @@ describe("MarkdownEditor", () => {
       Scene.given<Model>({ brief: "# Plan" }),
       Scene.expect(host).toExist(),
       Scene.expect(textbox).toHaveValue("# Plan"),
-      Scene.expect(textbox).toHaveAttr("rows", "6"),
-      Scene.expect(textbox).not.toHaveAttr("aria-required")
+      Scene.expect(textbox).toHaveAttr("rows", "6")
     );
   });
 
@@ -62,16 +61,12 @@ describe("MarkdownEditor", () => {
     );
   });
 
-  it("says why it is invalid, and that it is required", () => {
+  it("says why it is invalid", () => {
     Scene.scene(
-      {
-        update,
-        view: fieldView({ error: "Give it a brief.", isRequired: true }),
-      },
+      { update, view: fieldView({ error: "Give it a brief." }) },
       Scene.given<Model>({ brief: "" }),
       Scene.expect(textbox).toHaveAttr("aria-invalid", "true"),
       Scene.expect(textbox).toHaveAttr("aria-describedby", "brief-error"),
-      Scene.expect(textbox).toHaveAttr("aria-required", "true"),
       Scene.expect(Scene.selector(".field-error")).toHaveText(
         "Give it a brief."
       )
