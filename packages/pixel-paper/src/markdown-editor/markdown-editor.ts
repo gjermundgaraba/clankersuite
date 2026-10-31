@@ -19,10 +19,10 @@ export type ViewConfig<Message> = Pick<
 >;
 
 /** A labelled Markdown field, edited in place: its marks show only around the caret, and the
- *  text it hands back is the Markdown string, untouched where nobody typed. Without
- *  `defineMarkdownEditorElement` it is a plain `TextareaField`, which is also what tests see,
- *  and so is a field whose editor fails to mount. With it, the element takes the textarea's
- *  place and drives `onInput` itself, because a textarea cannot carry a CRLF document. */
+ *  text it hands back is the Markdown string as typed, except that the first edit turns CRLF
+ *  line endings into LF. Without `defineMarkdownEditorElement` it is a plain `TextareaField`,
+ *  which is also what tests see, and so is a field whose editor fails to mount. With it, the
+ *  element takes the textarea's place and drives `onInput` itself. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

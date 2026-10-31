@@ -79,6 +79,7 @@ const checkboxWidget = (isChecked: boolean) =>
       box.type = "checkbox";
       box.checked = isChecked;
       box.className = "lmd-check";
+      box.tabIndex = -1;
 
       return box;
     },
@@ -112,6 +113,7 @@ const imageWidget = (source: string, alt: string) =>
 
       image.className = "lmd-img";
       image.alt = alt;
+      image.referrerPolicy = "no-referrer";
       image.addEventListener(
         "error",
         () => {
@@ -158,55 +160,21 @@ const HIDDEN_MARKS = new Set([
 ]);
 
 const ATX_HEADING = /^ATXHeading(?<level>\d)$/u;
+const ANGLE_BRACKETED = /^<(?<destination>.*)>$/su;
+const EMAIL = /^[^\s:@]+@[^\s:@]+$/u;
 
-const isLinkLike = (node: SyntaxNode | null) =>
-  node?.name === "Link" || node?.name === "Image";
+const URL_OWNERS: ReadonlySet<string> = new Set([
+  "Link",
+  "Image",
+  "LinkReference",
+]);
 
-const normalizedLabel = (label: string): string =>
-  label.trim().replaceAll(/\s+/gu, " ").toLowerCase();
+const isPlainBrackets = (node: SyntaxNode): boolean =>
+  (node.name === "Link" || node.name === "Image") &&
+  node.getChild("URL") === null;
 
-const linkDefinitions = (state: EditorState): ReadonlySet<string> => {
-  const labels = new Set<string>();
-
-  for (
-    let node = syntaxTree(state).topNode.firstChild;
-    node !== null;
-    node = node.nextSibling
-  ) {
-    const label =
-      node.name === "LinkReference" ? node.getChild("LinkLabel") : null;
-
-    if (label !== null) {
-      labels.add(normalizedLabel(state.sliceDoc(label.from + 1, label.to - 1)));
-    }
-  }
-
-  return labels;
-};
-
-const bracketedText = (state: EditorState, node: SyntaxNode): string => {
-  const label = node.getChild("LinkLabel");
-
-  const text =
-    label === null ? "" : state.sliceDoc(label.from + 1, label.to - 1);
-
-  const [opening, closing] = node.getChildren("LinkMark");
-
-  return normalizedLabel(text) === "" &&
-    opening !== undefined &&
-    closing !== undefined
-    ? state.sliceDoc(opening.to, closing.from)
-    : text;
-};
-
-const isPlainBrackets = (
-  state: EditorState,
-  node: SyntaxNode,
-  definitions: ReadonlySet<string> = linkDefinitions(state)
-): boolean =>
-  isLinkLike(node) &&
-  node.getChild("URL") === null &&
-  !definitions.has(normalizedLabel(bracketedText(state, node)));
+const isBareUrl = (node: SyntaxNode): boolean =>
+  node.name === "URL" && !URL_OWNERS.has(node.parent?.name ?? "");
 
 type Placed = Readonly<{
   from: number;
@@ -266,10 +234,8 @@ export const liveDecorations = (
   };
 
   const hideWithFollowingSpace = (from: number, to: number) => {
-    add(from, Math.min(to + 1, state.doc.lineAt(from).to), hide);
+    add(from, state.sliceDoc(to, to + 1) === " " ? to + 1 : to, hide);
   };
-
-  const definitions = linkDefinitions(state);
 
   for (const { from, to } of visibleRanges) {
     syntaxTree(state).iterate({
@@ -301,18 +267,15 @@ export const liveDecorations = (
           return true;
         }
 
-        if (
-          isLinkLike(node.node) &&
-          isPlainBrackets(state, node.node, definitions)
-        ) {
+        if (name === "LinkReference") {
+          return false;
+        }
+
+        if (isPlainBrackets(node.node)) {
           return true;
         }
 
-        if (
-          name === "LinkMark" &&
-          parent !== null &&
-          isPlainBrackets(state, parent, definitions)
-        ) {
+        if (name === "LinkMark" && parent !== null && isPlainBrackets(parent)) {
           return true;
         }
 
@@ -351,7 +314,7 @@ export const liveDecorations = (
           return true;
         }
 
-        if (name === "URL" && !isLinkLike(parent)) {
+        if (isBareUrl(node.node)) {
           add(node.from, node.to, mark("lmd-link"));
 
           return true;
@@ -656,14 +619,19 @@ const linkHref = (state: EditorState, node: SyntaxNode): string | undefined => {
     return undefined;
   }
 
-  const href = state.sliceDoc(url.from, url.to);
+  const href = state
+    .sliceDoc(url.from, url.to)
+    .replace(ANGLE_BRACKETED, "$<destination>");
 
-  return /^www\./iu.test(href) ? `https://${href}` : href;
+  if (/^www\./iu.test(href)) {
+    return `https://${href}`;
+  }
+
+  return node.name === "URL" && EMAIL.test(href) ? `mailto:${href}` : href;
 };
 
-const isLinkNode = (state: EditorState, node: SyntaxNode): boolean =>
-  !isPlainBrackets(state, node) &&
-  (node.name === "Link" || (node.name === "URL" && !isLinkLike(node.parent)));
+const isLinkNode = (node: SyntaxNode): boolean =>
+  (node.name === "Link" && !isPlainBrackets(node)) || isBareUrl(node);
 
 const toggleCheckbox = (view: EditorView, box: HTMLInputElement): boolean => {
   const position = view.posAtDOM(box);
@@ -697,7 +665,7 @@ const linkAt = (
     node !== null;
     node = node.parent
   ) {
-    if (isLinkNode(state, node)) {
+    if (isLinkNode(node)) {
       return linkHref(state, node);
     }
   }
@@ -779,10 +747,15 @@ export const liveMarkdown = (): Extension => {
       },
       eventHandlers: {
         mousedown: (event, view) => {
-          if (
+          const box =
             event.target instanceof HTMLInputElement &&
-            event.target.classList.contains("lmd-check") &&
-            toggleCheckbox(view, event.target)
+            event.target.classList.contains("lmd-check")
+              ? event.target
+              : undefined;
+
+          if (
+            box !== undefined &&
+            (event.button !== 0 || toggleCheckbox(view, box))
           ) {
             event.preventDefault();
 

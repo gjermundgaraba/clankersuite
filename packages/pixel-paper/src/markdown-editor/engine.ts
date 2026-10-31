@@ -43,8 +43,10 @@ export const accessExtension = (
   }),
 ];
 
-/** The editor's state. No line separator is set, so CRLF text parses like LF text. Tab stays
- *  unbound, so it leaves the field. */
+/** The editor's state. No line separator is set, so CRLF text parses like LF text, and the
+ *  first edit hands it back with LF line endings. Tab stays unbound and nothing inside the
+ *  field takes focus, so Tab leaves the field. Mod-Enter only opens a link at the caret, so
+ *  elsewhere it does nothing, as in a textarea. */
 export const editorState = (
   doc: string,
   extensions: Extension = []
@@ -56,7 +58,10 @@ export const editorState = (
       language,
       liveMarkdown(),
       Prec.high(keymap.of(markdownKeymap)),
-      keymap.of([...defaultKeymap, ...historyKeymap]),
+      keymap.of([
+        ...defaultKeymap.filter(({ key }) => key !== "Mod-Enter"),
+        ...historyKeymap,
+      ]),
       EditorView.lineWrapping,
       EditorView.contentAttributes.of({
         spellcheck: "true",

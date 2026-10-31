@@ -32,22 +32,30 @@ const Document = Schema.Struct({
   isFocused: Schema.Boolean,
 });
 
+const decorationsOf = (text: string, caret = 0, isFocused = false) => {
+  const { state } = editorState(text).update({
+    selection: { anchor: Math.min(caret, text.length) },
+  });
+
+  return {
+    state,
+    decorations: liveDecorations(
+      state,
+      [{ from: 0, to: state.doc.length }],
+      isFocused
+    ),
+  };
+};
+
 const replacedTexts = (
   text: string,
   caret = 0,
   isFocused = false
 ): readonly string[] => {
-  const { state } = editorState(text).update({
-    selection: { anchor: Math.min(caret, text.length) },
-  });
-
+  const { state, decorations } = decorationsOf(text, caret, isFocused);
   const replaced: string[] = [];
 
-  liveDecorations(
-    state,
-    [{ from: 0, to: state.doc.length }],
-    isFocused
-  ).between(0, state.doc.length, (from, to, decoration) => {
+  decorations.between(0, state.doc.length, (from, to, decoration) => {
     if (decoration.point && from !== to) {
       replaced.push(state.sliceDoc(from, to));
     }
@@ -81,5 +89,17 @@ describe("the live decorations", () => {
     const image = "![one line](https://example.com/a.png)";
 
     expect(replacedTexts(`plain\n${image}`)).toContain(image);
+  });
+
+  it("hide the space after a quote mark, and never a letter", () => {
+    expect(replacedTexts("> spaced\n\n>tight")).toStrictEqual(["> ", ">"]);
+  });
+
+  it("leave reference links and their definitions as plain text", () => {
+    const { decorations } = decorationsOf(
+      "See [the docs][d] now.\n\n[d]: https://example.com"
+    );
+
+    expect(decorations.size).toBe(0);
   });
 });
