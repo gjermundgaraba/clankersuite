@@ -1,3 +1,4 @@
+import { Buffer } from "node:buffer";
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { once } from "node:events";
@@ -6,7 +7,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import { Predicate } from "effect";
 import { chromium } from "playwright";
-import type { Page } from "playwright";
+import type { Locator, Page } from "playwright";
 
 import { componentsRouter, foundationsRouter, screenUrl } from "./src/route.ts";
 import { Slug } from "./src/screen/slugs.ts";
@@ -14,6 +15,9 @@ import { Slug } from "./src/screen/slugs.ts";
 const APP = import.meta.dirname;
 const SETTLE = 400;
 const HYDRATE = 1200;
+
+const PIXEL_PNG =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
 const ROUTES = [
   foundationsRouter(),
@@ -672,6 +676,252 @@ try {
         (await openedLinks()) === `${expectedOpen}${expectedOpen}`,
       await openedLinks()
     );
+
+    await page.evaluate(() => {
+      document.body.dataset["opened"] = "";
+    });
+    await replaceBrief("[a](<https://example.com/a b>) <me@example.com>");
+    await moveCaretHome(1);
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await page.keyboard.press("End");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await settle();
+    check(
+      "a link in angle brackets opens without them, and an email autolink opens as mailto",
+      (await openedLinks()) ===
+        `${JSON.stringify(["https://example.com/a%20b", "_blank", "noopener,noreferrer"])}\n${JSON.stringify(["mailto:me@example.com", "_blank", "noopener,noreferrer"])}\n`,
+      await openedLinks()
+    );
+
+    await replaceBrief("plain text");
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await settle();
+    check(
+      "Mod-Enter off a link leaves the text unchanged",
+      (await briefValue.inputValue()) === "plain text" &&
+        (await briefContent.locator(".cm-line").count()) === 1,
+      JSON.stringify(await briefValue.inputValue())
+    );
+
+    await replaceBrief("- [ ] one");
+    const taskBox = await briefContent.locator(".lmd-check").boundingBox();
+    check(
+      "a task checkbox is square inside a field, not as wide as the line",
+      taskBox !== null && taskBox.width <= taskBox.height + 2,
+      JSON.stringify(taskBox)
+    );
+
+    await briefContent.locator(".lmd-check").click({ button: "right" });
+    await settle();
+    const isFocusedAfterRightClick = await isBriefFocused();
+    check(
+      "a right click on a task checkbox neither toggles it nor takes focus from the editor",
+      (await briefValue.inputValue()) === "- [ ] one" &&
+        !(await briefContent.locator(".lmd-check").isChecked()) &&
+        isFocusedAfterRightClick,
+      `${await briefValue.inputValue()}, editor focused ${isFocusedAfterRightClick}`
+    );
+
+    await replaceBrief("plain");
+    await page.keyboard.press("Enter");
+    await page.keyboard.type("- [ ] one");
+    await page.keyboard.press("Enter");
+    await page.keyboard.type("two");
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Enter");
+    await page.keyboard.type("end");
+    await page.keyboard.press("ControlOrMeta+Home");
+    await settle();
+    const textBeforeTab = await briefValue.inputValue();
+
+    const checkboxesBeforeTab = await briefContent
+      .locator(".lmd-check")
+      .count();
+
+    await page.keyboard.press("Tab");
+    await settle();
+
+    const focusAfterTab = await page.evaluate(() => ({
+      isInEditor:
+        document
+          .querySelector("#forms form pp-markdown-editor")
+          ?.contains(document.activeElement) === true,
+      className: document.activeElement?.className ?? "",
+    }));
+
+    check(
+      "Tab skips a task's checkboxes and leaves the Markdown editor",
+      checkboxesBeforeTab === 2 &&
+        !focusAfterTab.isInEditor &&
+        (await briefValue.inputValue()) === textBeforeTab,
+      `${checkboxesBeforeTab} checkboxes, focus on "${focusAfterTab.className}"`
+    );
+
+    const imageRequests: Array<{ url: string; referer: string | undefined }> =
+      [];
+
+    await page.route("https://images.example/**", async (route) => {
+      const headers = await route.request().allHeaders();
+      imageRequests.push({
+        url: route.request().url(),
+        referer: headers["referer"],
+      });
+      await route.fulfill({
+        contentType: "image/png",
+        body: Buffer.from(PIXEL_PNG, "base64"),
+      });
+    });
+
+    const mountStandaloneEditor = async (
+      source: string,
+      isUrlParseMissing = false
+    ): Promise<Locator> => {
+      await page.evaluate(
+        ([text, isMissing]) => {
+          const parse = Object.getOwnPropertyDescriptor(URL, "parse");
+          const host = document.createElement("pp-markdown-editor");
+          const textarea = document.createElement("textarea");
+
+          host.id = "smoke-editor";
+          host.style.cssText =
+            "position: fixed; top: 0; left: 0; width: 480px; z-index: 1000; background: var(--paper)";
+          textarea.value = text;
+          host.append(textarea);
+          Object.assign(host, { source: text });
+
+          if (isMissing) {
+            Reflect.deleteProperty(URL, "parse");
+          }
+
+          try {
+            document.body.append(host);
+          } finally {
+            if (parse !== undefined) {
+              Object.defineProperty(URL, "parse", parse);
+            }
+          }
+        },
+        [source, isUrlParseMissing] as const
+      );
+
+      return page.locator("#smoke-editor");
+    };
+
+    const unmountStandaloneEditor = async (): Promise<void> => {
+      await page.evaluate(() => {
+        document.querySelector("#smoke-editor")?.remove();
+      });
+      await settle();
+    };
+
+    const errorsBeforeMultiLineImage = problems.length;
+
+    const multiLineImage = await mountStandaloneEditor(
+      "![two\nlines](https://images.example/two.png)"
+    );
+
+    await settle();
+
+    const multiLineImageLines = await multiLineImage
+      .locator(".cm-line")
+      .allTextContents();
+
+    check(
+      "stored text with an image across two lines mounts the editor and shows its text",
+      JSON.stringify(multiLineImageLines) ===
+        JSON.stringify(["two", "lines"]) &&
+        problems.length === errorsBeforeMultiLineImage,
+      `${JSON.stringify(multiLineImageLines)} ${problems.slice(errorsBeforeMultiLineImage).join(" | ")}`
+    );
+    await unmountStandaloneEditor();
+
+    const errorsBeforeFailedMount = problems.length;
+
+    const failedMount = await mountStandaloneEditor(
+      "![a](https://images.example/a.png)",
+      true
+    );
+
+    await settle();
+    const failedMountErrors = problems.splice(errorsBeforeFailedMount);
+    const fallbackField = failedMount.locator("textarea");
+    const fallbackBox = await fallbackField.boundingBox();
+
+    const fallbackOpacity = await fallbackField.evaluate(
+      (textarea) => getComputedStyle(textarea).opacity
+    );
+
+    await fallbackField.focus();
+    await page.keyboard.press("ControlOrMeta+End");
+    await page.keyboard.type(" typed");
+    check(
+      "an editor that fails to mount reports it and leaves a working textarea",
+      (await failedMount.locator(".markdown-surface").count()) === 0 &&
+        fallbackBox !== null &&
+        fallbackBox.width > 100 &&
+        fallbackBox.height > 20 &&
+        fallbackOpacity === "1" &&
+        (await fallbackField.inputValue()) ===
+          "![a](https://images.example/a.png) typed" &&
+        failedMountErrors.length === 1,
+      `box ${JSON.stringify(fallbackBox)}, opacity ${fallbackOpacity}, errors ${failedMountErrors.join(" | ")}`
+    );
+    await unmountStandaloneEditor();
+
+    const images = await mountStandaloneEditor(
+      [
+        "![script](javascript:alert(1))",
+        `![data](data:image/png;base64,${PIXEL_PNG})`,
+        "![file](file:///etc/hosts)",
+        "![web](https://images.example/web.png)",
+      ].join("\n\n")
+    );
+
+    await settle();
+
+    const imageSources = await images
+      .locator("img.lmd-img")
+      .evaluateAll((elements) =>
+        elements.flatMap((element) =>
+          element instanceof HTMLImageElement ? [element.src] : []
+        )
+      );
+
+    check(
+      "of four image sources only the https one is requested, with no Referer",
+      JSON.stringify(imageSources) ===
+        JSON.stringify(["https://images.example/web.png"]) &&
+        JSON.stringify(imageRequests) ===
+          JSON.stringify([{ url: "https://images.example/web.png" }]),
+      `${JSON.stringify(imageSources)} ${JSON.stringify(imageRequests)}`
+    );
+    await unmountStandaloneEditor();
+
+    const outsideText = "An agent wrote a different sentence here.";
+    const undone = await mountStandaloneEditor("");
+    await undone.locator(".cm-content").click();
+    await page.keyboard.type("mine");
+    await settle();
+    await page.evaluate((text) => {
+      const host = document.querySelector("#smoke-editor");
+
+      if (host !== null) {
+        Object.assign(host, { source: text });
+      }
+    }, outsideText);
+    await settle();
+    await page.keyboard.press("ControlOrMeta+z");
+    await settle();
+    const textAfterUndo = await undone.locator(".cm-content").textContent();
+    check(
+      "undo after an outside change leaves the outside text",
+      textAfterUndo === outsideText,
+      JSON.stringify(textAfterUndo)
+    );
+    await unmountStandaloneEditor();
+    await page.unroute("https://images.example/**");
 
     await replaceBrief("- item");
     await sampleForm.getByLabel("Project").fill("Field notes");
