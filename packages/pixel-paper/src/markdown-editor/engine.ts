@@ -3,7 +3,7 @@ import { commonmarkLanguage, markdownKeymap } from "@codemirror/lang-markdown";
 import { Language } from "@codemirror/language";
 import { diff } from "@codemirror/merge";
 import { Compartment, EditorState, Prec, Transaction } from "@codemirror/state";
-import type { Extension, TransactionSpec } from "@codemirror/state";
+import type { Extension } from "@codemirror/state";
 import { EditorView, keymap } from "@codemirror/view";
 import { GFM, MarkdownParser } from "@lezer/markdown";
 
@@ -11,6 +11,8 @@ import { liveMarkdown } from "./live/live.ts";
 import { withLfLineEndings } from "./reconcile.ts";
 
 const DIFF_TIMEOUT_MS = 50;
+
+const historyCompartment = new Compartment();
 
 const language = new Language(
   commonmarkLanguage.data,
@@ -50,7 +52,7 @@ export const editorState = (
   EditorState.create({
     doc,
     extensions: [
-      history(),
+      historyCompartment.of(history()),
       language,
       liveMarkdown(),
       Prec.high(keymap.of(markdownKeymap)),
@@ -78,28 +80,38 @@ export const emission = (
     ? state.doc.toString()
     : undefined;
 
-/** A minimal edit from the document to an outside value: the caret survives it, and undo keeps
- *  to what was typed. */
-export const externalChange = (
-  state: EditorState,
-  source: string
-): TransactionSpec => {
-  const current = state.doc.toString();
+/** What holds an editor's state and takes its transactions: the view, or a test's stand-in. */
+export type EditorTarget = Readonly<{
+  state: EditorState;
+  dispatch: (transaction: Transaction) => void;
+}>;
+
+/** Puts an outside value in as a minimal edit, so the caret stays on the same text, and ends
+ *  the undo history. Typed edits left in it would map onto letters of the outside text, and
+ *  undo would delete those. Dropping the history field and adding it back starts it empty. */
+export const applyExternal = (target: EditorTarget, source: string): void => {
+  const current = target.state.doc.toString();
   const next = withLfLineEndings(source);
 
-  return {
-    changes: diff(current, next, { timeout: DIFF_TIMEOUT_MS }).map(
-      ({ fromA, toA, fromB, toB }) => ({
-        from: fromA,
-        to: toA,
-        insert: next.slice(fromB, toB),
-      })
-    ),
-    annotations: [
-      Transaction.remote.of(true),
-      Transaction.addToHistory.of(false),
-    ],
-  };
+  target.dispatch(
+    target.state.update({
+      changes: diff(current, next, { timeout: DIFF_TIMEOUT_MS }).map(
+        ({ fromA, toA, fromB, toB }) => ({
+          from: fromA,
+          to: toA,
+          insert: next.slice(fromB, toB),
+        })
+      ),
+      annotations: Transaction.remote.of(true),
+      effects: historyCompartment.reconfigure([]),
+    })
+  );
+
+  target.dispatch(
+    target.state.update({
+      effects: historyCompartment.reconfigure(history()),
+    })
+  );
 };
 
 /** What the element gives the engine at mount. */
@@ -138,7 +150,7 @@ export const createEngine = (config: EngineConfig) => {
       view.requestMeasure();
     },
     applyExternal: (source: string) => {
-      view.dispatch(externalChange(view.state, source));
+      applyExternal(view, source);
     },
     configureAccess: (
       attributes: Readonly<Record<string, string>>,

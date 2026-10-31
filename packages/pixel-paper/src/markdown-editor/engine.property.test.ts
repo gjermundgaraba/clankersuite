@@ -1,15 +1,16 @@
 // @vitest-environment node
+import { undo } from "@codemirror/commands";
 import { ensureSyntaxTree } from "@codemirror/language";
-import type { EditorState } from "@codemirror/state";
+import type { EditorState, Transaction } from "@codemirror/state";
 import { it } from "@effect/vitest";
 import { Schema } from "effect";
 import { describe, expect } from "vite-plus/test";
 
 import {
   accessExtension,
+  applyExternal,
   editorState,
   emission,
-  externalChange,
 } from "./engine.ts";
 
 const MarkdownLine = Schema.Literals([
@@ -56,6 +57,40 @@ const TWO_CRLF_TABLES = [
   "| 3 | 4 |",
   "",
 ].join("\r\n");
+
+interface Editing {
+  state: EditorState;
+  transactions: Transaction[];
+  dispatch: (transaction: Transaction) => void;
+}
+
+const editing = (state: EditorState): Editing => {
+  const target: Editing = {
+    state,
+    transactions: [],
+    dispatch: (transaction) => {
+      target.state = transaction.state;
+      target.transactions.push(transaction);
+    },
+  };
+
+  return target;
+};
+
+const type = (
+  target: Editing,
+  insert: string,
+  from = target.state.doc.length,
+  to = from
+): void => {
+  target.dispatch(
+    target.state.update({
+      changes: { from, to, insert },
+      selection: { anchor: from + insert.length },
+      userEvent: "input.type",
+    })
+  );
+};
 
 const tableCount = (state: EditorState): number => {
   let count = 0;
@@ -119,11 +154,13 @@ describe("the editor's state", () => {
         selection: { anchor: Math.min(position, text.length) },
       });
 
-      const remote = state.update(externalChange(state, lfTextOf(outside)));
+      const remote = editing(state);
+
+      applyExternal(remote, lfTextOf(outside));
 
       return (
         emission([moved], moved.state) === undefined &&
-        emission([remote], remote.state) === undefined &&
+        emission(remote.transactions, remote.state) === undefined &&
         emission([], state) === undefined
       );
     }
@@ -133,16 +170,57 @@ describe("the editor's state", () => {
     "an outside value lands exactly, with its line endings made LF",
     { input: LfText, outside: LfText },
     ({ input, outside }) => {
-      const state = editorState(lfTextOf(input));
+      const target = editing(editorState(lfTextOf(input)));
       const stored = lfTextOf(outside);
 
-      const { state: next } = state.update(
-        externalChange(state, stored.replaceAll("\n", "\r\n"))
-      );
+      applyExternal(target, stored.replaceAll("\n", "\r\n"));
 
-      return next.doc.toString() === stored;
+      return target.state.doc.toString() === stored;
     }
   );
+
+  it.prop(
+    "undo after an outside value leaves the outside value",
+    { input: LfText, typed: Schema.String, outside: LfText },
+    ({ input, typed, outside }) => {
+      const target = editing(editorState(lfTextOf(input)));
+      const stored = lfTextOf(outside);
+
+      type(target, lfOnly(typed));
+      applyExternal(target, stored);
+      undo(target);
+
+      return target.state.doc.toString() === stored;
+    }
+  );
+
+  it("undo after an outside value deletes no letter of it that matched typing", () => {
+    const target = editing(editorState(""));
+    const outside = "An agent wrote a different sentence here.";
+
+    type(target, "mine");
+    applyExternal(target, outside);
+    undo(target);
+
+    expect(target.state.doc.toString()).toBe(outside);
+  });
+
+  it("undo after an outside value cannot bring back what was typed before it", () => {
+    const target = editing(editorState(""));
+
+    type(target, "first secret text");
+    target.dispatch(
+      target.state.update({
+        selection: { anchor: 0, head: target.state.doc.length },
+        userEvent: "select",
+      })
+    );
+    type(target, "replacement", 0, target.state.doc.length);
+    applyExternal(target, "");
+    undo(target);
+
+    expect(target.state.doc.toString()).toBe("");
+  });
 
   it("parses a CRLF document as it parses LF, with both tables", () => {
     expect(tableCount(editorState(TWO_CRLF_TABLES))).toBe(2);
@@ -151,7 +229,9 @@ describe("the editor's state", () => {
   it("refuses a local edit while read-only, and lets an outside value in", () => {
     const state = editorState("held", accessExtension({}, true));
     const typed = state.update({ changes: { from: 0, insert: "x" } });
-    const remote = state.update(externalChange(state, "changed elsewhere"));
+    const remote = editing(state);
+
+    applyExternal(remote, "changed elsewhere");
 
     expect(typed.state.doc.toString()).toBe("held");
     expect(remote.state.doc.toString()).toBe("changed elsewhere");
