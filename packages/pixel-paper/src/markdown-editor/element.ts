@@ -1,5 +1,5 @@
 import { createEngine } from "./engine.ts";
-import type { Engine } from "./engine.ts";
+import type { Engine, EngineConfig } from "./engine.ts";
 import { spec } from "./markdown-editor.ts";
 import { afterEmission, afterSource } from "./reconcile.ts";
 import type { Pending } from "./reconcile.ts";
@@ -31,6 +31,16 @@ const namedBy = (textarea: HTMLTextAreaElement) => {
   }
 
   return { "aria-labelledby": label.id };
+};
+
+const createEngineOrReport = (config: EngineConfig): Engine | undefined => {
+  try {
+    return createEngine(config);
+  } catch (error) {
+    reportError(error);
+
+    return undefined;
+  }
 };
 
 type Mounted = Readonly<{
@@ -96,7 +106,7 @@ class MarkdownEditorElement extends HTMLElement {
     });
   }
 
-  #mount(textarea: HTMLTextAreaElement): Mounted {
+  #mount(textarea: HTMLTextAreaElement): Mounted | undefined {
     const surface = document.createElement("div");
 
     surface.className = "markdown-surface";
@@ -108,7 +118,7 @@ class MarkdownEditorElement extends HTMLElement {
       ...mirroredAttributes(textarea),
     });
 
-    const engine = createEngine({
+    const engine = createEngineOrReport({
       parent: surface,
       doc: this.#source,
       attributes: accessAttributes(),
@@ -120,6 +130,12 @@ class MarkdownEditorElement extends HTMLElement {
         );
       },
     });
+
+    if (engine === undefined) {
+      surface.remove();
+
+      return undefined;
+    }
 
     const syncAccess = () => {
       engine.configureAccess(accessAttributes(), this.#isDisabled);

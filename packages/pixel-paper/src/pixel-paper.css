@@ -1678,7 +1678,7 @@ pp-markdown-editor {
   position: relative;
 }
 
-pp-markdown-editor:defined textarea {
+pp-markdown-editor:has(.markdown-surface) textarea {
   position: absolute;
   width: 1px;
   height: 1px;

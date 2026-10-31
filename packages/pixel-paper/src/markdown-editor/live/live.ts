@@ -215,10 +215,13 @@ type Placed = Readonly<{
   isReplace: boolean;
 }>;
 
-const build = (view: EditorView): DecorationSet => {
-  const { state } = view;
+/** The live layer's decorations over the visible ranges, as a ViewPlugin may provide them. */
+export const liveDecorations = (
+  state: EditorState,
+  visibleRanges: ReadonlyArray<Readonly<{ from: number; to: number }>>,
+  isFocused: boolean
+): DecorationSet => {
   const { ranges } = state.selection;
-  const isFocused = view.hasFocus;
 
   const touched = (from: number, to: number) =>
     isFocused && ranges.some((range) => range.from <= to && range.to >= from);
@@ -268,7 +271,7 @@ const build = (view: EditorView): DecorationSet => {
 
   const definitions = linkDefinitions(state);
 
-  for (const { from, to } of view.visibleRanges) {
+  for (const { from, to } of visibleRanges) {
     syntaxTree(state).iterate({
       from,
       to,
@@ -436,13 +439,21 @@ const build = (view: EditorView): DecorationSet => {
       left.decoration.startSide - right.decoration.startSide
   );
 
+  // A plugin's decorations must not replace a line break, or the view throws:
+  // https://codemirror.net/6/docs/ref/#view.EditorView^decorations
+  const staysOnItsLine = (from: number, to: number) =>
+    to <= state.doc.lineAt(from).to;
+
   const builder = new RangeSetBuilder<Decoration>();
   let lastReplaceEnd = -1;
 
   for (const { from, to, decoration, isReplace } of placed) {
     const isRangeReplace = from !== to && isReplace;
 
-    if (!isRangeReplace || from >= lastReplaceEnd) {
+    if (
+      !isRangeReplace ||
+      (from >= lastReplaceEnd && staysOnItsLine(from, to))
+    ) {
       builder.add(from, to, decoration);
 
       if (isRangeReplace) {
@@ -726,7 +737,11 @@ export const liveMarkdown = (): Extension => {
       isStale = false;
 
       constructor(view: EditorView) {
-        this.decorations = build(view);
+        this.decorations = liveDecorations(
+          view.state,
+          view.visibleRanges,
+          view.hasFocus
+        );
       }
 
       update(update: ViewUpdate) {
@@ -744,7 +759,11 @@ export const liveMarkdown = (): Extension => {
           update.viewportChanged ||
           syntaxTree(update.startState) !== syntaxTree(update.state)
         ) {
-          this.decorations = build(update.view);
+          this.decorations = liveDecorations(
+            update.state,
+            update.view.visibleRanges,
+            update.view.hasFocus
+          );
           this.isStale = false;
         }
       }
