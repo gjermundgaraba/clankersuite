@@ -1690,6 +1690,10 @@ pp-markdown-editor:has(.markdown-surface) textarea {
   overflow: hidden;
   clip-path: inset(50%);
   resize: none;
+  /* 1px wide, a wrapped value puts each word on its own line and every keystroke's write
+     lays them all out again */
+  white-space: pre;
+  content-visibility: hidden;
 }
 
 .markdown-surface {

@@ -555,6 +555,37 @@ try {
         (await briefValue.inputValue()) === briefSource
     );
 
+    await page.evaluate(() => {
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          document.body.dataset["escapeTaken"] = String(event.defaultPrevented);
+        }
+      });
+    });
+    await briefContent.click();
+    await page.keyboard.press("ControlOrMeta+a");
+    await page.keyboard.press("Escape");
+    await settle();
+    check(
+      "Escape with text selected in the Markdown editor is left to the page, so a dialog closes on the first press",
+      (await page.evaluate(() => document.body.dataset["escapeTaken"])) ===
+        "false",
+      await page.evaluate(() => document.body.dataset["escapeTaken"])
+    );
+    await page.keyboard.press("ArrowRight");
+
+    const hiddenValueStyle = await briefValue.evaluate((textarea) => {
+      const style = getComputedStyle(textarea);
+
+      return `${style.whiteSpace} ${style.contentVisibility}`;
+    });
+
+    check(
+      "the hidden textarea neither wraps nor lays out its value, so a keystroke in a long document does not lay out the whole text",
+      hiddenValueStyle === "pre hidden",
+      hiddenValueStyle
+    );
+
     await briefContent.locator(".lmd-strong").scrollIntoViewIfNeeded();
     const strongBox = await briefContent.locator(".lmd-strong").boundingBox();
 
