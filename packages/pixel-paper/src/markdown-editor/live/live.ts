@@ -1,19 +1,7 @@
-import { markdownKeymap, markdownLanguage } from '@codemirror/lang-markdown';
-import { Language, syntaxTree } from '@codemirror/language';
-import { Prec, RangeSetBuilder, StateEffect, StateField, type EditorState, type Extension } from '@codemirror/state';
-import {
-  Decoration,
-  EditorView,
-  ViewPlugin,
-  WidgetType,
-  keymap,
-  type DecorationSet,
-  type ViewUpdate,
-} from '@codemirror/view';
+import { syntaxTree } from '@codemirror/language';
+import { RangeSetBuilder, StateEffect, StateField, type EditorState, type Extension } from '@codemirror/state';
+import { Decoration, EditorView, ViewPlugin, WidgetType, type DecorationSet, type ViewUpdate } from '@codemirror/view';
 import type { SyntaxNode } from '@lezer/common';
-import { liveMarkdownKeymap } from './commands.ts';
-import type { MarkdownParser } from '@lezer/markdown';
-import { letterLists } from './letters.ts';
 import { liveMarkdownTheme } from './theme.ts';
 
 /**
@@ -23,75 +11,10 @@ import { liveMarkdownTheme } from './theme.ts';
 
 // ------------------------------------------------------------------ настройки
 
-/** Свой строчный токен: всё, что совпало с регуляркой, вне курсора заменяется значком */
-export interface InlineToken {
-  /** Регулярка с флагом `g`; совпадения внутри кода не трогаются */
-  pattern: RegExp;
-  /** Значок вместо текста. Вызывается заново после `refreshLivePreview` */
-  render: (match: RegExpExecArray, view: EditorView) => HTMLElement;
-  /** Класс исходника токена под курсором (по умолчанию `lmd-token-src`) */
-  sourceClass?: string;
-}
-
-export interface ImageOptions {
-  /** Адрес для `<img>` по адресу из `![…](адрес)` — например, `file:<id>` → blob/https. По умолчанию как есть */
-  resolve?: (src: string) => string | Promise<string>;
-  /** Картинка ещё загружается — показать подпись `imageLoading` вместо `<img>` */
-  pending?: (src: string) => boolean;
-  /**
-   * Вставили или бросили файлы-картинки: загрузить и вставить текст в позицию `pos`.
-   * Вернуть `false` — не перехватывать (сработает обычная вставка).
-   */
-  onFiles?: (files: File[], pos: number, view: EditorView) => boolean | void;
-  /** Какие файлы считать картинками (по умолчанию `type` начинается с `image/`) */
-  accept?: (file: File) => boolean;
-  /** Набор адресов картинок в тексте изменился (и при открытии) — чтобы показать их как вложения или убрать */
-  onChange?: (srcs: string[]) => void;
-}
-
-export interface TableOptions {
-  /**
-   * Отрисовать таблицу (исходник с `|`) в `dom`. Можно вернуть функцию уборки — её вызовут, когда виджет уйдёт.
-   * По умолчанию — простая встроенная таблица с текстом ячеек.
-   */
-  render?: (source: string, dom: HTMLElement) => void | (() => void);
-}
-
-/** Подписи. По умолчанию английские */
-export interface Phrases {
-  imageLoading: string;
-  /** К подписи добавляется `: <alt>`, если он есть */
-  imageNotFound: string;
-  /** Подсказка над отрисованной таблицей */
-  tableHint: string;
-}
-
-export const defaultPhrases: Phrases = {
-  imageLoading: 'Loading image…',
-  imageNotFound: 'Image not found',
-  tableHint: 'Click to edit the table',
-};
-
 export interface LiveMarkdownOptions {
-  /** Свои строчные токены: упоминания, предметы, теги */
-  tokens?: readonly InlineToken[];
-  /** Картинки `![…](…)`; `false` — показывать исходником */
-  images?: ImageOptions | false;
-  /** Таблицы вне курсора отрисованы; `false` — оставить текстом */
-  tables?: TableOptions | false;
-  phrases?: Partial<Phrases>;
-  /** Язык Markdown (GFM) с буквенными списками. `false` — подключите свой `markdown()` сами (с `letterLists`) */
-  language?: boolean;
-  /** Сочетания живого Markdown и продолжение списков по Enter (по умолчанию включены) */
-  keymap?: boolean;
-  /** Встроенное оформление (CSS-переменные `--lmd-*`). `false` — только своё */
-  theme?: boolean;
   /** Ctrl/Cmd+клик по ссылке. По умолчанию — новая вкладка */
   openLink?: (url: string) => void;
 }
-
-/** Перерисовать токены и картинки — например, когда догрузился справочник для значков */
-export const refreshLivePreview = StateEffect.define<null>();
 
 // ------------------------------------------------------------------ виджеты
 
@@ -112,29 +35,6 @@ class TypographyWidget extends WidgetType {
     dom.textContent = this.text;
     if (this.divider) dom.className = 'lmd-labeled-rule';
     return dom;
-  }
-  ignoreEvent() {
-    return false;
-  }
-}
-
-class TokenWidget extends WidgetType {
-  readonly text: string;
-  readonly match: RegExpExecArray;
-  readonly token: InlineToken;
-  readonly generation: number;
-  constructor(match: RegExpExecArray, token: InlineToken, generation: number) {
-    super();
-    this.text = match[0];
-    this.match = match;
-    this.token = token;
-    this.generation = generation;
-  }
-  eq(other: TokenWidget) {
-    return other.text === this.text && other.token === this.token && other.generation === this.generation;
-  }
-  toDOM(view: EditorView) {
-    return this.token.render(this.match, view);
   }
   ignoreEvent() {
     return false;
@@ -183,19 +83,13 @@ class ListMarkWidget extends WidgetType {
 class ImageWidget extends WidgetType {
   readonly src: string;
   readonly alt: string;
-  readonly opts: ImageOptions;
-  readonly phrases: Phrases;
-  readonly generation: number;
-  constructor(src: string, alt: string, opts: ImageOptions, phrases: Phrases, generation: number) {
+  constructor(src: string, alt: string) {
     super();
     this.src = src;
     this.alt = alt;
-    this.opts = opts;
-    this.phrases = phrases;
-    this.generation = generation;
   }
   eq(other: ImageWidget) {
-    return other.src === this.src && other.alt === this.alt && other.generation === this.generation;
+    return other.src === this.src && other.alt === this.alt;
   }
   toDOM() {
     const note = (text: string) => {
@@ -207,19 +101,15 @@ class ImageWidget extends WidgetType {
     // Корень виджета не подменяем: CodeMirror принял бы новый узел за набранный текст и вписал подпись в документ
     const box = document.createElement('span');
     box.className = 'lmd-img-box';
-    if (this.opts.pending?.(this.src)) {
-      box.append(note(this.phrases.imageLoading));
-      return box;
-    }
     const img = document.createElement('img');
     img.className = 'lmd-img';
     img.alt = this.alt;
-    const missing = () =>
-      img.replaceWith(note(this.alt ? `${this.phrases.imageNotFound}: ${this.alt}` : this.phrases.imageNotFound));
-    img.addEventListener('error', missing, { once: true });
-    Promise.resolve()
-      .then(() => (this.opts.resolve ? this.opts.resolve(this.src) : this.src))
-      .then((url) => (img.src = url), missing);
+    img.addEventListener(
+      'error',
+      () => img.replaceWith(note(this.alt ? `Image not found: ${this.alt}` : 'Image not found')),
+      { once: true },
+    );
+    img.src = this.src;
     box.append(img);
     return box;
   }
@@ -233,8 +123,7 @@ class ImageWidget extends WidgetType {
 
 // ------------------------------------------------------------------ списки
 
-const isList = (n: SyntaxNode | null) =>
-  n?.name === 'BulletList' || n?.name === 'OrderedList' || n?.name === 'LetterList';
+const isList = (n: SyntaxNode | null) => n?.name === 'BulletList' || n?.name === 'OrderedList';
 
 /** Уровень пункта: сколько списков над ним (1 — верхний) */
 function listDepth(item: SyntaxNode) {
@@ -267,14 +156,10 @@ function outlineNumber(state: EditorState, item: SyntaxNode) {
   return `${parts.join('.')}${listDelim(state, item)}`;
 }
 
-/** Текст маркера пункта вне курсора: «• •» по уровню вложенности, номер «3.1.» / «3.1)» или буква «б)» как набрана */
-export function listMarker(state: EditorState, item: SyntaxNode) {
+/** Текст маркера пункта вне курсора: «• •» по уровню вложенности или номер «3.1.» / «3.1)» */
+function listMarker(state: EditorState, item: SyntaxNode) {
   const list = item.parent;
   if (list?.name === 'BulletList') return Array(listDepth(item)).fill('•').join(' ');
-  if (list?.name === 'LetterList') {
-    const mark = item.getChild('ListMark');
-    return mark ? state.sliceDoc(mark.from, mark.to) : '';
-  }
   return list?.name === 'OrderedList' ? outlineNumber(state, item) : '';
 }
 
@@ -312,7 +197,7 @@ function linkDefinitions(state: EditorState) {
  * Ссылка без адреса — `[текст]`, `[текст][]`, `[текст][метка]` или `![подпись]` — и без сноски с такой меткой.
  * Парсер считает её ссылкой, а при показе это обычный текст в скобках: скобки не прячем.
  */
-export function isPlainBrackets(state: EditorState, node: SyntaxNode, definitions = linkDefinitions(state)) {
+function isPlainBrackets(state: EditorState, node: SyntaxNode, definitions = linkDefinitions(state)) {
   if (!isLinkLike(node) || node.getChild('URL')) return false;
   const marks = node.getChildren('LinkMark');
   const label = node.getChild('LinkLabel');
@@ -321,14 +206,7 @@ export function isPlainBrackets(state: EditorState, node: SyntaxNode, definition
   return !definitions.has(normLabel(text));
 }
 
-interface BuildContext {
-  tokens: readonly InlineToken[];
-  images: ImageOptions | false;
-  phrases: Phrases;
-  generation: number;
-}
-
-function build(view: EditorView, ctx: BuildContext): DecorationSet {
+function build(view: EditorView): DecorationSet {
   const { state } = view;
   const sel = state.selection.ranges;
   // Без фокуса показываем всё оформлённым, как в просмотре
@@ -344,31 +222,16 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
   const out: { from: number; to: number; deco: Decoration }[] = [];
   const add = (from: number, to: number, deco: Decoration) => out.push({ from, to, deco });
   const addLine = (pos: number, deco: Decoration) => out.push({ from: pos, to: pos, deco });
-  const codeRanges: [number, number][] = [];
   const labeledRanges: [number, number][] = [];
   const definitions = linkDefinitions(state);
 
   for (const { from, to } of view.visibleRanges) {
-    // Токены не часть грамматики Markdown (парсер может увидеть в них ссылку) — ищем регулярками
     const text = state.sliceDoc(from, to);
-    const found: { from: number; to: number; match: RegExpExecArray; token: InlineToken }[] = [];
-    for (const token of ctx.tokens) {
-      const re = new RegExp(
-        token.pattern.source,
-        token.pattern.flags.includes('g') ? token.pattern.flags : token.pattern.flags + 'g',
-      );
-      for (const m of text.matchAll(re)) {
-        if (!m[0]) continue;
-        const start = from + m.index;
-        found.push({ from: start, to: start + m[0].length, match: m as RegExpExecArray, token });
-      }
-    }
 
     syntaxTree(state).iterate({
       from,
       to,
       enter: (node) => {
-        if (found.some((t) => node.from >= t.from && node.to <= t.to)) return false;
         if (labeledRanges.some(([a, b]) => node.from >= a && node.to <= b)) return false;
         const name = node.name;
         const parent = node.node.parent;
@@ -409,22 +272,14 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
         }
         if (name === 'Image') {
           const url = node.node.getChild('URL');
-          if (ctx.images && url && !touched(node.from, node.to)) {
+          if (url && !touched(node.from, node.to)) {
             const alt = state.sliceDoc(node.from + 2, Math.max(node.from + 2, url.from - 2));
-            const widget = new ImageWidget(
-              state.sliceDoc(url.from, url.to),
-              alt,
-              ctx.images,
-              ctx.phrases,
-              ctx.generation,
-            );
-            add(node.from, node.to, Decoration.replace({ widget }));
+            add(node.from, node.to, Decoration.replace({ widget: new ImageWidget(state.sliceDoc(url.from, url.to), alt) }));
           }
           return;
         }
         if (INLINE[name]) {
           add(node.from, node.to, mark(INLINE[name]));
-          if (name === 'InlineCode') codeRanges.push([node.from, node.to]);
           return;
         }
         // Голая ссылка (https://…, www.…) и <https://…> — сам адрес и есть текст: не прячем, оформляем ссылкой
@@ -437,7 +292,6 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
           return;
         }
         if (name === 'FencedCode' || name === 'CodeBlock') {
-          codeRanges.push([node.from, node.to]);
           for (let pos = node.from; pos <= node.to;) {
             const l = state.doc.lineAt(pos);
             addLine(l.from, line('lmd-codeblock'));
@@ -493,11 +347,11 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
       },
     });
 
-    // Только отдельное двойное тире в обычном тексте: URL, код и пользовательские токены сохраняем.
+    // Только отдельное двойное тире в обычном тексте: URL и код сохраняем.
     for (const match of text.matchAll(/(?<![\S\\])--(?!\S)/g)) {
       const start = from + match.index;
       const end = start + 2;
-      if (touched(start, end) || found.some((t) => start < t.to && end > t.from)) continue;
+      if (touched(start, end)) continue;
       let node: SyntaxNode | null = syntaxTree(state).resolveInner(start, 1);
       let plain = true;
       while (node) {
@@ -508,12 +362,6 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
         node = node.parent;
       }
       if (plain) add(start, end, Decoration.replace({ widget: new TypographyWidget('—') }));
-    }
-
-    for (const t of found) {
-      if (codeRanges.some(([a, b]) => t.from >= a && t.to <= b)) continue;
-      if (touched(t.from, t.to)) add(t.from, t.to, mark(t.token.sourceClass ?? 'lmd-token-src'));
-      else add(t.from, t.to, Decoration.replace({ widget: new TokenWidget(t.match, t.token, ctx.generation) }));
     }
   }
 
@@ -531,6 +379,8 @@ function build(view: EditorView, ctx: BuildContext): DecorationSet {
 }
 
 // ------------------------------------------------------------------ таблицы — отрисованная таблица вне курсора
+
+const TABLE_HINT = 'Click to edit the table';
 
 /** Встроенная таблица: текст ячеек как есть, без разметки внутри */
 function renderPlainTable(source: string, dom: HTMLElement) {
@@ -558,13 +408,9 @@ function renderPlainTable(source: string, dom: HTMLElement) {
 
 class TableWidget extends WidgetType {
   readonly text: string;
-  readonly opts: TableOptions;
-  readonly hint: string;
-  constructor(text: string, opts: TableOptions, hint: string) {
+  constructor(text: string) {
     super();
     this.text = text;
-    this.opts = opts;
-    this.hint = hint;
   }
   eq(other: TableWidget) {
     return other.text === this.text;
@@ -572,9 +418,8 @@ class TableWidget extends WidgetType {
   toDOM(view: EditorView) {
     const dom = document.createElement('div');
     dom.className = 'lmd-table-widget';
-    dom.title = this.hint;
-    const cleanup = (this.opts.render ?? renderPlainTable)(this.text, dom);
-    if (cleanup) cleanups.set(dom, cleanup);
+    dom.title = TABLE_HINT;
+    renderPlainTable(this.text, dom);
     // Клик — курсор в ту же строку исходника: таблица раскрывается в текст с |
     dom.addEventListener('mousedown', (e) => {
       if ((e.target as HTMLElement).closest('a')) return;
@@ -590,10 +435,6 @@ class TableWidget extends WidgetType {
     });
     return dom;
   }
-  destroy(dom: HTMLElement) {
-    cleanups.get(dom)?.();
-    cleanups.delete(dom);
-  }
   get estimatedHeight() {
     return 32 * this.text.split('\n').length;
   }
@@ -602,12 +443,10 @@ class TableWidget extends WidgetType {
   }
 }
 
-const cleanups = new WeakMap<HTMLElement, () => void>();
-
 /** Фокус редактора — в состоянии, чтобы без фокуса таблицы были отрисованы, даже если курсор в них */
 const setFocus = StateEffect.define<boolean>();
 
-function buildTables(state: EditorState, focused: boolean, opts: TableOptions, hint: string): DecorationSet {
+function buildTables(state: EditorState, focused: boolean): DecorationSet {
   const builder = new RangeSetBuilder<Decoration>();
   syntaxTree(state).iterate({
     enter: (node) => {
@@ -624,20 +463,16 @@ function buildTables(state: EditorState, focused: boolean, opts: TableOptions, h
       // Таблица внутри списка/цитаты — оставляем текстом: префиксы строк не часть таблицы
       if (from !== node.from) return false;
       if (!(focused && inside))
-        builder.add(
-          from,
-          to,
-          Decoration.replace({ widget: new TableWidget(state.sliceDoc(from, to), opts, hint), block: true }),
-        );
+        builder.add(from, to, Decoration.replace({ widget: new TableWidget(state.sliceDoc(from, to)), block: true }));
       return false;
     },
   });
   return builder.finish();
 }
 
-function tablesField(opts: TableOptions, hint: string) {
+function tablesField() {
   return StateField.define<{ focused: boolean; decos: DecorationSet }>({
-    create: (state) => ({ focused: false, decos: buildTables(state, false, opts, hint) }),
+    create: (state) => ({ focused: false, decos: buildTables(state, false) }),
     update(value, tr) {
       let focused = value.focused;
       for (const e of tr.effects) if (e.is(setFocus)) focused = e.value;
@@ -648,101 +483,33 @@ function tablesField(opts: TableOptions, hint: string) {
         syntaxTree(tr.startState) === syntaxTree(tr.state)
       )
         return value;
-      return { focused, decos: buildTables(tr.state, focused, opts, hint) };
+      return { focused, decos: buildTables(tr.state, focused) };
     },
     provide: (f) => EditorView.decorations.from(f, (v) => v.decos),
   });
 }
 
-// ------------------------------------------------------------------ картинки: вставка файлов и список адресов
-
-const IMAGE_SRC = /!\[[^\]\n]*\]\(([^)\s]+)/g;
-
-/** Адреса всех картинок `![…](адрес)` в тексте */
-export const imageSources = (text: string) => [...text.matchAll(IMAGE_SRC)].map((m) => m[1]);
-
-function imageExtensions(opts: ImageOptions): Extension[] {
-  const accept = opts.accept ?? ((f: File) => f.type.startsWith('image/'));
-  const take = (files: FileList | undefined | null, pos: number, view: EditorView, e: Event) => {
-    const images = [...(files ?? [])].filter(accept);
-    if (!images.length || !opts.onFiles) return false;
-    if (opts.onFiles(images, pos, view) === false) return false;
-    e.preventDefault();
-    return true;
-  };
-  const out: Extension[] = [
-    EditorView.domEventHandlers({
-      paste: (e, view) => take(e.clipboardData?.files, view.state.selection.main.head, view, e),
-      drop: (e, view) =>
-        take(
-          e.dataTransfer?.files,
-          view.posAtCoords({ x: e.clientX, y: e.clientY }) ?? view.state.selection.main.head,
-          view,
-          e,
-        ),
-    }),
-  ];
-  if (opts.onChange) {
-    const onChange = opts.onChange;
-    out.push(
-      ViewPlugin.define((view) => {
-        let last = imageSources(view.state.doc.toString());
-        // После создания вида — колбэк может менять состояние приложения
-        queueMicrotask(() => onChange(last));
-        return {
-          update(u: ViewUpdate) {
-            if (!u.docChanged) return;
-            const next = imageSources(u.state.doc.toString());
-            if (next.join('\n') === last.join('\n')) return;
-            last = next;
-            onChange(next);
-          },
-        };
-      }),
-    );
-  }
-  return out;
-}
-
 // ------------------------------------------------------------------ сборка
-
-/**
- * Язык Markdown (GFM) с буквенными списками «a) / б)». Свой `markdown()` — добавьте в него `letterLists`.
- * Не через markdown(): тот тянет подсветку HTML/CSS/JS (~100 КБ), а нужна только разметка.
- */
-export const liveMarkdownLanguage = new Language(
-  markdownLanguage.data,
-  (markdownLanguage.parser as MarkdownParser).configure(letterLists),
-  [],
-  'markdown',
-);
 
 /** Живой Markdown для CodeMirror 6 — одно расширение со всеми частями */
 export function liveMarkdown(options: LiveMarkdownOptions = {}): Extension {
-  const phrases: Phrases = { ...defaultPhrases, ...options.phrases };
-  const tokens = options.tokens ?? [];
-  const images = options.images === false ? false : (options.images ?? {});
   const openLink = options.openLink ?? ((url: string) => window.open(url, '_blank', 'noreferrer'));
 
   const preview = ViewPlugin.fromClass(
     class {
       decorations: DecorationSet;
-      generation = 0;
       constructor(view: EditorView) {
-        this.decorations = build(view, { tokens, images, phrases, generation: this.generation });
+        this.decorations = build(view);
       }
       update(u: ViewUpdate) {
-        const refresh = u.transactions.some((t) => t.effects.some((e) => e.is(refreshLivePreview)));
-        if (refresh) this.generation++;
         if (
           u.docChanged ||
           u.selectionSet ||
           u.focusChanged ||
           u.viewportChanged ||
-          refresh ||
           syntaxTree(u.startState) !== syntaxTree(u.state)
         )
-          this.decorations = build(u.view, { tokens, images, phrases, generation: this.generation });
+          this.decorations = build(u.view);
       }
     },
     {
@@ -783,20 +550,10 @@ export function liveMarkdown(options: LiveMarkdownOptions = {}): Extension {
     },
   );
 
-  const ext: Extension[] = [];
-  if (options.language !== false) ext.push(liveMarkdownLanguage);
-  if (options.keymap !== false)
-    // Свои команды раньше стандартных: Tab/Shift+Tab — вложенность списков и ячейки таблиц, Backspace за маркером,
-    // Ctrl+B/I/E/K, Ctrl+Enter — чекбокс; затем Enter продолжает список
-    ext.push(Prec.high(keymap.of(liveMarkdownKeymap)), Prec.high(keymap.of(markdownKeymap)));
-  ext.push(preview);
-  if (options.tables !== false) {
-    ext.push(
-      tablesField(options.tables ?? {}, phrases.tableHint),
-      EditorView.focusChangeEffect.of((_, focusing) => setFocus.of(focusing)),
-    );
-  }
-  if (images) ext.push(imageExtensions(images));
-  if (options.theme !== false) ext.push(liveMarkdownTheme);
-  return ext;
+  return [
+    preview,
+    tablesField(),
+    EditorView.focusChangeEffect.of((_, focusing) => setFocus.of(focusing)),
+    liveMarkdownTheme,
+  ];
 }
