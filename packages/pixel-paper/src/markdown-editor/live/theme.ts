@@ -78,6 +78,7 @@ export const liveMarkdownTheme = EditorView.baseTheme({
     minWidth: "0.7em",
   },
   ".lmd-check": {
+    width: "auto",
     margin: "0 var(--space-s) 0 0",
     verticalAlign: "-2px",
     cursor: "pointer",
