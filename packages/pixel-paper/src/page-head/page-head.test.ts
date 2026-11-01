@@ -27,4 +27,25 @@ describe("PageHead", () => {
       Scene.expect(Scene.selector(".page-acts button")).toHaveText("add")
     );
   });
+
+  it("puts the caller's attributes on its h1", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          PageHead.view(
+            {
+              title: "Archive",
+              titleAttributes: [h.Id("archive-heading")],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(
+        Scene.role("heading", { name: "Archive", level: 1 })
+      ).toHaveAttr("id", "archive-heading"),
+      Scene.expect(Scene.selector("#archive-heading")).toHaveClass("page-title")
+    );
+  });
 });

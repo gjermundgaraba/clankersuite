@@ -1,11 +1,14 @@
-import type { Html, HtmlBuilder } from "foldkit/html";
+import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 
 import { slotView } from "../slot/slot.ts";
 
 /** Configuration for rendering a page head with `view`. */
-export type ViewConfig = Readonly<{
+export type ViewConfig<Message = never> = Readonly<{
   /** The screen's name: its `h1`, in sans. A long one wraps; nothing is cut. */
   title: string;
+  /** On the `h1`, before its own: an id and `tabindex="-1"` make it where focus lands when
+   *  the screen opens. */
+  titleAttributes?: ReadonlyArray<Attribute<Message>>;
   /** A count or state after the title, in the pixel face ("12 items"). */
   meta?: string;
   /** The screen's own Buttons at the right; under the title on a phone. */
@@ -15,10 +18,10 @@ export type ViewConfig = Readonly<{
 /** The heading of a working screen, above its panels: its name as the page's `h1`, a count
  *  beside it, and what the screen does. One per screen; the panels below it title in `h2`. */
 export const view = <Message>(
-  config: ViewConfig,
+  config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { title, meta, actions = [] } = config;
+  const { title, titleAttributes = [], meta, actions = [] } = config;
 
   return h.div(
     [h.Class("page-head")],
@@ -26,7 +29,7 @@ export const view = <Message>(
       h.div(
         [h.Class("page-name")],
         [
-          h.h1([h.Class("page-title")], [title]),
+          h.h1([...titleAttributes, h.Class("page-title")], [title]),
           ...(meta === undefined ? [] : [h.span([h.Class("meta")], [meta])]),
         ]
       ),

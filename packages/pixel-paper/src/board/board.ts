@@ -33,7 +33,6 @@ import {
 } from "../drag/drag.ts";
 import * as Glyph from "../glyph/glyph.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
-import { LOCALE } from "../locale/locale.ts";
 import { slotView } from "../slot/slot.ts";
 import { prefixKeys } from "../subscription/prefix-keys.ts";
 
@@ -885,13 +884,7 @@ const columnView = (
         [
           h.header(
             [h.Class("panel-tb")],
-            [
-              h.h2([h.Id(headingId)], [column.title]),
-              h.span(
-                [h.Class("meta")],
-                [column.cards.length.toLocaleString(LOCALE)]
-              ),
-            ]
+            [h.h2([h.Id(headingId)], [column.title])]
           ),
           ...Array.match(items, {
             onEmpty: () => info.toEmptyView(column),

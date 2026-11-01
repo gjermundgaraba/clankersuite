@@ -20,6 +20,10 @@ export type Choice = Readonly<{
   /** On a page, its depth in the page's tree, from 1 at the roots: it sits under the nearest
    *  choice before it one level up, and indents by its depth. A page without levels is flat. */
   level?: number;
+  /** More text a query finds it by, never shown (an item's description, who it is for). It
+   *  is matched word by word, each word of the query somewhere in the label or here, not as
+   *  the label's scattered letters, so a long text does not match every query. */
+  keywords?: string;
 }>;
 
 /** A page of choices a command opens in place (a status, a date, a destination). */
@@ -53,6 +57,22 @@ export const matches = (query: string, label: string): boolean => {
   return isSubsequence(needle, String.toLowerCase(label));
 };
 
+const hasEveryWord = (query: string, text: string): boolean => {
+  const haystack = String.toLowerCase(text);
+
+  return Array.every(
+    String.split(pipe(query, String.trim, String.toLowerCase), /\s+/u),
+    (word) => String.includes(word)(haystack)
+  );
+};
+
+/** Whether a query finds a choice: its label's letters in order, or every word of the query
+ *  in its label or keywords. */
+export const finds = (query: string, choice: Choice): boolean =>
+  matches(query, choice.label) ||
+  (choice.keywords !== undefined &&
+    hasEveryWord(query, `${choice.label} ${choice.keywords}`));
+
 const isBlank = (query: string): boolean => String.isEmpty(String.trim(query));
 
 export const findCommands = (
@@ -61,7 +81,7 @@ export const findCommands = (
 ): readonly Command[] => {
   const hits = isBlank(query)
     ? Array.filter(commands, (command) => command.isAuthored !== true)
-    : Array.filter(commands, (command) => matches(query, command.label));
+    : Array.filter(commands, (command) => finds(query, command));
 
   const ordered = [
     ...Array.filter(hits, (command) => command.isAuthored !== true),
@@ -83,7 +103,7 @@ export const findCommands = (
 export const findChoices = (page: Page, query: string): readonly Choice[] =>
   isBlank(query)
     ? page.choices
-    : Array.filter(page.choices, (choice) => matches(query, choice.label));
+    : Array.filter(page.choices, (choice) => finds(query, choice));
 
 type Walk = Readonly<{
   chain: readonly Choice[];

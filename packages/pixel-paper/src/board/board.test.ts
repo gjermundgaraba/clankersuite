@@ -383,11 +383,14 @@ const keyboardHeld = [
 ] as const;
 
 describe("Board view", () => {
-  it("prints each column as a panel named by its title, with a count", () => {
+  it("prints each column as a panel named by its title alone", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
       Scene.expect(Scene.selector(".board")).toHaveStyle("--cols", "3"),
+      Scene.expect(
+        Scene.selector('[data-droppable-id="work/todo"] .panel-tb')
+      ).toHaveText("To do"),
       Scene.expect(Scene.role("region", { name: "Doing" })).toContainText(
         "File taxes"
       ),

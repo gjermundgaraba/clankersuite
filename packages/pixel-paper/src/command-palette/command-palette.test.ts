@@ -19,7 +19,13 @@ import {
   fieldKey,
   rowPress,
 } from "./keys.ts";
-import { findChoices, findCommands, matches, pageChoices } from "./match.ts";
+import {
+  findChoices,
+  findCommands,
+  finds,
+  matches,
+  pageChoices,
+} from "./match.ts";
 import type { Choice, Command, Page } from "./match.ts";
 import { Message } from "./message.ts";
 import type { ArrowKey, ShownRow } from "./message.ts";
@@ -217,6 +223,25 @@ describe("CommandPalette finding", () => {
     ]);
     expect(matches("  KEYB ", "Keyboard shortcuts")).toBe(true);
     expect(matches("zz", "Keyboard shortcuts")).toBe(false);
+  });
+
+  it("finds a choice by every word of the query in its label or keywords, not their scattered letters", () => {
+    const invoice: Choice = {
+      id: "invoice",
+      label: "Follow up",
+      keywords: "Ask the vendor about the March invoice. Priya",
+    };
+
+    expect(finds("vendor invoice", invoice)).toBe(true);
+    expect(finds("  PRIYA ", invoice)).toBe(true);
+    expect(finds("follow priya", invoice)).toBe(true);
+    expect(finds("fup", invoice)).toBe(true);
+    expect(finds("vendor april", invoice)).toBe(false);
+    expect(finds("vmi", invoice)).toBe(false);
+    expect(finds("vendor", { id: "plain", label: "Follow up" })).toBe(false);
+    expect(
+      ids(findCommands([...COMMANDS, { ...invoice, group: "Titles" }], "march"))
+    ).toStrictEqual(["invoice"]);
   });
 
   it("finds in a page's choices by its query", () => {
