@@ -19,6 +19,6 @@ export const view = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.kbd(
-    [h.Class("key-hint"), h.AriaHidden(true)],
+    [h.Class("gg-key-hint"), h.AriaHidden(true)],
     [keyLabel(config.keys, config.platform)]
   );

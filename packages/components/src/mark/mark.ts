@@ -23,7 +23,7 @@ export const view = <Message>(
   h: HtmlBuilder<Message>
 ): Html => {
   const { label, isPlain = false, onToggle, isPressed = false } = config;
-  const markClass = isPlain ? "mark plain" : "mark";
+  const markClass = isPlain ? "gg-mark gg-plain" : "gg-mark";
   const glyph = Glyph.view({ name: "mark" }, h);
 
   return onToggle === undefined
@@ -62,4 +62,4 @@ export type ReadingConfig = Readonly<{
 export const readingView = <Message>(
   config: ReadingConfig,
   h: HtmlBuilder<Message>
-): Html => h.span([h.Class("mark reading")], [config.label]);
+): Html => h.span([h.Class("gg-mark gg-reading")], [config.label]);

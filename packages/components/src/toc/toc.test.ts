@@ -37,7 +37,7 @@ describe("Toc view", () => {
       Scene.expect(Scene.role("link", { name: "Links" })).not.toHaveAttr(
         "aria-current"
       ),
-      Scene.expect(Scene.selector("li.l3")).toHaveText("Checks")
+      Scene.expect(Scene.selector("li.gg-l3")).toHaveText("Checks")
     );
   });
 

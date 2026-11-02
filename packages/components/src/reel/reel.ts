@@ -258,7 +258,7 @@ const tabHook = (model: Model, paneId: string): string =>
   `${model.id}/tab/${paneId}`;
 
 const scrollerOf = (reelHook: string): Option.Option<HTMLElement> =>
-  htmlElement(`[data-reel="${CSS.escape(reelHook)}"] > .reel-view`);
+  htmlElement(`[data-reel="${CSS.escape(reelHook)}"] > .gg-reel-view`);
 
 const paneElement = (hook: string): Option.Option<HTMLElement> =>
   htmlElement(`[data-reel-pane="${CSS.escape(hook)}"]`);
@@ -1348,7 +1348,7 @@ const scaleOf = (hold: SplitterHold): number =>
           view.clientWidth -
           Option.getOrElse(
             Option.map(
-              Option.fromNullishOr(view.querySelector(".reel-gap")),
+              Option.fromNullishOr(view.querySelector(".gg-reel-gap")),
               (gap) => gap.getBoundingClientRect().width
             ),
             () => 0
@@ -1361,7 +1361,7 @@ const scaleOf = (hold: SplitterHold): number =>
                   .querySelector(
                     `[data-reel-slot="${CSS.escape(abovePaneId)}"]`
                   )
-                  ?.closest(".reel-column")
+                  ?.closest(".gg-reel-column")
                   ?.querySelectorAll("[data-reel-slot]") ?? []
               ),
               heightOf
@@ -1670,12 +1670,12 @@ const dropMarkOf = (
     return Option.orElse(
       Option.map(Array.get(others, mark.index), ({ id }) => ({
         paneId: id,
-        markClass: " drop-before",
+        markClass: " gg-drop-before",
       })),
       () =>
         Option.map(
           Option.filter(Array.last(others), () => mark.index >= others.length),
-          ({ id }) => ({ paneId: id, markClass: " drop-after" })
+          ({ id }) => ({ paneId: id, markClass: " gg-drop-after" })
         )
     );
   });
@@ -1699,7 +1699,7 @@ const slotView = (
 ): Html =>
   h.keyed("div")(pane.id, [
     h.Class(
-      `reel-slot${Option.match(
+      `gg-reel-slot${Option.match(
         Option.filter(maybeDropMark, ({ paneId }) => paneId === pane.id),
         { onNone: () => "", onSome: ({ markClass }) => markClass }
       )}`
@@ -1718,7 +1718,7 @@ const splitView = (
   h: HtmlBuilder<Message>
 ): Html =>
   h.keyed("div")(`split:${above.id}`, [
-    h.Class("reel-split"),
+    h.Class("gg-reel-split"),
     h.Role("separator"),
     h.AriaLabel(fill(COPY.heightLabel, { pane: above.label })),
     h.AriaValuemin(0),
@@ -1759,7 +1759,7 @@ const columnView = (
     h.keyed("div")(
       `column:${column.id}`,
       [
-        h.Class("reel-column"),
+        h.Class("gg-reel-column"),
         h.DataAttribute("reel-column", column.id),
         h.DataAttribute("reel-hook", columnHook(model, column.id)),
         h.Style({ "--reel-width": `${column.width}` }),
@@ -1768,7 +1768,7 @@ const columnView = (
     ),
     h.keyed("div")(`resize:${column.id}`, [
       h.Class(
-        `reel-gap reel-resize${isGapMarked(info, maybeNextId) ? " drop-here" : ""}`
+        `gg-reel-gap gg-reel-resize${isGapMarked(info, maybeNextId) ? " gg-drop-here" : ""}`
       ),
       h.Role("separator"),
       h.AriaLabel(fill(COPY.widthLabel, { column: index + 1 })),
@@ -1796,7 +1796,7 @@ const paneLayerView = (
   const { model } = info;
 
   return h.div(
-    [h.Class("reel-panes")],
+    [h.Class("gg-reel-panes")],
     Array.map(panesInDomOrder, (pane) => {
       const isFocused = Option.contains(info.maybeFocusedId, pane.id);
       const isHeld = Option.contains(info.maybeCarriedId, pane.id);
@@ -1806,7 +1806,7 @@ const paneLayerView = (
         pane.id,
         [
           h.Class(
-            `reel-pane${isFocused ? " focused" : ""}${isHeld ? " drag-dim" : ""}${isBehind ? " behind" : ""}`
+            `gg-reel-pane${isFocused ? " gg-focused" : ""}${isHeld ? " gg-drag-dim" : ""}${isBehind ? " gg-behind" : ""}`
           ),
           h.DataAttribute("reel-pane", paneHook(model, pane.id)),
           h.Style({ "--reel-anchor": anchors.get(pane.id) ?? "none" }),
@@ -1839,7 +1839,7 @@ const liftedCopyView = (
           Option.liftPredicate(
             h.div(
               [
-                h.Class("reel-lift"),
+                h.Class("gg-reel-lift"),
                 h.Style({ transform: `translate3d(${x}px, ${y}px, 0)` }),
                 h.AriaHidden(true),
                 h.Inert(true),
@@ -1853,16 +1853,16 @@ const liftedCopyView = (
               ],
               [
                 h.div(
-                  [h.Class("panel window")],
+                  [h.Class("gg-panel gg-window")],
                   [
                     h.div(
-                      [h.Class("panel-tb")],
+                      [h.Class("gg-panel-tb")],
                       [
                         h.span(
-                          [h.Class("panel-lead")],
+                          [h.Class("gg-panel-lead")],
                           [
                             h.span(
-                              [h.Class("iconbtn quiet")],
+                              [h.Class("gg-iconbtn gg-quiet")],
                               [Glyph.view({ name: "grip" }, h)]
                             ),
                           ]
@@ -1906,7 +1906,11 @@ const tabListView = (
     );
 
   return h.div(
-    [h.Class("nav tabs reel-tabs"), h.Role("tablist"), h.AriaLabel(label)],
+    [
+      h.Class("gg-nav gg-tabs gg-reel-tabs"),
+      h.Role("tablist"),
+      h.AriaLabel(label),
+    ],
     Array.map(panes, (pane, index) => {
       const isSelected = Option.contains(info.maybeFocusedId, pane.id);
 
@@ -1926,7 +1930,7 @@ const tabListView = (
         ],
         [
           ...toTabLeadView(pane),
-          h.span([h.Class("reel-tab-words")], [pane.label]),
+          h.span([h.Class("gg-reel-tab-words")], [pane.label]),
         ]
       );
     })
@@ -1995,12 +1999,12 @@ export const view = defineView<Model, Message, ViewInputs>(
     const strip = (): readonly Html[] => [
       h.keyed("div")("gap:start", [
         h.Class(
-          `reel-gap${
+          `gg-reel-gap${
             isGapMarked(
               info,
               Option.map(Array.head(layout), ({ id }) => id)
             )
-              ? " drop-here"
+              ? " gg-drop-here"
               : ""
           }`
         ),
@@ -2012,7 +2016,7 @@ export const view = defineView<Model, Message, ViewInputs>(
 
     return h.div(
       [
-        h.Class(isTabbed ? "reel tabbed" : "reel"),
+        h.Class(isTabbed ? "gg-reel gg-tabbed" : "gg-reel"),
         h.Role("group"),
         h.AriaLabel(label),
         h.DataAttribute("reel", model.id),
@@ -2020,15 +2024,15 @@ export const view = defineView<Model, Message, ViewInputs>(
       [
         ...(isTabbed ? [tabListView(info, label, toTabLeadView, h)] : []),
         h.div(
-          [h.Class("reel-view")],
+          [h.Class("gg-reel-view")],
           [
             h.div(
-              [h.Class("reel-track")],
+              [h.Class("gg-reel-track")],
               [
                 ...(isTabbed
                   ? [
                       h.div([
-                        h.Class("reel-slot reel-stage"),
+                        h.Class("gg-reel-slot gg-reel-stage"),
                         h.Style({ "--reel-anchor": STAGE_ANCHOR }),
                       ]),
                     ]

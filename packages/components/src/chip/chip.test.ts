@@ -49,18 +49,20 @@ describe("Chip and Mark", () => {
     Scene.scene(
       { update, view: rowView },
       Scene.given<Model>({ isMarked: false }),
-      Scene.expect(Scene.selector(".chip.warn")).toHaveText("building"),
-      Scene.expect(Scene.selector(".chip.warn")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-chip.gg-warn")).toHaveText("building"),
+      Scene.expect(Scene.selector(".gg-chip.gg-warn")).toHaveAttr(
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector(".chip .cursor")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-chip .gg-cursor")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".chip.go")).not.toHaveAttr("aria-busy"),
+      Scene.expect(Scene.selector(".gg-chip.gg-go")).not.toHaveAttr(
+        "aria-busy"
+      ),
       Scene.expect(Scene.role("img", { name: "Needs attention" })).toHaveClass(
-        "mark"
+        "gg-mark"
       ),
       Scene.expect(Scene.role("img", { name: "Needs attention" })).toHaveAttr(
         "data-tip",
@@ -74,10 +76,10 @@ describe("Chip and Mark", () => {
       { update, view: rowView },
       Scene.given<Model>({ isMarked: false }),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveClass(
-        "chip-dot"
+        "gg-chip-dot"
       ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveClass(
-        "go"
+        "gg-go"
       ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveAttr(
         "data-tip",
@@ -86,7 +88,7 @@ describe("Chip and Mark", () => {
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveText(""),
       Scene.expect(Scene.role("img", { name: "To do" })).toHaveAttr(
         "class",
-        "chip-dot"
+        "gg-chip-dot"
       )
     );
   });
@@ -99,7 +101,9 @@ describe("Chip and Mark", () => {
         "aria-pressed",
         "false"
       ),
-      Scene.expect(Scene.role("button", { name: "Flag" })).toHaveClass("plain"),
+      Scene.expect(Scene.role("button", { name: "Flag" })).toHaveClass(
+        "gg-plain"
+      ),
       Scene.click(Scene.role("button", { name: "Flag" })),
       Scene.expect(Scene.role("button", { name: "Flag" })).toHaveAttr(
         "aria-pressed",

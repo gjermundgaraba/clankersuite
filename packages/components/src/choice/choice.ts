@@ -30,18 +30,18 @@ export const view = <Message>(
       hasDescription: note !== undefined,
       toView: (groups) =>
         h.div(
-          [h.Class("choice")],
+          [h.Class("gg-choice")],
           [
-            h.button([...groups.checkbox, h.Class("choice-box")]),
+            h.button([...groups.checkbox, h.Class("gg-choice-box")]),
             h.span(
               [],
               [
-                h.span([...groups.label, h.Class("choice-name")], [label]),
+                h.span([...groups.label, h.Class("gg-choice-name")], [label]),
                 ...(note === undefined
                   ? []
                   : [
                       h.span(
-                        [...groups.description, h.Class("choice-note")],
+                        [...groups.description, h.Class("gg-choice-note")],
                         [note]
                       ),
                     ]),

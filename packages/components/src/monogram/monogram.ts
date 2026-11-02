@@ -44,7 +44,7 @@ const drawingView = <Message>(
       h.Width(`${columns * cell}`),
       h.Height(`${rows.length * cell}`),
       h.AriaHidden(true),
-      h.Class("px-icon"),
+      h.Class("gg-icon"),
     ],
     Array.map(Glyph.toCells(art, columns), Glyph.cellView(h))
   );
@@ -76,7 +76,7 @@ export const view = <Message>(
     [
       h.AriaHidden(true),
       h.Class(
-        `monogram${drawing === undefined ? "" : " drawn"}${isLarge ? " large" : ""}`
+        `gg-monogram${drawing === undefined ? "" : " gg-drawn"}${isLarge ? " gg-large" : ""}`
       ),
     ],
     [drawing === undefined ? initials(label) : drawingView(drawing, isLarge, h)]

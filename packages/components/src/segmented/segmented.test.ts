@@ -39,7 +39,9 @@ describe("Segmented", () => {
     Scene.scene(
       { update, view: segmentedView },
       Scene.given<Density>("Roomy"),
-      Scene.expect(Scene.role("group", { name: "Density" })).toHaveClass("nav"),
+      Scene.expect(Scene.role("group", { name: "Density" })).toHaveClass(
+        "gg-nav"
+      ),
       Scene.expect(Scene.role("button", { name: "roomy" })).toHaveAttr(
         "aria-pressed",
         "true"

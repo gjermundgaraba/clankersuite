@@ -152,16 +152,16 @@ describe("LineDiff view", () => {
       Scene.expect(
         Scene.role("table", { name: "Version 3 against version 4" })
       ).toExist(),
-      Scene.expect(Scene.selector("tr.fold")).toHaveText("1 unchanged line"),
-      Scene.expect(Scene.selector("tr.del td.sign")).toHaveAttr(
+      Scene.expect(Scene.selector("tr.gg-fold")).toHaveText("1 unchanged line"),
+      Scene.expect(Scene.selector("tr.gg-del td.gg-sign")).toHaveAttr(
         "aria-label",
         "removed"
       ),
-      Scene.expect(Scene.selector("tr.add td.sign")).toHaveAttr(
+      Scene.expect(Scene.selector("tr.gg-add td.gg-sign")).toHaveAttr(
         "aria-label",
         "added"
       ),
-      Scene.expect(Scene.selector("tr.add td.line")).toHaveText("C")
+      Scene.expect(Scene.selector("tr.gg-add td.gg-line")).toHaveText("C")
     );
   });
 
@@ -185,7 +185,7 @@ describe("LineDiff view", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("table")).toBeAbsent(),
-      Scene.expect(Scene.selector(".note-line")).toHaveText(note)
+      Scene.expect(Scene.selector(".gg-note-line")).toHaveText(note)
     );
   });
 
@@ -200,7 +200,7 @@ describe("LineDiff view", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".stack .note-line")).toHaveText(
+      Scene.expect(Scene.selector(".gg-stack .gg-note-line")).toHaveText(
         "Renamed from old notes.md."
       ),
       Scene.expect(
@@ -220,7 +220,7 @@ describe("LineDiff view", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".note-line")).toHaveText(
+      Scene.expect(Scene.selector(".gg-note-line")).toHaveText(
         "It was a file and is now a symlink."
       ),
       Scene.expect(

@@ -8,7 +8,7 @@ const benchView = (_model: null, h: HtmlBuilder<never>) =>
   Bench.view(
     {
       head: [h.h1([], ["Spring release"])],
-      body: [h.div([h.Class("reel")], ["the panes"])],
+      body: [h.div([h.Class("gg-reel")], ["the panes"])],
     },
     h
   );
@@ -19,14 +19,16 @@ describe("Bench", () => {
       { update: (model: null) => ({ model }), view: benchView },
       Scene.given(null),
       Scene.expect(Scene.role("main")).toHaveId("main"),
-      Scene.expect(Scene.role("main")).toHaveClass("bench"),
-      Scene.expect(Scene.nth(Scene.all.selector(".bench div"), 0)).toHaveClass(
-        "bench-head"
-      ),
-      Scene.expect(Scene.selector(".bench-head h1")).toHaveText(
+      Scene.expect(Scene.role("main")).toHaveClass("gg-bench"),
+      Scene.expect(
+        Scene.nth(Scene.all.selector(".gg-bench div"), 0)
+      ).toHaveClass("gg-bench-head"),
+      Scene.expect(Scene.selector(".gg-bench-head h1")).toHaveText(
         "Spring release"
       ),
-      Scene.expect(Scene.selector(".bench-work .reel")).toHaveText("the panes")
+      Scene.expect(Scene.selector(".gg-bench-work .gg-reel")).toHaveText(
+        "the panes"
+      )
     );
   });
 });

@@ -21,7 +21,7 @@ const recordAnimations = (element: Element): Animation[] => {
     animate: (keyframes: Keyframes, options: KeyframeAnimationOptions) => {
       recorded.push({ keyframes, options });
 
-      return { id: "pixel-paper-flash", cancel: () => {} };
+      return { id: "gg-flash", cancel: () => {} };
     },
   });
 
@@ -97,7 +97,7 @@ describe("flash", () => {
     expect(recorded).toStrictEqual([
       {
         keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 350, delay: 175, id: "pixel-paper-flash" },
+        options: { duration: 350, delay: 175, id: "gg-flash" },
       },
     ]);
   });
@@ -129,7 +129,7 @@ describe("flash", () => {
     expect(recorded).toStrictEqual([
       {
         keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 0, delay: 0, id: "pixel-paper-flash" },
+        options: { duration: 0, delay: 0, id: "gg-flash" },
       },
     ]);
   });
@@ -143,7 +143,7 @@ describe("flash", () => {
     expect(recorded).toStrictEqual([
       {
         keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 350, delay: 175, id: "pixel-paper-flash" },
+        options: { duration: 350, delay: 175, id: "gg-flash" },
       },
     ]);
   });

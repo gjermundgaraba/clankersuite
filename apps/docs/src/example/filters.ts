@@ -95,7 +95,7 @@ const stripView = (model: Model, h: HtmlBuilder<Message>): Html =>
           },
           h
         ),
-        h.span([h.Class("spacer")]),
+        h.span([h.Class("gg-spacer")]),
         FilterChip.view(
           {
             label: "reset",

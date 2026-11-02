@@ -19,7 +19,7 @@ export const view = <Message>(
   const { value, label, actions } = config;
 
   return h.div(
-    [h.Class("secret")],
+    [h.Class("gg-secret")],
     [h.code([h.Role("group"), h.AriaLabel(label)], [value]), ...actions]
   );
 };

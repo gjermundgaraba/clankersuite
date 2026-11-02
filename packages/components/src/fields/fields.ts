@@ -20,7 +20,7 @@ export const view = <Message>(
   return h.fieldset(
     [
       ...(isBusy ? [h.Disabled(true), h.AriaBusy(true)] : []),
-      h.Class("stack gap-m"),
+      h.Class("gg-stack gg-gap-m"),
     ],
     body
   );

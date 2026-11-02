@@ -18,7 +18,7 @@ export type ViewConfig<Message> = Readonly<{
  *  the working cursor. A polite status that stays in place with its words swapped, as a live
  *  region must be for a screen reader to hear it: render it before the content, from before
  *  the wait starts, and set `isLoading`. It is not the page's live region (the Announcer's,
- *  marked `data-pixel-paper-announcer`), so a test that counts live regions counts that. */
+ *  marked `data-gg-announcer`), so a test that counts live regions counts that. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
@@ -29,8 +29,8 @@ export const view = <Message>(
     [
       ...attributes,
       h.Role("status"),
-      h.Class(isLoading ? "loading" : "loading-idle"),
+      h.Class(isLoading ? "gg-loading" : "gg-loading-idle"),
     ],
-    isLoading ? [label, h.span([h.Class("cursor"), h.AriaHidden(true)])] : []
+    isLoading ? [label, h.span([h.Class("gg-cursor"), h.AriaHidden(true)])] : []
   );
 };

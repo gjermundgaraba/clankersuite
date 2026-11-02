@@ -46,12 +46,12 @@ describe("Field", () => {
       Scene.given<Model>({ name: "notes.md", isInvalid: false }),
       Scene.expect(input).toHaveValue("notes.md"),
       Scene.expect(input).toHaveAttr("aria-describedby"),
-      Scene.expect(Scene.selector(".field-help")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-help")).toHaveText(
         "The name it is listed under."
       ),
       Scene.expect(input).not.toHaveAttr("aria-invalid"),
       Scene.expect(input).not.toHaveAttr("aria-required"),
-      Scene.expect(Scene.selector(".field")).toHaveClass("mono"),
+      Scene.expect(Scene.selector(".gg-field")).toHaveClass("gg-mono"),
       Scene.type(input, "field-notes.md"),
       Scene.expect(input).toHaveValue("field-notes.md")
     );
@@ -77,7 +77,7 @@ describe("Field", () => {
       Scene.given<Model>({ name: "2026-10-12", isInvalid: false }),
       Scene.expect(Scene.label("Due")).toHaveAttr("type", "date"),
       Scene.expect(Scene.label("Due")).toHaveValue("2026-10-12"),
-      Scene.expect(Scene.selector(".field.boxed")).toExist()
+      Scene.expect(Scene.selector(".gg-field.gg-boxed")).toExist()
     );
   });
 
@@ -122,7 +122,7 @@ describe("Field", () => {
       Scene.expect(Scene.role("textbox", { name: "Address" })).toHaveValue(
         "https://example.com/"
       ),
-      Scene.expect(Scene.selector(".field label")).toHaveClass("sr-only")
+      Scene.expect(Scene.selector(".gg-field label")).toHaveClass("sr-only")
     );
   });
 
@@ -130,7 +130,7 @@ describe("Field", () => {
     Scene.scene(
       { update, view: fieldView(undefined) },
       Scene.given<Model>({ name: "", isInvalid: false }),
-      Scene.expect(Scene.selector(".field label")).not.toHaveClass("sr-only")
+      Scene.expect(Scene.selector(".gg-field label")).not.toHaveClass("sr-only")
     );
   });
 
@@ -140,10 +140,10 @@ describe("Field", () => {
       Scene.given<Model>({ name: "", isInvalid: true }),
       Scene.expect(input).toHaveAttr("aria-invalid", "true"),
       Scene.expect(input).toHaveAttr("aria-describedby", "file-name-error"),
-      Scene.expect(Scene.selector("#file-name-error.field-error")).toHaveText(
-        "Give it a name."
-      ),
-      Scene.expect(Scene.selector(".field-help")).toBeAbsent()
+      Scene.expect(
+        Scene.selector("#file-name-error.gg-field-error")
+      ).toHaveText("Give it a name."),
+      Scene.expect(Scene.selector(".gg-field-help")).toBeAbsent()
     );
   });
 
@@ -163,7 +163,7 @@ describe("Field", () => {
       { update, view: fieldView(undefined) },
       Scene.given<Model>({ name: "", isInvalid: false }),
       Scene.expect(input).not.toHaveAttr("aria-describedby"),
-      Scene.expect(Scene.selector(".field-error")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-field-error")).toBeAbsent()
     );
   });
 });

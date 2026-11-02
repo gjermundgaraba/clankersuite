@@ -43,10 +43,12 @@ export const view = <Message>(
         h.label(
           [
             ...groups.label,
-            h.Class(value === "" ? "fchip query" : "fchip query live"),
+            h.Class(
+              value === "" ? "gg-fchip gg-query" : "gg-fchip gg-query gg-live"
+            ),
           ],
           [
-            h.span([h.Class("fchip-name")], [label]),
+            h.span([h.Class("gg-fchip-name")], [label]),
             h.input([...inputAttributes, ...groups.input]),
           ]
         ),

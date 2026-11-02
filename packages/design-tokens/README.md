@@ -12,7 +12,7 @@ import "@gjermundgaraba/design-tokens/clankersuite.css";
 
 Brands: `clankersuite`.
 
-Semantic colours are `light-dark()` pairs, so they follow the `color-scheme` of the element that uses them. The page follows the reader's preference; `data-scheme="light"` or `data-scheme="dark"` on `<html>` pins one, and `color-scheme` on any element switches what is inside it.
+Semantic colours are `light-dark()` pairs, so they follow the `color-scheme` of the element that uses them. The page follows the reader's preference; `data-color-scheme="light"` or `data-color-scheme="dark"` on `<html>` pins one, and `color-scheme` on any element switches what is inside it.
 
 Use the `--semantic-*` tokens. The `--primitive-*` tokens are the raw values the semantic ones point at, and may change or disappear in any release.
 

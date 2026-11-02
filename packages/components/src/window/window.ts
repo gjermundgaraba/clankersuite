@@ -52,13 +52,13 @@ export const view = <Message>(
     [
       h.Id(id),
       h.AriaLabelledBy(titleId(id)),
-      h.Class(isFlush ? "panel window flush" : "panel window"),
+      h.Class(isFlush ? "gg-panel gg-window gg-flush" : "gg-panel gg-window"),
     ],
     [
       h.header(
-        [h.Class("panel-tb")],
+        [h.Class("gg-panel-tb")],
         [
-          ...slotView("span", "panel-lead", lead, h),
+          ...slotView("span", "gg-panel-lead", lead, h),
           ...(glyph === undefined ? [] : [Glyph.view({ name: glyph }, h)]),
           h.h2([h.Id(titleId(id))], [title]),
           ...status,
@@ -73,7 +73,7 @@ export const view = <Message>(
               ]),
         ]
       ),
-      h.div([h.Class("window-body")], body),
+      h.div([h.Class("gg-window-body")], body),
     ]
   );
 };

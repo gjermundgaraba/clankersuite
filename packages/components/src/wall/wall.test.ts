@@ -9,10 +9,10 @@ const wallView = (_model: null, h: HtmlBuilder<never>) =>
     {
       body: [
         h.div(
-          [h.Class("card")],
+          [h.Class("gg-card")],
           [
             Wall.markView(
-              { brand: [h.span([h.Class("wordmark")], ["ledger"])] },
+              { brand: [h.span([h.Class("gg-wordmark")], ["ledger"])] },
               h
             ),
           ]
@@ -27,10 +27,12 @@ describe("Wall", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: wallView },
       Scene.given(null),
-      Scene.expect(Scene.role("main")).toHaveClass("wall"),
+      Scene.expect(Scene.role("main")).toHaveClass("gg-wall"),
       Scene.expect(Scene.role("main")).toHaveId("main"),
-      Scene.expect(Scene.selector(".wall-mark .glyph svg")).toExist(),
-      Scene.expect(Scene.selector(".wall-mark .wordmark")).toHaveText("ledger")
+      Scene.expect(Scene.selector(".gg-wall-mark .gg-glyph svg")).toExist(),
+      Scene.expect(Scene.selector(".gg-wall-mark .gg-wordmark")).toHaveText(
+        "ledger"
+      )
     );
   });
 });

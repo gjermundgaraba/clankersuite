@@ -17,7 +17,7 @@ describe("flash with reduced motion", () => {
       ) => {
         recorded.push({ keyframes, options });
 
-        return { id: "pixel-paper-flash", cancel: () => {} };
+        return { id: "gg-flash", cancel: () => {} };
       },
     });
 
@@ -35,7 +35,7 @@ describe("flash with reduced motion", () => {
           ],
           outlineOffset: ["-2px", "-2px"],
         },
-        options: { duration: 700, id: "pixel-paper-flash" },
+        options: { duration: 700, id: "gg-flash" },
       },
     ]);
   });

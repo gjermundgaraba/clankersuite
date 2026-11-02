@@ -35,10 +35,10 @@ describe("LinkButton", () => {
         "/docs"
       ),
       Scene.expect(Scene.role("link", { name: "open the docs" })).toHaveClass(
-        "btn"
+        "gg-btn"
       ),
       Scene.expect(Scene.role("link", { name: "open the docs" })).toHaveClass(
-        "primary"
+        "gg-primary"
       )
     );
   });

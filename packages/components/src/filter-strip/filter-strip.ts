@@ -17,5 +17,8 @@ export const view = <Message>(
 ): Html => {
   const { body, label = "Filters" } = config;
 
-  return h.div([h.Role("group"), h.AriaLabel(label), h.Class("strip")], body);
+  return h.div(
+    [h.Role("group"), h.AriaLabel(label), h.Class("gg-strip")],
+    body
+  );
 };

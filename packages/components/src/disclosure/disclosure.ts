@@ -38,17 +38,21 @@ export const view = <Message>(
       onToggle,
       toView: (groups) =>
         h.div(
-          [h.Class("disclosure")],
+          [h.Class("gg-disclosure")],
           [
             h.button(
-              [...groups.button, h.Class("disclosure-summary")],
+              [...groups.button, h.Class("gg-disclosure-summary")],
               [
                 Glyph.view({ name: "caret-right" }, h),
-                h.span([h.Class("disclosure-label")], [label]),
+                h.span([h.Class("gg-disclosure-label")], [label]),
               ]
             ),
             h.div(
-              [...groups.panel, h.Hidden(!isOpen), h.Class("disclosure-body")],
+              [
+                ...groups.panel,
+                h.Hidden(!isOpen),
+                h.Class("gg-disclosure-body"),
+              ],
               body
             ),
           ]

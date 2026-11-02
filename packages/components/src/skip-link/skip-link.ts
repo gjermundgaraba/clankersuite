@@ -17,7 +17,7 @@ export type Message = typeof Message.Type;
  * `ScrollToFragment` for a changed URL.
  */
 export const view = <Message>(h: HtmlBuilder<Message>): Html =>
-  h.a([h.Href("#main"), h.Class("skip")], ["Skip to content"]);
+  h.a([h.Href("#main"), h.Class("gg-skip")], ["Skip to content"]);
 
 export const focusFragment = (fragment: string): Effect.Effect<void> =>
   Effect.suspend(() =>

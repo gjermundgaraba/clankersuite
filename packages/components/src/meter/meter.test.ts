@@ -37,12 +37,14 @@ describe("Meter", () => {
       Scene.expect(meter).toHaveAttr("aria-valuemin", "0"),
       Scene.expect(meter).toHaveAttr("aria-valuemax", "50000"),
       Scene.expect(meter).toHaveAttr("aria-valuetext", "41,200 / 50,000"),
-      Scene.expectAll(Scene.all.selector(".cells .cell.on")).toHaveCount(16),
-      Scene.expect(Scene.selector(".mark.reading")).toHaveText("82%"),
-      Scene.expect(Scene.selector(".meter-foot")).toHaveText(
+      Scene.expectAll(
+        Scene.all.selector(".gg-cells .gg-cell.gg-on")
+      ).toHaveCount(16),
+      Scene.expect(Scene.selector(".gg-mark.gg-reading")).toHaveText("82%"),
+      Scene.expect(Scene.selector(".gg-meter-foot")).toHaveText(
         "Resets in 4 days"
       ),
-      Scene.expect(Scene.selector("ul.meters li.meter-row")).toExist()
+      Scene.expect(Scene.selector("ul.gg-meters li.gg-meter-row")).toExist()
     );
   });
 
@@ -66,10 +68,10 @@ describe("Meter", () => {
         )
       ),
       Scene.given(null),
-      Scene.expect(Scene.selector(".pct")).toHaveText("10%"),
-      Scene.expect(Scene.selector(".chip.blocked")).toHaveText("100%"),
-      Scene.expect(Scene.last(Scene.all.selector(".meter-row"))).toHaveClass(
-        "stale"
+      Scene.expect(Scene.selector(".gg-pct")).toHaveText("10%"),
+      Scene.expect(Scene.selector(".gg-chip.gg-blocked")).toHaveText("100%"),
+      Scene.expect(Scene.last(Scene.all.selector(".gg-meter-row"))).toHaveClass(
+        "gg-stale"
       ),
       Scene.expect(Scene.role("meter", { name: "Seats (stale)" })).toHaveAttr(
         "aria-valuetext",
@@ -91,9 +93,11 @@ describe("Meter", () => {
         )
       ),
       Scene.given(null),
-      Scene.expectAll(Scene.all.selector(".cells .cell.on")).toHaveCount(19),
-      Scene.expect(Scene.selector(".mark.reading")).toHaveText("99%"),
-      Scene.expect(Scene.selector(".chip.blocked")).toBeAbsent(),
+      Scene.expectAll(
+        Scene.all.selector(".gg-cells .gg-cell.gg-on")
+      ).toHaveCount(19),
+      Scene.expect(Scene.selector(".gg-mark.gg-reading")).toHaveText("99%"),
+      Scene.expect(Scene.selector(".gg-chip.gg-blocked")).toBeAbsent(),
       Scene.expect(meter).toExist()
     );
   });
@@ -118,8 +122,8 @@ describe("Meter", () => {
         )
       ),
       Scene.given(null),
-      Scene.expect(Scene.selector(".pct")).toHaveText("62%"),
-      Scene.expect(Scene.selector(".meter-num")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-pct")).toHaveText("62%"),
+      Scene.expect(Scene.selector(".gg-meter-num")).toBeAbsent(),
       Scene.expect(Scene.role("meter", { name: "Window" })).toHaveAttr(
         "aria-valuetext",
         "62% used"
@@ -161,18 +165,20 @@ describe("Meter", () => {
         )
       ),
       Scene.given(null),
-      Scene.expectAll(Scene.all.selector(".meter-row.toned")).toHaveCount(3),
-      Scene.expectAll(Scene.all.selector(".meter-row.toned.high")).toHaveCount(
-        1
+      Scene.expectAll(Scene.all.selector(".gg-meter-row.gg-toned")).toHaveCount(
+        3
       ),
-      Scene.expectAll(Scene.all.selector(".meter-row.toned.full")).toHaveCount(
-        1
-      ),
+      Scene.expectAll(
+        Scene.all.selector(".gg-meter-row.gg-toned.gg-high")
+      ).toHaveCount(1),
+      Scene.expectAll(
+        Scene.all.selector(".gg-meter-row.gg-toned.gg-full")
+      ).toHaveCount(1),
       Scene.expect(
-        Scene.last(Scene.all.selector(".meter-row"))
-      ).not.toHaveClass("toned"),
-      Scene.expectAll(Scene.all.selector(".mark.reading")).toHaveCount(2),
-      Scene.expect(Scene.selector(".chip.blocked")).toHaveText("100%")
+        Scene.last(Scene.all.selector(".gg-meter-row"))
+      ).not.toHaveClass("gg-toned"),
+      Scene.expectAll(Scene.all.selector(".gg-mark.gg-reading")).toHaveCount(2),
+      Scene.expect(Scene.selector(".gg-chip.gg-blocked")).toHaveText("100%")
     );
   });
 });

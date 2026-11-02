@@ -41,11 +41,15 @@ export const view = <Message>(
   return h.span(
     [
       h.Role("status"),
-      h.Class(`link-state${state === "Online" ? "" : ` ${stateWord(state)}`}`),
+      h.Class(
+        `gg-link-state${state === "Online" ? "" : ` gg-${stateWord(state)}`}`
+      ),
     ],
     [
       label,
-      ...(isWorking ? [h.span([h.Class("cursor"), h.AriaHidden(true)])] : []),
+      ...(isWorking
+        ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
+        : []),
     ]
   );
 };

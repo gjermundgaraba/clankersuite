@@ -18,5 +18,5 @@ export const view = <Message>(
 ): Html => {
   const { body, attributes = [] } = config;
 
-  return h.div([...attributes, h.Class("wrap gap-s")], body);
+  return h.div([...attributes, h.Class("gg-wrap gg-gap-s")], body);
 };

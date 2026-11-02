@@ -32,11 +32,11 @@ export const view = <Message>(
   } = config;
 
   return h.div(
-    [h.Class("outcome")],
+    [h.Class("gg-outcome")],
     [
       Notice.toneGlyphView({ tone }, h),
       h.div(
-        [...bodyAttributes, h.Class("outcome-body")],
+        [...bodyAttributes, h.Class("gg-outcome-body")],
         [h.strong([], [title]), h.p([], body), ...detail]
       ),
     ]

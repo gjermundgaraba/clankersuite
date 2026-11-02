@@ -21,12 +21,12 @@ describe("Sheet", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("article")).toHaveClass("sheet"),
+      Scene.expect(Scene.role("article")).toHaveClass("gg-sheet"),
       Scene.expect(
         Scene.role("heading", { level: 1, name: "Rollout checklist" })
       ).toExist(),
-      Scene.expect(Scene.selector(".byline")).toHaveText("v4 · sam"),
-      Scene.expect(Scene.selector(".sheet-acts button")).toHaveText("edit"),
+      Scene.expect(Scene.selector(".gg-byline")).toHaveText("v4 · sam"),
+      Scene.expect(Scene.selector(".gg-sheet-acts button")).toHaveText("edit"),
       Scene.expectAll(Scene.all.selector("article p")).toHaveCount(2)
     );
   });

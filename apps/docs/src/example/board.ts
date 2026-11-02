@@ -363,8 +363,8 @@ const cardView = (
           },
           h
         ),
-        h.span([h.Class("gap")]),
-        h.span([h.Class("age")], [item.age]),
+        h.span([h.Class("gg-gap")]),
+        h.span([h.Class("gg-age")], [item.age]),
         IconButton.view(
           {
             glyph: "pencil",

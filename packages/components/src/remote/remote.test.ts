@@ -54,7 +54,7 @@ describe("Remote", () => {
       { update, view },
       given(AsyncData.Loading()),
       Scene.expect(Scene.role("status")).toHaveText("loading usage"),
-      Scene.expect(Scene.selector(".notice")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-notice")).toBeAbsent(),
       Scene.expect(Scene.selector(".data")).toBeAbsent()
     );
   });
@@ -63,7 +63,7 @@ describe("Remote", () => {
     Scene.scene(
       { update, view },
       given(AsyncData.Success({ data: 41_200 })),
-      Scene.expect(Scene.role("status")).toHaveClass("loading-idle"),
+      Scene.expect(Scene.role("status")).toHaveClass("gg-loading-idle"),
       Scene.expect(Scene.selector(".data")).toHaveText("41200 requests")
     );
   });
@@ -72,9 +72,9 @@ describe("Remote", () => {
     Scene.scene(
       { update, view },
       given(AsyncData.Refreshing({ data: 300 })),
-      Scene.expect(Scene.role("status")).toHaveClass("loading-idle"),
+      Scene.expect(Scene.role("status")).toHaveClass("gg-loading-idle"),
       Scene.expect(Scene.selector(".data")).toHaveText("300 requests"),
-      Scene.expect(Scene.selector(".notice")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-notice")).toBeAbsent()
     );
   });
 
@@ -98,7 +98,7 @@ describe("Remote", () => {
     Scene.scene(
       { update, view },
       given(AsyncData.Stale({ error: "The refresh timed out", data: 300 })),
-      Scene.expect(Scene.selector(".notice")).toContainText(
+      Scene.expect(Scene.selector(".gg-notice")).toContainText(
         "Usage not refreshed"
       ),
       Scene.expect(Scene.role("alert")).toBeAbsent(),

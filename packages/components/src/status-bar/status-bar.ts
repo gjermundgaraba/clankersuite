@@ -36,7 +36,7 @@ const keyNoteView =
     h.keyed("span")(
       bindingKey(keys),
       [],
-      [h.kbd([h.Class("key-hint")], [keyLabel(keys, platform)]), ` ${does}`]
+      [h.kbd([h.Class("gg-key-hint")], [keyLabel(keys, platform)]), ` ${does}`]
     );
 
 /** The quiet line along the bottom of an interface: what state it is in, and the keys to
@@ -52,16 +52,16 @@ export const view = <Message>(
     [
       ...measureAttributes(
         toParentMessage,
-        { selector: ".statusbar", property: "--statusbar-h" },
+        { selector: ".gg-statusbar", property: "--statusbar-h" },
         h
       ),
-      h.Class("statusbar"),
+      h.Class("gg-statusbar"),
     ],
     [
-      h.div([h.Class("statusbar-state")], body),
+      h.div([h.Class("gg-statusbar-state")], body),
       ...slotView(
         "p",
-        "statusbar-keys",
+        "gg-statusbar-keys",
         Array.map(keys, keyNoteView(platform, h)),
         h
       ),

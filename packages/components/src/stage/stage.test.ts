@@ -20,10 +20,10 @@ describe("Stage", () => {
       { update: (model: null) => ({ model }), view: stageView(false) },
       Scene.given(null),
       Scene.expect(Scene.role("main")).toHaveId("main"),
-      Scene.expect(Scene.selector(".stage-canvas canvas")).toExist(),
-      Scene.expect(Scene.selector(".stage-work")).not.toHaveAttr("inert"),
+      Scene.expect(Scene.selector(".gg-stage-canvas canvas")).toExist(),
+      Scene.expect(Scene.selector(".gg-stage-work")).not.toHaveAttr("inert"),
       Scene.expect(Scene.role("status")).toBeEmpty(),
-      Scene.expect(Scene.selector(".stage-paused")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-stage-paused")).toBeAbsent()
     );
   });
 
@@ -31,7 +31,7 @@ describe("Stage", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: stageView(true) },
       Scene.given(null),
-      Scene.expect(Scene.selector(".stage-work")).toHaveAttr("inert"),
+      Scene.expect(Scene.selector(".gg-stage-work")).toHaveAttr("inert"),
       Scene.expect(Scene.role("status")).toHaveText("The link dropped.")
     );
   });

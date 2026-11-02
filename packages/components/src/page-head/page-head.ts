@@ -24,16 +24,16 @@ export const view = <Message>(
   const { title, titleAttributes = [], meta, actions = [] } = config;
 
   return h.div(
-    [h.Class("page-head")],
+    [h.Class("gg-page-head")],
     [
       h.div(
-        [h.Class("page-name")],
+        [h.Class("gg-page-name")],
         [
-          h.h1([...titleAttributes, h.Class("page-title")], [title]),
-          ...(meta === undefined ? [] : [h.span([h.Class("meta")], [meta])]),
+          h.h1([...titleAttributes, h.Class("gg-page-title")], [title]),
+          ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
         ]
       ),
-      ...slotView("div", "page-acts", actions, h),
+      ...slotView("div", "gg-page-acts", actions, h),
     ]
   );
 };

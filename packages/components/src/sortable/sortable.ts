@@ -606,7 +606,7 @@ const isHeldItem = (model: Model, itemId: string): boolean =>
 
 const liftedGrip = <ParentMessage>(h: HtmlBuilder<ParentMessage>): Html =>
   h.span(
-    [h.Class("iconbtn quiet"), h.AriaHidden(true)],
+    [h.Class("gg-iconbtn gg-quiet"), h.AriaHidden(true)],
     [Glyph.view({ name: "grip" }, h)]
   );
 
@@ -616,7 +616,10 @@ const itemContents = <ParentMessage>(
   render: ItemRender,
   h: HtmlBuilder<ParentMessage>
 ): readonly Html[] => {
-  const body = h.div([h.Class("sortable-body")], info.toItemView(item, render));
+  const body = h.div(
+    [h.Class("gg-sortable-body")],
+    info.toItemView(item, render)
+  );
 
   return info.layout === "Panels" ? [body] : [render.grip, body];
 };
@@ -627,7 +630,7 @@ const liftedView = <ParentMessage>(
   h: HtmlBuilder<ParentMessage>
 ): Html =>
   h.div(
-    [h.Class("sortable-item lifted")],
+    [h.Class("gg-sortable-item gg-lifted")],
     itemContents(info, item, { isLifted: true, grip: liftedGrip(h) }, h)
   );
 
@@ -730,12 +733,12 @@ const dropClass = (info: ListInfo, item: Item): string =>
     {
       onNone: () => "",
       onSome: ({ side }) =>
-        side === "Before" ? " drop-before" : " drop-after",
+        side === "Before" ? " gg-drop-before" : " gg-drop-after",
     }
   );
 
 const itemClass = (info: ListInfo, item: Item): string =>
-  `sortable-item${info.isMovable ? " movable" : ""}${isHeldItem(info.model, item.id) ? " drag-dim" : ""}${dropClass(info, item)}`;
+  `gg-sortable-item${info.isMovable ? " gg-movable" : ""}${isHeldItem(info.model, item.id) ? " gg-drag-dim" : ""}${dropClass(info, item)}`;
 
 const itemView = (info: ListInfo, item: Item, h: HtmlBuilder<Message>): Html =>
   h.keyed("li")(
@@ -776,7 +779,7 @@ const itemsView = (
     onSome: ({ held, index }) => {
       const slot = h.keyed("li")(
         "sortable-slot",
-        [h.Class("sortable-slot"), h.AriaHidden(true), h.Inert(true)],
+        [h.Class("gg-sortable-slot"), h.AriaHidden(true), h.Inert(true)],
         [liftedView(info, held.item, h)]
       );
 
@@ -810,7 +813,7 @@ const liftedCopyView = (
     Option.map(maybeLifted, ({ style, held, press }) =>
       h.div(
         [
-          h.Class("sortable-lift"),
+          h.Class("gg-sortable-lift"),
           h.Style(style),
           h.AriaHidden(true),
           h.Inert(true),
@@ -831,9 +834,9 @@ const liftedCopyView = (
 const layoutClass = (layout: Layout): string =>
   Match.value(layout).pipe(
     Match.withReturnType<string>(),
-    Match.when("List", () => "sortable"),
-    Match.when("Grid", () => "sortable grid"),
-    Match.when("Panels", () => "sortable panels"),
+    Match.when("List", () => "gg-sortable"),
+    Match.when("Grid", () => "gg-sortable gg-grid"),
+    Match.when("Panels", () => "gg-sortable gg-panels"),
     Match.exhaustive
   );
 
@@ -878,7 +881,7 @@ export const view = defineView<Model, Message, ViewInputs>(
             h.DataAttribute("droppable-id", id(model)),
             h.Role("list"),
             h.AriaLabel(label),
-            h.Class("sortable-items"),
+            h.Class("gg-sortable-items"),
           ],
           itemsView(info, h)
         ),

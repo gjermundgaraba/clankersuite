@@ -271,7 +271,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
                     ...(render.isLifted
                       ? []
                       : [h.Id(entryId("shelf", item.id))]),
-                    h.Class("stack gap-s"),
+                    h.Class("gg-stack gg-gap-s"),
                   ],
                   [
                     h.strong([], [item.label]),

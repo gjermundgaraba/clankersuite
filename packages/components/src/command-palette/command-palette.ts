@@ -138,7 +138,7 @@ export const isPicking = (model: Model): boolean =>
 
 const ROW_ATTRIBUTE = "value";
 
-const OPENS_PAGE_ATTRIBUTE = "pixel-paper-palette-opens-page";
+const OPENS_PAGE_ATTRIBUTE = "gg-palette-opens-page";
 
 /**
  * Scrolls the cursor's row of the palette `paletteId` (its `id`) into view by the least
@@ -830,16 +830,16 @@ const rowPartsView = (
   const hint = row.isDisabled === true ? (row.reason ?? row.hint) : row.hint;
 
   const opens = h.span(
-    [h.Class("glyph opens"), h.AriaHidden(true)],
+    [h.Class("gg-glyph gg-opens"), h.AriaHidden(true)],
     [Glyph.view({ name: "caret-right" }, h)]
   );
 
   return [
     ...(row.glyph === undefined
       ? []
-      : [h.span([h.Class("glyph")], [Glyph.view({ name: row.glyph }, h)])]),
+      : [h.span([h.Class("gg-glyph")], [Glyph.view({ name: row.glyph }, h)])]),
     h.span(
-      [h.Class("palette-label")],
+      [h.Class("gg-palette-label")],
       [
         row.label,
         ...(isContextRow(shown, row)
@@ -848,12 +848,12 @@ const rowPartsView = (
       ]
     ),
     ...(Option.contains(model.maybePicking, row.id)
-      ? [h.span([h.Class("cursor"), h.AriaHidden(true)])]
+      ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
       : []),
     ...(isCurrentRow(shown, row)
-      ? [h.span([h.Class("tag")], ["current"])]
+      ? [h.span([h.Class("gg-tag")], ["current"])]
       : []),
-    ...(hint === undefined ? [] : [h.span([h.Class("hint")], [hint])]),
+    ...(hint === undefined ? [] : [h.span([h.Class("gg-hint")], [hint])]),
     ...(shownRowFor(shown, row).hasPage ? [opens] : []),
   ];
 };
@@ -879,9 +879,9 @@ const rowView = (
       h.Class(
         Array.join(
           [
-            "palette-row",
-            ...(row.isAuthored === true ? ["authored"] : []),
-            ...(isContextRow(shown, row) ? ["context"] : []),
+            "gg-palette-row",
+            ...(row.isAuthored === true ? ["gg-authored"] : []),
+            ...(isContextRow(shown, row) ? ["gg-context"] : []),
           ],
           " "
         )
@@ -933,7 +933,7 @@ const groupedRows = (
               [
                 h.Id(headingId),
                 h.Role("presentation"),
-                h.Class("palette-group"),
+                h.Class("gg-palette-group"),
               ],
               [group]
             ),
@@ -1023,7 +1023,7 @@ const headView = (
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
-    [h.Class("palette-q field")],
+    [h.Class("gg-palette-q gg-field")],
     [
       ...Option.toArray(
         Option.map(shown.maybePage, () =>
@@ -1039,10 +1039,10 @@ const headView = (
           )
         )
       ),
-      h.span([h.Class("palette-scope")], [scope]),
+      h.span([h.Class("gg-palette-scope")], [scope]),
       ...Option.toArray(
         Option.map(shown.maybePage, ({ page }) =>
-          h.span([h.Class("palette-title")], [page.title])
+          h.span([h.Class("gg-palette-title")], [page.title])
         )
       ),
       field,
@@ -1061,12 +1061,12 @@ const listView = (model: Model, shown: Shown, h: HtmlBuilder<Message>): Html =>
         })
       ),
       ...(isPicking(model) ? [h.AriaBusy(true)] : []),
-      h.Class("palette-list"),
+      h.Class("gg-palette-list"),
     ],
     Array.match(shown.rows, {
       onEmpty: () => [
         h.div(
-          [h.Role("presentation"), h.Class("palette-group")],
+          [h.Role("presentation"), h.Class("gg-palette-group")],
           [NOTHING_FOUND]
         ),
       ],
@@ -1112,7 +1112,7 @@ const cardView = (
         )
       ),
       h.OnMount(BindPaletteKeys()),
-      h.Class("card palette"),
+      h.Class("gg-card palette"),
     ],
     [
       headView(
@@ -1122,11 +1122,11 @@ const cardView = (
         fieldView(model, shown, noun, render, h),
         h
       ),
-      ...slotView("div", "palette-detail", toDetailView(), h),
+      ...slotView("div", "gg-palette-detail", toDetailView(), h),
       listView(model, shown, h),
       countView(model, shown, h),
       h.div(
-        [h.Class("palette-more")],
+        [h.Class("gg-palette-more")],
         [
           Option.match(shown.maybePage, {
             onNone: () => COMMANDS_FOOT,

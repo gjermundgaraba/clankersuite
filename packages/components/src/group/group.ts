@@ -13,5 +13,5 @@ export const view = <Message>(
 ): Html => {
   const { body } = config;
 
-  return h.div([h.Class("group gap-s")], body);
+  return h.div([h.Class("gg-group gg-gap-s")], body);
 };

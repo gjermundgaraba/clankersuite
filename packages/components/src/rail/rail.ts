@@ -132,11 +132,11 @@ const findRail = (
 export const firstTabStop = (rail: Element): Option.Option<HTMLElement> =>
   Array.findFirst(
     Array.fromIterable(
-      rail.querySelectorAll<HTMLElement>(`.rail-head ~ * :is(${FOCUSABLE})`)
+      rail.querySelectorAll<HTMLElement>(`.gg-rail-head ~ * :is(${FOCUSABLE})`)
     ),
     (control) =>
       control.tabIndex >= 0 &&
-      control.closest("[inert], [hidden], .rail-toggle") === null
+      control.closest("[inert], [hidden], .gg-rail-toggle") === null
   );
 
 /** Opens the rail as a drawer over the page and puts focus on its first control past its
@@ -202,7 +202,7 @@ export const FocusRailToggle = Command.define("FocusRailToggle", {
 
       const isOnSplitter =
         active?.matches(
-          `.rail-resize[aria-controls="${CSS.escape(railId)}"]`
+          `.gg-rail-resize[aria-controls="${CSS.escape(railId)}"]`
         ) ?? false;
 
       if (rail.contains(active) || isOnSplitter) {
@@ -498,7 +498,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     const width = Option.getOrElse(maybeWidth, () => WIDTH.start);
 
     const openButton = h.span(
-      [h.Class("rail-open")],
+      [h.Class("gg-rail-open")],
       [
         Button.view(
           {
@@ -518,7 +518,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     );
 
     const toggleButton = h.span(
-      [h.Class("rail-toggle")],
+      [h.Class("gg-rail-toggle")],
       [
         IconButton.view(
           {
@@ -542,7 +542,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     );
 
     const splitter = h.div([
-      h.Class("rail-resize"),
+      h.Class("gg-rail-resize"),
       h.Role("separator"),
       h.AriaLabel(`Width of ${label}`),
       h.AriaControls(model.id),
@@ -568,7 +568,7 @@ export const view = defineView<Model, Message, ViewInputs>(
 
     return h.div(
       [
-        h.Class(isHidden ? "railed folded" : "railed"),
+        h.Class(isHidden ? "gg-railed gg-folded" : "gg-railed"),
         ...(isHidden
           ? []
           : Array.fromOption(
@@ -584,14 +584,14 @@ export const view = defineView<Model, Message, ViewInputs>(
             h.Id(model.id),
             h.Popover("auto"),
             h.AriaLabel(label),
-            h.Class("rail"),
+            h.Class("gg-rail"),
             h.OnMount(FollowRailDrawer()),
           ],
           [
             h.div(
-              [h.Class("rail-head")],
+              [h.Class("gg-rail-head")],
               [
-                h.span([h.Class("label")], [label]),
+                h.span([h.Class("gg-label")], [label]),
                 IconButton.view(
                   {
                     glyph: "cross",

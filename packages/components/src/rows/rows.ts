@@ -29,7 +29,7 @@ export const view = <Message>(
     [
       ...(config.isTreegrid === true ? [h.Role("treegrid")] : []),
       ...(config.label === undefined ? [] : [h.AriaLabel(config.label)]),
-      h.Class(config.isOutline === true ? "rows tree" : "rows"),
+      h.Class(config.isOutline === true ? "gg-rows gg-tree" : "gg-rows"),
     ],
     config.rows
   );
@@ -154,9 +154,9 @@ const lineView = <Message>(
       ...(config.attributes ?? []),
       ...rowRole(config.treegrid, h),
       h.Class(
-        `row${config.isContext === true ? " context" : ""}${
+        `gg-row${config.isContext === true ? " gg-context" : ""}${
           config.isLink === true && config.treegrid === undefined
-            ? " linked"
+            ? " gg-linked"
             : ""
         }`
       ),
@@ -165,17 +165,23 @@ const lineView = <Message>(
       ...box,
       ...cellView(
         config,
-        "cell",
+        "gg-cell",
         config.glyph === undefined ? [] : [config.glyph],
         h
       ),
       text,
-      ...slotView("span", "slot", config.slot ?? [], h, [
+      ...slotView("span", "gg-slot", config.slot ?? [], h, [
         ...(config.slotAttributes ?? []),
         ...cellRole(config, h),
       ]),
-      ...cellView(config, "cell actions", config.actions ?? [], h),
-      ...slotView("span", "tools", config.tools ?? [], h, cellRole(config, h)),
+      ...cellView(config, "gg-cell actions", config.actions ?? [], h),
+      ...slotView(
+        "span",
+        "gg-tools",
+        config.tools ?? [],
+        h,
+        cellRole(config, h)
+      ),
     ]
   );
 
@@ -194,15 +200,20 @@ const selectableLineView = <Message>(
           config,
           [
             h.span(
-              [...cellRole(config, h), h.Class("row-check")],
+              [...cellRole(config, h), h.Class("gg-row-check")],
               [h.button(groups.checkbox)]
             ),
           ],
           config.treegrid === undefined
-            ? h.label([...groups.label, h.Class("grow")], textOf(config, h))
+            ? h.label([...groups.label, h.Class("gg-grow")], textOf(config, h))
             : h.span(
-                [...cellRole(config, h), h.Class("cell grow-cell")],
-                [h.label([...groups.label, h.Class("grow")], textOf(config, h))]
+                [...cellRole(config, h), h.Class("gg-cell gg-grow-cell")],
+                [
+                  h.label(
+                    [...groups.label, h.Class("gg-grow")],
+                    textOf(config, h)
+                  ),
+                ]
               ),
           h
         ),
@@ -225,11 +236,14 @@ export const rowView = <Message>(
       ? lineView(
           config,
           [],
-          h.div([...cellRole(config, h), h.Class("grow")], textOf(config, h)),
+          h.div(
+            [...cellRole(config, h), h.Class("gg-grow")],
+            textOf(config, h)
+          ),
           h
         )
       : selectableLineView(config, config.select, h),
-    ...slotView("ul", "rows", config.nested ?? [], h, listRole),
+    ...slotView("ul", "gg-rows", config.nested ?? [], h, listRole),
   ]);
 };
 
@@ -242,7 +256,8 @@ export type GlyphConfig = Readonly<{
 export const glyphView = <Message>(
   config: GlyphConfig,
   h: HtmlBuilder<Message>
-): Html => h.span([h.Class("glyph")], [Glyph.view({ name: config.name }, h)]);
+): Html =>
+  h.span([h.Class("gg-glyph")], [Glyph.view({ name: config.name }, h)]);
 
 /** Configuration for rendering a fold toggle with `toggleView`. */
 export type ToggleConfig<Message> = Readonly<{
@@ -268,7 +283,7 @@ export const toggleView = <Message>(
             ...groups.button,
             h.AriaExpanded(config.isExpanded),
             h.AriaLabel(`Rows under ${config.label}`),
-            h.Class("glyph"),
+            h.Class("gg-glyph"),
           ],
           [Glyph.view({ name: config.isExpanded ? "ring" : "ring-closed" }, h)]
         ),
@@ -297,7 +312,9 @@ export const titleView = <Message>(
         h.button(
           [
             ...groups.button,
-            h.Class(config.isDone === true ? "title done-title" : "title"),
+            h.Class(
+              config.isDone === true ? "gg-title gg-done-title" : "gg-title"
+            ),
           ],
           [config.label]
         ),

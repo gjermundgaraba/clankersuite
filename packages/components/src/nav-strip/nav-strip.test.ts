@@ -23,13 +23,13 @@ describe("NavStrip", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("navigation", { name: "Sections" })).toHaveClass(
-        "nav"
+        "gg-nav"
       ),
       Scene.expect(Scene.role("link", { name: "queue 3" })).toHaveAttr(
         "aria-current",
         "page"
       ),
-      Scene.expect(Scene.selector(".navnum")).toHaveText("3"),
+      Scene.expect(Scene.selector(".gg-navnum")).toHaveText("3"),
       Scene.expect(Scene.selector('a[href="/queue"] .sr-only')).toExist(),
       Scene.expect(Scene.role("link", { name: "done" })).not.toHaveAttr(
         "aria-current"

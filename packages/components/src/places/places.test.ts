@@ -53,7 +53,7 @@ describe("Places", () => {
       { update, view: placesView },
       Scene.given<Area>("Inbox"),
       Scene.expect(Scene.role("navigation", { name: "Areas" })).toHaveClass(
-        "places"
+        "gg-places"
       ),
       Scene.expect(Scene.role("button", { name: "Inbox" })).toHaveAttr(
         "aria-current",
@@ -141,7 +141,7 @@ describe("Places", () => {
       Scene.expect(Scene.role("link", { name: "Later" })).not.toHaveAttr(
         "aria-current"
       ),
-      Scene.expect(Scene.selector(".places button")).not.toExist()
+      Scene.expect(Scene.selector(".gg-places button")).not.toExist()
     );
   });
 });

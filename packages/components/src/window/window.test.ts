@@ -28,12 +28,12 @@ const windowView = (model: Model, h: HtmlBuilder<Message>) =>
           title: "Shell",
           lead: [
             h.button(
-              [h.Class("iconbtn quiet"), h.AriaLabel("Move Shell")],
+              [h.Class("gg-iconbtn gg-quiet"), h.AriaLabel("Move Shell")],
               ["::"]
             ),
           ],
           glyph: "plus",
-          status: [h.span([h.Class("chip")], ["live"])],
+          status: [h.span([h.Class("gg-chip")], ["live"])],
           onClose: Message.ClickedClose(),
           isFlush: true,
           body: ["$ ls"],
@@ -48,14 +48,16 @@ describe("Window", () => {
       { update, view: windowView },
       Scene.given<Model>({ isOpen: true }),
       Scene.expect(Scene.role("region", { name: "Shell" })).toHaveClass(
-        "window"
+        "gg-window"
       ),
       Scene.expect(Scene.role("region", { name: "Shell" })).toHaveClass(
-        "flush"
+        "gg-flush"
       ),
-      Scene.expect(Scene.selector(".panel-tb .chip")).toHaveText("live"),
-      Scene.expect(Scene.selector(".panel-tb .panel-lead")).toContainText("::"),
-      Scene.expect(Scene.selector(".window-body")).toHaveText("$ ls"),
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-chip")).toHaveText("live"),
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-panel-lead")).toContainText(
+        "::"
+      ),
+      Scene.expect(Scene.selector(".gg-window-body")).toHaveText("$ ls"),
       Scene.click(Scene.role("button", { name: "Close" })),
       Scene.expect(Scene.role("region")).toBeAbsent()
     );
@@ -72,11 +74,14 @@ describe("Window", () => {
               title: "Page",
               tools: [
                 h.span(
-                  [h.Class("window-tools")],
+                  [h.Class("gg-window-tools")],
                   [
-                    h.button([h.Class("iconbtn"), h.AriaLabel("Back")], ["<"]),
                     h.button(
-                      [h.Class("iconbtn"), h.AriaLabel("Reload")],
+                      [h.Class("gg-iconbtn"), h.AriaLabel("Back")],
+                      ["<"]
+                    ),
+                    h.button(
+                      [h.Class("gg-iconbtn"), h.AriaLabel("Reload")],
                       ["o"]
                     ),
                   ]
@@ -89,7 +94,7 @@ describe("Window", () => {
           ),
       },
       Scene.given<Model>({ isOpen: true }),
-      Scene.expect(Scene.selector(".panel-tb .window-tools")).toExist(),
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-window-tools")).toExist(),
       Scene.expect(Scene.role("button", { name: "Back" })).toExist(),
       Scene.expect(Scene.role("button", { name: "Reload" })).toExist()
     );

@@ -49,12 +49,12 @@ describe("TextareaField", () => {
       Scene.given<Model>({ notes: "", isInvalid: false }),
       Scene.expect(textarea).toHaveAttr("rows", "6"),
       Scene.expect(textarea).toHaveAttr("aria-describedby"),
-      Scene.expect(Scene.selector(".field-help")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-help")).toHaveText(
         "Markdown supported."
       ),
       Scene.expect(textarea).not.toHaveAttr("aria-invalid"),
       Scene.expect(textarea).not.toHaveAttr("aria-required"),
-      Scene.expect(Scene.selector(".field")).not.toHaveClass("mono"),
+      Scene.expect(Scene.selector(".gg-field")).not.toHaveClass("gg-mono"),
       Scene.type(textarea, "Call the bank."),
       Scene.expect(textarea).toHaveValue("Call the bank.")
     );
@@ -66,10 +66,10 @@ describe("TextareaField", () => {
       Scene.given<Model>({ notes: "", isInvalid: true }),
       Scene.expect(textarea).toHaveAttr("aria-invalid", "true"),
       Scene.expect(textarea).toHaveAttr("aria-describedby", "notes-error"),
-      Scene.expect(Scene.selector(".field-error")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-error")).toHaveText(
         "Give it a name."
       ),
-      Scene.expect(Scene.selector(".field-help")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-field-help")).toBeAbsent()
     );
   });
 
@@ -94,7 +94,7 @@ describe("TextareaField", () => {
       Scene.given<Model>({ notes: "", isInvalid: false }),
       Scene.expect(Scene.label("Hosts")).toHaveAttr("aria-required", "true"),
       Scene.expect(Scene.label("Hosts")).toHaveAttr("spellcheck", "false"),
-      Scene.expect(Scene.selector(".field")).toHaveClass("mono")
+      Scene.expect(Scene.selector(".gg-field")).toHaveClass("gg-mono")
     );
   });
 

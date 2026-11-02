@@ -6,11 +6,11 @@ import css from "@terrazzo/plugin-css";
 
 const SEMANTIC_COLOR = "semantic.color.";
 
-const SCHEME_RULES = `:root[data-scheme="light"] {
+const SCHEME_RULES = `:root[data-color-scheme="light"] {
   color-scheme: light;
 }
 
-:root[data-scheme="dark"] {
+:root[data-color-scheme="dark"] {
   color-scheme: dark;
 }`;
 
@@ -91,7 +91,7 @@ const lightDarkCss = (filename: string): Plugin => {
  * The Terrazzo build for one brand: `tokens/<brand>.resolver.json` to
  * `generated/<brand>.css`. Semantic colours print as `light-dark(light, dark)`, so they follow
  * the `color-scheme` of the element that uses them: the reader's preference by default,
- * `data-scheme` on `<html>` to pin one, or `color-scheme` on any element below it.
+ * `data-color-scheme` on `<html>` to pin one, or `color-scheme` on any element below it.
  */
 export const brandConfig = (brand: string) =>
   defineConfig({

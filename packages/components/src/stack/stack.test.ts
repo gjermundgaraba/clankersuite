@@ -16,8 +16,8 @@ describe("Stack", () => {
         view: stackView({ body: ["a", "b"] }),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".stack")).toHaveClass("gap-m"),
-      Scene.expect(Scene.selector(".stack")).toHaveText("ab")
+      Scene.expect(Scene.selector(".gg-stack")).toHaveClass("gg-gap-m"),
+      Scene.expect(Scene.selector(".gg-stack")).toHaveText("ab")
     );
     Scene.scene(
       {
@@ -25,7 +25,7 @@ describe("Stack", () => {
         view: stackView({ body: ["a"], gap: "L" }),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".stack")).toHaveClass("gap-l")
+      Scene.expect(Scene.selector(".gg-stack")).toHaveClass("gg-gap-l")
     );
   });
 });

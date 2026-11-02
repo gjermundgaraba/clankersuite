@@ -16,7 +16,7 @@ describe("FlashWord", () => {
     Scene.scene(
       flashScene,
       Scene.given(Option.none()),
-      Scene.expect(Scene.role("status")).toHaveClass("flash-word"),
+      Scene.expect(Scene.role("status")).toHaveClass("gg-flash-word"),
       Scene.expect(Scene.role("status")).toHaveText("")
     );
   });

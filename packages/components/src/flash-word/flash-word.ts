@@ -38,7 +38,7 @@ export const view = <Message>(
   const { maybeWord } = config;
 
   return h.span(
-    [h.Role("status"), h.Class("flash-word")],
+    [h.Role("status"), h.Class("gg-flash-word")],
     Option.toArray(maybeWord)
   );
 };

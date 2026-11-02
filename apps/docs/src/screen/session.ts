@@ -141,7 +141,7 @@ const awayView = (
             ],
             detail: [
               h.span(
-                [h.Class("note-line")],
+                [h.Class("gg-note-line")],
                 [
                   "Last tried ",
                   Time.view({ at: TRIED_AT, format: "Ago", maybeNow }, h),

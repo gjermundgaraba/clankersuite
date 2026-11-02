@@ -160,7 +160,7 @@ const asideView = (
             h
           ),
         ],
-        foot: [h.span([h.Class("note-line")], ["Sample collections."])],
+        foot: [h.span([h.Class("gg-note-line")], ["Sample collections."])],
       },
       h
     ),
@@ -173,7 +173,7 @@ const deckView = (
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
-    [h.Class("deck")],
+    [h.Class("gg-deck")],
     [
       openButton,
       Panel.view(

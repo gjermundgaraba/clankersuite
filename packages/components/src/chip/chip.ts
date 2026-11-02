@@ -19,10 +19,10 @@ export type ViewConfig = Readonly<{
 
 const TONE_CLASS: Readonly<Record<Tone, string>> = {
   Plain: "",
-  Go: " go",
-  Warn: " warn",
-  Blocked: " blocked",
-  Done: " done",
+  Go: " gg-go",
+  Warn: " gg-warn",
+  Blocked: " gg-blocked",
+  Done: " gg-done",
 };
 
 /** A state word in a 2px box. Its words are its meaning; the colour only repeats them. */
@@ -33,10 +33,13 @@ export const view = <Message>(
   const { label, tone = "Plain", isBusy = false } = config;
 
   return h.span(
-    [...(isBusy ? [h.AriaBusy(true)] : []), h.Class(`chip${TONE_CLASS[tone]}`)],
+    [
+      ...(isBusy ? [h.AriaBusy(true)] : []),
+      h.Class(`gg-chip${TONE_CLASS[tone]}`),
+    ],
     [
       label,
-      ...(isBusy ? [h.span([h.Class("cursor"), h.AriaHidden(true)])] : []),
+      ...(isBusy ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])] : []),
     ]
   );
 };
@@ -61,6 +64,6 @@ export const dotView = <Message>(
     h.Role("img"),
     h.AriaLabel(label),
     h.DataAttribute("tip", label),
-    h.Class(`chip-dot${TONE_CLASS[tone]}`),
+    h.Class(`gg-chip-dot${TONE_CLASS[tone]}`),
   ]);
 };

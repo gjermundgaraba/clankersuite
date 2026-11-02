@@ -34,11 +34,15 @@ describe("History", () => {
       Scene.given(null),
       Scene.expect(
         Scene.role("list", { name: "Workspace activity, newest first" })
-      ).toHaveClass("wrapped"),
-      Scene.expect(Scene.selector("ol.history-list")).not.toHaveClass("wrap"),
-      Scene.expect(Scene.selector("ol.history-list")).toHaveClass("checks"),
+      ).toHaveClass("gg-wrapped"),
+      Scene.expect(Scene.selector("ol.gg-history-list")).not.toHaveClass(
+        "gg-wrap"
+      ),
+      Scene.expect(Scene.selector("ol.gg-history-list")).toHaveClass(
+        "gg-checks"
+      ),
       Scene.expect(Scene.first(Scene.all.role("listitem"))).toHaveClass(
-        "current"
+        "gg-current"
       ),
       Scene.expect(Scene.first(Scene.all.role("listitem"))).toHaveAttr(
         "aria-current",
@@ -48,15 +52,17 @@ describe("History", () => {
         "aria-current"
       ),
       Scene.expect(
-        Scene.first(Scene.all.selector(".history-list .v"))
+        Scene.first(Scene.all.selector(".gg-history-list .gg-v"))
       ).toHaveText("v4"),
       Scene.expect(
-        Scene.first(Scene.all.selector(".history-list .who"))
+        Scene.first(Scene.all.selector(".gg-history-list .gg-who"))
       ).toHaveText("sam"),
       Scene.expect(
-        Scene.last(Scene.all.selector(".history-list .what"))
+        Scene.last(Scene.all.selector(".gg-history-list .gg-what"))
       ).toHaveText("Rolled back"),
-      Scene.expectAll(Scene.all.selector(".history-list .who")).toHaveCount(1)
+      Scene.expectAll(
+        Scene.all.selector(".gg-history-list .gg-who")
+      ).toHaveCount(1)
     );
   });
 });

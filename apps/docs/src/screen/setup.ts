@@ -241,7 +241,7 @@ const formView = (model: Model, h: HtmlBuilder<Message>): Html =>
       body: [
         Wall.markView({ brand: brandView(h) }, h),
         h.p(
-          [h.Class("note-line")],
+          [h.Class("gg-note-line")],
           [
             "Nobody owns this service yet. The account made here is its owner, and the only one.",
           ]

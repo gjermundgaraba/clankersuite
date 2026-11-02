@@ -22,9 +22,11 @@ describe("PageHead", () => {
       Scene.given(null),
       Scene.expect(
         Scene.role("heading", { name: "Queue", level: 1 })
-      ).toHaveClass("page-title"),
-      Scene.expect(Scene.selector(".page-name .meta")).toHaveText("12 items"),
-      Scene.expect(Scene.selector(".page-acts button")).toHaveText("add")
+      ).toHaveClass("gg-page-title"),
+      Scene.expect(Scene.selector(".gg-page-name .gg-meta")).toHaveText(
+        "12 items"
+      ),
+      Scene.expect(Scene.selector(".gg-page-acts button")).toHaveText("add")
     );
   });
 
@@ -45,7 +47,9 @@ describe("PageHead", () => {
       Scene.expect(
         Scene.role("heading", { name: "Archive", level: 1 })
       ).toHaveAttr("id", "archive-heading"),
-      Scene.expect(Scene.selector("#archive-heading")).toHaveClass("page-title")
+      Scene.expect(Scene.selector("#archive-heading")).toHaveClass(
+        "gg-page-title"
+      )
     );
   });
 });

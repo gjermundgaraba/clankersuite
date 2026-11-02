@@ -231,7 +231,7 @@ const openFileView = (
       ],
       foot: [
         h.span(
-          [h.Class("note-line")],
+          [h.Class("gg-note-line")],
           [
             "Changed ",
             Time.view(

@@ -183,7 +183,7 @@ const itemSlotView = <Message>(
 ): readonly Html[] => [
   ...Option.toArray(
     Option.map(queueItem.maybeDue, (due) =>
-      h.span([h.Class(queueItem.isLate ? "due late" : "due")], [due])
+      h.span([h.Class(queueItem.isLate ? "gg-due gg-late" : "gg-due")], [due])
     )
   ),
   ...(queueItem.isMarked ? [Mark.view({ label: "Marked" }, h)] : []),
@@ -207,9 +207,9 @@ const cardMetaView = <Message>(
   ...(queueItem.isBlocked
     ? [Chip.view({ label: "blocked", tone: "Blocked" }, h)]
     : []),
-  h.span([h.Class("gap")]),
+  h.span([h.Class("gg-gap")]),
   ...Option.toArray(
-    Option.map(queueItem.maybeAge, (age) => h.span([h.Class("age")], [age]))
+    Option.map(queueItem.maybeAge, (age) => h.span([h.Class("gg-age")], [age]))
   ),
 ];
 
@@ -263,7 +263,7 @@ const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
               ),
             ]
           : []),
-        h.span([h.Class("spacer")]),
+        h.span([h.Class("gg-spacer")]),
         Segmented.view(
           {
             label: "Layout",
@@ -329,7 +329,7 @@ const groupRowView = (
         },
         h
       ),
-      body: [h.span([h.Class("group-name")], [group.name])],
+      body: [h.span([h.Class("gg-group-name")], [group.name])],
       slot: [Tag.view({ label: `${items.length}` }, h)],
       nested: isOpen ? Array.map(items, (item) => itemRowView(item, h)) : [],
     },

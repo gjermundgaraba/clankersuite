@@ -201,7 +201,7 @@ const askingView = (
     {
       title: "Allow access",
       meta: "sample client",
-      lead: [h.span([h.Class("note-line")], ["Signed in as the owner."])],
+      lead: [h.span([h.Class("gg-note-line")], ["Signed in as the owner."])],
       actions: [
         Button.view({ label: "deny", onClick: Message.ClickedDeny() }, h),
         Button.view(

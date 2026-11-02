@@ -238,7 +238,7 @@ const toggleClass = (viewInputs: ViewInputs): string => {
     return lookClassName({ variant, isSmall: true });
   }
 
-  return isQuiet ? "iconbtn quiet" : "iconbtn";
+  return isQuiet ? "gg-iconbtn gg-quiet" : "gg-iconbtn";
 };
 
 const toggleView = (
@@ -291,7 +291,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     const { label, items, align = "Start" } = viewInputs;
 
     return h.div(
-      [h.Class("menu-wrap")],
+      [h.Class("gg-menu-wrap")],
       [
         toggleView(model, viewInputs, h),
         ...(model.isOpen
@@ -311,7 +311,7 @@ export const view = defineView<Model, Message, ViewInputs>(
                     })
                   ),
                   h.OnUnmount(Message.UnmountedSlip()),
-                  h.Class("menu"),
+                  h.Class("gg-menu"),
                 ],
                 rowsView(
                   {

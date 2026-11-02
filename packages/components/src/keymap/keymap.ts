@@ -22,7 +22,7 @@ const rowView =
   ({ keys, does }: KeymapRow): Html =>
     h.keyed("div")(
       keys,
-      [h.Class("keymap-row")],
+      [h.Class("gg-keymap-row")],
       [h.kbd([], [keys]), h.span([], [does])]
     );
 
@@ -42,11 +42,11 @@ export const view = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
-    [h.Class("keymap")],
+    [h.Class("gg-keymap")],
     [
       ...Array.map(config.groups, groupView(h)),
       ...(config.note === undefined
         ? []
-        : [h.p([h.Class("note-line")], [config.note])]),
+        : [h.p([h.Class("gg-note-line")], [config.note])]),
     ]
   );

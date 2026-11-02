@@ -330,19 +330,19 @@ describe("Sortable view", () => {
         "aria-pressed",
         "true"
       ),
-      Scene.expect(Scene.selector(".sortable-item.drag-dim")).toContainText(
-        "Alpha"
-      ),
-      Scene.expect(Scene.selector(".sortable-slot")).toHaveAttr(
+      Scene.expect(
+        Scene.selector(".gg-sortable-item.gg-drag-dim")
+      ).toContainText("Alpha"),
+      Scene.expect(Scene.selector(".gg-sortable-slot")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".sortable-slot .lifted")).toContainText(
-        "Alpha"
-      ),
       Scene.expect(
-        Scene.nth(Scene.all.selector(".sortable-items li"), 2)
-      ).toHaveClass("sortable-slot"),
+        Scene.selector(".gg-sortable-slot .gg-lifted")
+      ).toContainText("Alpha"),
+      Scene.expect(
+        Scene.nth(Scene.all.selector(".gg-sortable-items li"), 2)
+      ).toHaveClass("gg-sortable-slot"),
       Scene.expectAll(Scene.all.selector("[data-sortable-id]")).toHaveCount(3),
       Scene.expectAll(Scene.all.selector("#name-alpha")).toHaveCount(1)
     );
@@ -370,23 +370,23 @@ describe("Sortable view", () => {
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(overGamma),
       sizeLifted,
-      Scene.expect(Scene.selector(".drop-before")).toContainText("Gamma"),
-      Scene.expect(Scene.selector(".sortable-lift .lifted")).toContainText(
-        "Alpha"
-      )
+      Scene.expect(Scene.selector(".gg-drop-before")).toContainText("Gamma"),
+      Scene.expect(
+        Scene.selector(".gg-sortable-lift .gg-lifted")
+      ).toContainText("Alpha")
     );
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(pastTheEnd),
       sizeLifted,
-      Scene.expect(Scene.selector(".drop-after")).toContainText("Gamma")
+      Scene.expect(Scene.selector(".gg-drop-after")).toContainText("Gamma")
     );
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(whereItWas),
       sizeLifted,
-      Scene.expect(Scene.selector(".drop-before")).toBeAbsent(),
-      Scene.expect(Scene.selector(".drop-after")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-drop-after")).toBeAbsent()
     );
   });
 });
@@ -396,15 +396,17 @@ describe("Sortable panels", () => {
     Scene.scene(
       { update: Sortable.update, view: panelsView(ITEMS) },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".sortable")).toHaveClass("panels"),
+      Scene.expect(Scene.selector(".gg-sortable")).toHaveClass("gg-panels"),
       Scene.expectAll(Scene.all.role("listitem")).toHaveCount(3),
       Scene.expect(
-        Scene.selector("#panel-beta .panel-lead [data-sortable-grip]")
+        Scene.selector("#panel-beta .gg-panel-lead [data-sortable-grip]")
       ).toHaveAttr("aria-label", "Move Beta"),
       Scene.expectAll(Scene.all.selector("[data-sortable-grip]")).toHaveCount(
         3
       ),
-      Scene.expect(Scene.selector(".sortable-item")).toHaveClass("movable")
+      Scene.expect(Scene.selector(".gg-sortable-item")).toHaveClass(
+        "gg-movable"
+      )
     );
   });
 
@@ -418,10 +420,10 @@ describe("Sortable panels", () => {
       { update: Sortable.update, view: panelsView(ITEMS) },
       Scene.given(held),
       Scene.expect(
-        Scene.selector(".sortable-slot .lifted #panel-alpha-lifted")
+        Scene.selector(".gg-sortable-slot .gg-lifted #panel-alpha-lifted")
       ).toExist(),
       Scene.expect(
-        Scene.selector(".sortable-slot [data-sortable-grip]")
+        Scene.selector(".gg-sortable-slot [data-sortable-grip]")
       ).toBeAbsent(),
       Scene.expectAll(Scene.all.selector("#panel-alpha")).toHaveCount(1)
     );
@@ -438,7 +440,9 @@ describe("Sortable panels", () => {
       Scene.expect(
         Scene.role("button", { name: "Move Beta" })
       ).not.toHaveHandler("keydown"),
-      Scene.expect(Scene.selector(".sortable-item")).not.toHaveClass("movable"),
+      Scene.expect(Scene.selector(".gg-sortable-item")).not.toHaveClass(
+        "gg-movable"
+      ),
       Scene.expect(
         Scene.role("button", { name: "Move Beta" })
       ).not.toHaveHandler("pointerdown")
@@ -463,7 +467,7 @@ describe("Sortable press", () => {
       Scene.expect(Scene.selector("#name-beta")).not.toHaveHandler(
         "pointerdown"
       ),
-      Scene.expect(Scene.selector(".sortable-item")).not.toHaveHandler(
+      Scene.expect(Scene.selector(".gg-sortable-item")).not.toHaveHandler(
         "pointerdown"
       ),
       Scene.pointerDown(Scene.role("button", { name: "Move Beta" }), {

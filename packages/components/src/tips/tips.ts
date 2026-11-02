@@ -592,7 +592,7 @@ export const view = defineView<Model, Message>((model, h): Html => {
       h.Id(model.id),
       h.Popover("manual"),
       h.AriaHidden(true),
-      h.Class("tip"),
+      h.Class("gg-tip"),
       ...(Option.exists(maybeWords, ({ side }) => side === "Right")
         ? [h.DataAttribute("side", "right")]
         : []),
@@ -602,7 +602,7 @@ export const view = defineView<Model, Message>((model, h): Html => {
       onSome: ({ text, maybeKey }) => [
         text,
         ...Array.fromOption(
-          Option.map(maybeKey, (key) => h.kbd([h.Class("key-hint")], [key]))
+          Option.map(maybeKey, (key) => h.kbd([h.Class("gg-key-hint")], [key]))
         ),
       ],
     })

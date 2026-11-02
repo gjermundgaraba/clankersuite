@@ -95,7 +95,7 @@ const tabsView = (model: Model, h: HtmlBuilder<Message>): Html =>
             tabs: TABS,
             selectedValue: model.selectedTab,
             toPanelView: () => [
-              h.div([h.Class("panel-body")], panelView(model, h)),
+              h.div([h.Class("gg-panel-body")], panelView(model, h)),
             ],
           },
           toParentMessage: (message) => Message.GotTabsMessage({ message }),

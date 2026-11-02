@@ -21,11 +21,11 @@ describe("EmptyState", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".empty strong.empty-title")).toHaveText(
-        "Nothing queued"
-      ),
+      Scene.expect(
+        Scene.selector(".gg-empty strong.gg-empty-title")
+      ).toHaveText("Nothing queued"),
       Scene.expect(Scene.role("heading")).toBeAbsent(),
-      Scene.expect(Scene.selector(".empty p")).toHaveText(
+      Scene.expect(Scene.selector(".gg-empty p")).toHaveText(
         "Capture a task to start."
       ),
       Scene.expect(Scene.role("button", { name: "capture" })).toExist()
@@ -40,7 +40,7 @@ describe("EmptyState", () => {
           EmptyState.view({ title: "No activity yet", headingLevel: 3 }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".empty p")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-empty p")).toBeAbsent()
     );
   });
 
@@ -58,7 +58,7 @@ describe("EmptyState", () => {
       Scene.expect(Scene.role("heading", { level: 1 })).toHaveText(
         "Sign in to see your tasks"
       ),
-      Scene.expect(Scene.selector(".empty strong")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-empty strong")).toBeAbsent()
     );
   });
 });

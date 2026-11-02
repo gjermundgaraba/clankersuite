@@ -44,10 +44,10 @@ describe("Table", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("table")).toHaveClass("table"),
+      Scene.expect(Scene.role("table")).toHaveClass("gg-table"),
       Scene.expect(Scene.role("table")).not.toHaveAttr("aria-label"),
       Scene.expect(Scene.role("region", { name: "Clients" })).toHaveClass(
-        "table-wrap"
+        "gg-table-wrap"
       ),
       Scene.expectAll(Scene.all.role("columnheader")).toHaveCount(3),
       Scene.expect(Scene.role("columnheader", { name: "Client" })).toHaveAttr(
@@ -80,7 +80,7 @@ describe("Table", () => {
       },
       Scene.given(null),
       Scene.expectAll(Scene.all.role("columnheader")).toHaveCount(2),
-      Scene.expect(Scene.selector("td.acts")).toBeAbsent()
+      Scene.expect(Scene.selector("td.gg-acts")).toBeAbsent()
     );
   });
 });

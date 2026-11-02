@@ -86,7 +86,10 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                   ],
                   body: [h.p([], ["Three items wait for review (sample)."])],
                   foot: [
-                    h.span([h.Class("note-line")], ["Updated a minute ago."]),
+                    h.span(
+                      [h.Class("gg-note-line")],
+                      ["Updated a minute ago."]
+                    ),
                   ],
                 },
                 h

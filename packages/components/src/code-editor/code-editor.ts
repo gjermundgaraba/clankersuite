@@ -33,7 +33,7 @@ export const view = <Message>(
           h.Autocapitalize("off"),
           h.Autocomplete("off"),
           h.AriaLabel(label),
-          h.Class("code-surface"),
+          h.Class("gg-code-surface"),
         ]),
     },
     h

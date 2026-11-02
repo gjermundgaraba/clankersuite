@@ -16,7 +16,7 @@ export type Message = typeof Message.Type;
 
 /** The attribute that marks the page's live region, which a test finds it by: Loading's line
  *  is a `role="status"` too, so counting that role counts more than the one region. */
-export const ANNOUNCER_ATTRIBUTE = "data-pixel-paper-announcer";
+export const ANNOUNCER_ATTRIBUTE = "data-gg-announcer";
 
 const ANNOUNCER_SELECTOR = `[${ANNOUNCER_ATTRIBUTE}]`;
 
@@ -37,7 +37,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
 
 const GATHER = Duration.millis(30);
 
-const PENDING_ATTRIBUTE = "data-pixel-paper-announcing";
+const PENDING_ATTRIBUTE = "data-gg-announcing";
 
 const topmostRegion = (): Option.Option<HTMLElement> => {
   const regions = Array.fromIterable(
@@ -101,7 +101,7 @@ export const announce = (text: string): Effect.Effect<void> =>
     });
   });
 
-const FLASH_ID = "pixel-paper-flash";
+const FLASH_ID = "gg-flash";
 
 const TIME = /^(?<amount>(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)(?<unit>m?s)?$/iu;
 

@@ -214,7 +214,7 @@ const noteView = (h: HtmlBuilder<Message>): Html =>
                 "Check the south region before the second step. The first step can go at six.",
               ]
             ),
-            h.p([h.Class("note-line")], ["Sample note."]),
+            h.p([h.Class("gg-note-line")], ["Sample note."]),
           ],
         },
         h

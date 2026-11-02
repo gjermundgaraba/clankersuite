@@ -24,7 +24,7 @@ export const view = <Message>(
   const { label, drawing, meta = [], isLarge = false } = config;
 
   return h.div(
-    [h.Class(isLarge ? "identity large" : "identity")],
+    [h.Class(isLarge ? "gg-identity gg-large" : "gg-identity")],
     [
       Monogram.view(
         {
@@ -35,8 +35,8 @@ export const view = <Message>(
         h
       ),
       h.span(
-        [h.Class("identity-text")],
-        [h.strong([], [label]), ...slotView("span", "meta", meta, h)]
+        [h.Class("gg-identity-text")],
+        [h.strong([], [label]), ...slotView("span", "gg-meta", meta, h)]
       ),
     ]
   );

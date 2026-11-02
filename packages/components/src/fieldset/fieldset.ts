@@ -24,9 +24,9 @@ export const view = <Message>(
       id,
       toView: (groups) =>
         h.fieldset(
-          [...groups.fieldset, h.Class("field")],
+          [...groups.fieldset, h.Class("gg-field")],
           [
-            h.legend([...groups.legend, h.Class("field-label")], [label]),
+            h.legend([...groups.legend, h.Class("gg-field-label")], [label]),
             ...body,
           ]
         ),

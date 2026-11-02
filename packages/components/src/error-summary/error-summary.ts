@@ -53,7 +53,11 @@ export const view = <Message>(
     onEmpty: () => h.empty,
     onNonEmpty: (failed) =>
       h.div(
-        [h.Id(id), h.Tabindex(-1), h.Class("notice error error-summary")],
+        [
+          h.Id(id),
+          h.Tabindex(-1),
+          h.Class("gg-notice gg-error gg-error-summary"),
+        ],
         [
           Notice.toneGlyphView({ tone: "Error" }, h),
           h.div(

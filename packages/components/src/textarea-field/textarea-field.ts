@@ -64,7 +64,7 @@ export const view = <Message>(
       ...(rows !== undefined && { rows }),
       toView: (groups) =>
         h.div(
-          [h.Class(`field${isMono ? " mono" : ""}`)],
+          [h.Class(`gg-field${isMono ? " gg-mono" : ""}`)],
           [
             h.label(groups.label, [label]),
             h.textarea([

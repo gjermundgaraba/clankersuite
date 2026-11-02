@@ -25,11 +25,11 @@ export const view = <Message>(
   const { title, headingLevel, body = [], actions = [] } = config;
 
   return h.div(
-    [h.Class("empty")],
+    [h.Class("gg-empty")],
     [
       headingLevel === "Strong"
-        ? h.strong([h.Class("empty-title")], [title])
-        : h[`h${headingLevel}`]([h.Class("empty-title")], [title]),
+        ? h.strong([h.Class("gg-empty-title")], [title])
+        : h[`h${headingLevel}`]([h.Class("gg-empty-title")], [title]),
       ...Array.match(body, {
         onEmpty: () => [],
         onNonEmpty: (sentence) => [h.p([], sentence)],

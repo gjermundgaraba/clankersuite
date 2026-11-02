@@ -37,10 +37,14 @@ describe("QueryChip", () => {
       Scene.given(""),
       Scene.expect(field).toHaveAttr("type", "search"),
       Scene.expect(field).toHaveAttr("placeholder", "words"),
-      Scene.expect(Scene.selector("label.fchip.query")).not.toHaveClass("live"),
+      Scene.expect(Scene.selector("label.gg-fchip.gg-query")).not.toHaveClass(
+        "gg-live"
+      ),
       Scene.type(field, "sink"),
       Scene.expect(field).toHaveValue("sink"),
-      Scene.expect(Scene.selector("label.fchip.query")).toHaveClass("live")
+      Scene.expect(Scene.selector("label.gg-fchip.gg-query")).toHaveClass(
+        "gg-live"
+      )
     );
   });
 });
@@ -68,7 +72,7 @@ describe("QueryChip input attributes", () => {
       Scene.given(""),
       Scene.expect(field).toHaveAttr("id", "find"),
       Scene.expect(field).toHaveAttr("aria-describedby", "find-help"),
-      Scene.expect(Scene.selector("label.fchip.query")).not.toHaveAttr(
+      Scene.expect(Scene.selector("label.gg-fchip.gg-query")).not.toHaveAttr(
         "aria-describedby"
       )
     );

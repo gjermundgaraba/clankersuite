@@ -138,7 +138,7 @@ const windowView = (h: HtmlBuilder<Message>): readonly Html[] => [
       "Switch ten percent, then wait. If the error rate stays inside its usual band for an hour, switch the rest. If it does not, see ",
       h.a([h.Href("#doc-rollback")], ["Rollback"]),
       ", or the ",
-      h.a([h.Class("missing"), h.Href("#doc-rollback")], ["incident page"]),
+      h.a([h.Class("gg-missing"), h.Href("#doc-rollback")], ["incident page"]),
       " nobody has written yet.",
     ]
   ),
@@ -157,16 +157,16 @@ const windowView = (h: HtmlBuilder<Message>): readonly Html[] => [
 
 const readView = (h: HtmlBuilder<Message>): Html =>
   h.div(
-    [h.Class("panel-body")],
+    [h.Class("gg-panel-body")],
     [Prose.view({ body: [...introView(h), ...windowView(h)] }, h)]
   );
 
 const historyView = (h: HtmlBuilder<Message>): Html =>
   h.div(
-    [h.Class("panel-body")],
+    [h.Class("gg-panel-body")],
     [
       History.view({ entries: VERSIONS, label: "Versions" }, h),
-      h.span([h.Class("label")], ["v3 against v4"]),
+      h.span([h.Class("gg-label")], ["v3 against v4"]),
       LineDiff.patchView(
         { patch: PATCH, label: "Version 3 against version 4" },
         h

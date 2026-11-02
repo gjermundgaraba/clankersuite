@@ -22,9 +22,9 @@ const toneGlyph = (tone: Tone): GlyphName =>
 
 export const TONE_CLASS: Readonly<Record<Tone, string>> = {
   Warn: "",
-  Error: " error",
-  Ok: " ok",
-  Quiet: " quiet",
+  Error: " gg-error",
+  Ok: " gg-ok",
+  Quiet: " gg-quiet",
 };
 
 export type ToneGlyphConfig = Readonly<{
@@ -37,7 +37,7 @@ export const toneGlyphView = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.span(
-    [h.Class(`glyph${TONE_CLASS[config.tone]}`)],
+    [h.Class(`gg-glyph${TONE_CLASS[config.tone]}`)],
     [Glyph.view({ name: config.glyph ?? toneGlyph(config.tone) }, h)]
   );
 
@@ -73,7 +73,7 @@ export const view = <Message>(
     [
       ...attributes,
       ...(tone === "Error" ? [h.Role("alert")] : []),
-      h.Class(`notice${TONE_CLASS[tone]}`),
+      h.Class(`gg-notice${TONE_CLASS[tone]}`),
     ],
     [
       toneGlyphView({ tone, ...(glyph !== undefined && { glyph }) }, h),

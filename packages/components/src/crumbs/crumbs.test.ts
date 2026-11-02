@@ -24,7 +24,7 @@ describe("Crumbs", () => {
       Scene.given(null),
       Scene.expect(
         Scene.role("navigation", { name: "Breadcrumb" })
-      ).toHaveClass("crumbs"),
+      ).toHaveClass("gg-crumbs"),
       Scene.expect(Scene.role("link", { name: "Library" })).toHaveAttr(
         "href",
         "/library"

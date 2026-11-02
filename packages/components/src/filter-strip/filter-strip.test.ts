@@ -16,7 +16,7 @@ describe("FilterStrip", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("group", { name: "Filters" })).toHaveClass(
-        "strip"
+        "gg-strip"
       ),
       Scene.expect(Scene.role("group", { name: "Filters" })).toContainText(
         "open"
@@ -30,7 +30,7 @@ describe("FilterStrip", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("group", { name: "Find a glyph" })).toHaveClass(
-        "strip"
+        "gg-strip"
       )
     );
   });

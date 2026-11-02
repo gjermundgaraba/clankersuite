@@ -17,7 +17,7 @@ export const errorView = <Message>(
 ): readonly Html[] =>
   error === undefined
     ? []
-    : [h.p([h.Id(errorId(id)), h.Class("field-error")], [error])];
+    : [h.p([h.Id(errorId(id)), h.Class("gg-field-error")], [error])];
 
 const describedByError = <Message>(
   id: string,
@@ -51,7 +51,7 @@ export const helpView = <Message>(
 ): readonly Html[] =>
   help === undefined
     ? []
-    : [h.p([...description, h.Class("field-help")], [help])];
+    : [h.p([...description, h.Class("gg-field-help")], [help])];
 
 /** Configuration for rendering a text field with `view`. */
 export type ViewConfig<Message> = Readonly<{
@@ -117,7 +117,7 @@ export const view = <Message>(
         h.div(
           [
             h.Class(
-              `field${isBoxed || type === "date" ? " boxed" : ""}${isMono ? " mono" : ""}`
+              `gg-field${isBoxed || type === "date" ? " gg-boxed" : ""}${isMono ? " gg-mono" : ""}`
             ),
           ],
           [

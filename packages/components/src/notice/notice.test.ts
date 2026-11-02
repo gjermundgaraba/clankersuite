@@ -22,8 +22,8 @@ describe("Notice", () => {
     Scene.scene(
       { update, view: noticeView },
       Scene.given<Notice.Tone>("Error"),
-      Scene.expect(Scene.role("alert")).toHaveClass("notice"),
-      Scene.expect(Scene.role("alert")).toHaveClass("error"),
+      Scene.expect(Scene.role("alert")).toHaveClass("gg-notice"),
+      Scene.expect(Scene.role("alert")).toHaveClass("gg-error"),
       Scene.expect(Scene.role("alert")).toContainText("Offline")
     );
   });
@@ -33,7 +33,7 @@ describe("Notice", () => {
       { update, view: noticeView },
       Scene.given<Notice.Tone>("Warn"),
       Scene.expect(Scene.role("alert")).toBeAbsent(),
-      Scene.expect(Scene.selector(".notice .glyph svg")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-notice .gg-glyph svg")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
@@ -49,7 +49,7 @@ describe("Notice", () => {
           Notice.toneGlyphView({ tone }, h),
       },
       Scene.given<Notice.Tone>("Ok"),
-      Scene.expect(Scene.selector("span.glyph")).toHaveClass("ok")
+      Scene.expect(Scene.selector("span.gg-glyph")).toHaveClass("gg-ok")
     );
   });
 });

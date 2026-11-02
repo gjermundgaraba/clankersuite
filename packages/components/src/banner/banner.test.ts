@@ -20,11 +20,13 @@ describe("Banner", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".banner")).toHaveText(
+      Scene.expect(Scene.selector(".gg-banner")).toHaveText(
         "Reconnecting. Your changes wait here.retry"
       ),
-      Scene.expect(Scene.selector(".banner .glyph")).not.toHaveClass("error"),
-      Scene.expect(Scene.selector(".banner button")).toHaveText("retry")
+      Scene.expect(Scene.selector(".gg-banner .gg-glyph")).not.toHaveClass(
+        "gg-error"
+      ),
+      Scene.expect(Scene.selector(".gg-banner button")).toHaveText("retry")
     );
   });
 });

@@ -21,11 +21,11 @@ describe("KeyHint", () => {
     Scene.scene(
       { update, view: hintView },
       Scene.given<KeyPlatform>("Other"),
-      Scene.expect(Scene.selector("kbd.key-hint")).toHaveAttr(
+      Scene.expect(Scene.selector("kbd.gg-key-hint")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector("kbd.key-hint")).toHaveText("Ctrl+K")
+      Scene.expect(Scene.selector("kbd.gg-key-hint")).toHaveText("Ctrl+K")
     );
   });
 });

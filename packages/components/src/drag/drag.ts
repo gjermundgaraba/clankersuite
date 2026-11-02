@@ -296,7 +296,7 @@ export const insertionIndex = (
   );
 };
 
-const DRAGGING_ATTRIBUTE = "data-pixel-paper-dragging";
+const DRAGGING_ATTRIBUTE = "data-gg-dragging";
 
 export const markDragging: Stream.Stream<never> = Stream.callback<never>(() =>
   Effect.acquireRelease(

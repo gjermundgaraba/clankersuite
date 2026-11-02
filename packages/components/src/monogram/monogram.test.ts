@@ -13,12 +13,12 @@ describe("Monogram", () => {
           Monogram.view({ label: "Sam Rivera", isLarge: true }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".monogram")).toHaveText("SR"),
-      Scene.expect(Scene.selector(".monogram")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-monogram")).toHaveText("SR"),
+      Scene.expect(Scene.selector(".gg-monogram")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".monogram")).toHaveClass("large")
+      Scene.expect(Scene.selector(".gg-monogram")).toHaveClass("gg-large")
     );
   });
 
@@ -42,14 +42,16 @@ describe("Monogram", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".monogram")).toHaveClass("drawn"),
-      Scene.expect(Scene.selector(".monogram")).toHaveText(""),
-      Scene.expect(Scene.selector(".monogram svg")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-monogram")).toHaveClass("gg-drawn"),
+      Scene.expect(Scene.selector(".gg-monogram")).toHaveText(""),
+      Scene.expect(Scene.selector(".gg-monogram svg")).toHaveAttr(
         "viewBox",
         "0 0 4 4"
       ),
-      Scene.expect(Scene.selector(".monogram svg")).toHaveAttr("width", "8"),
-      Scene.expectAll(Scene.all.selector(".monogram svg rect")).toHaveCount(5)
+      Scene.expect(Scene.selector(".gg-monogram svg")).toHaveAttr("width", "8"),
+      Scene.expectAll(Scene.all.selector(".gg-monogram svg rect")).toHaveCount(
+        5
+      )
     );
   });
 
@@ -67,10 +69,12 @@ describe("Monogram", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.first(Scene.all.selector(".monogram"))).toHaveText(
+      Scene.expect(Scene.first(Scene.all.selector(".gg-monogram"))).toHaveText(
         "ob"
       ),
-      Scene.expect(Scene.last(Scene.all.selector(".monogram"))).toHaveText("ac")
+      Scene.expect(Scene.last(Scene.all.selector(".gg-monogram"))).toHaveText(
+        "ac"
+      )
     );
   });
 });

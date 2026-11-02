@@ -26,7 +26,7 @@ const propView =
       [
         h.dt([], [label]),
         h.dd([], isCode ? [h.code([], value)] : value),
-        h.dd([h.Class("acts")], actions),
+        h.dd([h.Class("gg-acts")], actions),
       ]
     );
 
@@ -35,4 +35,4 @@ const propView =
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
-): Html => h.dl([h.Class("props")], Array.map(config.items, propView(h)));
+): Html => h.dl([h.Class("gg-props")], Array.map(config.items, propView(h)));

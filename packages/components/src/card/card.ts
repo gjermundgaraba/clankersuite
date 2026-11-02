@@ -48,10 +48,10 @@ const childrenView = <Message>(
   } = config;
 
   const titleBar = h.header(
-    [h.Class("card-tb")],
+    [h.Class("gg-card-tb")],
     [
       h.h2(titleAttributes, [title]),
-      ...(meta === undefined ? [] : [h.span([h.Class("meta")], [meta])]),
+      ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
       ...(closeAttributes === undefined
         ? []
         : [
@@ -69,20 +69,20 @@ const childrenView = <Message>(
   );
 
   const actionBar = Array.match(
-    [...lead, ...slotView("span", "card-acts", actions, h)],
+    [...lead, ...slotView("span", "gg-card-acts", actions, h)],
     {
       onEmpty: () => [],
       onNonEmpty: (bar) => [
-        h.div([...actionBarAttributes, h.Class("card-actions")], bar),
+        h.div([...actionBarAttributes, h.Class("gg-card-actions")], bar),
       ],
     }
   );
 
-  return [titleBar, h.div([h.Class("card-body")], body), ...actionBar];
+  return [titleBar, h.div([h.Class("gg-card-body")], body), ...actionBar];
 };
 
 const className = (isNarrow: boolean | undefined): string =>
-  isNarrow === true ? "card narrow" : "card";
+  isNarrow === true ? "gg-card gg-narrow" : "gg-card";
 
 /** The raised surface: paper in a 2px ink box on the 8px print shadow, under a title bar. */
 export const view = <Message>(

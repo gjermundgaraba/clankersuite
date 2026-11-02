@@ -18,7 +18,7 @@ const placeIn = (
       ["Form", isFormOpen],
       ["Confirm", isConfirmOpen],
     ],
-    () => LiveRegion.view({ toasts: h.div([h.Class("toasts")]) }, h)
+    () => LiveRegion.view({ toasts: h.div([h.Class("gg-toasts")]) }, h)
   );
 
 const pageView =
@@ -58,7 +58,7 @@ describe("LiveRegion", () => {
       { update: (model: null) => ({ model }), view: pageView(false, false) },
       Scene.given(null),
       Scene.expectAll(regions).toHaveCount(1),
-      Scene.expect(Scene.selector("#page .toasts")).toExist(),
+      Scene.expect(Scene.selector("#page .gg-toasts")).toExist(),
       Scene.expect(region).toHaveAttr("aria-live", "polite")
     );
   });
@@ -68,8 +68,8 @@ describe("LiveRegion", () => {
       { update: (model: null) => ({ model }), view: pageView(true, true) },
       Scene.given(null),
       Scene.expectAll(regions).toHaveCount(1),
-      Scene.expect(Scene.selector("#Confirm .toasts")).toExist(),
-      Scene.expect(Scene.selector("#Form .toasts")).toBeAbsent()
+      Scene.expect(Scene.selector("#Confirm .gg-toasts")).toExist(),
+      Scene.expect(Scene.selector("#Form .gg-toasts")).toBeAbsent()
     );
   });
 
@@ -78,7 +78,7 @@ describe("LiveRegion", () => {
       { update: (model: null) => ({ model }), view: pageView(true, false) },
       Scene.given(null),
       Scene.expectAll(regions).toHaveCount(1),
-      Scene.expect(Scene.selector("#Form .toasts")).toExist()
+      Scene.expect(Scene.selector("#Form .gg-toasts")).toExist()
     );
   });
 

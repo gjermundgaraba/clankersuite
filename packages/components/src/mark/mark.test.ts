@@ -13,9 +13,9 @@ describe("Mark.readingView", () => {
           Mark.readingView({ label: "91%" }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".mark")).toHaveText("91%"),
-      Scene.expect(Scene.selector(".mark")).toHaveClass("mark"),
-      Scene.expect(Scene.selector(".mark")).toHaveClass("reading")
+      Scene.expect(Scene.selector(".gg-mark")).toHaveText("91%"),
+      Scene.expect(Scene.selector(".gg-mark")).toHaveClass("gg-mark"),
+      Scene.expect(Scene.selector(".gg-mark")).toHaveClass("gg-reading")
     );
   });
 });

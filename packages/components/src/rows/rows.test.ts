@@ -62,7 +62,7 @@ const view = (model: Model, h: HtmlBuilder<Message>) =>
               onToggle: (isChecked) =>
                 Message.ToggledRow({ id: "notes", isChecked }),
             },
-            slot: [h.span([h.Class("chip")], ["open"])],
+            slot: [h.span([h.Class("gg-chip")], ["open"])],
             slotAttributes: [h.Id("notes-slot")],
             attributes: [h.AriaDescribedBy("notes-slot")],
             nested: model.isExpanded
@@ -108,11 +108,13 @@ describe("Rows", () => {
     Scene.scene(
       { update, view },
       Scene.given({ selectedIds: [], isExpanded: false }),
-      Scene.expect(Scene.role("list", { name: "Tasks" })).toHaveClass("tree"),
+      Scene.expect(Scene.role("list", { name: "Tasks" })).toHaveClass(
+        "gg-tree"
+      ),
       Scene.expect(notesBox).toHaveAttr("aria-checked", "false"),
       Scene.click(notesBox),
       Scene.expect(notesBox).toHaveAttr("aria-checked", "true"),
-      Scene.click(Scene.selector("label.grow")),
+      Scene.click(Scene.selector("label.gg-grow")),
       Scene.expect(notesBox).toHaveAttr("aria-checked", "false")
     );
   });
@@ -123,7 +125,7 @@ describe("Rows", () => {
       Scene.given({ selectedIds: [], isExpanded: false }),
       Scene.expect(
         Scene.role("button", { name: "Archive the drafts" })
-      ).toHaveClass("done-title")
+      ).toHaveClass("gg-done-title")
     );
   });
 
@@ -136,7 +138,7 @@ describe("Rows", () => {
       Scene.expect(Scene.selector("li li")).toBeAbsent(),
       Scene.click(toggle),
       Scene.expect(toggle).toHaveAttr("aria-expanded", "true"),
-      Scene.expect(Scene.selector("li ul.rows li .row")).toHaveText(
+      Scene.expect(Scene.selector("li ul.gg-rows li .gg-row")).toHaveText(
         "Book the room"
       )
     );
@@ -146,8 +148,10 @@ describe("Rows", () => {
     Scene.scene(
       { update, view },
       Scene.given({ selectedIds: [], isExpanded: false }),
-      Scene.expect(Scene.selector("span.slot#notes-slot")).toHaveText("open"),
-      Scene.expect(Scene.selector(".row")).toHaveAttr(
+      Scene.expect(Scene.selector("span.gg-slot#notes-slot")).toHaveText(
+        "open"
+      ),
+      Scene.expect(Scene.selector(".gg-row")).toHaveAttr(
         "aria-describedby",
         "notes-slot"
       )
@@ -189,7 +193,7 @@ describe("Rows cursor", () => {
     Scene.scene(
       { update, view: cursorView },
       Scene.given({ selectedIds: ["room"], isExpanded: false }),
-      Scene.expect(Scene.role("row", { name: "room" })).toHaveClass("row"),
+      Scene.expect(Scene.role("row", { name: "room" })).toHaveClass("gg-row"),
       Scene.expect(Scene.role("row", { name: "room" })).toHaveAttr(
         "aria-current",
         "true"
@@ -240,12 +244,15 @@ describe("Rows tools", () => {
     Scene.scene(
       { update, view: toolsView },
       Scene.given({ selectedIds: [], isExpanded: false }),
-      Scene.expect(Scene.selector("div.row span.tools button")).toHaveAttr(
-        "aria-label",
-        "Edit notes"
-      ),
-      Scene.expect(Scene.selector("div.row span.tools .approve")).toBeAbsent(),
-      Scene.expect(Scene.selector('[data-key="room"] span.tools')).toBeAbsent()
+      Scene.expect(
+        Scene.selector("div.gg-row span.gg-tools button")
+      ).toHaveAttr("aria-label", "Edit notes"),
+      Scene.expect(
+        Scene.selector("div.gg-row span.gg-tools .approve")
+      ).toBeAbsent(),
+      Scene.expect(
+        Scene.selector('[data-key="room"] span.gg-tools')
+      ).toBeAbsent()
     );
   });
 });
@@ -283,10 +290,12 @@ describe("Rows context", () => {
       Scene.expect(
         Scene.role("checkbox", { name: "Plan the trip (context)" })
       ).toExist(),
-      Scene.expect(Scene.selector(".row.context .sr-only")).toHaveText(
+      Scene.expect(Scene.selector(".gg-row.gg-context .sr-only")).toHaveText(
         " (context)"
       ),
-      Scene.expect(Scene.selector(".row:not(.context) .sr-only")).toBeAbsent()
+      Scene.expect(
+        Scene.selector(".gg-row:not(.gg-context) .sr-only")
+      ).toBeAbsent()
     );
   });
 });
@@ -364,7 +373,7 @@ describe("Rows treegrid", () => {
       { update, view: treegrid },
       Scene.given<Model>({ selectedIds: [], isExpanded: true }),
       Scene.expect(Scene.role("treegrid", { name: "Tasks" })).toHaveClass(
-        "rows"
+        "gg-rows"
       ),
       Scene.expect(Scene.role("row", { name: "Write the notes" })).toHaveAttr(
         "aria-level",
@@ -398,22 +407,22 @@ describe("Rows treegrid", () => {
         "none"
       ),
       Scene.expect(
-        Scene.selector('[aria-label="Write the notes"] .cell')
+        Scene.selector('[aria-label="Write the notes"] .gg-cell')
       ).toHaveAttr("role", "gridcell"),
       Scene.expect(
-        Scene.selector('[aria-label="Write the notes"] .grow')
+        Scene.selector('[aria-label="Write the notes"] .gg-grow')
       ).toHaveAttr("role", "gridcell"),
       Scene.expect(
-        Scene.selector('[aria-label="Write the notes"] .slot')
+        Scene.selector('[aria-label="Write the notes"] .gg-slot')
       ).toHaveAttr("role", "gridcell"),
       Scene.expect(
-        Scene.selector('[aria-label="Write the notes"] .tools')
+        Scene.selector('[aria-label="Write the notes"] .gg-tools')
       ).toHaveAttr("role", "gridcell"),
       Scene.expect(
-        Scene.selector('[aria-label="Book the room"] .row-check')
+        Scene.selector('[aria-label="Book the room"] .gg-row-check')
       ).toHaveAttr("role", "gridcell"),
       Scene.expect(
-        Scene.selector('[aria-label="Book the room"] .grow-cell')
+        Scene.selector('[aria-label="Book the room"] .gg-grow-cell')
       ).toHaveAttr("role", "gridcell"),
       Scene.click(Scene.role("checkbox", { name: "Book the room" })),
       Scene.expect(
@@ -431,9 +440,11 @@ describe("Rows treegrid", () => {
     Scene.scene(
       { update, view },
       Scene.given<Model>({ selectedIds: [], isExpanded: true }),
-      Scene.expect(Scene.role("list", { name: "Tasks" })).toHaveClass("rows"),
-      Scene.expect(Scene.selector(".row")).not.toHaveAttr("role"),
-      Scene.expect(Scene.selector(".row .grow")).not.toHaveAttr("role")
+      Scene.expect(Scene.role("list", { name: "Tasks" })).toHaveClass(
+        "gg-rows"
+      ),
+      Scene.expect(Scene.selector(".gg-row")).not.toHaveAttr("role"),
+      Scene.expect(Scene.selector(".gg-row .gg-grow")).not.toHaveAttr("role")
     );
   });
 });
@@ -483,27 +494,29 @@ describe("A row whose box is its link's target", () => {
     Scene.scene(
       { update, view: linkedView },
       Scene.given<Model>({ selectedIds: [], isExpanded: false }),
-      Scene.expect(Scene.nth(Scene.all.selector(".row"), 0)).toHaveClass(
-        "linked"
+      Scene.expect(Scene.nth(Scene.all.selector(".gg-row"), 0)).toHaveClass(
+        "gg-linked"
       ),
-      Scene.expect(Scene.nth(Scene.all.selector(".row"), 1)).not.toHaveClass(
-        "linked"
+      Scene.expect(Scene.nth(Scene.all.selector(".gg-row"), 1)).not.toHaveClass(
+        "gg-linked"
       ),
       Scene.expect(Scene.role("button", { name: "Task menu" })).toExist(),
       Scene.expect(
         Scene.role("row", { name: "File the brief" })
-      ).not.toHaveClass("linked"),
+      ).not.toHaveClass("gg-linked"),
       Scene.expect(Scene.role("link", { name: "Write the brief" })).toHaveAttr(
         "href",
         "/tasks/brief"
       ),
-      Scene.expect(Scene.selector(".row.linked")).not.toHaveAttr("tabindex"),
+      Scene.expect(Scene.selector(".gg-row.gg-linked")).not.toHaveAttr(
+        "tabindex"
+      ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveAttr(
         "data-tip",
         "In progress"
       ),
-      Scene.expect(Scene.selector(".row.linked a button")).toBeAbsent(),
-      Scene.expect(Scene.selector(".row.linked .grow a")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-row.gg-linked a button")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-row.gg-linked .gg-grow a")).toHaveAttr(
         "aria-current",
         "page"
       )

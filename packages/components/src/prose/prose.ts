@@ -16,4 +16,4 @@ export type ViewConfig = Readonly<{
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
-): Html => h.div([h.Class("prose")], config.body);
+): Html => h.div([h.Class("gg-prose")], config.body);

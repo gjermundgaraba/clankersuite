@@ -45,18 +45,18 @@ const railViewWith =
         maybeToggleKeyHint: Option.some({ keys: "Mod+B", platform: "Apple" }),
         toAsideView: (toggle) => [
           h.section(
-            [h.Class("panel")],
+            [h.Class("gg-panel")],
             [
               h.header(
-                [h.Class("panel-tb")],
-                [h.span([h.Class("panel-lead")], [toggle])]
+                [h.Class("gg-panel-tb")],
+                [h.span([h.Class("gg-panel-lead")], [toggle])]
               ),
               h.a([h.Href("#inbox")], ["Inbox"]),
             ]
           ),
         ],
         toDeckView: (openButton) =>
-          h.div([h.Class("deck")], [openButton, h.p([], ["the deck"])]),
+          h.div([h.Class("gg-deck")], [openButton, h.p([], ["the deck"])]),
       },
       h
     );
@@ -128,14 +128,14 @@ describe("Rail splitter", () => {
     Scene.scene(
       { update: Rail.update, view: railViewAt(Option.some(300)) },
       Scene.given(fresh),
-      Scene.expect(splitter).toHaveClass("rail-resize"),
+      Scene.expect(splitter).toHaveClass("gg-rail-resize"),
       Scene.expect(splitter).toHaveAttr("aria-orientation", "vertical"),
       Scene.expect(splitter).toHaveAttr("aria-controls", "collections"),
       Scene.expect(splitter).toHaveAttr("aria-valuemin", "220"),
       Scene.expect(splitter).toHaveAttr("aria-valuemax", "480"),
       Scene.expect(splitter).toHaveAttr("aria-valuenow", "300"),
       Scene.expect(splitter).toHaveAttr("aria-valuetext", "300 pixels"),
-      Scene.expect(Scene.selector(".railed")).toHaveStyle(
+      Scene.expect(Scene.selector(".gg-railed")).toHaveStyle(
         "--railed-width",
         "300px"
       ),
@@ -151,7 +151,7 @@ describe("Rail splitter", () => {
     Scene.scene(
       { update: Rail.update, view: railView },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".railed")).not.toHaveAttr("style"),
+      Scene.expect(Scene.selector(".gg-railed")).not.toHaveAttr("style"),
       Scene.expect(Scene.role("separator")).toHaveAttr(
         "aria-valuenow",
         `${Rail.WIDTH.start}`
@@ -161,7 +161,7 @@ describe("Rail splitter", () => {
     Scene.scene(
       { update: Rail.update, view: railViewAt(Option.some(9000)) },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".railed")).toHaveStyle(
+      Scene.expect(Scene.selector(".gg-railed")).toHaveStyle(
         "--railed-width",
         "480px"
       ),
@@ -175,20 +175,20 @@ describe("Rail view", () => {
     Scene.scene(
       { update: Rail.update, view: railView },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".railed")).toExist(),
+      Scene.expect(Scene.selector(".gg-railed")).toExist(),
       Scene.expect(
         Scene.role("complementary", { name: "collections" })
       ).toHaveAttr("popover", "auto"),
       Scene.expect(
         Scene.role("complementary", { name: "collections" })
-      ).toHaveClass("rail"),
-      Scene.expect(Scene.selector(".rail .rail-head .label")).toHaveText(
-        "collections"
-      ),
+      ).toHaveClass("gg-rail"),
+      Scene.expect(
+        Scene.selector(".gg-rail .gg-rail-head .gg-label")
+      ).toHaveText("collections"),
       Scene.expect(openButton).toHaveAttr("aria-expanded", "false"),
       Scene.expect(openButton).toHaveAttr("aria-controls", "collections"),
       Scene.expect(
-        Scene.selector(".deck .rail-open button.btn.small")
+        Scene.selector(".gg-deck .gg-rail-open button.gg-btn.gg-small")
       ).toExist(),
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
       Scene.Command.expectNone(),
@@ -293,13 +293,15 @@ describe("Rail toggle", () => {
       { update: Rail.update, view: railView },
       Scene.given(fresh),
       Scene.expect(
-        Scene.selector(".panel-lead .rail-toggle button.iconbtn.quiet")
+        Scene.selector(
+          ".gg-panel-lead .gg-rail-toggle button.gg-iconbtn.gg-quiet"
+        )
       ).toExist(),
       Scene.expect(hideButton).toHaveId("collections-toggle"),
       Scene.expect(hideButton).toHaveAttr("aria-expanded", "true"),
       Scene.expect(hideButton).toHaveAttr("aria-controls", "collections"),
       Scene.expect(hideButton).toHaveAttr("data-tip-key", "⌘B"),
-      Scene.expect(Scene.selector(".railed")).not.toHaveClass("folded"),
+      Scene.expect(Scene.selector(".gg-railed")).not.toHaveClass("gg-folded"),
       Scene.expect(Scene.role("separator")).toExist(),
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
       Scene.click(hideButton),
@@ -312,8 +314,8 @@ describe("Rail toggle", () => {
     Scene.scene(
       { update: Rail.update, view: railViewWith(Option.some(300), true) },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".railed")).toHaveClass("folded"),
-      Scene.expect(Scene.selector(".railed")).not.toHaveAttr("style"),
+      Scene.expect(Scene.selector(".gg-railed")).toHaveClass("gg-folded"),
+      Scene.expect(Scene.selector(".gg-railed")).not.toHaveAttr("style"),
       Scene.expect(Scene.role("separator")).toBeAbsent(),
       Scene.expect(showButton).toHaveAttr("aria-expanded", "false"),
       Scene.expect(showButton).toHaveAttr("aria-controls", "collections"),
@@ -331,12 +333,12 @@ describe("Rail toggle", () => {
 const renderFoldingRail = (): void => {
   document.body.innerHTML = `
     <aside id="rail" popover="auto">
-      <section class="panel">
-        <header class="panel-tb"><span class="panel-lead"><span class="rail-toggle"><button id="toggle" type="button">Hide</button></span></span></header>
+      <section class="gg-panel">
+        <header class="gg-panel-tb"><span class="gg-panel-lead"><span class="gg-rail-toggle"><button id="toggle" type="button">Hide</button></span></span></header>
         <a id="row" href="#row">a row</a>
       </section>
     </aside>
-    <div id="splitter" class="rail-resize" role="separator" aria-controls="rail" tabindex="0"></div>
+    <div id="splitter" class="gg-rail-resize" role="separator" aria-controls="rail" tabindex="0"></div>
     <button id="outside">deck</button>`;
 };
 
@@ -377,9 +379,9 @@ describe("Rail focus on folding", () => {
 const renderRail = (): HTMLElement => {
   document.body.innerHTML = `
     <aside id="rail" popover="auto">
-      <div class="rail-head"><button id="close" type="button">Close</button></div>
+      <div class="gg-rail-head"><button id="close" type="button">Close</button></div>
       <section>
-        <header><span class="rail-toggle"><button id="toggle" type="button">Hide</button></span></header>
+        <header><span class="gg-rail-toggle"><button id="toggle" type="button">Hide</button></span></header>
         <ul role="tree">
           <li role="none"><button id="first" role="treeitem" tabindex="-1">a</button></li>
           <li role="none"><button id="current" role="treeitem" tabindex="0">b</button></li>
@@ -446,7 +448,7 @@ describe("Rail stylesheet", () => {
       /@property --railed-width \{[^}]*inherits: false;/u
     );
     expect(STYLESHEET).toContain(
-      ".railed > :is(.rail, .rail-resize, .bench) {\n  --railed-width: inherit;"
+      ".gg-railed > :is(.gg-rail, .gg-rail-resize, .gg-bench) {\n  --railed-width: inherit;"
     );
     expect(
       STYLESHEET.match(/var\(--semantic-dimension-size-rail-default\)/gu)
@@ -473,7 +475,7 @@ describe("Rail's copies of the stylesheet", () => {
     ).toBe(`${Rail.WIDTH.start}`);
 
     const railedQueries = Array.from(
-      STYLESHEET.matchAll(/@media (?<query>[^{]+) \{\s*\.railed\b/gu),
+      STYLESHEET.matchAll(/@media (?<query>[^{]+) \{\s*\.gg-railed\b/gu),
       (match) => match.groups?.["query"]
     );
 

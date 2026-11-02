@@ -41,14 +41,14 @@ const entryView =
     h.keyed("li")(
       entry.id,
       entry.isCurrent === true
-        ? [h.AriaCurrent("true"), h.Class("current")]
+        ? [h.AriaCurrent("true"), h.Class("gg-current")]
         : [],
       [
-        h.span([h.Class("v tnum")], entry.at),
+        h.span([h.Class("gg-v gg-tnum")], entry.at),
         ...(entry.who === undefined
           ? []
-          : [h.span([h.Class("who")], entry.who)]),
-        h.span([h.Class("what")], entry.what),
+          : [h.span([h.Class("gg-who")], entry.who)]),
+        h.span([h.Class("gg-what")], entry.what),
         ...(entry.actions ?? []),
       ]
     );
@@ -64,7 +64,7 @@ export const view = <Message>(
     [
       ...(label === undefined ? [] : [h.AriaLabel(label)]),
       h.Class(
-        `history-list${variant === "Checks" ? " checks" : ""}${isWrapped ? " wrapped" : ""}`
+        `gg-history-list${variant === "Checks" ? " gg-checks" : ""}${isWrapped ? " gg-wrapped" : ""}`
       ),
     ],
     Array.map(entries, entryView(h))

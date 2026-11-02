@@ -24,7 +24,9 @@ describe("ErrorSummary", () => {
           { id: "due", message: "Pick a date after today." },
         ],
       }),
-      Scene.expect(Scene.selector("#form-errors")).toHaveClass("error-summary"),
+      Scene.expect(Scene.selector("#form-errors")).toHaveClass(
+        "gg-error-summary"
+      ),
       Scene.expect(Scene.selector("#form-errors")).toHaveAttr("tabIndex", "-1"),
       Scene.expect(Scene.selector("#form-errors")).not.toHaveAttr("role"),
       Scene.expect(Scene.selector("#form-errors strong")).toHaveText(

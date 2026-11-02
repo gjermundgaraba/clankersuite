@@ -41,7 +41,7 @@ const lineView = <Message>(
 ): Html => {
   const { label, isCurrent = false } = place;
   const current = isCurrent ? [h.AriaCurrent("page")] : [];
-  const content = [h.span([h.Class("place-name")], [label])];
+  const content = [h.span([h.Class("gg-place-name")], [label])];
 
   return place.href === undefined
     ? UiButton.view(
@@ -69,7 +69,7 @@ export const view = <Message>(
   const { label, places } = config;
 
   return h.nav(
-    [h.AriaLabel(label), h.Class("places")],
+    [h.AriaLabel(label), h.Class("gg-places")],
     [h.ul([], Array.map(places, placeView(h)))]
   );
 };

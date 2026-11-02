@@ -17,7 +17,7 @@ const cellRowView = <Message>(
   h: HtmlBuilder<Message>
 ): readonly Html[] =>
   Array.makeBy(count, (index) =>
-    h.span([h.Class(index < on ? "cell on" : "cell")])
+    h.span([h.Class(index < on ? "gg-cell gg-on" : "gg-cell")])
   );
 
 /** One meter in a `listView`. */
@@ -80,13 +80,13 @@ const percentView = <Message>(
     return Mark.readingView({ label: percentText }, h);
   }
 
-  return h.span([h.Class("pct")], [percentText]);
+  return h.span([h.Class("gg-pct")], [percentText]);
 };
 
 const TONE_CLASS: Readonly<Record<Level, string>> = {
-  Full: " toned full",
-  High: " toned high",
-  Calm: " toned",
+  Full: " gg-toned gg-full",
+  High: " gg-toned gg-high",
+  Calm: " gg-toned",
 };
 
 const meterView = <Message>(
@@ -108,7 +108,7 @@ const meterView = <Message>(
   const level = levelOf(value, max);
   const isFull = level === "Full";
   const numbers = config.valueText ?? numbersText(value, max);
-  const rowClass = `meter-row${isStale ? " stale" : ""}${isToned ? TONE_CLASS[level] : ""}`;
+  const rowClass = `gg-meter-row${isStale ? " gg-stale" : ""}${isToned ? TONE_CLASS[level] : ""}`;
 
   return UiMeter.view(
     {
@@ -123,10 +123,10 @@ const meterView = <Message>(
           [h.Class(rowClass)],
           [
             h.div(
-              [h.Class("meter-head")],
+              [h.Class("gg-meter-head")],
               [
                 h.span(
-                  [...groups.label, h.Class("meter-name")],
+                  [...groups.label, h.Class("gg-meter-name")],
                   [
                     label,
                     ...(isStale
@@ -137,10 +137,10 @@ const meterView = <Message>(
               ]
             ),
             h.div(
-              [h.Class("meter-line")],
+              [h.Class("gg-meter-line")],
               [
                 h.span(
-                  [...groups.meter, h.Class("cells")],
+                  [...groups.meter, h.Class("gg-cells")],
                   cellRowView(
                     METER_CELLS,
                     scaled(share, METER_CELLS, isFull),
@@ -149,11 +149,11 @@ const meterView = <Message>(
                 ),
                 percentView(scaled(share, PERCENT, isFull), level, h),
                 ...(hasNumbers
-                  ? [h.span([h.Class("meter-num tnum")], [numbers])]
+                  ? [h.span([h.Class("gg-meter-num gg-tnum")], [numbers])]
                   : []),
               ]
             ),
-            ...slotView("div", "meter-foot", foot, h),
+            ...slotView("div", "gg-meter-foot", foot, h),
           ]
         ),
     },
@@ -178,6 +178,6 @@ export const listView = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.ul(
-    [h.Role("list"), h.Class("meters")],
+    [h.Role("list"), h.Class("gg-meters")],
     Array.map(config.meters, (meter) => meterView(meter, h))
   );

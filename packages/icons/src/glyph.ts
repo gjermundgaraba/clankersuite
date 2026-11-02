@@ -38,7 +38,7 @@ export const view = <Message>(
       h.Width(`${DRAWN_SIZE}`),
       h.Height(`${DRAWN_SIZE}`),
       h.AriaHidden(true),
-      h.Class("px-icon"),
+      h.Class("gg-icon"),
     ],
     Array.map(glyphs[name], cellView(h))
   );

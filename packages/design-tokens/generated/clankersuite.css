@@ -420,10 +420,10 @@
   --semantic-shadow-pressed: var(--primitive-dimension-1) var(--primitive-dimension-1) var(--primitive-dimension-0) var(--primitive-dimension-0) var(--semantic-color-shadow-default);
 }
 
-:root[data-scheme="light"] {
+:root[data-color-scheme="light"] {
   color-scheme: light;
 }
 
-:root[data-scheme="dark"] {
+:root[data-color-scheme="dark"] {
   color-scheme: dark;
 }

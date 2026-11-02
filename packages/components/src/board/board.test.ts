@@ -324,7 +324,7 @@ const itemCardView =
         title: card.label,
         onOpen: Board.Message.CompletedAnnounceMove(),
         meta: [
-          h.span([h.Class("age")], ["2d"]),
+          h.span([h.Class("gg-age")], ["2d"]),
           h.button([h.Type("button"), h.Class("tool")], ["snooze"]),
           h.span([h.DataAttribute("no-lift", "")], ["note"]),
         ],
@@ -339,7 +339,7 @@ const boardView = (model: Board.Model, h: HtmlBuilder<Board.Message>) =>
     {
       columns: COLUMNS,
       toCardView: itemCardView(h),
-      toEmptyView: () => [h.p([h.Class("empty")], ["Nothing here."])],
+      toEmptyView: () => [h.p([h.Class("gg-empty")], ["Nothing here."])],
     },
     h
   );
@@ -387,9 +387,9 @@ describe("Board view", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".board")).toHaveStyle("--cols", "3"),
+      Scene.expect(Scene.selector(".gg-board")).toHaveStyle("--cols", "3"),
       Scene.expect(
-        Scene.selector('[data-droppable-id="work/todo"] .panel-tb')
+        Scene.selector('[data-droppable-id="work/todo"] .gg-panel-tb')
       ).toHaveText("To do"),
       Scene.expect(Scene.role("region", { name: "Doing" })).toContainText(
         "File taxes"
@@ -399,8 +399,8 @@ describe("Board view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
-      ).toHaveClass("board-col"),
-      Scene.expect(sinkCard).toHaveClass("movable")
+      ).toHaveClass("gg-board-col"),
+      Scene.expect(sinkCard).toHaveClass("gg-movable")
     );
   });
 
@@ -450,9 +450,9 @@ describe("Board view", () => {
         [Board.AnnounceMove, Board.Message.CompletedAnnounceMove()]
       ),
       Scene.expect(
-        Scene.selector(".board-lift-slot article .title")
+        Scene.selector(".gg-board-lift-slot article .gg-title")
       ).toHaveText("Fix the sink"),
-      Scene.expect(Scene.selector(".board-lift-slot input")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-board-lift-slot input")).toBeAbsent()
     );
   });
 
@@ -462,10 +462,10 @@ describe("Board view", () => {
       Scene.given(fresh),
       ...keyboardHeld,
       Scene.expect(grip).toHaveAttr("aria-pressed", "true"),
-      Scene.expect(sinkCard).toHaveClass("drag-dim"),
+      Scene.expect(sinkCard).toHaveClass("gg-drag-dim"),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
-      ).toHaveClass("drop-target"),
+      ).toHaveClass("gg-drop-target"),
       Scene.Subscription.emit(arrow("Right")),
       Scene.Command.resolve(
         UiDragAndDrop.ResolveKeyboardMove,
@@ -480,20 +480,20 @@ describe("Board view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/doing"]')
-      ).toHaveClass("drop-target"),
+      ).toHaveClass("gg-drop-target"),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
-      ).not.toHaveClass("drop-target"),
-      Scene.expect(Scene.selector(".board-lift-slot")).toHaveAttr(
+      ).not.toHaveClass("gg-drop-target"),
+      Scene.expect(Scene.selector(".gg-board-lift-slot")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".board-lift-slot article")).toHaveClass(
-        "lifted"
+      Scene.expect(Scene.selector(".gg-board-lift-slot article")).toHaveClass(
+        "gg-lifted"
       ),
-      Scene.expect(Scene.selector(".board-lift-slot article")).not.toHaveAttr(
-        "aria-current"
-      )
+      Scene.expect(
+        Scene.selector(".gg-board-lift-slot article")
+      ).not.toHaveAttr("aria-current")
     );
   });
 
@@ -522,7 +522,7 @@ describe("Board view", () => {
         clientY: 100,
       }),
       Scene.expectOutMessage(Board.OutMessage.SelectedCard({ cardId: "sink" })),
-      Scene.expect(Scene.selector(".board-lift")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-board-lift")).toBeAbsent(),
       Scene.Subscription.emit(
         pointerAt(160, Option.some({ column: "done", index: 0 }))
       ),
@@ -534,14 +534,16 @@ describe("Board view", () => {
         Board.SizeLiftedCard,
         Board.Message.CompletedSizeLiftedCard()
       ),
-      Scene.expect(Scene.selector(".board-lift")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-board-lift")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".board-lift article")).toHaveClass("lifted"),
+      Scene.expect(Scene.selector(".gg-board-lift article")).toHaveClass(
+        "gg-lifted"
+      ),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/done"]')
-      ).toHaveClass("drop-target")
+      ).toHaveClass("gg-drop-target")
     );
   });
 
@@ -554,7 +556,7 @@ describe("Board view", () => {
       Scene.Subscription.emit(
         pointerAt(160, Option.some({ column: "done", index: 0 }))
       ),
-      Scene.expect(Scene.selector(".board-card.drag-dim")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-board-card.gg-drag-dim")).toBeAbsent(),
       Scene.pointerDown(grip, {
         pointerType: "touch",
         screenX: 100,
@@ -572,7 +574,7 @@ describe("Board view", () => {
         Board.SizeLiftedCard,
         Board.Message.CompletedSizeLiftedCard()
       ),
-      Scene.expect(sinkCard).toHaveClass("drag-dim")
+      Scene.expect(sinkCard).toHaveClass("gg-drag-dim")
     );
   });
 
@@ -591,7 +593,7 @@ describe("Board view", () => {
         }
       ),
       Scene.expectIgnored(),
-      Scene.expect(Scene.selector(".board-card.drag-dim")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-board-card.gg-drag-dim")).toBeAbsent()
     );
   });
 });

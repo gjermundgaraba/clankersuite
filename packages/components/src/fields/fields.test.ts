@@ -20,8 +20,8 @@ describe("Fields", () => {
     Scene.scene(
       { update, view: fieldsView },
       Scene.given(false),
-      Scene.expect(Scene.role("group")).toHaveClass("stack"),
-      Scene.expect(Scene.role("group")).toHaveClass("gap-m"),
+      Scene.expect(Scene.role("group")).toHaveClass("gg-stack"),
+      Scene.expect(Scene.role("group")).toHaveClass("gg-gap-m"),
       Scene.expect(Scene.role("group")).not.toHaveAttr("disabled"),
       Scene.expect(Scene.role("group")).not.toHaveAttr("aria-busy")
     );

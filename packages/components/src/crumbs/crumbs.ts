@@ -36,7 +36,7 @@ export const view = <Message>(
   const { crumbs } = config;
 
   return h.nav(
-    [h.AriaLabel("Breadcrumb"), h.Class("crumbs")],
+    [h.AriaLabel("Breadcrumb"), h.Class("gg-crumbs")],
     [h.ol([], Array.map(crumbs, crumbView(crumbs.length - 1, h)))]
   );
 };

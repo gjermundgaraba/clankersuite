@@ -53,8 +53,8 @@ describe("Time.view", () => {
     timeScene(
       { at: AT, maybeNow: Option.some(AT + minutes(4)) },
       Scene.expect(time).toHaveText("4m"),
-      Scene.expect(time).toHaveClass("age"),
-      Scene.expect(time).not.toHaveClass("stale")
+      Scene.expect(time).toHaveClass("gg-age"),
+      Scene.expect(time).not.toHaveClass("gg-stale")
     );
     timeScene(
       {
@@ -64,7 +64,7 @@ describe("Time.view", () => {
         staleAfter: Duration.minutes(1),
       },
       Scene.expect(time).toHaveText("4m ago"),
-      Scene.expect(time).toHaveClass("stale")
+      Scene.expect(time).toHaveClass("gg-stale")
     );
     timeScene(
       { at: AT, format: "Ago", maybeNow: Option.some(AT + 2000) },
@@ -76,7 +76,7 @@ describe("Time.view", () => {
     timeScene(
       { at: AT, format: "Until", maybeNow: Option.some(AT - minutes(101)) },
       Scene.expect(time).toHaveText("in 1h 41m"),
-      Scene.expect(time).toHaveClass("due")
+      Scene.expect(time).toHaveClass("gg-due")
     );
     timeScene(
       {
@@ -86,7 +86,7 @@ describe("Time.view", () => {
         passed: "expired",
       },
       Scene.expect(time).toHaveText("expired"),
-      Scene.expect(time).toHaveClass("due")
+      Scene.expect(time).toHaveClass("gg-due")
     );
   });
 });

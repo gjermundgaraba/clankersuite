@@ -22,8 +22,8 @@ const KIND: Record<
   Readonly<{ className: string; sign: string; said: string }>
 > = {
   Same: { className: "same", sign: "", said: "unchanged" },
-  Added: { className: "add", sign: "+", said: "added" },
-  Removed: { className: "del", sign: "−", said: "removed" },
+  Added: { className: "gg-add", sign: "+", said: "added" },
+  Removed: { className: "gg-del", sign: "−", said: "removed" },
 };
 
 const lineView = <Message>(
@@ -38,10 +38,10 @@ const lineView = <Message>(
     `${numbers.old}:${numbers.new}`,
     [h.Class(className)],
     [
-      h.td([h.Class("ln")], [numbers.old]),
-      h.td([h.Class("ln")], [numbers.new]),
-      h.td([h.Class("sign"), h.AriaLabel(said)], [sign]),
-      h.td([h.Class("line")], [text === "" ? " " : text]),
+      h.td([h.Class("gg-ln")], [numbers.old]),
+      h.td([h.Class("gg-ln")], [numbers.new]),
+      h.td([h.Class("gg-sign"), h.AriaLabel(said)], [sign]),
+      h.td([h.Class("gg-line")], [text === "" ? " " : text]),
     ]
   );
 };
@@ -53,7 +53,7 @@ const foldView = <Message>(
 ): Html =>
   h.keyed("tr")(
     `fold-${firstOldNumber}`,
-    [h.Class("fold")],
+    [h.Class("gg-fold")],
     [
       h.td(
         [h.Colspan(COLUMN_COUNT)],
@@ -76,7 +76,7 @@ const rowView = <Message>(row: DiffRow, h: HtmlBuilder<Message>): Html =>
   });
 
 const noteView = <Message>(note: string, h: HtmlBuilder<Message>): Html =>
-  h.p([h.Class("note-line")], [note]);
+  h.p([h.Class("gg-note-line")], [note]);
 
 const tableView = <Message>(
   rows: readonly DiffRow[],
@@ -84,10 +84,10 @@ const tableView = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
-    [h.Class("diff-wrap")],
+    [h.Class("gg-diff-wrap")],
     [
       h.table(
-        [h.AriaLabel(label), h.Class("diff")],
+        [h.AriaLabel(label), h.Class("gg-diff")],
         [
           h.tbody(
             [],
@@ -137,6 +137,6 @@ export const patchView = <Message>(
     onNonEmpty: ([part, ...others]) =>
       Array.isArrayEmpty(others)
         ? part
-        : h.div([h.Class("stack gap-s")], parts),
+        : h.div([h.Class("gg-stack gg-gap-s")], parts),
   });
 };

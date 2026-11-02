@@ -1,9 +1,9 @@
 /** Where a pinned scheme is remembered on this device, in `localStorage`. */
-export const SCHEME_STORAGE_KEY = "pixel-paper-scheme";
+export const SCHEME_STORAGE_KEY = "gg-scheme";
 
-/** The attribute on `<html>` a pinned scheme is written to: `data-scheme="light"` or
+/** The attribute on `<html>` a pinned scheme is written to: `data-color-scheme="light"` or
     `"dark"`. Without it the stylesheet follows the reader's system. */
-export const SCHEME_ATTRIBUTE = "data-scheme";
+export const SCHEME_ATTRIBUTE = "data-color-scheme";
 
 /** Inline this in `<head>`, before the stylesheet paints, so a remembered scheme never
     flashes the other one first. Blocked storage leaves the page on the system's scheme. */

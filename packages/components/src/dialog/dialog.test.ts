@@ -11,12 +11,12 @@ const openDialog = Dialog.open(Dialog.init({ id: "rename" })).model;
 const heldUpdate = (model: Dialog.Model, message: Dialog.Message) =>
   Dialog.update(model, message, { isCloseHeld: true });
 
-const ACTION_BAR = "data-pixel-paper-action-bar";
+const ACTION_BAR = "data-gg-action-bar";
 
 const renderActionBar = (): HTMLElement => {
   document.body.innerHTML = `
     <dialog id="rename" open>
-      <div class="card-actions" ${ACTION_BAR}>
+      <div class="gg-card-actions" ${ACTION_BAR}>
         <input id="inline-field" />
         <button id="first">first</button>
         <button id="skipped" disabled>skipped</button>
@@ -157,7 +157,7 @@ const dialogView =
       {
         toView: (render) =>
           h.div(
-            [h.Class("card")],
+            [h.Class("gg-card")],
             [
               h.h2(render.title, ["Rename"]),
               h.div(render.actionBar, ["actions"]),
@@ -173,7 +173,7 @@ const describedView = (hasDescription: boolean) =>
     hasDescription,
     toView: (render) =>
       h.div(
-        [h.Class("card")],
+        [h.Class("gg-card")],
         [
           h.h2(render.title, ["Rename"]),
           h.p(render.description, ["Give the file a new name."]),
@@ -191,10 +191,10 @@ describe("Dialog view", () => {
       Scene.Mount.expectHas(UiDialog.AcquireResources, Dialog.BindActionKeys),
       mountDialog,
       Scene.expect(Scene.role("dialog", { name: "Rename" })).toHaveClass(
-        "veil"
+        "gg-veil"
       ),
-      Scene.expect(Scene.selector(".veil-backdrop")).toExist(),
-      Scene.expect(Scene.selector(".veil-pad .card")).toExist()
+      Scene.expect(Scene.selector(".gg-veil-backdrop")).toExist(),
+      Scene.expect(Scene.selector(".gg-veil-pad .gg-card")).toExist()
     );
   });
 
@@ -205,7 +205,7 @@ describe("Dialog view", () => {
         view: dialogView((h) => ({
           toView: (render) =>
             h.div(
-              [h.Class("card")],
+              [h.Class("gg-card")],
               [
                 h.h2(render.title, ["Rename"]),
                 h.div(render.actionBar, [
@@ -217,7 +217,7 @@ describe("Dialog view", () => {
       },
       Scene.given(openDialog),
       mountDialog,
-      Scene.click(Scene.selector(".veil-backdrop")),
+      Scene.click(Scene.selector(".gg-veil-backdrop")),
       Scene.click(Scene.role("button", { name: "cancel" })),
       Scene.expectNoOutMessage(),
       Scene.expect(Scene.role("dialog", { name: "Rename" })).toExist()
@@ -229,7 +229,7 @@ describe("Dialog view", () => {
       {
         update: Dialog.update,
         view: dialogView((h) => ({
-          toView: () => h.div([h.Class("card")], ["commands"]),
+          toView: () => h.div([h.Class("gg-card")], ["commands"]),
           label: "Commands",
           placement: "Top",
         })),
@@ -240,9 +240,9 @@ describe("Dialog view", () => {
         UiDialog.Message.SucceededAcquireResources()
       ),
       Scene.expect(Scene.role("dialog", { name: "Commands" })).toHaveClass(
-        "veil"
+        "gg-veil"
       ),
-      Scene.expect(Scene.selector(".veil-pad")).toHaveClass("top")
+      Scene.expect(Scene.selector(".gg-veil-pad")).toHaveClass("gg-top")
     );
   });
 
@@ -251,13 +251,13 @@ describe("Dialog view", () => {
       {
         update: Dialog.update,
         view: dialogView((h) => ({
-          toLiveRegionView: () => h.div([h.Role("status"), h.Class("live")]),
+          toLiveRegionView: () => h.div([h.Role("status"), h.Class("gg-live")]),
         })),
       },
       Scene.given(openDialog),
       mountDialog,
-      Scene.expect(Scene.selector("dialog .live")).toExist(),
-      Scene.expect(Scene.selector(".veil-pad .live")).toBeAbsent()
+      Scene.expect(Scene.selector("dialog .gg-live")).toExist(),
+      Scene.expect(Scene.selector(".gg-veil-pad .gg-live")).toBeAbsent()
     );
   });
 
@@ -290,8 +290,8 @@ describe("Dialog view", () => {
     Scene.scene(
       { update: Dialog.update, view: dialogView() },
       Scene.given(Dialog.init({ id: "rename" })),
-      Scene.expect(Scene.selector(".veil-backdrop")).toBeAbsent(),
-      Scene.expect(Scene.selector(".card")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-veil-backdrop")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-card")).toBeAbsent()
     );
   });
 });

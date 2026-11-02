@@ -33,18 +33,24 @@ describe("Panel", () => {
         }),
       },
       Scene.given(null),
-      Scene.expect(region).toHaveClass("panel"),
+      Scene.expect(region).toHaveClass("gg-panel"),
       Scene.expect(Scene.role("heading", { name: "Queue" })).toHaveId(
         "queue-title"
       ),
-      Scene.expect(Scene.selector(".panel-tb .panel-lead")).toHaveText("grip"),
-      Scene.expect(Scene.selector(".panel-tb .meta")).toHaveText("12"),
-      Scene.expect(Scene.selector(".panel-tb .panel-acts")).toHaveText("act"),
-      Scene.expect(Scene.selector(".panel .panel-shelf")).toHaveText("area"),
-      Scene.expect(Scene.selector(".panel-body p")).toHaveText(
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-panel-lead")).toHaveText(
+        "grip"
+      ),
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-meta")).toHaveText("12"),
+      Scene.expect(Scene.selector(".gg-panel-tb .gg-panel-acts")).toHaveText(
+        "act"
+      ),
+      Scene.expect(Scene.selector(".gg-panel .gg-panel-shelf")).toHaveText(
+        "area"
+      ),
+      Scene.expect(Scene.selector(".gg-panel-body p")).toHaveText(
         "Twelve waiting."
       ),
-      Scene.expect(Scene.selector(".panel-foot")).toHaveText("note")
+      Scene.expect(Scene.selector(".gg-panel-foot")).toHaveText("note")
     );
   });
 
@@ -57,7 +63,7 @@ describe("Panel", () => {
       Scene.given(null),
       Scene.expect(
         Scene.role("region", { name: "Queue, night shift" })
-      ).toHaveClass("panel"),
+      ).toHaveClass("gg-panel"),
       Scene.expect(Scene.role("heading", { name: "Queue" })).toExist()
     );
   });
@@ -69,12 +75,12 @@ describe("Panel", () => {
         view: panelView({ isFlush: true }),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".panel-body")).toBeAbsent(),
-      Scene.expect(Scene.selector(".panel p")).toExist(),
-      Scene.expect(Scene.selector(".panel-foot")).toBeAbsent(),
-      Scene.expect(Scene.selector(".panel-acts")).toBeAbsent(),
-      Scene.expect(Scene.selector(".panel-lead")).toBeAbsent(),
-      Scene.expect(Scene.selector(".panel-shelf")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-panel-body")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-panel p")).toExist(),
+      Scene.expect(Scene.selector(".gg-panel-foot")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-panel-acts")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-panel-lead")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-panel-shelf")).toBeAbsent()
     );
   });
 });

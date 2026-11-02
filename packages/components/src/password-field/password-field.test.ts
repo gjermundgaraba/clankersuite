@@ -64,7 +64,7 @@ describe("PasswordField", () => {
         "aria-describedby",
         "new-password-error new-password-description"
       ),
-      Scene.expect(Scene.selector(".field-error")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-error")).toHaveText(
         "Enter a password."
       ),
       Scene.expect(input).toHaveAttr("autocomplete", "new-password"),

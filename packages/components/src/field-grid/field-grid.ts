@@ -13,5 +13,5 @@ export const view = <Message>(
 ): Html => {
   const { body } = config;
 
-  return h.div([h.Class("field-grid")], body);
+  return h.div([h.Class("gg-field-grid")], body);
 };

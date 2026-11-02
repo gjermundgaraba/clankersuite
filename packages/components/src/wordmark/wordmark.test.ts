@@ -17,7 +17,7 @@ describe("Wordmark", () => {
         "href",
         "/"
       ),
-      Scene.expect(Scene.selector(".wordmark .cursor")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-wordmark .gg-cursor")).toHaveAttr(
         "aria-hidden",
         "true"
       )
@@ -33,7 +33,7 @@ describe("Wordmark", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("link")).toBeAbsent(),
-      Scene.expect(Scene.selector("span.wordmark")).toHaveText("ledger")
+      Scene.expect(Scene.selector("span.gg-wordmark")).toHaveText("ledger")
     );
   });
 });

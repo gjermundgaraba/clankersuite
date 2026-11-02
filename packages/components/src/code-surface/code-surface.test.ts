@@ -17,7 +17,7 @@ describe("CodeSurface", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("group", { name: "Response body" })).toHaveClass(
-        "code-surface"
+        "gg-code-surface"
       ),
       Scene.expect(Scene.role("group", { name: "Response body" })).toHaveText(
         '{ "ok": true }'

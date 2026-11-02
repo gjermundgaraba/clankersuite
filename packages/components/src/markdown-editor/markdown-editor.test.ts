@@ -55,7 +55,7 @@ describe("MarkdownEditor", () => {
       { update, view: fieldView({ help: "Markdown supported." }) },
       Scene.given<Model>({ brief: "" }),
       Scene.expect(textbox).toHaveAttr("aria-describedby"),
-      Scene.expect(Scene.selector(".field-help")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-help")).toHaveText(
         "Markdown supported."
       )
     );
@@ -67,7 +67,7 @@ describe("MarkdownEditor", () => {
       Scene.given<Model>({ brief: "" }),
       Scene.expect(textbox).toHaveAttr("aria-invalid", "true"),
       Scene.expect(textbox).toHaveAttr("aria-describedby", "brief-error"),
-      Scene.expect(Scene.selector(".field-error")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-error")).toHaveText(
         "Give it a brief."
       )
     );
@@ -109,7 +109,7 @@ describe("MarkdownEditor.readView", () => {
       { update, view: readView },
       Scene.given<Model>({ brief: description }),
       Scene.expect(host).toHaveAttr("id", "goal-description"),
-      Scene.expect(Scene.selector(".prose p")).toHaveText(description),
+      Scene.expect(Scene.selector(".gg-prose p")).toHaveText(description),
       Scene.expect(Scene.role("textbox")).toBeAbsent(),
       Scene.expect(Scene.selector("label")).toBeAbsent()
     );

@@ -98,12 +98,12 @@ class MarkdownEditorElement extends HTMLElement {
     }
 
     const textarea = this.querySelector("textarea");
-    const shownText = this.querySelector(":scope > .prose");
+    const shownText = this.querySelector(":scope > .gg-prose");
 
     if (textarea !== null) {
       this.#mounted = this.#mountEditor(textarea);
     } else if (shownText !== null) {
-      this.#mounted = this.#mount(shownText, "markdown-read", readExtension);
+      this.#mounted = this.#mount(shownText, "gg-markdown-read", readExtension);
     }
   }
 
@@ -123,7 +123,7 @@ class MarkdownEditorElement extends HTMLElement {
 
     const mounted = this.#mount(
       textarea,
-      "markdown-surface",
+      "gg-markdown-surface",
       accessExtension(accessAttributes(), this.#isDisabled)
     );
 
@@ -222,7 +222,7 @@ class MarkdownEditorElement extends HTMLElement {
   }
 }
 
-/** Registers `<pp-markdown-editor>`. Call it once from the client entry, before the first
+/** Registers `<gg-markdown-editor>`. Call it once from the client entry, before the first
  *  render. This subpath carries CodeMirror, so the package's root never registers it for an
  *  application that does not ask. */
 export const defineMarkdownEditorElement = (): void => {

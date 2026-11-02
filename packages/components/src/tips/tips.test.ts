@@ -201,7 +201,7 @@ describe("Tips view", () => {
             }),
         })
       ),
-      Scene.expect(Scene.selector("#tip")).toHaveClass("tip"),
+      Scene.expect(Scene.selector("#tip")).toHaveClass("gg-tip"),
       Scene.expect(Scene.selector("#tip")).toHaveAttr("popover", "manual"),
       Scene.expect(Scene.selector("#tip")).toHaveAttr("aria-hidden", "true"),
       Scene.expect(Scene.selector("#tip")).toHaveText("Move"),
@@ -224,7 +224,7 @@ describe("Tips view", () => {
         })
       ),
       Scene.expect(Scene.selector("#tip")).toHaveText("Hide tasks⌃\\"),
-      Scene.expect(Scene.selector("#tip kbd.key-hint")).toHaveText("⌃\\")
+      Scene.expect(Scene.selector("#tip kbd.gg-key-hint")).toHaveText("⌃\\")
     );
   });
 

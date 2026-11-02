@@ -30,18 +30,18 @@ describe("Tag", () => {
     Scene.scene(
       { update, view: tagsView },
       Scene.given(0),
-      Scene.expect(Scene.first(Scene.all.selector("span.tag"))).toHaveAttr(
+      Scene.expect(Scene.first(Scene.all.selector("span.gg-tag"))).toHaveAttr(
         "data-tip",
         "3 in Operations"
       ),
-      Scene.expect(Scene.selector("span.tag .sr-only")).toHaveText(
+      Scene.expect(Scene.selector("span.gg-tag .sr-only")).toHaveText(
         "3 in Operations"
       ),
-      Scene.expect(Scene.selector("span.tag [aria-hidden]")).toHaveText("3"),
-      Scene.expect(Scene.last(Scene.all.selector("span.tag"))).not.toHaveAttr(
-        "data-tip"
-      ),
-      Scene.expect(Scene.last(Scene.all.selector("span.tag"))).toHaveText(
+      Scene.expect(Scene.selector("span.gg-tag [aria-hidden]")).toHaveText("3"),
+      Scene.expect(
+        Scene.last(Scene.all.selector("span.gg-tag"))
+      ).not.toHaveAttr("data-tip"),
+      Scene.expect(Scene.last(Scene.all.selector("span.gg-tag"))).toHaveText(
         "draft"
       )
     );
@@ -52,7 +52,7 @@ describe("Tag", () => {
       { update, view: tagsView },
       Scene.given(0),
       Scene.expect(Scene.role("button", { name: "Operations" })).toHaveClass(
-        "tag"
+        "gg-tag"
       ),
       Scene.click(Scene.role("button", { name: "Operations" })),
       Scene.expect(Scene.selector("output")).toHaveText("1")

@@ -128,3 +128,32 @@ describe("the stylesheet's values", () => {
     expect([...used].filter((name) => !defined.has(name))).toStrictEqual([]);
   });
 });
+
+const THIRD_PARTY_CLASS = /^(?:cm-|tok-|sr-only$)/u;
+
+describe("the stylesheet's selectors", () => {
+  it("styles only classes prefixed gg-, beside CodeMirror's cm-, the highlighter's tok- and @foldkit/ui's sr-only", () => {
+    const selectors = Array.from(
+      STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "")
+        .replaceAll(/"[^"]*"|'[^']*'/gu, '""')
+        .matchAll(/(?<=^|[{};])\s*(?<selector>[^@{};\s][^{};]*)\{/gu),
+      ({ groups }) => groups?.["selector"] ?? ""
+    );
+
+    const classes = new Set(
+      selectors.flatMap((selector) =>
+        Array.from(
+          selector.matchAll(/\.(?<name>-?[A-Za-z_][\w-]*)/gu),
+          ({ groups }) => groups?.["name"] ?? ""
+        )
+      )
+    );
+
+    expect(classes.size).toBeGreaterThan(200);
+    expect(
+      [...classes].filter(
+        (name) => !name.startsWith("gg-") && !THIRD_PARTY_CLASS.test(name)
+      )
+    ).toStrictEqual([]);
+  });
+});

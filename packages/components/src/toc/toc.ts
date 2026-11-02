@@ -45,9 +45,9 @@ export const view = <Message>(
     [h.AriaLabel("On this page")],
     [
       h.ul(
-        [h.Class("toc")],
+        [h.Class("gg-toc")],
         Array.map(entries, ({ id, label, level }) =>
-          h.keyed("li")(id, level === 3 ? [h.Class("l3")] : [], [
+          h.keyed("li")(id, level === 3 ? [h.Class("gg-l3")] : [], [
             h.a(
               [
                 h.Href(`#${id}`),

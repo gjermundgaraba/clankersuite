@@ -20,18 +20,20 @@ export const view = <Message>(
   const { body, paused } = config;
 
   return h.main(
-    [h.Id("main"), h.Class("stage")],
+    [h.Id("main"), h.Class("gg-stage")],
     [
       h.div(
         [
-          h.Class("stage-work"),
+          h.Class("gg-stage-work"),
           ...(paused === undefined ? [] : [h.Inert(true)]),
         ],
-        [h.div([h.Class("stage-canvas")], body)]
+        [h.div([h.Class("gg-stage-canvas")], body)]
       ),
       h.div(
         [h.Role("status")],
-        paused === undefined ? [] : [h.div([h.Class("stage-paused")], paused)]
+        paused === undefined
+          ? []
+          : [h.div([h.Class("gg-stage-paused")], paused)]
       ),
     ]
   );

@@ -1085,7 +1085,7 @@ const render = async (
     CommandPalette.view(current, { commands }, h)
   );
 
-  return bySelector(".card.palette");
+  return bySelector(".gg-card.palette");
 };
 
 const fieldOf = (card: Element): HTMLInputElement => {
@@ -1531,10 +1531,12 @@ describe("CommandPalette view", () => {
       Scene.expect(rowOf("Edit item")).toHaveAttr("role", "option"),
       Scene.expect(rowOf("Change status")).toHaveAttr("aria-selected", "false"),
       Scene.expect(Scene.role("group", { name: "Item" })).toExist(),
-      Scene.expect(Scene.selector(".palette-scope")).toHaveText(
+      Scene.expect(Scene.selector(".gg-palette-scope")).toHaveText(
         "Renew the certificate"
       ),
-      Scene.expect(Scene.selector(".palette-row .glyph.opens")).toExist(),
+      Scene.expect(
+        Scene.selector(".gg-palette-row .gg-glyph.gg-opens")
+      ).toExist(),
       Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText("")
     );
   });
@@ -1545,9 +1547,9 @@ describe("CommandPalette view", () => {
       Scene.given(opened),
       ...mountPalette,
       Scene.expect(rowOf("Archive")).toHaveAttr("aria-disabled", "true"),
-      Scene.expect(Scene.selector('[data-value="archive"] .hint')).toHaveText(
-        "Saving…"
-      ),
+      Scene.expect(
+        Scene.selector('[data-value="archive"] .gg-hint')
+      ).toHaveText("Saving…"),
       Scene.expect(rowOf("Archive")).not.toHaveHandler("click")
     );
   });
@@ -1653,12 +1655,12 @@ describe("CommandPalette view", () => {
       Scene.expect(rowOf("To do")).toHaveAttr("aria-selected", "true"),
       ...down,
       Scene.expect(Scene.role("button", { name: "Back" })).toExist(),
-      Scene.expect(Scene.selector(".palette-title")).toHaveText("Status"),
+      Scene.expect(Scene.selector(".gg-palette-title")).toHaveText("Status"),
       Scene.expect(field).toHaveAttr("aria-label", "Status"),
       Scene.expect(field).toHaveAttr("placeholder", "type to narrow"),
       Scene.expect(rowOf("In progress")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("To do")).toHaveAttr("aria-disabled", "true"),
-      Scene.expect(Scene.selector('[data-value="todo"] .tag')).toHaveText(
+      Scene.expect(Scene.selector('[data-value="todo"] .gg-tag')).toHaveText(
         "current"
       ),
       Scene.click(rowOf("Done")),
@@ -1672,7 +1674,7 @@ describe("CommandPalette view", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector('[data-value="done"] .cursor')).toExist(),
+      Scene.expect(Scene.selector('[data-value="done"] .gg-cursor')).toExist(),
       Scene.expect(field).toHaveAttr("readOnly", "true"),
       Scene.expect(Scene.role("button", { name: "Back" })).toHaveAttr(
         "aria-disabled",
@@ -1702,19 +1704,19 @@ describe("CommandPalette view", () => {
       resolveSceneScroll,
       Scene.expect(rowOf("Website")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("Website")).toHaveStyle("--palette-level", "2"),
-      Scene.expect(rowOf("Website")).not.toHaveClass("context"),
+      Scene.expect(rowOf("Website")).not.toHaveClass("gg-context"),
       Scene.type(field, "lau"),
       resolveSceneScroll,
       Scene.expect(rowOf("Launch")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("Launch")).toHaveStyle("--palette-level", "3"),
-      Scene.expect(rowOf("Launch")).not.toHaveClass("context"),
+      Scene.expect(rowOf("Launch")).not.toHaveClass("gg-context"),
       Scene.expect(rowOf("Projects")).toHaveStyle("--palette-level", "1"),
-      Scene.expect(rowOf("Projects")).toHaveClass("context"),
+      Scene.expect(rowOf("Projects")).toHaveClass("gg-context"),
       Scene.expect(rowOf("Projects \\(context\\)")).toExist(),
       Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(
         "1 result."
       ),
-      Scene.expect(rowOf("Website")).toHaveClass("context"),
+      Scene.expect(rowOf("Website")).toHaveClass("gg-context"),
       Scene.expect(rowOf("Website")).toHaveAttr("aria-disabled", "true"),
       Scene.expect(rowOf("Garden")).toBeAbsent(),
       Scene.click(rowOf("Projects")),
@@ -1735,7 +1737,7 @@ describe("CommandPalette view", () => {
       bindKeys(ON_STATUS),
       resolveSceneFocus,
       resolveSceneScroll,
-      Scene.expect(Scene.selector(".palette-title")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-palette-title")).toBeAbsent(),
       Scene.expect(rowOf("Edit item")).toHaveAttr("aria-selected", "true")
     );
   });
@@ -1747,21 +1749,22 @@ describe("CommandPalette view", () => {
         view: (model: CommandPalette.Model, h: HtmlBuilder<Message>) =>
           paletteView({
             toDetailView: () => [h.p([h.Class("why")], ["Reconnect to save."])],
-            toLiveRegionView: () => h.div([h.Role("status"), h.Class("live")]),
+            toLiveRegionView: () =>
+              h.div([h.Role("status"), h.Class("gg-live")]),
           })(model, h),
       },
       Scene.given(nothingFound),
       ...mountPalette,
-      Scene.expect(Scene.selector(".palette-list")).toContainText(
+      Scene.expect(Scene.selector(".gg-palette-list")).toContainText(
         "nothing matches"
       ),
       Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(
         "Nothing matches."
       ),
       Scene.expect(field).not.toHaveAttr("aria-activedescendant"),
-      Scene.expect(Scene.selector(".palette-detail .why")).toExist(),
-      Scene.expect(Scene.selector("dialog .live")).toExist(),
-      Scene.expect(Scene.selector(".veil-pad .live")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-palette-detail .why")).toExist(),
+      Scene.expect(Scene.selector("dialog .gg-live")).toExist(),
+      Scene.expect(Scene.selector(".gg-veil-pad .gg-live")).toBeAbsent()
     );
   });
 });

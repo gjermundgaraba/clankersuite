@@ -20,7 +20,7 @@ export const view = <Message>(
       h.Tabindex(0),
       h.Role("group"),
       h.AriaLabel(config.label),
-      h.Class("code-surface"),
+      h.Class("gg-code-surface"),
     ],
     config.body
   );

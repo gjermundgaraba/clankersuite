@@ -31,11 +31,11 @@ export const view = <Message>(
     [
       ...measureAttributes(
         toParentMessage,
-        { selector: ".topbar", property: "--topbar-h" },
+        { selector: ".gg-topbar", property: "--topbar-h" },
         h
       ),
-      h.Class("topbar"),
+      h.Class("gg-topbar"),
     ],
-    [...brand, ...nav, ...slotView("div", "topbar-tools", tools, h)]
+    [...brand, ...nav, ...slotView("div", "gg-topbar-tools", tools, h)]
   );
 };

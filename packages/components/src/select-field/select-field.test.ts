@@ -59,7 +59,7 @@ describe("SelectField", () => {
       Scene.given<Model>({ area: "work", isInvalid: false }),
       Scene.expect(select).toHaveValue("work"),
       Scene.expect(select).toHaveAttr("aria-describedby"),
-      Scene.expect(Scene.selector(".field-help")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-help")).toHaveText(
         "Where it is filed."
       ),
       Scene.expect(
@@ -79,10 +79,10 @@ describe("SelectField", () => {
       Scene.expect(select).toHaveAttr("aria-required", "true"),
       Scene.expect(select).toHaveAttr("aria-invalid", "true"),
       Scene.expect(select).toHaveAttr("aria-describedby", "area-error"),
-      Scene.expect(Scene.selector(".field-error")).toHaveText(
+      Scene.expect(Scene.selector(".gg-field-error")).toHaveText(
         "Choose an area."
       ),
-      Scene.expect(Scene.selector(".field-help")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-field-help")).toBeAbsent()
     );
   });
 

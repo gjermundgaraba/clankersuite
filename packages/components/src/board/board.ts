@@ -656,7 +656,7 @@ const liftedRender = <ParentMessage>(
   grip: [
     h.span(
       [
-        h.Class("iconbtn"),
+        h.Class("gg-iconbtn"),
         h.DataAttribute(GRIP_ATTRIBUTE, ""),
         h.AriaHidden(true),
       ],
@@ -747,7 +747,7 @@ const cardClass = ({
   isHeld,
   isLifted,
 }: CardRender): string =>
-  `board-card${movable ? " movable" : ""}${isHeld ? " drag-dim" : ""}${isLifted ? " lifted" : ""}`;
+  `gg-board-card${movable ? " gg-movable" : ""}${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
 
 /** Configuration for rendering one card with `cardView`. */
 export type CardViewConfig<ParentMessage> = Readonly<{
@@ -785,7 +785,7 @@ export const cardView = <ParentMessage>(
 
   const titleView =
     onOpen === undefined
-      ? h.span([h.Class("title")], [title])
+      ? h.span([h.Class("gg-title")], [title])
       : UiButton.view(
           {
             onClick: onOpen,
@@ -794,7 +794,7 @@ export const cardView = <ParentMessage>(
                 [
                   ...groups.button,
                   h.DataAttribute(TITLE_ATTRIBUTE, ""),
-                  h.Class("title"),
+                  h.Class("gg-title"),
                 ],
                 [title]
               ),
@@ -806,7 +806,7 @@ export const cardView = <ParentMessage>(
     [...attributes, ...render.attributes, h.Class(cardClass(render))],
     [
       ...(isEditing ? editor : [titleView]),
-      ...slotView("div", "meta-row", [...meta, ...render.grip], h),
+      ...slotView("div", "gg-meta-row", [...meta, ...render.grip], h),
     ]
   );
 };
@@ -843,7 +843,7 @@ const keyboardSlot = (
     Option.map(maybeSlot, ({ held }) =>
       h.keyed("li")(
         "board-lift-slot",
-        [h.Class("board-lift-slot"), h.AriaHidden(true)],
+        [h.Class("gg-board-lift-slot"), h.AriaHidden(true)],
         [info.toCardView(held.card, liftedRender(h))]
       )
     )
@@ -876,20 +876,20 @@ const columnView = (
     column.id,
     [
       h.DataAttribute("droppable-id", columnHook(model, column.id)),
-      h.Class(isTarget ? "board-col drop-target" : "board-col"),
+      h.Class(isTarget ? "gg-board-col gg-drop-target" : "gg-board-col"),
     ],
     [
       h.section(
-        [h.Class("panel"), h.AriaLabelledBy(headingId)],
+        [h.Class("gg-panel"), h.AriaLabelledBy(headingId)],
         [
           h.header(
-            [h.Class("panel-tb")],
+            [h.Class("gg-panel-tb")],
             [h.h2([h.Id(headingId)], [column.title])]
           ),
           ...Array.match(items, {
             onEmpty: () => info.toEmptyView(column),
             onNonEmpty: (cards) => [
-              h.ul([h.Role("list"), h.Class("board-cards")], cards),
+              h.ul([h.Role("list"), h.Class("gg-board-cards")], cards),
             ],
           }),
         ]
@@ -914,7 +914,7 @@ const liftedCopyView = (
     Option.map(maybeLifted, ({ style, held, pressPoint }) =>
       h.div(
         [
-          h.Class("board-lift"),
+          h.Class("gg-board-lift"),
           h.Style(style),
           h.AriaHidden(true),
           h.OnMount(
@@ -958,7 +958,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     };
 
     return h.div(
-      [h.Class("board"), h.Style({ "--cols": `${columns.length}` })],
+      [h.Class("gg-board"), h.Style({ "--cols": `${columns.length}` })],
       [
         ...Array.map(columns, (column) => columnView(info, column, h)),
         h.p([h.Id(gripHelpId(model)), h.Class("sr-only")], [COPY.gripHelp]),

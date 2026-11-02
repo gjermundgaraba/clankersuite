@@ -99,9 +99,9 @@ describe("RadioChoices view", () => {
       { update, view: planView },
       Scene.given<Model>({ plan, maybePlan: Option.none() }),
       Scene.expect(Scene.role("radiogroup", { name: "Plan" })).toHaveClass(
-        "choices"
+        "gg-choices"
       ),
-      Scene.expect(monthly).toHaveClass("choice"),
+      Scene.expect(monthly).toHaveClass("gg-choice"),
       Scene.expect(monthly).toHaveAttr("aria-checked", "false"),
       Scene.expect(monthly).toHaveAttr("aria-describedby"),
       Scene.expect(yearly).not.toHaveAttr("aria-describedby"),
@@ -118,7 +118,7 @@ describe("RadioChoices view", () => {
         plan: RadioChoices.init({ id: "plan" }),
         maybePlan: Option.some("Yearly"),
       }),
-      Scene.click(Scene.selector(".choice-name")),
+      Scene.click(Scene.selector(".gg-choice-name")),
       Scene.Command.expectHas(
         UiRadioGroup.FocusOption({ id: "plan", index: 0 })
       ),

@@ -24,16 +24,16 @@ export const view = <Message>(
   const { title, byline = [], actions = [], body } = config;
 
   return h.article(
-    [h.Class("sheet")],
+    [h.Class("gg-sheet")],
     [
       h.div(
-        [h.Class("sheet-head")],
+        [h.Class("gg-sheet-head")],
         [
-          h.h1([h.Class("sheet-title")], [title]),
-          ...slotView("div", "sheet-acts", actions, h),
+          h.h1([h.Class("gg-sheet-title")], [title]),
+          ...slotView("div", "gg-sheet-acts", actions, h),
         ]
       ),
-      ...slotView("p", "byline", byline, h),
+      ...slotView("p", "gg-byline", byline, h),
       ...body,
     ]
   );

@@ -99,10 +99,10 @@ export const view = defineView<Model, Message, ViewInputs>(
 
     const toView = (render: UiTabs.RenderInfo): Html =>
       h.div(
-        [h.Class("tabbed")],
+        [h.Class("gg-tabbed")],
         [
           h.div(
-            [...render.tablist, h.Class("nav tabs")],
+            [...render.tablist, h.Class("gg-nav gg-tabs")],
             Array.zipWith(tabs, render.tabs, toTabView)
           ),
           ...Option.toArray(

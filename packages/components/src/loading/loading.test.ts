@@ -14,8 +14,8 @@ describe("Loading", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("status")).toHaveText("loading the items"),
-      Scene.expect(Scene.role("status")).toHaveClass("loading"),
-      Scene.expect(Scene.selector(".loading .cursor")).toHaveAttr(
+      Scene.expect(Scene.role("status")).toHaveClass("gg-loading"),
+      Scene.expect(Scene.selector(".gg-loading .gg-cursor")).toHaveAttr(
         "aria-hidden",
         "true"
       )
@@ -43,8 +43,8 @@ describe("Loading", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("status")).toBeEmpty(),
-      Scene.expect(Scene.role("status")).not.toHaveClass("loading"),
-      Scene.expect(Scene.role("status")).toHaveClass("loading-idle")
+      Scene.expect(Scene.role("status")).not.toHaveClass("gg-loading"),
+      Scene.expect(Scene.role("status")).toHaveClass("gg-loading-idle")
     );
   });
 });

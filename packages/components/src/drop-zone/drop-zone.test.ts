@@ -57,13 +57,13 @@ describe("DropZone view", () => {
     Scene.scene(
       { update: DropZone.update, view: dropZoneView({}) },
       Scene.given(DropZone.init({ id: "uploads" })),
-      Scene.expect(Scene.selector(".drop-zone strong")).toHaveText(
+      Scene.expect(Scene.selector(".gg-drop-zone strong")).toHaveText(
         "Drop files here"
       ),
       Scene.expect(chooser).toHaveAttr("type", "file"),
       Scene.expect(chooser).toHaveClass("sr-only"),
       Scene.expect(chooser).toHaveAttr("multiple"),
-      Scene.expect(Scene.selector(".drop-zone")).not.toHaveAttr(
+      Scene.expect(Scene.selector(".gg-drop-zone")).not.toHaveAttr(
         "data-drag-over"
       )
     );
@@ -80,7 +80,9 @@ describe("DropZone view", () => {
           })
         ).model
       ),
-      Scene.expect(Scene.selector(".drop-zone")).toHaveAttr("data-drag-over"),
+      Scene.expect(Scene.selector(".gg-drop-zone")).toHaveAttr(
+        "data-drag-over"
+      ),
       Scene.changeFiles(chooser, [sample]),
       Scene.expectOutMessage(
         DropZone.OutMessage.ReceivedFiles({ files: [sample] })

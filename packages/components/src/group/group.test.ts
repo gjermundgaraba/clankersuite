@@ -15,9 +15,9 @@ describe("Group", () => {
           h.div([], [Group.view({ body: ["name", "chip"] }, h)]),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".group")).toHaveClass("group"),
-      Scene.expect(Scene.selector(".group")).toHaveClass("gap-s"),
-      Scene.expect(Scene.selector(".group")).toHaveText("namechip")
+      Scene.expect(Scene.selector(".gg-group")).toHaveClass("gg-group"),
+      Scene.expect(Scene.selector(".gg-group")).toHaveClass("gg-gap-s"),
+      Scene.expect(Scene.selector(".gg-group")).toHaveText("namechip")
     );
   });
 });

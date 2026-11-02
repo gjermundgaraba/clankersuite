@@ -1,6 +1,6 @@
 import { Match, Option, Schema } from "effect";
 
-/** The colour scheme: `Paper` (light) or `Plum` (dark) pinned on `<html data-scheme>`, as
+/** The colour scheme: `Paper` (light) or `Plum` (dark) pinned on `<html data-color-scheme>`, as
  *  `"light"` or `"dark"`, or `System`, which follows the reader's system in CSS alone. */
 export const Scheme = Schema.Literals(["System", "Paper", "Plum"]);
 

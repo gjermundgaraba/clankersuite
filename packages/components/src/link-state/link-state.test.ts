@@ -16,8 +16,8 @@ describe("LinkState", () => {
       { update: (model: null) => ({ model }), view: stateView("Reconnecting") },
       Scene.given(null),
       Scene.expect(status).toHaveText("reconnecting"),
-      Scene.expect(status).toHaveClass("reconnecting"),
-      Scene.expect(Scene.selector(".link-state .cursor")).toHaveAttr(
+      Scene.expect(status).toHaveClass("gg-reconnecting"),
+      Scene.expect(Scene.selector(".gg-link-state .gg-cursor")).toHaveAttr(
         "aria-hidden",
         "true"
       )
@@ -29,13 +29,13 @@ describe("LinkState", () => {
       { update: (model: null) => ({ model }), view: stateView("Online") },
       Scene.given(null),
       Scene.expect(status).toHaveText("online"),
-      Scene.expect(status).not.toHaveClass("offline"),
-      Scene.expect(Scene.selector(".cursor")).toBeAbsent()
+      Scene.expect(status).not.toHaveClass("gg-offline"),
+      Scene.expect(Scene.selector(".gg-cursor")).toBeAbsent()
     );
     Scene.scene(
       { update: (model: null) => ({ model }), view: stateView("Offline") },
       Scene.given(null),
-      Scene.expect(status).toHaveClass("offline")
+      Scene.expect(status).toHaveClass("gg-offline")
     );
   });
 });

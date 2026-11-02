@@ -179,18 +179,18 @@ describe("ConfirmDialog view", () => {
       Scene.given(openModel),
       acquireResources,
       Scene.expect(Scene.role("alertdialog")).toExist(),
-      Scene.expect(Scene.selector(".card-tb h2")).toHaveText("Delete"),
-      Scene.expect(Scene.selector(".outcome-body strong")).toHaveText(
+      Scene.expect(Scene.selector(".gg-card-tb h2")).toHaveText("Delete"),
+      Scene.expect(Scene.selector(".gg-outcome-body strong")).toHaveText(
         "Delete this file?"
       ),
-      Scene.expect(Scene.selector(".btn.danger")).toHaveText("delete"),
+      Scene.expect(Scene.selector(".gg-btn.gg-danger")).toHaveText("delete"),
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveClass(
-        "default-ring"
+        "gg-default-ring"
       ),
-      Scene.expect(Scene.selector(".outcome .why")).toHaveText(
+      Scene.expect(Scene.selector(".gg-outcome .why")).toHaveText(
         "The server kept it."
       )
     );
@@ -201,7 +201,7 @@ describe("ConfirmDialog view", () => {
       { update, view: view(true) },
       Scene.given(openModel),
       acquireResources,
-      Scene.expect(Scene.selector(".outcome-body")).toHaveAttr("id"),
+      Scene.expect(Scene.selector(".gg-outcome-body")).toHaveAttr("id"),
       Scene.expect(
         Scene.role("alertdialog", { name: "Delete" })
       ).toHaveAccessibleDescription(
@@ -215,10 +215,10 @@ describe("ConfirmDialog view", () => {
       { update, view: view(false) },
       Scene.given(openModel),
       acquireResources,
-      Scene.expect(Scene.selector(".btn.primary")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-btn.gg-primary")).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(Scene.selector(".btn.danger")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-btn.gg-danger")).toBeAbsent(),
       Scene.expect(Scene.role("alertdialog")).toBeAbsent(),
       Scene.expect(Scene.role("dialog")).toExist()
     );
@@ -239,7 +239,7 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "delete" })).not.toHaveHandler(
         "click"
       ),
-      Scene.expect(Scene.selector(".btn.danger .cursor")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-btn.gg-danger .gg-cursor")).toBeAbsent(),
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveHandler(
         "click"
       )
@@ -251,9 +251,9 @@ describe("ConfirmDialog view", () => {
       { update, view: view(true) },
       Scene.given(openModel),
       acquireResources,
-      Scene.click(Scene.selector(".veil-backdrop")),
+      Scene.click(Scene.selector(".gg-veil-backdrop")),
       Scene.expect(events).toHaveText("Cancelled"),
-      Scene.expect(Scene.selector(".veil-backdrop")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-veil-backdrop")).toBeAbsent(),
       Scene.Command.resolve(
         UiDialog.CloseDialog,
         UiDialog.Message.CompletedCloseDialog()
@@ -283,10 +283,12 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(Scene.selector(".btn:not(.danger) .cursor")).toBeAbsent(),
-      Scene.click(Scene.selector(".veil-backdrop")),
+      Scene.expect(
+        Scene.selector(".gg-btn:not(.gg-danger) .gg-cursor")
+      ).toBeAbsent(),
+      Scene.click(Scene.selector(".gg-veil-backdrop")),
       Scene.expect(events).toHaveText(""),
-      Scene.expect(Scene.selector(".veil-backdrop")).toExist()
+      Scene.expect(Scene.selector(".gg-veil-backdrop")).toExist()
     );
   });
 
@@ -299,7 +301,7 @@ describe("ConfirmDialog view", () => {
         "aria-disabled",
         "true"
       ),
-      Scene.expect(Scene.selector(".btn.danger .cursor")).toExist()
+      Scene.expect(Scene.selector(".gg-btn.gg-danger .gg-cursor")).toExist()
     );
   });
 
@@ -308,7 +310,7 @@ describe("ConfirmDialog view", () => {
       { update, view: view(true) },
       Scene.given(openModel),
       acquireResources,
-      Scene.click(Scene.selector(".btn.danger")),
+      Scene.click(Scene.selector(".gg-btn.gg-danger")),
       Scene.expect(events).toHaveText("Confirmed"),
       Scene.expect(Scene.role("alertdialog")).toExist()
     );
@@ -320,8 +322,8 @@ describe("ConfirmDialog view", () => {
       Scene.given(openModel),
       Scene.Mount.expectHas(UiDialog.AcquireResources, Dialog.BindActionKeys),
       acquireResources,
-      Scene.expect(Scene.selector(".card-actions")).toHaveAttr(
-        "data-pixel-paper-action-bar"
+      Scene.expect(Scene.selector(".gg-card-actions")).toHaveAttr(
+        "data-gg-action-bar"
       )
     );
   });

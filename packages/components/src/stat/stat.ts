@@ -20,21 +20,21 @@ const valueView = <Message>(
   Option.match(config.maybeValue, {
     onNone: () =>
       h.dd(
-        [h.Class("stat-value unknown")],
+        [h.Class("gg-stat-value gg-unknown")],
         [
           h.span([h.AriaHidden(true)], ["—"]),
           h.span([h.Class("sr-only")], ["not known"]),
         ]
       ),
     onSome: (value) =>
-      h.dd([h.Class("stat-value")], [value.toLocaleString(LOCALE)]),
+      h.dd([h.Class("gg-stat-value")], [value.toLocaleString(LOCALE)]),
   });
 
 const statView = <Message>(config: StatConfig, h: HtmlBuilder<Message>): Html =>
   h.keyed("div")(
     config.label,
-    [h.Class("stat")],
-    [h.dt([h.Class("label")], [config.label]), valueView(config, h)]
+    [h.Class("gg-stat")],
+    [h.dt([h.Class("gg-label")], [config.label]), valueView(config, h)]
   );
 
 /** Configuration for rendering a row of stats with `listView`. */
@@ -49,6 +49,6 @@ export const listView = <Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.dl(
-    [h.Class("stats")],
+    [h.Class("gg-stats")],
     Array.map(config.stats, (stat) => statView(stat, h))
   );

@@ -59,7 +59,7 @@ const utcLook = (at: number, format: TimeFormat): Look => ({
 });
 
 const untilLook = (left: number, passed: string): Look => ({
-  maybeClass: Option.some("due"),
+  maybeClass: Option.some("gg-due"),
   text: left <= 0 ? passed : `in ${formatRemaining(left)}`,
 });
 
@@ -73,7 +73,7 @@ const ageLook = (
     (staleAfter) => age > Duration.toMillis(staleAfter)
   );
 
-  const maybeClass = Option.some(isStale ? "age stale" : "age");
+  const maybeClass = Option.some(isStale ? "gg-age gg-stale" : "gg-age");
 
   if (age < JUST_NOW) {
     return { maybeClass, text: format === "Ago" ? "just now" : "now" };

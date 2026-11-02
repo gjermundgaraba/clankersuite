@@ -96,18 +96,21 @@ export const view = defineView<Model, Message, ViewInputs>(
     ): Html =>
       h.keyed("button")(
         info.value,
-        [...info.option, h.Class("choice")],
+        [...info.option, h.Class("gg-choice")],
         [
-          h.span([h.Class("choice-box")]),
+          h.span([h.Class("gg-choice-box")]),
           h.span(
             [],
             [
-              h.span([...info.label, h.Class("choice-name")], [option.label]),
+              h.span(
+                [...info.label, h.Class("gg-choice-name")],
+                [option.label]
+              ),
               ...(option.note === undefined
                 ? []
                 : [
                     h.span(
-                      [...info.description, h.Class("choice-note")],
+                      [...info.description, h.Class("gg-choice-note")],
                       [option.note]
                     ),
                   ]),
@@ -132,7 +135,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ),
         toView: (render) =>
           h.div(
-            [...render.group, h.Class("choices")],
+            [...render.group, h.Class("gg-choices")],
             Array.zipWith(options, render.options, optionView)
           ),
       },

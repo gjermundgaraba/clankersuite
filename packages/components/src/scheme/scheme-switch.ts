@@ -31,7 +31,7 @@ export const Message = defineMessageUnion({
 
 export type Message = typeof Message.Type;
 
-/** Pins a scheme on `<html data-scheme>` and remembers it on this device in `localStorage`
+/** Pins a scheme on `<html data-color-scheme>` and remembers it on this device in `localStorage`
  *  under the key `schemeScript` reads; `System` removes both. The attribute is written first,
  *  so storage that refuses (blocked or full) still switches the page; the choice is just not
  *  remembered. */
@@ -65,7 +65,7 @@ const ReadScheme = Command.define("ReadScheme", {
 });
 
 /** Creates the switch on `System` in the paper palette, as the server renders it, with a
- *  Command that reads `<html data-scheme>` once the client runs it after hydration: the scheme
+ *  Command that reads `<html data-color-scheme>` once the client runs it after hydration: the scheme
  *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. The `subscriptions` bring in the
  *  system's palette. A change made in another tab is seen on the next load, not live. */
 export const init = (): Update.Return<Model, Message> => ({

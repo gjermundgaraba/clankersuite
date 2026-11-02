@@ -65,11 +65,11 @@ export const view = <Message>(
       hasDescription: help !== undefined,
       toView: (groups) =>
         h.div(
-          [h.Class("field boxed")],
+          [h.Class("gg-field gg-boxed")],
           [
             h.label(groups.label, [label]),
             h.span(
-              [h.Class("password")],
+              [h.Class("gg-password")],
               [
                 h.input([
                   ...groups.input,

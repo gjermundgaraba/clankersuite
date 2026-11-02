@@ -117,7 +117,7 @@ export const open = (model: Model): Update.Return<Model, Message> =>
 export const close = (model: Model): Update.Return<Model, Message> =>
   dialogFold.close(model);
 
-const ACTION_BAR_ATTRIBUTE = "data-pixel-paper-action-bar";
+const ACTION_BAR_ATTRIBUTE = "data-gg-action-bar";
 const ACTION_SELECTOR = "button:not(:disabled), a[href]";
 
 const isInBarItself = (bar: Element, action: HTMLElement): boolean =>
@@ -272,18 +272,20 @@ export const view = defineView<Model, Message, ViewInputs>(
         [
           ...render.dialog,
           ...(isAlert ? [h.Role("alertdialog")] : []),
-          h.Class("veil"),
+          h.Class("gg-veil"),
         ],
         render.isVisible
           ? [
-              h.div([...render.backdrop, h.Class("veil-backdrop")]),
+              h.div([...render.backdrop, h.Class("gg-veil-backdrop")]),
               ...(label === undefined
                 ? []
                 : [h.span([...render.title, h.Class("sr-only")], [label])]),
               h.div(
                 [
                   ...render.panel,
-                  h.Class(placement === "Top" ? "veil-pad top" : "veil-pad"),
+                  h.Class(
+                    placement === "Top" ? "gg-veil-pad gg-top" : "gg-veil-pad"
+                  ),
                 ],
                 [
                   toView({

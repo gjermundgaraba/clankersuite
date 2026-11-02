@@ -46,7 +46,7 @@ export const view = <Message>(
         [
           ...keyAttributes,
           ...fullAttributes,
-          h.Class(isPressed ? "fchip pinned" : "fchip"),
+          h.Class(isPressed ? "gg-fchip gg-pinned" : "gg-fchip"),
         ],
         full === undefined
           ? [label]
@@ -66,7 +66,7 @@ export const view = <Message>(
                 ...fullAttributes,
                 ...(full === undefined ? [] : [h.AriaLabel(full)]),
                 ...(isReset ? [] : [pressedAttribute(isPressed, h)]),
-                h.Class(isReset ? "fchip reset" : "fchip"),
+                h.Class(isReset ? "gg-fchip gg-reset" : "gg-fchip"),
               ],
               [label]
             ),

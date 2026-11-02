@@ -61,7 +61,7 @@ describe("FilterChip", () => {
     Scene.scene(
       { update, view: chipsView },
       Scene.given(false),
-      Scene.expect(openChip).toHaveClass("fchip"),
+      Scene.expect(openChip).toHaveClass("gg-fchip"),
       Scene.expect(openChip).toHaveAttr("aria-pressed", "false"),
       Scene.click(openChip),
       Scene.expect(openChip).toHaveAttr("aria-pressed", "true")
@@ -72,9 +72,9 @@ describe("FilterChip", () => {
     Scene.scene(
       { update, view: chipsView },
       Scene.given(true),
-      Scene.expect(Scene.selector("span.fchip")).toHaveClass("pinned"),
-      Scene.expect(Scene.selector("span.fchip")).toHaveText("me"),
-      Scene.expect(reset).toHaveClass("reset"),
+      Scene.expect(Scene.selector("span.gg-fchip")).toHaveClass("gg-pinned"),
+      Scene.expect(Scene.selector("span.gg-fchip")).toHaveText("me"),
+      Scene.expect(reset).toHaveClass("gg-reset"),
       Scene.expect(reset).not.toHaveAttr("aria-pressed"),
       Scene.click(reset),
       Scene.expect(openChip).toHaveAttr("aria-pressed", "false")
@@ -85,20 +85,22 @@ describe("FilterChip", () => {
     Scene.scene(
       { update, view: fullChipsView },
       Scene.given(true),
-      Scene.expect(clearScope).toHaveClass("reset"),
+      Scene.expect(clearScope).toHaveClass("gg-reset"),
       Scene.expect(clearScope).toHaveText("Operations ×"),
       Scene.expect(clearScope).toHaveAttr(
         "data-tip",
         "Clear scope: Operations"
       ),
-      Scene.expect(Scene.selector("span.fchip")).toHaveAttr(
+      Scene.expect(Scene.selector("span.gg-fchip")).toHaveAttr(
         "data-tip",
         "Owned by me"
       ),
-      Scene.expect(Scene.selector("span.fchip .sr-only")).toHaveText(
+      Scene.expect(Scene.selector("span.gg-fchip .sr-only")).toHaveText(
         "Owned by me"
       ),
-      Scene.expect(Scene.selector("span.fchip [aria-hidden]")).toHaveText("me")
+      Scene.expect(Scene.selector("span.gg-fchip [aria-hidden]")).toHaveText(
+        "me"
+      )
     );
   });
 });

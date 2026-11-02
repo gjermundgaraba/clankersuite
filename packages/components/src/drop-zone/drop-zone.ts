@@ -93,16 +93,16 @@ export const view = defineView<Model, Message, ViewInputs>(
 
     const toView = (groups: UiFileDrop.FileDropAttributes): Html =>
       h.div(
-        [...groups.root, h.Class("drop-zone")],
+        [...groups.root, h.Class("gg-drop-zone")],
         [
           h.span(
-            [h.Class("drop-zone-glyph")],
+            [h.Class("gg-drop-zone-glyph")],
             [Glyph.view({ name: "upload" }, h)]
           ),
           h.p([], [h.strong([], [title]), ...body]),
           ...toStatusView(),
           h.label(
-            [h.Class("btn small")],
+            [h.Class("gg-btn gg-small")],
             ["choose files", h.input(groups.input)]
           ),
         ]

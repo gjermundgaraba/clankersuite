@@ -7,9 +7,9 @@ import { Message } from "./message.ts";
 
 export const OPTION_SELECTOR = '[role="option"]';
 
-export const FIELD_ATTRIBUTE = "pixel-paper-palette-field";
+export const FIELD_ATTRIBUTE = "gg-palette-field";
 
-export const PAGE_ATTRIBUTE = "pixel-paper-palette-page";
+export const PAGE_ATTRIBUTE = "gg-palette-page";
 
 export const shownPageOf = (element: Element): Option.Option<string> =>
   Option.fromNullishOr(element.getAttribute(`data-${PAGE_ATTRIBUTE}`));

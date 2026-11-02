@@ -15,9 +15,9 @@ describe("Wrap", () => {
           h.div([], [Wrap.view({ body: ["a", "b"] }, h)]),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".wrap")).toHaveClass("wrap"),
-      Scene.expect(Scene.selector(".wrap")).toHaveClass("gap-s"),
-      Scene.expect(Scene.selector(".wrap")).toHaveText("ab")
+      Scene.expect(Scene.selector(".gg-wrap")).toHaveClass("gg-wrap"),
+      Scene.expect(Scene.selector(".gg-wrap")).toHaveClass("gg-gap-s"),
+      Scene.expect(Scene.selector(".gg-wrap")).toHaveText("ab")
     );
   });
 
@@ -41,10 +41,10 @@ describe("Wrap", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("group", { name: "Status filters" })).toHaveClass(
-        "wrap"
+        "gg-wrap"
       ),
       Scene.expect(Scene.role("group", { name: "Status filters" })).toHaveClass(
-        "gap-s"
+        "gg-gap-s"
       )
     );
   });

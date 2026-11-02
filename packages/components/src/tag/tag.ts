@@ -29,7 +29,7 @@ export const view = <Message>(
 
   return onClick === undefined
     ? h.span(
-        [...keyAttributes, ...fullAttributes, h.Class("tag")],
+        [...keyAttributes, ...fullAttributes, h.Class("gg-tag")],
         full === undefined
           ? [label]
           : [
@@ -47,7 +47,7 @@ export const view = <Message>(
                 ...keyAttributes,
                 ...fullAttributes,
                 ...(full === undefined ? [] : [h.AriaLabel(full)]),
-                h.Class("tag"),
+                h.Class("gg-tag"),
               ],
               [h.span([], [label])]
             ),

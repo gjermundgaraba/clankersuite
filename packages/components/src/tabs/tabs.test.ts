@@ -87,9 +87,11 @@ describe("Tabs", () => {
     Scene.scene(
       { update: parentUpdate, view: parentView },
       given,
-      Scene.expect(Scene.role("tablist", { name: "Items" })).toHaveClass("nav"),
       Scene.expect(Scene.role("tablist", { name: "Items" })).toHaveClass(
-        "tabs"
+        "gg-nav"
+      ),
+      Scene.expect(Scene.role("tablist", { name: "Items" })).toHaveClass(
+        "gg-tabs"
       ),
       Scene.expect(tab("open")).toHaveAttr("aria-selected", "true"),
       Scene.expect(tab("done")).toHaveAttr("aria-selected", "false"),

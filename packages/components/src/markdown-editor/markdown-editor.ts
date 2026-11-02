@@ -6,10 +6,10 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as Prose from "../prose/prose.ts";
 import * as TextareaField from "../textarea-field/textarea-field.ts";
 
-/** The binding to `<pp-markdown-editor>`. The property is `source`, not `value`, because
+/** The binding to `<gg-markdown-editor>`. The property is `source`, not `value`, because
  *  Foldkit's props module skips a `value` write when the element's `value` already matches. */
 export const spec = define({
-  tag: "pp-markdown-editor",
+  tag: "gg-markdown-editor",
   properties: { source: Schema.String },
   events: { "value-change": Schema.Struct({ value: Schema.String }) },
 });
@@ -43,7 +43,7 @@ export const view = <Message>(
 /** Configuration for showing a Markdown document with `readView`. */
 export type ReadViewConfig<Message> = Readonly<{
   value: string;
-  /** Further attributes for the `<pp-markdown-editor>` element, such as an id or a label. */
+  /** Further attributes for the `<gg-markdown-editor>` element, such as an id or a label. */
   attributes?: Attributes<Message>;
 }>;
 

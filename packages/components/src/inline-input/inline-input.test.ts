@@ -247,7 +247,7 @@ describe("InlineInput view", () => {
       { update: InlineInput.update, view: fieldView("Notes") },
       Scene.given(fresh),
       Scene.expect(Scene.label("Rename Notes")).toHaveValue("Notes"),
-      Scene.expect(Scene.label("Rename Notes")).toHaveClass("inline-input"),
+      Scene.expect(Scene.label("Rename Notes")).toHaveClass("gg-inline-input"),
       Scene.expect(Scene.label("Rename Notes")).not.toHaveAttr("aria-busy"),
       Scene.expect(Scene.label("Rename Notes")).not.toHaveAttr("aria-invalid"),
       resolveKeys

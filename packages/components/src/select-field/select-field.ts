@@ -86,7 +86,7 @@ export const view = <Message>(
       hasDescription: help !== undefined,
       toView: (groups) =>
         h.div(
-          [h.Class("field")],
+          [h.Class("gg-field")],
           [
             h.label(groups.label, [label]),
             h.select(

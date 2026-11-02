@@ -371,7 +371,7 @@ const passwordView = (model: Model, h: HtmlBuilder<Message>): Html =>
 const formView = (model: Model, h: HtmlBuilder<Message>): Html =>
   h.form(
     [
-      h.Class("stack gap-m"),
+      h.Class("gg-stack gg-gap-m"),
       h.Novalidate(true),
       h.OnSubmit(Message.SubmittedForm()),
     ],
@@ -380,7 +380,7 @@ const formView = (model: Model, h: HtmlBuilder<Message>): Html =>
       h.fieldset(
         [
           ...(model.isSaving ? [h.Disabled(true), h.AriaBusy(true)] : []),
-          h.Class("stack gap-m"),
+          h.Class("gg-stack gg-gap-m"),
         ],
         [
           projectView(model, h),

@@ -19,14 +19,14 @@ describe("SkipLink", () => {
         "#main"
       ),
       Scene.expect(Scene.role("link", { name: "Skip to content" })).toHaveClass(
-        "skip"
+        "gg-skip"
       ),
       Scene.expect(Scene.role("main")).toHaveId("main")
     );
   });
 
   it("moves focus to the fragment's target, making it focusable", async () => {
-    document.body.innerHTML = `<a class="skip" href="#main">Skip</a><main id="main"></main>`;
+    document.body.innerHTML = `<a class="gg-skip" href="#main">Skip</a><main id="main"></main>`;
 
     await Effect.runPromise(SkipLink.focusFragment("main"));
 

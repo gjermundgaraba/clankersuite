@@ -15,7 +15,7 @@ export const view = <Message>(
 ): Html => {
   const { body } = config;
 
-  return h.main([h.Id("main"), h.Class("wall")], body);
+  return h.main([h.Id("main"), h.Class("gg-wall")], body);
 };
 
 /** Configuration for rendering a wall's mark with `markView`. */
@@ -32,7 +32,7 @@ export const markView = <Message>(
   const { brand } = config;
 
   return h.div(
-    [h.Class("wall-mark")],
-    [h.span([h.Class("glyph")], [Glyph.view({ name: "lock" }, h)]), ...brand]
+    [h.Class("gg-wall-mark")],
+    [h.span([h.Class("gg-glyph")], [Glyph.view({ name: "lock" }, h)]), ...brand]
   );
 };

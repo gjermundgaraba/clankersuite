@@ -76,7 +76,7 @@ describe("Card", () => {
       },
       given,
       Scene.expect(Scene.role("heading", { name: "Rename" })).toExist(),
-      Scene.expect(Scene.selector(".card-tb .meta")).toHaveText("draft"),
+      Scene.expect(Scene.selector(".gg-card-tb .gg-meta")).toHaveText("draft"),
       Scene.click(Scene.role("button", { name: "Close" })),
       Scene.expect(Scene.selector(".counts")).toHaveText("1 0")
     );
@@ -94,8 +94,8 @@ describe("Card", () => {
     Scene.scene(
       { update, view: cardView(() => ({ isNarrow: true })) },
       given,
-      Scene.expect(Scene.selector(".card")).toHaveClass("narrow"),
-      Scene.expect(Scene.selector(".card-actions .card-acts")).toExist()
+      Scene.expect(Scene.selector(".gg-card")).toHaveClass("gg-narrow"),
+      Scene.expect(Scene.selector(".gg-card-actions .gg-card-acts")).toExist()
     );
   });
 });
@@ -139,7 +139,9 @@ describe("Card form", () => {
     Scene.scene(
       { update, view: formView(false) },
       given,
-      Scene.expect(Scene.role("form", { name: "Rename" })).toHaveClass("card"),
+      Scene.expect(Scene.role("form", { name: "Rename" })).toHaveClass(
+        "gg-card"
+      ),
       Scene.expect(Scene.role("button", { name: "save" })).toHaveId(
         Card.submitId("rename")
       ),
@@ -148,11 +150,13 @@ describe("Card form", () => {
         "submit"
       ),
       Scene.expect(Scene.role("button", { name: "save" })).toHaveClass(
-        "primary"
+        "gg-primary"
       ),
-      Scene.expect(Scene.selector(".card-actions .lead")).toHaveText("draft"),
+      Scene.expect(Scene.selector(".gg-card-actions .lead")).toHaveText(
+        "draft"
+      ),
       Scene.expect(
-        Scene.first(Scene.all.selector(".card-acts button"))
+        Scene.first(Scene.all.selector(".gg-card-acts button"))
       ).toHaveText("cancel"),
       Scene.click(Scene.role("button", { name: "cancel" })),
       Scene.click(Scene.role("button", { name: "Close" })),

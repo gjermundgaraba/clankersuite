@@ -27,7 +27,7 @@ export const view = <Message>(
   const { body, tone = "Error", actions = [] } = config;
 
   return h.div(
-    [h.Class("banner")],
+    [h.Class("gg-banner")],
     [Notice.toneGlyphView({ tone }, h), h.span([], body), ...actions]
   );
 };

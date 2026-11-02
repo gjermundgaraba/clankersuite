@@ -25,9 +25,9 @@ export type Look = Readonly<{
 }>;
 
 const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
-  Default: "btn",
-  Primary: "btn primary",
-  Danger: "btn danger",
+  Default: "gg-btn",
+  Primary: "gg-btn gg-primary",
+  Danger: "gg-btn gg-danger",
 };
 
 export const lookClassName = ({
@@ -35,7 +35,7 @@ export const lookClassName = ({
   isSmall = false,
   isDefault = false,
 }: Look): string =>
-  `${VARIANT_CLASS[variant]}${isSmall ? " small" : ""}${isDefault ? " default-ring" : ""}`;
+  `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}${isDefault ? " gg-default-ring" : ""}`;
 
 /** The key that does the same as the button, printed small after its words. */
 export type KeyHintConfig = Readonly<{
@@ -114,7 +114,7 @@ export const view = <Message>(
             label,
             ...(keyHint === undefined ? [] : [KeyHint.view(keyHint, h)]),
             ...(isBusy
-              ? [h.span([h.Class("cursor"), h.AriaHidden(true)])]
+              ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
               : []),
           ]
         ),

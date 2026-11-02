@@ -84,7 +84,7 @@ describe("Glyph.view", () => {
       Scene.given(null),
       Scene.expect(Scene.selector("svg")).toHaveAttr("aria-hidden", "true"),
       Scene.expect(Scene.selector("svg")).toHaveAttr("width", "12"),
-      Scene.expect(Scene.selector("svg")).toHaveClass("px-icon")
+      Scene.expect(Scene.selector("svg")).toHaveClass("gg-icon")
     );
     expect(Array.isReadonlyArrayNonEmpty(glyphs.check)).toBe(true);
   });

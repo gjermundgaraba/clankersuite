@@ -22,7 +22,10 @@ export const view = <Message>(
   const { head, body } = config;
 
   return h.main(
-    [h.Id("main"), h.Class("bench")],
-    [h.div([h.Class("bench-head")], head), h.div([h.Class("bench-work")], body)]
+    [h.Id("main"), h.Class("gg-bench")],
+    [
+      h.div([h.Class("gg-bench-head")], head),
+      h.div([h.Class("gg-bench-work")], body),
+    ]
   );
 };

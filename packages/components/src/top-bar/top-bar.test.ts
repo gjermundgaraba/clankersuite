@@ -20,7 +20,7 @@ const update = (model: null, _message: Message) => ({ model });
 const barView = (_model: null, h: HtmlBuilder<Message>) =>
   TopBar.view(
     {
-      brand: [h.a([h.Class("wordmark"), h.Href("/")], ["ledger"])],
+      brand: [h.a([h.Class("gg-wordmark"), h.Href("/")], ["ledger"])],
       nav: [h.nav([h.AriaLabel("Sections")], [])],
       tools: [h.button([], ["keys"])],
       toParentMessage: (message) => Message.GotTopBarMessage({ message }),
@@ -39,24 +39,24 @@ describe("TopBar", () => {
       Scene.given(null),
       Scene.Mount.expectHas(BarHeight.MeasureHeight),
       measureBar,
-      Scene.expect(Scene.role("banner")).toHaveClass("topbar"),
+      Scene.expect(Scene.role("banner")).toHaveClass("gg-topbar"),
       Scene.expect(Scene.role("navigation", { name: "Sections" })).toExist(),
-      Scene.expect(Scene.selector(".topbar-tools button")).toHaveText("keys")
+      Scene.expect(Scene.selector(".gg-topbar-tools button")).toHaveText("keys")
     );
   });
 });
 
 describe("TopBar.MeasureHeight", () => {
   it("writes --topbar-h while the first bar is mounted and removes it after", async () => {
-    document.body.innerHTML = `<header class="topbar"></header><header class="topbar"></header>`;
-    const [first, second] = [...document.querySelectorAll(".topbar")];
+    document.body.innerHTML = `<header class="gg-topbar"></header><header class="gg-topbar"></header>`;
+    const [first, second] = [...document.querySelectorAll(".gg-topbar")];
 
     if (first === undefined || second === undefined) {
       throw new Error("The fixture has no bars.");
     }
 
     const root = document.documentElement.style;
-    const args = { selector: ".topbar", property: "--topbar-h" };
+    const args = { selector: ".gg-topbar", property: "--topbar-h" };
 
     const specimen = Effect.runFork(
       BarHeight.MeasureHeight(args)

@@ -111,7 +111,7 @@ const readingView = (
       onRetry: Message.ClickedRetryReading(),
       toDataView: (requests) => [
         h.p(
-          [h.Class("note-line")],
+          [h.Class("gg-note-line")],
           [`${requests.toLocaleString(Format.LOCALE)} requests this month`]
         ),
       ],
@@ -155,7 +155,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
         "data that loads: stale until retried, then refreshing and loaded",
         [
           h.div(
-            [h.Class("stack gap-m")],
+            [h.Class("gg-stack gg-gap-m")],
             readingView(READING_ID, model.reading, h)
           ),
         ],
@@ -165,7 +165,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
         "data that loads: first loading, then failed",
         [
           h.div(
-            [h.Class("stack gap-m"), h.Inert(true)],
+            [h.Class("gg-stack gg-gap-m"), h.Inert(true)],
             [
               ...readingView("sample-reading-loading", Reading.Loading(), h),
               ...readingView(

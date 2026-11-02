@@ -32,7 +32,7 @@ describe("CodeEditor", () => {
         "{"
       ),
       Scene.expect(Scene.role("textbox")).toHaveAttr("id", "body"),
-      Scene.expect(Scene.role("textbox")).toHaveClass("code-surface"),
+      Scene.expect(Scene.role("textbox")).toHaveClass("gg-code-surface"),
       Scene.expect(Scene.role("textbox")).toHaveAttr("autocapitalize", "off"),
       Scene.type(Scene.role("textbox"), "{}"),
       Scene.expect(Scene.role("textbox")).toHaveValue("{}")

@@ -163,7 +163,7 @@ try {
       await focusedId()
     );
 
-    await page.locator(".topbar a", { hasText: "foundations" }).click();
+    await page.locator(".gg-topbar a", { hasText: "foundations" }).click();
     await settle();
     check(
       "a top bar link goes to its page in place",
@@ -263,7 +263,7 @@ try {
     });
 
     const deleteConfirm = page.getByRole("alertdialog", { name: "Delete" });
-    const commit = deleteConfirm.locator(".btn.danger");
+    const commit = deleteConfirm.locator(".gg-btn.gg-danger");
     const cancel = deleteConfirm.getByRole("button", { name: "cancel" });
     await deleteSpec.getByRole("button", { name: "delete" }).click();
     await settle();
@@ -372,7 +372,7 @@ try {
     const settingsSlip = page.getByRole("menu", { name: "settings" }).first();
 
     const barBottom = await page
-      .locator(".topbar")
+      .locator(".gg-topbar")
       .first()
       .evaluate((bar) => bar.getBoundingClientRect().bottom);
 
@@ -441,7 +441,7 @@ try {
 
     const band = await recentPanel.evaluate((panel) => {
       const titleBarBottom =
-        panel.querySelector(".panel-tb")?.getBoundingClientRect().bottom ??
+        panel.querySelector(".gg-panel-tb")?.getBoundingClientRect().bottom ??
         Number.NaN;
 
       const whenTop = panel
@@ -449,7 +449,7 @@ try {
         ?.getBoundingClientRect().top;
 
       const padding = getComputedStyle(
-        panel.querySelector(".panel-body") ?? panel
+        panel.querySelector(".gg-panel-body") ?? panel
       ).paddingTop;
 
       return { gap: (whenTop ?? Number.NaN) - titleBarBottom, padding };
@@ -477,7 +477,7 @@ try {
       `${firstFocus}, then ${await focusedId()}`
     );
 
-    const briefEditor = sampleForm.locator("pp-markdown-editor");
+    const briefEditor = sampleForm.locator("gg-markdown-editor");
     const briefContent = briefEditor.locator(".cm-content");
     const briefLine = briefContent.locator(".cm-line").first();
     const briefValue = sampleForm.locator("#sample-brief");
@@ -777,7 +777,7 @@ try {
     const focusAfterTab = await page.evaluate(() => ({
       isInEditor:
         document
-          .querySelector("#forms form pp-markdown-editor")
+          .querySelector("#forms form gg-markdown-editor")
           ?.contains(document.activeElement) === true,
       className: document.activeElement?.className ?? "",
     }));
@@ -812,7 +812,7 @@ try {
       await page.evaluate(
         ([text, isMissing]) => {
           const parse = Object.getOwnPropertyDescriptor(URL, "parse");
-          const host = document.createElement("pp-markdown-editor");
+          const host = document.createElement("gg-markdown-editor");
           const textarea = document.createElement("textarea");
 
           host.id = "smoke-editor";
@@ -889,7 +889,7 @@ try {
     await page.keyboard.type(" typed");
     check(
       "an editor that fails to mount reports it and leaves a working textarea",
-      (await failedMount.locator(".markdown-surface").count()) === 0 &&
+      (await failedMount.locator(".gg-markdown-surface").count()) === 0 &&
         fallbackBox !== null &&
         fallbackBox.width > 100 &&
         fallbackBox.height > 20 &&
@@ -992,7 +992,7 @@ try {
     check(
       "a read view draws its document with the marks hidden, its source hidden, and no textbox",
       (await readView.locator(".cm-editor").count()) === 1 &&
-        !(await readView.locator(".prose").isVisible()) &&
+        !(await readView.locator(".gg-prose").isVisible()) &&
         (await page.locator("#reading").getByRole("textbox").count()) === 0 &&
         readText.includes('"Run the spring half marathon under') &&
         !readText.includes("**"),
@@ -1039,7 +1039,7 @@ try {
     );
 
     const buttonsFoot = page.locator("#buttons .spec-foot");
-    await buttonsFoot.locator(".disclosure-summary").click();
+    await buttonsFoot.locator(".gg-disclosure-summary").click();
     await settle();
     check(
       "a section's markup opens under its source",
@@ -1097,7 +1097,7 @@ try {
     await shellPane.evaluate((pane) =>
       Object.assign(pane, { smokeKept: true })
     );
-    await shellPane.locator(".window-body").click();
+    await shellPane.locator(".gg-window-body").click();
     await page.keyboard.press("Meta+Alt+Shift+KeyL");
     await settle();
     const movedOffSlot = await reelOffSlot();
@@ -1114,7 +1114,7 @@ try {
         movedOffSlot.length === 0,
       movedOffSlot.join(", ")
     );
-    const paperView = page.locator('[data-reel="sample-reel"] > .reel-view');
+    const paperView = page.locator('[data-reel="sample-reel"] > .gg-reel-view');
 
     const resetReel = async (): Promise<void> => {
       await page
@@ -1227,7 +1227,9 @@ try {
 
     for (const paneId of ["diff", "canvas"]) {
       await page
-        .locator(`[data-reel-pane="sample-reel/pane/${paneId}"] .window-body`)
+        .locator(
+          `[data-reel-pane="sample-reel/pane/${paneId}"] .gg-window-body`
+        )
         .click();
       await page.keyboard.press("Meta+Alt+Shift+KeyH");
       await settle();
@@ -1260,7 +1262,7 @@ try {
     await resetReel();
 
     await page
-      .locator('[data-reel-pane="sample-reel/pane/diff"] .window-body')
+      .locator('[data-reel-pane="sample-reel/pane/diff"] .gg-window-body')
       .click();
     await page
       .locator('[data-reel-pane="sample-reel/pane/diff"]')
@@ -1290,12 +1292,12 @@ try {
       const topOf = (selector: string): number =>
         rail.querySelector(selector)?.getBoundingClientRect().top ?? Number.NaN;
 
-      const list = rail.querySelector(".panel:last-child > nav");
+      const list = rail.querySelector(".gg-panel:last-child > nav");
 
       const before = [
-        topOf(".panel-tb"),
-        topOf(".panel-shelf"),
-        topOf(".panel-foot"),
+        topOf(".gg-panel-tb"),
+        topOf(".gg-panel-shelf"),
+        topOf(".gg-panel-foot"),
       ];
 
       if (list !== null) {
@@ -1303,13 +1305,13 @@ try {
       }
 
       const after = [
-        topOf(".panel-tb"),
-        topOf(".panel-shelf"),
-        topOf(".panel-foot"),
+        topOf(".gg-panel-tb"),
+        topOf(".gg-panel-shelf"),
+        topOf(".gg-panel-foot"),
       ];
 
       const footBottom =
-        rail.querySelector(".panel-foot")?.getBoundingClientRect().bottom ??
+        rail.querySelector(".gg-panel-foot")?.getBoundingClientRect().bottom ??
         Number.POSITIVE_INFINITY;
 
       return {
@@ -1337,10 +1339,12 @@ try {
     await settle();
 
     const folded = await sampleRail.evaluate((rail) => {
-      const bar = rail.querySelector(".rail-head + .panel > .panel-tb");
+      const bar = rail.querySelector(
+        ".gg-rail-head + .gg-panel > .gg-panel-tb"
+      );
 
       const hidden = [
-        ...rail.querySelectorAll(".panel-shelf, nav, .panel-foot"),
+        ...rail.querySelectorAll(".gg-panel-shelf, nav, .gg-panel-foot"),
       ];
 
       return {
@@ -1349,7 +1353,7 @@ try {
           "--rail-folded"
         ),
         hasSplitter:
-          rail.closest(".railed")?.querySelector(".rail-resize") !== null,
+          rail.closest(".gg-railed")?.querySelector(".gg-rail-resize") !== null,
         writing: bar === null ? "" : getComputedStyle(bar).writingMode,
         isRestGone:
           hidden.length > 0 &&
@@ -1385,7 +1389,7 @@ try {
     await page.waitForTimeout(SETTLE + 400);
 
     const foldedTip = await page.evaluate(() => {
-      const found = document.querySelector(".tip");
+      const found = document.querySelector(".gg-tip");
       const tip = found instanceof HTMLElement ? found : null;
 
       const toggle = document
@@ -1415,7 +1419,7 @@ try {
     const unfolded = await sampleRail.evaluate((rail) => ({
       width: rail.getBoundingClientRect().width,
       hasSplitter:
-        rail.closest(".railed")?.querySelector(".rail-resize") !== null,
+        rail.closest(".gg-railed")?.querySelector(".gg-rail-resize") !== null,
       focus: document.activeElement?.getAttribute("aria-label") ?? "",
     }));
 
@@ -1434,7 +1438,7 @@ try {
 
     const benchBeside = await page.evaluate(() => ({
       bench:
-        document.querySelector(".bench")?.getBoundingClientRect().left ??
+        document.querySelector(".gg-bench")?.getBoundingClientRect().left ??
         Number.NaN,
       strip: getComputedStyle(document.documentElement).getPropertyValue(
         "--rail-folded"
@@ -1451,20 +1455,20 @@ try {
     const wide = page.viewportSize();
     await page.setViewportSize({ width: 800, height: 720 });
     await settle();
-    await page.locator(".rail-open button").click();
+    await page.locator(".gg-rail-open button").click();
     await settle();
 
     const drawer = await page.evaluate(() => {
-      const rail = document.querySelector(".rail");
-      const bar = rail?.querySelector(".panel-tb");
+      const rail = document.querySelector(".gg-rail");
+      const bar = rail?.querySelector(".gg-panel-tb");
 
       return {
         isOpen: rail?.matches(":popover-open") ?? false,
         isToggleShown:
-          (rail?.querySelector(".rail-toggle button")?.getClientRects()
+          (rail?.querySelector(".gg-rail-toggle button")?.getClientRects()
             .length ?? 0) > 0,
         isListShown:
-          (rail?.querySelector(".rows")?.getClientRects().length ?? 0) > 0,
+          (rail?.querySelector(".gg-rows")?.getClientRects().length ?? 0) > 0,
         barPadding:
           bar === null || bar === undefined
             ? ""
@@ -1495,10 +1499,10 @@ try {
         }
 
         const covered = [
-          ".rail",
-          ".rail-resize",
-          ".topbar",
-          ".statusbar",
+          ".gg-rail",
+          ".gg-rail-resize",
+          ".gg-topbar",
+          ".gg-statusbar",
         ].filter((selector) => document.querySelector(selector) !== null);
 
         return covered.flatMap((selector) => {
@@ -1525,7 +1529,7 @@ try {
     await page.waitForTimeout(HYDRATE);
     await page.getByRole("button", { name: "stop", exact: true }).click();
     await page.getByRole("alertdialog", { name: "Stop" }).waitFor();
-    const benchUnveiled = await veiledAt(".bench");
+    const benchUnveiled = await veiledAt(".gg-bench");
     check(
       "a dialog in a railed bench is drawn over the rail, its splitter and the bars",
       benchUnveiled.length === 0,
@@ -1537,7 +1541,7 @@ try {
     await page.getByRole("button", { name: "start", exact: true }).click();
     await page.getByRole("button", { name: "stop", exact: true }).click();
     await page.getByRole("dialog", { name: "Stop" }).waitFor();
-    const stageUnveiled = await veiledAt(".stage");
+    const stageUnveiled = await veiledAt(".gg-stage");
     check(
       "a dialog on a stage is drawn over the bars",
       stageUnveiled.length === 0,
@@ -1552,10 +1556,10 @@ try {
       }>
     > =>
       await page.evaluate(() => {
-        const head = document.querySelector(".bench-head");
+        const head = document.querySelector(".gg-bench-head");
 
         const work = document
-          .querySelector(".bench-work")
+          .querySelector(".gg-bench-work")
           ?.getBoundingClientRect();
 
         if (head === null || work === undefined) {
@@ -1617,20 +1621,22 @@ try {
     await settle();
 
     const crowded = await page.evaluate(() => {
-      const bench = document.querySelector(".bench")?.getBoundingClientRect();
-
-      const work = document
-        .querySelector(".bench-work")
+      const bench = document
+        .querySelector(".gg-bench")
         ?.getBoundingClientRect();
 
-      const head = document.querySelector(".bench-head");
+      const work = document
+        .querySelector(".gg-bench-work")
+        ?.getBoundingClientRect();
+
+      const head = document.querySelector(".gg-bench-head");
 
       if (head !== null) {
         head.scrollTop = 0;
       }
 
       const open = document
-        .querySelector(".rail-open button")
+        .querySelector(".gg-rail-open button")
         ?.getBoundingClientRect();
 
       const headBox = head?.getBoundingClientRect();
@@ -1656,34 +1662,34 @@ try {
       await page.setViewportSize(tall);
     }
 
-    await page.locator(".topbar button", { hasText: "plum" }).click();
+    await page.locator(".gg-topbar button", { hasText: "plum" }).click();
     await settle();
     check(
-      "plum pins data-scheme",
-      (await html.getAttribute("data-scheme")) === "dark"
+      "plum pins data-color-scheme",
+      (await html.getAttribute("data-color-scheme")) === "dark"
     );
     await page.reload();
     await page.waitForTimeout(HYDRATE);
     check(
       "the palette is remembered across a reload",
-      (await html.getAttribute("data-scheme")) === "dark" &&
+      (await html.getAttribute("data-color-scheme")) === "dark" &&
         (await page
-          .locator('.topbar button[aria-pressed="true"]')
+          .locator('.gg-topbar button[aria-pressed="true"]')
           .textContent()) === "plum"
     );
-    await page.locator(".topbar button", { hasText: "system" }).click();
+    await page.locator(".gg-topbar button", { hasText: "system" }).click();
     await settle();
     check(
-      "system lets go of data-scheme",
-      (await html.getAttribute("data-scheme")) === null
+      "system lets go of data-color-scheme",
+      (await html.getAttribute("data-color-scheme")) === null
     );
     await page.reload();
     await page.waitForTimeout(HYDRATE);
     check(
       "and stays let go after a reload",
-      (await html.getAttribute("data-scheme")) === null &&
+      (await html.getAttribute("data-color-scheme")) === null &&
         (await page
-          .locator('.topbar button[aria-pressed="true"]')
+          .locator('.gg-topbar button[aria-pressed="true"]')
           .textContent()) === "system"
     );
 

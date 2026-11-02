@@ -37,9 +37,9 @@ describe("Disclosure", () => {
       { update, view: disclosureView },
       Scene.given(false),
       Scene.expect(line).toHaveAttr("aria-expanded", "false"),
-      Scene.expect(line).toHaveClass("disclosure-summary"),
-      Scene.expect(Scene.selector(".disclosure-body")).not.toBeVisible(),
-      Scene.expect(Scene.selector(".disclosure-body")).toHaveText(
+      Scene.expect(line).toHaveClass("gg-disclosure-summary"),
+      Scene.expect(Scene.selector(".gg-disclosure-body")).not.toBeVisible(),
+      Scene.expect(Scene.selector(".gg-disclosure-body")).toHaveText(
         "Three people can edit."
       )
     );
@@ -52,7 +52,7 @@ describe("Disclosure", () => {
       Scene.click(line),
       Scene.expect(line).toHaveAttr("aria-expanded", "true"),
       Scene.expect(line).toHaveAttr("aria-controls", "grants-panel"),
-      Scene.expect(Scene.selector(".disclosure-body")).toBeVisible(),
+      Scene.expect(Scene.selector(".gg-disclosure-body")).toBeVisible(),
       Scene.keydown(line, " "),
       Scene.expect(line).toHaveAttr("aria-expanded", "false"),
       Scene.keydown(line, "Enter"),

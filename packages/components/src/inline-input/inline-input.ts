@@ -299,7 +299,7 @@ export const view = defineView<Model, Message, ViewInputs>(
             h.Autocomplete("off"),
             h.OnBlur(Message.BlurredField()),
             h.OnMount(BindFieldKeys()),
-            h.Class("inline-input"),
+            h.Class("gg-inline-input"),
           ]),
       },
       h

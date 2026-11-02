@@ -51,12 +51,14 @@ describe("Fieldset, Fields and FieldGrid", () => {
       Scene.expect(Scene.role("group", { name: "Notify" })).toContainText(
         "choices"
       ),
-      Scene.expect(Scene.selector("#notify legend")).toHaveClass("field-label"),
-      Scene.expect(Scene.selector(".field-grid #first")).toExist(),
-      Scene.expect(Scene.selector("fieldset.stack")).not.toHaveAttr(
+      Scene.expect(Scene.selector("#notify legend")).toHaveClass(
+        "gg-field-label"
+      ),
+      Scene.expect(Scene.selector(".gg-field-grid #first")).toExist(),
+      Scene.expect(Scene.selector("fieldset.gg-stack")).not.toHaveAttr(
         "aria-busy"
       ),
-      Scene.expect(Scene.selector("fieldset.stack")).toBeEnabled()
+      Scene.expect(Scene.selector("fieldset.gg-stack")).toBeEnabled()
     );
   });
 
@@ -64,11 +66,11 @@ describe("Fieldset, Fields and FieldGrid", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: formView(true) },
       Scene.given(null),
-      Scene.expect(Scene.selector("fieldset.stack")).toHaveAttr(
+      Scene.expect(Scene.selector("fieldset.gg-stack")).toHaveAttr(
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector("fieldset.stack")).toBeDisabled()
+      Scene.expect(Scene.selector("fieldset.gg-stack")).toBeDisabled()
     );
   });
 });

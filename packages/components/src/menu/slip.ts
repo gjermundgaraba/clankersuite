@@ -25,8 +25,8 @@ export const ChoiceKind = Schema.Literals(["Action", "Radio", "Check", "Link"]);
 export type ChoiceKind = typeof ChoiceKind.Type;
 
 const ITEM_SELECTOR = '[role^="menuitem"]';
-const FIRST_ATTRIBUTE = "data-pixel-paper-slip-first";
-const LAST_ATTRIBUTE = "data-pixel-paper-slip-last";
+const FIRST_ATTRIBUTE = "data-gg-slip-first";
+const LAST_ATTRIBUTE = "data-gg-slip-last";
 
 /** Where focus lands as the slip opens: its first row, or (↑ on the toggle) its last. */
 export const Edge = Schema.Literals(["First", "Last"]);
@@ -70,7 +70,7 @@ const wordsView = <Message>(
   }>,
   h: HtmlBuilder<Message>
 ): readonly Html[] => [
-  h.span([h.Class("menu-label")], [entry.label]),
+  h.span([h.Class("gg-menu-label")], [entry.label]),
   ...(entry.keyHint === undefined ? [] : [KeyHint.view(entry.keyHint, h)]),
 ];
 
@@ -147,8 +147,8 @@ const entryView = <Message>(
             h.AriaChecked(check.isChecked),
           ],
           children: [
-            h.span([h.Class("menu-check"), h.AriaHidden(true)]),
-            h.span([h.Class("menu-label")], [check.label]),
+            h.span([h.Class("gg-menu-check"), h.AriaHidden(true)]),
+            h.span([h.Class("gg-menu-label")], [check.label]),
           ],
         },
         context,
@@ -199,7 +199,7 @@ export const rowsView = <Message>(
       [h.Role("group"), h.AriaLabelledBy(headingId)],
       [
         h.span(
-          [h.Id(headingId), h.Class("menu-note"), h.Role("none")],
+          [h.Id(headingId), h.Class("gg-menu-note"), h.Role("none")],
           [item.label]
         ),
         ...Array.map(item.items, (entry) => entryView(entry, context, h)),

@@ -19,7 +19,7 @@ describe("FieldGrid", () => {
     Scene.scene(
       { update, view: gridView },
       Scene.given(null),
-      Scene.expect(Scene.selector(".field-grid")).toHaveText("FromTo")
+      Scene.expect(Scene.selector(".gg-field-grid")).toHaveText("FromTo")
     );
   });
 });

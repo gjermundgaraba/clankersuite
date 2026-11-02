@@ -47,15 +47,15 @@ describe("StatusBar", () => {
       },
       Scene.given(null),
       measureBar,
-      Scene.expect(Scene.role("contentinfo")).toHaveClass("statusbar"),
-      Scene.expect(Scene.selector(".statusbar-state")).toHaveText(
+      Scene.expect(Scene.role("contentinfo")).toHaveClass("gg-statusbar"),
+      Scene.expect(Scene.selector(".gg-statusbar-state")).toHaveText(
         "online3 waiting"
       ),
       Scene.expect(Scene.role("status")).toHaveText("online"),
-      Scene.expect(Scene.selector(".statusbar-keys")).toHaveText(
+      Scene.expect(Scene.selector(".gg-statusbar-keys")).toHaveText(
         "⌘K commands? keys"
       ),
-      Scene.expect(Scene.selector(".statusbar-keys kbd")).not.toHaveAttr(
+      Scene.expect(Scene.selector(".gg-statusbar-keys kbd")).not.toHaveAttr(
         "aria-hidden"
       )
     );
@@ -66,7 +66,7 @@ describe("StatusBar", () => {
       { update, view: barView([]) },
       Scene.given(null),
       measureBar,
-      Scene.expect(Scene.selector(".statusbar-keys")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-statusbar-keys")).toBeAbsent()
     );
   });
 });

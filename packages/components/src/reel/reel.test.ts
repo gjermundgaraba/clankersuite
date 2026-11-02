@@ -749,14 +749,14 @@ describe("Reel view", () => {
     reelScene(
       fresh,
       Scene.expect(Scene.role("group", { name: "Task panes" })).toHaveClass(
-        "reel"
+        "gg-reel"
       ),
       Scene.expectAll(Scene.all.role("region")).toHaveCount(4),
       Scene.expect(Scene.role("region", { name: "Notes" })).toHaveClass(
-        "window"
+        "gg-window"
       ),
       Scene.expect(
-        Scene.selector("#work-notes .panel-lead [data-reel-grip]")
+        Scene.selector("#work-notes .gg-panel-lead [data-reel-grip]")
       ).toHaveAttr("aria-label", "Move Notes"),
       Scene.expect(Scene.role("button", { name: "Move Notes" })).toHaveAttr(
         "aria-roledescription",
@@ -781,14 +781,12 @@ describe("Reel view", () => {
   it("keeps the panes in one order by id, each pinned to its slot, the focused one marked", () => {
     reelScene(
       fresh,
-      Scene.expect(Scene.nth(Scene.all.selector(".reel-pane"), 0)).toHaveAttr(
-        "data-reel-pane",
-        "work/pane/canvas"
-      ),
-      Scene.expect(Scene.nth(Scene.all.selector(".reel-pane"), 3)).toHaveAttr(
-        "data-reel-pane",
-        "work/pane/shell"
-      ),
+      Scene.expect(
+        Scene.nth(Scene.all.selector(".gg-reel-pane"), 0)
+      ).toHaveAttr("data-reel-pane", "work/pane/canvas"),
+      Scene.expect(
+        Scene.nth(Scene.all.selector(".gg-reel-pane"), 3)
+      ).toHaveAttr("data-reel-pane", "work/pane/shell"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/shell"]')
       ).toHaveStyle("--reel-anchor", "--reel-3"),
@@ -798,10 +796,10 @@ describe("Reel view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/shell"]')
-      ).toHaveClass("focused"),
+      ).toHaveClass("gg-focused"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/notes"]')
-      ).not.toHaveClass("focused")
+      ).not.toHaveClass("gg-focused")
     );
   });
 
@@ -868,13 +866,13 @@ describe("Reel view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/notes"]')
-      ).toHaveClass("drag-dim"),
-      Scene.expect(Scene.selector(".drop-here")).toBeAbsent(),
-      Scene.expect(Scene.selector(".drop-before")).toBeAbsent()
+      ).toHaveClass("gg-drag-dim"),
+      Scene.expect(Scene.selector(".gg-drop-here")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent()
     );
     reelScene(
       overGap,
-      Scene.expect(Scene.selector(".reel-resize.drop-here")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-reel-resize.gg-drop-here")).toHaveAttr(
         "data-reel-resize",
         "c1"
       )
@@ -882,7 +880,7 @@ describe("Reel view", () => {
     reelScene(
       intoDiff,
       Scene.expect(Scene.selector('[data-reel-slot="diff"]')).toHaveClass(
-        "drop-before"
+        "gg-drop-before"
       )
     );
   });
@@ -897,7 +895,7 @@ describe("Reel view", () => {
 
     reelScene(
       pressed,
-      Scene.expect(Scene.selector(".reel-lift")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-reel-lift")).toBeAbsent(),
       Scene.expect(Scene.role("button", { name: "Move Notes" })).toHaveAttr(
         "aria-pressed",
         "false"
@@ -906,18 +904,20 @@ describe("Reel view", () => {
     reelScene(
       carried,
       sizeLifted,
-      Scene.expect(Scene.selector(".reel-lift")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-reel-lift")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".reel-lift .panel-tb")).toContainText(
+      Scene.expect(Scene.selector(".gg-reel-lift .gg-panel-tb")).toContainText(
         "Notes"
       ),
-      Scene.expect(Scene.selector(".reel-lift .pane-text")).toBeAbsent(),
-      Scene.expect(Scene.selector(".reel-lift [id]")).toBeAbsent(),
-      Scene.expect(Scene.selector(".reel-lift [data-reel-grip]")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-reel-lift .pane-text")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-reel-lift [id]")).toBeAbsent(),
+      Scene.expect(
+        Scene.selector(".gg-reel-lift [data-reel-grip]")
+      ).toBeAbsent(),
       Scene.expect(Scene.selector('[data-reel-slot="diff"]')).toHaveClass(
-        "drop-after"
+        "gg-drop-after"
       )
     );
   });
@@ -927,17 +927,17 @@ describe("Reel view", () => {
       carriedInFirstColumn(NOTES, 0),
       sizeLifted,
       Scene.expect(Scene.selector('[data-reel-slot="shell"]')).toHaveClass(
-        "drop-before"
+        "gg-drop-before"
       ),
-      Scene.expect(Scene.selector(".drop-after")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-drop-after")).toBeAbsent()
     );
     reelScene(
       carriedInFirstColumn("shell", 1),
       sizeLifted,
       Scene.expect(Scene.selector('[data-reel-slot="notes"]')).toHaveClass(
-        "drop-after"
+        "gg-drop-after"
       ),
-      Scene.expect(Scene.selector(".drop-before")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent()
     );
   });
 
@@ -956,7 +956,7 @@ describe("Reel view", () => {
       { update: reelUpdate(layout), view: reelView(layout) },
       Scene.given(carried),
       sizeLifted,
-      Scene.expect(Scene.selector(".reel-lift h2")).toHaveText("notes.md")
+      Scene.expect(Scene.selector(".gg-reel-lift h2")).toHaveText("notes.md")
     );
   });
 });
@@ -987,10 +987,10 @@ describe("Reel view under tabs", () => {
     tabbedScene(
       fresh,
       Scene.expect(Scene.role("group", { name: "Task panes" })).toHaveClass(
-        "tabbed"
+        "gg-tabbed"
       ),
       Scene.expect(Scene.role("tablist", { name: "Task panes" })).toHaveClass(
-        "reel-tabs"
+        "gg-reel-tabs"
       ),
       Scene.expectAll(Scene.all.role("tab")).toHaveCount(4),
       Scene.expect(Scene.nth(Scene.all.role("tab"), 0)).toHaveText("Shell"),
@@ -999,28 +999,28 @@ describe("Reel view under tabs", () => {
       Scene.expect(tab("Shell")).toHaveAttr("aria-selected", "true"),
       Scene.expect(tab("Shell")).toHaveAttr("aria-controls", "work-shell"),
       Scene.expect(tab("Notes")).toHaveAttr("aria-selected", "false"),
-      Scene.expectAll(Scene.all.selector(".reel-stage")).toHaveCount(1),
-      Scene.expect(Scene.selector(".reel-column")).toBeAbsent()
+      Scene.expectAll(Scene.all.selector(".gg-reel-stage")).toHaveCount(1),
+      Scene.expect(Scene.selector(".gg-reel-column")).toBeAbsent()
     );
   });
 
   it("pins every pane to the stage, the ones behind hidden and inert, with no grips and no splitters", () => {
     tabbedScene(
       fresh,
-      Scene.expectAll(Scene.all.selector(".reel-pane")).toHaveCount(4),
+      Scene.expectAll(Scene.all.selector(".gg-reel-pane")).toHaveCount(4),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/notes"]')
       ).toHaveStyle("--reel-anchor", "--reel-stage"),
-      Scene.expect(Scene.selector(".reel-stage")).toHaveStyle(
+      Scene.expect(Scene.selector(".gg-reel-stage")).toHaveStyle(
         "--reel-anchor",
         "--reel-stage"
       ),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/shell"]')
-      ).not.toHaveClass("behind"),
+      ).not.toHaveClass("gg-behind"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/notes"]')
-      ).toHaveClass("behind"),
+      ).toHaveClass("gg-behind"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/notes"]')
       ).toHaveAttr("inert", "true"),
@@ -1028,7 +1028,7 @@ describe("Reel view under tabs", () => {
         Scene.selector('[data-reel-pane="work/pane/shell"]')
       ).not.toHaveAttr("inert"),
       Scene.expect(Scene.selector("[data-reel-grip]")).toBeAbsent(),
-      Scene.expect(Scene.selector(".panel-lead")).toBeAbsent(),
+      Scene.expect(Scene.selector(".gg-panel-lead")).toBeAbsent(),
       Scene.expect(Scene.role("separator")).toBeAbsent()
     );
   });
@@ -1045,10 +1045,10 @@ describe("Reel view under tabs", () => {
       Scene.expect(tab("Shell")).toHaveAttr("aria-selected", "false"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/diff"]')
-      ).not.toHaveClass("behind"),
+      ).not.toHaveClass("gg-behind"),
       Scene.expect(
         Scene.selector('[data-reel-pane="work/pane/shell"]')
-      ).toHaveClass("behind")
+      ).toHaveClass("gg-behind")
     );
   });
 
@@ -1098,9 +1098,11 @@ describe("Reel view under tabs", () => {
         "Notes:Notes"
       ),
       Scene.expect(
-        Scene.selector('[data-reel-tab="work/tab/notes"] .reel-tab-words')
+        Scene.selector('[data-reel-tab="work/tab/notes"] .gg-reel-tab-words')
       ).toHaveText("Notes"),
-      Scene.expectAll(Scene.all.selector(".reel-tabs .tab-lead")).toHaveCount(4)
+      Scene.expectAll(
+        Scene.all.selector(".gg-reel-tabs .tab-lead")
+      ).toHaveCount(4)
     );
   });
 });
@@ -1154,7 +1156,7 @@ describe("Reel keys", () => {
         Reel.ScrollIntoView({ hook: "work/column/c2" }),
         Reel.Message.CompletedScrollIntoView()
       ),
-      Scene.expect(Scene.selector(".reel-gap.drop-here")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-reel-gap.gg-drop-here")).toHaveAttr(
         "data-reel-resize",
         "c1"
       ),
@@ -1291,7 +1293,7 @@ const liveSubscriptions = FoldkitSubscription.lift(Reel.subscriptions("work"))<
 const paneOf = (paneId: string): HTMLElement =>
   bySelector(`[data-reel-pane="work/pane/${paneId}"]`);
 
-const layer = (): HTMLElement => bySelector(".reel-panes");
+const layer = (): HTMLElement => bySelector(".gg-reel-panes");
 
 const slotsIn = (columnId: string): ReadonlyArray<string | undefined> =>
   Array.map(
@@ -1312,7 +1314,7 @@ const mountReel = async (): Promise<void> => {
     view: liveView,
     subscriptions: liveSubscriptions,
   });
-  await settleUntil(() => document.querySelector(".reel-panes") !== null);
+  await settleUntil(() => document.querySelector(".gg-reel-panes") !== null);
 };
 
 const pressOn = async (target: EventTarget, pressed: string): Promise<void> => {
@@ -1387,9 +1389,9 @@ describe("Reel pane order", () => {
     observer.observe(layer(), { childList: true });
 
     byId("toggle-tabs").click();
-    await settleUntil(() => document.querySelector(".reel-stage") !== null);
+    await settleUntil(() => document.querySelector(".gg-reel-stage") !== null);
 
-    expect(document.querySelector(".reel-column")).toBeNull();
+    expect(document.querySelector(".gg-reel-column")).toBeNull();
     expect(
       Array.map(
         Array.fromIterable(
@@ -1398,11 +1400,11 @@ describe("Reel pane order", () => {
         (tabElement) => tabElement.tabIndex
       )
     ).toStrictEqual([0, -1, -1, -1]);
-    expect(paneOf("notes").classList.contains("behind")).toBe(true);
+    expect(paneOf("notes").classList.contains("gg-behind")).toBe(true);
     expect(layer()).toBe(panes);
 
     byId("toggle-tabs").click();
-    await settleUntil(() => document.querySelector(".reel-stage") === null);
+    await settleUntil(() => document.querySelector(".gg-reel-stage") === null);
     observer.disconnect();
 
     expect(slotsIn("c1")).toStrictEqual(["shell", "notes"]);
@@ -1476,7 +1478,7 @@ const placeReel = (): (() => number) => {
   );
 
   for (const view of Array.fromIterable(
-    document.querySelectorAll(".reel-view")
+    document.querySelectorAll(".gg-reel-view")
   )) {
     vi.spyOn(view, "getBoundingClientRect").mockReturnValue(
       new DOMRect(0, 0, 900, 600)
@@ -1544,27 +1546,25 @@ describe("Reel live keys and pointer", () => {
 
       return false;
     }, 5);
-    const isCarriedByOther = document.querySelector(".reel-lift") !== null;
+    const isCarriedByOther = document.querySelector(".gg-reel-lift") !== null;
 
     await settleUntil(() => {
       document.dispatchEvent(pointerEvent("pointermove", 1, 103));
       document.dispatchEvent(pointerEvent("pointermove", 1, 400));
 
-      return document.querySelector(".reel-lift") !== null;
+      return document.querySelector(".gg-reel-lift") !== null;
     });
     expect(gripOf("work/pane/notes").getAttribute("aria-pressed")).toBe("true");
-    expect("pixelPaperDragging" in document.documentElement.dataset).toBe(true);
+    expect("ggDragging" in document.documentElement.dataset).toBe(true);
 
     document.dispatchEvent(pointerEvent("pointerup", 1, 400));
-    await settleUntil(() => document.querySelector(".reel-lift") === null);
+    await settleUntil(() => document.querySelector(".gg-reel-lift") === null);
 
     expect(isCarriedByOther).toBe(false);
     expect(gripOf("work/pane/notes").getAttribute("aria-pressed")).toBe(
       "false"
     );
-    expect("pixelPaperDragging" in document.documentElement.dataset).toBe(
-      false
-    );
+    expect("ggDragging" in document.documentElement.dataset).toBe(false);
   });
 
   it("reads a carried pane's target once a frame from the column under it, and drops it where it was let go", async () => {
@@ -1575,7 +1575,7 @@ describe("Reel live keys and pointer", () => {
     await settleUntil(() => {
       document.dispatchEvent(pointerEvent("pointermove", 1, 400));
 
-      return document.querySelector(".reel-lift") !== null;
+      return document.querySelector(".gg-reel-lift") !== null;
     });
     await settle(50);
     const reads = placeReel();
@@ -1584,15 +1584,15 @@ describe("Reel live keys and pointer", () => {
       document.dispatchEvent(pointerEvent("pointermove", 1, x));
     }
 
-    await settleUntil(() => document.querySelector(".drop-before") !== null);
+    await settleUntil(() => document.querySelector(".gg-drop-before") !== null);
     await settle(50);
 
     expect(reads()).toBe(4);
-    expect(bySelector(".drop-before").dataset["reelSlot"]).toBe("diff");
+    expect(bySelector(".gg-drop-before").dataset["reelSlot"]).toBe("diff");
 
     document.dispatchEvent(pointerEvent("pointermove", 1, 750));
     document.dispatchEvent(pointerEvent("pointerup", 1, 750));
-    await settleUntil(() => document.querySelector(".reel-lift") === null);
+    await settleUntil(() => document.querySelector(".gg-reel-lift") === null);
 
     expect(slotsIn("c3")).toStrictEqual(["notes", "canvas"]);
   });
@@ -1605,12 +1605,12 @@ describe("Reel live keys and pointer", () => {
     await settleUntil(() => {
       document.dispatchEvent(pointerEvent("pointermove", 1, 400));
 
-      return document.querySelector(".reel-lift") !== null;
+      return document.querySelector(".gg-reel-lift") !== null;
     });
 
     const escape = keydown("Escape");
     document.dispatchEvent(escape);
-    await settleUntil(() => document.querySelector(".reel-lift") === null);
+    await settleUntil(() => document.querySelector(".gg-reel-lift") === null);
 
     expect(escape.defaultPrevented).toBe(true);
   });

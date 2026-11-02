@@ -43,7 +43,9 @@ describe("IconButton", () => {
         "data-tip",
         "Copy"
       ),
-      Scene.expect(Scene.role("button", { name: "Copy" })).toHaveClass("quiet"),
+      Scene.expect(Scene.role("button", { name: "Copy" })).toHaveClass(
+        "gg-quiet"
+      ),
       Scene.expect(Scene.selector("svg")).toHaveAttr("aria-hidden", "true"),
       Scene.click(Scene.role("button", { name: "Copy" })),
       Scene.expect(Scene.selector(".count")).toHaveText("1")

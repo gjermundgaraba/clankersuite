@@ -59,7 +59,7 @@ export const view = <Message>(
                     keyLabel(keyHint.keys, keyHint.platform)
                   ),
                 ]),
-            h.Class(isQuiet ? "iconbtn quiet" : "iconbtn"),
+            h.Class(isQuiet ? "gg-iconbtn gg-quiet" : "gg-iconbtn"),
           ],
           [Glyph.view({ name: glyph }, h)]
         ),

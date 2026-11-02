@@ -255,11 +255,11 @@ describe("Toast view", () => {
       Scene.expect(Scene.role("region", { name: "Notifications" })).toExist(),
       Scene.expectAll(Scene.all.role("status")).toHaveCount(2),
       Scene.expectAll(Scene.all.role("alert")).toHaveCount(0),
-      Scene.expect(Scene.selector("div.toasts")).toExist(),
-      Scene.expect(Scene.selector(".toast.error")).toContainText(
+      Scene.expect(Scene.selector("div.gg-toasts")).toExist(),
+      Scene.expect(Scene.selector(".gg-toast.gg-error")).toContainText(
         "The server did not answer."
       ),
-      Scene.expect(Scene.selector(".toast.ok")).toContainText("Saved")
+      Scene.expect(Scene.selector(".gg-toast.gg-ok")).toContainText("Saved")
     );
   });
 
@@ -281,7 +281,7 @@ describe("Toast view", () => {
       resolveStack,
       Scene.click(Scene.role("button", { name: "Dismiss: Not sent" })),
       ...resolveLeave,
-      Scene.expect(Scene.selector(".toast")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-toast")).toBeAbsent()
     );
   });
 
@@ -291,7 +291,7 @@ describe("Toast view", () => {
       Scene.given(emptyStack),
       Scene.Mount.resolveAll(...Toast.sceneMounts),
       Scene.expect(Scene.role("region", { name: "Notifications" })).toExist(),
-      Scene.expect(Scene.selector(".toast")).toBeAbsent()
+      Scene.expect(Scene.selector(".gg-toast")).toBeAbsent()
     );
   });
 });

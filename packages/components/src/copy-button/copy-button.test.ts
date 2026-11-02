@@ -167,7 +167,7 @@ describe("CopyButton view", () => {
       { update: CopyButton.update, view: copyView },
       Scene.given(fresh),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveClass(
-        "quiet"
+        "gg-quiet"
       ),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveAttr(
         "data-tip",

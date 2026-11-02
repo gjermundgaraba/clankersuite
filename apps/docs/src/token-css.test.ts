@@ -14,7 +14,7 @@ const CSS = `
     0.5rem;
   --grain: url('data:image/svg+xml;utf8,<svg width="4"></svg>'); /* the veil's grain */
 }
-:root[data-scheme="dark"] {
+:root[data-color-scheme="dark"] {
   --u: 1rem;
 }
 `;

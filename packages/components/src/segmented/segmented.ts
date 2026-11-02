@@ -47,6 +47,6 @@ export const view = <Value extends string, Message>(
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
-    [h.Role("group"), h.AriaLabel(config.label), h.Class("nav")],
+    [h.Role("group"), h.AriaLabel(config.label), h.Class("gg-nav")],
     Array.map(config.options, (option) => segmentView(config, option, h))
   );

@@ -9,8 +9,8 @@ export type Space = typeof Space.Type;
 const gapClassName = (gap: Space): string =>
   Match.value(gap).pipe(
     Match.withReturnType<string>(),
-    Match.when("M", () => "gap-m"),
-    Match.when("L", () => "gap-l"),
+    Match.when("M", () => "gg-gap-m"),
+    Match.when("L", () => "gg-gap-l"),
     Match.exhaustive
   );
 
@@ -30,5 +30,5 @@ export const view = <Message>(
 ): Html => {
   const { body, gap = "M" } = config;
 
-  return h.div([h.Class(`stack ${gapClassName(gap)}`)], body);
+  return h.div([h.Class(`gg-stack ${gapClassName(gap)}`)], body);
 };

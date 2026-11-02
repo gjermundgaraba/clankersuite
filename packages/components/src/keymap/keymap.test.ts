@@ -28,9 +28,9 @@ describe("Keymap", () => {
       Scene.expect(Scene.role("heading", { name: "Move" })).toExist(),
       Scene.expect(Scene.role("heading", { name: "Anywhere" })).toExist(),
       Scene.expect(
-        Scene.first(Scene.all.selector(".keymap-row kbd"))
+        Scene.first(Scene.all.selector(".gg-keymap-row kbd"))
       ).toHaveText("j / ↓"),
-      Scene.expect(Scene.selector(".note-line")).toHaveText(
+      Scene.expect(Scene.selector(".gg-note-line")).toHaveText(
         "Keys wait while you type in a field."
       )
     );

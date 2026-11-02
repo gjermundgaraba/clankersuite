@@ -14,5 +14,5 @@ export const view = <Message>(
 ): Html => {
   const { body } = config;
 
-  return h.main([h.Id("main"), h.Class("deck")], body);
+  return h.main([h.Id("main"), h.Class("gg-deck")], body);
 };

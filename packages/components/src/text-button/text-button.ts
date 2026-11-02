@@ -18,7 +18,7 @@ export const view = <Message>(
     {
       ...(onClick !== undefined && { onClick }),
       toView: (groups) =>
-        h.button([...groups.button, h.Class("textbtn")], [label]),
+        h.button([...groups.button, h.Class("gg-textbtn")], [label]),
     },
     h
   );

@@ -23,7 +23,7 @@ describe("TextButton", () => {
       },
       Scene.given<Model>(0),
       Scene.expect(Scene.role("button", { name: "sign out" })).toHaveClass(
-        "textbtn"
+        "gg-textbtn"
       ),
       Scene.expect(Scene.role("button", { name: "sign out" })).toHaveHandler(
         "click"

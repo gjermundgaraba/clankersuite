@@ -69,7 +69,7 @@ export const view = <Row, Message>(
         ),
         ...(actions === undefined
           ? []
-          : [h.td([h.Class("acts")], actions(row))]),
+          : [h.td([h.Class("gg-acts")], actions(row))]),
       ]
     );
 
@@ -78,11 +78,11 @@ export const view = <Row, Message>(
       h.Role("region"),
       h.AriaLabel(label),
       h.Tabindex(0),
-      h.Class("table-wrap"),
+      h.Class("gg-table-wrap"),
     ],
     [
       h.table(
-        [h.Class("table")],
+        [h.Class("gg-table")],
         [headView, h.tbody([], Array.map(rows, rowView))]
       ),
     ]

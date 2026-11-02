@@ -164,7 +164,7 @@
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
-.spec-index .toc {
+.spec-index .gg-toc {
   max-height: calc(
     100vh - var(--topbar-h) - 2 * var(--semantic-dimension-space-gap-surface) -
       44px
@@ -211,7 +211,7 @@
     background: var(--dither);
   }
 
-  .spec-jump > .btn {
+  .spec-jump > .gg-btn {
     box-shadow: var(--semantic-shadow-button-default);
   }
 }
@@ -558,17 +558,17 @@
   max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
-.spec-code .code-surface,
-.spec-foot > .disclosure .code-surface {
+.spec-code .gg-code-surface,
+.spec-foot > .gg-disclosure .gg-code-surface {
   max-height: 70vh;
 }
 
-.spec-foot > .disclosure {
+.spec-foot > .gg-disclosure {
   margin-top: 4px;
 }
 
 @media (min-width: 601px) {
-  .spec-code pre.code-surface {
+  .spec-code pre.gg-code-surface {
     white-space: pre;
     overflow-wrap: normal;
   }
@@ -739,7 +739,7 @@
   box-shadow: var(--semantic-shadow-button-default);
 }
 
-.spec-wall-corner ~ .wall {
+.spec-wall-corner ~ .gg-wall {
   padding-top: 72px;
 }
 
@@ -750,7 +750,7 @@
     margin: 12px 12px 0;
   }
 
-  .spec-wall-corner ~ .wall {
+  .spec-wall-corner ~ .gg-wall {
     padding-top: 24px;
   }
 }
@@ -761,17 +761,17 @@
     var(--semantic-color-border-primary);
 }
 
-.spec-frame :is(.topbar, .statusbar, .banner) {
+.spec-frame :is(.gg-topbar, .gg-statusbar, .gg-banner) {
   position: static;
   transform: none;
   anchor-name: none;
 }
 
-.spec-frame:has(> .banner) {
+.spec-frame:has(> .gg-banner) {
   border: 0;
 }
 
-:root:has(.spec-frame .statusbar) {
+:root:has(.spec-frame .gg-statusbar) {
   --statusbar-h: 0px;
 }
 
@@ -779,7 +779,7 @@
    its containing block) rather than the page; at 900px and under the same element still opens
    as the page's drawer, in the top layer. The frame is the example's own wrapper; the rail's
    root (.railed) fills it */
-.spec-railed > .railed {
+.spec-railed > .gg-railed {
   position: relative;
   width: min(760px, 100%);
   height: 300px;
@@ -790,12 +790,14 @@
   transform: translate(0);
 }
 
-.spec-railed > .railed > :is(.rail[popover]:not(:popover-open), .rail-resize) {
+.spec-railed
+  > .gg-railed
+  > :is(.gg-rail[popover]:not(:popover-open), .gg-rail-resize) {
   top: 0;
   bottom: 0;
 }
 
-.spec-railed > .railed > .deck {
+.spec-railed > .gg-railed > .gg-deck {
   padding-bottom: var(--semantic-dimension-space-gap-surface);
 }
 

@@ -60,21 +60,21 @@ export const view = <Message>(
     [
       h.Id(id),
       name === undefined ? h.AriaLabelledBy(titleId(id)) : h.AriaLabel(name),
-      h.Class("panel"),
+      h.Class("gg-panel"),
     ],
     [
       h.header(
-        [h.Class("panel-tb")],
+        [h.Class("gg-panel-tb")],
         [
-          ...slotView("span", "panel-lead", lead, h),
+          ...slotView("span", "gg-panel-lead", lead, h),
           h.h2([h.Id(titleId(id))], [title]),
-          ...(meta === undefined ? [] : [h.span([h.Class("meta")], [meta])]),
-          ...slotView("span", "panel-acts", actions, h),
+          ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
+          ...slotView("span", "gg-panel-acts", actions, h),
         ]
       ),
-      ...slotView("div", "panel-shelf", shelf, h),
-      ...(isFlush ? body : [h.div([h.Class("panel-body")], body)]),
-      ...slotView("div", "panel-foot", foot, h),
+      ...slotView("div", "gg-panel-shelf", shelf, h),
+      ...(isFlush ? body : [h.div([h.Class("gg-panel-body")], body)]),
+      ...slotView("div", "gg-panel-foot", foot, h),
     ]
   );
 };

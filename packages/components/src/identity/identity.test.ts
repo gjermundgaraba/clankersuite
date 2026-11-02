@@ -16,19 +16,21 @@ describe("Identity", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".identity .monogram")).toHaveClass("large"),
-      Scene.expect(Scene.selector(".identity .monogram")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-identity .gg-monogram")).toHaveClass(
+        "gg-large"
+      ),
+      Scene.expect(Scene.selector(".gg-identity .gg-monogram")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
       Scene.expect(Scene.role("img")).toBeAbsent(),
-      Scene.expect(Scene.selector(".identity-text strong")).toHaveText(
+      Scene.expect(Scene.selector(".gg-identity-text strong")).toHaveText(
         "Sam Rivera"
       ),
-      Scene.expect(Scene.selector(".identity-text .meta")).toHaveText(
+      Scene.expect(Scene.selector(".gg-identity-text .gg-meta")).toHaveText(
         "client 4f2a"
       ),
-      Scene.expect(Scene.selector(".identity")).toHaveClass("large")
+      Scene.expect(Scene.selector(".gg-identity")).toHaveClass("gg-large")
     );
   });
 });

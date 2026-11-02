@@ -184,10 +184,10 @@ const nearMeters = Array.filter(METERS, isNearLimit).length - fullMeters;
 
 const storedRowView = (h: HtmlBuilder<Message>): Html =>
   h.div(
-    [h.Class("save-row")],
+    [h.Class("gg-save-row")],
     [
       h.span(
-        [h.Class("push")],
+        [h.Class("gg-push")],
         [
           Button.view(
             {
@@ -265,7 +265,7 @@ const clientColumns = (
   {
     key: "name",
     header: "Client",
-    cell: ({ name }) => [h.span([h.Class("name")], [name])],
+    cell: ({ name }) => [h.span([h.Class("gg-name")], [name])],
   },
   {
     key: "kind",
@@ -276,7 +276,7 @@ const clientColumns = (
   {
     key: "seen",
     header: "Last seen",
-    cell: ({ seen }) => [h.span([h.Class("age")], [seen])],
+    cell: ({ seen }) => [h.span([h.Class("gg-age")], [seen])],
   },
   {
     key: "uses",
@@ -365,11 +365,11 @@ const usagePanelView = (h: HtmlBuilder<Message>): Html =>
       body: [Meter.listView({ meters: allowanceMeters(h) }, h)],
       foot: [
         h.span(
-          [h.Class("note-line")],
+          [h.Class("gg-note-line")],
           [`${nearMeters} near its limit, ${fullMeters} at it.`]
         ),
         h.span(
-          [h.Class("push")],
+          [h.Class("gg-push")],
           [
             Button.view(
               {

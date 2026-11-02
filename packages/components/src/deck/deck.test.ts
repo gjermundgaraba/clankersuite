@@ -14,7 +14,7 @@ describe("Deck", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("main")).toHaveId("main"),
-      Scene.expect(Scene.role("main")).toHaveClass("deck")
+      Scene.expect(Scene.role("main")).toHaveClass("gg-deck")
     );
   });
 });

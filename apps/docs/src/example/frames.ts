@@ -149,14 +149,14 @@ const sampleWindow = (model: Model, h: HtmlBuilder<Message>): Html =>
           h
         ),
       ],
-      body: [h.p([h.Class("note-line")], ["2 cpu, 4 GB (sample)"])],
+      body: [h.p([h.Class("gg-note-line")], ["2 cpu, 4 GB (sample)"])],
     },
     h
   );
 
 const sampleBrowserTools = (h: HtmlBuilder<Message>): Html =>
   h.span(
-    [h.Class("window-tools")],
+    [h.Class("gg-window-tools")],
     [
       IconButton.view(
         { glyph: "arrow-left", label: "Back", isDisabled: true },
@@ -192,7 +192,7 @@ const sampleBrowser = (model: Model, h: HtmlBuilder<Message>): Html =>
           },
           h
         ),
-        h.p([h.Class("note-line")], ["The page draws here (sample)."]),
+        h.p([h.Class("gg-note-line")], ["The page draws here (sample)."]),
       ],
     },
     h
@@ -320,12 +320,12 @@ const toolsView = (model: Model, h: HtmlBuilder<Message>): Html =>
       ),
       specView(
         "places: where to go, the current one inverted",
-        [h.div([h.Class("panel")], [placesView(model, h)])],
+        [h.div([h.Class("gg-panel")], [placesView(model, h)])],
         h
       ),
       specView(
         "places with addresses: links, which a new tab can open",
-        [h.div([h.Class("panel")], [linkPlacesView(h)])],
+        [h.div([h.Class("gg-panel")], [linkPlacesView(h)])],
         h
       ),
     ],

@@ -26,12 +26,12 @@ describe("PropsList", () => {
           ),
       },
       Scene.given(null),
-      Scene.expectAll(Scene.all.selector("dl.props dt")).toHaveCount(2),
-      Scene.expect(Scene.first(Scene.all.selector("dl.props dt"))).toHaveText(
-        "Region"
-      ),
+      Scene.expectAll(Scene.all.selector("dl.gg-props dt")).toHaveCount(2),
+      Scene.expect(
+        Scene.first(Scene.all.selector("dl.gg-props dt"))
+      ).toHaveText("Region"),
       Scene.expect(Scene.selector("dd code")).toHaveText("pk_live_4f2a"),
-      Scene.expect(Scene.selector("dd.acts button")).toHaveText("copy")
+      Scene.expect(Scene.selector("dd.gg-acts button")).toHaveText("copy")
     );
   });
 });

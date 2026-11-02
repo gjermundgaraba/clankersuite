@@ -172,7 +172,7 @@ export const FocusSlip = Command.define("FocusSlip", {
   args: { entryId: Schema.String },
   messages: [Message.CompletedFocusSlip],
   execute: ({ entryId }) =>
-    Dom.focus(`#${CSS.escape(entryId)} .toast > .iconbtn`).pipe(
+    Dom.focus(`#${CSS.escape(entryId)} .gg-toast > .gg-iconbtn`).pipe(
       Effect.ignore,
       Effect.as(Message.CompletedFocusSlip())
     ),
@@ -382,7 +382,7 @@ const slipView = (entry: Stack.Entry, h: HtmlBuilder<Message>): Html => {
   const { tone, title, maybeBody } = entry.payload;
 
   return h.div(
-    [h.Class(`notice toast${Notice.TONE_CLASS[tone]}`)],
+    [h.Class(`gg-notice gg-toast${Notice.TONE_CLASS[tone]}`)],
     [
       Notice.toneGlyphView({ tone }, h),
       h.div([], [h.strong([], [title]), ...Option.toArray(maybeBody)]),
@@ -485,7 +485,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
     [
       h.OnMount(BindStack()),
       h.OnUnmount(Message.MovedHost()),
-      h.Class("toasts"),
+      h.Class("gg-toasts"),
     ],
     [
       h.submodel({
@@ -495,7 +495,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
         viewInputs: {
           position: "BottomRight",
           ariaLabel: "Notifications",
-          containerClassName: "toast-stack",
+          containerClassName: "gg-toast-stack",
           entryToView: (entry) => slipView(entry, h),
         },
         toParentMessage: (message) => Message.GotStackMessage({ message }),

@@ -22,13 +22,13 @@ describe("Stat", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.first(Scene.all.selector(".stat dt"))).toHaveText(
+      Scene.expect(Scene.first(Scene.all.selector(".gg-stat dt"))).toHaveText(
         "Requests today"
       ),
-      Scene.expect(Scene.first(Scene.all.selector(".stat-value"))).toHaveText(
-        "41,200"
-      ),
-      Scene.expect(Scene.selector(".stat-value.unknown")).toHaveText(
+      Scene.expect(
+        Scene.first(Scene.all.selector(".gg-stat-value"))
+      ).toHaveText("41,200"),
+      Scene.expect(Scene.selector(".gg-stat-value.gg-unknown")).toHaveText(
         "—not known"
       )
     );

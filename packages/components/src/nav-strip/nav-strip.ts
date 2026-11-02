@@ -25,7 +25,7 @@ const countView = <Message>(
   h: HtmlBuilder<Message>
 ): readonly Html[] => [
   h.span([h.Class("sr-only")], [" "]),
-  h.span([h.Class("navnum")], [count.toLocaleString(LOCALE)]),
+  h.span([h.Class("gg-navnum")], [count.toLocaleString(LOCALE)]),
 ];
 
 const linkView = <Message>(
@@ -58,7 +58,7 @@ export const view = <Message>(
       ),
     toView: (render) =>
       h.nav(
-        [...render.nav, h.Class("nav")],
+        [...render.nav, h.Class("gg-nav")],
         Array.zipWith(render.items, items, (info, item) =>
           linkView(info, item, h)
         )

@@ -16,8 +16,8 @@ describe("Prose", () => {
           ),
       },
       Scene.given(null),
-      Scene.expect(Scene.selector(".prose h2")).toHaveText("Before"),
-      Scene.expect(Scene.selector(".prose p")).toHaveText("Announce it.")
+      Scene.expect(Scene.selector(".gg-prose h2")).toHaveText("Before"),
+      Scene.expect(Scene.selector(".gg-prose p")).toHaveText("Announce it.")
     );
   });
 });

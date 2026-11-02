@@ -168,7 +168,7 @@ export const sections = (
       title: "Palette",
       file: "scheme.ts",
       about:
-        "The reader's choice of palette, pinned on <html data-scheme> and remembered on this device. The switch is a Segmented, and shows one Model with the one in the top bar.",
+        "The reader's choice of palette, pinned on <html data-color-scheme> and remembered on this device. The switch is a Segmented, and shows one Model with the one in the top bar.",
       body: () =>
         SchemeExample.view(model.schemeSwitch, toSchemeSwitchMessage, h),
     },

@@ -49,14 +49,14 @@ describe("Button", () => {
     Scene.scene(
       { update, view: sendView },
       Scene.given({ sendState: "Rest" }),
-      Scene.expect(button).toHaveClass("btn"),
-      Scene.expect(button).toHaveClass("primary"),
+      Scene.expect(button).toHaveClass("gg-btn"),
+      Scene.expect(button).toHaveClass("gg-primary"),
       Scene.expect(button).toHaveAttr("type", "button"),
       Scene.expect(button).not.toHaveAttr("aria-disabled"),
       Scene.expect(button).not.toHaveAttr("aria-busy"),
-      Scene.expect(Scene.selector(".key-hint")).toHaveText("Ctrl+Enter"),
+      Scene.expect(Scene.selector(".gg-key-hint")).toHaveText("Ctrl+Enter"),
       Scene.click(button),
-      Scene.expect(Scene.selector(".cursor")).toExist()
+      Scene.expect(Scene.selector(".gg-cursor")).toExist()
     );
   });
 
@@ -68,7 +68,7 @@ describe("Button", () => {
       Scene.expect(button).toHaveAttr("aria-disabled", "true"),
       Scene.expect(button).not.toHaveAttr("disabled"),
       Scene.expect(button).not.toHaveHandler("click"),
-      Scene.expect(Scene.selector(".cursor")).toExist()
+      Scene.expect(Scene.selector(".gg-cursor")).toExist()
     );
   });
 

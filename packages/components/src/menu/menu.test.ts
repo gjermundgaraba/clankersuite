@@ -174,8 +174,8 @@ describe("Menu toggle", () => {
       Scene.given(closedMenu),
       Scene.expect(toggle("Settings")).toHaveAttr("aria-haspopup", "menu"),
       Scene.expect(toggle("Settings")).toHaveAttr("aria-expanded", "false"),
-      Scene.expect(toggle("Settings")).toHaveClass("btn"),
-      Scene.expect(toggle("Settings")).toHaveClass("small"),
+      Scene.expect(toggle("Settings")).toHaveClass("gg-btn"),
+      Scene.expect(toggle("Settings")).toHaveClass("gg-small"),
       Scene.expect(Scene.role("menu")).toBeAbsent(),
       resolveToggle,
       resolveSlip,
@@ -191,8 +191,8 @@ describe("Menu toggle", () => {
       },
       Scene.given(closedMenu),
       Scene.expect(toggle("More")).toHaveAttr("data-tip", "More"),
-      Scene.expect(toggle("More")).toHaveClass("iconbtn"),
-      Scene.expect(toggle("More")).toHaveClass("quiet"),
+      Scene.expect(toggle("More")).toHaveClass("gg-iconbtn"),
+      Scene.expect(toggle("More")).toHaveClass("gg-quiet"),
       resolveToggle,
       resolveSlip,
       Scene.expect(Scene.role("menu", { name: "More" })).toExist()
@@ -219,7 +219,7 @@ describe("Menu toggle", () => {
           ),
       },
       Scene.given(closedMenu),
-      Scene.expect(toggle("Select area")).toHaveClass("primary"),
+      Scene.expect(toggle("Select area")).toHaveClass("gg-primary"),
       Scene.expect(Scene.selector("#settings-toggle .area-title")).toHaveText(
         "Home"
       ),
@@ -320,9 +320,9 @@ describe("Menu slip", () => {
       Scene.expect(
         Scene.role("menuitem", { name: "Export" })
       ).not.toHaveHandler("click"),
-      Scene.expect(Scene.selector('[role="menuitem"] kbd.key-hint')).toHaveText(
-        "n"
-      ),
+      Scene.expect(
+        Scene.selector('[role="menuitem"] kbd.gg-key-hint')
+      ).toHaveText("n"),
       Scene.click(Scene.role("menuitem", { name: "Task" })),
       Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "task" })),
       Scene.Command.resolve(Focus, Menu.Message.CompletedFocus()),
@@ -392,10 +392,7 @@ describe("Menu keys", () => {
       }).f(slip, Mount.liveViewStateChanges),
       2,
       () => {
-        element(
-          "#settings-slip [data-pixel-paper-slip-first]",
-          HTMLElement
-        ).focus();
+        element("#settings-slip [data-gg-slip-first]", HTMLElement).focus();
         const moves: string[] = [];
         const down = press(slip, "ArrowDown");
         moves.push(focusedLabel());
@@ -446,15 +443,9 @@ describe("Menu keys", () => {
       }).f(slip, Mount.liveViewStateChanges),
       3,
       () => {
-        element(
-          "#settings-slip [data-pixel-paper-slip-first]",
-          HTMLElement
-        ).focus();
+        element("#settings-slip [data-gg-slip-first]", HTMLElement).focus();
         toggleButton.focus();
-        element(
-          "#settings-slip [data-pixel-paper-slip-first]",
-          HTMLElement
-        ).focus();
+        element("#settings-slip [data-gg-slip-first]", HTMLElement).focus();
         press(slip, "Tab");
         outside.focus();
       }
@@ -559,7 +550,7 @@ const rowHarnessView = (model: RowHarness, h: HtmlBuilder<RowHarnessMessage>) =>
       ...(model.isRowShown
         ? [
             h.div(
-              [h.Class("row")],
+              [h.Class("gg-row")],
               [
                 h.submodel({
                   slotId: Menu.id(model.menu),

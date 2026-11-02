@@ -23,19 +23,21 @@ describe("Outcome", () => {
     Scene.scene(
       { update, view: outcomeView },
       Scene.given(null),
-      Scene.expect(Scene.selector(".outcome .glyph")).toHaveClass("error"),
-      Scene.expect(Scene.selector(".outcome .glyph svg")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-outcome .gg-glyph")).toHaveClass(
+        "gg-error"
+      ),
+      Scene.expect(Scene.selector(".gg-outcome .gg-glyph svg")).toHaveAttr(
         "aria-hidden",
         "true"
       ),
-      Scene.expect(Scene.selector(".outcome-body")).toHaveId("outcome-body"),
-      Scene.expect(Scene.selector(".outcome-body strong")).toHaveText(
+      Scene.expect(Scene.selector(".gg-outcome-body")).toHaveId("outcome-body"),
+      Scene.expect(Scene.selector(".gg-outcome-body strong")).toHaveText(
         "Session ended"
       ),
-      Scene.expect(Scene.selector(".outcome-body p")).toHaveText(
+      Scene.expect(Scene.selector(".gg-outcome-body p")).toHaveText(
         "Sign in again to carry on."
       ),
-      Scene.expect(Scene.selector(".outcome-body code")).toHaveText("E401")
+      Scene.expect(Scene.selector(".gg-outcome-body code")).toHaveText("E401")
     );
   });
 });
