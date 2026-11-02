@@ -1,0 +1,81 @@
+{
+  "name": "@gjermundgaraba/components",
+  "version": "0.4.0",
+  "description": "The Foldkit components of the gjermundgaraba design system, and their stylesheet.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
+    "directory": "packages/components"
+  },
+  "files": [
+    "dist",
+    "src/components.css",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./scheme": "./src/scheme/script.ts",
+    "./markdown-editor/element": "./src/markdown-editor/element.ts",
+    "./components.css": "./src/components.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./scheme": {
+        "types": "./dist/scheme/script.d.ts",
+        "default": "./dist/scheme/script.js"
+      },
+      "./markdown-editor/element": {
+        "types": "./dist/markdown-editor/element.d.ts",
+        "default": "./dist/markdown-editor/element.js"
+      },
+      "./components.css": "./src/components.css"
+    },
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "test": "vp test",
+    "prepack": "vp pack"
+  },
+  "dependencies": {
+    "@codemirror/commands": "catalog:",
+    "@codemirror/lang-markdown": "catalog:",
+    "@codemirror/language": "catalog:",
+    "@codemirror/merge": "catalog:",
+    "@codemirror/state": "catalog:",
+    "@codemirror/view": "catalog:",
+    "@gjermundgaraba/icons": "workspace:*",
+    "@lezer/common": "catalog:",
+    "@lezer/markdown": "catalog:",
+    "diff": "^9.0.0"
+  },
+  "devDependencies": {
+    "@effect/platform-browser": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@foldkit/ui": "catalog:",
+    "@foldkit/vite-plugin": "catalog:",
+    "@gjermundgaraba/design-tokens": "workspace:*",
+    "@types/node": "catalog:",
+    "effect": "catalog:",
+    "foldkit": "catalog:",
+    "happy-dom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "@effect/platform-browser": "^4.0.0",
+    "@foldkit/ui": "^0.170.0",
+    "effect": "^4.0.0",
+    "foldkit": "^0.170.0"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "@gjermundgaraba/icons",
+  "version": "0.4.0",
+  "private": true,
+  "description": "The glyphs of the gjermundgaraba design system: 12×12 pixel drawings as Foldkit views.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
+    "directory": "packages/icons"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "test": "vp test",
+    "prepack": "vp pack"
+  },
+  "devDependencies": {
+    "@foldkit/vite-plugin": "catalog:",
+    "effect": "catalog:",
+    "foldkit": "catalog:",
+    "happy-dom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "^4.0.0",
+    "foldkit": "^0.170.0"
+  }
+}

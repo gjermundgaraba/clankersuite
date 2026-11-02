@@ -4,8 +4,9 @@ import foldkit from "@foldkit/oxlint-plugin";
 export const ignorePatterns = ["repos/", "packages/design-tokens/generated/"];
 
 const foldkitFiles = [
-  "packages/pixel-paper/src/**",
-  "apps/pixel-paper-catalog/src/**",
+  "packages/components/src/**",
+  "packages/icons/src/**",
+  "apps/docs/src/**",
 ];
 
 const { recommended } = foldkit.configs;
@@ -28,7 +29,7 @@ export default config({
   overrides: [
     { env: { browser: true }, files: foldkitFiles },
     {
-      files: ["apps/pixel-paper-catalog/src/example/**"],
+      files: ["apps/docs/src/example/**"],
       rules: { "clanker/no-prose-comments": "off" },
     },
     {
@@ -41,7 +42,7 @@ export default config({
       files: withinFoldkit(override.files),
     })),
     {
-      files: ["packages/pixel-paper/src/**/*.ts"],
+      files: ["packages/components/src/**/*.ts"],
       rules: {
         "no-restricted-imports": [
           "error",
@@ -59,29 +60,30 @@ export default config({
     },
     {
       files: [
-        "packages/pixel-paper/src/index.ts",
-        "packages/pixel-paper/src/scheme/index.ts",
+        "packages/components/src/index.ts",
+        "packages/components/src/scheme/index.ts",
+        "packages/icons/src/index.ts",
       ],
       rules: { "oxc/no-barrel-file": "off" },
     },
     {
-      files: ["packages/pixel-paper/src/subscription/prefix-keys.ts"],
+      files: ["packages/components/src/subscription/prefix-keys.ts"],
       rules: { "typescript/no-unsafe-type-assertion": "off" },
     },
     {
-      files: ["apps/pixel-paper-catalog/src/page/foundations.ts"],
+      files: ["apps/docs/src/page/foundations.ts"],
       rules: { "import/default": "off" },
     },
     {
       files: [
-        "apps/pixel-paper-catalog/src/entry.server.ts",
-        "apps/pixel-paper-catalog/src/entry.ts",
-        "apps/pixel-paper-catalog/src/live-region.ts",
-        "apps/pixel-paper-catalog/src/main.ts",
-        "apps/pixel-paper-catalog/src/message.ts",
-        "apps/pixel-paper-catalog/src/model.ts",
-        "apps/pixel-paper-catalog/src/page/components.ts",
-        "apps/pixel-paper-catalog/src/page/foundations.ts",
+        "apps/docs/src/entry.server.ts",
+        "apps/docs/src/entry.ts",
+        "apps/docs/src/live-region.ts",
+        "apps/docs/src/main.ts",
+        "apps/docs/src/message.ts",
+        "apps/docs/src/model.ts",
+        "apps/docs/src/page/components.ts",
+        "apps/docs/src/page/foundations.ts",
       ],
       rules: { "import/no-cycle": "off" },
     },
