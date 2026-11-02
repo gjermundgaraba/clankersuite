@@ -3,8 +3,17 @@
   "$description": "Raw font weights.",
   "primitive": {
     "fontWeight": {
+      "400": {
+        "$value": 400
+      },
+      "600": {
+        "$value": 600
+      },
       "650": {
         "$value": 650
+      },
+      "700": {
+        "$value": 700
       },
       "$type": "fontWeight"
     }

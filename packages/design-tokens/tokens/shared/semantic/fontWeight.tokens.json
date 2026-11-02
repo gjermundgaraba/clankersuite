@@ -9,6 +9,18 @@
           "$value": "{primitive.fontWeight.650}",
           "$description": "Headings in long-form reading."
         }
+      },
+      "semiBold": {
+        "$value": "{primitive.fontWeight.600}",
+        "$description": "A page's title, an identity's name."
+      },
+      "regular": {
+        "$value": "{primitive.fontWeight.400}",
+        "$description": "Regular weight: what resets a heading in the pixel face."
+      },
+      "bold": {
+        "$value": "{primitive.fontWeight.700}",
+        "$description": "Bold in code and Markdown."
       }
     }
   }

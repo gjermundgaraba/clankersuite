@@ -71,6 +71,14 @@
           "title": {
             "$value": "{primitive.dimension.30}",
             "$description": "A document's title."
+          },
+          "titleNarrow": {
+            "$value": "{primitive.dimension.25}",
+            "$description": "A document's title on a phone."
+          },
+          "code": {
+            "$value": "{primitive.dimension.12point5}",
+            "$description": "A code block in long-form reading."
           }
         }
       },
@@ -94,6 +102,24 @@
         "label": {
           "$value": "{primitive.dimension.letterSpacing.100}",
           "$description": "Uppercase pixel labels."
+        },
+        "pageTitle": {
+          "$value": "{primitive.dimension.letterSpacing.minus10}",
+          "$description": "A page's or sheet's title."
+        },
+        "wordmark": {
+          "$value": "{primitive.dimension.letterSpacing.minus20}",
+          "$description": "The wordmark."
+        },
+        "code": {
+          "$value": "{primitive.dimension.letterSpacing.20}",
+          "$description": "A secret's characters, so each reads apart."
+        },
+        "prose": {
+          "heading": {
+            "$value": "{primitive.dimension.letterSpacing.minus5}",
+            "$description": "First- and second-level headings in long-form reading."
+          }
         }
       },
       "borderWidth": {
@@ -104,6 +130,10 @@
         "divider": {
           "$value": "{primitive.dimension.1}",
           "$description": "Anything that divides: drawn in border.divider."
+        },
+        "ring": {
+          "$value": "{primitive.dimension.3}",
+          "$description": "A ring drawn round a control with a box shadow."
         }
       },
       "size": {
@@ -119,6 +149,30 @@
           "prose": {
             "$value": "{primitive.dimension.measure.68}",
             "$description": "The measure of long-form reading."
+          },
+          "card": {
+            "$value": "{primitive.dimension.680}",
+            "$description": "A card's width."
+          },
+          "cardNarrow": {
+            "$value": "{primitive.dimension.440}",
+            "$description": "A narrow card's width."
+          },
+          "banner": {
+            "$value": "{primitive.dimension.680}",
+            "$description": "The widest a banner prints."
+          },
+          "meterName": {
+            "$value": "{primitive.dimension.240}",
+            "$description": "The widest a meter's name column prints."
+          },
+          "stageNotice": {
+            "$value": "{primitive.dimension.460}",
+            "$description": "The widest a paused stage's notice prints."
+          },
+          "toast": {
+            "$value": "{primitive.dimension.392}",
+            "$description": "A toast stack's width."
           }
         },
         "rail": {
@@ -133,12 +187,40 @@
           "folded": {
             "$value": "{primitive.dimension.64}",
             "$description": "The rail folded to its first panel's bar, stood on end."
+          },
+          "resize": {
+            "$value": "{primitive.dimension.12}",
+            "$description": "The width of a rail's resize handle."
           }
         },
         "minWidth": {
           "reelColumn": {
             "$value": "{primitive.dimension.280}",
             "$description": "The narrowest a reel column prints, whatever its width."
+          },
+          "menu": {
+            "$value": "{primitive.dimension.148}",
+            "$description": "The narrowest a menu prints."
+          },
+          "slot": {
+            "$value": "{primitive.dimension.58}",
+            "$description": "The narrowest a row's slot prints."
+          },
+          "fieldGrid": {
+            "$value": "{primitive.dimension.160}",
+            "$description": "The narrowest a field grid's column prints."
+          },
+          "sortableGrid": {
+            "$value": "{primitive.dimension.180}",
+            "$description": "The narrowest a sortable grid's item prints."
+          },
+          "sortablePanel": {
+            "$value": "{primitive.dimension.300}",
+            "$description": "The narrowest a sortable panel prints."
+          },
+          "meterName": {
+            "$value": "{primitive.dimension.180}",
+            "$description": "The narrowest a meter's name column prints."
           }
         },
         "minHeight": {
@@ -153,6 +235,242 @@
           "benchHead": {
             "$value": "{primitive.dimension.64}",
             "$description": "The least of its head a short bench window keeps: its padding and a small button."
+          },
+          "textarea": {
+            "$value": "{primitive.dimension.96}",
+            "$description": "The least height of a textarea."
+          },
+          "codeSurface": {
+            "$value": "{primitive.dimension.220}",
+            "$description": "The least height of a code surface."
+          },
+          "metaRow": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "The least height of a board card's meta row."
+          }
+        },
+        "topBar": {
+          "$value": "{primitive.dimension.48}",
+          "$description": "The top bar's height."
+        },
+        "statusBar": {
+          "$value": "{primitive.dimension.25}",
+          "$description": "The status bar's height."
+        },
+        "scrollbar": {
+          "$value": "{primitive.dimension.10}",
+          "$description": "The width of a scrollbar."
+        },
+        "target": {
+          "$value": "{primitive.dimension.24}",
+          "$description": "The least size of a pointer target, and an icon button's size."
+        },
+        "measure": {
+          "note": {
+            "$value": "{primitive.dimension.measure.46}",
+            "$description": "A note line or an empty state's text."
+          },
+          "large": {
+            "$value": "{primitive.dimension.measure.12}",
+            "$description": "A query field, a key, a check's author on a phone."
+          },
+          "small": {
+            "$value": "{primitive.dimension.measure.8}",
+            "$description": "The narrowest a query field prints."
+          },
+          "query": {
+            "$value": "{primitive.dimension.measure.32}",
+            "$description": "The widest a query field prints."
+          },
+          "tag": {
+            "$value": "{primitive.dimension.measure.18}",
+            "$description": "The widest a tag prints."
+          },
+          "xSmall": {
+            "$value": "{primitive.dimension.measure.6}",
+            "$description": "A flashed word."
+          },
+          "xxSmall": {
+            "$value": "{primitive.dimension.measure.4}",
+            "$description": "A percentage or version."
+          },
+          "medium": {
+            "$value": "{primitive.dimension.measure.10}",
+            "$description": "A history entry's author."
+          },
+          "xxLarge": {
+            "$value": "{primitive.dimension.measure.16}",
+            "$description": "The widest a history entry's author prints."
+          },
+          "outcome": {
+            "$value": "{primitive.dimension.measure.52}",
+            "$description": "An outcome's text."
+          },
+          "xLarge": {
+            "$value": "{primitive.dimension.measure.14}",
+            "$description": "A palette's query field."
+          },
+          "title": {
+            "$value": "{primitive.dimension.measure.20}",
+            "$description": "A sheet title's basis, a check's author."
+          },
+          "dropZone": {
+            "$value": "{primitive.dimension.measure.44}",
+            "$description": "A drop zone's text."
+          },
+          "tip": {
+            "$value": "{primitive.dimension.measure.36}",
+            "$description": "The widest a tip prints."
+          }
+        },
+        "cursor": {
+          "width": {
+            "$value": "{primitive.dimension.6}",
+            "$description": "The working cursor's width."
+          },
+          "height": {
+            "$value": "{primitive.dimension.11}",
+            "$description": "The working cursor's height."
+          },
+          "wordmark": {
+            "width": {
+              "$value": "{primitive.dimension.8}",
+              "$description": "The wordmark's cursor's width."
+            },
+            "height": {
+              "$value": "{primitive.dimension.15}",
+              "$description": "The wordmark's cursor's height."
+            }
+          },
+          "small": {
+            "width": {
+              "$value": "{primitive.dimension.5}",
+              "$description": "The working cursor's width in a small button or chip."
+            },
+            "height": {
+              "$value": "{primitive.dimension.9}",
+              "$description": "The working cursor's height in a small button or chip."
+            }
+          }
+        },
+        "checkbox": {
+          "box": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "A checkbox's or radio's box."
+          },
+          "mark": {
+            "$value": "{primitive.dimension.6}",
+            "$description": "The mark inside a checked box."
+          }
+        },
+        "titleBar": {
+          "$value": "{primitive.dimension.31}",
+          "$description": "The least height of a title bar that holds buttons."
+        },
+        "chip": {
+          "$value": "{primitive.dimension.22}",
+          "$description": "The least height of a filter chip."
+        },
+        "dot": {
+          "$value": "{primitive.dimension.10}",
+          "$description": "A chip's status dot."
+        },
+        "glyph": {
+          "row": {
+            "$value": "{primitive.dimension.18}",
+            "$description": "A row's glyph."
+          },
+          "notice": {
+            "$value": "{primitive.dimension.20}",
+            "$description": "A notice's, outcome's or banner's glyph."
+          },
+          "large": {
+            "$value": "{primitive.dimension.34}",
+            "$description": "An outcome's or drop zone's glyph."
+          },
+          "banner": {
+            "$value": "{primitive.dimension.26}",
+            "$description": "A banner's glyph."
+          },
+          "wall": {
+            "$value": "{primitive.dimension.30}",
+            "$description": "A wall's glyph."
+          }
+        },
+        "control": {
+          "$value": "{primitive.dimension.30}",
+          "$description": "The least height of a select, a date field or a window's title bar."
+        },
+        "radio": {
+          "mark": {
+            "$value": "{primitive.dimension.8}",
+            "$description": "The dot inside a chosen radio."
+          }
+        },
+        "diffLine": {
+          "$value": "{primitive.dimension.19}",
+          "$description": "The line height of a diff's line numbers."
+        },
+        "maxHeight": {
+          "palette": {
+            "$value": "{primitive.dimension.420}",
+            "$description": "The tallest a palette's list grows."
+          },
+          "boardColumnRoom": {
+            "$value": "{primitive.dimension.150}",
+            "$description": "What a board column leaves of the viewport's height."
+          }
+        },
+        "tree": {
+          "glyphRoom": {
+            "$value": "{primitive.dimension.30}",
+            "$description": "What a narrow tree row keeps beside its grower for the glyph."
+          }
+        },
+        "meterCell": {
+          "width": {
+            "$value": "{primitive.dimension.10}",
+            "$description": "A meter cell's width."
+          },
+          "height": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "A meter cell's height."
+          },
+          "narrow": {
+            "$value": "{primitive.dimension.8}",
+            "$description": "A meter cell's width on a phone or in a narrow meter."
+          },
+          "narrower": {
+            "$value": "{primitive.dimension.6}",
+            "$description": "A meter cell's width in a narrower meter."
+          },
+          "narrowest": {
+            "$value": "{primitive.dimension.4}",
+            "$description": "A meter cell's width in the narrowest meter."
+          }
+        },
+        "bullet": {
+          "$value": "{primitive.dimension.6}",
+          "$description": "A contents link's square bullet."
+        },
+        "monogram": {
+          "default": {
+            "$value": "{primitive.dimension.22}",
+            "$description": "A monogram."
+          },
+          "large": {
+            "$value": "{primitive.dimension.34}",
+            "$description": "A large monogram."
+          }
+        },
+        "lift": {
+          "boardCard": {
+            "$value": "{primitive.dimension.240}",
+            "$description": "A lifted board card's width before the drag measures the card."
+          },
+          "listItem": {
+            "$value": "{primitive.dimension.320}",
+            "$description": "A lifted sortable or reel item's width before the drag measures the item."
           }
         }
       },
@@ -161,6 +479,48 @@
           "panel": {
             "$value": "{primitive.dimension.16}",
             "$description": "Inside a panel or card."
+          },
+          "medium": {
+            "$value": "{primitive.dimension.12}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step medium."
+          },
+          "xSmall": {
+            "$value": "{primitive.dimension.8}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xSmall."
+          },
+          "xxLarge": {
+            "$value": "{primitive.dimension.20}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxLarge."
+          },
+          "pageEnd": {
+            "narrow": {
+              "$value": "{primitive.dimension.64}",
+              "$description": "Room below the last panel of a deck on a phone."
+            },
+            "default": {
+              "$value": "{primitive.dimension.80}",
+              "$description": "Room below the last panel of a deck."
+            }
+          },
+          "small": {
+            "$value": "{primitive.dimension.10}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step small."
+          },
+          "large": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step large."
+          },
+          "xxSmall": {
+            "$value": "{primitive.dimension.4}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxSmall."
+          },
+          "xxxLarge": {
+            "$value": "{primitive.dimension.24}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxxLarge."
+          },
+          "xLarge": {
+            "$value": "{primitive.dimension.16}",
+            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xLarge."
           }
         },
         "gap": {
@@ -179,7 +539,247 @@
           "reel": {
             "$value": "{primitive.dimension.16}",
             "$description": "Between reel columns, and between the panes of a column."
+          },
+          "xxLarge": {
+            "$value": "{primitive.dimension.16}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxLarge."
+          },
+          "xxSmall": {
+            "$value": "{primitive.dimension.4}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxSmall."
+          },
+          "large": {
+            "$value": "{primitive.dimension.12}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step large."
+          },
+          "medium": {
+            "$value": "{primitive.dimension.10}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step medium."
+          },
+          "small": {
+            "$value": "{primitive.dimension.8}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step small."
+          },
+          "xSmall": {
+            "$value": "{primitive.dimension.6}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xSmall."
+          },
+          "xxxSmall": {
+            "$value": "{primitive.dimension.2}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxxSmall."
+          },
+          "xLarge": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xLarge."
+          },
+          "xxxLarge": {
+            "$value": "{primitive.dimension.20}",
+            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxxLarge."
           }
+        },
+        "focusRing": {
+          "offset": {
+            "small": {
+              "$value": "{primitive.dimension.2}",
+              "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step small."
+            },
+            "large": {
+              "$value": "{primitive.dimension.4}",
+              "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step large."
+            }
+          }
+        },
+        "skipLink": {
+          "offscreen": {
+            "$value": "{primitive.dimension.100}",
+            "$description": "How far above the page a skip link waits until it is focused."
+          }
+        },
+        "control": {
+          "padding": {
+            "block": {
+              "large": {
+                "$value": "{primitive.dimension.6}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step large."
+              },
+              "xxLarge": {
+                "$value": "{primitive.dimension.8}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxLarge."
+              },
+              "medium": {
+                "$value": "{primitive.dimension.5}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step medium."
+              },
+              "xxSmall": {
+                "$value": "{primitive.dimension.2}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxSmall."
+              },
+              "small": {
+                "$value": "{primitive.dimension.4}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step small."
+              },
+              "xSmall": {
+                "$value": "{primitive.dimension.3}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xSmall."
+              },
+              "xLarge": {
+                "$value": "{primitive.dimension.7}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xLarge."
+              },
+              "xxxSmall": {
+                "$value": "{primitive.dimension.1}",
+                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxxSmall."
+              }
+            },
+            "inline": {
+              "xLarge": {
+                "$value": "{primitive.dimension.14}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step xLarge."
+              },
+              "medium": {
+                "$value": "{primitive.dimension.10}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step medium."
+              },
+              "xSmall": {
+                "$value": "{primitive.dimension.6}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step xSmall."
+              },
+              "large": {
+                "$value": "{primitive.dimension.12}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step large."
+              },
+              "small": {
+                "$value": "{primitive.dimension.8}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step small."
+              },
+              "xxSmall": {
+                "$value": "{primitive.dimension.4}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step xxSmall."
+              },
+              "xxxSmall": {
+                "$value": "{primitive.dimension.3}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step xxxSmall."
+              },
+              "selectArrow": {
+                "$value": "{primitive.dimension.28}",
+                "$description": "Room for a select's arrow."
+              },
+              "trailingButton": {
+                "$value": "{primitive.dimension.32}",
+                "$description": "Room for an icon button at the end of a field."
+              },
+              "xxLarge": {
+                "$value": "{primitive.dimension.16}",
+                "$description": "Horizontal padding of a control, row, bar or cell. Step xxLarge."
+              }
+            }
+          }
+        },
+        "viewportGutter": {
+          "small": {
+            "$value": "{primitive.dimension.24}",
+            "$description": "Room a popup sized to the viewport leaves at its edges. Step small."
+          },
+          "xLarge": {
+            "$value": "{primitive.dimension.48}",
+            "$description": "Room a popup sized to the viewport leaves at its edges. Step xLarge."
+          },
+          "medium": {
+            "$value": "{primitive.dimension.32}",
+            "$description": "Room a popup sized to the viewport leaves at its edges. Step medium."
+          },
+          "large": {
+            "$value": "{primitive.dimension.40}",
+            "$description": "Room a popup sized to the viewport leaves at its edges. Step large."
+          }
+        },
+        "indent": {
+          "tree": {
+            "$value": "{primitive.dimension.26}",
+            "$description": "How far a tree's nested rows are indented."
+          },
+          "palette": {
+            "$value": "{primitive.dimension.20}",
+            "$description": "How far each level of a palette's nested choices is indented."
+          },
+          "toc": {
+            "$value": "{primitive.dimension.28}",
+            "$description": "How far a third-level contents link is indented."
+          }
+        },
+        "tree": {
+          "guide": {
+            "$value": "{primitive.dimension.20}",
+            "$description": "Where a tree's guide line runs, from the rows' left edge."
+          }
+        },
+        "underline": {
+          "offset": {
+            "$value": "{primitive.dimension.3}",
+            "$description": "How far an underline sits below the text."
+          }
+        },
+        "dropZone": {
+          "padding": {
+            "$value": "{primitive.dimension.28}",
+            "$description": "Above and below a drop zone's content."
+          }
+        },
+        "sheet": {
+          "padding": {
+            "top": {
+              "$value": "{primitive.dimension.28}",
+              "$description": "Above a sheet's head."
+            },
+            "inline": {
+              "$value": "{primitive.dimension.32}",
+              "$description": "Beside a sheet's content."
+            },
+            "bottom": {
+              "$value": "{primitive.dimension.36}",
+              "$description": "Below a sheet's body."
+            },
+            "narrow": {
+              "$value": "{primitive.dimension.28}",
+              "$description": "Below a sheet's body on a phone."
+            }
+          }
+        }
+      },
+      "travel": {
+        "nudge": {
+          "small": {
+            "$value": "{primitive.dimension.1}",
+            "$description": "An optical nudge: a bullet or glyph set onto the text's middle."
+          },
+          "large": {
+            "$value": "{primitive.dimension.2}",
+            "$description": "The wordmark cursor's nudge onto the baseline."
+          }
+        },
+        "pressed": {
+          "default": {
+            "$value": "{primitive.dimension.2}",
+            "$description": "How far a pressed button moves into its shadow."
+          },
+          "small": {
+            "$value": "{primitive.dimension.1}",
+            "$description": "How far a pressed small button or chip moves into its shadow."
+          }
+        },
+        "toast": {
+          "$value": "{primitive.dimension.8}",
+          "$description": "How far a toast rises as it steps in."
+        }
+      },
+      "radius": {
+        "control": {
+          "$value": "{primitive.dimension.0}",
+          "$description": "The corners of a control: a button, a chip, a field, a checkbox. Square in clankersuite."
+        },
+        "surface": {
+          "$value": "{primitive.dimension.0}",
+          "$description": "The corners of a surface: a panel, a card, a menu, a notice. Square in clankersuite."
         }
       }
     }

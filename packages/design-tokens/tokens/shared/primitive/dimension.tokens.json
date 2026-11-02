@@ -27,15 +27,39 @@
           "unit": "px"
         }
       },
+      "4": {
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
       "5": {
         "$value": {
           "value": 5,
           "unit": "px"
         }
       },
+      "6": {
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "7": {
+        "$value": {
+          "value": 7,
+          "unit": "px"
+        }
+      },
       "8": {
         "$value": {
           "value": 8,
+          "unit": "px"
+        }
+      },
+      "9": {
+        "$value": {
+          "value": 9,
           "unit": "px"
         }
       },
@@ -87,6 +111,12 @@
           "unit": "px"
         }
       },
+      "19": {
+        "$value": {
+          "value": 19,
+          "unit": "px"
+        }
+      },
       "20": {
         "$value": {
           "value": 20,
@@ -105,9 +135,39 @@
           "unit": "px"
         }
       },
+      "25": {
+        "$value": {
+          "value": 25,
+          "unit": "px"
+        }
+      },
+      "26": {
+        "$value": {
+          "value": 26,
+          "unit": "px"
+        }
+      },
+      "28": {
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
+      },
       "30": {
         "$value": {
           "value": 30,
+          "unit": "px"
+        }
+      },
+      "31": {
+        "$value": {
+          "value": 31,
+          "unit": "px"
+        }
+      },
+      "32": {
+        "$value": {
+          "value": 32,
           "unit": "px"
         }
       },
@@ -117,9 +177,51 @@
           "unit": "px"
         }
       },
+      "36": {
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        }
+      },
+      "40": {
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "48": {
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      },
+      "58": {
+        "$value": {
+          "value": 58,
+          "unit": "px"
+        }
+      },
       "64": {
         "$value": {
           "value": 64,
+          "unit": "px"
+        }
+      },
+      "80": {
+        "$value": {
+          "value": 80,
+          "unit": "px"
+        }
+      },
+      "96": {
+        "$value": {
+          "value": 96,
+          "unit": "px"
+        }
+      },
+      "100": {
+        "$value": {
+          "value": 100,
           "unit": "px"
         }
       },
@@ -129,9 +231,45 @@
           "unit": "px"
         }
       },
+      "148": {
+        "$value": {
+          "value": 148,
+          "unit": "px"
+        }
+      },
+      "150": {
+        "$value": {
+          "value": 150,
+          "unit": "px"
+        }
+      },
       "152": {
         "$value": {
           "value": 152,
+          "unit": "px"
+        }
+      },
+      "160": {
+        "$value": {
+          "value": 160,
+          "unit": "px"
+        }
+      },
+      "180": {
+        "$value": {
+          "value": 180,
+          "unit": "px"
+        }
+      },
+      "220": {
+        "$value": {
+          "value": 220,
+          "unit": "px"
+        }
+      },
+      "240": {
+        "$value": {
+          "value": 240,
           "unit": "px"
         }
       },
@@ -147,9 +285,45 @@
           "unit": "px"
         }
       },
+      "300": {
+        "$value": {
+          "value": 300,
+          "unit": "px"
+        }
+      },
       "320": {
         "$value": {
           "value": 320,
+          "unit": "px"
+        }
+      },
+      "392": {
+        "$value": {
+          "value": 392,
+          "unit": "px"
+        }
+      },
+      "420": {
+        "$value": {
+          "value": 420,
+          "unit": "px"
+        }
+      },
+      "440": {
+        "$value": {
+          "value": 440,
+          "unit": "px"
+        }
+      },
+      "460": {
+        "$value": {
+          "value": 460,
+          "unit": "px"
+        }
+      },
+      "680": {
+        "$value": {
+          "value": 680,
           "unit": "px"
         }
       },
@@ -160,7 +334,19 @@
         }
       },
       "$type": "dimension",
+      "12point5": {
+        "$value": {
+          "value": 12.5,
+          "unit": "px"
+        }
+      },
       "letterSpacing": {
+        "20": {
+          "$value": {
+            "value": 0.02,
+            "unit": "em"
+          }
+        },
         "40": {
           "$value": {
             "value": 0.04,
@@ -190,9 +376,111 @@
             "value": 0.1,
             "unit": "em"
           }
+        },
+        "minus10": {
+          "$value": {
+            "value": -0.01,
+            "unit": "em"
+          }
+        },
+        "minus20": {
+          "$value": {
+            "value": -0.02,
+            "unit": "em"
+          }
+        },
+        "minus5": {
+          "$value": {
+            "value": -0.005,
+            "unit": "em"
+          }
         }
       },
       "measure": {
+        "4": {
+          "$value": {
+            "value": 4,
+            "unit": "ch"
+          }
+        },
+        "6": {
+          "$value": {
+            "value": 6,
+            "unit": "ch"
+          }
+        },
+        "8": {
+          "$value": {
+            "value": 8,
+            "unit": "ch"
+          }
+        },
+        "10": {
+          "$value": {
+            "value": 10,
+            "unit": "ch"
+          }
+        },
+        "12": {
+          "$value": {
+            "value": 12,
+            "unit": "ch"
+          }
+        },
+        "14": {
+          "$value": {
+            "value": 14,
+            "unit": "ch"
+          }
+        },
+        "16": {
+          "$value": {
+            "value": 16,
+            "unit": "ch"
+          }
+        },
+        "18": {
+          "$value": {
+            "value": 18,
+            "unit": "ch"
+          }
+        },
+        "20": {
+          "$value": {
+            "value": 20,
+            "unit": "ch"
+          }
+        },
+        "32": {
+          "$value": {
+            "value": 32,
+            "unit": "ch"
+          }
+        },
+        "36": {
+          "$value": {
+            "value": 36,
+            "unit": "ch"
+          }
+        },
+        "44": {
+          "$value": {
+            "value": 44,
+            "unit": "ch"
+          }
+        },
+        "46": {
+          "$value": {
+            "value": 46,
+            "unit": "ch"
+          }
+        },
+        "52": {
+          "$value": {
+            "value": 52,
+            "unit": "ch"
+          }
+        },
         "68": {
           "$value": {
             "value": 68,

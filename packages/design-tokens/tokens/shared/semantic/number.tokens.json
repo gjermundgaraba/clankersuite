@@ -16,6 +16,110 @@
         "dragged": {
           "$value": "{primitive.number.opacity.400}",
           "$description": "A held item, dimmed in place while its copy follows the pointer."
+        },
+        "keyHint": {
+          "$value": "{primitive.number.opacity.650}",
+          "$description": "A key hint printed after a button's words."
+        },
+        "tools": {
+          "$value": "{primitive.number.opacity.550}",
+          "$description": "A row's tools until the row is hovered, focused or current."
+        }
+      },
+      "lineHeight": {
+        "body": {
+          "$value": "{primitive.number.lineHeight.1450}",
+          "$description": "Body text, notes and notices."
+        },
+        "title": {
+          "$value": "{primitive.number.lineHeight.1200}",
+          "$description": "A page's title."
+        },
+        "textarea": {
+          "$value": "{primitive.number.lineHeight.1500}",
+          "$description": "A textarea."
+        },
+        "code": {
+          "$value": "{primitive.number.lineHeight.1600}",
+          "$description": "Code."
+        },
+        "displayTitle": {
+          "$value": "{primitive.number.lineHeight.1150}",
+          "$description": "A sheet's title."
+        },
+        "prose": {
+          "$value": "{primitive.number.lineHeight.1650}",
+          "$description": "Long-form reading."
+        },
+        "heading": {
+          "$value": "{primitive.number.lineHeight.1300}",
+          "$description": "First- and second-level headings in long-form reading."
+        },
+        "label": {
+          "$value": "{primitive.number.lineHeight.1400}",
+          "$description": "Pixel headings in long-form reading."
+        },
+        "proseNotice": {
+          "$value": "{primitive.number.lineHeight.1550}",
+          "$description": "A notice in long-form reading."
+        },
+        "compact": {
+          "$value": "{primitive.number.lineHeight.1350}",
+          "$description": "A tip, a contents link."
+        },
+        "none": {
+          "$value": "{primitive.number.lineHeight.1000}",
+          "$description": "Text set solid: a monogram's letter."
+        },
+        "figure": {
+          "$value": "{primitive.number.lineHeight.1100}",
+          "$description": "A stat's value."
+        }
+      },
+      "layer": {
+        "skipLink": {
+          "$value": "{primitive.number.layer.300000}",
+          "$description": "The skip link."
+        },
+        "sticky": {
+          "$value": "{primitive.number.layer.40000}",
+          "$description": "The top bar and status bar."
+        },
+        "menu": {
+          "$value": "{primitive.number.layer.200000}",
+          "$description": "A menu."
+        },
+        "raised": {
+          "$value": "{primitive.number.layer.1000}",
+          "$description": "Above its siblings."
+        },
+        "dialog": {
+          "$value": "{primitive.number.layer.250000}",
+          "$description": "A bench or stage holding an open dialog."
+        },
+        "banner": {
+          "$value": "{primitive.number.layer.150000}",
+          "$description": "A banner."
+        },
+        "paused": {
+          "$value": "{primitive.number.layer.20000}",
+          "$description": "A paused stage's notice."
+        },
+        "lift": {
+          "$value": "{primitive.number.layer.9999000}",
+          "$description": "An item being dragged."
+        }
+      },
+      "scale": {
+        "card": {
+          "$value": "{primitive.number.scale.970}",
+          "$description": "How small a card or toast starts as it steps in."
+        }
+      },
+      "fontScale": {
+        "inlineCode": {
+          "$value": "{primitive.number.fontScale.850}",
+          "$description": "Inline code in long-form reading, relative to its text."
         }
       }
     }

@@ -13,7 +13,7 @@
 }
 
 :root {
-  --topbar-h: 48px;
+  --topbar-h: var(--semantic-dimension-size-top-bar);
   --statusbar-h: 0px;
   /* The grain and the dither are drawn with gradients, not images, so a host's
      Content-Security-Policy needs no img-src for them. Each is a 4px tile with 1px dots at
@@ -23,26 +23,26 @@
   --veil-grain:
     conic-gradient(
         at 1px 1px,
-        #0000 75%,
+        transparent 75%,
         var(--semantic-color-background-backdrop-grain) 0
       )
       0 0 / 4px 4px,
     conic-gradient(
         at 1px 1px,
-        #0000 75%,
+        transparent 75%,
         var(--semantic-color-background-backdrop-grain) 0
       )
       2px 2px / 4px 4px;
   --dither:
     conic-gradient(
         at 1px 1px,
-        #0000 75%,
+        transparent 75%,
         var(--semantic-color-background-dither-dot) 0
       )
       0 0 / 4px 4px,
     conic-gradient(
         at 1px 1px,
-        #0000 75%,
+        transparent 75%,
         var(--semantic-color-background-dither-dot) 0
       )
       2px 2px / 4px 4px,
@@ -51,12 +51,14 @@
 
 html {
   height: 100%;
-  scroll-padding-top: calc(var(--topbar-h) + 16px);
+  scroll-padding-top: calc(
+    var(--topbar-h) + var(--semantic-dimension-space-gap-xx-large)
+  );
   scroll-padding-bottom: var(--statusbar-h);
 }
 
 :root:has(footer.statusbar) {
-  --statusbar-h: 25px;
+  --statusbar-h: var(--semantic-dimension-size-status-bar);
 }
 
 body {
@@ -64,7 +66,7 @@ body {
   padding-bottom: var(--statusbar-h);
   font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-body);
-  line-height: 1.45;
+  line-height: var(--semantic-number-line-height-body);
   color: var(--semantic-color-text-primary);
   caret-color: var(--semantic-color-text-primary);
   background: var(--dither);
@@ -88,19 +90,20 @@ fieldset {
 :focus-visible {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: var(--semantic-dimension-size-scrollbar);
+  height: var(--semantic-dimension-size-scrollbar);
 }
 ::-webkit-scrollbar-track {
   background: var(--semantic-color-background-canvas);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--semantic-color-background-fill-inverse);
-  border: 2px solid var(--semantic-color-background-canvas);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-background-canvas);
 }
 
 a {
@@ -115,16 +118,16 @@ kbd {
 
 .px-icon {
   display: inline-block;
-  vertical-align: -1px;
+  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-small));
   flex: none;
   shape-rendering: crispedges;
 }
 
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
+  width: var(--semantic-dimension-border-width-divider);
+  height: var(--semantic-dimension-border-width-divider);
+  margin: calc(-1 * var(--semantic-dimension-border-width-divider));
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
@@ -133,20 +136,21 @@ kbd {
 
 .skip {
   position: fixed;
-  top: -100px;
-  left: 12px;
-  z-index: 300;
+  top: calc(-1 * var(--semantic-dimension-space-skip-link-offscreen));
+  left: var(--semantic-dimension-space-padding-medium);
+  z-index: var(--semantic-number-layer-skip-link);
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
   text-decoration: none;
 }
 
 .skip:focus {
-  top: 8px;
+  top: var(--semantic-dimension-space-padding-x-small);
 }
 
 [hidden] {
@@ -180,8 +184,8 @@ kbd {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: max(100%, 24px);
-  height: max(100%, 24px);
+  width: max(100%, var(--semantic-dimension-size-target));
+  height: max(100%, var(--semantic-dimension-size-target));
   translate: -50% -50%;
 }
 
@@ -239,10 +243,12 @@ button.tag > span {
 }
 
 .note-line {
-  font: var(--semantic-dimension-font-size-control)/1.45
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
     var(--semantic-font-family-body);
   color: var(--semantic-color-text-secondary);
-  max-width: 46ch;
+  max-width: var(--semantic-dimension-size-measure-note);
 }
 
 .stack {
@@ -297,16 +303,17 @@ button.tag > span {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 4px 12px;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
   min-width: 0;
 }
 
 .page-title {
   font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-page);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-weight: var(--semantic-font-weight-semi-bold);
+  line-height: var(--semantic-number-line-height-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
@@ -333,12 +340,14 @@ button.tag > span {
   anchor-name: --topbar;
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: var(--semantic-number-layer-sticky);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px 16px;
-  padding: 8px 20px;
+  gap: var(--semantic-dimension-space-gap-medium)
+    var(--semantic-dimension-space-gap-xx-large);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-padding-xx-large);
   background: var(--semantic-color-background-surface);
   border-bottom: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
@@ -348,8 +357,8 @@ button.tag > span {
 .wordmark {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-wordmark);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-weight: var(--semantic-font-weight-regular);
+  letter-spacing: var(--semantic-dimension-letter-spacing-wordmark);
   color: inherit;
   text-decoration: none;
   white-space: nowrap;
@@ -357,9 +366,9 @@ button.tag > span {
 
 .cursor {
   display: inline-block;
-  width: 6px;
-  height: 11px;
-  vertical-align: -1px;
+  width: var(--semantic-dimension-size-cursor-width);
+  height: var(--semantic-dimension-size-cursor-height);
+  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-small));
   background: currentColor;
   animation: blink var(--semantic-duration-blink) steps(1) infinite;
 }
@@ -371,10 +380,10 @@ button.tag > span {
 }
 
 .wordmark .cursor {
-  width: 8px;
-  height: 15px;
-  margin-left: 3px;
-  vertical-align: -2px;
+  width: var(--semantic-dimension-size-cursor-wordmark-width);
+  height: var(--semantic-dimension-size-cursor-wordmark-height);
+  margin-left: var(--semantic-dimension-space-gap-xx-small);
+  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-large));
   background: var(--semantic-color-background-fill-inverse);
   animation-iteration-count: 4;
 }
@@ -389,18 +398,21 @@ button.tag > span {
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 8px 16px;
+  gap: var(--semantic-dimension-space-gap-small)
+    var(--semantic-dimension-space-gap-xx-large);
   min-width: 0;
   margin-left: auto;
 }
 
 @media (max-width: 600px) {
   .topbar-tools {
-    gap: 8px 12px;
+    gap: var(--semantic-dimension-space-gap-small)
+      var(--semantic-dimension-space-gap-large);
   }
 
   .topbar-tools .btn {
-    padding: 5px 10px;
+    padding: var(--semantic-dimension-space-control-padding-block-medium)
+      var(--semantic-dimension-space-control-padding-inline-medium);
   }
 }
 
@@ -412,7 +424,8 @@ button.tag > span {
 }
 
 .link-state.offline {
-  padding: 2px 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
   color: var(--semantic-color-text-on-negative-fill);
   background: var(--semantic-color-background-fill-negative);
 }
@@ -422,7 +435,8 @@ button.tag > span {
 }
 
 .link-state.reconnecting {
-  padding: 2px 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
   color: var(--semantic-color-text-on-status-fill);
   background: var(--semantic-color-background-fill-warning);
 }
@@ -436,8 +450,9 @@ button.tag > span {
   border: 0;
   color: var(--semantic-color-text-primary);
   cursor: pointer;
-  padding: 2px 0;
-  border-bottom: 1px dotted transparent;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+    transparent;
 }
 
 a.textbtn {
@@ -455,6 +470,7 @@ a.textbtn {
   max-width: 100%;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
 }
 
 .panel > .tabbed > .nav.tabs {
@@ -471,7 +487,8 @@ a.textbtn {
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: none;
-  padding: 5px 14px;
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -491,32 +508,36 @@ a.textbtn {
 
 .nav .navnum {
   display: inline-block;
-  margin-left: 8px;
-  padding: 0 5px;
+  margin-left: var(--semantic-dimension-space-gap-small);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
   font-size: var(--semantic-dimension-font-size-state);
   background: var(--semantic-color-background-head);
   color: var(--semantic-color-text-on-head);
 }
 
 .nav.tabs button {
-  padding: 4px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-large);
   font-size: var(--semantic-dimension-font-size-state);
 }
 
 @media (max-width: 600px) {
   .nav a,
   .nav button {
-    padding: 5px 8px;
+    padding: var(--semantic-dimension-space-control-padding-block-medium)
+      var(--semantic-dimension-space-control-padding-inline-small);
     font-size: var(--semantic-dimension-font-size-state);
   }
 
   .nav .navnum {
-    margin-left: 5px;
+    margin-left: var(--semantic-dimension-space-gap-x-small);
   }
 
   .topbar {
-    gap: 8px 12px;
-    padding: 8px 12px;
+    gap: var(--semantic-dimension-space-gap-small)
+      var(--semantic-dimension-space-gap-large);
+    padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+      var(--semantic-dimension-space-control-padding-inline-large);
   }
 
   .topbar > .nav {
@@ -531,7 +552,9 @@ a.textbtn {
   }
 
   .deck {
-    padding: 20px 12px 64px;
+    padding: var(--semantic-dimension-space-padding-xx-large)
+      var(--semantic-dimension-space-padding-medium)
+      var(--semantic-dimension-space-padding-page-end-narrow);
   }
 }
 
@@ -561,7 +584,8 @@ a.textbtn {
   display: flex;
   align-items: baseline;
   gap: var(--semantic-dimension-space-gap-inline);
-  padding: 8px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   font: inherit;
   color: inherit;
   text-align: left;
@@ -572,7 +596,9 @@ a.textbtn {
 }
 
 .places li > :is(a, button):focus-visible {
-  outline-offset: -4px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
 }
 
 .place-name {
@@ -602,12 +628,14 @@ a.textbtn {
   letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  padding: 5px 14px;
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
   cursor: pointer;
   box-shadow: var(--semantic-shadow-button-default);
   text-decoration: none;
@@ -618,7 +646,10 @@ a.textbtn {
    but focusable, so a click can still match :active and must not depress a button that
    ignores it */
 .btn:not([aria-disabled="true"]):active {
-  transform: translate(2px, 2px);
+  transform: translate(
+    var(--semantic-dimension-travel-pressed-default),
+    var(--semantic-dimension-travel-pressed-default)
+  );
   box-shadow: var(--semantic-shadow-pressed);
 }
 
@@ -647,9 +678,11 @@ a.textbtn {
 
 .btn.default-ring {
   box-shadow:
-    0 0 0 2px var(--semantic-color-border-on-inverse-fill),
-    0 0 0 4px var(--semantic-color-border-primary);
-  margin: 4px;
+    0 0 0 var(--semantic-dimension-border-width-container)
+      var(--semantic-color-border-on-inverse-fill),
+    0 0 0 calc(2 * var(--semantic-dimension-border-width-container))
+      var(--semantic-color-border-primary);
+  margin: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .btn.default-ring:not([aria-disabled="true"]):active {
@@ -669,7 +702,8 @@ a.textbtn {
 
 .btn.small {
   font-size: var(--semantic-dimension-font-size-state);
-  padding: 3px 10px;
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-medium);
   box-shadow: var(--semantic-shadow-button-small);
 }
 
@@ -692,8 +726,8 @@ a.textbtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--semantic-dimension-size-target);
+  height: var(--semantic-dimension-size-target);
   background: transparent;
   color: inherit;
   border: none;
@@ -715,7 +749,7 @@ a.textbtn {
   font-size: var(--semantic-dimension-font-size-label);
   text-transform: none;
   letter-spacing: 0;
-  opacity: 0.65;
+  opacity: var(--semantic-number-opacity-key-hint);
 }
 
 .btn {
@@ -725,14 +759,14 @@ a.textbtn {
 .btn > .cursor {
   position: absolute;
   top: 50%;
-  right: 4px;
+  right: var(--semantic-dimension-space-control-padding-inline-xx-small);
   translate: 0 -50%;
 }
 
 .btn.small > .cursor {
-  right: 3px;
-  width: 5px;
-  height: 9px;
+  right: var(--semantic-dimension-space-control-padding-inline-xxx-small);
+  width: var(--semantic-dimension-size-cursor-small-width);
+  height: var(--semantic-dimension-size-cursor-small-height);
 }
 
 /* hung under its toggle by @foldkit/ui's Anchor, which positions it and flips it near the
@@ -742,13 +776,16 @@ a.textbtn {
    bars (40) and a banner (150), under the skip link (300) */
 .menu {
   position: absolute;
-  z-index: 200;
-  min-width: 148px;
-  max-width: calc(100vw - 24px);
+  z-index: var(--semantic-number-layer-menu);
+  min-width: var(--semantic-dimension-size-min-width-menu);
+  max-width: calc(
+    100vw - var(--semantic-dimension-space-viewport-gutter-small)
+  );
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
 }
 
@@ -761,7 +798,7 @@ a.textbtn {
   display: flex;
   width: 100%;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
@@ -772,7 +809,8 @@ a.textbtn {
   border: 0;
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
-  padding: 7px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-x-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
@@ -816,10 +854,11 @@ a.textbtn {
 }
 
 .menu .menu-check {
-  width: 14px;
-  height: 14px;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   display: inline-grid;
   place-content: center;
   flex: none;
@@ -827,8 +866,8 @@ a.textbtn {
 
 .menu .menu-check::before {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
 }
 
 .menu [aria-checked="true"] .menu-check::before {
@@ -837,8 +876,11 @@ a.textbtn {
 
 .menu .menu-note {
   display: block;
-  padding: 7px 12px;
-  font: var(--semantic-dimension-font-size-control)/1.45
+  padding: var(--semantic-dimension-space-control-padding-block-x-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
     var(--semantic-font-family-body);
   text-transform: none;
   letter-spacing: normal;
@@ -851,7 +893,9 @@ a.textbtn {
 .deck {
   max-width: var(--semantic-dimension-size-max-width-deck);
   margin: 0 auto;
-  padding: var(--semantic-dimension-space-gap-surface) 20px 80px;
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-padding-xx-large)
+    var(--semantic-dimension-space-padding-page-end-default);
   display: grid;
   gap: var(--semantic-dimension-space-gap-surface);
 }
@@ -865,6 +909,7 @@ a.textbtn {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-panel);
   min-width: 0;
 }
@@ -872,16 +917,17 @@ a.textbtn {
 .panel-tb {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
-  padding: 6px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   font-family: var(--semantic-font-family-ui);
 }
 
 .panel-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
@@ -904,12 +950,13 @@ a.textbtn {
 }
 
 .panel-foot {
-  padding: 10px 12px;
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium);
   border-top: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
   flex-wrap: wrap;
 }
 
@@ -922,7 +969,9 @@ a.textbtn {
 }
 
 .panel-shelf {
-  padding: 10px 12px 12px;
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-medium);
   background: var(--semantic-color-background-head);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
@@ -934,16 +983,20 @@ a.textbtn {
 
 .panel-tb:has(> :is(.panel-lead, .panel-acts)) {
   align-items: center;
-  padding-block: 3px;
-  min-height: 31px;
+  padding-block: var(--semantic-dimension-space-control-padding-block-x-small);
+  min-height: var(--semantic-dimension-size-title-bar);
 }
 
 .panel-tb:has(> .panel-lead) {
-  padding-left: 3px;
+  padding-left: var(
+    --semantic-dimension-space-control-padding-inline-xxx-small
+  );
 }
 
 .panel-tb:has(> .panel-acts) {
-  padding-right: 3px;
+  padding-right: var(
+    --semantic-dimension-space-control-padding-inline-xxx-small
+  );
 }
 
 .panel-tb:has(> :is(.panel-lead, .panel-acts)) h2 {
@@ -956,7 +1009,7 @@ a.textbtn {
 .panel-acts {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
   flex: none;
 }
 
@@ -979,7 +1032,10 @@ a.textbtn {
 
 .panel-lead .btn:not([aria-disabled="true"]):active,
 .panel-acts .btn:not([aria-disabled="true"]):active {
-  transform: translate(1px, 1px);
+  transform: translate(
+    var(--semantic-dimension-travel-pressed-small),
+    var(--semantic-dimension-travel-pressed-small)
+  );
   box-shadow: none;
 }
 
@@ -998,13 +1054,15 @@ a.textbtn {
 .panel-lead .btn:focus-visible,
 .panel-acts .btn:focus-visible {
   outline-color: currentColor;
-  outline-offset: -4px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
 }
 
 .strip {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--semantic-dimension-space-gap-small);
   flex-wrap: wrap;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
@@ -1012,24 +1070,28 @@ a.textbtn {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-button-default);
-  padding: 8px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
 }
 
 .fchip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 22px;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  min-height: var(--semantic-dimension-size-chip);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  padding: 2px 7px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
   flex: none;
   cursor: default;
 }
@@ -1043,7 +1105,10 @@ button.fchip:not([aria-pressed="true"]):hover {
 }
 
 button.fchip:active {
-  transform: translate(1px, 1px);
+  transform: translate(
+    var(--semantic-dimension-travel-pressed-small),
+    var(--semantic-dimension-travel-pressed-small)
+  );
 }
 
 .fchip .fchip-name {
@@ -1072,17 +1137,17 @@ button.fchip:active {
 
 .fchip.query input {
   position: relative;
-  z-index: 1;
+  z-index: var(--semantic-number-layer-raised);
   font: var(--semantic-dimension-font-size-control)
     var(--semantic-font-family-body);
   color: var(--semantic-color-text-primary);
   background: none;
   border: 0;
   padding: 0;
-  width: 12ch;
+  width: var(--semantic-dimension-size-measure-large);
   field-sizing: content;
-  min-width: 8ch;
-  max-width: 32ch;
+  min-width: var(--semantic-dimension-size-measure-small);
+  max-width: var(--semantic-dimension-size-measure-query);
 }
 
 .fchip.query input::-webkit-search-cancel-button {
@@ -1096,7 +1161,7 @@ button.fchip:active {
 .fchip.query:focus-within {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
 
 .fchip.reset {
@@ -1116,9 +1181,11 @@ button.fchip:active {
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  padding: 1px 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
   flex: none;
   white-space: nowrap;
 }
@@ -1147,8 +1214,8 @@ button.fchip:active {
 .chip-dot {
   display: inline-block;
   flex: none;
-  width: 10px;
-  height: 10px;
+  width: var(--semantic-dimension-size-dot);
+  height: var(--semantic-dimension-size-dot);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   background: transparent;
@@ -1174,7 +1241,7 @@ button.fchip:active {
 
 .row > .chip-dot,
 .row > .cell > .chip-dot {
-  margin-inline: 4px;
+  margin-inline: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .mark {
@@ -1182,7 +1249,7 @@ button.fchip:active {
   align-items: center;
   justify-content: center;
   flex: none;
-  padding: 2px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small);
   background: var(--semantic-color-background-fill-warning);
   color: var(--semantic-color-text-on-status-fill);
   border: 0;
@@ -1203,9 +1270,10 @@ button.mark {
   color: var(--semantic-color-text-secondary);
   border: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
-  padding: 0 5px;
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
   flex: none;
-  max-width: 18ch;
+  max-width: var(--semantic-dimension-size-measure-tag);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1228,21 +1296,22 @@ button.tag:hover {
 }
 
 .tree {
-  padding: 8px 0 14px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0
+    var(--semantic-dimension-space-padding-large);
 }
 
 .tree ul.rows {
   position: relative;
-  padding-left: 26px;
+  padding-left: var(--semantic-dimension-space-indent-tree);
 }
 
 .tree ul.rows::before {
   content: "";
   position: absolute;
-  left: 20px;
+  left: var(--semantic-dimension-space-tree-guide);
   top: 0;
-  bottom: 4px;
-  width: 1px;
+  bottom: var(--semantic-dimension-space-padding-xx-small);
+  width: var(--semantic-dimension-border-width-divider);
   background: var(--semantic-color-border-divider);
 }
 
@@ -1250,8 +1319,9 @@ button.tag:hover {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-large);
   min-height: var(--semantic-dimension-size-row);
 }
 
@@ -1261,8 +1331,8 @@ button.tag:hover {
 }
 
 .row .glyph {
-  width: 18px;
-  height: 18px;
+  width: var(--semantic-dimension-size-glyph-row);
+  height: var(--semantic-dimension-size-glyph-row);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1287,8 +1357,10 @@ button.glyph {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 4px;
-  margin: -4px;
+  padding: var(--semantic-dimension-space-control-padding-block-small);
+  margin: calc(
+    -1 * var(--semantic-dimension-space-control-padding-block-small)
+  );
 }
 
 .row .title {
@@ -1307,7 +1379,7 @@ button.glyph {
 
 .row .title:hover {
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
 }
 
 .board-card .title[aria-disabled="true"] {
@@ -1317,8 +1389,8 @@ button.glyph {
 .row .tools {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  opacity: 0.55;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  opacity: var(--semantic-number-opacity-tools);
 }
 
 .row:hover .tools,
@@ -1329,7 +1401,7 @@ button.glyph {
 .row > .cell {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--semantic-dimension-space-gap-small);
   flex: none;
 }
 
@@ -1339,12 +1411,12 @@ button.glyph {
 }
 
 .row .slot {
-  min-width: 58px;
+  min-width: var(--semantic-dimension-size-min-width-slot);
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
 }
 
 .row.linked .grow a {
@@ -1360,12 +1432,12 @@ button.glyph {
 
 .row.linked :is(button, input, select, textarea, [data-tip], .row-check) {
   position: relative;
-  z-index: 1;
+  z-index: var(--semantic-number-layer-raised);
 }
 
 .row.linked:not(:has(.grow a[aria-current])):hover .grow a {
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
 }
 
 .row.linked .grow a:focus-visible {
@@ -1375,7 +1447,9 @@ button.glyph {
 .row.linked:has(.grow a:focus-visible) {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: -4px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
 }
 
 /* each selector is written out, not joined in :is(), so each keeps its own specificity */
@@ -1407,7 +1481,8 @@ button.glyph {
   opacity: 1;
   background: var(--semantic-color-background-fill-negative);
   color: var(--semantic-color-text-on-negative-fill);
-  box-shadow: 0 0 0 3px var(--semantic-color-border-negative);
+  box-shadow: 0 0 0 var(--semantic-dimension-border-width-ring)
+    var(--semantic-color-border-negative);
 }
 
 .row.linked:has(.grow a[aria-current]) :focus-visible,
@@ -1417,15 +1492,20 @@ button.glyph {
 }
 
 .row[aria-current="true"] {
-  outline: 1px solid var(--semantic-color-border-secondary);
-  outline-offset: -4px;
+  outline: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-secondary);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
   background-color: transparent;
 }
 
 .row:focus-visible {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-secondary);
-  outline-offset: -4px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
 }
 
 .row[aria-current="true"] .tools {
@@ -1460,29 +1540,33 @@ button.glyph {
   display: flex;
   align-items: center;
   flex: none;
-  margin: -5px 0 -5px -12px;
-  padding: 0 10px;
+  margin: calc(
+      -1 * var(--semantic-dimension-space-control-padding-block-medium)
+    )
+    0 calc(-1 * var(--semantic-dimension-space-control-padding-block-medium))
+    calc(-1 * var(--semantic-dimension-space-control-padding-inline-large));
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-medium);
 }
 
 .row-check > [role="checkbox"] {
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
   padding: 0;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   cursor: pointer;
   flex: none;
   display: inline-grid;
   place-content: center;
-  border-radius: 0;
 }
 
 .row-check > [role="checkbox"]::before {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
 }
 
 .row-check > [role="checkbox"]::after {
@@ -1518,7 +1602,7 @@ button.glyph {
 }
 
 .row-check > [aria-checked="mixed"]::before {
-  height: 2px;
+  height: var(--semantic-dimension-border-width-container);
   background: var(--semantic-color-background-fill-inverse);
 }
 
@@ -1527,10 +1611,11 @@ input.inline-input {
   color: inherit;
   background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: 1px solid var(--semantic-color-border-primary);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-primary);
   padding: 0;
   width: 100%;
-  height: calc(1lh + 1px);
+  height: calc(1lh + var(--semantic-dimension-border-width-divider));
 }
 
 input.inline-input[aria-busy="true"] {
@@ -1544,11 +1629,13 @@ input.inline-input[aria-invalid="true"] {
 
 .row .grow input.inline-input:focus-visible {
   outline: none;
-  box-shadow: inset 0 -1px 0 var(--semantic-color-border-primary);
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-divider))
+    0 var(--semantic-color-border-primary);
 }
 
 .row .grow input.inline-input[aria-invalid="true"]:focus-visible {
-  box-shadow: inset 0 -1px 0 var(--semantic-color-border-negative);
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-divider))
+    0 var(--semantic-color-border-negative);
 }
 
 .flash-word {
@@ -1557,7 +1644,7 @@ input.inline-input[aria-invalid="true"] {
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-primary);
-  min-width: 6ch;
+  min-width: var(--semantic-dimension-size-measure-x-small);
 }
 
 .flash-word:empty {
@@ -1572,8 +1659,11 @@ select::picker(select) {
 
 select {
   width: 100%;
-  min-height: 30px;
-  padding: 5px 28px 3px 8px;
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-select-arrow)
+    var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
   color: var(--semantic-color-text-primary);
   background-color: var(--semantic-color-background-surface);
   background-image:
@@ -1594,7 +1684,7 @@ select {
   background-size: 4px 4px;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  border-radius: 0;
+  border-radius: var(--semantic-dimension-radius-control);
   cursor: pointer;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
@@ -1611,11 +1701,14 @@ select::picker(select) {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-panel);
 }
 
 select option {
-  padding: 5px 8px 7px;
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-small)
+    var(--semantic-dimension-space-control-padding-block-x-large);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   cursor: pointer;
@@ -1650,8 +1743,8 @@ select:disabled {
 .choice {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 6px 0;
+  gap: var(--semantic-dimension-space-gap-medium);
+  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
   cursor: pointer;
 }
 
@@ -1674,41 +1767,43 @@ button.choice {
 .choice .choice-note {
   display: block;
   color: var(--semantic-color-text-secondary);
-  font: var(--semantic-dimension-font-size-control)/1.45
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
     var(--semantic-font-family-body);
 }
 
 .choices {
   display: grid;
-  gap: 2px;
+  gap: var(--semantic-dimension-space-gap-xxx-small);
 }
 
 .choice-box {
   appearance: none;
-  width: 14px;
-  height: 14px;
-  margin-top: 2px;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  margin-top: var(--semantic-dimension-space-gap-xxx-small);
   padding: 0;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   cursor: pointer;
   flex: none;
   display: inline-grid;
   place-content: center;
-  border-radius: 0;
 }
 
 .choice-box::before {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
 }
 
 .choice[role="radio"] > .choice-box::before {
   clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-  width: 8px;
-  height: 8px;
+  width: var(--semantic-dimension-size-radio-mark);
+  height: var(--semantic-dimension-size-radio-mark);
 }
 
 .choice-box[aria-checked="true"]::before,
@@ -1736,7 +1831,7 @@ button.choice {
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
-  margin-bottom: 4px;
+  margin-bottom: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .field input,
@@ -1746,16 +1841,19 @@ button.choice {
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: 1px dotted var(--semantic-color-border-secondary);
-  padding: 2px 0;
-  border-radius: 0;
+  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+    var(--semantic-color-border-secondary);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  border-radius: var(--semantic-dimension-radius-control);
 }
 
 .field textarea {
   resize: vertical;
   field-sizing: content;
-  min-height: 96px;
-  font: var(--semantic-dimension-font-size-body)/1.5
+  min-height: var(--semantic-dimension-size-min-height-textarea);
+  font: var(--semantic-dimension-font-size-body)/var(
+      --semantic-number-line-height-textarea
+    )
     var(--semantic-font-family-body);
 }
 
@@ -1766,8 +1864,8 @@ pp-markdown-editor {
 
 pp-markdown-editor:has(.markdown-surface) textarea {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: var(--semantic-dimension-border-width-divider);
+  height: var(--semantic-dimension-border-width-divider);
   min-height: 0;
   padding: 0;
   border: 0;
@@ -1783,12 +1881,18 @@ pp-markdown-editor:has(.markdown-surface) textarea {
 }
 
 .markdown-surface {
-  border-bottom: 1px dotted var(--semantic-color-border-secondary);
-  padding-bottom: 1px;
+  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+    var(--semantic-color-border-secondary);
+  padding-bottom: var(
+    --semantic-dimension-space-control-padding-block-xxx-small
+  );
 }
 
 .markdown-surface .cm-scroller {
-  min-height: max(96px, calc(var(--rows) * 1lh));
+  min-height: max(
+    var(--semantic-dimension-size-min-height-textarea),
+    calc(var(--rows) * 1lh)
+  );
 }
 
 .markdown-surface:focus-within,
@@ -1831,13 +1935,18 @@ textarea::-webkit-resizer {
   outline: none;
   border-bottom: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  padding-bottom: 1px;
+  padding-bottom: var(
+    --semantic-dimension-space-control-padding-block-xxx-small
+  );
 }
 
 .field input[aria-invalid="true"],
 .field textarea[aria-invalid="true"] {
-  border-bottom: 2px solid var(--semantic-color-border-negative);
-  padding-bottom: 1px;
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-negative);
+  padding-bottom: var(
+    --semantic-dimension-space-control-padding-block-xxx-small
+  );
 }
 
 .field:has([aria-invalid="true"]) > label {
@@ -1846,8 +1955,10 @@ textarea::-webkit-resizer {
 
 .field .field-help,
 .field .field-error {
-  margin-top: 4px;
-  font: var(--semantic-dimension-font-size-control)/1.45
+  margin-top: var(--semantic-dimension-space-gap-xx-small);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
     var(--semantic-font-family-body);
   color: var(--semantic-color-text-secondary);
 }
@@ -1858,30 +1969,36 @@ textarea::-webkit-resizer {
 
 .field-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px 16px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--semantic-dimension-size-min-width-field-grid), 1fr)
+  );
+  gap: var(--semantic-dimension-space-gap-large)
+    var(--semantic-dimension-space-gap-xx-large);
 }
 
 .field.boxed input,
 .field.boxed textarea {
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  padding: 5px 8px;
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-small);
 }
 
 .field.boxed input:focus-visible,
 .field.boxed textarea:focus-visible {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
   border-bottom: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  padding-bottom: 5px;
+  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
 }
 
 .field.boxed :is(input, textarea)[aria-invalid="true"] {
   border-color: var(--semantic-color-border-negative);
-  padding-bottom: 5px;
+  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
 }
 
 .password {
@@ -1895,16 +2012,19 @@ textarea::-webkit-resizer {
 .password > .iconbtn {
   justify-self: end;
   align-self: center;
-  margin-right: 4px;
+  margin-right: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .field.boxed .password > input {
-  padding-right: 32px;
+  padding-right: var(
+    --semantic-dimension-space-control-padding-inline-trailing-button
+  );
 }
 
 .field.boxed input[type="date"] {
-  min-height: 30px;
-  padding: 3px 8px;
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
 }
@@ -1920,12 +2040,16 @@ textarea::-webkit-resizer {
   overflow-wrap: anywhere;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 8px 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-medium);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
-  font: var(--semantic-dimension-font-size-control)/1.45
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
     var(--semantic-font-family-body);
 }
 
@@ -1948,14 +2072,14 @@ textarea::-webkit-resizer {
   font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   display: block;
 }
 
 :is(.notice, .outcome, .banner) > .glyph {
   flex: none;
-  width: 20px;
-  height: 20px;
+  width: var(--semantic-dimension-size-glyph-notice);
+  height: var(--semantic-dimension-size-glyph-notice);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   display: grid;
@@ -1991,20 +2115,20 @@ select[aria-invalid="true"] {
 
 .error-summary ul {
   list-style: none;
-  margin-top: 4px;
+  margin-top: var(--semantic-dimension-space-gap-xx-small);
   display: grid;
-  gap: 7px;
+  gap: var(--semantic-dimension-space-gap-small);
 }
 
 .error-summary a {
   color: var(--semantic-color-text-primary);
   text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: var(--semantic-dimension-border-width-divider);
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
 }
 
 .error-summary a:hover {
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: var(--semantic-dimension-border-width-container);
 }
 
 .table-wrap {
@@ -2020,20 +2144,22 @@ select[aria-invalid="true"] {
 .table th {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-on-head);
   background: var(--semantic-color-background-head);
   text-align: left;
-  padding: 6px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
   white-space: nowrap;
 }
 
 .table td {
-  padding: 8px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
   vertical-align: middle;
@@ -2072,13 +2198,14 @@ select[aria-invalid="true"] {
      behind when the cell sticks; the inset shadow travels with the cell */
   .table td.acts,
   .table:has(td.acts) th:last-child {
-    box-shadow: inset 2px 0 0 var(--semantic-color-border-primary);
-    padding-left: 10px;
+    box-shadow: inset var(--semantic-dimension-border-width-container) 0 0
+      var(--semantic-color-border-primary);
+    padding-left: var(--semantic-dimension-space-control-padding-inline-medium);
   }
 }
 
 .table td.acts .btn + .btn {
-  margin-left: 8px;
+  margin-left: var(--semantic-dimension-space-gap-small);
 }
 
 @media (max-width: 600px) {
@@ -2095,7 +2222,8 @@ select[aria-invalid="true"] {
   }
 
   .table tr {
-    padding: 10px 12px;
+    padding: var(--semantic-dimension-space-padding-small)
+      var(--semantic-dimension-space-padding-medium);
     border-bottom: var(--semantic-dimension-border-width-divider) solid
       var(--semantic-color-border-divider);
   }
@@ -2110,7 +2238,7 @@ select[aria-invalid="true"] {
     box-shadow: none;
     background: none;
     border: 0;
-    padding: 2px 0;
+    padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
     text-align: left;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -2127,7 +2255,7 @@ select[aria-invalid="true"] {
   }
 
   .table td.acts {
-    padding-top: 8px;
+    padding-top: var(--semantic-dimension-space-control-padding-block-xx-large);
   }
 }
 
@@ -2146,7 +2274,7 @@ select[aria-invalid="true"] {
 
 .props dt,
 .props dd {
-  padding: 7px 0;
+  padding: var(--semantic-dimension-space-control-padding-block-x-large) 0;
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
   min-height: var(--semantic-dimension-size-row);
@@ -2155,11 +2283,13 @@ select[aria-invalid="true"] {
 }
 
 .props dt {
-  padding-right: 16px;
+  padding-right: var(
+    --semantic-dimension-space-control-padding-inline-xx-large
+  );
 }
 
 .props dd.acts {
-  padding-left: 16px;
+  padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
 }
 
 .props > div:last-child dt,
@@ -2188,7 +2318,7 @@ select[aria-invalid="true"] {
   .props dt {
     grid-column: 1 / -1;
     min-height: 0;
-    padding: 8px 0 0;
+    padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0 0;
     border-bottom: 0;
   }
 }
@@ -2198,21 +2328,26 @@ select[aria-invalid="true"] {
   text-overflow: ellipsis;
   white-space: nowrap;
   background: var(--semantic-color-background-head);
-  padding: 1px 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
 }
 
 .code-surface {
   display: block;
   width: 100%;
-  font: var(--semantic-dimension-font-size-control)/1.6
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-code
+    )
     var(--semantic-font-family-code);
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-head);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
-  padding: 10px 12px;
+  border-radius: var(--semantic-dimension-radius-surface);
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium);
   resize: vertical;
-  min-height: 220px;
+  min-height: var(--semantic-dimension-size-min-height-code-surface);
   tab-size: 2;
   white-space: pre;
   overflow: auto;
@@ -2278,7 +2413,7 @@ pre.code-surface {
 
 .tok-heading,
 .tok-strong {
-  font-weight: 700;
+  font-weight: var(--semantic-font-weight-bold);
 }
 
 .tok-emphasis {
@@ -2287,7 +2422,7 @@ pre.code-surface {
 
 .tok-link {
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
 }
 
 .tok-inserted {
@@ -2306,11 +2441,15 @@ pre.code-surface {
 .secret {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-head);
-  padding: 6px 6px 6px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-x-small)
+    var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
 }
 
 .secret code {
@@ -2319,7 +2458,7 @@ pre.code-surface {
   overflow-x: auto;
   white-space: nowrap;
   font-size: var(--semantic-dimension-font-size-control);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--semantic-dimension-letter-spacing-code);
 }
 
 @media (max-width: 600px) {
@@ -2338,8 +2477,8 @@ pre.code-surface {
 .history-list li {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 0;
+  gap: var(--semantic-dimension-space-gap-large);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0;
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
 }
@@ -2351,8 +2490,11 @@ pre.code-surface {
 .history-list .v {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  width: calc(4ch + 8px);
-  padding: 0 4px;
+  width: calc(
+    var(--semantic-dimension-size-measure-xx-small) + 2 *
+      var(--semantic-dimension-space-control-padding-inline-xx-small)
+  );
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-xx-small);
   flex: none;
 }
 
@@ -2361,8 +2503,8 @@ pre.code-surface {
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   flex: none;
-  width: 10ch;
-  max-width: 16ch;
+  width: var(--semantic-dimension-size-measure-medium);
+  max-width: var(--semantic-dimension-size-measure-xx-large);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2388,7 +2530,7 @@ pre.code-surface {
 .save-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
   flex-wrap: wrap;
 }
 
@@ -2396,26 +2538,29 @@ pre.code-surface {
   margin-left: auto;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
 }
 
 .diff-wrap {
   overflow-x: auto;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
-  padding: 4px 0;
+  padding: var(--semantic-dimension-space-control-padding-block-small) 0;
 }
 
 .diff {
   width: 100%;
   border-collapse: collapse;
-  font: var(--semantic-dimension-font-size-control)/1.6
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-code
+    )
     var(--semantic-font-family-code);
 }
 
 .diff td {
-  padding: 0 8px;
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
   vertical-align: top;
   white-space: nowrap;
 }
@@ -2429,7 +2574,7 @@ pre.code-surface {
   text-align: right;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  line-height: 19px;
+  line-height: var(--semantic-dimension-size-diff-line);
   color: var(--semantic-color-text-secondary);
   border-right: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
@@ -2438,7 +2583,8 @@ pre.code-surface {
 
 .diff td.sign {
   width: 1%;
-  padding: 0 4px 0 8px;
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-xx-small) 0
+    var(--semantic-dimension-space-control-padding-inline-small);
   font-family: var(--semantic-font-family-ui);
   user-select: none;
 }
@@ -2474,7 +2620,8 @@ pre.code-surface {
     var(--semantic-color-border-divider);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
-  padding: 2px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-large);
 }
 
 @media (max-width: 600px) {
@@ -2503,7 +2650,7 @@ dialog.veil:focus {
    in the page's flow already prints over them. Lifted only then: at rest the rail's splitter
    lies over the frame's edge and a slip from its head prints over it */
 :is(.bench, .stage):has(dialog.veil[open]) {
-  z-index: 250;
+  z-index: var(--semantic-number-layer-dialog);
 }
 
 .veil-pad {
@@ -2511,7 +2658,7 @@ dialog.veil:focus {
   min-height: 100%;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: var(--semantic-dimension-space-padding-xxx-large);
   pointer-events: none;
 }
 
@@ -2541,21 +2688,24 @@ dialog.veil:focus {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
-  width: min(680px, 100%);
+  width: min(var(--semantic-dimension-size-max-width-card), 100%);
   animation: cardIn var(--semantic-duration-card) steps(3, end);
-  max-height: calc(100vh - 48px);
+  max-height: calc(
+    100vh - var(--semantic-dimension-space-viewport-gutter-x-large)
+  );
   display: flex;
   flex-direction: column;
 }
 
 .card.narrow {
-  width: min(440px, 100%);
+  width: min(var(--semantic-dimension-size-max-width-card-narrow), 100%);
 }
 
 @keyframes cardIn {
   from {
-    transform: scale(0.97);
+    transform: scale(var(--semantic-number-scale-card));
     opacity: 0;
   }
 }
@@ -2563,17 +2713,20 @@ dialog.veil:focus {
 .card-tb {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
-  padding: 6px 8px 6px 12px;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-small)
+    var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
   font-family: var(--semantic-font-family-ui);
   flex: none;
 }
 
 .card-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
   flex: 1;
@@ -2595,7 +2748,9 @@ dialog.veil:focus {
 
 :is(.panel-tb, .card-tb) :focus-visible {
   outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
-  outline-offset: -2px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
+  );
 }
 
 .card-body {
@@ -2613,8 +2768,9 @@ dialog.veil:focus {
 .card-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: var(--semantic-dimension-space-gap-large);
+  padding: var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-x-large);
   border-top: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   flex: none;
@@ -2626,25 +2782,25 @@ dialog.veil:focus {
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
   margin-left: auto;
 }
 
 .outcome {
   display: flex;
-  gap: 14px;
+  gap: var(--semantic-dimension-space-gap-x-large);
   align-items: flex-start;
 }
 
 .outcome > .glyph {
-  width: 34px;
-  height: 34px;
+  width: var(--semantic-dimension-size-glyph-large);
+  height: var(--semantic-dimension-size-glyph-large);
 }
 
 .outcome-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 4px;
+  gap: var(--semantic-dimension-space-gap-xx-small);
   min-width: 0;
 }
 
@@ -2654,38 +2810,38 @@ dialog.veil:focus {
   font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
 }
 
 .outcome-body > p {
-  max-width: 52ch;
+  max-width: var(--semantic-dimension-size-measure-outcome);
   overflow-wrap: anywhere;
 }
 
 .outcome-body > p + * {
-  margin-top: 8px;
+  margin-top: var(--semantic-dimension-space-gap-small);
 }
 
 .keymap {
   display: grid;
-  gap: 14px;
+  gap: var(--semantic-dimension-space-gap-x-large);
 }
 
 .keymap h3 {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
-  margin: 0 0 4px;
+  margin: 0 0 var(--semantic-dimension-space-gap-xx-small);
 }
 
 .keymap-row {
   display: flex;
   align-items: baseline;
-  gap: 16px;
-  padding: 4px 0;
+  gap: var(--semantic-dimension-space-gap-xx-large);
+  padding: var(--semantic-dimension-space-control-padding-block-small) 0;
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
 }
@@ -2698,7 +2854,7 @@ dialog.veil:focus {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   flex: none;
-  width: 12ch;
+  width: var(--semantic-dimension-size-measure-large);
 }
 
 .keymap-row span {
@@ -2711,13 +2867,15 @@ dialog.veil:focus {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px 8px;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-x-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large);
   flex: none;
 }
 
 .palette-q input {
-  flex: 1 1 14ch;
+  flex: 1 1 var(--semantic-dimension-size-measure-x-large);
   width: auto;
   min-width: 0;
 }
@@ -2728,7 +2886,9 @@ dialog.veil:focus {
   color: var(--semantic-color-text-secondary);
   border: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
-  padding: 1px 5px;
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
   flex: 0 1 auto;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -2744,12 +2904,15 @@ dialog.veil:focus {
 
 .palette-list {
   overflow-y: auto;
-  padding: 4px 0 8px;
-  max-height: min(50vh, 420px);
+  padding: var(--semantic-dimension-space-control-padding-block-small) 0
+    var(--semantic-dimension-space-control-padding-block-xx-large);
+  max-height: min(50vh, var(--semantic-dimension-size-max-height-palette));
 }
 
 .palette-group {
-  padding: 8px 16px 2px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
@@ -2760,10 +2923,19 @@ dialog.veil:focus {
 .palette-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   width: 100%;
-  padding: 8px 16px 8px
-    calc(16px + min((var(--palette-level, 1) - 1) * 20px, 33%));
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large)
+    calc(
+      var(--semantic-dimension-space-padding-x-large) +
+        min(
+          (var(--palette-level, 1) - 1) *
+            var(--semantic-dimension-space-indent-palette),
+          33%
+        )
+    );
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
@@ -2844,7 +3016,7 @@ dialog.veil:focus {
 }
 
 .palette-row:has(.hint) .glyph.opens {
-  margin-left: -4px;
+  margin-left: calc(-1 * var(--semantic-dimension-space-gap-xx-small));
 }
 
 .palette-row:not(:has(.hint)) .glyph.opens {
@@ -2853,25 +3025,30 @@ dialog.veil:focus {
 
 .palette-detail {
   display: grid;
-  gap: 8px;
-  padding: 4px 16px 4px;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-small);
 }
 
 .palette-more {
   flex: none;
   border-top: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
-  padding: 4px 16px 8px;
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   color: var(--semantic-color-text-secondary);
 }
 
 .empty {
-  padding: 26px 16px;
+  padding: var(--semantic-dimension-space-padding-xxx-large)
+    var(--semantic-dimension-space-padding-x-large);
   text-align: center;
   display: grid;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
   justify-items: center;
 }
 
@@ -2880,45 +3057,52 @@ dialog.veil:focus {
   font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
 }
 
 .empty p {
   color: var(--semantic-color-text-secondary);
-  max-width: 46ch;
+  max-width: var(--semantic-dimension-size-measure-note);
 }
 
 .empty .btn {
-  margin-top: 6px;
+  margin-top: var(--semantic-dimension-space-gap-x-small);
 }
 
 .banner {
   position: fixed;
-  bottom: calc(var(--statusbar-h) + 16px);
+  bottom: calc(
+    var(--statusbar-h) + var(--semantic-dimension-space-gap-xx-large)
+  );
   left: 50%;
   transform: translateX(-50%);
-  z-index: 150;
+  z-index: var(--semantic-number-layer-banner);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--semantic-dimension-space-gap-x-large);
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-button-default);
-  padding: 8px 14px;
-  max-width: min(680px, calc(100vw - 32px));
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
+  max-width: min(
+    var(--semantic-dimension-size-max-width-banner),
+    calc(100vw - var(--semantic-dimension-space-viewport-gutter-medium))
+  );
 }
 
 .banner > .glyph {
-  width: 26px;
-  height: 26px;
+  width: var(--semantic-dimension-size-glyph-banner);
+  height: var(--semantic-dimension-size-glyph-banner);
 }
 
 .wall {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: var(--semantic-dimension-space-padding-xxx-large);
 }
 
 .wall .card {
@@ -2928,7 +3112,7 @@ dialog.veil:focus {
 .wall-mark {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
 }
 
 .wall-mark .wordmark {
@@ -2936,8 +3120,8 @@ dialog.veil:focus {
 }
 
 .wall-mark .glyph {
-  width: 30px;
-  height: 30px;
+  width: var(--semantic-dimension-size-glyph-wall);
+  height: var(--semantic-dimension-size-glyph-wall);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   display: grid;
@@ -2973,11 +3157,11 @@ dialog.veil:focus {
   .tree .row {
     flex-wrap: wrap;
     justify-content: flex-end;
-    row-gap: 4px;
+    row-gap: var(--semantic-dimension-space-gap-xx-small);
   }
 
   .tree .row .grow {
-    flex: 1 1 calc(100% - 30px);
+    flex: 1 1 calc(100% - var(--semantic-dimension-size-tree-glyph-room));
   }
 
   .tree .row .title {
@@ -3024,7 +3208,9 @@ dialog.veil:focus {
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-height: calc(100vh - 150px);
+    max-height: calc(
+      100vh - var(--semantic-dimension-size-max-height-board-column-room)
+    );
   }
 
   .board-col .board-cards {
@@ -3041,7 +3227,7 @@ dialog.veil:focus {
 .board-col.drop-target .panel {
   outline: var(--semantic-dimension-border-width-container) dashed
     var(--semantic-color-border-primary);
-  outline-offset: 4px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-large);
 }
 
 .board-col.drop-target .board-cards,
@@ -3051,22 +3237,24 @@ dialog.veil:focus {
 
 .board-cards {
   list-style: none;
-  padding: 12px;
+  padding: var(--semantic-dimension-space-padding-medium);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
 }
 
 .board-card {
   position: relative;
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
   box-shadow: var(--semantic-shadow-button-default);
-  padding: 9px 11px;
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 7px;
+  gap: var(--semantic-dimension-space-gap-small);
 }
 
 .board-card.movable {
@@ -3074,7 +3262,9 @@ dialog.veil:focus {
 }
 
 .board-card [data-board-grip] {
-  margin-right: -6px;
+  margin-right: calc(
+    -1 * var(--semantic-dimension-space-control-padding-inline-x-small)
+  );
   cursor: grab;
   touch-action: none;
 }
@@ -3086,7 +3276,7 @@ dialog.veil:focus {
 }
 
 .board-lift {
-  width: var(--lift-width, 240px);
+  width: var(--lift-width, var(--semantic-dimension-size-lift-board-card));
   translate: var(--lift-x, 0) var(--lift-y, 0);
 }
 
@@ -3105,7 +3295,7 @@ dialog.veil:focus {
 .board-card:focus-within {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
   background: var(--semantic-color-background-head);
 }
 
@@ -3143,8 +3333,8 @@ dialog.veil:focus {
 .board-card .meta-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 14px;
+  gap: var(--semantic-dimension-space-gap-small);
+  min-height: var(--semantic-dimension-size-min-height-meta-row);
 }
 
 .board-card .meta-row .gap {
@@ -3158,9 +3348,12 @@ dialog.veil:focus {
 .sortable-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   min-width: 0;
-  padding: 8px var(--semantic-dimension-space-padding-panel) 8px 10px;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-padding-panel)
+    var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-medium);
   position: relative;
   background: var(--semantic-color-background-surface);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
@@ -3200,17 +3393,17 @@ dialog.veil:focus {
 }
 
 .sortable-item.drop-before::before {
-  top: -1px;
+  top: calc(-1 * var(--semantic-dimension-border-width-divider));
 }
 
 .sortable-item.drop-after::before {
-  bottom: -1px;
+  bottom: calc(-1 * var(--semantic-dimension-border-width-divider));
 }
 
 .sortable:is(.grid, .panels)
   .sortable-item:is(.drop-before, .drop-after)::before {
-  top: -2px;
-  bottom: -2px;
+  top: calc(-1 * var(--semantic-dimension-border-width-container));
+  bottom: calc(-1 * var(--semantic-dimension-border-width-container));
   left: auto;
   right: auto;
   border-top: 0;
@@ -3219,16 +3412,17 @@ dialog.veil:focus {
 }
 
 .sortable.grid .sortable-item.drop-before::before {
-  left: -9px;
+  left: calc(-1 * var(--semantic-dimension-space-gap-medium));
 }
 
 .sortable.grid .sortable-item.drop-after::before {
-  right: -9px;
+  right: calc(-1 * var(--semantic-dimension-space-gap-medium));
 }
 
 .sortable-item.lifted {
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-head);
   box-shadow: var(--semantic-shadow-card);
   cursor: grabbing;
@@ -3236,28 +3430,35 @@ dialog.veil:focus {
 
 .sortable-slot {
   list-style: none;
-  padding: 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-large);
 }
 
 .sortable-lift,
 .reel-lift {
-  width: var(--lift-width, 320px);
+  width: var(--lift-width, var(--semantic-dimension-size-lift-list-item));
   translate: var(--lift-x, 0) var(--lift-y, 0);
 }
 
 .sortable.grid .sortable-items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-  padding: 12px;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--semantic-dimension-size-min-width-sortable-grid), 1fr)
+  );
+  gap: var(--semantic-dimension-space-gap-large);
+  padding: var(--semantic-dimension-space-padding-medium);
 }
 
 .sortable.grid .sortable-item {
   align-items: flex-start;
   height: 100%;
-  padding: 9px 11px 9px 6px;
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-x-small);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-button-default);
 }
 
@@ -3276,7 +3477,10 @@ dialog.veil:focus {
     minmax(
       min(
         100%,
-        max(300px, (100% - 2 * var(--semantic-dimension-space-gap-surface)) / 3)
+        max(
+          var(--semantic-dimension-size-min-width-sortable-panel),
+          (100% - 2 * var(--semantic-dimension-space-gap-surface)) / 3
+        )
       ),
       1fr
     )
@@ -3306,11 +3510,17 @@ dialog.veil:focus {
 }
 
 .sortable.panels .sortable-item.drop-before::before {
-  left: calc(var(--semantic-dimension-space-gap-surface) / -2 - 1px);
+  left: calc(
+    var(--semantic-dimension-space-gap-surface) / -2 -
+      var(--semantic-dimension-border-width-divider)
+  );
 }
 
 .sortable.panels .sortable-item.drop-after::before {
-  right: calc(var(--semantic-dimension-space-gap-surface) / -2 - 1px);
+  right: calc(
+    var(--semantic-dimension-space-gap-surface) / -2 -
+      var(--semantic-dimension-border-width-divider)
+  );
 }
 
 .sortable.panels .sortable-item.lifted {
@@ -3337,8 +3547,8 @@ dialog.veil:focus {
 
 .cells {
   display: inline-flex;
-  gap: 2px;
-  padding: 2px;
+  gap: var(--semantic-dimension-space-gap-xxx-small);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   background: var(--semantic-color-background-surface);
@@ -3346,8 +3556,8 @@ dialog.veil:focus {
 }
 
 .cells .cell {
-  width: 10px;
-  height: 14px;
+  width: var(--semantic-dimension-size-meter-cell-width);
+  height: var(--semantic-dimension-size-meter-cell-height);
   background: var(--semantic-color-background-head);
 }
 
@@ -3357,7 +3567,7 @@ dialog.veil:focus {
 
 @media (max-width: 600px) {
   .cells:not(.meters *) .cell {
-    width: 8px;
+    width: var(--semantic-dimension-size-meter-cell-narrow);
   }
 }
 
@@ -3368,9 +3578,14 @@ dialog.veil:focus {
 
 .meter-row {
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  gap: 6px var(--semantic-dimension-space-gap-surface);
-  padding: 14px var(--semantic-dimension-space-padding-panel);
+  grid-template-columns: minmax(
+      var(--semantic-dimension-size-min-width-meter-name),
+      var(--semantic-dimension-size-max-width-meter-name)
+    ) minmax(0, 1fr);
+  gap: var(--semantic-dimension-space-gap-x-small)
+    var(--semantic-dimension-space-gap-surface);
+  padding: var(--semantic-dimension-space-padding-large)
+    var(--semantic-dimension-space-padding-panel);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
 }
@@ -3384,7 +3599,7 @@ dialog.veil:focus {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: var(--semantic-dimension-space-gap-xxx-small);
 }
 
 .meter-row .notice {
@@ -3402,7 +3617,8 @@ dialog.veil:focus {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 2px 12px;
+    gap: var(--semantic-dimension-space-gap-xxx-small)
+      var(--semantic-dimension-space-gap-large);
   }
 
   .meter-num {
@@ -3412,19 +3628,19 @@ dialog.veil:focus {
 
 @container meters (width < 280px) {
   .meters .cells .cell {
-    width: 8px;
+    width: var(--semantic-dimension-size-meter-cell-narrow);
   }
 }
 
 @container meters (width < 240px) {
   .meters .cells .cell {
-    width: 6px;
+    width: var(--semantic-dimension-size-meter-cell-narrower);
   }
 }
 
 @container meters (width < 200px) {
   .meters .cells .cell {
-    width: 4px;
+    width: var(--semantic-dimension-size-meter-cell-narrowest);
   }
 }
 
@@ -3439,7 +3655,7 @@ dialog.veil:focus {
 .meter-line {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
   flex-wrap: wrap;
 }
 
@@ -3458,13 +3674,14 @@ dialog.veil:focus {
 .meter-line .pct {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  min-width: 4ch;
+  min-width: var(--semantic-dimension-size-measure-xx-small);
 }
 
 .mark.reading {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  padding: 1px 6px;
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
 }
 
 .meter-num {
@@ -3475,7 +3692,7 @@ dialog.veil:focus {
 
 .meter-foot {
   display: flex;
-  gap: 16px;
+  gap: var(--semantic-dimension-space-gap-xx-large);
   flex-wrap: wrap;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
@@ -3491,13 +3708,13 @@ dialog.veil:focus {
 }
 
 .history-list.checks .who {
-  width: 20ch;
+  width: var(--semantic-dimension-size-measure-title);
   max-width: none;
 }
 
 @media (max-width: 600px) {
   .history-list.checks .who {
-    width: 12ch;
+    width: var(--semantic-dimension-size-measure-large);
   }
 }
 
@@ -3507,8 +3724,8 @@ dialog.veil:focus {
 
 .history-list.wrapped li {
   flex-wrap: wrap;
-  row-gap: 2px;
-  padding: 6px 0;
+  row-gap: var(--semantic-dimension-space-gap-xxx-small);
+  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
 }
 
 .history-list.wrapped li:first-child {
@@ -3526,7 +3743,7 @@ dialog.veil:focus {
 }
 
 .history-list.wrapped li.current .v {
-  padding: 0 4px;
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-xx-small);
 }
 
 .history-list.wrapped .who {
@@ -3545,7 +3762,7 @@ dialog.veil:focus {
   order: 1;
   flex-basis: 100%;
   font-size: var(--semantic-dimension-font-size-control);
-  line-height: 1.45;
+  line-height: var(--semantic-number-line-height-body);
   white-space: normal;
   overflow-wrap: anywhere;
 }
@@ -3555,7 +3772,7 @@ dialog.veil:focus {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 2px 0;
+  gap: var(--semantic-dimension-space-gap-xxx-small) 0;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   letter-spacing: var(--semantic-dimension-letter-spacing-caps);
@@ -3563,7 +3780,7 @@ dialog.veil:focus {
 
 .crumbs li + li::before {
   content: "/";
-  margin: 0 8px;
+  margin: 0 var(--semantic-dimension-space-gap-small);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3586,9 +3803,10 @@ dialog.veil:focus {
 .file {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--semantic-dimension-space-gap-small);
   width: 100%;
-  padding: 5px 10px;
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-medium);
   font-family: var(--semantic-font-family-code);
   font-size: var(--semantic-dimension-font-size-control);
   color: var(--semantic-color-text-primary);
@@ -3631,11 +3849,13 @@ dialog.veil:focus {
 .drop-zone {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  padding: 28px var(--semantic-dimension-space-padding-panel);
+  gap: var(--semantic-dimension-space-gap-medium);
+  padding: var(--semantic-dimension-space-drop-zone-padding)
+    var(--semantic-dimension-space-padding-panel);
   text-align: center;
   border: var(--semantic-dimension-border-width-container) dashed
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
 }
 
 .drop-zone[data-drag-over] {
@@ -3644,8 +3864,8 @@ dialog.veil:focus {
 }
 
 .drop-zone-glyph {
-  width: 34px;
-  height: 34px;
+  width: var(--semantic-dimension-size-glyph-large);
+  height: var(--semantic-dimension-size-glyph-large);
   display: grid;
   place-items: center;
   border: var(--semantic-dimension-border-width-container) solid
@@ -3655,15 +3875,15 @@ dialog.veil:focus {
 
 .drop-zone p {
   color: var(--semantic-color-text-secondary);
-  max-width: 44ch;
+  max-width: var(--semantic-dimension-size-measure-drop-zone);
 }
 
 .drop-zone p strong {
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: var(--semantic-dimension-space-gap-xxx-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  font-weight: 400;
+  font-weight: var(--semantic-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-primary);
@@ -3672,26 +3892,29 @@ dialog.veil:focus {
 .drop-zone .btn:focus-within {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
 
 .sheet {
-  padding: 28px 32px 36px;
+  padding: var(--semantic-dimension-space-sheet-padding-top)
+    var(--semantic-dimension-space-sheet-padding-inline)
+    var(--semantic-dimension-space-sheet-padding-bottom);
 }
 
 .sheet-head {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--semantic-dimension-space-gap-xx-large);
   flex-wrap: wrap;
 }
 
 .sheet-title {
-  flex: 1 1 20ch;
+  flex: 1 1 var(--semantic-dimension-size-measure-title);
   font: var(--semantic-font-weight-prose-heading)
-    var(--semantic-dimension-font-size-prose-title) / 1.15
+    var(--semantic-dimension-font-size-prose-title) /
+    var(--semantic-number-line-height-display-title)
     var(--semantic-font-family-body);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
   text-wrap: balance;
   max-width: var(--semantic-dimension-size-max-width-prose);
 }
@@ -3702,13 +3925,14 @@ dialog.veil:focus {
 
 .sheet-acts {
   display: flex;
-  gap: 10px;
-  padding-top: 4px;
+  gap: var(--semantic-dimension-space-gap-medium);
+  padding-top: var(--semantic-dimension-space-control-padding-block-small);
 }
 
 .byline {
-  margin: 10px 0 var(--semantic-dimension-space-gap-surface);
-  padding-bottom: 14px;
+  margin: var(--semantic-dimension-space-gap-medium) 0
+    var(--semantic-dimension-space-gap-surface);
+  padding-bottom: var(--semantic-dimension-space-padding-large);
   border-bottom: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
   font-family: var(--semantic-font-family-ui);
@@ -3718,17 +3942,19 @@ dialog.veil:focus {
 }
 
 .sheet > .notice {
-  margin-bottom: 20px;
+  margin-bottom: var(--semantic-dimension-space-gap-xxx-large);
   max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 @media (max-width: 600px) {
   .sheet {
-    padding: 20px var(--semantic-dimension-space-padding-panel) 28px;
+    padding: var(--semantic-dimension-space-padding-xx-large)
+      var(--semantic-dimension-space-padding-panel)
+      var(--semantic-dimension-space-sheet-padding-narrow);
   }
 
   .sheet-title {
-    font-size: 25px;
+    font-size: var(--semantic-dimension-font-size-prose-title-narrow);
   }
 
   .sheet-acts {
@@ -3737,8 +3963,8 @@ dialog.veil:focus {
 }
 
 .prose {
-  font: var(--semantic-dimension-font-size-prose-body) / 1.65
-    var(--semantic-font-family-body);
+  font: var(--semantic-dimension-font-size-prose-body) /
+    var(--semantic-number-line-height-prose) var(--semantic-font-family-body);
   color: var(--semantic-color-text-primary);
 }
 
@@ -3757,17 +3983,17 @@ dialog.veil:focus {
 
 .prose :is(h1, h2) {
   font: var(--semantic-font-weight-prose-heading)
-    var(--semantic-dimension-font-size-prose-heading-2) / 1.3
-    var(--semantic-font-family-body);
-  letter-spacing: -0.005em;
+    var(--semantic-dimension-font-size-prose-heading-2) /
+    var(--semantic-number-line-height-heading) var(--semantic-font-family-body);
+  letter-spacing: var(--semantic-dimension-letter-spacing-prose-heading);
   margin-top: 2em;
   text-wrap: balance;
 }
 
 .prose h3 {
   font: var(--semantic-font-weight-prose-heading)
-    var(--semantic-dimension-font-size-prose-heading-3) / 1.4
-    var(--semantic-font-family-body);
+    var(--semantic-dimension-font-size-prose-heading-3) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-body);
   margin-top: 1.6em;
 }
 
@@ -3776,21 +4002,21 @@ dialog.veil:focus {
 }
 
 .prose h4 {
-  font: var(--semantic-dimension-font-size-control) / 1.4
-    var(--semantic-font-family-ui);
+  font: var(--semantic-dimension-font-size-control) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
 }
 
 .prose h5 {
   font: var(--semantic-font-weight-prose-heading)
-    var(--semantic-dimension-font-size-body) / 1.45
-    var(--semantic-font-family-body);
+    var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-body) var(--semantic-font-family-body);
 }
 
 .prose h6 {
-  font: var(--semantic-dimension-font-size-label) / 1.4
-    var(--semantic-font-family-ui);
+  font: var(--semantic-dimension-font-size-label) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
@@ -3836,17 +4062,19 @@ dialog.veil:focus {
 
 .prose :not(pre) > code {
   background: var(--semantic-color-background-head);
-  padding: 1px 5px;
-  font-size: 0.85em;
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+  font-size: calc(var(--semantic-number-font-scale-inline-code) * 1em);
 }
 
 .prose pre.code-surface {
-  font-size: 12.5px;
+  font-size: var(--semantic-dimension-font-size-prose-code);
 }
 
 .prose .table-wrap {
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
 }
 
 .prose .table {
@@ -3858,7 +4086,7 @@ dialog.veil:focus {
 }
 
 .prose blockquote {
-  padding-left: 16px;
+  padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
   border-left: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-primary);
   color: var(--semantic-color-text-secondary);
@@ -3872,19 +4100,20 @@ dialog.veil:focus {
 }
 
 .prose .notice {
-  font: var(--semantic-dimension-font-size-name) / 1.55
+  font: var(--semantic-dimension-font-size-name) /
+    var(--semantic-number-line-height-prose-notice)
     var(--semantic-font-family-body);
 }
 
 .prose a {
   color: var(--semantic-color-text-primary);
   text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: var(--semantic-dimension-border-width-divider);
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
 }
 
 .prose a:hover {
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: var(--semantic-dimension-border-width-container);
 }
 
 .prose a.missing {
@@ -3895,22 +4124,23 @@ dialog.veil:focus {
 
 .toc {
   list-style: none;
-  padding: 6px 0;
+  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
 }
 
 .toc a {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  padding: 5px 12px;
-  font: var(--semantic-dimension-font-size-body) / 1.35
-    var(--semantic-font-family-body);
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  font: var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-compact) var(--semantic-font-family-body);
   color: var(--semantic-color-text-primary);
   text-decoration: none;
 }
 
 .toc .l3 a {
-  padding-left: 28px;
+  padding-left: var(--semantic-dimension-space-indent-toc);
   font-size: var(--semantic-dimension-font-size-control);
   color: var(--semantic-color-text-secondary);
 }
@@ -3918,9 +4148,11 @@ dialog.veil:focus {
 .toc a::before {
   content: "";
   flex: none;
-  width: 6px;
-  height: 6px;
-  transform: translateY(-1px);
+  width: var(--semantic-dimension-size-bullet);
+  height: var(--semantic-dimension-size-bullet);
+  transform: translateY(
+    calc(-1 * var(--semantic-dimension-travel-nudge-small))
+  );
 }
 
 .toc a[aria-current="true"]::before {
@@ -3937,17 +4169,18 @@ dialog.veil:focus {
 
 .chip .cursor,
 .link-state .cursor {
-  width: 5px;
-  height: 9px;
-  margin-left: 4px;
+  width: var(--semantic-dimension-size-cursor-small-width);
+  height: var(--semantic-dimension-size-cursor-small-height);
+  margin-left: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .loading .cursor {
-  margin-left: 6px;
+  margin-left: var(--semantic-dimension-space-gap-x-small);
 }
 
 .loading {
-  padding: 26px 16px;
+  padding: var(--semantic-dimension-space-padding-xxx-large)
+    var(--semantic-dimension-space-padding-x-large);
   text-align: center;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
@@ -3967,22 +4200,22 @@ dialog.veil:focus {
   display: inline-grid;
   place-items: center;
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: var(--semantic-dimension-size-monogram-default);
+  height: var(--semantic-dimension-size-monogram-default);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  line-height: 1;
+  line-height: var(--semantic-number-line-height-none);
   text-transform: uppercase;
   user-select: none;
 }
 
 .monogram.large {
-  width: 34px;
-  height: 34px;
+  width: var(--semantic-dimension-size-monogram-large);
+  height: var(--semantic-dimension-size-monogram-large);
   font-size: var(--semantic-dimension-font-size-name);
 }
 
@@ -3994,30 +4227,30 @@ dialog.veil:focus {
 .identity {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--semantic-dimension-space-gap-medium);
   min-width: 0;
 }
 
 .identity-text {
   display: grid;
-  gap: 2px;
+  gap: var(--semantic-dimension-space-gap-xxx-small);
   min-width: 0;
 }
 
 .identity-text strong {
-  font-weight: 600;
+  font-weight: var(--semantic-font-weight-semi-bold);
   overflow-wrap: anywhere;
 }
 
 .identity-text .meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--semantic-dimension-space-gap-small);
   flex-wrap: wrap;
 }
 
 .identity.large {
-  gap: 12px;
+  gap: var(--semantic-dimension-space-gap-large);
 }
 
 .identity.large strong {
@@ -4034,9 +4267,10 @@ dialog.veil:focus {
   display: grid;
   align-content: start;
   justify-items: start;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
   min-width: 0;
-  padding: 14px var(--semantic-dimension-space-padding-panel);
+  padding: var(--semantic-dimension-space-padding-large)
+    var(--semantic-dimension-space-padding-panel);
   margin: 0 calc(-1 * var(--semantic-dimension-border-width-divider))
     calc(-1 * var(--semantic-dimension-border-width-divider)) 0;
   border-right: var(--semantic-dimension-border-width-divider) solid
@@ -4053,7 +4287,7 @@ dialog.veil:focus {
 .stat-value {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-figure);
-  line-height: 1.1;
+  line-height: var(--semantic-number-line-height-figure);
   font-variant-numeric: tabular-nums;
   color: var(--semantic-color-text-primary);
 }
@@ -4078,14 +4312,14 @@ dialog.veil:focus {
   }
 
   .stat {
-    padding: 12px;
+    padding: var(--semantic-dimension-space-padding-medium);
   }
 }
 
 .tip[popover] {
   position-anchor: auto;
   inset: auto;
-  margin: 0 0 6px;
+  margin: 0 0 var(--semantic-dimension-space-gap-x-small);
   position-area: top;
   position-try-fallbacks:
     top span-left,
@@ -4093,8 +4327,12 @@ dialog.veil:focus {
     flip-block,
     bottom span-left,
     bottom span-right;
-  max-width: min(36ch, calc(100vw - 24px));
-  padding: 3px 7px;
+  max-width: min(
+    var(--semantic-dimension-size-measure-tip),
+    calc(100vw - var(--semantic-dimension-space-viewport-gutter-small))
+  );
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
   border: 0;
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-on-inverse-fill);
@@ -4102,14 +4340,14 @@ dialog.veil:focus {
   color: var(--semantic-color-text-on-inverse-fill);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  line-height: 1.35;
+  line-height: var(--semantic-number-line-height-compact);
   text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   overflow: visible;
 }
 
 .tip .key-hint {
-  margin-left: 6px;
+  margin-left: var(--semantic-dimension-space-gap-x-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   text-transform: none;
@@ -4118,7 +4356,7 @@ dialog.veil:focus {
 }
 
 .tip[popover][data-side="right"] {
-  margin: 0 0 0 6px;
+  margin: 0 0 0 var(--semantic-dimension-space-gap-x-small);
   position-area: right;
   position-try-fallbacks: flip-inline;
 }
@@ -4126,9 +4364,9 @@ dialog.veil:focus {
 .disclosure > :is(summary, .disclosure-summary) {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--semantic-dimension-space-gap-small);
   width: 100%;
-  padding: 3px 0;
+  padding: var(--semantic-dimension-space-control-padding-block-x-small) 0;
   border: 0;
   background: none;
   color: inherit;
@@ -4152,7 +4390,8 @@ dialog.veil:focus {
 }
 
 .disclosure-label {
-  border-bottom: 1px dotted transparent;
+  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+    transparent;
 }
 
 .disclosure > :is(summary, .disclosure-summary):hover .disclosure-label {
@@ -4173,8 +4412,12 @@ dialog.veil:focus {
 .disclosure-body {
   display: grid;
   gap: var(--semantic-dimension-space-gap-body);
-  margin: 6px 0 2px 5px;
-  padding: 4px 0 4px 14px;
+  margin: var(--semantic-dimension-space-gap-x-small) 0
+    var(--semantic-dimension-space-gap-xxx-small)
+    var(--semantic-dimension-space-gap-x-small);
+  padding: var(--semantic-dimension-space-control-padding-block-small) 0
+    var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
   border-left: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
 }
@@ -4188,13 +4431,15 @@ dialog.veil:focus {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 40;
+  z-index: var(--semantic-number-layer-sticky);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 4px 16px;
-  padding: 4px 20px;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-xx-large);
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-padding-xx-large);
   background: var(--semantic-color-background-surface);
   border-top: var(--semantic-dimension-border-width-divider) solid
     var(--semantic-color-border-divider);
@@ -4207,14 +4452,16 @@ dialog.veil:focus {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 12px;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
   min-width: 0;
 }
 
 .statusbar-keys {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 12px;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
 }
 
 .statusbar-keys .key-hint {
@@ -4249,8 +4496,10 @@ dialog.veil:focus {
   gap: var(--semantic-dimension-space-gap-surface);
   width: var(--railed-width, var(--semantic-dimension-size-rail-default));
   height: auto;
-  padding: var(--semantic-dimension-space-gap-surface) 10px
-    var(--semantic-dimension-space-gap-surface) 20px;
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-control-padding-inline-medium)
+    var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-padding-xx-large);
   border: 0;
   background: none;
   color: inherit;
@@ -4296,8 +4545,8 @@ dialog.veil:focus {
   top: anchor(--topbar bottom, 0px);
   bottom: var(--statusbar-h);
   left: var(--railed-width, var(--semantic-dimension-size-rail-default));
-  z-index: 1;
-  width: 12px;
+  z-index: var(--semantic-number-layer-raised);
+  width: var(--semantic-dimension-size-rail-resize);
   cursor: col-resize;
   touch-action: none;
 }
@@ -4319,7 +4568,9 @@ dialog.veil:focus {
 }
 
 .rail-resize:focus-visible {
-  outline-offset: -2px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
+  );
 }
 
 .rail-head,
@@ -4344,9 +4595,11 @@ dialog.veil:focus {
 
   .railed.folded > .rail > .rail-head + .panel > .panel-tb {
     writing-mode: vertical-rl;
-    min-width: 31px;
+    min-width: var(--semantic-dimension-size-title-bar);
     min-height: 0;
-    padding: 3px 3px 12px;
+    padding: var(--semantic-dimension-space-control-padding-block-x-small)
+      var(--semantic-dimension-space-control-padding-inline-xxx-small)
+      var(--semantic-dimension-space-padding-medium);
   }
 
   .railed.folded > .rail > .rail-head + .panel > .panel-tb > .meta {
@@ -4377,10 +4630,16 @@ dialog.veil:focus {
 
   .rail[popover]:popover-open {
     inset: 0 auto 0 0;
-    width: min(var(--semantic-dimension-size-rail-drawer), calc(100vw - 40px));
+    width: min(
+      var(--semantic-dimension-size-rail-drawer),
+      calc(100vw - var(--semantic-dimension-space-viewport-gutter-large))
+    );
     height: 100dvh;
     max-height: none;
-    padding: 12px 16px var(--semantic-dimension-space-gap-surface) 12px;
+    padding: var(--semantic-dimension-space-padding-medium)
+      var(--semantic-dimension-space-padding-x-large)
+      var(--semantic-dimension-space-gap-surface)
+      var(--semantic-dimension-space-padding-medium);
     background: var(--dither);
     border-right: var(--semantic-dimension-border-width-container) solid
       var(--semantic-color-border-primary);
@@ -4396,7 +4655,7 @@ dialog.veil:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: var(--semantic-dimension-space-gap-large);
   }
 
   .rail-open {
@@ -4409,7 +4668,7 @@ dialog.veil:focus {
   }
 
   .panel-tb:has(> .panel-lead > .rail-toggle) {
-    padding-left: 12px;
+    padding-left: var(--semantic-dimension-space-control-padding-inline-large);
   }
 }
 
@@ -4443,9 +4702,12 @@ dialog.veil:focus {
   display: grid;
   align-content: start;
   gap: var(--semantic-dimension-space-gap-surface);
-  margin-bottom: -6px;
+  margin-bottom: calc(
+    -1 * var(--semantic-dimension-space-control-padding-block-large)
+  );
   padding: var(--semantic-dimension-space-gap-surface)
-    var(--semantic-dimension-space-gap-reel) 6px;
+    var(--semantic-dimension-space-gap-reel)
+    var(--semantic-dimension-space-control-padding-block-large);
   overflow-y: auto;
 }
 
@@ -4482,15 +4744,15 @@ dialog.veil:focus {
 .stage-paused {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: var(--semantic-number-layer-paused);
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: var(--semantic-dimension-space-padding-xxx-large);
   background: var(--veil-grain), var(--semantic-color-background-backdrop);
 }
 
 .stage-paused > .notice {
-  width: min(460px, 100%);
+  width: min(var(--semantic-dimension-size-max-width-stage-notice), 100%);
   box-shadow: var(--semantic-shadow-button-default);
 }
 
@@ -4503,14 +4765,19 @@ dialog.veil:focus {
 
 .window > .panel-tb {
   align-items: center;
-  gap: 8px;
-  min-height: 30px;
-  padding: 3px 3px 3px 10px;
+  gap: var(--semantic-dimension-space-gap-small);
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-xxx-small)
+    var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-medium);
   user-select: none;
 }
 
 .window > .panel-tb:has(> .panel-lead) {
-  padding-left: 3px;
+  padding-left: var(
+    --semantic-dimension-space-control-padding-inline-xxx-small
+  );
 }
 
 .window > .panel-tb h2 {
@@ -4632,14 +4899,14 @@ dialog.veil:focus {
 .reel-resize::after {
   top: 0;
   bottom: 0;
-  left: calc(50% - 1px);
+  left: calc(50% - var(--semantic-dimension-border-width-divider));
   width: var(--semantic-dimension-border-width-container);
 }
 
 .reel-split::after {
   left: 0;
   right: 0;
-  top: calc(50% - 1px);
+  top: calc(50% - var(--semantic-dimension-border-width-divider));
   height: var(--semantic-dimension-border-width-container);
 }
 
@@ -4650,7 +4917,9 @@ dialog.veil:focus {
 
 .reel-resize:focus-visible,
 .reel-split:focus-visible {
-  outline-offset: -2px;
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
+  );
 }
 
 .reel-gap.drop-here::before {
@@ -4658,7 +4927,7 @@ dialog.veil:focus {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(50% - 1px);
+  left: calc(50% - var(--semantic-dimension-border-width-divider));
   border-left: var(--semantic-dimension-border-width-container) dashed
     var(--semantic-color-border-primary);
   pointer-events: none;
@@ -4675,11 +4944,17 @@ dialog.veil:focus {
 }
 
 .reel-slot.drop-before::before {
-  top: calc(var(--semantic-dimension-space-gap-reel) / -2 - 1px);
+  top: calc(
+    var(--semantic-dimension-space-gap-reel) / -2 -
+      var(--semantic-dimension-border-width-divider)
+  );
 }
 
 .reel-slot.drop-after::before {
-  bottom: calc(var(--semantic-dimension-space-gap-reel) / -2 - 1px);
+  bottom: calc(
+    var(--semantic-dimension-space-gap-reel) / -2 -
+      var(--semantic-dimension-border-width-divider)
+  );
 }
 
 .reel-panes {
@@ -4712,7 +4987,7 @@ dialog.veil:focus {
 .reel-pane:focus-visible > .window {
   outline: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-focus-ring-default);
-  outline-offset: 2px;
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
 
 .reel-pane.drag-dim {
@@ -4740,7 +5015,7 @@ dialog.veil:focus {
 .reel-tabs button {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--semantic-dimension-space-gap-x-small);
   min-width: 0;
 }
 
@@ -4770,7 +5045,7 @@ dialog.veil:focus {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: var(--semantic-number-layer-lift);
   pointer-events: none;
 }
 
@@ -4786,10 +5061,14 @@ dialog.veil:focus {
    is showing, or of a status bar, and sets the gap. A phone spans it across the bottom */
 .toasts .toast-stack {
   bottom: calc(
-    anchor(--banner top, calc(var(--statusbar-h) + 4px)) - 4px
+    anchor(
+        --banner top,
+        calc(var(--statusbar-h) + var(--semantic-dimension-space-gap-xx-small))
+      ) -
+      var(--semantic-dimension-space-gap-xx-small)
   ) !important;
-  gap: 10px !important;
-  width: min(392px, 100vw);
+  gap: var(--semantic-dimension-space-gap-medium) !important;
+  width: min(var(--semantic-dimension-size-max-width-toast), 100vw);
 }
 
 .banner {
@@ -4811,7 +5090,11 @@ dialog.veil:focus {
 
 .toast > .iconbtn {
   flex: none;
-  margin: -2px -4px -2px 0;
+  margin: calc(
+      -1 * var(--semantic-dimension-space-control-padding-block-xx-small)
+    )
+    calc(-1 * var(--semantic-dimension-space-control-padding-inline-xx-small))
+    calc(-1 * var(--semantic-dimension-space-control-padding-block-xx-small)) 0;
 }
 
 .toasts .toast {
@@ -4820,7 +5103,7 @@ dialog.veil:focus {
 
 @keyframes toastIn {
   from {
-    transform: translateY(8px);
+    transform: translateY(var(--semantic-dimension-travel-toast));
     opacity: 0;
   }
 }

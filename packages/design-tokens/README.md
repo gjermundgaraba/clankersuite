@@ -42,19 +42,28 @@ Primitives hold literals and never alias. Colours are a family and a lightness s
 
 Semantic tokens name a role and always alias, so a brand changes a value without changing a component. A semantic colour aliases a token in both colour schemes, never a literal; the build fails otherwise.
 
-| Category     | Types                                                       |
-| ------------ | ----------------------------------------------------------- |
-| `color`      | `text`, `border`, `focusRing`, `background`, `shadow`       |
-| `dimension`  | `fontSize`, `letterSpacing`, `borderWidth`, `size`, `space` |
-| `number`     | `opacity`                                                   |
-| `fontFamily` | `ui`, `body`, `code`                                        |
-| `fontWeight` | `prose`                                                     |
+| Category     | Types                                                                           |
+| ------------ | ------------------------------------------------------------------------------- |
+| `color`      | `text`, `border`, `focusRing`, `background`, `shadow`                           |
+| `dimension`  | `fontSize`, `letterSpacing`, `borderWidth`, `radius`, `size`, `space`, `travel` |
+| `duration`   | one per motion: `blink`, `card`, `flash`, `veil`                                |
+| `number`     | `opacity`, `lineHeight`, `layer`, `scale`, `fontScale`                          |
+| `fontFamily` | `ui`, `body`, `code`                                                            |
+| `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
+| `shadow`     | one per raised thing: `button`, `card`, `panel`, `pressed`, `negative`          |
 
 - `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a title bar or table head. `background.fill.*` fills a bounded shape: a button, a chip, a mark.
 - `text.on<Fill>` and `border.on<Fill>` are what reads on that fill.
 - `border.primary` contains; `border.divider` divides and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
+- `space.padding` and `space.gap` are T-shirt ladders (`xxxSmall` to `xxLarge`) on whole pixels. A component picks a step; a brand that changes a step changes every component on it.
+- `space.control.padding.block` and `.inline` are the inside of a control. A control's row height is its line plus its padding plus its border, so these steps are a pixel apart and some are odd: they keep a bordered control on the row height.
+- `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains. Both are 0 in clankersuite.
+- `travel` is how far a thing moves: a pressed button, an entering toast, a glyph nudged onto the baseline.
+- `layer` is a `z-index`, named by what sits on it.
+
+The component stylesheet writes no raw value a token covers; a test fails on one. Raw are: zero; relative units (`em`, `lh`, `%`, viewport units); counts; angles; the geometry of a drawn tile (`background-size` and `background-position`); and `@media` and `@container` thresholds, where `var()` does not work.
 
 Every semantic token carries a `$description` saying where it is used.
 
