@@ -1,0 +1,187 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic dimension tokens.",
+  "semantic": {
+    "dimension": {
+      "$type": "dimension",
+      "fontSize": {
+        "label": {
+          "$value": "{primitive.dimension.10}",
+          "$description": "Labels, field labels, table heads, meta."
+        },
+        "state": {
+          "$value": "{primitive.dimension.11}",
+          "$description": "Chips, tabs, ages, counts, state words."
+        },
+        "control": {
+          "$value": "{primitive.dimension.12}",
+          "$description": "Buttons, nav, menus, code, notices."
+        },
+        "body": {
+          "$value": "{primitive.dimension.13}",
+          "$description": "Body text, title bars."
+        },
+        "name": {
+          "$value": "{primitive.dimension.14}",
+          "$description": "A group's or a meter's name."
+        },
+        "title": {
+          "$value": "{primitive.dimension.16}",
+          "$description": "An editable title in a card."
+        },
+        "page": {
+          "$value": "{primitive.dimension.22}",
+          "$description": "A working screen's name (PageHead)."
+        },
+        "pageNarrow": {
+          "$value": "{primitive.dimension.18}",
+          "$description": "A working screen's name on a phone."
+        },
+        "wordmark": {
+          "$value": "{primitive.dimension.18}",
+          "$description": "The wordmark."
+        },
+        "wordmarkWall": {
+          "$value": "{primitive.dimension.22}",
+          "$description": "The wordmark on a wall."
+        },
+        "figure": {
+          "$value": "{primitive.dimension.30}",
+          "$description": "A stat's value."
+        },
+        "figureNarrow": {
+          "$value": "{primitive.dimension.22}",
+          "$description": "A stat's value at 900px and under."
+        },
+        "prose": {
+          "body": {
+            "$value": "{primitive.dimension.15}",
+            "$description": "Long-form reading text."
+          },
+          "heading": {
+            "2": {
+              "$value": "{primitive.dimension.20}",
+              "$description": "A second-level heading in long-form reading."
+            },
+            "3": {
+              "$value": "{primitive.dimension.15}",
+              "$description": "A third-level heading in long-form reading."
+            }
+          },
+          "title": {
+            "$value": "{primitive.dimension.30}",
+            "$description": "A document's title."
+          }
+        }
+      },
+      "letterSpacing": {
+        "caps": {
+          "$value": "{primitive.dimension.letterSpacing.40}",
+          "$description": "Uppercase pixel controls."
+        },
+        "state": {
+          "$value": "{primitive.dimension.letterSpacing.50}",
+          "$description": "Chips, tabs, tips: words that report state."
+        },
+        "head": {
+          "$value": "{primitive.dimension.letterSpacing.60}",
+          "$description": "A card's title bar, a notice's or outcome's headline."
+        },
+        "title": {
+          "$value": "{primitive.dimension.letterSpacing.80}",
+          "$description": "A panel's title bar, an empty state's headline, the flash word."
+        },
+        "label": {
+          "$value": "{primitive.dimension.letterSpacing.100}",
+          "$description": "Uppercase pixel labels."
+        }
+      },
+      "borderWidth": {
+        "container": {
+          "$value": "{primitive.dimension.2}",
+          "$description": "Anything that contains: drawn in border.primary."
+        },
+        "divider": {
+          "$value": "{primitive.dimension.1}",
+          "$description": "Anything that divides: drawn in border.divider."
+        }
+      },
+      "size": {
+        "row": {
+          "$value": "{primitive.dimension.34}",
+          "$description": "The height of a row."
+        },
+        "maxWidth": {
+          "deck": {
+            "$value": "{primitive.dimension.1160}",
+            "$description": "The widest a deck of panels runs."
+          },
+          "prose": {
+            "$value": "{primitive.dimension.measure.68}",
+            "$description": "The measure of long-form reading."
+          }
+        },
+        "rail": {
+          "default": {
+            "$value": "{primitive.dimension.272}",
+            "$description": "The column of panels beside a deck, until the reader sizes it."
+          },
+          "drawer": {
+            "$value": "{primitive.dimension.320}",
+            "$description": "The rail as a drawer, whatever width the reader gave it."
+          },
+          "folded": {
+            "$value": "{primitive.dimension.64}",
+            "$description": "The rail folded to its first panel's bar, stood on end."
+          }
+        },
+        "minWidth": {
+          "reelColumn": {
+            "$value": "{primitive.dimension.280}",
+            "$description": "The narrowest a reel column prints, whatever its width."
+          }
+        },
+        "minHeight": {
+          "reelPane": {
+            "$value": "{primitive.dimension.120}",
+            "$description": "The shortest a reel pane prints."
+          },
+          "benchWork": {
+            "$value": "{primitive.dimension.152}",
+            "$description": "The least of its height a bench's work keeps: a reel pane and two gutters."
+          },
+          "benchHead": {
+            "$value": "{primitive.dimension.64}",
+            "$description": "The least of its head a short bench window keeps: its padding and a small button."
+          }
+        }
+      },
+      "space": {
+        "padding": {
+          "panel": {
+            "$value": "{primitive.dimension.16}",
+            "$description": "Inside a panel or card."
+          }
+        },
+        "gap": {
+          "inline": {
+            "$value": "{primitive.dimension.8}",
+            "$description": "Between things in one line: buttons, chips, a glyph and its word."
+          },
+          "body": {
+            "$value": "{primitive.dimension.14}",
+            "$description": "Between the parts of one body: a panel's, a card's, a window's."
+          },
+          "surface": {
+            "$value": "{primitive.dimension.24}",
+            "$description": "Between whole surfaces: panels, a card and what stands beside it."
+          },
+          "reel": {
+            "$value": "{primitive.dimension.16}",
+            "$description": "Between reel columns, and between the panes of a column."
+          }
+        }
+      }
+    }
+  }
+}

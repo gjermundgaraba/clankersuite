@@ -1,0 +1,195 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic colours in the dark scheme.",
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "text": {
+        "primary": {
+          "$value": "{primitive.color.plum.50}",
+          "$description": "Text that reads first: body copy, names, values."
+        },
+        "secondary": {
+          "$value": "{primitive.color.plum.350}",
+          "$description": "Text that reads second: meta, hints, labels."
+        },
+        "onHead": {
+          "$value": "{primitive.color.plum.300}",
+          "$description": "Secondary text on a head fill, where text.secondary misses AA in the dark scheme."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "Errors and destructive outcomes."
+        },
+        "onInverseFill": {
+          "$value": "{primitive.color.plum.800}",
+          "$description": "Text on background.fill.inverse."
+        },
+        "onStatusFill": {
+          "$value": "{primitive.color.warmGray.950}",
+          "$description": "Text on the warning and positive fills."
+        },
+        "onNegativeFill": {
+          "$value": "{primitive.color.warmGray.950}",
+          "$description": "Text on background.fill.negative."
+        },
+        "terminal": {
+          "red": {
+            "$value": "{primitive.color.red.250}",
+            "$description": "Terminal output and syntax only, never chrome. Each reads at AA on background.head."
+          },
+          "green": {
+            "$value": "{primitive.color.green.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "yellow": {
+            "$value": "{primitive.color.yellow.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "blue": {
+            "$value": "{primitive.color.blue.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "magenta": {
+            "$value": "{primitive.color.magenta.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "cyan": {
+            "$value": "{primitive.color.cyan.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          }
+        },
+        "code": {
+          "keyword": {
+            "$value": "{semantic.color.text.terminal.magenta}",
+            "$description": "Code keywords."
+          },
+          "string": {
+            "$value": "{semantic.color.text.terminal.cyan}",
+            "$description": "Code strings."
+          },
+          "number": {
+            "$value": "{semantic.color.text.terminal.yellow}",
+            "$description": "Code numbers."
+          },
+          "function": {
+            "$value": "{semantic.color.text.terminal.blue}",
+            "$description": "Code function names."
+          },
+          "type": {
+            "$value": "{semantic.color.text.terminal.green}",
+            "$description": "Code type names."
+          },
+          "comment": {
+            "$value": "{semantic.color.text.onHead}",
+            "$description": "Code comments."
+          }
+        }
+      },
+      "border": {
+        "primary": {
+          "$value": "{primitive.color.plum.50}",
+          "$description": "Lines that contain: panels, cards, controls."
+        },
+        "secondary": {
+          "$value": "{primitive.color.plum.350}",
+          "$description": "The containing line of a held or quiet control."
+        },
+        "divider": {
+          "$value": "{primitive.color.plum.650}",
+          "$description": "Lines that divide: rows, sections. Decorative, never the only cue for a control."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "The line of an invalid or destructive control."
+        },
+        "onInverseFill": {
+          "$value": "{primitive.color.plum.800}",
+          "$description": "A line drawn on background.fill.inverse."
+        }
+      },
+      "focusRing": {
+        "default": {
+          "$value": "{primitive.color.plum.50}",
+          "$description": "The keyboard-focus indicator."
+        },
+        "secondary": {
+          "$value": "{primitive.color.plum.350}",
+          "$description": "Keyboard focus on a row, quieter than the default ring."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "Keyboard focus on an invalid control."
+        },
+        "onInverseFill": {
+          "$value": "{primitive.color.plum.800}",
+          "$description": "Keyboard focus on background.fill.inverse."
+        }
+      },
+      "background": {
+        "canvas": {
+          "$value": "{primitive.color.plum.900}",
+          "$description": "The page behind every surface."
+        },
+        "surface": {
+          "$value": "{primitive.color.plum.800}",
+          "$description": "Panels, cards, dialogs and controls."
+        },
+        "head": {
+          "$value": "{primitive.color.plum.750}",
+          "$description": "Title bars, table heads and code grounds."
+        },
+        "fill": {
+          "inverse": {
+            "$value": "{primitive.color.plum.50}",
+            "$description": "The inverted fill: the committing button, the selected item."
+          },
+          "secondary": {
+            "$value": "{primitive.color.plum.350}",
+            "$description": "A quiet fill: a finished or stale mark."
+          },
+          "negative": {
+            "$value": "{primitive.color.red.300}",
+            "$description": "The destructive and failed fill."
+          },
+          "warning": {
+            "$value": "{primitive.color.amber.400}",
+            "$description": "Waiting, working, needs attention."
+          },
+          "positive": {
+            "$value": "{primitive.color.green.500}",
+            "$description": "Done, healthy, passed."
+          }
+        },
+        "backdrop": {
+          "$value": "{primitive.color.warmGray.950Alpha40}",
+          "$description": "The veil behind a modal dialog."
+        },
+        "backdropGrain": {
+          "$value": "{primitive.color.warmGray.950Alpha50}",
+          "$description": "The dots of the veil's grain."
+        },
+        "dither": {
+          "base": {
+            "$value": "{primitive.color.plum.875}",
+            "$description": "The ground of the canvas dither."
+          },
+          "dot": {
+            "$value": "{primitive.color.plum.775}",
+            "$description": "The dots of the canvas dither."
+          }
+        }
+      },
+      "shadow": {
+        "default": {
+          "$value": "{primitive.color.black.alpha80}",
+          "$description": "The colour of the solid offset shadow."
+        },
+        "negative": {
+          "$value": "{primitive.color.black.alpha80}",
+          "$description": "The shadow of a destructive control."
+        }
+      }
+    }
+  }
+}

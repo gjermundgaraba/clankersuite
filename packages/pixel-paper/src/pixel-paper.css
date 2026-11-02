@@ -1,4 +1,10 @@
-@import "./tokens.css";
+@font-face {
+  font-family: "Departure Mono";
+  src: url("../fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   margin: 0;
@@ -9,6 +15,38 @@
 :root {
   --topbar-h: 48px;
   --statusbar-h: 0px;
+  /* The grain and the dither are drawn with gradients, not images, so a host's
+     Content-Security-Policy needs no img-src for them. Each is a 4px tile with 1px dots at
+     (0, 0) and (2, 2), one conic layer per dot, and a background shorthand rather than an
+     image: write background: var(--dither) for the ground (it paints its own base) and
+     background: var(--veil-grain), var(--semantic-color-background-backdrop) for a veil. */
+  --veil-grain:
+    conic-gradient(
+        at 1px 1px,
+        #0000 75%,
+        var(--semantic-color-background-backdrop-grain) 0
+      )
+      0 0 / 4px 4px,
+    conic-gradient(
+        at 1px 1px,
+        #0000 75%,
+        var(--semantic-color-background-backdrop-grain) 0
+      )
+      2px 2px / 4px 4px;
+  --dither:
+    conic-gradient(
+        at 1px 1px,
+        #0000 75%,
+        var(--semantic-color-background-dither-dot) 0
+      )
+      0 0 / 4px 4px,
+    conic-gradient(
+        at 1px 1px,
+        #0000 75%,
+        var(--semantic-color-background-dither-dot) 0
+      )
+      2px 2px / 4px 4px,
+    var(--semantic-color-background-dither-base);
 }
 
 html {
@@ -24,11 +62,11 @@ html {
 body {
   min-height: 100%;
   padding-bottom: var(--statusbar-h);
-  font-family: var(--font-body);
-  font-size: var(--type-body);
+  font-family: var(--semantic-font-family-body);
+  font-size: var(--semantic-dimension-font-size-body);
   line-height: 1.45;
-  color: var(--ink);
-  caret-color: var(--ink);
+  color: var(--semantic-color-text-primary);
+  caret-color: var(--semantic-color-text-primary);
   background: var(--dither);
 }
 
@@ -38,17 +76,18 @@ fieldset {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 ::placeholder {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   opacity: 1;
 }
 
 :focus-visible {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
 }
 
@@ -57,21 +96,21 @@ fieldset {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--ground);
+  background: var(--semantic-color-background-canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--ink);
-  border: 2px solid var(--ground);
+  background: var(--semantic-color-background-fill-inverse);
+  border: 2px solid var(--semantic-color-background-canvas);
 }
 
 a {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 code,
 kbd {
-  font-family: var(--font-code);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
 }
 
 .px-icon {
@@ -97,10 +136,10 @@ kbd {
   top: -100px;
   left: 12px;
   z-index: 300;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
   padding: 6px 14px;
   text-decoration: none;
@@ -166,28 +205,28 @@ button.tag > span {
 }
 
 .label {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
 }
 
 .meta {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
 }
 
 .age {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
   flex: none;
 }
 
 .age.stale {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .tnum {
@@ -195,27 +234,28 @@ button.tag > span {
 }
 
 .done-title {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   text-decoration: line-through;
 }
 
 .note-line {
-  font: var(--type-control)/1.45 var(--font-body);
-  color: var(--muted);
+  font: var(--semantic-dimension-font-size-control)/1.45
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-secondary);
   max-width: 46ch;
 }
 
 .stack {
   display: grid;
   align-content: start;
-  gap: var(--space-m);
+  gap: var(--semantic-dimension-space-gap-body);
   min-width: 0;
 }
 
 .group {
   display: flex;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--semantic-dimension-space-gap-inline);
   min-width: 0;
 }
 
@@ -223,7 +263,7 @@ button.tag > span {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--semantic-dimension-space-gap-inline);
   min-width: 0;
 }
 
@@ -233,15 +273,15 @@ button.tag > span {
 }
 
 :is(.stack, .group, .wrap).gap-s {
-  gap: var(--space-s);
+  gap: var(--semantic-dimension-space-gap-inline);
 }
 
 :is(.stack, .group, .wrap).gap-m {
-  gap: var(--space-m);
+  gap: var(--semantic-dimension-space-gap-body);
 }
 
 :is(.stack, .group, .wrap).gap-l {
-  gap: var(--space-l);
+  gap: var(--semantic-dimension-space-gap-surface);
 }
 
 .page-head {
@@ -249,7 +289,8 @@ button.tag > span {
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--space-m) var(--gap);
+  gap: var(--semantic-dimension-space-gap-body)
+    var(--semantic-dimension-space-gap-surface);
 }
 
 .page-name {
@@ -261,8 +302,8 @@ button.tag > span {
 }
 
 .page-title {
-  font-family: var(--font-body);
-  font-size: var(--type-page);
+  font-family: var(--semantic-font-family-body);
+  font-size: var(--semantic-dimension-font-size-page);
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -271,20 +312,20 @@ button.tag > span {
 }
 
 .page-head .meta {
-  font-size: var(--type-state);
-  color: var(--ink);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-primary);
 }
 
 .page-acts {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--semantic-dimension-space-gap-inline);
 }
 
 @media (max-width: 600px) {
   .page-title {
-    font-size: var(--type-page-narrow);
+    font-size: var(--semantic-dimension-font-size-page-narrow);
   }
 }
 
@@ -298,14 +339,15 @@ button.tag > span {
   flex-wrap: wrap;
   gap: 10px 16px;
   padding: 8px 20px;
-  background: var(--paper);
-  border-bottom: var(--line) solid var(--ink);
+  background: var(--semantic-color-background-surface);
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   user-select: none;
 }
 
 .wordmark {
-  font-family: var(--font-px);
-  font-size: var(--type-wordmark);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-wordmark);
   font-weight: 400;
   letter-spacing: -0.02em;
   color: inherit;
@@ -319,7 +361,7 @@ button.tag > span {
   height: 11px;
   vertical-align: -1px;
   background: currentColor;
-  animation: blink var(--motion-blink) steps(1) infinite;
+  animation: blink var(--semantic-duration-blink) steps(1) infinite;
 }
 
 @keyframes blink {
@@ -333,7 +375,7 @@ button.tag > span {
   height: 15px;
   margin-left: 3px;
   vertical-align: -2px;
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
   animation-iteration-count: 4;
 }
 
@@ -363,36 +405,36 @@ button.tag > span {
 }
 
 .link-state {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  letter-spacing: var(--tracking-head);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   text-transform: uppercase;
 }
 
 .link-state.offline {
   padding: 2px 6px;
-  color: var(--on-red);
-  background: var(--red);
+  color: var(--semantic-color-text-on-negative-fill);
+  background: var(--semantic-color-background-fill-negative);
 }
 
 .link-state.connecting {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .link-state.reconnecting {
   padding: 2px 6px;
-  color: var(--on-status);
-  background: var(--amber);
+  color: var(--semantic-color-text-on-status-fill);
+  background: var(--semantic-color-background-fill-warning);
 }
 
 .textbtn {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   background: none;
   border: 0;
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
   cursor: pointer;
   padding: 2px 0;
   border-bottom: 1px dotted transparent;
@@ -403,7 +445,7 @@ a.textbtn {
 }
 
 .textbtn:hover {
-  border-bottom-color: var(--ink);
+  border-bottom-color: var(--semantic-color-border-primary);
 }
 
 .nav {
@@ -411,21 +453,23 @@ a.textbtn {
   gap: 0;
   width: fit-content;
   max-width: 100%;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .panel > .tabbed > .nav.tabs {
-  margin: var(--pad) var(--pad) 0;
+  margin: var(--semantic-dimension-space-padding-panel)
+    var(--semantic-dimension-space-padding-panel) 0;
 }
 
 .nav a,
 .nav button {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
-  background: var(--paper);
-  color: var(--ink);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
   border: none;
   padding: 5px 14px;
   cursor: pointer;
@@ -434,35 +478,36 @@ a.textbtn {
 }
 
 .nav > :is(a, button) + :is(a, button) {
-  border-left: var(--line) solid var(--ink);
+  border-left: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .nav [aria-current="page"],
 .nav [aria-selected="true"],
 .nav [aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .nav .navnum {
   display: inline-block;
   margin-left: 8px;
   padding: 0 5px;
-  font-size: var(--type-state);
-  background: var(--head);
-  color: var(--on-head);
+  font-size: var(--semantic-dimension-font-size-state);
+  background: var(--semantic-color-background-head);
+  color: var(--semantic-color-text-on-head);
 }
 
 .nav.tabs button {
   padding: 4px 12px;
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
 }
 
 @media (max-width: 600px) {
   .nav a,
   .nav button {
     padding: 5px 8px;
-    font-size: var(--type-state);
+    font-size: var(--semantic-dimension-font-size-state);
   }
 
   .nav .navnum {
@@ -497,7 +542,8 @@ a.textbtn {
 .places li {
   display: flex;
   align-items: center;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .places li:last-child {
@@ -505,16 +551,16 @@ a.textbtn {
 }
 
 .places li:not(:has(> [aria-current])):hover {
-  background-color: var(--head);
+  background-color: var(--semantic-color-background-head);
 }
 
 .places li > :is(a, button) {
   flex: 1;
   min-width: 0;
-  min-height: var(--row);
+  min-height: var(--semantic-dimension-size-row);
   display: flex;
   align-items: baseline;
-  gap: var(--space-s);
+  gap: var(--semantic-dimension-space-gap-inline);
   padding: 8px 12px;
   font: inherit;
   color: inherit;
@@ -536,33 +582,34 @@ a.textbtn {
 }
 
 .places li:has(> [aria-current]) {
-  background-color: var(--ink);
-  color: var(--paper);
+  background-color: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .places li:has(> [aria-current]) .iconbtn.quiet {
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .places li:has(> [aria-current]) :focus-visible {
-  outline-color: var(--paper);
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
 }
 
 .btn {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--paper);
-  color: var(--ink);
-  border: var(--line) solid var(--ink);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding: 5px 14px;
   cursor: pointer;
-  box-shadow: var(--shadow-button);
+  box-shadow: var(--semantic-shadow-button-default);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -572,13 +619,13 @@ a.textbtn {
    ignores it */
 .btn:not([aria-disabled="true"]):active {
   transform: translate(2px, 2px);
-  box-shadow: var(--shadow-pressed);
+  box-shadow: var(--semantic-shadow-pressed);
 }
 
 .btn:disabled,
 .btn[aria-disabled="true"] {
-  color: var(--muted);
-  border-color: var(--muted);
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
   box-shadow: none;
   cursor: default;
 }
@@ -588,31 +635,31 @@ a.textbtn {
 }
 
 .btn.primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .btn.primary:disabled,
 .btn.primary[aria-disabled="true"] {
-  background: var(--paper);
-  color: var(--muted);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-secondary);
 }
 
 .btn.default-ring {
   box-shadow:
-    0 0 0 2px var(--paper),
-    0 0 0 4px var(--ink);
+    0 0 0 2px var(--semantic-color-border-on-inverse-fill),
+    0 0 0 4px var(--semantic-color-border-primary);
   margin: 4px;
 }
 
 .btn.default-ring:not([aria-disabled="true"]):active {
   transform: none;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .card-actions:focus-within .btn.default-ring:not(:focus) {
-  box-shadow: var(--shadow-button);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .btn.default-ring[aria-disabled="true"]:not(:focus),
@@ -621,9 +668,9 @@ a.textbtn {
 }
 
 .btn.small {
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
   padding: 3px 10px;
-  box-shadow: var(--shadow-button-small);
+  box-shadow: var(--semantic-shadow-button-small);
 }
 
 .btn.small:disabled,
@@ -632,13 +679,13 @@ a.textbtn {
 }
 
 .btn.danger {
-  color: var(--red);
-  border-color: var(--red);
-  box-shadow: var(--shadow-danger);
+  color: var(--semantic-color-text-negative);
+  border-color: var(--semantic-color-border-negative);
+  box-shadow: var(--semantic-shadow-negative);
 }
 
 .btn.danger:focus-visible {
-  outline-color: var(--red);
+  outline-color: var(--semantic-color-focus-ring-negative);
 }
 
 .iconbtn {
@@ -655,17 +702,17 @@ a.textbtn {
 }
 
 .iconbtn.quiet {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .iconbtn.quiet:hover {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .btn .key-hint {
-  margin-left: var(--space-s);
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  margin-left: var(--semantic-dimension-space-gap-inline);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: none;
   letter-spacing: 0;
   opacity: 0.65;
@@ -698,10 +745,11 @@ a.textbtn {
   z-index: 200;
   min-width: 148px;
   max-width: calc(100vw - 24px);
-  color: var(--ink);
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-card);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .menu-wrap {
@@ -714,15 +762,16 @@ a.textbtn {
   width: 100%;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   text-align: left;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
   border: 0;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   padding: 7px 12px;
   cursor: pointer;
   white-space: nowrap;
@@ -735,17 +784,17 @@ a.textbtn {
 }
 
 .menu [role^="menuitem"]:not([aria-disabled="true"]):hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .menu [role^="menuitem"][aria-disabled="true"] {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   cursor: default;
 }
 
 .menu [role="menuitemradio"][aria-checked="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .menu .menu-label {
@@ -756,20 +805,21 @@ a.textbtn {
 
 .menu .key-hint {
   font-family: inherit;
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: none;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .menu [role="menuitemradio"][aria-checked="true"] .key-hint {
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .menu .menu-check {
   width: 14px;
   height: 14px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   display: inline-grid;
   place-content: center;
   flex: none;
@@ -782,26 +832,28 @@ a.textbtn {
 }
 
 .menu [aria-checked="true"] .menu-check::before {
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .menu .menu-note {
   display: block;
   padding: 7px 12px;
-  font: var(--type-control)/1.45 var(--font-body);
+  font: var(--semantic-dimension-font-size-control)/1.45
+    var(--semantic-font-family-body);
   text-transform: none;
   letter-spacing: normal;
   white-space: nowrap;
-  color: var(--muted);
-  border-bottom: var(--hair) solid var(--rule);
+  color: var(--semantic-color-text-secondary);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .deck {
-  max-width: var(--deck);
+  max-width: var(--semantic-dimension-size-max-width-deck);
   margin: 0 auto;
-  padding: var(--gap) 20px 80px;
+  padding: var(--semantic-dimension-space-gap-surface) 20px 80px;
   display: grid;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
 }
 
 .deck > * {
@@ -810,9 +862,10 @@ a.textbtn {
 
 .panel,
 .sheet {
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-panel);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-panel);
   min-width: 0;
 }
 
@@ -820,30 +873,30 @@ a.textbtn {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
   padding: 6px 12px;
-  font-family: var(--font-px);
+  font-family: var(--semantic-font-family-ui);
 }
 
 .panel-tb h2 {
-  font-size: var(--type-body);
+  font-size: var(--semantic-dimension-font-size-body);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
 .panel-tb .meta {
   margin-left: auto;
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .panel-body {
-  padding: var(--pad);
+  padding: var(--semantic-dimension-space-padding-panel);
   display: grid;
-  gap: var(--space-m);
+  gap: var(--semantic-dimension-space-gap-body);
 }
 
 .panel-body > * {
@@ -852,7 +905,8 @@ a.textbtn {
 
 .panel-foot {
   padding: 10px 12px;
-  border-top: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -869,12 +923,13 @@ a.textbtn {
 
 .panel-shelf {
   padding: 10px 12px 12px;
-  background: var(--head);
-  border-bottom: var(--hair) solid var(--rule);
+  background: var(--semantic-color-background-head);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .panel-shelf :is(.field > label:not(.choice), .field-label) {
-  color: var(--on-head);
+  color: var(--semantic-color-text-on-head);
 }
 
 .panel-tb:has(> :is(.panel-lead, .panel-acts)) {
@@ -911,15 +966,15 @@ a.textbtn {
 
 .panel-lead .btn,
 .panel-acts .btn {
-  color: var(--paper);
-  background: var(--ink);
-  border-color: var(--paper);
+  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-inverse);
+  border-color: var(--semantic-color-border-on-inverse-fill);
   box-shadow: none;
 }
 
 .panel-acts .btn.primary {
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
 }
 
 .panel-lead .btn:not([aria-disabled="true"]):active,
@@ -929,10 +984,10 @@ a.textbtn {
 }
 
 .panel-acts .btn:is(:disabled, [aria-disabled="true"]) {
-  color: var(--paper);
-  background: var(--ink);
-  border-color: var(--paper);
-  opacity: var(--fade-held);
+  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-inverse);
+  border-color: var(--semantic-color-border-on-inverse-fill);
+  opacity: var(--semantic-number-opacity-disabled-on-inverse-fill);
 }
 
 .panel-lead .iconbtn.quiet,
@@ -951,12 +1006,13 @@ a.textbtn {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-button-default);
   padding: 8px 12px;
 }
 
@@ -965,13 +1021,14 @@ a.textbtn {
   align-items: center;
   gap: 6px;
   min-height: 22px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-state);
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
+  letter-spacing: var(--semantic-dimension-letter-spacing-state);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
   padding: 2px 7px;
   flex: none;
   cursor: default;
@@ -982,7 +1039,7 @@ button.fchip {
 }
 
 button.fchip:not([aria-pressed="true"]):hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 button.fchip:active {
@@ -990,13 +1047,13 @@ button.fchip:active {
 }
 
 .fchip .fchip-name {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .fchip.pinned,
 .fchip[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .fchip.pinned .fchip-name,
@@ -1010,14 +1067,15 @@ button.fchip:active {
 }
 
 .fchip.query.live {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .fchip.query input {
   position: relative;
   z-index: 1;
-  font: var(--type-control) var(--font-body);
-  color: var(--ink);
+  font: var(--semantic-dimension-font-size-control)
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-primary);
   background: none;
   border: 0;
   padding: 0;
@@ -1036,52 +1094,54 @@ button.fchip:active {
 }
 
 .fchip.query:focus-within {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
 }
 
 .fchip.reset {
-  color: var(--muted);
-  border-color: var(--muted);
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
 }
 
 .fchip.reset:hover {
-  color: var(--ink);
-  border-color: var(--ink);
+  color: var(--semantic-color-text-primary);
+  border-color: var(--semantic-color-border-primary);
 }
 
 .chip {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-state);
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
+  letter-spacing: var(--semantic-dimension-letter-spacing-state);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
   padding: 1px 6px;
   flex: none;
   white-space: nowrap;
 }
 
 .chip.go {
-  background: var(--green);
-  color: var(--on-status);
+  background: var(--semantic-color-background-fill-positive);
+  color: var(--semantic-color-text-on-status-fill);
 }
 
 .chip.warn {
-  background: var(--amber);
-  color: var(--on-status);
+  background: var(--semantic-color-background-fill-warning);
+  color: var(--semantic-color-text-on-status-fill);
 }
 
 .chip.blocked {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--semantic-color-text-negative);
+  border-color: var(--semantic-color-border-negative);
 }
 
 .chip.done {
-  background: var(--head);
-  color: var(--on-head);
-  border-color: var(--muted);
+  background: var(--semantic-color-background-head);
+  color: var(--semantic-color-text-on-head);
+  border-color: var(--semantic-color-border-secondary);
 }
 
 .chip-dot {
@@ -1089,26 +1149,27 @@ button.fchip:active {
   flex: none;
   width: 10px;
   height: 10px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   background: transparent;
 }
 
 .chip-dot.go {
-  background: var(--green);
+  background: var(--semantic-color-background-fill-positive);
 }
 
 .chip-dot.warn {
-  background: var(--amber);
+  background: var(--semantic-color-background-fill-warning);
 }
 
 .chip-dot.blocked {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--semantic-color-background-fill-negative);
+  border-color: var(--semantic-color-border-negative);
 }
 
 .chip-dot.done {
-  background: var(--muted);
-  border-color: var(--muted);
+  background: var(--semantic-color-background-fill-secondary);
+  border-color: var(--semantic-color-border-secondary);
 }
 
 .row > .chip-dot,
@@ -1122,8 +1183,8 @@ button.fchip:active {
   justify-content: center;
   flex: none;
   padding: 2px;
-  background: var(--amber);
-  color: var(--on-status);
+  background: var(--semantic-color-background-fill-warning);
+  color: var(--semantic-color-text-on-status-fill);
   border: 0;
 }
 
@@ -1133,14 +1194,15 @@ button.mark {
 
 .mark.plain {
   background: none;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .tag {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
-  border: var(--hair) solid var(--rule);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
+  border: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   padding: 0 5px;
   flex: none;
   max-width: 18ch;
@@ -1157,8 +1219,8 @@ button.tag {
 }
 
 button.tag:hover {
-  color: var(--ink);
-  border-color: var(--muted);
+  color: var(--semantic-color-text-primary);
+  border-color: var(--semantic-color-border-secondary);
 }
 
 .rows {
@@ -1181,7 +1243,7 @@ button.tag:hover {
   top: 0;
   bottom: 4px;
   width: 1px;
-  background: var(--rule);
+  background: var(--semantic-color-border-divider);
 }
 
 .row {
@@ -1190,12 +1252,12 @@ button.tag:hover {
   align-items: center;
   gap: 8px;
   padding: 5px 12px;
-  min-height: var(--row);
+  min-height: var(--semantic-dimension-size-row);
 }
 
 .row:hover,
 .row:focus-within {
-  background-color: var(--head);
+  background-color: var(--semantic-color-background-head);
 }
 
 .row .glyph {
@@ -1206,7 +1268,7 @@ button.tag:hover {
   justify-content: center;
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   padding: 0;
   flex: none;
 }
@@ -1216,7 +1278,7 @@ button.glyph {
 }
 
 .row:hover button.glyph {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .row .grow {
@@ -1311,19 +1373,20 @@ button.glyph {
 }
 
 .row.linked:has(.grow a:focus-visible) {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: -4px;
 }
 
 /* each selector is written out, not joined in :is(), so each keeps its own specificity */
 .row.linked:has(.grow a[aria-current]),
 .board-card[aria-current="true"] {
-  background-color: var(--ink);
-  color: var(--paper);
+  background-color: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .row.linked:has(.grow a[aria-current]) .chip-dot {
-  border-color: var(--paper);
+  border-color: var(--semantic-color-border-on-inverse-fill);
 }
 
 .row.linked:has(.grow a[aria-current])
@@ -1331,7 +1394,7 @@ button.glyph {
 .board-card[aria-current="true"]
   :is(.glyph, .age, .due, .tag, .done-title, .iconbtn.quiet) {
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .row.linked:has(.grow a[aria-current]) .tag,
@@ -1342,25 +1405,26 @@ button.glyph {
 .row.linked:has(.grow a[aria-current]) :is(.due.late, .age.stale),
 .board-card[aria-current="true"] :is(.due.late, .age.stale) {
   opacity: 1;
-  background: var(--red);
-  color: var(--on-red);
-  box-shadow: 0 0 0 3px var(--red);
+  background: var(--semantic-color-background-fill-negative);
+  color: var(--semantic-color-text-on-negative-fill);
+  box-shadow: 0 0 0 3px var(--semantic-color-border-negative);
 }
 
 .row.linked:has(.grow a[aria-current]) :focus-visible,
 .row.linked:has(.grow a[aria-current]:focus-visible),
 .board-card[aria-current="true"] :focus-visible {
-  outline-color: var(--paper);
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
 }
 
 .row[aria-current="true"] {
-  outline: 1px solid var(--muted);
+  outline: 1px solid var(--semantic-color-border-secondary);
   outline-offset: -4px;
   background-color: transparent;
 }
 
 .row:focus-visible {
-  outline: var(--line) solid var(--muted);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-secondary);
   outline-offset: -4px;
 }
 
@@ -1405,8 +1469,9 @@ button.glyph {
   width: 14px;
   height: 14px;
   padding: 0;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
   cursor: pointer;
   flex: none;
   display: inline-grid;
@@ -1431,67 +1496,67 @@ button.glyph {
 }
 
 .row-check:has(> [aria-checked="true"]) {
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .row-check > [aria-checked="true"] {
-  border-color: var(--paper);
-  background: var(--ink);
+  border-color: var(--semantic-color-border-on-inverse-fill);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .row-check > [aria-checked="true"]::before {
-  background: var(--paper);
+  background: var(--semantic-color-background-surface);
 }
 
 .row-check > [aria-checked="true"]:focus-visible {
-  outline-color: var(--paper);
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
 }
 
 .row-check > [aria-disabled="true"] {
-  border-color: var(--muted);
+  border-color: var(--semantic-color-border-secondary);
   cursor: default;
 }
 
 .row-check > [aria-checked="mixed"]::before {
   height: 2px;
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 input.inline-input {
   font: inherit;
   color: inherit;
-  background: var(--paper);
+  background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: 1px solid var(--ink);
+  border-bottom: 1px solid var(--semantic-color-border-primary);
   padding: 0;
   width: 100%;
   height: calc(1lh + 1px);
 }
 
 input.inline-input[aria-busy="true"] {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   cursor: progress;
 }
 
 input.inline-input[aria-invalid="true"] {
-  border-bottom-color: var(--red);
+  border-bottom-color: var(--semantic-color-border-negative);
 }
 
 .row .grow input.inline-input:focus-visible {
   outline: none;
-  box-shadow: inset 0 -1px 0 var(--ink);
+  box-shadow: inset 0 -1px 0 var(--semantic-color-border-primary);
 }
 
 .row .grow input.inline-input[aria-invalid="true"]:focus-visible {
-  box-shadow: inset 0 -1px 0 var(--red);
+  box-shadow: inset 0 -1px 0 var(--semantic-color-border-negative);
 }
 
 .flash-word {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
-  color: var(--ink);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
+  color: var(--semantic-color-text-primary);
   min-width: 6ch;
 }
 
@@ -1509,21 +1574,30 @@ select {
   width: 100%;
   min-height: 30px;
   padding: 5px 28px 3px 8px;
-  color: var(--ink);
-  background-color: var(--paper);
+  color: var(--semantic-color-text-primary);
+  background-color: var(--semantic-color-background-surface);
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
-    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--semantic-color-background-fill-inverse) 50%
+    ),
+    linear-gradient(
+      135deg,
+      var(--semantic-color-background-fill-inverse) 50%,
+      transparent 50%
+    );
   background-position:
     calc(100% - 9px) 50%,
     calc(100% - 5px) 50%;
   background-repeat: no-repeat;
   background-size: 4px 4px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   border-radius: 0;
   cursor: pointer;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: none;
 }
 
@@ -1533,24 +1607,25 @@ select::picker-icon {
 
 select::picker(select) {
   padding: 0;
-  color: var(--ink);
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-panel);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-panel);
 }
 
 select option {
   padding: 5px 8px 7px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   cursor: pointer;
 }
 
 .field :is(input, textarea):disabled,
 .field.boxed :is(input, textarea):disabled,
 select:disabled {
-  color: var(--muted);
-  border-color: var(--muted);
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
   cursor: default;
 }
 
@@ -1560,8 +1635,16 @@ select:disabled {
 
 select:disabled {
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
-    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--semantic-color-background-fill-secondary) 50%
+    ),
+    linear-gradient(
+      135deg,
+      var(--semantic-color-background-fill-secondary) 50%,
+      transparent 50%
+    );
 }
 
 .choice {
@@ -1582,16 +1665,17 @@ button.choice {
 }
 
 .choice .choice-name {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-state);
+  letter-spacing: var(--semantic-dimension-letter-spacing-state);
 }
 
 .choice .choice-note {
   display: block;
-  color: var(--muted);
-  font: var(--type-control)/1.45 var(--font-body);
+  color: var(--semantic-color-text-secondary);
+  font: var(--semantic-dimension-font-size-control)/1.45
+    var(--semantic-font-family-body);
 }
 
 .choices {
@@ -1605,8 +1689,9 @@ button.choice {
   height: 14px;
   margin-top: 2px;
   padding: 0;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
   cursor: pointer;
   flex: none;
   display: inline-grid;
@@ -1628,29 +1713,29 @@ button.choice {
 
 .choice-box[aria-checked="true"]::before,
 .choice[role="radio"][aria-checked="true"] > .choice-box::before {
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .choice-box[aria-disabled="true"],
 .choice[role="radio"][aria-disabled="true"] > .choice-box {
-  border-color: var(--muted);
+  border-color: var(--semantic-color-border-secondary);
   cursor: default;
 }
 
 .choice:has(> .choice-box[aria-disabled="true"]),
 .choice[role="radio"][aria-disabled="true"] {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   cursor: default;
 }
 
 .field > label:not(.choice),
 .field-label {
   display: block;
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
   margin-bottom: 4px;
 }
 
@@ -1658,10 +1743,10 @@ button.choice {
 .field textarea {
   width: 100%;
   font: inherit;
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: 1px dotted var(--muted);
+  border-bottom: 1px dotted var(--semantic-color-border-secondary);
   padding: 2px 0;
   border-radius: 0;
 }
@@ -1670,7 +1755,8 @@ button.choice {
   resize: vertical;
   field-sizing: content;
   min-height: 96px;
-  font: var(--type-body)/1.5 var(--font-body);
+  font: var(--semantic-dimension-font-size-body)/1.5
+    var(--semantic-font-family-body);
 }
 
 pp-markdown-editor {
@@ -1697,7 +1783,7 @@ pp-markdown-editor:has(.markdown-surface) textarea {
 }
 
 .markdown-surface {
-  border-bottom: 1px dotted var(--muted);
+  border-bottom: 1px dotted var(--semantic-color-border-secondary);
   padding-bottom: 1px;
 }
 
@@ -1707,12 +1793,13 @@ pp-markdown-editor:has(.markdown-surface) textarea {
 
 .markdown-surface:focus-within,
 .field:has([aria-invalid="true"]) .markdown-surface {
-  border-bottom: var(--line) solid var(--ink);
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding-bottom: 0;
 }
 
 .field:has([aria-invalid="true"]) .markdown-surface {
-  border-bottom-color: var(--red);
+  border-bottom-color: var(--semantic-color-border-negative);
 }
 
 pp-markdown-editor:disabled .markdown-surface {
@@ -1720,7 +1807,7 @@ pp-markdown-editor:disabled .markdown-surface {
 }
 
 pp-markdown-editor:disabled .cm-content {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 pp-markdown-editor > .prose > p {
@@ -1732,35 +1819,41 @@ pp-markdown-editor:has(> .markdown-read) > .prose {
 }
 
 textarea::-webkit-resizer {
-  background: linear-gradient(135deg, transparent 0 50%, var(--ink) 50% 100%);
+  background: linear-gradient(
+    135deg,
+    transparent 0 50%,
+    var(--semantic-color-background-fill-inverse) 50% 100%
+  );
 }
 
 .field input:focus-visible,
 .field textarea:focus-visible {
   outline: none;
-  border-bottom: var(--line) solid var(--ink);
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding-bottom: 1px;
 }
 
 .field input[aria-invalid="true"],
 .field textarea[aria-invalid="true"] {
-  border-bottom: 2px solid var(--red);
+  border-bottom: 2px solid var(--semantic-color-border-negative);
   padding-bottom: 1px;
 }
 
 .field:has([aria-invalid="true"]) > label {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .field .field-help,
 .field .field-error {
   margin-top: 4px;
-  font: var(--type-control)/1.45 var(--font-body);
-  color: var(--muted);
+  font: var(--semantic-dimension-font-size-control)/1.45
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-secondary);
 }
 
 .field .field-error {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .field-grid {
@@ -1771,20 +1864,23 @@ textarea::-webkit-resizer {
 
 .field.boxed input,
 .field.boxed textarea {
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding: 5px 8px;
 }
 
 .field.boxed input:focus-visible,
 .field.boxed textarea:focus-visible {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
-  border-bottom: var(--line) solid var(--ink);
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding-bottom: 5px;
 }
 
 .field.boxed :is(input, textarea)[aria-invalid="true"] {
-  border-color: var(--red);
+  border-color: var(--semantic-color-border-negative);
   padding-bottom: 5px;
 }
 
@@ -1809,14 +1905,14 @@ textarea::-webkit-resizer {
 .field.boxed input[type="date"] {
   min-height: 30px;
   padding: 3px 8px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
 }
 
 .field.mono input,
 .field.mono textarea {
-  font-family: var(--font-code);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
 }
 
 .notice {
@@ -1826,9 +1922,11 @@ textarea::-webkit-resizer {
   align-items: flex-start;
   gap: 10px;
   padding: 8px 10px;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
-  font: var(--type-control)/1.45 var(--font-body);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  font: var(--semantic-dimension-font-size-control)/1.45
+    var(--semantic-font-family-body);
 }
 
 .notice > div {
@@ -1837,19 +1935,19 @@ textarea::-webkit-resizer {
 }
 
 .notice.error {
-  border-color: var(--red);
+  border-color: var(--semantic-color-border-negative);
 }
 
 .notice.quiet {
-  border-color: var(--rule);
-  color: var(--muted);
+  border-color: var(--semantic-color-border-divider);
+  color: var(--semantic-color-text-secondary);
 }
 
 .notice strong {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-head);
+  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   font-weight: 400;
   display: block;
 }
@@ -1858,36 +1956,37 @@ textarea::-webkit-resizer {
   flex: none;
   width: 20px;
   height: 20px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   display: grid;
   place-items: center;
-  background: var(--amber);
-  color: var(--on-status);
+  background: var(--semantic-color-background-fill-warning);
+  color: var(--semantic-color-text-on-status-fill);
 }
 
 :is(.notice, .outcome, .banner) > .glyph.error {
-  background: var(--red);
-  color: var(--on-red);
-  border-color: var(--red);
+  background: var(--semantic-color-background-fill-negative);
+  color: var(--semantic-color-text-on-negative-fill);
+  border-color: var(--semantic-color-border-negative);
 }
 
 :is(.notice, .outcome, .banner) > .glyph.ok {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 :is(.notice, .outcome, .banner) > .glyph.quiet {
-  background: var(--head);
-  color: var(--on-head);
-  border-color: var(--rule);
+  background: var(--semantic-color-background-head);
+  color: var(--semantic-color-text-on-head);
+  border-color: var(--semantic-color-border-divider);
 }
 
 select[aria-invalid="true"] {
-  border-color: var(--red);
+  border-color: var(--semantic-color-border-negative);
 }
 
 .field:has([aria-invalid="true"]) > legend {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .error-summary ul {
@@ -1898,7 +1997,7 @@ select[aria-invalid="true"] {
 }
 
 .error-summary a {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -1915,26 +2014,28 @@ select[aria-invalid="true"] {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--type-body);
+  font-size: var(--semantic-dimension-font-size-body);
 }
 
 .table th {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--on-head);
-  background: var(--head);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-on-head);
+  background: var(--semantic-color-background-head);
   text-align: left;
   padding: 6px 12px;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   white-space: nowrap;
 }
 
 .table td {
   padding: 8px 12px;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   vertical-align: middle;
 }
 
@@ -1943,7 +2044,7 @@ select[aria-invalid="true"] {
 }
 
 .table tbody tr:hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .table td.acts {
@@ -1955,15 +2056,15 @@ select[aria-invalid="true"] {
 .table:has(td.acts) th:last-child {
   position: sticky;
   right: 0;
-  background: var(--paper);
+  background: var(--semantic-color-background-surface);
 }
 
 .table:has(td.acts) th:last-child {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .table tbody tr:hover td.acts {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 @media (max-width: 600px) {
@@ -1971,7 +2072,7 @@ select[aria-invalid="true"] {
      behind when the cell sticks; the inset shadow travels with the cell */
   .table td.acts,
   .table:has(td.acts) th:last-child {
-    box-shadow: inset 2px 0 0 var(--ink);
+    box-shadow: inset 2px 0 0 var(--semantic-color-border-primary);
     padding-left: 10px;
   }
 }
@@ -1995,7 +2096,8 @@ select[aria-invalid="true"] {
 
   .table tr {
     padding: 10px 12px;
-    border-bottom: var(--hair) solid var(--rule);
+    border-bottom: var(--semantic-dimension-border-width-divider) solid
+      var(--semantic-color-border-divider);
   }
 
   .table tbody tr:last-child {
@@ -2017,11 +2119,11 @@ select[aria-invalid="true"] {
   .table td[data-label]::before {
     content: attr(data-label);
     display: block;
-    font-family: var(--font-px);
-    font-size: var(--type-label);
+    font-family: var(--semantic-font-family-ui);
+    font-size: var(--semantic-dimension-font-size-label);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    color: var(--muted);
+    letter-spacing: var(--semantic-dimension-letter-spacing-label);
+    color: var(--semantic-color-text-secondary);
   }
 
   .table td.acts {
@@ -2045,8 +2147,9 @@ select[aria-invalid="true"] {
 .props dt,
 .props dd {
   padding: 7px 0;
-  border-bottom: var(--hair) solid var(--rule);
-  min-height: var(--row);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  min-height: var(--semantic-dimension-size-row);
   display: flex;
   align-items: center;
 }
@@ -2065,11 +2168,11 @@ select[aria-invalid="true"] {
 }
 
 .props dt {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
 }
 
 .props dd {
@@ -2094,17 +2197,19 @@ select[aria-invalid="true"] {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: var(--head);
+  background: var(--semantic-color-background-head);
   padding: 1px 6px;
 }
 
 .code-surface {
   display: block;
   width: 100%;
-  font: var(--type-control)/1.6 var(--font-code);
-  color: var(--ink);
-  background: var(--head);
-  border: var(--line) solid var(--ink);
+  font: var(--semantic-dimension-font-size-control)/1.6
+    var(--semantic-font-family-code);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-head);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   padding: 10px 12px;
   resize: vertical;
   min-height: 220px;
@@ -2136,39 +2241,39 @@ pre.code-surface {
 /* syntax: the tok-* classes a highlighter prints (Lezer's classHighlighter names them so),
    coloured from the content inks. Anything unnamed stays ink. */
 .tok-keyword {
-  color: var(--code-keyword);
+  color: var(--semantic-color-text-code-keyword);
 }
 
 .tok-string,
 .tok-string2,
 .tok-url {
-  color: var(--code-string);
+  color: var(--semantic-color-text-code-string);
 }
 
 .tok-number,
 .tok-bool,
 .tok-atom,
 .tok-literal {
-  color: var(--code-number);
+  color: var(--semantic-color-text-code-number);
 }
 
 .tok-definition,
 .tok-variableName2,
 .tok-macroName,
 .tok-link {
-  color: var(--code-function);
+  color: var(--semantic-color-text-code-function);
 }
 
 .tok-typeName,
 .tok-className,
 .tok-namespace {
-  color: var(--code-type);
+  color: var(--semantic-color-text-code-type);
 }
 
 .tok-comment,
 .tok-meta,
 .tok-punctuation {
-  color: var(--code-comment);
+  color: var(--semantic-color-text-code-comment);
 }
 
 .tok-heading,
@@ -2186,12 +2291,12 @@ pre.code-surface {
 }
 
 .tok-inserted {
-  color: var(--term-green);
+  color: var(--semantic-color-text-terminal-green);
 }
 
 .tok-deleted,
 .tok-invalid {
-  color: var(--term-red);
+  color: var(--semantic-color-text-terminal-red);
 }
 
 .tok-invalid {
@@ -2202,8 +2307,9 @@ pre.code-surface {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: var(--line) solid var(--ink);
-  background: var(--head);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-head);
   padding: 6px 6px 6px 12px;
 }
 
@@ -2212,7 +2318,7 @@ pre.code-surface {
   min-width: 0;
   overflow-x: auto;
   white-space: nowrap;
-  font-size: var(--type-control);
+  font-size: var(--semantic-dimension-font-size-control);
   letter-spacing: 0.02em;
 }
 
@@ -2225,7 +2331,8 @@ pre.code-surface {
 
 .history-list {
   list-style: none;
-  border-top: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .history-list li {
@@ -2233,7 +2340,8 @@ pre.code-surface {
   align-items: center;
   gap: 12px;
   padding: 8px 0;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .history-list li:last-child {
@@ -2241,17 +2349,17 @@ pre.code-surface {
 }
 
 .history-list .v {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   width: calc(4ch + 8px);
   padding: 0 4px;
   flex: none;
 }
 
 .history-list .who {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
   flex: none;
   width: 10ch;
   max-width: 16ch;
@@ -2269,8 +2377,8 @@ pre.code-surface {
 }
 
 .history-list li.current .v {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .history-list li.current .v .age {
@@ -2293,15 +2401,17 @@ pre.code-surface {
 
 .diff-wrap {
   overflow-x: auto;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
   padding: 4px 0;
 }
 
 .diff {
   width: 100%;
   border-collapse: collapse;
-  font: var(--type-control)/1.6 var(--font-code);
+  font: var(--semantic-dimension-font-size-control)/1.6
+    var(--semantic-font-family-code);
 }
 
 .diff td {
@@ -2317,50 +2427,53 @@ pre.code-surface {
 .diff td.ln {
   width: 1%;
   text-align: right;
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   line-height: 19px;
-  color: var(--muted);
-  border-right: var(--hair) solid var(--rule);
+  color: var(--semantic-color-text-secondary);
+  border-right: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   user-select: none;
 }
 
 .diff td.sign {
   width: 1%;
   padding: 0 4px 0 8px;
-  font-family: var(--font-px);
+  font-family: var(--semantic-font-family-ui);
   user-select: none;
 }
 
 .diff tr.add {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .diff tr.add td.sign {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .diff tr.add td.ln {
-  color: var(--on-head);
+  color: var(--semantic-color-text-on-head);
 }
 
 .diff tr.del td.line {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .diff tr.del td.sign {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .diff tr.fold td {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
-  color: var(--on-head);
-  background: var(--head);
-  border-top: var(--hair) solid var(--rule);
-  border-bottom: var(--hair) solid var(--rule);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
+  color: var(--semantic-color-text-on-head);
+  background: var(--semantic-color-background-head);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   padding: 2px 12px;
 }
 
@@ -2414,8 +2527,8 @@ dialog.veil:focus {
 .veil-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--veil-grain), var(--veil);
-  animation: veilIn var(--motion-veil) steps(3, end);
+  background: var(--veil-grain), var(--semantic-color-background-backdrop);
+  animation: veilIn var(--semantic-duration-veil) steps(3, end);
 }
 
 @keyframes veilIn {
@@ -2425,11 +2538,12 @@ dialog.veil:focus {
 }
 
 .card {
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-card);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-card);
   width: min(680px, 100%);
-  animation: cardIn var(--motion-card) steps(3, end);
+  animation: cardIn var(--semantic-duration-card) steps(3, end);
   max-height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
@@ -2450,18 +2564,18 @@ dialog.veil:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
   padding: 6px 8px 6px 12px;
-  font-family: var(--font-px);
+  font-family: var(--semantic-font-family-ui);
   flex: none;
 }
 
 .card-tb h2 {
-  font-size: var(--type-body);
+  font-size: var(--semantic-dimension-font-size-body);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-head);
+  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2469,26 +2583,26 @@ dialog.veil:focus {
 }
 
 .card-tb .meta {
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 :is(.card-tb, .panel-tb) .iconbtn[aria-disabled="true"] {
-  opacity: var(--fade-held);
+  opacity: var(--semantic-number-opacity-disabled-on-inverse-fill);
   cursor: default;
 }
 
 :is(.panel-tb, .card-tb) :focus-visible {
-  outline-color: var(--paper);
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
   outline-offset: -2px;
 }
 
 .card-body {
   overflow-wrap: break-word;
-  padding: var(--pad);
+  padding: var(--semantic-dimension-space-padding-panel);
   display: grid;
-  gap: var(--space-m);
+  gap: var(--semantic-dimension-space-gap-body);
   overflow-y: auto;
 }
 
@@ -2501,7 +2615,8 @@ dialog.veil:focus {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-top: var(--line) solid var(--ink);
+  border-top: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   flex: none;
   flex-wrap: wrap;
 }
@@ -2535,10 +2650,10 @@ dialog.veil:focus {
 
 .outcome-body > strong {
   overflow-wrap: anywhere;
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-head);
+  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   font-weight: 400;
 }
 
@@ -2557,12 +2672,12 @@ dialog.veil:focus {
 }
 
 .keymap h3 {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
   margin: 0 0 4px;
 }
 
@@ -2571,7 +2686,8 @@ dialog.veil:focus {
   align-items: baseline;
   gap: 16px;
   padding: 4px 0;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .keymap-row:last-child {
@@ -2579,16 +2695,16 @@ dialog.veil:focus {
 }
 
 .keymap-row kbd {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   flex: none;
   width: 12ch;
 }
 
 .keymap-row span {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .palette-q {
@@ -2607,10 +2723,11 @@ dialog.veil:focus {
 }
 
 .palette-scope {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
-  color: var(--muted);
-  border: var(--hair) solid var(--rule);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  border: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   padding: 1px 5px;
   flex: 0 1 auto;
   min-width: 0;
@@ -2618,10 +2735,10 @@ dialog.veil:focus {
 }
 
 .palette-title {
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   flex: none;
 }
 
@@ -2633,11 +2750,11 @@ dialog.veil:focus {
 
 .palette-group {
   padding: 8px 16px 2px;
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
 }
 
 .palette-row {
@@ -2647,10 +2764,10 @@ dialog.veil:focus {
   width: 100%;
   padding: 8px 16px 8px
     calc(16px + min((var(--palette-level, 1) - 1) * 20px, 33%));
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   cursor: pointer;
   background: none;
   border: 0;
@@ -2659,28 +2776,28 @@ dialog.veil:focus {
 }
 
 .palette-row[aria-disabled="true"] {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   cursor: default;
 }
 
 .palette-row[aria-selected="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .palette-row:hover:not([aria-selected="true"]) {
-  background-color: var(--head);
+  background-color: var(--semantic-color-background-head);
 }
 
 .palette-row.context:not([aria-selected="true"]) {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .palette-row .hint {
   margin-left: auto;
-  font-size: var(--type-state);
+  font-size: var(--semantic-dimension-font-size-state);
   text-transform: none;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   flex: 0 1 auto;
   min-width: 0;
   max-width: 50%;
@@ -2698,7 +2815,7 @@ dialog.veil:focus {
 .palette-row[aria-selected="true"] .hint,
 .palette-row[aria-selected="true"] .tag {
   color: inherit;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .palette-row[aria-selected="true"] .tag {
@@ -2706,14 +2823,14 @@ dialog.veil:focus {
 }
 
 .palette-row.authored {
-  font-family: var(--font-body);
-  font-size: var(--type-body);
+  font-family: var(--semantic-font-family-body);
+  font-size: var(--semantic-dimension-font-size-body);
   text-transform: none;
   letter-spacing: normal;
 }
 
 .palette-row.authored .glyph {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   display: inline-flex;
 }
 
@@ -2723,7 +2840,7 @@ dialog.veil:focus {
 
 .palette-row .glyph.opens {
   display: inline-flex;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .palette-row:has(.hint) .glyph.opens {
@@ -2742,11 +2859,12 @@ dialog.veil:focus {
 
 .palette-more {
   flex: none;
-  border-top: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   padding: 4px 16px 8px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .empty {
@@ -2758,15 +2876,15 @@ dialog.veil:focus {
 }
 
 .empty-title {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
   font-weight: 400;
 }
 
 .empty p {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   max-width: 46ch;
 }
 
@@ -2783,9 +2901,10 @@ dialog.veil:focus {
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-button-default);
   padding: 8px 14px;
   max-width: min(680px, calc(100vw - 32px));
 }
@@ -2813,22 +2932,24 @@ dialog.veil:focus {
 }
 
 .wall-mark .wordmark {
-  font-size: var(--type-wordmark-wall);
+  font-size: var(--semantic-dimension-font-size-wordmark-wall);
 }
 
 .wall-mark .glyph {
   width: 30px;
   height: 30px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   display: grid;
   place-items: center;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
 }
 
 .card-body > .rows {
-  margin-inline: calc(-1 * var(--pad));
-  border-block: var(--hair) solid var(--rule);
+  margin-inline: calc(-1 * var(--semantic-dimension-space-padding-panel));
+  border-block: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .row .grow > .identity {
@@ -2836,16 +2957,16 @@ dialog.veil:focus {
 }
 
 .group-name {
-  font-family: var(--font-px);
-  font-size: var(--type-name);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-name);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .row.context .title,
 .row.context .group-name,
 .row.context:hover button.glyph {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 @media (max-width: 600px) {
@@ -2873,20 +2994,20 @@ dialog.veil:focus {
 }
 
 .due {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
   white-space: nowrap;
 }
 
 .due.late {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .board {
   display: grid;
   grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
 
@@ -2918,13 +3039,14 @@ dialog.veil:focus {
 }
 
 .board-col.drop-target .panel {
-  outline: var(--line) dashed var(--ink);
+  outline: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
   outline-offset: 4px;
 }
 
 .board-col.drop-target .board-cards,
 .board-col.drop-target .empty {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .board-cards {
@@ -2937,9 +3059,10 @@ dialog.veil:focus {
 
 .board-card {
   position: relative;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
-  box-shadow: var(--shadow-button);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  box-shadow: var(--semantic-shadow-button-default);
   padding: 9px 11px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -2958,8 +3081,8 @@ dialog.veil:focus {
 
 .board-card.lifted {
   cursor: grabbing;
-  background: var(--head);
-  box-shadow: var(--shadow-card);
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .board-lift {
@@ -2972,17 +3095,18 @@ dialog.veil:focus {
 }
 
 .board-card:hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .board-card.drag-dim {
-  opacity: var(--fade-dragged);
+  opacity: var(--semantic-number-opacity-dragged);
 }
 
 .board-card:focus-within {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .board-card .title:focus-visible {
@@ -2990,7 +3114,7 @@ dialog.veil:focus {
 }
 
 .board-card[aria-current="true"]:is(:hover, :focus-within) {
-  background-color: var(--ink);
+  background-color: var(--semantic-color-background-fill-inverse);
 }
 
 .board-card .title {
@@ -3009,7 +3133,7 @@ dialog.veil:focus {
 }
 
 .board-card input.inline-input {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .board-card input.inline-input:focus-visible {
@@ -3036,10 +3160,11 @@ dialog.veil:focus {
   align-items: center;
   gap: 10px;
   min-width: 0;
-  padding: 8px var(--pad) 8px 10px;
+  padding: 8px var(--semantic-dimension-space-padding-panel) 8px 10px;
   position: relative;
-  background: var(--paper);
-  border-bottom: var(--hair) solid var(--rule);
+  background: var(--semantic-color-background-surface);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .sortable-items > .sortable-item:last-child {
@@ -3061,7 +3186,7 @@ dialog.veil:focus {
 }
 
 .sortable-item.drag-dim {
-  opacity: var(--fade-dragged);
+  opacity: var(--semantic-number-opacity-dragged);
 }
 
 .sortable-item:is(.drop-before, .drop-after)::before {
@@ -3069,7 +3194,8 @@ dialog.veil:focus {
   position: absolute;
   left: 0;
   right: 0;
-  border-top: var(--line) dashed var(--ink);
+  border-top: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
   pointer-events: none;
 }
 
@@ -3088,7 +3214,8 @@ dialog.veil:focus {
   left: auto;
   right: auto;
   border-top: 0;
-  border-left: var(--line) dashed var(--ink);
+  border-left: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
 }
 
 .sortable.grid .sortable-item.drop-before::before {
@@ -3100,9 +3227,10 @@ dialog.veil:focus {
 }
 
 .sortable-item.lifted {
-  border: var(--line) solid var(--ink);
-  background: var(--head);
-  box-shadow: var(--shadow-card);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
   cursor: grabbing;
 }
 
@@ -3128,12 +3256,13 @@ dialog.veil:focus {
   align-items: flex-start;
   height: 100%;
   padding: 9px 11px 9px 6px;
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .sortable.grid .sortable-item.lifted {
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .sortable.grid .sortable-slot {
@@ -3144,9 +3273,15 @@ dialog.veil:focus {
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(min(100%, max(300px, (100% - 2 * var(--gap)) / 3)), 1fr)
+    minmax(
+      min(
+        100%,
+        max(300px, (100% - 2 * var(--semantic-dimension-space-gap-surface)) / 3)
+      ),
+      1fr
+    )
   );
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
 }
 
 .sortable.panels .sortable-item {
@@ -3171,11 +3306,11 @@ dialog.veil:focus {
 }
 
 .sortable.panels .sortable-item.drop-before::before {
-  left: calc(var(--gap) / -2 - 1px);
+  left: calc(var(--semantic-dimension-space-gap-surface) / -2 - 1px);
 }
 
 .sortable.panels .sortable-item.drop-after::before {
-  right: calc(var(--gap) / -2 - 1px);
+  right: calc(var(--semantic-dimension-space-gap-surface) / -2 - 1px);
 }
 
 .sortable.panels .sortable-item.lifted {
@@ -3184,8 +3319,8 @@ dialog.veil:focus {
 }
 
 .sortable.panels .lifted .panel {
-  background: var(--head);
-  box-shadow: var(--shadow-card);
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .sortable.panels .sortable-slot {
@@ -3204,19 +3339,20 @@ dialog.veil:focus {
   display: inline-flex;
   gap: 2px;
   padding: 2px;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
   flex: none;
 }
 
 .cells .cell {
   width: 10px;
   height: 14px;
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .cells .cell.on {
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 @media (max-width: 600px) {
@@ -3233,9 +3369,10 @@ dialog.veil:focus {
 .meter-row {
   display: grid;
   grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  gap: 6px var(--gap);
-  padding: 14px var(--pad);
-  border-bottom: var(--hair) solid var(--rule);
+  gap: 6px var(--semantic-dimension-space-gap-surface);
+  padding: 14px var(--semantic-dimension-space-padding-panel);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .meter-row:last-child {
@@ -3293,10 +3430,10 @@ dialog.veil:focus {
 
 .meter-name {
   overflow-wrap: anywhere;
-  font-family: var(--font-px);
-  font-size: var(--type-name);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-name);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .meter-line {
@@ -3307,46 +3444,46 @@ dialog.veil:focus {
 }
 
 .meter-row.toned.high:not(.stale) .cells .cell.on {
-  background: var(--amber);
+  background: var(--semantic-color-background-fill-warning);
 }
 
 .meter-row.toned.full:not(.stale) .cells .cell.on {
-  background: var(--red);
+  background: var(--semantic-color-background-fill-negative);
 }
 
 .meter-row.stale .cells .cell.on {
-  background: var(--muted);
+  background: var(--semantic-color-background-fill-secondary);
 }
 
 .meter-line .pct {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   min-width: 4ch;
 }
 
 .mark.reading {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   padding: 1px 6px;
 }
 
 .meter-num {
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .meter-foot {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .meter-foot .late {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
 }
 
 .history-list.checks {
@@ -3385,7 +3522,7 @@ dialog.veil:focus {
 .history-list.wrapped .v {
   width: auto;
   padding: 0;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .history-list.wrapped li.current .v {
@@ -3407,7 +3544,7 @@ dialog.veil:focus {
 .history-list.wrapped .what {
   order: 1;
   flex-basis: 100%;
-  font-size: var(--type-control);
+  font-size: var(--semantic-dimension-font-size-control);
   line-height: 1.45;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -3419,30 +3556,31 @@ dialog.veil:focus {
   align-items: center;
   flex-wrap: wrap;
   gap: 2px 0;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  letter-spacing: var(--tracking-caps);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .crumbs li + li::before {
   content: "/";
   margin: 0 8px;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .crumbs a {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   text-decoration: none;
-  border-bottom: var(--hair) dotted transparent;
+  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+    transparent;
 }
 
 .crumbs a:hover {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
+  color: var(--semantic-color-text-primary);
+  border-bottom-color: var(--semantic-color-border-primary);
 }
 
 .crumbs [aria-current="page"] {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .file {
@@ -3451,9 +3589,9 @@ dialog.veil:focus {
   gap: 8px;
   width: 100%;
   padding: 5px 10px;
-  font-family: var(--font-code);
-  font-size: var(--type-control);
-  color: var(--ink);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
+  color: var(--semantic-color-text-primary);
   background: none;
   border: 0;
   text-align: left;
@@ -3462,17 +3600,17 @@ dialog.veil:focus {
 }
 
 .file:hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .file[aria-current="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .file .glyph {
   display: inline-flex;
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   flex: none;
 }
 
@@ -3494,14 +3632,15 @@ dialog.veil:focus {
   display: grid;
   justify-items: center;
   gap: 10px;
-  padding: 28px var(--pad);
+  padding: 28px var(--semantic-dimension-space-padding-panel);
   text-align: center;
-  border: var(--line) dashed var(--ink);
+  border: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
 }
 
 .drop-zone[data-drag-over] {
   border-style: solid;
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .drop-zone-glyph {
@@ -3509,28 +3648,30 @@ dialog.veil:focus {
   height: 34px;
   display: grid;
   place-items: center;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
 }
 
 .drop-zone p {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   max-width: 44ch;
 }
 
 .drop-zone p strong {
   display: block;
   margin-bottom: 2px;
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
-  color: var(--ink);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
+  color: var(--semantic-color-text-primary);
 }
 
 .drop-zone .btn:focus-within {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
 }
 
@@ -3547,10 +3688,12 @@ dialog.veil:focus {
 
 .sheet-title {
   flex: 1 1 20ch;
-  font: var(--read-weight) var(--read-title) / 1.15 var(--font-body);
+  font: var(--semantic-font-weight-prose-heading)
+    var(--semantic-dimension-font-size-prose-title) / 1.15
+    var(--semantic-font-family-body);
   letter-spacing: -0.01em;
   text-wrap: balance;
-  max-width: var(--read-measure);
+  max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 .sheet-title:focus {
@@ -3564,23 +3707,24 @@ dialog.veil:focus {
 }
 
 .byline {
-  margin: 10px 0 var(--gap);
+  margin: 10px 0 var(--semantic-dimension-space-gap-surface);
   padding-bottom: 14px;
-  border-bottom: var(--hair) solid var(--rule);
-  font-family: var(--font-px);
-  font-size: var(--type-label);
-  letter-spacing: var(--tracking-caps);
-  color: var(--muted);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
+  color: var(--semantic-color-text-secondary);
 }
 
 .sheet > .notice {
   margin-bottom: 20px;
-  max-width: var(--read-measure);
+  max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 @media (max-width: 600px) {
   .sheet {
-    padding: 20px var(--pad) 28px;
+    padding: 20px var(--semantic-dimension-space-padding-panel) 28px;
   }
 
   .sheet-title {
@@ -3593,8 +3737,9 @@ dialog.veil:focus {
 }
 
 .prose {
-  font: var(--read-body) / 1.65 var(--font-body);
-  color: var(--ink);
+  font: var(--semantic-dimension-font-size-prose-body) / 1.65
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-primary);
 }
 
 .prose > p,
@@ -3603,7 +3748,7 @@ dialog.veil:focus {
 .prose > :is(h1, h2, h3, h4, h5, h6),
 .prose > blockquote,
 .prose > .notice {
-  max-width: var(--read-measure);
+  max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 .prose > * + * {
@@ -3611,36 +3756,44 @@ dialog.veil:focus {
 }
 
 .prose :is(h1, h2) {
-  font: var(--read-weight) var(--read-h2) / 1.3 var(--font-body);
+  font: var(--semantic-font-weight-prose-heading)
+    var(--semantic-dimension-font-size-prose-heading-2) / 1.3
+    var(--semantic-font-family-body);
   letter-spacing: -0.005em;
   margin-top: 2em;
   text-wrap: balance;
 }
 
 .prose h3 {
-  font: var(--read-weight) var(--read-h3) / 1.4 var(--font-body);
+  font: var(--semantic-font-weight-prose-heading)
+    var(--semantic-dimension-font-size-prose-heading-3) / 1.4
+    var(--semantic-font-family-body);
   margin-top: 1.6em;
 }
 
 .prose :is(h4, h5, h6) {
-  margin-top: calc(1.6 * var(--read-body));
+  margin-top: calc(1.6 * var(--semantic-dimension-font-size-prose-body));
 }
 
 .prose h4 {
-  font: var(--type-control) / 1.4 var(--font-px);
+  font: var(--semantic-dimension-font-size-control) / 1.4
+    var(--semantic-font-family-ui);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
 }
 
 .prose h5 {
-  font: var(--read-weight) var(--type-body) / 1.45 var(--font-body);
+  font: var(--semantic-font-weight-prose-heading)
+    var(--semantic-dimension-font-size-body) / 1.45
+    var(--semantic-font-family-body);
 }
 
 .prose h6 {
-  font: var(--type-label) / 1.4 var(--font-px);
+  font: var(--semantic-dimension-font-size-label) / 1.4
+    var(--semantic-font-family-ui);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  color: var(--semantic-color-text-secondary);
 }
 
 .prose :is(h1, h2, h3, h4, h5, h6) + * {
@@ -3669,20 +3822,20 @@ dialog.veil:focus {
 }
 
 .prose li::marker {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .prose ol li::marker {
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
 }
 
 .prose strong {
-  font-weight: var(--read-weight);
+  font-weight: var(--semantic-font-weight-prose-heading);
 }
 
 .prose :not(pre) > code {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
   padding: 1px 5px;
   font-size: 0.85em;
 }
@@ -3692,11 +3845,12 @@ dialog.veil:focus {
 }
 
 .prose .table-wrap {
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .prose .table {
-  font-size: var(--type-name);
+  font-size: var(--semantic-dimension-font-size-name);
 }
 
 .prose .table td {
@@ -3705,22 +3859,25 @@ dialog.veil:focus {
 
 .prose blockquote {
   padding-left: 16px;
-  border-left: var(--hair) solid var(--ink);
-  color: var(--muted);
+  border-left: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-primary);
+  color: var(--semantic-color-text-secondary);
 }
 
 .prose hr {
   border: 0;
-  border-top: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   margin: 2em 0;
 }
 
 .prose .notice {
-  font: var(--type-name) / 1.55 var(--font-body);
+  font: var(--semantic-dimension-font-size-name) / 1.55
+    var(--semantic-font-family-body);
 }
 
 .prose a {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -3731,9 +3888,9 @@ dialog.veil:focus {
 }
 
 .prose a.missing {
-  color: var(--red);
+  color: var(--semantic-color-text-negative);
   text-decoration-style: dotted;
-  text-decoration-color: var(--red);
+  text-decoration-color: var(--semantic-color-text-negative);
 }
 
 .toc {
@@ -3746,15 +3903,16 @@ dialog.veil:focus {
   align-items: baseline;
   gap: 8px;
   padding: 5px 12px;
-  font: var(--type-body) / 1.35 var(--font-body);
-  color: var(--ink);
+  font: var(--semantic-dimension-font-size-body) / 1.35
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-primary);
   text-decoration: none;
 }
 
 .toc .l3 a {
   padding-left: 28px;
-  font-size: var(--type-control);
-  color: var(--muted);
+  font-size: var(--semantic-dimension-font-size-control);
+  color: var(--semantic-color-text-secondary);
 }
 
 .toc a::before {
@@ -3766,15 +3924,15 @@ dialog.veil:focus {
 }
 
 .toc a[aria-current="true"]::before {
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .toc a[aria-current="true"] {
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .toc a:hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .chip .cursor,
@@ -3791,11 +3949,11 @@ dialog.veil:focus {
 .loading {
   padding: 26px 16px;
   text-align: center;
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
-  color: var(--muted);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
+  color: var(--semantic-color-text-secondary);
 }
 
 /* done: the status stays in the page, empty, for the next wait, but out of the flow, so it
@@ -3811,11 +3969,12 @@ dialog.veil:focus {
   flex: none;
   width: 22px;
   height: 22px;
-  border: var(--line) solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   line-height: 1;
   text-transform: uppercase;
   user-select: none;
@@ -3824,7 +3983,7 @@ dialog.veil:focus {
 .monogram.large {
   width: 34px;
   height: 34px;
-  font-size: var(--type-name);
+  font-size: var(--semantic-dimension-font-size-name);
 }
 
 .monogram.drawn {
@@ -3862,7 +4021,7 @@ dialog.veil:focus {
 }
 
 .identity.large strong {
-  font-size: var(--type-title);
+  font-size: var(--semantic-dimension-font-size-title);
 }
 
 .stats {
@@ -3877,10 +4036,13 @@ dialog.veil:focus {
   justify-items: start;
   gap: 6px;
   min-width: 0;
-  padding: 14px var(--pad);
-  margin: 0 calc(-1 * var(--hair)) calc(-1 * var(--hair)) 0;
-  border-right: var(--hair) solid var(--rule);
-  border-bottom: var(--hair) solid var(--rule);
+  padding: 14px var(--semantic-dimension-space-padding-panel);
+  margin: 0 calc(-1 * var(--semantic-dimension-border-width-divider))
+    calc(-1 * var(--semantic-dimension-border-width-divider)) 0;
+  border-right: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .stat > * {
@@ -3889,15 +4051,15 @@ dialog.veil:focus {
 }
 
 .stat-value {
-  font-family: var(--font-px);
-  font-size: var(--type-figure);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-figure);
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 .stat-value.unknown {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .stat:last-child {
@@ -3906,7 +4068,7 @@ dialog.veil:focus {
 
 @media (max-width: 900px) {
   .stat-value {
-    font-size: var(--type-figure-narrow);
+    font-size: var(--semantic-dimension-font-size-figure-narrow);
   }
 }
 
@@ -3934,24 +4096,25 @@ dialog.veil:focus {
   max-width: min(36ch, calc(100vw - 24px));
   padding: 3px 7px;
   border: 0;
-  outline: var(--line) solid var(--paper);
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-on-inverse-fill);
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
   line-height: 1.35;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-state);
+  letter-spacing: var(--semantic-dimension-letter-spacing-state);
   overflow: visible;
 }
 
 .tip .key-hint {
   margin-left: 6px;
-  font-family: var(--font-px);
-  font-size: var(--type-label);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
   text-transform: none;
   letter-spacing: 0;
-  opacity: var(--fade-on-ink);
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .tip[popover][data-side="right"] {
@@ -3973,10 +4136,10 @@ dialog.veil:focus {
   list-style: none;
   cursor: pointer;
   user-select: none;
-  font-family: var(--font-px);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .disclosure > summary::-webkit-details-marker {
@@ -3993,11 +4156,11 @@ dialog.veil:focus {
 }
 
 .disclosure > :is(summary, .disclosure-summary):hover .disclosure-label {
-  border-bottom-color: var(--ink);
+  border-bottom-color: var(--semantic-color-border-primary);
 }
 
 .disclosure > .disclosure-summary[aria-disabled="true"] {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
   cursor: default;
 }
 
@@ -4009,10 +4172,11 @@ dialog.veil:focus {
 
 .disclosure-body {
   display: grid;
-  gap: var(--space-m);
+  gap: var(--semantic-dimension-space-gap-body);
   margin: 6px 0 2px 5px;
   padding: 4px 0 4px 14px;
-  border-left: var(--hair) solid var(--rule);
+  border-left: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .disclosure-body > * {
@@ -4031,11 +4195,12 @@ dialog.veil:focus {
   justify-content: space-between;
   gap: 4px 16px;
   padding: 4px 20px;
-  background: var(--paper);
-  border-top: var(--hair) solid var(--rule);
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  background: var(--semantic-color-background-surface);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .statusbar-state {
@@ -4054,7 +4219,7 @@ dialog.veil:focus {
 
 .statusbar-keys .key-hint {
   font: inherit;
-  color: var(--ink);
+  color: var(--semantic-color-text-primary);
 }
 
 @property --railed-width {
@@ -4063,7 +4228,10 @@ dialog.veil:focus {
 }
 
 .railed {
-  padding-left: var(--railed-width, var(--rail));
+  padding-left: var(
+    --railed-width,
+    var(--semantic-dimension-size-rail-default)
+  );
 }
 
 .railed > :is(.rail, .rail-resize, .bench) {
@@ -4078,10 +4246,11 @@ dialog.veil:focus {
   left: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--gap);
-  width: var(--railed-width, var(--rail));
+  gap: var(--semantic-dimension-space-gap-surface);
+  width: var(--railed-width, var(--semantic-dimension-size-rail-default));
   height: auto;
-  padding: var(--gap) 10px var(--gap) 20px;
+  padding: var(--semantic-dimension-space-gap-surface) 10px
+    var(--semantic-dimension-space-gap-surface) 20px;
   border: 0;
   background: none;
   color: inherit;
@@ -4126,7 +4295,7 @@ dialog.veil:focus {
   position: fixed;
   top: anchor(--topbar bottom, 0px);
   bottom: var(--statusbar-h);
-  left: var(--railed-width, var(--rail));
+  left: var(--railed-width, var(--semantic-dimension-size-rail-default));
   z-index: 1;
   width: 12px;
   cursor: col-resize;
@@ -4139,8 +4308,8 @@ dialog.veil:focus {
   top: 0;
   bottom: 0;
   left: 0;
-  width: var(--line);
-  background: var(--ink);
+  width: var(--semantic-dimension-border-width-container);
+  background: var(--semantic-color-background-fill-inverse);
   opacity: 0;
   pointer-events: none;
 }
@@ -4160,7 +4329,7 @@ dialog.veil:focus {
 
 @media not (max-width: 900px) {
   .railed.folded {
-    --railed-width: var(--rail-folded);
+    --railed-width: var(--semantic-dimension-size-rail-folded);
   }
 
   .railed.folded > .rail > :not(.rail-head + .panel),
@@ -4186,7 +4355,7 @@ dialog.veil:focus {
 
   .railed,
   .railed > :is(.rail, .bench) {
-    transition: var(--motion-card) steps(3, end);
+    transition: var(--semantic-duration-card) steps(3, end);
     transition-property: padding-left, width, left;
   }
 
@@ -4208,18 +4377,19 @@ dialog.veil:focus {
 
   .rail[popover]:popover-open {
     inset: 0 auto 0 0;
-    width: min(var(--rail-drawer), calc(100vw - 40px));
+    width: min(var(--semantic-dimension-size-rail-drawer), calc(100vw - 40px));
     height: 100dvh;
     max-height: none;
-    padding: 12px 16px var(--gap) 12px;
+    padding: 12px 16px var(--semantic-dimension-space-gap-surface) 12px;
     background: var(--dither);
-    border-right: var(--line) solid var(--ink);
-    box-shadow: var(--shadow-card);
-    animation: railIn var(--motion-card) steps(3, end);
+    border-right: var(--semantic-dimension-border-width-container) solid
+      var(--semantic-color-border-primary);
+    box-shadow: var(--semantic-shadow-card);
+    animation: railIn var(--semantic-duration-card) steps(3, end);
   }
 
   .rail[popover]::backdrop {
-    background: var(--veil-grain), var(--veil);
+    background: var(--veil-grain), var(--semantic-color-background-backdrop);
   }
 
   .rail-head {
@@ -4257,21 +4427,25 @@ dialog.veil:focus {
   left: 0;
   display: grid;
   grid-template-rows: minmax(0, max-content) minmax(
-      min(var(--bench-work-min), 100% - var(--bench-head-min)),
+      min(
+        var(--semantic-dimension-size-min-height-bench-work),
+        100% - var(--semantic-dimension-size-min-height-bench-head)
+      ),
       1fr
     );
 }
 
 .railed > .bench {
-  left: var(--railed-width, var(--rail));
+  left: var(--railed-width, var(--semantic-dimension-size-rail-default));
 }
 
 .bench-head {
   display: grid;
   align-content: start;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   margin-bottom: -6px;
-  padding: var(--gap) var(--reel-gutter) 6px;
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-gap-reel) 6px;
   overflow-y: auto;
 }
 
@@ -4312,12 +4486,12 @@ dialog.veil:focus {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: var(--veil-grain), var(--veil);
+  background: var(--veil-grain), var(--semantic-color-background-backdrop);
 }
 
 .stage-paused > .notice {
   width: min(460px, 100%);
-  box-shadow: var(--shadow-button);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .window {
@@ -4348,7 +4522,7 @@ dialog.veil:focus {
 }
 
 .window > .panel-tb .chip {
-  border-color: var(--paper);
+  border-color: var(--semantic-color-border-on-inverse-fill);
 }
 
 .window > .panel-tb .iconbtn {
@@ -4365,8 +4539,8 @@ dialog.veil:focus {
   overflow: auto;
   display: grid;
   align-content: start;
-  gap: var(--space-m);
-  padding: var(--pad);
+  gap: var(--semantic-dimension-space-gap-body);
+  padding: var(--semantic-dimension-space-padding-panel);
 }
 
 .window.flush .window-body {
@@ -4404,14 +4578,14 @@ dialog.veil:focus {
   width: max-content;
   min-width: 100%;
   min-height: 100%;
-  padding-block: var(--reel-gutter);
+  padding-block: var(--semantic-dimension-space-gap-reel);
 }
 
 .reel-gap {
   position: relative;
   flex: none;
   align-self: stretch;
-  width: var(--reel-gutter);
+  width: var(--semantic-dimension-space-gap-reel);
 }
 
 .reel-column {
@@ -4419,23 +4593,24 @@ dialog.veil:focus {
   flex: none;
   flex-direction: column;
   width: max(
-    var(--reel-column-min),
-    var(--reel-width) * (100cqw - var(--reel-gutter)) - var(--reel-gutter)
+    var(--semantic-dimension-size-min-width-reel-column),
+    var(--reel-width) * (100cqw - var(--semantic-dimension-space-gap-reel)) -
+      var(--semantic-dimension-space-gap-reel)
   );
-  min-height: calc(100cqh - 2 * var(--reel-gutter));
+  min-height: calc(100cqh - 2 * var(--semantic-dimension-space-gap-reel));
 }
 
 .reel-slot {
   position: relative;
   flex: var(--reel-weight, 1) 1 0;
-  min-height: var(--reel-pane-min);
+  min-height: var(--semantic-dimension-size-min-height-reel-pane);
   anchor-name: var(--reel-anchor);
 }
 
 .reel-split {
   position: relative;
   flex: none;
-  height: var(--reel-gutter);
+  height: var(--semantic-dimension-space-gap-reel);
   cursor: row-resize;
   touch-action: none;
 }
@@ -4449,7 +4624,7 @@ dialog.veil:focus {
 .reel-split::after {
   content: "";
   position: absolute;
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
   opacity: 0;
   pointer-events: none;
 }
@@ -4458,14 +4633,14 @@ dialog.veil:focus {
   top: 0;
   bottom: 0;
   left: calc(50% - 1px);
-  width: var(--line);
+  width: var(--semantic-dimension-border-width-container);
 }
 
 .reel-split::after {
   left: 0;
   right: 0;
   top: calc(50% - 1px);
-  height: var(--line);
+  height: var(--semantic-dimension-border-width-container);
 }
 
 .reel-resize:is(:hover, :focus-visible)::after,
@@ -4484,7 +4659,8 @@ dialog.veil:focus {
   top: 0;
   bottom: 0;
   left: calc(50% - 1px);
-  border-left: var(--line) dashed var(--ink);
+  border-left: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
   pointer-events: none;
 }
 
@@ -4493,16 +4669,17 @@ dialog.veil:focus {
   position: absolute;
   left: 0;
   right: 0;
-  border-top: var(--line) dashed var(--ink);
+  border-top: var(--semantic-dimension-border-width-container) dashed
+    var(--semantic-color-border-primary);
   pointer-events: none;
 }
 
 .reel-slot.drop-before::before {
-  top: calc(var(--reel-gutter) / -2 - 1px);
+  top: calc(var(--semantic-dimension-space-gap-reel) / -2 - 1px);
 }
 
 .reel-slot.drop-after::before {
-  bottom: calc(var(--reel-gutter) / -2 - 1px);
+  bottom: calc(var(--semantic-dimension-space-gap-reel) / -2 - 1px);
 }
 
 .reel-panes {
@@ -4511,7 +4688,7 @@ dialog.veil:focus {
 
 .reel-pane,
 .reel-column {
-  scroll-margin: var(--reel-gutter);
+  scroll-margin: var(--semantic-dimension-space-gap-reel);
 }
 
 .reel-pane {
@@ -4525,7 +4702,7 @@ dialog.veil:focus {
 }
 
 .reel-pane.focused > .window {
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .reel-pane:focus-visible {
@@ -4533,12 +4710,13 @@ dialog.veil:focus {
 }
 
 .reel-pane:focus-visible > .window {
-  outline: var(--line) solid var(--ink);
+  outline: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-focus-ring-default);
   outline-offset: 2px;
 }
 
 .reel-pane.drag-dim {
-  opacity: var(--fade-dragged);
+  opacity: var(--semantic-number-opacity-dragged);
 }
 
 .reel.tabbed {
@@ -4554,8 +4732,9 @@ dialog.veil:focus {
 
 .reel-tabs {
   flex: none;
-  max-width: calc(100% - 2 * var(--reel-gutter));
-  margin: var(--reel-gutter) var(--reel-gutter) 0;
+  max-width: calc(100% - 2 * var(--semantic-dimension-space-gap-reel));
+  margin: var(--semantic-dimension-space-gap-reel)
+    var(--semantic-dimension-space-gap-reel) 0;
 }
 
 .reel-tabs button {
@@ -4573,9 +4752,9 @@ dialog.veil:focus {
 
 .reel-stage {
   flex: 1 1 0;
-  height: calc(100cqh - 2 * var(--reel-gutter));
+  height: calc(100cqh - 2 * var(--semantic-dimension-space-gap-reel));
   min-height: 0;
-  margin-inline: var(--reel-gutter);
+  margin-inline: var(--semantic-dimension-space-gap-reel);
 }
 
 .reel-pane.behind {
@@ -4597,8 +4776,8 @@ dialog.veil:focus {
 
 .reel-lift .window {
   height: auto;
-  background: var(--head);
-  box-shadow: var(--shadow-card);
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 /* the page's stack: @foldkit/ui's Toast container, fixed at the bottom right above the page
@@ -4618,12 +4797,12 @@ dialog.veil:focus {
 }
 
 .toast {
-  box-shadow: var(--shadow-button);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .toast.quiet {
-  border-color: var(--ink);
-  color: var(--ink);
+  border-color: var(--semantic-color-border-primary);
+  color: var(--semantic-color-text-primary);
 }
 
 .toast > div {
@@ -4636,7 +4815,7 @@ dialog.veil:focus {
 }
 
 .toasts .toast {
-  animation: toastIn var(--motion-card) steps(3, end);
+  animation: toastIn var(--semantic-duration-card) steps(3, end);
 }
 
 @keyframes toastIn {

@@ -3,7 +3,7 @@ import { Array, Predicate, Record, String } from "effect";
 import { groupTokens, parseTokens, resolve } from "./token-css.ts";
 import type { Section, Token } from "./token-css.ts";
 
-import TOKENS_CSS from "@gjermundgaraba/pixel-paper/tokens.css?raw";
+import TOKENS_CSS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 export type { Token } from "./token-css.ts";
 
@@ -17,48 +17,51 @@ export type TokenSection = Readonly<{
 }>;
 
 const SECTIONS: readonly Section[] = [
-  { heading: "colour: neutrals", from: "--ink" },
-  { heading: "colour: the three meanings", from: "--amber" },
-  { heading: "colour: text on fills", from: "--on-status" },
   {
-    heading: "colour: content, inside code and terminals only",
-    from: "--term-black",
+    heading: "colour: backgrounds",
+    from: "--semantic-color-background-backdrop",
   },
-  { heading: "colour: print and veil", from: "--shadow-color" },
-  { heading: "colour: fades", from: "--fade-on-ink" },
-  { heading: "type: three families", from: "--font-px" },
-  { heading: "type: the working scale", from: "--type-label" },
+  { heading: "colour: borders", from: "--semantic-color-border-divider" },
   {
-    heading: "type: the reading scale (authored pages only)",
-    from: "--read-body",
+    heading: "colour: focus rings",
+    from: "--semantic-color-focus-ring-default",
   },
-  { heading: "lines", from: "--line" },
-  { heading: "space", from: "--row" },
+  { heading: "colour: shadows", from: "--semantic-color-shadow-default" },
+  { heading: "colour: text", from: "--semantic-color-text-code-comment" },
+  { heading: "lines", from: "--semantic-dimension-border-width-container" },
   {
-    heading: "space: between components (Stack, Group, Wrap)",
-    from: "--space-s",
+    heading: "type: the working and reading scales",
+    from: "--semantic-dimension-font-size-body",
   },
-  { heading: "type: figures", from: "--type-figure" },
+  {
+    heading: "type: tracking",
+    from: "--semantic-dimension-letter-spacing-caps",
+  },
+  { heading: "space: sizes", from: "--semantic-dimension-size-max-width-deck" },
+  {
+    heading: "space: padding and gaps",
+    from: "--semantic-dimension-space-gap-body",
+  },
+  { heading: "motion: stepped or instant", from: "--semantic-duration-blink" },
+  { heading: "type: three families", from: "--semantic-font-family-body" },
+  { heading: "type: weights", from: "--semantic-font-weight-prose-heading" },
+  {
+    heading: "colour: fades",
+    from: "--semantic-number-opacity-disabled-on-inverse-fill",
+  },
   {
     heading: "print shadows: zero blur, offset down and right",
-    from: "--shadow-card",
+    from: "--semantic-shadow-button-default",
   },
-  {
-    heading: "the reel: a scrolling row of columns of panes",
-    from: "--reel-gutter",
-  },
-  {
-    heading: "the bench: a page whose work is the window",
-    from: "--bench-work-min",
-  },
-  { heading: "charts", from: "--chart-plot" },
-  { heading: "motion: stepped or instant", from: "--motion-flash" },
-  { heading: "motion: how long a toast stays", from: "--toast-hold" },
 ];
 
 const ALL_TOKENS = parseTokens(TOKENS_CSS);
 
-const GROUPS = groupTokens(ALL_TOKENS, SECTIONS);
+const SEMANTIC_TOKENS = ALL_TOKENS.filter(({ name }) =>
+  name.startsWith("--semantic-")
+);
+
+const GROUPS = groupTokens(SEMANTIC_TOKENS, SECTIONS);
 
 const capitalise = (word: string): string =>
   word.charAt(0).toUpperCase() + word.slice(1);
@@ -101,19 +104,22 @@ export const kindOf = (token: Token): Kind => {
 
   if (!Predicate.isString(resolved)) {
     return "Colour";
-  } else if (name.startsWith("--font-")) {
+  } else if (name.startsWith("--semantic-font-family-")) {
     return "Font";
-  } else if (name.startsWith("--shadow-") && !name.endsWith("-color")) {
+  } else if (name.startsWith("--semantic-shadow-")) {
     return "Shadow";
-  } else if (name.startsWith("--tracking-")) {
+  } else if (name.startsWith("--semantic-dimension-letter-spacing-")) {
     return "Tracking";
-  } else if (name.endsWith("-weight")) {
+  } else if (name.startsWith("--semantic-font-weight-")) {
     return "Weight";
   } else if (resolved.startsWith("conic-gradient(")) {
     return "Image";
   } else if (/^(?:#|rgba?\(|light-dark\()/u.test(resolved)) {
     return "Colour";
-  } else if (/^--(?:type|read)-/u.test(name) && resolved.endsWith("px")) {
+  } else if (
+    name.startsWith("--semantic-dimension-font-size-") &&
+    resolved.endsWith("px")
+  ) {
     return "Size";
   } else if (/^\d+(?:\.\d+)?(?:px|ch)$/u.test(resolved)) {
     return "Length";

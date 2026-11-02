@@ -7,7 +7,7 @@ import { byId } from "../test/fixture.ts";
 import * as Rail from "./rail.ts";
 
 import STYLESHEET from "../pixel-paper.css?raw";
-import TOKENS from "../tokens.css?raw";
+import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const fresh = Rail.init({ id: "collections" });
 const opened = Rail.update(fresh, Rail.Message.ClickedOpen()).model;
@@ -448,18 +448,29 @@ describe("Rail stylesheet", () => {
     expect(STYLESHEET).toContain(
       ".railed > :is(.rail, .rail-resize, .bench) {\n  --railed-width: inherit;"
     );
-    expect(STYLESHEET.match(/var\(--rail\)/gu)?.length).toBe(4);
     expect(
-      STYLESHEET.match(/var\(--railed-width, var\(--rail\)\)/gu)?.length
+      STYLESHEET.match(/var\(--semantic-dimension-size-rail-default\)/gu)
+        ?.length
+    ).toBe(4);
+    expect(
+      STYLESHEET.match(
+        /var\(\s*--railed-width,\s*var\(--semantic-dimension-size-rail-default\)\s*\)/gu
+      )?.length
     ).toBe(4);
   });
 });
 
 describe("Rail's copies of the stylesheet", () => {
-  it("starts at the --rail token, and folds above and turns into a drawer at the stylesheet's breakpoint", () => {
-    expect(/--rail: (?<width>\d+)px;/u.exec(TOKENS)?.groups?.["width"]).toBe(
-      `${Rail.WIDTH.start}`
-    );
+  it("starts at the rail width token, and folds above and turns into a drawer at the stylesheet's breakpoint", () => {
+    const railPrimitive =
+      /--semantic-dimension-size-rail-default: var\((?<primitive>--[a-z0-9-]+)\);/u.exec(
+        TOKENS
+      )?.groups?.["primitive"];
+
+    expect(
+      new RegExp(`${railPrimitive}: (?<width>\\d+)px;`, "u").exec(TOKENS)
+        ?.groups?.["width"]
+    ).toBe(`${Rail.WIDTH.start}`);
 
     const railedQueries = Array.from(
       STYLESHEET.matchAll(/@media (?<query>[^{]+) \{\s*\.railed\b/gu),

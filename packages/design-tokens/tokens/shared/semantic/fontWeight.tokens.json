@@ -1,0 +1,15 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic fontWeight tokens.",
+  "semantic": {
+    "fontWeight": {
+      "$type": "fontWeight",
+      "prose": {
+        "heading": {
+          "$value": "{primitive.fontWeight.650}",
+          "$description": "Headings in long-form reading."
+        }
+      }
+    }
+  }
+}

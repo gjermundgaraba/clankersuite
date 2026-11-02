@@ -3,7 +3,8 @@
 }
 
 .spec-section + .spec-section {
-  border-top: var(--line) solid var(--ink);
+  border-top: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .spec-head {
@@ -11,21 +12,23 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 6px 12px;
-  padding: 20px var(--pad) 10px;
-  border-bottom: var(--hair) solid var(--rule);
+  padding: 20px var(--semantic-dimension-space-padding-panel) 10px;
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .spec-head h2 {
-  font: 400 var(--type-name) / 1.3 var(--font-px);
+  font: 400 var(--semantic-dimension-font-size-name) / 1.3
+    var(--semantic-font-family-ui);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
 .spec-meta {
   margin-left: auto;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .spec-names {
@@ -36,21 +39,22 @@
 }
 
 .spec-names code {
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .spec-about {
   flex-basis: 100%;
-  max-width: var(--read-measure);
-  font: var(--type-control) / 1.5 var(--font-body);
-  color: var(--muted);
+  max-width: var(--semantic-dimension-size-max-width-prose);
+  font: var(--semantic-dimension-font-size-control) / 1.5
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-secondary);
 }
 
 .spec-body {
   display: grid;
   gap: 20px;
-  padding: var(--pad);
+  padding: var(--semantic-dimension-space-padding-panel);
 }
 
 .spec-body > * {
@@ -58,23 +62,25 @@
 }
 
 .spec-foot {
-  padding: 8px var(--pad) 10px;
-  border-top: var(--hair) solid var(--rule);
+  padding: 8px var(--semantic-dimension-space-padding-panel) 10px;
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .spec-caption {
-  font: 400 var(--type-control) / 1.45 var(--font-body);
-  color: var(--muted);
+  font: 400 var(--semantic-dimension-font-size-control) / 1.45
+    var(--semantic-font-family-body);
+  color: var(--semantic-color-text-secondary);
 }
 
 .spec-intro {
   display: grid;
   gap: 12px;
-  max-width: var(--read-measure);
+  max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 .spec-intro p:first-child {
-  font-size: var(--type-body);
+  font-size: var(--semantic-dimension-font-size-body);
 }
 
 .spec-row {
@@ -97,7 +103,7 @@
 }
 
 .spec-rail-width {
-  width: min(var(--rail), 100%);
+  width: min(var(--semantic-dimension-size-rail-default), 100%);
 }
 
 .spec-stack-start {
@@ -122,14 +128,14 @@
 .spec-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
 
 .spec-page {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
 
@@ -139,9 +145,10 @@
 
 .spec-index {
   position: sticky;
-  top: calc(var(--topbar-h) + var(--gap));
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
+  top: calc(var(--topbar-h) + var(--semantic-dimension-space-gap-surface));
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .spec-index-head {
@@ -149,22 +156,27 @@
   align-items: baseline;
   gap: 8px;
   padding: 10px 12px 8px;
-  border-bottom: var(--line) solid var(--ink);
-  font-family: var(--font-px);
-  font-size: var(--type-body);
+  border-bottom: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-body);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
 .spec-index .toc {
-  max-height: calc(100vh - var(--topbar-h) - 2 * var(--gap) - 44px);
+  max-height: calc(
+    100vh - var(--topbar-h) - 2 * var(--semantic-dimension-space-gap-surface) -
+      44px
+  );
   overflow-y: auto;
 }
 
 .spec-stack {
   display: grid;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .spec-stack > * {
@@ -193,13 +205,14 @@
     position: sticky;
     top: var(--topbar-h);
     z-index: 30;
-    margin: calc(-1 * var(--gap)) -12px calc(-1 * var(--gap) + 4px);
+    margin: calc(-1 * var(--semantic-dimension-space-gap-surface)) -12px
+      calc(-1 * var(--semantic-dimension-space-gap-surface) + 4px);
     padding: 8px 12px;
     background: var(--dither);
   }
 
   .spec-jump > .btn {
-    box-shadow: var(--shadow-button);
+    box-shadow: var(--semantic-shadow-button-default);
   }
 }
 
@@ -232,10 +245,11 @@
 .token-row {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr) minmax(0, 220px);
-  gap: 6px var(--pad);
+  gap: 6px var(--semantic-dimension-space-padding-panel);
   align-items: center;
   padding: 10px 0;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .token-group .spec-caption {
@@ -243,7 +257,8 @@
 }
 
 .token-group .spec-caption + .token-row {
-  border-top: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .token-sizes {
@@ -254,13 +269,13 @@
 
 .token-name,
 .token-value {
-  font-family: var(--font-code);
-  font-size: var(--type-state);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-state);
   overflow-wrap: anywhere;
 }
 
 .token-value {
-  color: var(--muted);
+  color: var(--semantic-color-text-secondary);
 }
 
 .token-sample {
@@ -276,7 +291,8 @@
 .token-chips {
   display: flex;
   flex-wrap: wrap;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   width: fit-content;
 }
 
@@ -286,20 +302,21 @@
   align-items: center;
   gap: 10px;
   padding: 6px 10px;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
 }
 
 .swatch-chip {
   width: 40px;
   height: 26px;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .swatch-value {
-  font-family: var(--font-code);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .spec-scheme.paper {
@@ -315,8 +332,9 @@
   width: 100%;
   max-width: 220px;
   height: 40px;
-  border: var(--line) solid var(--ink);
-  background-color: var(--paper);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background-color: var(--semantic-color-background-surface);
 }
 
 .token-image > span {
@@ -329,11 +347,11 @@
   width: var(--w);
   max-width: 100%;
   height: 12px;
-  background: var(--ink);
+  background: var(--semantic-color-background-fill-inverse);
 }
 
 .px {
-  font-family: var(--font-px);
+  font-family: var(--semantic-font-family-ui);
 }
 
 .caps {
@@ -347,18 +365,21 @@
   display: grid;
   place-items: center;
   text-align: center;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  font-family: var(--font-px);
-  font-size: var(--type-state);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
 }
 
 .ink-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  border-top: var(--hair) solid var(--rule);
-  border-left: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-left: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .ink-cell {
@@ -367,14 +388,17 @@
   align-items: center;
   gap: 2px 10px;
   padding: 10px;
-  border-right: var(--hair) solid var(--rule);
-  border-bottom: var(--hair) solid var(--rule);
+  border-right: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .ink-swatch {
   grid-row: span 2;
   display: flex;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .ink-swatch > * {
@@ -391,14 +415,18 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-  border-top: var(--hair) solid var(--rule);
-  border-left: var(--hair) solid var(--rule);
+  border-top: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-left: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .glyph-grid li {
   display: grid;
-  border-right: var(--hair) solid var(--rule);
-  border-bottom: var(--hair) solid var(--rule);
+  border-right: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
 }
 
 .glyph-grid button {
@@ -406,14 +434,14 @@
   justify-items: center;
   gap: 8px;
   padding: 14px 6px 10px;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
   border: 0;
   cursor: pointer;
 }
 
 .glyph-grid button:hover {
-  background: var(--head);
+  background: var(--semantic-color-background-head);
 }
 
 .glyph-grid .big svg {
@@ -425,18 +453,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-px);
-  font-size: var(--type-state);
-  color: var(--muted);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-state);
+  color: var(--semantic-color-text-secondary);
 }
 
 .glyph-grid button:hover .names {
-  color: var(--on-head);
+  color: var(--semantic-color-text-on-head);
 }
 
 .spec-screen {
   display: grid;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   min-width: 0;
 }
 
@@ -446,8 +474,9 @@
 
 .spec-sub,
 .sample-line {
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .spec-sub {
@@ -468,7 +497,7 @@
 .screen-two {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 260px;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
 
@@ -478,9 +507,9 @@
 
 .screen-rail {
   position: sticky;
-  top: calc(var(--topbar-h) + var(--gap));
+  top: calc(var(--topbar-h) + var(--semantic-dimension-space-gap-surface));
   display: grid;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
 }
 
 @media (max-width: 900px) {
@@ -504,7 +533,7 @@
   right: 12px;
   bottom: calc(var(--statusbar-h) + 12px);
   max-width: calc(100% - 24px);
-  box-shadow: var(--shadow-button);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .spec-code {
@@ -526,7 +555,7 @@
 }
 
 .spec-code-head .spec-caption {
-  max-width: var(--read-measure);
+  max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 .spec-code .code-surface,
@@ -548,7 +577,7 @@
 .spec-aside {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
-  gap: var(--gap);
+  gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
 
@@ -565,8 +594,9 @@
   width: min(360px, 100%);
   height: 240px;
   padding: 14px;
-  border: var(--line) solid var(--ink);
-  background: var(--ground);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-canvas);
 }
 
 .spec-screens-menu {
@@ -686,9 +716,10 @@
   align-items: center;
   gap: 8px;
   padding: 4px 6px 4px 10px;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .spec-wall-corner {
@@ -702,9 +733,10 @@
   gap: 10px;
   max-width: calc(100% - 24px);
   padding: 6px 8px;
-  background: var(--paper);
-  border: var(--line) solid var(--ink);
-  box-shadow: var(--shadow-button);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  box-shadow: var(--semantic-shadow-button-default);
 }
 
 .spec-wall-corner ~ .wall {
@@ -725,7 +757,8 @@
 
 .spec-frame {
   width: min(560px, 100%);
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
 }
 
 .spec-frame :is(.topbar, .statusbar, .banner) {
@@ -751,7 +784,8 @@
   width: min(760px, 100%);
   height: 300px;
   overflow: hidden;
-  border: var(--line) solid var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
   background: var(--dither);
   transform: translate(0);
 }
@@ -762,14 +796,15 @@
 }
 
 .spec-railed > .railed > .deck {
-  padding-bottom: var(--gap);
+  padding-bottom: var(--semantic-dimension-space-gap-surface);
 }
 
 .spec-reel {
   height: 460px;
-  border: var(--line) solid var(--ink);
-  background: var(--ground);
-  color: var(--ink);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-canvas);
+  color: var(--semantic-color-text-primary);
 }
 
 .spec-reel.short {
@@ -777,17 +812,18 @@
 }
 
 .spec-reel-line {
-  font-family: var(--font-code);
-  font-size: var(--type-control);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
 }
 
 .spec-reel-input {
   width: 100%;
   padding: 2px 0;
   border: 0;
-  border-bottom: var(--hair) solid var(--rule);
+  border-bottom: var(--semantic-dimension-border-width-divider) solid
+    var(--semantic-color-border-divider);
   background: transparent;
-  color: var(--ink);
-  font-family: var(--font-code);
-  font-size: var(--type-control);
+  color: var(--semantic-color-text-primary);
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
 }

@@ -135,7 +135,9 @@ const runFlash = (element: Element, beat: number): void => {
   }
 
   if (prefersReducedMotion()) {
-    const ring = "var(--line) solid var(--ink)";
+    const ring =
+      "var(--semantic-dimension-border-width-container) solid var(--semantic-color-border-primary)";
+
     element.animate(
       { outline: [ring, ring], outlineOffset: ["-2px", "-2px"] },
       { duration: beat, id: FLASH_ID }

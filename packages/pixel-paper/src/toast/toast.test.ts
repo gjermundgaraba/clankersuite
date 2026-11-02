@@ -13,11 +13,7 @@ import { showing } from "./stack.ts";
 import * as Toast from "./toast.ts";
 import { stackFocusIn, stackFocusOut, stackKey } from "./toast.ts";
 
-import TOKENS from "../tokens.css?raw";
-
-const TOAST_HOLD_TOKEN = Duration.seconds(
-  Number(/--toast-hold: (?<seconds>\d+)s;/u.exec(TOKENS)?.groups?.["seconds"])
-);
+const TOAST_HOLD = Duration.seconds(5);
 
 const emptyStack = Toast.init({ id: "toasts" });
 
@@ -50,12 +46,12 @@ const announced = (
   );
 
 describe("Toast update", () => {
-  it("holds a calm slip for the --toast-hold token and an error until it is dismissed, and says each", () => {
+  it("holds a calm slip for five seconds and an error until it is dismissed, and says each", () => {
     const first = Toast.show(emptyStack, SAVED);
     const second = Toast.show(first.model, NOT_SENT);
     const [saved, notSent] = second.model.stack.entries;
 
-    expect(saved?.maybeDuration).toStrictEqual(Option.some(TOAST_HOLD_TOKEN));
+    expect(saved?.maybeDuration).toStrictEqual(Option.some(TOAST_HOLD));
     expect(notSent?.maybeDuration).toStrictEqual(Option.none());
     expect(first.entryId).toBe("toasts-entry-0");
     expect(second.entryId).toBe("toasts-entry-1");

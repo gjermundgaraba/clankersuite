@@ -1,0 +1,71 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Solid offset shadows: no blur, no spread.",
+  "semantic": {
+    "shadow": {
+      "$type": "shadow",
+      "card": {
+        "$value": {
+          "color": "{semantic.color.shadow.default}",
+          "offsetX": "{primitive.dimension.8}",
+          "offsetY": "{primitive.dimension.8}",
+          "blur": "{primitive.dimension.0}",
+          "spread": "{primitive.dimension.0}"
+        },
+        "$description": "A card's solid offset shadow."
+      },
+      "panel": {
+        "$value": {
+          "color": "{semantic.color.shadow.default}",
+          "offsetX": "{primitive.dimension.5}",
+          "offsetY": "{primitive.dimension.5}",
+          "blur": "{primitive.dimension.0}",
+          "spread": "{primitive.dimension.0}"
+        },
+        "$description": "A panel's solid offset shadow."
+      },
+      "button": {
+        "default": {
+          "$value": {
+            "color": "{semantic.color.shadow.default}",
+            "offsetX": "{primitive.dimension.3}",
+            "offsetY": "{primitive.dimension.3}",
+            "blur": "{primitive.dimension.0}",
+            "spread": "{primitive.dimension.0}"
+          },
+          "$description": "A button's solid offset shadow."
+        },
+        "small": {
+          "$value": {
+            "color": "{semantic.color.shadow.default}",
+            "offsetX": "{primitive.dimension.2}",
+            "offsetY": "{primitive.dimension.2}",
+            "blur": "{primitive.dimension.0}",
+            "spread": "{primitive.dimension.0}"
+          },
+          "$description": "A small button's solid offset shadow."
+        }
+      },
+      "pressed": {
+        "$value": {
+          "color": "{semantic.color.shadow.default}",
+          "offsetX": "{primitive.dimension.1}",
+          "offsetY": "{primitive.dimension.1}",
+          "blur": "{primitive.dimension.0}",
+          "spread": "{primitive.dimension.0}"
+        },
+        "$description": "A pressed button's shadow."
+      },
+      "negative": {
+        "$value": {
+          "color": "{semantic.color.shadow.negative}",
+          "offsetX": "{primitive.dimension.3}",
+          "offsetY": "{primitive.dimension.3}",
+          "blur": "{primitive.dimension.0}",
+          "spread": "{primitive.dimension.0}"
+        },
+        "$description": "A destructive button's shadow."
+      }
+    }
+  }
+}

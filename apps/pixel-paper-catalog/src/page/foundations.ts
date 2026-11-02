@@ -132,38 +132,67 @@ type Voice = Readonly<{
   weight?: string;
 }>;
 
-const px = (words: string, tracking = "var(--tracking-caps)"): Voice => ({
+const px = (
+  words: string,
+  tracking = "var(--semantic-dimension-letter-spacing-caps)"
+): Voice => ({
   words,
   isPx: true,
   tracking,
 });
 
 const VOICES: Readonly<Record<string, readonly Voice[]>> = {
-  "--type-label": [
-    px("Owner name · Last seen · Grants", "var(--tracking-label)"),
+  "--semantic-dimension-font-size-label": [
+    px(
+      "Owner name · Last seen · Grants",
+      "var(--semantic-dimension-letter-spacing-label)"
+    ),
   ],
-  "--type-state": [px("active · retrying · 2d · v4")],
-  "--type-control": [
+  "--semantic-dimension-font-size-state": [px("active · retrying · 2d · v4")],
+  "--semantic-dimension-font-size-control": [
     px("save · sign out · sort by due"),
     { words: "A note under a field." },
   ],
-  "--type-body": [
+  "--semantic-dimension-font-size-body": [
     px("Sources · Keys"),
     { words: "Renew the signing certificate" },
   ],
-  "--type-name": [px("Operations · Requests")],
-  "--type-title": [{ words: "Renew the signing certificate", weight: "600" }],
-  "--type-page": [px("Queue")],
-  "--type-page-narrow": [px("Queue")],
-  "--type-wordmark": [{ words: "pixel paper", isPx: true }],
-  "--type-wordmark-wall": [{ words: "pixel paper", isPx: true }],
-  "--type-figure": [{ words: "41,200", isPx: true }],
-  "--type-figure-narrow": [{ words: "41,200", isPx: true }],
-  "--read-body": [{ words: "Every release goes out in two steps." }],
-  "--read-h3": [{ words: "Switching traffic", weight: "var(--read-weight)" }],
-  "--read-h2": [{ words: "Before the window", weight: "var(--read-weight)" }],
-  "--read-title": [
-    { words: "Rollout checklist", weight: "var(--read-weight)" },
+  "--semantic-dimension-font-size-name": [px("Operations · Requests")],
+  "--semantic-dimension-font-size-title": [
+    { words: "Renew the signing certificate", weight: "600" },
+  ],
+  "--semantic-dimension-font-size-page": [px("Queue")],
+  "--semantic-dimension-font-size-page-narrow": [px("Queue")],
+  "--semantic-dimension-font-size-wordmark": [
+    { words: "pixel paper", isPx: true },
+  ],
+  "--semantic-dimension-font-size-wordmark-wall": [
+    { words: "pixel paper", isPx: true },
+  ],
+  "--semantic-dimension-font-size-figure": [{ words: "41,200", isPx: true }],
+  "--semantic-dimension-font-size-figure-narrow": [
+    { words: "41,200", isPx: true },
+  ],
+  "--semantic-dimension-font-size-prose-body": [
+    { words: "Every release goes out in two steps." },
+  ],
+  "--semantic-dimension-font-size-prose-heading-3": [
+    {
+      words: "Switching traffic",
+      weight: "var(--semantic-font-weight-prose-heading)",
+    },
+  ],
+  "--semantic-dimension-font-size-prose-heading-2": [
+    {
+      words: "Before the window",
+      weight: "var(--semantic-font-weight-prose-heading)",
+    },
+  ],
+  "--semantic-dimension-font-size-prose-title": [
+    {
+      words: "Rollout checklist",
+      weight: "var(--semantic-font-weight-prose-heading)",
+    },
   ],
 };
 
@@ -249,7 +278,12 @@ const SAMPLE_VIEWS: Readonly<Record<Kind, SampleView>> = {
   ],
   Weight: (_token, value, h) => [
     h.span(
-      [h.Style({ fontWeight: value, fontSize: "var(--read-h2)" })],
+      [
+        h.Style({
+          fontWeight: value,
+          fontSize: "var(--semantic-dimension-font-size-prose-heading-2)",
+        }),
+      ],
       ["Printed paper"]
     ),
   ],
@@ -351,7 +385,7 @@ const motionAtWork = (h: HtmlBuilder<Message>): TokensInUse => ({
         rowView(
           [
             specView(
-              "--motion-flash · the invert flash",
+              "--semantic-duration-flash · the invert flash",
               [h.div([h.Class("spec-box"), h.Id(FLASH_BOX_ID)], ["committed"])],
               h
             ),
@@ -366,7 +400,7 @@ const motionAtWork = (h: HtmlBuilder<Message>): TokensInUse => ({
               h
             ),
             specView(
-              "--motion-blink · the busy cursor",
+              "--semantic-duration-blink · the busy cursor",
               [Button.view({ label: "saving", isBusy: true }, h)],
               h
             ),
@@ -804,7 +838,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
                 h.p(
                   [h.Class("spec-caption")],
                   [
-                    "This page is the system documenting itself, a Foldkit application rendered at build time and hydrated in your browser: every token below is read from tokens.css, and every colour is shown in both palettes.",
+                    "This page is the system documenting itself, a Foldkit application rendered at build time and hydrated in your browser: every token below is read from the brand stylesheet, and every colour is shown in both palettes.",
                   ]
                 ),
               ]

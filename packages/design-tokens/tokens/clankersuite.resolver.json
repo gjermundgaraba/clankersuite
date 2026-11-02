@@ -1,0 +1,45 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/resolver.json",
+  "name": "clankersuite",
+  "version": "2025.10",
+  "description": "The clankersuite brand: the shared baseline, with no overrides yet.",
+  "sets": {
+    "shared-primitive": {
+      "description": "Shared primitive tokens grouped by DTCG type.",
+      "sources": [
+        { "$ref": "./shared/primitive/color.tokens.json" },
+        { "$ref": "./shared/primitive/dimension.tokens.json" },
+        { "$ref": "./shared/primitive/duration.tokens.json" },
+        { "$ref": "./shared/primitive/number.tokens.json" },
+        { "$ref": "./shared/primitive/fontWeight.tokens.json" },
+        { "$ref": "./shared/primitive/fontFamily.tokens.json" }
+      ]
+    },
+    "shared-semantic": {
+      "description": "Shared semantic tokens that do not depend on the colour scheme.",
+      "sources": [
+        { "$ref": "./shared/semantic/dimension.tokens.json" },
+        { "$ref": "./shared/semantic/duration.tokens.json" },
+        { "$ref": "./shared/semantic/number.tokens.json" },
+        { "$ref": "./shared/semantic/fontWeight.tokens.json" },
+        { "$ref": "./shared/semantic/fontFamily.tokens.json" },
+        { "$ref": "./shared/semantic/shadow.tokens.json" }
+      ]
+    }
+  },
+  "modifiers": {
+    "colorScheme": {
+      "description": "Selects semantic colours for the colour scheme.",
+      "contexts": {
+        "light": [{ "$ref": "./shared/semantic/color/light.tokens.json" }],
+        "dark": [{ "$ref": "./shared/semantic/color/dark.tokens.json" }]
+      },
+      "default": "light"
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/shared-primitive" },
+    { "$ref": "#/sets/shared-semantic" },
+    { "$ref": "#/modifiers/colorScheme" }
+  ]
+}

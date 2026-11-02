@@ -1,0 +1,21 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic fontFamily tokens.",
+  "semantic": {
+    "fontFamily": {
+      "$type": "fontFamily",
+      "ui": {
+        "$value": "{primitive.fontFamily.departureMono}",
+        "$description": "Controls, labels, chrome: the pixel face."
+      },
+      "body": {
+        "$value": "{primitive.fontFamily.systemSans}",
+        "$description": "Running text."
+      },
+      "code": {
+        "$value": "{primitive.fontFamily.systemMono}",
+        "$description": "Code and program output."
+      }
+    }
+  }
+}

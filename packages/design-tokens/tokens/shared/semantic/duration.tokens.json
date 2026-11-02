@@ -1,0 +1,25 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic duration tokens.",
+  "semantic": {
+    "duration": {
+      "$type": "duration",
+      "flash": {
+        "$value": "{primitive.duration.700}",
+        "$description": "The invert flash that signals a change."
+      },
+      "blink": {
+        "$value": "{primitive.duration.1200}",
+        "$description": "One blink of the working cursor."
+      },
+      "card": {
+        "$value": "{primitive.duration.140}",
+        "$description": "A card or toast stepping in."
+      },
+      "veil": {
+        "$value": "{primitive.duration.120}",
+        "$description": "The veil stepping in behind a dialog."
+      }
+    }
+  }
+}

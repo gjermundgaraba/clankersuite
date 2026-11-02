@@ -1,0 +1,20 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Raw numbers.",
+  "primitive": {
+    "number": {
+      "$type": "number",
+      "opacity": {
+        "400": {
+          "$value": 0.4
+        },
+        "600": {
+          "$value": 0.6
+        },
+        "750": {
+          "$value": 0.75
+        }
+      }
+    }
+  }
+}

@@ -21,6 +21,9 @@ catalog:
   "@foldkit/vite-plugin": 0.29.0
   "@lezer/common": 1.5.5
   "@lezer/markdown": 1.8.1
+  "@terrazzo/cli": 2.10.0
+  "@terrazzo/parser": 2.10.0
+  "@terrazzo/plugin-css": 2.10.0
   "@types/node": 26.6.6
   diff: 9.0.0
   effect: 4.1.2

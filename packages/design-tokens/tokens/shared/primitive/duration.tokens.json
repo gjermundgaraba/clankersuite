@@ -1,0 +1,33 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Raw durations, named in milliseconds.",
+  "primitive": {
+    "duration": {
+      "120": {
+        "$value": {
+          "value": 0.12,
+          "unit": "s"
+        }
+      },
+      "140": {
+        "$value": {
+          "value": 0.14,
+          "unit": "s"
+        }
+      },
+      "700": {
+        "$value": {
+          "value": 0.7,
+          "unit": "s"
+        }
+      },
+      "1200": {
+        "$value": {
+          "value": 1.2,
+          "unit": "s"
+        }
+      },
+      "$type": "duration"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Font stacks.",
+  "primitive": {
+    "fontFamily": {
+      "$type": "fontFamily",
+      "departureMono": {
+        "$value": [
+          "Departure Mono",
+          "ui-monospace",
+          "Menlo",
+          "Monaco",
+          "monospace"
+        ]
+      },
+      "systemSans": {
+        "$value": [
+          "system-ui",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif"
+        ]
+      },
+      "systemMono": {
+        "$value": ["ui-monospace", "Menlo", "Monaco", "monospace"]
+      }
+    }
+  }
+}

@@ -56,10 +56,14 @@ A release bumps `version` in `packages/pixel-paper/package.json` on `main`; CI p
 - Work that holds a dialog open ends in a timeout mapped to its failure Message.
 - Numbers and dates are formatted with an explicit English locale, so the server and every browser write the same text.
 - The browser baseline is current stable Chrome, Firefox and Safari: use the platform (`<dialog>`, `popover`, anchor positioning, `light-dark()`) with no fallbacks.
-- The look: square corners, solid offset shadows with no blur, stepped or instant motion, icons drawn as Glyph cells, and only values from `tokens.css`.
+- The look: square corners, solid offset shadows with no blur, stepped or instant motion, icons drawn as Glyph cells, and only `--semantic-*` tokens from `@gjermundgaraba/design-tokens`, never a `--primitive-*` one.
 - Where the code builds a `@foldkit/ui` child Message itself, under a one-line lint disable, or reads a `@foldkit/ui` Model, it works around a capability Foldkit lacks. On a Foldkit upgrade, drop the workarounds it makes unnecessary.
 
 In happy-dom tests, make `localStorage` fail by stubbing the whole store with `vi.stubGlobal`, never a spy on `Storage.prototype`, which misses a store an earlier test already used. happy-dom does no layout, so a test that needs sizes sets them itself.
+
+# design-tokens
+
+`packages/design-tokens/tokens` holds the DTCG sources; `generated/<brand>.css` is built from them and committed. After editing a source, run `vp run @gjermundgaraba/design-tokens#build`. Naming and the shape of a brand are in its README.
 
 # Effect
 

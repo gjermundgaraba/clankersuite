@@ -12,7 +12,6 @@
     "dist",
     "fonts",
     "src/pixel-paper.css",
-    "src/tokens.css",
     "THIRD_PARTY_NOTICES.md"
   ],
   "type": "module",
@@ -23,8 +22,7 @@
     ".": "./src/index.ts",
     "./scheme": "./src/scheme/script.ts",
     "./markdown-editor/element": "./src/markdown-editor/element.ts",
-    "./pixel-paper.css": "./src/pixel-paper.css",
-    "./tokens.css": "./src/tokens.css"
+    "./pixel-paper.css": "./src/pixel-paper.css"
   },
   "publishConfig": {
     "exports": {
@@ -65,6 +63,7 @@
     "@effect/vitest": "catalog:",
     "@foldkit/ui": "catalog:",
     "@foldkit/vite-plugin": "catalog:",
+    "@gjermundgaraba/design-tokens": "workspace:*",
     "@types/node": "catalog:",
     "effect": "catalog:",
     "foldkit": "catalog:",

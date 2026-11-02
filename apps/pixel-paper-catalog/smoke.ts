@@ -817,7 +817,7 @@ try {
 
           host.id = "smoke-editor";
           host.style.cssText =
-            "position: fixed; top: 0; left: 0; width: 480px; z-index: 1000; background: var(--paper)";
+            "position: fixed; top: 0; left: 0; width: 480px; z-index: 1000; background: var(--semantic-color-background-surface)";
           textarea.value = text;
           host.append(textarea);
           Object.assign(host, { source: text });
