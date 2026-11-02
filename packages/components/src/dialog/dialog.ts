@@ -13,7 +13,7 @@ import type * as Update from "foldkit/update";
 import { isPlain } from "../keys/keys.ts";
 import { foldDialog } from "./fold.ts";
 
-/** Schema for a pixel-paper dialog: the `@foldkit/ui` Dialog it is built on. */
+/** Schema for a dialog: the `@foldkit/ui` Dialog it is built on. */
 export const Model = Schema.Struct({
   dialog: UiDialog.Model,
 });

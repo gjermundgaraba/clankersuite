@@ -7,7 +7,7 @@ type ChildReturn<ChildModel, ChildMessage, ChildOutMessage> =
   Update.ReturnWithOutMessage<ChildModel, ChildMessage, ChildOutMessage>;
 
 /** A dialog a parent holds: its update, and the steps that open and close it (`@foldkit/ui`'s
- *  Dialog, or pixel-paper's). */
+ *  Dialog, or this package's). */
 export type DialogChild<ChildModel, ChildMessage, ChildOutMessage> = Readonly<{
   update: (
     model: ChildModel,

@@ -22,7 +22,7 @@ const ANNOUNCER_SELECTOR = `[${ANNOUNCER_ATTRIBUTE}]`;
 
 /**
  * The page's one polite live region, empty until something is said. Render exactly one,
- * placed by the rule every pixel-paper application follows, because an open Dialog makes
+ * placed by the rule every application follows, because an open Dialog makes
  * everything outside it inert and hidden from screen readers: inside the topmost open Dialog,
  * otherwise at the end of the body. `LiveRegion.view` renders it with the toast stack, and
  * `LiveRegion.place` puts them where the rule says.

@@ -11,7 +11,7 @@ import * as Dialog from "../dialog/dialog.ts";
 import { foldDialog } from "../dialog/fold.ts";
 import * as Outcome from "../outcome/outcome.ts";
 
-/** Schema for a confirm dialog: the pixel-paper Dialog it opens in. */
+/** Schema for a confirm dialog: the `Dialog` it opens in. */
 export const Model = Schema.Struct({
   dialog: Dialog.Model,
 });

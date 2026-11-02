@@ -32,7 +32,7 @@ release. Add a tool name to select part of the graph. For example, run
 
 # This repository
 
-`packages/pixel-paper` is published to npm as `@gjermundgaraba/pixel-paper` for six applications: clankerauth, clankerbot, clankerpedia, clankerspace, clankerusage and wtf. `apps/pixel-paper-catalog` shows every component in every state and is not published.
+The gjermundgaraba design system, for six applications: clankerauth, clankerbot, clankerpedia, clankerspace, clankerusage and wtf. Four packages are published to npm, `@gjermundgaraba/design-tokens`, `fonts`, `icons` and `components`, released together at one version; a package depends on another at exactly that version (`workspace:*`). `apps/docs` shows every component in every state and is not published. A brand is a token set, a font and, one day, its own drawing of the glyph names; clankersuite is the only brand.
 
 `repos/foldkit` is Foldkit's source at the catalog's `foldkit` version, the reference for Foldkit's APIs and conventions. Never edit it; after a Foldkit upgrade, re-pin it:
 
@@ -40,11 +40,11 @@ release. Add a tool name to select part of the graph. For example, run
 git subtree pull --prefix=repos/foldkit https://github.com/foldkit/foldkit.git foldkit@<version> --squash
 ```
 
-# pixel-paper
+# components
 
 The six applications are its only users. A component, export or config field that none of them uses, and that nothing else in the package needs, is deleted; the catalog showing it is no reason to keep it.
 
-A release bumps `version` in `packages/pixel-paper/package.json` on `main`; CI publishes any version npm doesn't have.
+A release bumps `version` in every `packages/*/package.json` to one new version on `main`; CI publishes any version npm doesn't have. A package marked `private` never publishes.
 
 - Disabled is `@foldkit/ui`'s `isDisabled`: `aria-disabled`, still focusable, no handler. A held control that would submit a form renders `type="button"`.
 - Key handling that depends on the event's target, `isComposing` or `defaultPrevented` goes in a Mount that prevents the default only when it acts, never in a view handler.
@@ -56,7 +56,8 @@ A release bumps `version` in `packages/pixel-paper/package.json` on `main`; CI p
 - Work that holds a dialog open ends in a timeout mapped to its failure Message.
 - Numbers and dates are formatted with an explicit English locale, so the server and every browser write the same text.
 - The browser baseline is current stable Chrome, Firefox and Safari: use the platform (`<dialog>`, `popover`, anchor positioning, `light-dark()`) with no fallbacks.
-- The look: square corners, solid offset shadows with no blur, stepped or instant motion, icons drawn as Glyph cells, and only `--semantic-*` tokens from `@gjermundgaraba/design-tokens`, never a `--primitive-*` one.
+- The stylesheet takes every value a token covers from a `--semantic-*` token of `@gjermundgaraba/design-tokens`, never a `--primitive-*` one, so a brand changes the look without changing a component. clankersuite's look: square corners, solid offset shadows with no blur, stepped or instant motion, icons drawn as Glyph cells.
+- Every class the stylesheet styles is `gg-<name>`, every attribute it owns `data-gg-<name>`, every element `gg-<name>`. Third-party classes keep their names: CodeMirror's `cm-`, the highlighter's `tok-`, `@foldkit/ui`'s `sr-only`.
 - Where the code builds a `@foldkit/ui` child Message itself, under a one-line lint disable, or reads a `@foldkit/ui` Model, it works around a capability Foldkit lacks. On a Foldkit upgrade, drop the workarounds it makes unnecessary.
 
 In happy-dom tests, make `localStorage` fail by stubbing the whole store with `vi.stubGlobal`, never a spy on `Storage.prototype`, which misses a store an earlier test already used. happy-dom does no layout, so a test that needs sizes sets them itself.

@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
+    "url": "git+https://github.com/gjermundgaraba/design-system.git",
     "directory": "packages/fonts"
   },
   "files": [

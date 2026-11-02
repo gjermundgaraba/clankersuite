@@ -1,11 +1,11 @@
-# @gjermundgaraba/pixel-paper
+# @gjermundgaraba/components
 
-Printed paper panels for [Foldkit](https://foldkit.dev) applications: Departure Mono, 2px ink borders, solid offset shadows, 12×12 pixel glyphs, paper and plum palettes. For dense working interfaces: queues, boards, consoles, editors.
+The [Foldkit](https://foldkit.dev) components of the gjermundgaraba design system, for dense working interfaces: queues, boards, consoles, editors. Their stylesheet takes every value from a brand's tokens, so the brand decides the look.
 
 ## Install
 
 ```bash
-pnpm add @gjermundgaraba/pixel-paper foldkit @foldkit/ui effect @effect/platform-browser
+pnpm add @gjermundgaraba/components @gjermundgaraba/icons @gjermundgaraba/design-tokens @gjermundgaraba/fonts foldkit @foldkit/ui effect @effect/platform-browser
 ```
 
 Foldkit pins `effect` and `@effect/platform-browser` exactly as peers. An app on a later patch keeps one Effect instance by allowing it:
@@ -20,16 +20,20 @@ peerDependencyRules:
 
 ## Set up
 
-The views ship branded for Foldkit's view identity, so the app's build needs only `foldkit()`. Import the stylesheet once, from the client entry:
+The views ship branded for Foldkit's view identity, so the app's build needs only `foldkit()`. Import the brand's font and tokens, then the component stylesheet, once, from the client entry:
 
 ```ts
-import "@gjermundgaraba/pixel-paper/pixel-paper.css";
+import "@gjermundgaraba/fonts/departure-mono.css";
+import "@gjermundgaraba/design-tokens/clankersuite.css";
+import "@gjermundgaraba/components/components.css";
 ```
+
+Every class the stylesheet styles starts with `gg-`, and every attribute it reads with `data-gg-`. Glyphs come from `@gjermundgaraba/icons`: `import { Glyph } from "@gjermundgaraba/icons"`.
 
 The stylesheet follows the reader's colour scheme. `Scheme.SchemeSwitch` lets them pin one, and `schemeScript` applies it before first paint; write it into the head:
 
 ```ts
-import { schemeScript } from "@gjermundgaraba/pixel-paper/scheme";
+import { schemeScript } from "@gjermundgaraba/components/scheme";
 
 export default defineConfig({
   plugins: [
@@ -49,7 +53,7 @@ Provide `Clipboard.layer` as the application's resources where a component copie
 `MarkdownEditor.view` edits Markdown in place, and `MarkdownEditor.readView` shows a stored document in the same look with nothing to edit. Both need the element registered once, from the client entry, before the first render:
 
 ```ts
-import { defineMarkdownEditorElement } from "@gjermundgaraba/pixel-paper/markdown-editor/element";
+import { defineMarkdownEditorElement } from "@gjermundgaraba/components/markdown-editor/element";
 
 defineMarkdownEditorElement();
 ```
@@ -58,4 +62,4 @@ Only that subpath loads CodeMirror, so an application that never imports it pays
 
 ## Licence
 
-MIT. Departure Mono, in `fonts/`, carries its own licence beside it. `THIRD_PARTY_NOTICES.md` carries the licence of the Markdown editor's live layer.
+MIT. `THIRD_PARTY_NOTICES.md` carries the licence of the Markdown editor's live layer.

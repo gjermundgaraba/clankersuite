@@ -11,8 +11,7 @@ export type Cell = readonly [
 /**
  * The glyph inventory, in families. Every glyph is drawn as it prints: twelve rows of twelve
  * cells, `#` inked and `.` blank, on one 12x12 grid, so the whole set shares one weight and
- * one grammar, with no curves and no other icon style. The rules for drawing a new one are in
- * DESIGN.md (The Pixel Glyph Rule). A name is unique across every family.
+ * one grammar, with no curves and no other icon style. A name is unique across every family.
  */
 export const glyphFamilies = {
   /** Where something goes: carets, arrows, the ends of a sequence. */

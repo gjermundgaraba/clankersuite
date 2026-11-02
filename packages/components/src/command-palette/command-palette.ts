@@ -1148,7 +1148,7 @@ const cardView = (
  * a query is typed, a polite status says how many rows it finds. Escape closes the whole
  * palette.
  *
- * A pixel-paper Dialog (named "Commands", hung near the top) holding a field built on
+ * A `Dialog` (named "Commands", hung near the top) holding a field built on
  * `@foldkit/ui`'s Input as an ARIA combobox (`aria-activedescendant` on the cursor's row) over
  * an always open `role="listbox"` of `role="option"` rows, grouped under their headings.
  */

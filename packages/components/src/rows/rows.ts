@@ -14,7 +14,7 @@ export type ViewConfig = Readonly<{
   isOutline?: boolean;
   /** Names the list for screen readers; a treegrid needs it. */
   label?: string;
-  /** A keyboard-driven list, whose cursor the application moves (see Keys in DESIGN.md): a
+  /** A keyboard-driven list, whose cursor the application moves: a
    *  `role="treegrid"`, so a screen reader hands it the arrow and letter keys. Give every row
    *  its `treegrid` place. */
   isTreegrid?: boolean;

@@ -1,11 +1,12 @@
 {
   "name": "@gjermundgaraba/components",
   "version": "0.4.0",
+  "private": true,
   "description": "The Foldkit components of the gjermundgaraba design system, and their stylesheet.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
+    "url": "git+https://github.com/gjermundgaraba/design-system.git",
     "directory": "packages/components"
   },
   "files": [
