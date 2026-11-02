@@ -984,6 +984,60 @@ try {
       `aria-readonly ${readOnlyDuringSave}, ${linesDuringSave} lines`
     );
 
+    const readView = page.locator("#reading-description");
+    const readLines = readView.locator(".cm-line");
+    await readView.scrollIntoViewIfNeeded();
+    const readText = JSON.stringify(await readLines.allTextContents());
+
+    check(
+      "a read view draws its document with the marks hidden, its source hidden, and no textbox",
+      (await readView.locator(".cm-editor").count()) === 1 &&
+        !(await readView.locator(".prose").isVisible()) &&
+        (await page.locator("#reading").getByRole("textbox").count()) === 0 &&
+        readText.includes('"Run the spring half marathon under') &&
+        !readText.includes("**"),
+      readText
+    );
+
+    await readLines.nth(2).click();
+    await page.keyboard.type("typed");
+    await page.keyboard.press("Enter");
+    await readView.locator(".lmd-check").nth(1).click();
+    await settle();
+    check(
+      "a click in a read view takes no focus and reveals no mark, and typing or a task's checkbox changes nothing",
+      (await page.evaluate(() => document.activeElement === document.body)) &&
+        JSON.stringify(await readLines.allTextContents()) === readText &&
+        !(await readView.locator(".lmd-check").nth(1).isChecked())
+    );
+
+    await page.evaluate(() => {
+      const before = document.createElement("button");
+
+      before.id = "smoke-before-read";
+      document.querySelector("#reading-description")?.before(before);
+    });
+    await page.locator("#smoke-before-read").focus();
+    await page.keyboard.press("Tab");
+
+    const focusedLink = await page.evaluate(() => {
+      const link = document.activeElement;
+
+      return link instanceof HTMLAnchorElement
+        ? `${link.textContent} ${link.href} ${link.target} ${link.rel}`
+        : link?.tagName;
+    });
+
+    await page.evaluate(() => {
+      document.querySelector("#smoke-before-read")?.remove();
+    });
+    check(
+      "Tab reaches a read view's link, which opens in a new tab",
+      focusedLink ===
+        "race https://example.com/race _blank noopener noreferrer",
+      focusedLink
+    );
+
     const buttonsFoot = page.locator("#buttons .spec-foot");
     await buttonsFoot.locator(".disclosure-summary").click();
     await settle();

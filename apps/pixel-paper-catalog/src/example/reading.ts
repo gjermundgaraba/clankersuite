@@ -1,4 +1,10 @@
-import { Button, Prose, Sheet, Toc } from "@gjermundgaraba/pixel-paper";
+import {
+  Button,
+  MarkdownEditor,
+  Prose,
+  Sheet,
+  Toc,
+} from "@gjermundgaraba/pixel-paper";
 import { Array, Option, Schema } from "effect";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -16,6 +22,18 @@ const ENTRIES: Toc.ViewConfig["entries"] = [
   { id: "reading-during", label: "During", level: 3 },
   { id: "reading-links", label: "Links", level: 2 },
 ];
+
+const DESCRIPTION = [
+  "## Why",
+  "",
+  "Run the **spring half marathon** under two hours, so the autumn one can aim lower.",
+  "",
+  "- [x] Book the [race](https://example.com/race)",
+  "- [ ] Long run every _Sunday_",
+  "- [ ] Taper the last week",
+  "",
+  "> Easy days easy, hard days hard.",
+].join("\n");
 
 export const Model = Schema.Struct({
   maybeCurrentId: Schema.Option(Schema.String),
@@ -125,6 +143,19 @@ export const view = defineView<Model, Message>((model, h): Html =>
                   h
                 ),
               ],
+            },
+            h
+          ),
+        ],
+        h
+      ),
+      specView(
+        "a stored Markdown description, shown: the editor's look, nothing to edit",
+        [
+          MarkdownEditor.readView(
+            {
+              value: DESCRIPTION,
+              attributes: [h.Id("reading-description")],
             },
             h
           ),

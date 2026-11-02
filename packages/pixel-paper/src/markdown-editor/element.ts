@@ -1,4 +1,6 @@
-import { createEngine } from "./engine.ts";
+import type { Extension } from "@codemirror/state";
+
+import { accessExtension, createEngine, readExtension } from "./engine.ts";
 import type { Engine, EngineConfig } from "./engine.ts";
 import { spec } from "./markdown-editor.ts";
 import { afterEmission, afterSource } from "./reconcile.ts";
@@ -45,7 +47,7 @@ const createEngineOrReport = (config: EngineConfig): Engine | undefined => {
 
 type Mounted = Readonly<{
   engine: Engine;
-  syncAccess: () => void;
+  syncAccess?: () => void;
   unmount: () => void;
 }>;
 
@@ -87,14 +89,21 @@ class MarkdownEditorElement extends HTMLElement {
 
   formDisabledCallback(isDisabled: boolean): void {
     this.#isDisabled = isDisabled;
-    this.#mounted?.syncAccess();
+    this.#mounted?.syncAccess?.();
   }
 
   connectedCallback(): void {
-    const textarea = this.querySelector("textarea");
+    if (this.#mounted !== undefined) {
+      return;
+    }
 
-    if (this.#mounted === undefined && textarea !== null) {
-      this.#mounted = this.#mount(textarea);
+    const textarea = this.querySelector("textarea");
+    const shownText = this.querySelector(":scope > .prose");
+
+    if (textarea !== null) {
+      this.#mounted = this.#mountEditor(textarea);
+    } else if (shownText !== null) {
+      this.#mounted = this.#mount(shownText, "markdown-read", readExtension);
     }
   }
 
@@ -106,23 +115,66 @@ class MarkdownEditorElement extends HTMLElement {
     });
   }
 
-  #mount(textarea: HTMLTextAreaElement): Mounted | undefined {
-    const surface = document.createElement("div");
-
-    surface.className = "markdown-surface";
-    surface.style.setProperty("--rows", `${textarea.rows}`);
-    textarea.after(surface);
-
+  #mountEditor(textarea: HTMLTextAreaElement): Mounted | undefined {
     const accessAttributes = () => ({
       ...namedBy(textarea),
       ...mirroredAttributes(textarea),
     });
 
+    const mounted = this.#mount(
+      textarea,
+      "markdown-surface",
+      accessExtension(accessAttributes(), this.#isDisabled)
+    );
+
+    if (mounted === undefined) {
+      return undefined;
+    }
+
+    const { engine, surface, signal } = mounted;
+
+    const syncAccess = () => {
+      engine.configureAccess(accessAttributes(), this.#isDisabled);
+    };
+
+    const attributeObserver = new MutationObserver(syncAccess);
+
+    surface.style.setProperty("--rows", `${textarea.rows}`);
+    textarea.tabIndex = -1;
+    textarea.setAttribute("aria-hidden", "true");
+    textarea.addEventListener("focus", engine.focus, { signal });
+
+    textarea.labels?.[0]?.addEventListener(
+      "click",
+      (event) => {
+        event.preventDefault();
+        engine.focus();
+      },
+      { signal }
+    );
+
+    attributeObserver.observe(textarea, {
+      attributes: true,
+      attributeFilter: [...MIRRORED_ATTRIBUTES],
+    });
+
+    signal.addEventListener("abort", () => {
+      attributeObserver.disconnect();
+    });
+
+    return { ...mounted, syncAccess };
+  }
+
+  #mount(replaced: Element, surfaceClass: string, access: Extension) {
+    const surface = document.createElement("div");
+
+    surface.className = surfaceClass;
+    replaced.after(surface);
+
     const engine = createEngineOrReport({
       parent: surface,
       doc: this.#source,
-      attributes: accessAttributes(),
-      isReadOnly: this.#isDisabled,
+      access,
       onLocalChange: (doc) => {
         this.#pending = afterEmission(this.#pending, doc);
         this.dispatchEvent(
@@ -137,12 +189,7 @@ class MarkdownEditorElement extends HTMLElement {
       return undefined;
     }
 
-    const syncAccess = () => {
-      engine.configureAccess(accessAttributes(), this.#isDisabled);
-    };
-
     const lifetime = new AbortController();
-    const { signal } = lifetime;
     const motion = new AbortController();
 
     const remeasureAfterMotion = (event: Event) => {
@@ -152,21 +199,6 @@ class MarkdownEditorElement extends HTMLElement {
       }
     };
 
-    const attributeObserver = new MutationObserver(syncAccess);
-
-    textarea.tabIndex = -1;
-    textarea.setAttribute("aria-hidden", "true");
-    textarea.addEventListener("focus", engine.focus, { signal });
-
-    textarea.labels?.[0]?.addEventListener(
-      "click",
-      (event) => {
-        event.preventDefault();
-        engine.focus();
-      },
-      { signal }
-    );
-
     for (const name of MOTION_END_EVENTS) {
       document.addEventListener(name, remeasureAfterMotion, {
         capture: true,
@@ -174,18 +206,13 @@ class MarkdownEditorElement extends HTMLElement {
       });
     }
 
-    attributeObserver.observe(textarea, {
-      attributes: true,
-      attributeFilter: [...MIRRORED_ATTRIBUTES],
-    });
-
     return {
       engine,
-      syncAccess,
+      surface,
+      signal: lifetime.signal,
       unmount: () => {
         lifetime.abort();
         motion.abort();
-        attributeObserver.disconnect();
         engine.destroy();
         surface.remove();
         this.#mounted = undefined;

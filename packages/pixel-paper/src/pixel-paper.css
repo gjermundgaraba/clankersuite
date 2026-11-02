@@ -1723,6 +1723,14 @@ pp-markdown-editor:disabled .cm-content {
   color: var(--muted);
 }
 
+pp-markdown-editor > .prose > p {
+  white-space: pre-wrap;
+}
+
+pp-markdown-editor:has(> .markdown-read) > .prose {
+  display: none;
+}
+
 textarea::-webkit-resizer {
   background: linear-gradient(135deg, transparent 0 50%, var(--ink) 50% 100%);
 }

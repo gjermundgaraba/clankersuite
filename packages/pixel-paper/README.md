@@ -46,7 +46,7 @@ export default defineConfig({
 
 Provide `Clipboard.layer` as the application's resources where a component copies.
 
-`MarkdownEditor.view` edits Markdown in place, and needs its element registered once, from the client entry, before the first render:
+`MarkdownEditor.view` edits Markdown in place, and `MarkdownEditor.readView` shows a stored document in the same look with nothing to edit. Both need the element registered once, from the client entry, before the first render:
 
 ```ts
 import { defineMarkdownEditorElement } from "@gjermundgaraba/pixel-paper/markdown-editor/element";
@@ -54,7 +54,7 @@ import { defineMarkdownEditorElement } from "@gjermundgaraba/pixel-paper/markdow
 defineMarkdownEditorElement();
 ```
 
-Only that subpath loads CodeMirror, so an application that never imports it pays nothing and shows a plain textarea. Links open with Ctrl or Cmd and a click, or Ctrl or Cmd and Enter at the caret. A disabled fieldset makes the editor read-only.
+Only that subpath loads CodeMirror, so an application that never imports it pays nothing and shows a plain textarea, or for a read view the source as prose. Links open with Ctrl or Cmd and a click, or Ctrl or Cmd and Enter at the caret; in a read view they are links, opened with a click or from the keyboard. A disabled fieldset makes the editor read-only.
 
 ## Licence
 

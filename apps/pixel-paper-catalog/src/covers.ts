@@ -53,7 +53,7 @@ export const COMPONENTS = {
   identity: ["Identity", "Wordmark"],
   meters: ["Meter", "Stat"],
   code: ["CodeSurface", "CodeEditor", "LineDiff"],
-  reading: ["Sheet", "Prose", "Toc"],
+  reading: ["Sheet", "Prose", "Toc", "MarkdownEditor.readView"],
   menus: ["Menu"],
   "command-palette": ["CommandPalette", "Notice"],
   inline: ["InlineInput", "Focus"],

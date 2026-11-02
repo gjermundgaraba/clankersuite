@@ -253,7 +253,7 @@ export const sections = (
       title: "Reading",
       file: "reading.ts",
       about:
-        "An authored page slows to reading pace, held to the reading measure. Its contents mark the heading being read as the page scrolls.",
+        "An authored page slows to reading pace, held to the reading measure. Its contents mark the heading being read as the page scrolls. A stored Markdown document reads in the editor's look, with nothing to edit.",
       body: () =>
         h.submodel({
           slotId: "reading-example",

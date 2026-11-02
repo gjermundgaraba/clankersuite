@@ -176,6 +176,40 @@ const isPlainBrackets = (node: SyntaxNode): boolean =>
 const isBareUrl = (node: SyntaxNode): boolean =>
   node.name === "URL" && !URL_OWNERS.has(node.parent?.name ?? "");
 
+const linkHref = (state: EditorState, node: SyntaxNode): string | undefined => {
+  const url = node.name === "Link" ? node.getChild("URL") : node;
+
+  if (url === null) {
+    return undefined;
+  }
+
+  const href = state
+    .sliceDoc(url.from, url.to)
+    .replace(ANGLE_BRACKETED, "$<destination>");
+
+  if (/^www\./iu.test(href)) {
+    return `https://${href}`;
+  }
+
+  return node.name === "URL" && EMAIL.test(href) ? `mailto:${href}` : href;
+};
+
+const isLinkNode = (node: SyntaxNode): boolean =>
+  (node.name === "Link" && !isPlainBrackets(node)) || isBareUrl(node);
+
+const readLink = (state: EditorState, node: SyntaxNode): Decoration => {
+  const url = linkHref(state, node);
+  const href = url === undefined ? undefined : safeHref(url, document.baseURI);
+
+  return href === undefined
+    ? mark("lmd-link")
+    : Decoration.mark({
+        class: "lmd-link",
+        tagName: "a",
+        attributes: { href, target: "_blank", rel: "noopener noreferrer" },
+      });
+};
+
 type Placed = Readonly<{
   from: number;
   to: number;
@@ -190,9 +224,12 @@ export const liveDecorations = (
   isFocused: boolean
 ): DecorationSet => {
   const { ranges } = state.selection;
+  const isEditable = state.facet(EditorView.editable);
 
   const touched = (from: number, to: number) =>
-    isFocused && ranges.some((range) => range.from <= to && range.to >= from);
+    isFocused &&
+    isEditable &&
+    ranges.some((range) => range.from <= to && range.to >= from);
 
   const activeLine = (position: number) => {
     const { from, to } = state.doc.lineAt(position);
@@ -307,6 +344,12 @@ export const liveDecorations = (
               )
             );
           }
+
+          return true;
+        }
+
+        if (!isEditable && isLinkNode(node.node)) {
+          add(node.from, node.to, readLink(state, node.node));
 
           return true;
         }
@@ -475,8 +518,13 @@ const tableWidget = (text: string) =>
       const dom = document.createElement("div");
 
       dom.className = "lmd-table-widget";
-      dom.title = TABLE_HINT;
       dom.append(tableOf(text));
+
+      if (!view.state.facet(EditorView.editable)) {
+        return dom;
+      }
+
+      dom.title = TABLE_HINT;
       dom.addEventListener("mousedown", (event) => {
         event.preventDefault();
 
@@ -617,26 +665,12 @@ const tablesField = StateField.define<TablesState>({
     EditorView.decorations.from(field, (value) => value.decorations),
 });
 
-const linkHref = (state: EditorState, node: SyntaxNode): string | undefined => {
-  const url = node.name === "Link" ? node.getChild("URL") : node;
-
-  if (url === null) {
-    return undefined;
-  }
-
-  const href = state
-    .sliceDoc(url.from, url.to)
-    .replace(ANGLE_BRACKETED, "$<destination>");
-
-  if (/^www\./iu.test(href)) {
-    return `https://${href}`;
-  }
-
-  return node.name === "URL" && EMAIL.test(href) ? `mailto:${href}` : href;
-};
-
-const isLinkNode = (node: SyntaxNode): boolean =>
-  (node.name === "Link" && !isPlainBrackets(node)) || isBareUrl(node);
+const taskCheckbox = (
+  target: EventTarget | null
+): HTMLInputElement | undefined =>
+  target instanceof HTMLInputElement && target.classList.contains("lmd-check")
+    ? target
+    : undefined;
 
 const toggleCheckbox = (view: EditorView, box: HTMLInputElement): boolean => {
   const position = view.posAtDOM(box);
@@ -751,12 +785,17 @@ export const liveMarkdown = (): Extension => {
         },
       },
       eventHandlers: {
+        click: (event, view) => {
+          if (view.state.readOnly && taskCheckbox(event.target) !== undefined) {
+            event.preventDefault();
+
+            return true;
+          }
+
+          return false;
+        },
         mousedown: (event, view) => {
-          const box =
-            event.target instanceof HTMLInputElement &&
-            event.target.classList.contains("lmd-check")
-              ? event.target
-              : undefined;
+          const box = taskCheckbox(event.target);
 
           if (
             box !== undefined &&

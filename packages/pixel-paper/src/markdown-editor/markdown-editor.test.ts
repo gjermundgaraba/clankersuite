@@ -93,3 +93,25 @@ describe("MarkdownEditor", () => {
     );
   });
 });
+
+const description =
+  "# Plan\n\n- call the bank\n- **then** the [office](https://example.com)";
+
+const readView = (model: Model, h: HtmlBuilder<Message>) =>
+  MarkdownEditor.readView(
+    { value: model.brief, attributes: [h.Id("goal-description")] },
+    h
+  );
+
+describe("MarkdownEditor.readView", () => {
+  it("is the source in a Prose block inside the host, and no field", () => {
+    Scene.scene(
+      { update, view: readView },
+      Scene.given<Model>({ brief: description }),
+      Scene.expect(host).toHaveAttr("id", "goal-description"),
+      Scene.expect(Scene.selector(".prose p")).toHaveText(description),
+      Scene.expect(Scene.role("textbox")).toBeAbsent(),
+      Scene.expect(Scene.selector("label")).toBeAbsent()
+    );
+  });
+});

@@ -2,6 +2,8 @@ import { Schema } from "effect";
 import { define } from "foldkit/customElement";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import type { Attributes } from "../attributes/attributes.ts";
+import * as Prose from "../prose/prose.ts";
 import * as TextareaField from "../textarea-field/textarea-field.ts";
 
 /** The binding to `<pp-markdown-editor>`. The property is `source`, not `value`, because
@@ -35,5 +37,28 @@ export const view = <Message>(
       host.OnValueChange(({ value }) => config.onInput(value)),
     ],
     [TextareaField.view(config, h)]
+  );
+};
+
+/** Configuration for showing a Markdown document with `readView`. */
+export type ReadViewConfig<Message> = Readonly<{
+  value: string;
+  /** Further attributes for the `<pp-markdown-editor>` element, such as an id or a label. */
+  attributes?: Attributes<Message>;
+}>;
+
+/** A Markdown document shown on a page, drawn by the editor's engine with every mark hidden.
+ *  Nothing in it takes focus but its links, which open in a new tab when the link policy
+ *  allows their target. Without `defineMarkdownEditorElement` it is the source in a Prose
+ *  block, line breaks kept, which is also what tests see. */
+export const readView = <Message>(
+  config: ReadViewConfig<Message>,
+  h: HtmlBuilder<Message>
+): Html => {
+  const host = spec.withMessage(h);
+
+  return host(
+    [...(config.attributes ?? []), host.Source(config.value)],
+    [Prose.view({ body: [h.p([], [config.value])] }, h)]
   );
 };

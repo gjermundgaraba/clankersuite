@@ -23,6 +23,10 @@ const language = new Language(
   "markdown"
 );
 
+const onlyOutsideChanges = EditorState.changeFilter.of(
+  (transaction) => transaction.annotation(Transaction.remote) === true
+);
+
 /** Who is named by what, and whether the document may change. `readOnly` alone lets Enter and
  *  the Markdown keymap edit, so the filter refuses every change but an outside one. */
 export const accessExtension = (
@@ -30,17 +34,21 @@ export const accessExtension = (
   isReadOnly: boolean
 ): Extension => [
   EditorState.readOnly.of(isReadOnly),
-  ...(isReadOnly
-    ? [
-        EditorState.changeFilter.of(
-          (transaction) => transaction.annotation(Transaction.remote) === true
-        ),
-      ]
-    : []),
+  ...(isReadOnly ? [onlyOutsideChanges] : []),
   EditorView.contentAttributes.of({
     ...attributes,
     ...(isReadOnly ? { "aria-disabled": "true" } : {}),
   }),
+];
+
+/** A document shown, not edited: nothing in it takes focus or a caret, so its marks never
+ *  show. CodeMirror names its content a textbox whatever it allows, and an attribute can
+ *  only be overwritten, so the role becomes `none`. */
+export const readExtension: Extension = [
+  EditorView.editable.of(false),
+  EditorState.readOnly.of(true),
+  onlyOutsideChanges,
+  EditorView.contentAttributes.of({ role: "none" }),
 ];
 
 /** The editor's state. No line separator is set, so CRLF text parses like LF text, and the
@@ -126,8 +134,7 @@ export const applyExternal = (target: EditorTarget, source: string): void => {
 export type EngineConfig = Readonly<{
   parent: HTMLElement;
   doc: string;
-  attributes: Readonly<Record<string, string>>;
-  isReadOnly: boolean;
+  access: Extension;
   onLocalChange: (doc: string) => void;
 }>;
 
@@ -138,7 +145,7 @@ export const createEngine = (config: EngineConfig) => {
   const view = new EditorView({
     parent: config.parent,
     state: editorState(config.doc, [
-      access.of(accessExtension(config.attributes, config.isReadOnly)),
+      access.of(config.access),
       EditorView.updateListener.of((update) => {
         const doc = emission(update.transactions, update.state);
 
