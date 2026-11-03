@@ -7,6 +7,7 @@ const foldkitFiles = [
   "packages/components/src/**",
   "packages/icons/src/**",
   "apps/docs/src/**",
+  "apps/site/src/**",
 ];
 
 const { recommended } = foldkit.configs;

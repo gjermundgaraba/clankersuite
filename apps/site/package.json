@@ -1,0 +1,35 @@
+{
+  "name": "site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "./src/entry.ts"
+  ],
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "test": "vp test"
+  },
+  "dependencies": {
+    "@effect/platform-browser": "catalog:",
+    "@foldkit/markdown": "catalog:",
+    "@foldkit/ui": "catalog:",
+    "@gjermundgaraba/components": "workspace:*",
+    "@gjermundgaraba/design-tokens": "workspace:*",
+    "@gjermundgaraba/fonts": "workspace:*",
+    "@gjermundgaraba/icons": "workspace:*",
+    "effect": "catalog:",
+    "foldkit": "catalog:"
+  },
+  "devDependencies": {
+    "@foldkit/vite-plugin": "catalog:",
+    "@types/node": "catalog:",
+    "happy-dom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

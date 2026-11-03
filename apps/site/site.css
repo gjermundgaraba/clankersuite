@@ -1,0 +1,23 @@
+.site-layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+  align-items: start;
+}
+
+.site-nav {
+  position: sticky;
+  top: var(--topbar-h, 0);
+  padding: var(--semantic-dimension-space-padding-panel);
+}
+
+.site-example {
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-medium);
+  margin: 0;
+}
+
+.site-example-stage {
+  padding: var(--semantic-dimension-space-padding-panel);
+  border: var(--semantic-dimension-border-width-container) solid
+    var(--semantic-color-border-primary);
+}
