@@ -1,9 +1,9 @@
 import type * as Markdown from "@foldkit/markdown";
-import { Array } from "effect";
+import { Array, Option } from "effect";
 import { describe, expect, it } from "vite-plus/test";
 
-import { EXAMPLES_ON_DISK } from "./example.ts";
-import { PAGES } from "./pages.ts";
+import { EXAMPLES_ON_DISK, examplePath } from "./example.ts";
+import { COMPONENT_PAGES, PAGES } from "./pages.ts";
 
 const islandsIn = (
   blocks: readonly Markdown.Block[]
@@ -12,16 +12,32 @@ const islandsIn = (
     block._tag === "Island" ? [block, ...islandsIn(block.blocks)] : []
   );
 
-const examplesOnPages = Array.flatMap(PAGES, ({ slug, document }) =>
+const examplesOnPages = Array.flatMap(PAGES, ({ directory, document }) =>
   Array.flatMap(islandsIn(document.blocks), ({ name, attributes }) =>
-    name === "Example" ? [`${slug}/${attributes["name"] ?? ""}`] : []
+    name === "Example" ? [examplePath(directory, attributes["name"] ?? "")] : []
   )
 );
 
-describe("the component pages", () => {
+describe("the pages", () => {
   it("each have a title", () => {
     expect(
-      Array.filter(PAGES, ({ title }) => title === "").map(({ slug }) => slug)
+      Array.flatMap(PAGES, ({ href, title }) => (title === "" ? [href] : []))
+    ).toStrictEqual([]);
+  });
+
+  it("each have their own address", () => {
+    const hrefs = Array.map(PAGES, ({ href }) => href);
+
+    expect(Array.dedupe(hrefs)).toStrictEqual(hrefs);
+  });
+
+  it("place every component in a category", () => {
+    expect(
+      Array.flatMap(COMPONENT_PAGES, ({ href, placement }) =>
+        placement._tag === "Component" && Option.isNone(placement.category)
+          ? [href]
+          : []
+      )
     ).toStrictEqual([]);
   });
 

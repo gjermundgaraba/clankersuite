@@ -21,3 +21,39 @@
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
 }
+
+.site-nav h2 {
+  margin: var(--semantic-dimension-space-gap-medium) 0
+    var(--semantic-dimension-space-gap-x-small);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  letter-spacing: var(--semantic-dimension-letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--semantic-color-text-secondary);
+}
+
+.site-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  display: block;
+  padding: var(--semantic-dimension-space-padding-xx-small)
+    var(--semantic-dimension-space-padding-x-small);
+  color: var(--semantic-color-text-primary);
+  text-decoration: none;
+}
+
+.site-nav a[aria-current="page"] {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.site-source > summary {
+  cursor: pointer;
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  text-transform: uppercase;
+}

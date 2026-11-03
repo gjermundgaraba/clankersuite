@@ -6,21 +6,39 @@ import type { Category } from "./frontmatter.ts";
 
 type DocumentModule = Readonly<{ default: unknown; frontmatter: unknown }>;
 
-const DOCUMENTS = import.meta.glob<DocumentModule>(
+const COMPONENT_DOCUMENTS = import.meta.glob<DocumentModule>(
   "../../../packages/components/src/*/*.md",
   { eager: true }
 );
 
-/** A component's page: its directory under `packages/components/src`, the title its
- *  first heading gives, and its prose. */
+const PACKAGE_DOCUMENTS = import.meta.glob<DocumentModule>(
+  "../../../packages/*/docs/*.md",
+  { eager: true }
+);
+
+/** Where a page sits: a component's page under Components, in its category; a package's
+ *  page under that package. */
+export type Placement =
+  | Readonly<{ _tag: "Component"; category: Option.Option<Category> }>
+  | Readonly<{ _tag: "Package"; packageName: string; order: number }>;
+
+/** A page: its address, the title its first heading gives, the directory its examples sit
+ *  under, and its prose. */
 export type Page = Readonly<{
-  slug: string;
+  href: string;
   title: string;
-  category: Category;
+  directory: string;
+  placement: Placement;
   document: Markdown.MarkdownDocument;
 }>;
 
-const slugOf = (path: string): string => path.split("/").at(-2) ?? path;
+const inlineText = (content: readonly Markdown.Inline[]): string =>
+  Array.join(
+    Array.map(content, (inline) =>
+      inline._tag === "Text" || inline._tag === "InlineCode" ? inline.value : ""
+    ),
+    ""
+  );
 
 const titleOf = (document: Markdown.MarkdownDocument): string =>
   pipe(
@@ -29,35 +47,76 @@ const titleOf = (document: Markdown.MarkdownDocument): string =>
       (block): block is Markdown.Heading =>
         block._tag === "Heading" && block.level === 1
     ),
-    Option.map(({ content }) =>
-      Array.join(
-        Array.map(content, (inline) =>
-          inline._tag === "Text" || inline._tag === "InlineCode"
-            ? inline.value
-            : ""
-        ),
-        ""
-      )
-    ),
+    Option.map(({ content }) => inlineText(content)),
     Option.getOrElse(() => "")
   );
 
-const pageOf = ([path, module]: readonly [string, DocumentModule]): Page => {
+const decodeFrontmatter = Schema.decodeUnknownSync(
+  Schema.UndefinedOr(Frontmatter)
+);
+
+const segmentsOf = (path: string): readonly string[] => path.split("/");
+
+const componentPage = ([path, module]: readonly [
+  string,
+  DocumentModule,
+]): Page => {
   const document = Markdown.decodeDocument(module.default);
+  const segments = segmentsOf(path);
+  const slug = segments.at(-2) ?? "";
 
   return {
-    slug: slugOf(path),
+    href: `/components/${slug}`,
     title: titleOf(document),
-    category: Schema.decodeUnknownSync(Frontmatter)(module.frontmatter)
-      .category,
+    directory: Array.join(segments.slice(0, -1), "/"),
+    placement: {
+      _tag: "Component",
+      category: Option.fromNullishOr(
+        decodeFrontmatter(module.frontmatter)?.category
+      ),
+    },
     document,
   };
 };
 
-export const PAGES: readonly Page[] = Array.sort(
-  Array.map(Record.toEntries(DOCUMENTS), pageOf),
-  Order.mapInput(Order.String, ({ title }: Page) => title)
+const packagePage = ([path, module]: readonly [
+  string,
+  DocumentModule,
+]): Page => {
+  const document = Markdown.decodeDocument(module.default);
+  const segments = segmentsOf(path);
+  const packageName = segments.at(-3) ?? "";
+  const slug = (segments.at(-1) ?? "").replace(/\.md$/u, "");
+
+  return {
+    href: `/${packageName}/${slug}`,
+    title: titleOf(document),
+    directory: Array.join(segments.slice(0, -1), "/"),
+    placement: {
+      _tag: "Package",
+      packageName,
+      order: decodeFrontmatter(module.frontmatter)?.order ?? 0,
+    },
+    document,
+  };
+};
+
+const byTitle = Order.mapInput(Order.String, ({ title }: Page) => title);
+
+export const COMPONENT_PAGES: readonly Page[] = Array.sort(
+  Array.map(Record.toEntries(COMPONENT_DOCUMENTS), componentPage),
+  byTitle
 );
 
-export const findPage = (slug: string): Option.Option<Page> =>
-  Array.findFirst(PAGES, (page) => page.slug === slug);
+const orderOf = ({ placement }: Page): number =>
+  placement._tag === "Package" ? placement.order : 0;
+
+export const PACKAGE_PAGES: readonly Page[] = Array.sort(
+  Array.map(Record.toEntries(PACKAGE_DOCUMENTS), packagePage),
+  Order.combine(Order.mapInput(Order.Number, orderOf), byTitle)
+);
+
+export const PAGES: readonly Page[] = [...PACKAGE_PAGES, ...COMPONENT_PAGES];
+
+export const findPage = (href: string): Option.Option<Page> =>
+  Array.findFirst(PAGES, (page) => page.href === href);

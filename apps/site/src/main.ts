@@ -2,7 +2,6 @@ import * as Markdown from "@foldkit/markdown";
 import {
   CodeSurface,
   Deck,
-  Places,
   Prose,
   Scheme,
   SkipLink,
@@ -18,17 +17,14 @@ import { modifyFields } from "foldkit/struct";
 import { toString as urlToString } from "foldkit/url";
 
 import { MountExample, sourceOf } from "./example.ts";
+import { Category } from "./frontmatter.ts";
+import homeDocument from "./home.md";
 import { islandAttributes } from "./islands.ts";
 import { Message } from "./message.ts";
 import type { Model } from "./model.ts";
-import { PAGES, findPage } from "./pages.ts";
+import { COMPONENT_PAGES, PACKAGE_PAGES, findPage } from "./pages.ts";
 import type { Page } from "./pages.ts";
-import {
-  AppRoute,
-  componentRouter,
-  homeRouter,
-  urlToAppRoute,
-} from "./route.ts";
+import { AppRoute, homeRouter, hrefOf, urlToAppRoute } from "./route.ts";
 
 const BRAND = "gjermundgaraba";
 
@@ -90,34 +86,44 @@ export const update = (model: Model, message: Message) =>
   });
 
 const exampleView =
-  (slug: string, h: HtmlBuilder<Message>) =>
+  (directory: string, h: HtmlBuilder<Message>) =>
   ({ name }: Readonly<{ name: string }>): Html =>
     h.figure(
       [h.Class("site-example")],
       [
-        h.keyed("div")(`${slug}/${name}`, [
+        h.keyed("div")(`${directory}/${name}`, [
           h.Class("site-example-stage"),
-          h.OnMount(MountExample({ slug, name })),
+          h.OnMount(MountExample({ directory, name })),
         ]),
-        ...Option.match(sourceOf(slug, name), {
+        ...Option.match(sourceOf(directory, name), {
           onNone: () => [],
           onSome: (source) => [
-            CodeSurface.view(
-              { label: `examples/${name}.ts`, body: [source] },
-              h
+            h.details(
+              [h.Class("site-source")],
+              [
+                h.summary([], ["code"]),
+                CodeSurface.view(
+                  { label: `examples/${name}.ts`, body: [source] },
+                  h
+                ),
+              ]
             ),
           ],
         }),
       ]
     );
 
-const componentView = (page: Page, h: HtmlBuilder<Message>): Html =>
+const documentView = (
+  document: Markdown.MarkdownDocument,
+  directory: string,
+  h: HtmlBuilder<Message>
+): Html =>
   Prose.view(
     {
       body: [
-        Markdown.view(page.document, {
+        Markdown.view(document, {
           islands: Markdown.islandsFor(islandAttributes, {
-            Example: exampleView(page.slug, h),
+            Example: exampleView(directory, h),
           }),
         }),
       ],
@@ -125,59 +131,109 @@ const componentView = (page: Page, h: HtmlBuilder<Message>): Html =>
     h
   );
 
-const homeView = (h: HtmlBuilder<Message>): Html =>
-  Prose.view(
-    {
-      body: [
-        h.h1([], [BRAND]),
-        h.p(
-          [],
-          [
-            "One set of Foldkit components for the clanker applications, styled by a brand. clankersuite is the first brand.",
-          ]
-        ),
-      ],
-    },
-    h
-  );
+const HOME = Markdown.decodeDocument(homeDocument);
 
-const navView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Places.view(
-    {
-      label: "Components",
-      places: Array.map(PAGES, ({ slug, title }) => ({
-        id: slug,
-        label: title,
-        href: componentRouter({ slug }),
-        isCurrent:
-          model.route._tag === "Component" && model.route.slug === slug,
-      })),
-    },
-    h
+type NavGroup = Readonly<{ heading: string; pages: readonly Page[] }>;
+
+const CATEGORY_HEADINGS: Readonly<Record<Category, string>> = {
+  actions: "Actions",
+  forms: "Forms",
+  status: "Status",
+  data: "Data",
+  navigation: "Navigation",
+  layout: "Layout",
+  overlays: "Overlays",
+  text: "Text",
+  plumbing: "Plumbing",
+};
+
+const packageGroups: readonly NavGroup[] = Array.map(
+  Array.dedupe(
+    Array.flatMap(PACKAGE_PAGES, ({ placement }) =>
+      placement._tag === "Package" ? [placement.packageName] : []
+    )
+  ),
+  (packageName) => ({
+    heading: packageName,
+    pages: Array.filter(
+      PACKAGE_PAGES,
+      ({ placement }) =>
+        placement._tag === "Package" && placement.packageName === packageName
+    ),
+  })
+);
+
+const categoryGroups: readonly NavGroup[] = Array.map(
+  Category.literals,
+  (category) => ({
+    heading: CATEGORY_HEADINGS[category],
+    pages: Array.filter(
+      COMPONENT_PAGES,
+      ({ placement }) =>
+        placement._tag === "Component" &&
+        Option.contains(placement.category, category)
+    ),
+  })
+);
+
+const NAV_GROUPS: readonly NavGroup[] = Array.filter(
+  [...packageGroups, ...categoryGroups],
+  ({ pages }) => Array.isReadonlyArrayNonEmpty(pages)
+);
+
+const navView = (currentHref: string, h: HtmlBuilder<Message>): Html =>
+  h.nav(
+    [h.AriaLabel("Docs"), h.Class("site-nav")],
+    Array.map(NAV_GROUPS, ({ heading, pages }) =>
+      h.keyed("section")(
+        heading,
+        [],
+        [
+          h.h2([], [heading]),
+          h.ul(
+            [],
+            Array.map(pages, ({ href, title }) =>
+              h.keyed("li")(
+                href,
+                [],
+                [
+                  h.a(
+                    [
+                      h.Href(href),
+                      ...(href === currentHref ? [h.AriaCurrent("page")] : []),
+                    ],
+                    [title]
+                  ),
+                ]
+              )
+            )
+          ),
+        ]
+      )
+    )
   );
 
 const notFoundView = (h: HtmlBuilder<Message>): Html =>
   Prose.view({ body: [h.h1([], ["Not found"])] }, h);
 
+const NOT_FOUND_TITLE = `Not found · ${BRAND}`;
+
 const contentOf = (
   model: Model,
   h: HtmlBuilder<Message>
 ): Readonly<{ title: string; body: Html }> =>
-  AppRoute.match(model.route, {
-    Home: () => ({ title: BRAND, body: homeView(h) }),
-    Component: ({ slug }) =>
-      Option.match(findPage(slug), {
-        onNone: () => ({
-          title: `Not found · ${BRAND}`,
-          body: notFoundView(h),
-        }),
+  AppRoute.matchOrElse(
+    model.route,
+    { Home: () => ({ title: BRAND, body: documentView(HOME, "", h) }) },
+    (route) =>
+      Option.match(findPage(hrefOf(route)), {
+        onNone: () => ({ title: NOT_FOUND_TITLE, body: notFoundView(h) }),
         onSome: (page) => ({
           title: `${page.title} · ${BRAND}`,
-          body: componentView(page, h),
+          body: documentView(page.document, page.directory, h),
         }),
-      }),
-    NotFound: () => ({ title: `Not found · ${BRAND}`, body: notFoundView(h) }),
-  });
+      })
+  );
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Document => {
   const { title, body } = contentOf(model, h);
@@ -205,10 +261,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Document => {
         ),
         h.div(
           [h.Class("site-layout")],
-          [
-            h.aside([h.Class("site-nav")], [navView(model, h)]),
-            Deck.view({ body: [body] }, h),
-          ]
+          [navView(hrefOf(model.route), h), Deck.view({ body: [body] }, h)]
         ),
       ]
     ),

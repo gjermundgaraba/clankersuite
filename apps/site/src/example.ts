@@ -1,4 +1,4 @@
-import { Array, Effect, Option, Record, Schema } from "effect";
+import { Effect, Option, Record, Schema } from "effect";
 import { Mount, Runtime } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
@@ -15,17 +15,19 @@ type StaticExample = Readonly<{
 
 type ExampleModule = ProgramExample | StaticExample;
 
-const EXAMPLES = "../../../packages/components/src";
-
 const PROGRAMS = import.meta.glob<ExampleModule>([
-  "../../../packages/components/src/*/examples/*.ts",
-  "!../../../packages/components/src/*/examples/*.test.ts",
+  "../../../packages/*/src/*/examples/*.ts",
+  "../../../packages/*/docs/examples/*.ts",
+  "!../../../packages/*/src/*/examples/*.test.ts",
+  "!../../../packages/*/docs/examples/*.test.ts",
 ]);
 
 const SOURCES = import.meta.glob<string>(
   [
-    "../../../packages/components/src/*/examples/*.ts",
-    "!../../../packages/components/src/*/examples/*.test.ts",
+    "../../../packages/*/src/*/examples/*.ts",
+    "../../../packages/*/docs/examples/*.ts",
+    "!../../../packages/*/src/*/examples/*.test.ts",
+    "!../../../packages/*/docs/examples/*.test.ts",
   ],
   {
     eager: true,
@@ -34,11 +36,13 @@ const SOURCES = import.meta.glob<string>(
   }
 );
 
-const pathOf = (slug: string, name: string): string =>
-  `${EXAMPLES}/${slug}/examples/${name}.ts`;
+export const examplePath = (directory: string, name: string): string =>
+  `${directory}/examples/${name}.ts`;
 
-export const sourceOf = (slug: string, name: string): Option.Option<string> =>
-  Record.get(SOURCES, pathOf(slug, name));
+export const sourceOf = (
+  directory: string,
+  name: string
+): Option.Option<string> => Record.get(SOURCES, examplePath(directory, name));
 
 const StaticModel = Schema.Struct({});
 
@@ -55,11 +59,11 @@ const toProgram = (module: ExampleModule): ProgramExample =>
 /** Runs a component's example as its own program inside the element, and stops it when
  *  the element leaves the page. */
 export const MountExample = Mount.define("MountExample", {
-  args: { slug: Schema.String, name: Schema.String },
+  args: { directory: Schema.String, name: Schema.String },
   messages: [Message.CompletedMountExample],
-  execute: ({ element, slug, name }) =>
+  execute: ({ element, directory, name }) =>
     Effect.gen(function* () {
-      const load = Record.get(PROGRAMS, pathOf(slug, name));
+      const load = Record.get(PROGRAMS, examplePath(directory, name));
 
       if (Option.isNone(load)) {
         return Message.CompletedMountExample();
@@ -70,7 +74,7 @@ export const MountExample = Mount.define("MountExample", {
       yield* Effect.acquireRelease(
         Effect.sync(() => {
           const container = document.createElement("div");
-          container.id = `example-${slug}-${name}`;
+          container.id = `example-${directory.split("/").slice(3).join("-")}-${name}`;
           element.replaceChildren(container);
 
           return Runtime.embed(
@@ -87,14 +91,5 @@ export const MountExample = Mount.define("MountExample", {
     }),
 });
 
-const EXAMPLE_PATH = /\/(?<slug>[^/]+)\/examples\/(?<name>[^/]+)\.ts$/u;
-
-/** Every example file, by its component's directory and its own name. */
-export const EXAMPLES_ON_DISK: readonly string[] = Array.map(
-  Record.keys(SOURCES),
-  (path) => {
-    const groups = EXAMPLE_PATH.exec(path)?.groups;
-
-    return `${groups?.["slug"] ?? ""}/${groups?.["name"] ?? ""}`;
-  }
-);
+/** Every example file, by its path. */
+export const EXAMPLES_ON_DISK: readonly string[] = Record.keys(SOURCES);
