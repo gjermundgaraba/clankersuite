@@ -7,7 +7,7 @@ import * as Announcer from "./announcer.ts";
 
 describe("flash with reduced motion", () => {
   it("holds a still ink ring for the beat instead of inverting", async () => {
-    document.body.innerHTML = `<button id="tile" style="--motion-flash: 0.7s"></button>`;
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0.7s"></button>`;
     const recorded: unknown[] = [];
     Object.assign(byId("tile"), {
       getAnimations: () => [],

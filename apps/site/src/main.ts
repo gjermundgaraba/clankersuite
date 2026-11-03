@@ -2,6 +2,7 @@ import * as Markdown from "@foldkit/markdown";
 import {
   CodeSurface,
   Deck,
+  LiveRegion,
   Prose,
   Scheme,
   SkipLink,
@@ -77,7 +78,9 @@ export const update = (model: Model, message: Message) =>
       }),
     ChangedUrl: ({ url }) => ({
       model: modifyFields(model, { route: () => urlToAppRoute(url) }),
+      commands: [SkipLink.ScrollToFragment({ maybeFragment: url.hash })],
     }),
+    CompletedScrollToFragment: () => ({ model }),
     CompletedNavigateInternal: () => ({ model }),
     CompletedLoadExternal: () => ({ model }),
     CompletedMountExample: () => ({ model }),
@@ -114,23 +117,63 @@ const exampleView =
       ]
     );
 
+type Segment = Readonly<{ isProse: boolean; blocks: readonly Html[] }>;
+
+const isOwnBlock = (block: Markdown.Block): boolean =>
+  block._tag === "Island" || block._tag === "CodeBlock";
+
+const segmentsOf = (
+  blocks: readonly Markdown.Block[],
+  views: readonly Html[]
+): readonly Segment[] =>
+  Array.reduce(
+    Array.zip(blocks, views),
+    [] as readonly Segment[],
+    (segments, [block, html]) => {
+      const last = Array.last(segments);
+
+      return !isOwnBlock(block) && Option.exists(last, ({ isProse }) => isProse)
+        ? [
+            ...segments.slice(0, -1),
+            {
+              isProse: true,
+              blocks: [...(segments.at(-1)?.blocks ?? []), html],
+            },
+          ]
+        : [...segments, { isProse: !isOwnBlock(block), blocks: [html] }];
+    }
+  );
+
 const documentView = (
   document: Markdown.MarkdownDocument,
   directory: string,
   h: HtmlBuilder<Message>
 ): Html =>
-  Prose.view(
-    {
-      body: [
-        Markdown.view(document, {
+  h.article(
+    [h.Class("site-page")],
+    Array.flatMap(
+      segmentsOf(
+        document.blocks,
+        Markdown.viewBlocks(document, {
           islands: Markdown.islandsFor(islandAttributes, {
             Example: exampleView(directory, h),
             Tokens: tokensView(h),
           }),
-        }),
-      ],
-    },
-    h
+          views: {
+            CodeBlock: ({ maybeLanguage, value }) =>
+              CodeSurface.view(
+                {
+                  label: Option.getOrElse(maybeLanguage, () => "code"),
+                  body: [value],
+                },
+                h
+              ),
+          },
+        })
+      ),
+      ({ isProse, blocks }) =>
+        isProse ? [Prose.view({ body: blocks }, h)] : blocks
+    )
   );
 
 const HOME = Markdown.decodeDocument(homeDocument);
@@ -265,6 +308,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Document => {
           [h.Class("site-layout")],
           [navView(hrefOf(model.route), h), Deck.view({ body: [body] }, h)]
         ),
+        ...LiveRegion.place([], () => LiveRegion.view({}, h)).toPageView(),
       ]
     ),
   };

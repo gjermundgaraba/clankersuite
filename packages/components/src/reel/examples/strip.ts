@@ -246,7 +246,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
     {
       body: [
         h.div(
-          [h.OnMount(BindReelKeys())],
+          [h.Style({ height: "24rem" }), h.OnMount(BindReelKeys())],
           [
             h.submodel({
               slotId: model.reel.id,

@@ -108,3 +108,8 @@
   color: var(--semantic-color-text-secondary);
   overflow-wrap: anywhere;
 }
+
+.site-page {
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-large);
+}

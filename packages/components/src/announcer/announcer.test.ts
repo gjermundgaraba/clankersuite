@@ -89,7 +89,7 @@ describe("announce", () => {
 
 describe("flash", () => {
   it("inverts the element for the middle half of the stylesheet's beat", async () => {
-    document.body.innerHTML = `<button id="tile" style="--motion-flash: 0.7s"></button>`;
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0.7s"></button>`;
     const recorded = recordAnimations(byId("tile"));
 
     await Effect.runPromise(Announcer.flash("#tile"));
@@ -112,7 +112,7 @@ describe("flash", () => {
   });
 
   it("flashes nothing for a beat it cannot read as a time", async () => {
-    document.body.innerHTML = `<button id="tile" style="--motion-flash: calc(0.7s * 2)"></button>`;
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: calc(0.7s * 2)"></button>`;
     const recorded = recordAnimations(byId("tile"));
 
     await Effect.runPromise(Announcer.flash("#tile"));
@@ -121,7 +121,7 @@ describe("flash", () => {
   });
 
   it("reads a unitless 0 as a beat of none", async () => {
-    document.body.innerHTML = `<button id="tile" style="--motion-flash: 0"></button>`;
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0"></button>`;
     const recorded = recordAnimations(byId("tile"));
 
     await Effect.runPromise(Announcer.flash("#tile"));
@@ -135,7 +135,7 @@ describe("flash", () => {
   });
 
   it("reads a beat written with an exponent", async () => {
-    document.body.innerHTML = `<button id="tile" style="--motion-flash: 7e2ms"></button>`;
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 7e2ms"></button>`;
     const recorded = recordAnimations(byId("tile"));
 
     await Effect.runPromise(Announcer.flash("#tile"));

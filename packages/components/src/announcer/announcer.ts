@@ -107,7 +107,7 @@ const TIME = /^(?<amount>(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)(?<unit>m?s)?$/iu;
 
 const beatOf = (element: Element): Option.Option<number> => {
   const time = getComputedStyle(element)
-    .getPropertyValue("--motion-flash")
+    .getPropertyValue("--semantic-duration-flash")
     .trim();
 
   const groups = TIME.exec(time)?.groups;
@@ -176,7 +176,7 @@ export const Announce = Command.define("Announce", {
 });
 
 /**
- * Inverts the element `selector` finds for one beat (`--motion-flash`): the signal that a
+ * Inverts the element `selector` finds for one beat (`--semantic-duration-flash`): the signal that a
  * change was committed. A second flash mid-beat restarts it. With `prefers-reduced-motion`
  * it holds a still 2px ink ring for the beat instead. Return it beside `Announce`, which says
  * what the flash shows. Reports `CompletedFlash`.

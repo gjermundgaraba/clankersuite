@@ -145,19 +145,24 @@ const clientView = (
   label: string,
   h: HtmlBuilder<Message>
 ): Html =>
-  h.submodel({
-    slotId: model[client].id,
-    model: model[client],
-    view: Reel.view,
-    viewInputs: {
-      layout: model.layout,
-      label,
-      toPaneView: paneView(h),
-      arrangement: ARRANGEMENT[client],
-      toTabLeadView: (pane) => [Glyph.view({ name: glyphOf(pane) }, h)],
-    },
-    toParentMessage: TO_MESSAGE[client],
-  });
+  h.div(
+    [h.Style({ height: "16rem" })],
+    [
+      h.submodel({
+        slotId: model[client].id,
+        model: model[client],
+        view: Reel.view,
+        viewInputs: {
+          layout: model.layout,
+          label,
+          toPaneView: paneView(h),
+          arrangement: ARRANGEMENT[client],
+          toTabLeadView: (pane) => [Glyph.view({ name: glyphOf(pane) }, h)],
+        },
+        toParentMessage: TO_MESSAGE[client],
+      }),
+    ]
+  );
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Stack.view(

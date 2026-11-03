@@ -9,6 +9,7 @@ export const Message = defineMessageUnion({
   CompletedNavigateInternal: {},
   CompletedLoadExternal: {},
   CompletedMountExample: {},
+  CompletedScrollToFragment: {},
   GotSchemeSwitchMessage: { message: Scheme.SchemeSwitch.Message },
   GotTopBarMessage: { message: TopBar.Message },
 });
