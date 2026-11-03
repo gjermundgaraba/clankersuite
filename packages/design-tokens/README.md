@@ -63,7 +63,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 - `travel` is how far a thing moves: a pressed button, an entering toast, a glyph nudged onto the baseline.
 - `layer` is a `z-index`, named by what sits on it.
 
-The component stylesheet writes no raw value a token covers; a test fails on one. Raw are: zero; relative units (`em`, `lh`, `%`, viewport units); counts; angles; the geometry of a drawn tile (`background-size` and `background-position`); and `@media` and `@container` thresholds, where `var()` does not work.
+The component stylesheet and the Markdown editor's theme write no raw value a token covers; a test fails on one. Raw are: zero; relative units (`em`, `lh`, `%`, viewport units); counts; angles; the geometry of a drawn tile (`background-size` and `background-position`); and `@media` and `@container` thresholds, where `var()` does not work.
 
 Every semantic token carries a `$description` saying where it is used.
 

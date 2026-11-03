@@ -78,7 +78,7 @@ const checkboxWidget = (isChecked: boolean) =>
 
       box.type = "checkbox";
       box.checked = isChecked;
-      box.className = "lmd-check";
+      box.className = "gg-md-check";
       box.tabIndex = -1;
 
       return box;
@@ -89,7 +89,7 @@ const checkboxWidget = (isChecked: boolean) =>
 
 const bulletWidget = new DrawnWidget({
   key: "bullet",
-  draw: () => spanOf("lmd-bullet", "•"),
+  draw: () => spanOf("gg-md-bullet", "•"),
   estimatedHeight: UNKNOWN_HEIGHT,
   takesOwnEvents: true,
 });
@@ -98,12 +98,12 @@ const imageWidget = (source: string, alt: string) =>
   new DrawnWidget({
     key: `image:${source}\n${alt}`,
     draw: () => {
-      const box = spanOf("lmd-img-box", "");
+      const box = spanOf("gg-md-img-box", "");
       const safeSource = safeImageSource(source, document.baseURI);
 
       if (safeSource === undefined) {
         box.append(
-          spanOf("lmd-img-note", alt === "" ? "Image not shown" : alt)
+          spanOf("gg-md-img-note", alt === "" ? "Image not shown" : alt)
         );
 
         return box;
@@ -111,7 +111,7 @@ const imageWidget = (source: string, alt: string) =>
 
       const image = document.createElement("img");
 
-      image.className = "lmd-img";
+      image.className = "gg-md-img";
       image.alt = alt;
       image.referrerPolicy = "no-referrer";
       image.addEventListener(
@@ -119,7 +119,7 @@ const imageWidget = (source: string, alt: string) =>
         () => {
           image.replaceWith(
             spanOf(
-              "lmd-img-note",
+              "gg-md-img-note",
               alt === "" ? "Image not found" : `Image not found: ${alt}`
             )
           );
@@ -145,11 +145,11 @@ const mark = (className: string) => Decoration.mark({ class: className });
 const line = (className: string) => Decoration.line({ class: className });
 
 const INLINE = new Map([
-  ["Emphasis", "lmd-em"],
-  ["StrongEmphasis", "lmd-strong"],
-  ["Strikethrough", "lmd-strike"],
-  ["InlineCode", "lmd-code"],
-  ["Link", "lmd-link"],
+  ["Emphasis", "gg-md-em"],
+  ["StrongEmphasis", "gg-md-strong"],
+  ["Strikethrough", "gg-md-strike"],
+  ["InlineCode", "gg-md-code"],
+  ["Link", "gg-md-link"],
 ]);
 
 const HIDDEN_MARKS = new Set([
@@ -202,9 +202,9 @@ const readLink = (state: EditorState, node: SyntaxNode): Decoration => {
   const href = url === undefined ? undefined : safeHref(url, document.baseURI);
 
   return href === undefined
-    ? mark("lmd-link")
+    ? mark("gg-md-link")
     : Decoration.mark({
-        class: "lmd-link",
+        class: "gg-md-link",
         tagName: "a",
         attributes: { href, target: "_blank", rel: "noopener noreferrer" },
       });
@@ -287,7 +287,7 @@ export const liveDecorations = (
         if (level !== undefined) {
           addLine(
             state.doc.lineAt(node.from).from,
-            line(`lmd-h lmd-h${level}`)
+            line(`gg-md-h gg-md-h${level}`)
           );
 
           return true;
@@ -363,7 +363,7 @@ export const liveDecorations = (
         }
 
         if (isBareUrl(node.node)) {
-          add(node.from, node.to, mark("lmd-link"));
+          add(node.from, node.to, mark("gg-md-link"));
 
           return true;
         }
@@ -381,13 +381,13 @@ export const liveDecorations = (
         }
 
         if (name === "FencedCode" || name === "CodeBlock") {
-          addLines(node.from, node.to, "lmd-codeblock");
+          addLines(node.from, node.to, "gg-md-codeblock");
 
           return false;
         }
 
         if (name === "Blockquote") {
-          addLines(node.from, node.to, "lmd-quote");
+          addLines(node.from, node.to, "gg-md-quote");
 
           return true;
         }
@@ -402,7 +402,7 @@ export const liveDecorations = (
 
         if (name === "HorizontalRule") {
           if (!activeLine(node.from)) {
-            addLine(state.doc.lineAt(node.from).from, line("lmd-hr"));
+            addLine(state.doc.lineAt(node.from).from, line("gg-md-hr"));
             add(node.from, node.to, hide);
           }
 
@@ -410,7 +410,7 @@ export const liveDecorations = (
         }
 
         if (name === "Table") {
-          addLines(node.from, node.to, "lmd-table");
+          addLines(node.from, node.to, "gg-md-table");
 
           return true;
         }
@@ -435,7 +435,7 @@ export const liveDecorations = (
           replace(node.from, node.to, checkboxWidget(isChecked));
 
           if (isChecked && parent !== null) {
-            add(node.to, parent.to, mark("lmd-done"));
+            add(node.to, parent.to, mark("gg-md-done"));
           }
         }
 
@@ -491,7 +491,7 @@ const tableOf = (source: string): HTMLTableElement => {
   const body = table.createTBody();
   const rows = source.split("\n").filter((row) => row.trim() !== "");
 
-  table.className = "lmd-table-view";
+  table.className = "gg-md-table-view";
 
   for (const [index, row] of rows.entries()) {
     if (index !== 1 || !DELIMITER_ROW.test(row)) {
@@ -517,7 +517,7 @@ const tableWidget = (text: string) =>
     draw: (view) => {
       const dom = document.createElement("div");
 
-      dom.className = "lmd-table-widget";
+      dom.className = "gg-md-table-widget";
       dom.append(tableOf(text));
 
       if (!view.state.facet(EditorView.editable)) {
@@ -668,7 +668,7 @@ const tablesField = StateField.define<TablesState>({
 const taskCheckbox = (
   target: EventTarget | null
 ): HTMLInputElement | undefined =>
-  target instanceof HTMLInputElement && target.classList.contains("lmd-check")
+  target instanceof HTMLInputElement && target.classList.contains("gg-md-check")
     ? target
     : undefined;
 

@@ -174,7 +174,7 @@ const lineView = <Message>(
         ...(config.slotAttributes ?? []),
         ...cellRole(config, h),
       ]),
-      ...cellView(config, "gg-cell actions", config.actions ?? [], h),
+      ...cellView(config, "gg-cell", config.actions ?? [], h),
       ...slotView(
         "span",
         "gg-tools",

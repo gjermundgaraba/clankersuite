@@ -1,7 +1,26 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import STYLESHEET from "./components.css?raw";
+import { LIVE_MARKDOWN_STYLE } from "./markdown-editor/live/theme.ts";
+
+import COMPONENTS_CSS from "./components.css?raw";
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
+
+const kebabCase = (property: string) =>
+  property.replaceAll(/[A-Z]/gu, (letter) => `-${letter.toLowerCase()}`);
+
+const asCss = (
+  style: Readonly<Record<string, Readonly<Record<string, string>>>>
+) =>
+  Object.entries(style)
+    .map(
+      ([selector, declarations]) =>
+        `${selector} {${Object.entries(declarations)
+          .map(([property, value]) => ` ${kebabCase(property)}: ${value};`)
+          .join("")} }`
+    )
+    .join("\n");
+
+const STYLESHEET = `${COMPONENTS_CSS}\n${asCss(LIVE_MARKDOWN_STYLE)}`;
 
 interface Declaration {
   readonly property: string;
@@ -37,9 +56,9 @@ const COLOR_LITERAL =
   /#[\da-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|color-mix)\(|\b(?:white|black|red|green|blue|yellow|orange|purple|gray|grey|silver|maroon|fuchsia|lime|olive|navy|teal|aqua)\b/iu;
 
 const declarations: readonly Declaration[] = Array.from(
-  STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "")
-    .replaceAll(/@font-face\s*\{[^}]*\}/gu, "")
-    .matchAll(/(?<property>-{0,2}[a-z][-a-z]*)\s*:\s*(?<value>[^;{}]+);/gu),
+  STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "").matchAll(
+    /(?<property>-{0,2}[a-z][-a-z]*)\s*:\s*(?<value>[^;{}]+);/gu
+  ),
   ({ groups }) => ({
     property: groups?.["property"] ?? "",
     value: (groups?.["value"] ?? "").replaceAll(/\s+/gu, " ").trim(),

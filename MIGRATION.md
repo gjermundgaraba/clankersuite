@@ -141,7 +141,7 @@ Every class the component stylesheet styles is prefixed `gg-`: `.btn` is `.gg-bt
 | `.px-icon`  | `.gg-icon` | `.gg-glyph` is the existing `.glyph` class       |
 | `.sr-only`  | `.sr-only` | `@foldkit/ui` writes it on its own hidden inputs |
 
-CodeMirror's `cm-` classes, the highlighter's `tok-` classes and the Markdown editor's `lmd-` classes are unchanged.
+The Markdown editor's `lmd-` classes are `gg-md-`: `.lmd-link` is `.gg-md-link`. A few classes nothing styled are gone: `actions` on a row's actions cell, `tab-panel` on a tab's panel, and the command palette's `palette`, which is `gg-palette`. CodeMirror's `cm-` classes and the highlighter's `tok-` classes are unchanged.
 
 ## Attributes and other names
 

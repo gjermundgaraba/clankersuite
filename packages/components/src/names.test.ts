@@ -21,6 +21,35 @@ const attributesIn = (source: string): readonly string[] => [
   ),
 ];
 
+const THIRD_PARTY_CLASS = /^(?:sr-only|cm-[\w-]+)$/u;
+
+const classListsIn = (source: string): readonly string[] => [
+  ...namesIn(source, /(?:\bClass\(|\bclass: )\s*"(?<name>[^"]*)"/gu),
+  ...namesIn(
+    source,
+    /"(?<name> ?(?:[a-z][-a-z\d]* )*gg-[-a-z\d]*(?: [a-z][-a-z\d]*)* ?)"/gu
+  ),
+];
+
+describe("the components' classes", () => {
+  it("are prefixed gg-, beside sr-only and CodeMirror's", () => {
+    const offenders = Object.entries(SOURCES).flatMap(([path, source]) =>
+      classListsIn(source).flatMap((list) =>
+        list
+          .split(/\s+/u)
+          .filter((name) => name !== "")
+          .flatMap((name) =>
+            name.startsWith("gg-") || THIRD_PARTY_CLASS.test(name)
+              ? []
+              : [`${path}: ${name}`]
+          )
+      )
+    );
+
+    expect(offenders).toStrictEqual([]);
+  });
+});
+
 describe("the components' attributes", () => {
   it("are prefixed data-gg-, beside the scheme's and @foldkit/ui's", () => {
     const offenders = Object.entries(SOURCES).flatMap(([path, source]) =>

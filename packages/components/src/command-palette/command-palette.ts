@@ -1112,7 +1112,7 @@ const cardView = (
         )
       ),
       h.OnMount(BindPaletteKeys()),
-      h.Class("gg-card palette"),
+      h.Class("gg-card gg-palette"),
     ],
     [
       headView(

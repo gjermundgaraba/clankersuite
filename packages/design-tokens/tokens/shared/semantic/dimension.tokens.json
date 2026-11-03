@@ -419,6 +419,10 @@
           "boardColumnRoom": {
             "$value": "{primitive.dimension.150}",
             "$description": "What a board column leaves of the viewport's height."
+          },
+          "markdownImage": {
+            "$value": "{primitive.dimension.480}",
+            "$description": "The tallest an image grows in the Markdown editor."
           }
         },
         "tree": {

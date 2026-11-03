@@ -96,6 +96,7 @@
   --primitive-dimension-420: 420px;
   --primitive-dimension-440: 440px;
   --primitive-dimension-460: 460px;
+  --primitive-dimension-480: 480px;
   --primitive-dimension-680: 680px;
   --primitive-dimension-1160: 1160px;
   --primitive-dimension-letter-spacing-20: 0.02em;
@@ -255,6 +256,7 @@
   --semantic-dimension-size-lift-board-card: var(--primitive-dimension-240);
   --semantic-dimension-size-lift-list-item: var(--primitive-dimension-320);
   --semantic-dimension-size-max-height-board-column-room: var(--primitive-dimension-150);
+  --semantic-dimension-size-max-height-markdown-image: var(--primitive-dimension-480);
   --semantic-dimension-size-max-height-palette: var(--primitive-dimension-420);
   --semantic-dimension-size-max-width-banner: var(--primitive-dimension-680);
   --semantic-dimension-size-max-width-card: var(--primitive-dimension-680);

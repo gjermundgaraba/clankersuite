@@ -1085,7 +1085,7 @@ const render = async (
     CommandPalette.view(current, { commands }, h)
   );
 
-  return bySelector(".gg-card.palette");
+  return bySelector(".gg-card.gg-palette");
 };
 
 const fieldOf = (card: Element): HTMLInputElement => {
@@ -1537,7 +1537,7 @@ describe("CommandPalette view", () => {
       Scene.expect(
         Scene.selector(".gg-palette-row .gg-glyph.gg-opens")
       ).toExist(),
-      Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText("")
+      Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText("")
     );
   });
 
@@ -1592,7 +1592,7 @@ describe("CommandPalette view", () => {
       Scene.type(field, "e"),
       resolveSceneScroll,
       Scene.expect(rowOf("Edit item")).toHaveAttr("aria-selected", "true"),
-      Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(
+      Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText(
         "5 results."
       ),
       Scene.expect(rowOf("Renew the certificate")).toExist(),
@@ -1715,7 +1715,7 @@ describe("CommandPalette view", () => {
       Scene.expect(rowOf("Projects")).toHaveStyle("--gg-palette-level", "1"),
       Scene.expect(rowOf("Projects")).toHaveClass("gg-context"),
       Scene.expect(rowOf("Projects \\(context\\)")).toExist(),
-      Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(
+      Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText(
         "1 result."
       ),
       Scene.expect(rowOf("Website")).toHaveClass("gg-context"),
@@ -1760,7 +1760,7 @@ describe("CommandPalette view", () => {
       Scene.expect(Scene.selector(".gg-palette-list")).toContainText(
         "nothing matches"
       ),
-      Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(
+      Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText(
         "Nothing matches."
       ),
       Scene.expect(field).not.toHaveAttr("aria-activedescendant"),
