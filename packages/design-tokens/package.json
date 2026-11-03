@@ -21,20 +21,12 @@
   },
   "scripts": {
     "build": "tz build -c terrazzo.clankersuite.config.ts",
-    "check": "tz check tokens/clankersuite.resolver.json",
-    "test": "vp test"
+    "check": "tz check tokens/clankersuite.resolver.json"
   },
   "devDependencies": {
-    "@foldkit/vite-plugin": "catalog:",
     "@terrazzo/cli": "catalog:",
     "@terrazzo/parser": "catalog:",
     "@terrazzo/plugin-css": "catalog:",
-    "@types/node": "catalog:",
-    "effect": "catalog:",
-    "foldkit": "catalog:",
-    "happy-dom": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "@types/node": "catalog:"
   }
 }

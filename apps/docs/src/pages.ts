@@ -91,7 +91,7 @@ const packagePage = ([path, module]: readonly [
   return {
     href: `/${packageName}/${slug}`,
     title: titleOf(document),
-    directory: Array.join(segments.slice(0, -1), "/"),
+    directory: `./foundations/${packageName}`,
     placement: {
       _tag: "Package",
       packageName,

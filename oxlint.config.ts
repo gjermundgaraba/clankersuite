@@ -6,8 +6,6 @@ export const ignorePatterns = ["repos/", "packages/design-tokens/generated/"];
 const foldkitFiles = [
   "packages/components/src/**",
   "packages/icons/src/**",
-  "packages/icons/docs/**",
-  "packages/design-tokens/docs/**",
   "apps/docs/src/**",
 ];
 

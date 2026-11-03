@@ -12,7 +12,6 @@
     "@clanker-stuff/oxlint-config": "catalog:",
     "@effect/tsgo": "catalog:",
     "@foldkit/oxlint-plugin": "catalog:",
-    "@gjermundgaraba/components": "workspace:*",
     "ultracite": "catalog:",
     "vite-plus": "catalog:"
   },

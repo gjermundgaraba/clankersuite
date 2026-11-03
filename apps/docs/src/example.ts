@@ -1,4 +1,4 @@
-import { Effect, Option, Record, Schema } from "effect";
+import { Array, Effect, Option, Record, Schema } from "effect";
 import { Mount, Runtime } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
@@ -17,17 +17,17 @@ type ExampleModule = ProgramExample | StaticExample;
 
 const PROGRAMS = import.meta.glob<ExampleModule>([
   "../../../packages/*/src/*/examples/*.ts",
-  "../../../packages/*/docs/examples/*.ts",
+  "./foundations/*/examples/*.ts",
   "!../../../packages/*/src/*/examples/*.test.ts",
-  "!../../../packages/*/docs/examples/*.test.ts",
+  "!./foundations/*/examples/*.test.ts",
 ]);
 
 const SOURCES = import.meta.glob<string>(
   [
     "../../../packages/*/src/*/examples/*.ts",
-    "../../../packages/*/docs/examples/*.ts",
+    "./foundations/*/examples/*.ts",
     "!../../../packages/*/src/*/examples/*.test.ts",
-    "!../../../packages/*/docs/examples/*.test.ts",
+    "!./foundations/*/examples/*.test.ts",
   ],
   {
     eager: true,
@@ -74,7 +74,13 @@ export const MountExample = Mount.define("MountExample", {
       yield* Effect.acquireRelease(
         Effect.sync(() => {
           const container = document.createElement("div");
-          container.id = `example-${directory.split("/").slice(3).join("-")}-${name}`;
+          container.id = `example-${Array.join(
+            Array.filter(
+              directory.split("/"),
+              (part) => !/^\.{1,2}$/u.test(part)
+            ),
+            "-"
+          )}-${name}`;
           element.replaceChildren(container);
 
           return Runtime.embed(

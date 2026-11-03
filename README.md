@@ -20,6 +20,6 @@ vp run dev     # the docs
 vp run ready   # check, test and build everything
 ```
 
-A component's docs page sits beside it, as `<dir>/<dir>.md` with its live examples in `examples/`; a package's other pages are in its `docs/`.
+A component's docs page sits beside it, as `<dir>/<dir>.md` with its live examples in `examples/`; a package's other pages are in its `docs/`, with their examples in `apps/docs/src/foundations/<package>/examples/`.
 
 `vp run docs#smoke` opens every page of the built docs in Chromium; `vp run docs#install-browser` installs it with its system libraries first.
