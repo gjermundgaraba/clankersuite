@@ -108,7 +108,8 @@ export const view = defineView<Model, Message, ViewInputs>(
           ...Option.toArray(
             Option.map(
               Array.findFirst(render.tabs, (info) => info.isActive),
-              (info) => h.div(info.panel, toPanelView())
+              (info) =>
+                h.div([...info.panel, h.Class("gg-tab-panel")], toPanelView())
             )
           ),
         ]

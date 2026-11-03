@@ -21,7 +21,7 @@ const KIND: Record<
   LineKind,
   Readonly<{ className: string; sign: string; said: string }>
 > = {
-  Same: { className: "same", sign: "", said: "unchanged" },
+  Same: { className: "gg-same", sign: "", said: "unchanged" },
   Added: { className: "gg-add", sign: "+", said: "added" },
   Removed: { className: "gg-del", sign: "−", said: "removed" },
 };
