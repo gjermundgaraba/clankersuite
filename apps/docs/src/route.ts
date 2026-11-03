@@ -1,46 +1,31 @@
-import { Option, Schema, pipe } from "effect";
+import { Schema, pipe } from "effect";
 import { Route } from "foldkit";
-import { defineRouteUnion, literal } from "foldkit/route";
-
-import { Slug } from "./screen/slugs.ts";
+import { defineRouteUnion } from "foldkit/route";
 
 export const AppRoute = defineRouteUnion({
-  Foundations: {},
-  Components: {},
-  Screen: { screen: Slug },
+  Home: {},
+  Page: { section: Schema.String, slug: Schema.String },
   NotFound: { path: Schema.String },
 });
 
 export type AppRoute = typeof AppRoute.Type;
 
-export const foundationsRouter = pipe(
-  Route.root,
-  Route.mapTo(AppRoute.Foundations)
-);
+export const homeRouter = pipe(Route.root, Route.mapTo(AppRoute.Home));
 
-export const componentsRouter = pipe(
-  literal("components"),
-  Route.mapTo(AppRoute.Components)
-);
-
-const screenRouter = pipe(
-  literal("screens"),
-  Route.slash(Route.schemaSegment("screen", Slug)),
-  Route.mapTo(AppRoute.Screen)
-);
-
-const routeParser = Route.oneOf(
-  screenRouter,
-  componentsRouter,
-  foundationsRouter
+const pageRouter = pipe(
+  Route.string("section"),
+  Route.slash(Route.string("slug")),
+  Route.mapTo(AppRoute.Page)
 );
 
 export const urlToAppRoute = Route.parseUrlWithFallback(
-  routeParser,
+  Route.oneOf(pageRouter, homeRouter),
   AppRoute.NotFound
 );
 
-export const screenUrl = (screen: Slug): string => screenRouter({ screen });
-
-export const maybeScreenOf = (route: AppRoute): Option.Option<Slug> =>
-  route._tag === "Screen" ? Option.some(route.screen) : Option.none();
+export const hrefOf = (route: AppRoute): string =>
+  AppRoute.match(route, {
+    Home: () => "/",
+    Page: ({ section, slug }) => `/${section}/${slug}`,
+    NotFound: ({ path }) => path,
+  });

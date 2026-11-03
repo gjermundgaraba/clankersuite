@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@effect/platform-browser": "catalog:",
+    "@foldkit/markdown": "catalog:",
     "@foldkit/ui": "catalog:",
     "@gjermundgaraba/components": "workspace:*",
     "@gjermundgaraba/design-tokens": "workspace:*",

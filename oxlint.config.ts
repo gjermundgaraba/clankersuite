@@ -9,7 +9,6 @@ const foldkitFiles = [
   "packages/icons/docs/**",
   "packages/design-tokens/docs/**",
   "apps/docs/src/**",
-  "apps/site/src/**",
 ];
 
 const { recommended } = foldkit.configs;
@@ -31,10 +30,6 @@ export default config({
   ignorePatterns,
   overrides: [
     { env: { browser: true }, files: foldkitFiles },
-    {
-      files: ["apps/docs/src/example/**"],
-      rules: { "clanker/no-prose-comments": "off" },
-    },
     {
       files: foldkitFiles.map((base) => `${base}/*.ts`),
       rules: recommended.rules,
@@ -72,23 +67,6 @@ export default config({
     {
       files: ["packages/components/src/subscription/prefix-keys.ts"],
       rules: { "typescript/no-unsafe-type-assertion": "off" },
-    },
-    {
-      files: ["apps/docs/src/page/foundations.ts"],
-      rules: { "import/default": "off" },
-    },
-    {
-      files: [
-        "apps/docs/src/entry.server.ts",
-        "apps/docs/src/entry.ts",
-        "apps/docs/src/live-region.ts",
-        "apps/docs/src/main.ts",
-        "apps/docs/src/message.ts",
-        "apps/docs/src/model.ts",
-        "apps/docs/src/page/components.ts",
-        "apps/docs/src/page/foundations.ts",
-      ],
-      rules: { "import/no-cycle": "off" },
     },
   ],
 });

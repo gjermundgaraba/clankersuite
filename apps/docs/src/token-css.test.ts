@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { groupTokens, parseTokens, resolve } from "./token-css.ts";
-import type { Section } from "./token-css.ts";
+import { isUnder, parseTokens, resolve, tokensUnder } from "./token-css.ts";
 
 const CSS = `
 /* Colour. The page's inks. */
@@ -112,50 +111,22 @@ describe("parseTokens", () => {
   });
 });
 
-describe("groupTokens", () => {
+describe("tokensUnder", () => {
   const tokens = parseTokens(`:root {
-    --ink: #111;
-    --text: #222;
+    --text: #111;
+    --text-quiet: #222;
+    --textured: url(a.png);
     --u: 1rem;
-    --gap: 2rem;
   }`);
 
-  const names = (sections: readonly Section[]) =>
-    groupTokens(tokens, sections).map(({ heading, tokens: grouped }) => ({
-      heading,
-      names: grouped.map(({ name }) => name),
-    }));
-
-  it("puts each token under the last section that starts at or before it, in file order", () => {
-    expect(
-      names([
-        { heading: "Colour", from: "--ink" },
-        { heading: "Space", from: "--u" },
-      ])
-    ).toStrictEqual([
-      { heading: "Colour", names: ["--ink", "--text"] },
-      { heading: "Space", names: ["--u", "--gap"] },
-    ]);
-  });
-
-  it("throws on a section that starts at an undeclared token, naming it", () => {
-    expect(() => names([{ heading: "Colour", from: "--inc" }])).toThrow(
-      "--inc"
+  it("takes the token a prefix names and the tokens in its group, in file order", () => {
+    expect(tokensUnder(tokens, "--text").map(({ name }) => name)).toStrictEqual(
+      ["--text", "--text-quiet"]
     );
   });
 
-  it("throws on a section that starts at or before the one before it", () => {
-    expect(() =>
-      names([
-        { heading: "Colour", from: "--ink" },
-        { heading: "Space", from: "--u" },
-        { heading: "Type", from: "--text" },
-      ])
-    ).toThrow("Type");
-  });
-
-  it("throws on a token declared before every section, naming it", () => {
-    expect(() => names([{ heading: "Space", from: "--u" }])).toThrow("--ink");
+  it("takes no token whose name only begins with the same letters", () => {
+    expect(isUnder("--text", "--textured")).toBe(false);
   });
 });
 
@@ -185,8 +156,21 @@ describe("resolve", () => {
     });
   });
 
+  it("follows every alias in a value of several parts, in each scheme", () => {
+    expect(resolve(tokens, "var(--u) var(--u) 0 var(--ink)")).toStrictEqual({
+      light: "0.5rem 0.5rem 0 #111",
+      dark: "0.5rem 0.5rem 0 rgb(238, 238, 238)",
+    });
+  });
+
   it("returns a value with nothing to follow, or an alias to no token, as written", () => {
     expect(resolve(tokens, "0.5rem")).toBe("0.5rem");
     expect(resolve(tokens, "var(--missing)")).toBe("var(--missing)");
+  });
+
+  it("stops at an alias that names itself", () => {
+    const looped = parseTokens(":root { --a: var(--b); --b: var(--a) }");
+
+    expect(resolve(looped, "var(--a)")).toBe("var(--a)");
   });
 });

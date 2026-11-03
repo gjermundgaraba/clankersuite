@@ -1,37 +1,27 @@
 import * as Components from "@gjermundgaraba/components";
-import * as Icons from "@gjermundgaraba/icons";
-import { Array, Record, String } from "effect";
+import { Array, Record } from "effect";
 import { describe, expect, it } from "vite-plus/test";
 
-import { COMPONENTS, FOUNDATIONS, exportsShown } from "./covers.ts";
+import { COMPONENT_PAGES, PAGES } from "./pages.ts";
 
-const exported = Record.keys({ ...Components, ...Icons });
+const kebab = (name: string): string =>
+  name.replaceAll(/(?<=[a-z0-9])(?=[A-Z])/gu, "-").toLowerCase();
 
-const shown = Array.map(
-  [...exportsShown(FOUNDATIONS), ...exportsShown(COMPONENTS)],
-  ({ name }) => name
+const exportPages = Array.map(
+  Record.keys(Components),
+  (name) => `/components/${kebab(name)}`
 );
 
-const isShown = (namespace: string): boolean =>
-  Array.some(
-    shown,
-    (name) => name === namespace || name.startsWith(`${namespace}.`)
-  );
-
-describe("covers", () => {
-  it("shows every namespace the packages export in some section", () => {
+describe("the docs", () => {
+  it("give every component its page, and no page to a component that is gone", () => {
     expect(
-      Array.filter(exported, (namespace) => !isShown(namespace))
-    ).toStrictEqual([]);
+      Array.map(COMPONENT_PAGES, ({ href }) => href).toSorted()
+    ).toStrictEqual(exportPages.toSorted());
   });
 
-  it("names only namespaces the packages export", () => {
-    expect(
-      Array.filter(
-        shown,
-        (name) =>
-          !Array.contains(exported, Array.headNonEmpty(String.split(name, ".")))
-      )
-    ).toStrictEqual([]);
+  it("show the glyphs", () => {
+    expect(Array.some(PAGES, ({ href }) => href === "/icons/glyphs")).toBe(
+      true
+    );
   });
 });

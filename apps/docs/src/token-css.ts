@@ -1,5 +1,6 @@
-import { Predicate } from "effect";
+import { Array } from "effect";
 
+/** A custom property as the stylesheet declares it: its first declaration, on one line. */
 export type Token = Readonly<{
   name: string;
   value: string;
@@ -73,6 +74,8 @@ const oneLine = (value: string): string =>
     return match.endsWith(")") ? ")" : " ";
   });
 
+/** Every custom property the stylesheet declares, once, in source order, with the value of
+ *  its first declaration as written. */
 export const parseTokens = (css: string): readonly Token[] => {
   const tokens = new Map<string, Token>();
 
@@ -98,50 +101,44 @@ export const parseTokens = (css: string): readonly Token[] => {
   return [...tokens.values()];
 };
 
-export type Section = Readonly<{ heading: string; from: string }>;
+/** Whether `prefix` names the token or a group it is in: `--semantic-color-text` holds
+ *  `--semantic-color-text-primary`, not `--semantic-color-textured`. */
+export const isUnder = (prefix: string, name: string): boolean =>
+  name === prefix || name.startsWith(`${prefix}-`);
 
-export const groupTokens = (
+/** The tokens `prefix` names, in source order. */
+export const tokensUnder = (
   tokens: readonly Token[],
-  sections: readonly Section[]
-): ReadonlyArray<Readonly<{ heading: string; tokens: readonly Token[] }>> => {
-  const starts: number[] = [];
+  prefix: string
+): readonly Token[] =>
+  Array.filter(tokens, ({ name }) => isUnder(prefix, name));
 
-  for (const { heading, from } of sections) {
-    const at = tokens.findIndex((token) => token.name === from);
-
-    if (at === -1) {
-      throw new Error(
-        `The section ${heading} starts at ${from}, which is not declared.`
-      );
-    }
-
-    if (at <= (starts.at(-1) ?? -1)) {
-      throw new Error(
-        `The section ${heading} starts at ${from}, which is not after the section before it.`
-      );
-    }
-
-    starts.push(at);
-  }
-
-  const [first] = tokens;
-
-  if (first !== undefined && starts[0] !== 0) {
-    throw new Error(
-      `The token ${first.name} is declared before every section.`
-    );
-  }
-
-  return sections.map(({ heading }, index) => ({
-    heading,
-    tokens: tokens.slice(starts[index], starts[index + 1]),
-  }));
-};
-
+/** A value in each colour scheme, where `light-dark()` makes them differ. */
 export type Schemes = Readonly<{ light: string; dark: string }>;
 
-const ALIAS = /^var\((?<name>--[\w-]+)\)$/u;
-const LIGHT_DARK = /^light-dark\((?<list>.*)\)$/u;
+const VARIABLE = /var\((?<name>--[\w-]+)\)/gu;
+
+const LIGHT_DARK = "light-dark(";
+
+const closingParenthesis = (value: string, open: number): number => {
+  let depth = 0;
+
+  for (let index = open; index < value.length; index += 1) {
+    if (value[index] === "(") {
+      depth += 1;
+    }
+
+    if (value[index] === ")") {
+      depth -= 1;
+
+      if (depth === 0) {
+        return index;
+      }
+    }
+  }
+
+  return value.length;
+};
 
 const topLevelArguments = (list: string): readonly string[] => {
   const parts: string[] = [];
@@ -170,32 +167,52 @@ const topLevelArguments = (list: string): readonly string[] => {
   return parts;
 };
 
+const inScheme = (value: string, scheme: keyof Schemes): string => {
+  const at = value.indexOf(LIGHT_DARK);
+
+  if (at === -1) {
+    return value;
+  }
+
+  const open = at + LIGHT_DARK.length - 1;
+  const close = closingParenthesis(value, open);
+
+  const [light = "", dark = light] = topLevelArguments(
+    value.slice(open + 1, close)
+  );
+
+  return `${value.slice(0, at)}${inScheme(scheme === "light" ? light : dark, scheme)}${inScheme(value.slice(close + 1), scheme)}`;
+};
+
+const substitute = (
+  byName: ReadonlyMap<string, string>,
+  value: string,
+  seen: ReadonlySet<string>
+): string =>
+  value.replaceAll(VARIABLE, (whole, name: string) => {
+    const target = byName.get(name);
+
+    return target === undefined || seen.has(name)
+      ? whole
+      : substitute(byName, target, new Set([...seen, name]));
+  });
+
+/** What `value` computes to: every `var()` of a declared token replaced by what that token
+ *  computes to, and, where `light-dark()` makes the schemes differ, a value for each. A
+ *  `var()` of a token the stylesheet does not declare stays as written. */
 export const resolve = (
   tokens: readonly Token[],
   value: string
 ): string | Schemes => {
-  const alias = ALIAS.exec(value)?.groups?.["name"];
+  const byName = new Map(Array.map(tokens, ({ name, value: v }) => [name, v]));
+  const substituted = substitute(byName, value, new Set());
 
-  if (alias !== undefined) {
-    const target = tokens.find((token) => token.name === alias);
-
-    return target === undefined ? value : resolve(tokens, target.value);
+  if (!substituted.includes(LIGHT_DARK)) {
+    return substituted;
   }
-
-  const list = LIGHT_DARK.exec(value)?.groups?.["list"];
-
-  if (list === undefined) {
-    return value;
-  }
-
-  const [light = value, dark = light] = topLevelArguments(list);
-  const sides = [resolve(tokens, light), resolve(tokens, dark)];
-
-  const side = (resolved: string | Schemes, scheme: keyof Schemes) =>
-    Predicate.isString(resolved) ? resolved : resolved[scheme];
 
   return {
-    light: side(sides[0] ?? light, "light"),
-    dark: side(sides[1] ?? dark, "dark"),
+    light: inScheme(substituted, "light"),
+    dark: inScheme(substituted, "dark"),
   };
 };

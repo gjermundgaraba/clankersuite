@@ -32,7 +32,7 @@ release. Add a tool name to select part of the graph. For example, run
 
 # This repository
 
-The gjermundgaraba design system, for six applications: clankerauth, clankerbot, clankerpedia, clankerspace, clankerusage and wtf. Four packages are published to npm, `@gjermundgaraba/design-tokens`, `fonts`, `icons` and `components`, released together at one version; a package depends on another at exactly that version (`workspace:*`). `apps/docs` shows every component in every state and is not published. A brand is a token set, a font and, one day, its own drawing of the glyph names; clankersuite is the only brand.
+The gjermundgaraba design system, for six applications: clankerauth, clankerbot, clankerpedia, clankerspace, clankerusage and wtf. Four packages are published to npm, `@gjermundgaraba/design-tokens`, `fonts`, `icons` and `components`, released together at one version; a package depends on another at exactly that version (`workspace:*`). `apps/docs` is the documentation site and is not published. A component's page is `<dir>/<dir>.md` in its directory, and each `::Example{name}` on it is `<dir>/examples/<name>.ts`, run as its own Foldkit program; a package's other pages are in `packages/<package>/docs/`. Every export has a page, and the page shows each of its states. A brand is a token set, a font and, one day, its own drawing of the glyph names; clankersuite is the only brand.
 
 `repos/foldkit` is Foldkit's source at the catalog's `foldkit` version, the reference for Foldkit's APIs and conventions. Never edit it; after a Foldkit upgrade, re-pin it:
 
@@ -58,6 +58,7 @@ A release bumps `version` in every `packages/*/package.json` to one new version 
 - The browser baseline is current stable Chrome, Firefox and Safari: use the platform (`<dialog>`, `popover`, anchor positioning, `light-dark()`) with no fallbacks.
 - The stylesheet takes every value a token covers from a `--semantic-*` token of `@gjermundgaraba/design-tokens`, never a `--primitive-*` one, so a brand changes the look without changing a component. clankersuite's look: square corners, solid offset shadows with no blur, stepped or instant motion, icons drawn as Glyph cells.
 - Every class the stylesheet styles is `gg-<name>`, every attribute it owns `data-gg-<name>`, every element `gg-<name>`. Third-party classes keep their names: CodeMirror's `cm-`, the highlighter's `tok-`, `@foldkit/ui`'s `sr-only`.
+- An example is application code a reader copies: it imports only public APIs, lays out with the system's components, writes no CSS, and gives a component what an application would (the key platform, the live parts, `Clipboard.layer`). Its behaviour is tested in `examples/<name>.test.ts`.
 - Where the code builds a `@foldkit/ui` child Message itself, under a one-line lint disable, or reads a `@foldkit/ui` Model, it works around a capability Foldkit lacks. On a Foldkit upgrade, drop the workarounds it makes unnecessary.
 
 In happy-dom tests, make `localStorage` fail by stubbing the whole store with `vi.stubGlobal`, never a spy on `Storage.prototype`, which misses a store an earlier test already used. happy-dom does no layout, so a test that needs sizes sets them itself.

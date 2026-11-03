@@ -1,7 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["vite/client", "@foldkit/markdown/content"]
-  },
-  "include": ["src", "test-setup.ts", "vite.config.ts"]
-}
