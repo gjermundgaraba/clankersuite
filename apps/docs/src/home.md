@@ -1,6 +1,6 @@
 # gjermundgaraba
 
-One set of Foldkit components for the clanker applications, styled by a brand. A brand is a token set, a font and a drawing of the glyphs; clankersuite is the first.
+One set of Foldkit components for the clanker applications, styled by a brand. A brand is a token set, a font and, one day, its own drawing of the glyphs; clankersuite is the only brand.
 
 | Package                         | Holds                                       |
 | ------------------------------- | ------------------------------------------- |

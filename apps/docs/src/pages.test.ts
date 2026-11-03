@@ -41,12 +41,6 @@ describe("the pages", () => {
     ).toStrictEqual([]);
   });
 
-  it("show only examples that exist", () => {
-    expect(Array.difference(examplesOnPages, EXAMPLES_ON_DISK)).toStrictEqual(
-      []
-    );
-  });
-
   it("show every example once", () => {
     expect(examplesOnPages.toSorted()).toStrictEqual(
       EXAMPLES_ON_DISK.toSorted()

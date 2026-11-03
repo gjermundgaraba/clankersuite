@@ -125,24 +125,22 @@ const isOwnBlock = (block: Markdown.Block): boolean =>
 const segmentsOf = (
   blocks: readonly Markdown.Block[],
   views: readonly Html[]
-): readonly Segment[] =>
-  Array.reduce(
-    Array.zip(blocks, views),
-    [] as readonly Segment[],
-    (segments, [block, html]) => {
-      const last = Array.last(segments);
+): readonly Segment[] => {
+  const pairs = Array.zip(blocks, views);
 
-      return !isOwnBlock(block) && Option.exists(last, ({ isProse }) => isProse)
-        ? [
-            ...segments.slice(0, -1),
-            {
-              isProse: true,
-              blocks: [...(segments.at(-1)?.blocks ?? []), html],
-            },
-          ]
-        : [...segments, { isProse: !isOwnBlock(block), blocks: [html] }];
-    }
-  );
+  return Array.isReadonlyArrayNonEmpty(pairs)
+    ? Array.map(
+        Array.groupWith(
+          pairs,
+          ([block], [next]) => !isOwnBlock(block) && !isOwnBlock(next)
+        ),
+        (group) => ({
+          isProse: !isOwnBlock(Array.headNonEmpty(group)[0]),
+          blocks: Array.map(group, ([, html]) => html),
+        })
+      )
+    : [];
+};
 
 const documentView = (
   document: Markdown.MarkdownDocument,

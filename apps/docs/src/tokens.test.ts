@@ -6,7 +6,7 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { PAGES } from "./pages.ts";
 import { isUnder } from "./token-css.ts";
-import { tokensView } from "./token-table.ts";
+import { VOICES, tokensView } from "./token-table.ts";
 import {
   SEMANTIC_TOKENS,
   computedValue,
@@ -64,5 +64,32 @@ describe("the token tables", () => {
       Scene.expect(Scene.text("paper #16150f")).toExist(),
       Scene.expect(Scene.text("plum #efecf3")).toExist()
     );
+  });
+
+  it("give every font size its samples, and no samples to a size that is gone", () => {
+    expect([...VOICES.keys()].toSorted()).toStrictEqual(
+      Array.map(
+        semanticTokensUnder("--semantic-dimension-font-size"),
+        ({ name }) => name
+      ).toSorted()
+    );
+  });
+
+  it("write the samples in tokens that exist", () => {
+    const names = new Set(Array.map(SEMANTIC_TOKENS, ({ name }) => name));
+
+    expect(
+      Array.filter(
+        Array.flatMap([...VOICES.values()], (voices) =>
+          Array.flatMap(voices, (voice) =>
+            Array.map(
+              [...JSON.stringify(voice).matchAll(/--semantic-[\w-]+/gu)],
+              ([name]) => name
+            )
+          )
+        ),
+        (name) => !names.has(name)
+      )
+    ).toStrictEqual([]);
   });
 });

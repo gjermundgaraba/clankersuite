@@ -30,7 +30,8 @@ const pixelCaps = (
 
 const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
 
-const VOICES = new Map<string, readonly Voice[]>(
+/** How each font-size token's row writes its samples, by the token's name. */
+export const VOICES = new Map<string, readonly Voice[]>(
   Object.entries({
     "--semantic-dimension-font-size-label": [
       pixelCaps(
