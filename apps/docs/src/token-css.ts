@@ -1,100 +1,35 @@
 import { Array } from "effect";
 
-/** A custom property as the stylesheet declares it: its first declaration, on one line. */
+/** A custom property as the stylesheet declares it: its first declaration. */
 export type Token = Readonly<{
   name: string;
   value: string;
 }>;
 
-const valueEnd = (css: string, start: number, name: string): number => {
-  const unreadable = (what: string) =>
-    new Error(`Cannot read the token ${name}: ${what}.`);
+const DECLARATION = /^\s*(?<name>--[\w-]+):\s*(?<value>.*?);\s*$/u;
 
-  let depth = 0;
-
-  for (let index = start; index < css.length; index += 1) {
-    const character = css[index];
-
-    if (character === "\\") {
-      index += 1;
-    } else if (character === "'" || character === '"') {
-      for (
-        index += 1;
-        index < css.length && css[index] !== character;
-        index += 1
-      ) {
-        if (css[index] === "\\") {
-          index += 1;
-        }
-      }
-
-      if (index >= css.length) {
-        throw unreadable("a quote is never closed");
-      }
-    } else if (css.startsWith("/*", index)) {
-      const close = css.indexOf("*/", index + 2);
-
-      if (close === -1) {
-        throw unreadable("a comment is never closed");
-      }
-
-      index = close + 1;
-    } else if (character === "(") {
-      depth += 1;
-    } else if (character === ")") {
-      if (depth === 0) {
-        throw unreadable("a parenthesis closes that never opened");
-      }
-
-      depth -= 1;
-    } else if (depth === 0 && (character === ";" || character === "}")) {
-      return index;
-    } else if (depth === 0 && character === "{") {
-      throw unreadable("its value holds a brace");
-    }
-  }
-
-  throw unreadable(
-    depth > 0 ? "a parenthesis is never closed" : "it has no end"
-  );
-};
-
-const SPACING = /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\(\s+|\s+\)|\s+/gsu;
-
-const oneLine = (value: string): string =>
-  value.replaceAll(SPACING, (match) => {
-    if (match.startsWith('"') || match.startsWith("'")) {
-      return match;
-    }
-
-    if (match.startsWith("(")) {
-      return "(";
-    }
-
-    return match.endsWith(")") ? ")" : " ";
-  });
-
-/** Every custom property the stylesheet declares, once, in source order, with the value of
- *  its first declaration as written. */
+/** Every custom property the brand stylesheet declares, once, in source order, with the
+ *  value of its first declaration. Terrazzo writes one declaration a line; a line that
+ *  starts a custom property any other way throws, so a change in its output can't drop a
+ *  token unseen. */
 export const parseTokens = (css: string): readonly Token[] => {
   const tokens = new Map<string, Token>();
 
-  const start =
-    /\/\*[\s\S]*?\*\/|[{;](?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?<name>--[\w-]+)\s*:/gu;
+  for (const line of css.split("\n")) {
+    if (line.trimStart().startsWith("--")) {
+      const groups = DECLARATION.exec(line)?.groups;
+      const name = groups?.["name"];
+      const value = groups?.["value"];
 
-  for (let match = start.exec(css); match !== null; match = start.exec(css)) {
-    const name = match.groups?.["name"];
+      if (name === undefined || value === undefined) {
+        throw new Error(
+          `Cannot read the token on the line "${line.trim()}": Terrazzo writes one declaration a line.`
+        );
+      }
 
-    if (name === undefined) {
-      continue;
-    }
-
-    const end = valueEnd(css, start.lastIndex, name);
-    const value = css.slice(start.lastIndex, end);
-    start.lastIndex = end;
-
-    if (!tokens.has(name)) {
-      tokens.set(name, { name, value: oneLine(value.trim()) });
+      if (!tokens.has(name)) {
+        tokens.set(name, { name, value });
+      }
     }
   }
 
