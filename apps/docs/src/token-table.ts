@@ -1,11 +1,12 @@
 import { Table } from "@gjermundgaraba/components";
-import { Array, Predicate } from "effect";
+import { Array, Option, Predicate } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Token } from "./token-css.ts";
 import {
   PALETTES,
   computedValue,
+  descriptionOf,
   kindOf,
   semanticAlias,
   semanticTokensUnder,
@@ -158,7 +159,7 @@ const SAMPLES: Readonly<Record<Kind, SampleView>> = {
   Length: (token, h) => [
     h.span([
       h.Class("site-token-bar"),
-      h.Style({ width: `var(${token.name})` }),
+      h.Style({ width: `min(var(${token.name}), 100%)` }),
     ]),
   ],
   Value: () => [],
@@ -187,7 +188,7 @@ const valueView = <Message>(
 };
 
 /** The `::Tokens{prefix="..."}` island: a table of the semantic tokens the prefix names,
- *  each with its name, a sample drawn with it, and what it computes to in each palette. */
+ *  each with its name and what it is for, a sample drawn with it, and what it computes to in each palette. */
 export const tokensView =
   <Message>(h: HtmlBuilder<Message>) =>
   ({ prefix }: Readonly<{ prefix: string }>): Html =>
@@ -200,7 +201,19 @@ export const tokensView =
           {
             key: "token",
             header: "Token",
-            cell: (token) => [h.code([], [token.name])],
+            cell: (token) => [
+              h.span(
+                [h.Class("site-token-name")],
+                [
+                  h.code([], [token.name]),
+                  ...Option.toArray(
+                    Option.map(descriptionOf(token), (description) =>
+                      h.span([], [description])
+                    )
+                  ),
+                ]
+              ),
+            ],
           },
           {
             key: "sample",

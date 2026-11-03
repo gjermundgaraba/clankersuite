@@ -1,4 +1,5 @@
-import { Array, Predicate } from "effect";
+import type { Option } from "effect";
+import { Array, Predicate, Record } from "effect";
 
 import { parseTokens, resolve, tokensUnder } from "./token-css.ts";
 import type { Schemes, Token } from "./token-css.ts";
@@ -72,3 +73,41 @@ export const PALETTES: readonly Palette[] = [
   { name: "paper", scheme: "light" },
   { name: "plum", scheme: "dark" },
 ];
+
+const SOURCES = import.meta.glob<unknown>(
+  "../../../packages/design-tokens/tokens/shared/semantic/**/*.tokens.json",
+  { eager: true, import: "default" }
+);
+
+const cssSegment = (key: string): string =>
+  key
+    .replaceAll(/(?<=[a-z\d])(?=[A-Z])|(?<=[a-zA-Z])(?=\d)/gu, "-")
+    .toLowerCase();
+
+const descriptionsIn = (
+  node: unknown,
+  path: readonly string[]
+): ReadonlyArray<readonly [string, string]> =>
+  Predicate.isReadonlyObject(node)
+    ? [
+        ...("$value" in node && Predicate.isString(node["$description"])
+          ? [
+              [
+                `--${Array.join(Array.map(path, cssSegment), "-")}`,
+                node["$description"],
+              ] as const,
+            ]
+          : []),
+        ...Object.entries(node).flatMap(([key, child]) =>
+          key.startsWith("$") ? [] : descriptionsIn(child, [...path, key])
+        ),
+      ]
+    : [];
+
+const DESCRIPTIONS: Readonly<Record<string, string>> = Record.fromEntries(
+  Object.values(SOURCES).flatMap((source) => descriptionsIn(source, []))
+);
+
+/** What a semantic token is for, as its DTCG source describes it. */
+export const descriptionOf = (token: Token): Option.Option<string> =>
+  Record.get(DESCRIPTIONS, token.name);

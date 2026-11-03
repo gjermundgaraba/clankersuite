@@ -1,5 +1,5 @@
 import type * as Markdown from "@foldkit/markdown";
-import { Array } from "effect";
+import { Array, Option } from "effect";
 import { Scene } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
@@ -10,6 +10,7 @@ import { VOICES, tokensView } from "./token-table.ts";
 import {
   SEMANTIC_TOKENS,
   computedValue,
+  descriptionOf,
   semanticTokensUnder,
 } from "./tokens.ts";
 
@@ -89,6 +90,14 @@ describe("the token tables", () => {
           )
         ),
         (name) => !names.has(name)
+      )
+    ).toStrictEqual([]);
+  });
+
+  it("say what every semantic token is for", () => {
+    expect(
+      Array.flatMap(SEMANTIC_TOKENS, (token) =>
+        Option.isNone(descriptionOf(token)) ? [token.name] : []
       )
     ).toStrictEqual([]);
   });
