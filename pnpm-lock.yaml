@@ -266,6 +266,9 @@ importers:
       '@foldkit/oxlint-plugin':
         specifier: 'catalog:'
         version: 0.15.4(effect@4.1.2)
+      '@gjermundgaraba/components':
+        specifier: workspace:*
+        version: link:packages/components
       ultracite:
         specifier: 'catalog:'
         version: 8.1.0(oxfmt@0.74.0(vite-plus@1.4.0(@types/node@26.6.6)(@vitest/ui@5.0.5)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.64.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.89.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.4.0(@types/node@26.6.6)(@vitest/ui@5.0.5)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.64.1)(typescript@7.0.2)(yaml@2.9.1)))
@@ -443,6 +446,9 @@ importers:
 
   packages/design-tokens:
     devDependencies:
+      '@foldkit/vite-plugin':
+        specifier: 'catalog:'
+        version: 0.29.0(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.2)(foldkit@0.170.0(@effect/platform-browser@4.1.2(effect@4.1.2))(effect@4.1.2))(redis@6.3.0)
       '@terrazzo/cli':
         specifier: 'catalog:'
         version: 2.10.0(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)
@@ -455,11 +461,32 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+      foldkit:
+        specifier: 'catalog:'
+        version: 0.170.0(@effect/platform-browser@4.1.2(effect@4.1.2))(effect@4.1.2)
+      happy-dom:
+        specifier: 'catalog:'
+        version: 21.0.4
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vite:
+        specifier: 'catalog:'
+        version: '@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1)'
+      vite-plus:
+        specifier: 'catalog:'
+        version: 1.4.0(@types/node@26.6.6)(@vitest/ui@5.0.5)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.64.1)(typescript@7.0.2)(yaml@2.9.1)
 
   packages/fonts: {}
 
   packages/icons:
     devDependencies:
+      '@effect/platform-browser':
+        specifier: 'catalog:'
+        version: 4.1.2(effect@4.1.2)
       '@foldkit/vite-plugin':
         specifier: 'catalog:'
         version: 0.29.0(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.2)(foldkit@0.170.0(@effect/platform-browser@4.1.2(effect@4.1.2))(effect@4.1.2))(redis@6.3.0)

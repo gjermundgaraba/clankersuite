@@ -25,6 +25,7 @@ import type { Model } from "./model.ts";
 import { COMPONENT_PAGES, PACKAGE_PAGES, findPage } from "./pages.ts";
 import type { Page } from "./pages.ts";
 import { AppRoute, homeRouter, hrefOf, urlToAppRoute } from "./route.ts";
+import { tokensView } from "./token-table.ts";
 
 const BRAND = "gjermundgaraba";
 
@@ -124,6 +125,7 @@ const documentView = (
         Markdown.view(document, {
           islands: Markdown.islandsFor(islandAttributes, {
             Example: exampleView(directory, h),
+            Tokens: tokensView(h),
           }),
         }),
       ],

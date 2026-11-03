@@ -32,6 +32,7 @@
     "prepack": "vp pack"
   },
   "devDependencies": {
+    "@effect/platform-browser": "catalog:",
     "@foldkit/vite-plugin": "catalog:",
     "effect": "catalog:",
     "foldkit": "catalog:",
