@@ -24,7 +24,10 @@ const attributesIn = (source: string): readonly string[] => [
 const THIRD_PARTY_CLASS = /^(?:sr-only|cm-[\w-]+)$/u;
 
 const classListsIn = (source: string): readonly string[] => [
-  ...namesIn(source, /(?:\bClass\(|\bclass: )\s*"(?<name>[^"]*)"/gu),
+  ...namesIn(
+    source,
+    /(?:\bClass\(|\bclass: |\.className = |\.classList\.(?:add|contains|remove|toggle)\()\s*"(?<name>[^"]*)"/gu
+  ),
   ...namesIn(
     source,
     /"(?<name> ?(?:[a-z][-a-z\d]* )*gg-[-a-z\d]*(?: [a-z][-a-z\d]*)* ?)"/gu

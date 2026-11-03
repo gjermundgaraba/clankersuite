@@ -20,6 +20,6 @@ export default defineConfig({
     include: ["src/**/*.test.ts"],
     environment: "happy-dom",
     setupFiles: ["test-setup.ts"],
-    server: { deps: { inline: ["foldkit", "@foldkit/ui"] } },
+    server: { deps: { inline: ["foldkit"] } },
   },
 });
