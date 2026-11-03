@@ -10,10 +10,10 @@ describe("Wordmark", () => {
       {
         update: (model: null) => ({ model }),
         view: (_model: null, h: HtmlBuilder<never>) =>
-          Wordmark.view({ label: "pixel paper", href: "/" }, h),
+          Wordmark.view({ label: "clankerusage", href: "/" }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("link", { name: "pixel paper" })).toHaveAttr(
+      Scene.expect(Scene.role("link", { name: "clankerusage" })).toHaveAttr(
         "href",
         "/"
       ),
