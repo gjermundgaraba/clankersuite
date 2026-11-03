@@ -1106,7 +1106,7 @@ const cursorRowOf = async (
 
   return Option.flatMapNullishOr(
     htmlElement('[aria-selected="true"]', card),
-    (row) => row.dataset["value"]
+    (row) => row.dataset["ggPaletteValue"]
   );
 };
 
@@ -1131,7 +1131,7 @@ describe("CommandPalette cursor", () => {
       '[role="option"]'
     )) {
       option.scrollIntoView = () => {
-        scrolled.push(option.dataset["value"] ?? "");
+        scrolled.push(option.dataset["ggPaletteValue"] ?? "");
       };
     }
 
@@ -1176,9 +1176,9 @@ describe("CommandPalette cursor", () => {
     const onPage = await report(onStatus);
     const elsewhere = await report(onStatus, "elsewhere");
 
-    expect(bySelector('[aria-selected="true"]', card).dataset["value"]).toBe(
-      "archive"
-    );
+    expect(
+      bySelector('[aria-selected="true"]', card).dataset["ggPaletteValue"]
+    ).toBe("archive");
     expect(onCommands).toStrictEqual(showed(pressed, "archive"));
     expect(onStatusCommand).toStrictEqual(showed(pressedOnce, "status"));
     expect(onPage).toStrictEqual(showed(onStatus, "todo"));
@@ -1264,7 +1264,7 @@ describe("CommandPalette keys", () => {
     const card = await render(onStatus);
     const pressField = fieldKeyOf(card);
     const field = fieldOf(card);
-    const row = card.querySelector('[data-value="doing"]');
+    const row = card.querySelector('[data-gg-palette-value="doing"]');
 
     if (row === null) {
       throw new Error("The rendered palette has no doing row.");
@@ -1306,7 +1306,7 @@ describe("CommandPalette keys", () => {
 
   it("keeps focus in the field on a press on a row, and nowhere else", async () => {
     const card = await render(opened);
-    const row = card.querySelector('[data-value="status"]');
+    const row = card.querySelector('[data-gg-palette-value="status"]');
 
     if (row === null) {
       throw new Error("The rendered palette has no status row.");
@@ -1425,9 +1425,9 @@ describe("CommandPalette keys before the field has focus", () => {
     ]);
     expect(prevented).toStrictEqual([true, true, true, false, true]);
     expect(pageKeys).toStrictEqual(["j"]);
-    expect(bySelector('[aria-selected="true"]', card).dataset["value"]).toBe(
-      "keys"
-    );
+    expect(
+      bySelector('[aria-selected="true"]', card).dataset["ggPaletteValue"]
+    ).toBe("keys");
   });
 
   it("leaves keys inside the palette to its field, and composing, modified and handled keys", async () => {
@@ -1548,7 +1548,7 @@ describe("CommandPalette view", () => {
       ...mountPalette,
       Scene.expect(rowOf("Archive")).toHaveAttr("aria-disabled", "true"),
       Scene.expect(
-        Scene.selector('[data-value="archive"] .gg-hint')
+        Scene.selector('[data-gg-palette-value="archive"] .gg-hint')
       ).toHaveText("Saving…"),
       Scene.expect(rowOf("Archive")).not.toHaveHandler("click")
     );
@@ -1660,9 +1660,9 @@ describe("CommandPalette view", () => {
       Scene.expect(field).toHaveAttr("placeholder", "type to narrow"),
       Scene.expect(rowOf("In progress")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("To do")).toHaveAttr("aria-disabled", "true"),
-      Scene.expect(Scene.selector('[data-value="todo"] .gg-tag')).toHaveText(
-        "current"
-      ),
+      Scene.expect(
+        Scene.selector('[data-gg-palette-value="todo"] .gg-tag')
+      ).toHaveText("current"),
       Scene.click(rowOf("Done")),
       Scene.expectOutMessage(
         CommandPalette.OutMessage.SelectedChoice({
@@ -1674,7 +1674,9 @@ describe("CommandPalette view", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector('[data-value="done"] .gg-cursor')).toExist(),
+      Scene.expect(
+        Scene.selector('[data-gg-palette-value="done"] .gg-cursor')
+      ).toExist(),
       Scene.expect(field).toHaveAttr("readOnly", "true"),
       Scene.expect(Scene.role("button", { name: "Back" })).toHaveAttr(
         "aria-disabled",
@@ -1703,14 +1705,14 @@ describe("CommandPalette view", () => {
       resolveSceneFocus,
       resolveSceneScroll,
       Scene.expect(rowOf("Website")).toHaveAttr("aria-selected", "true"),
-      Scene.expect(rowOf("Website")).toHaveStyle("--palette-level", "2"),
+      Scene.expect(rowOf("Website")).toHaveStyle("--gg-palette-level", "2"),
       Scene.expect(rowOf("Website")).not.toHaveClass("gg-context"),
       Scene.type(field, "lau"),
       resolveSceneScroll,
       Scene.expect(rowOf("Launch")).toHaveAttr("aria-selected", "true"),
-      Scene.expect(rowOf("Launch")).toHaveStyle("--palette-level", "3"),
+      Scene.expect(rowOf("Launch")).toHaveStyle("--gg-palette-level", "3"),
       Scene.expect(rowOf("Launch")).not.toHaveClass("gg-context"),
-      Scene.expect(rowOf("Projects")).toHaveStyle("--palette-level", "1"),
+      Scene.expect(rowOf("Projects")).toHaveStyle("--gg-palette-level", "1"),
       Scene.expect(rowOf("Projects")).toHaveClass("gg-context"),
       Scene.expect(rowOf("Projects \\(context\\)")).toExist(),
       Scene.expect(Scene.selector('.palette [role="status"]')).toHaveText(

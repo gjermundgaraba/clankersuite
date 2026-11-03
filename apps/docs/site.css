@@ -6,7 +6,7 @@
 
 .site-nav {
   position: sticky;
-  top: var(--topbar-h, 0);
+  top: var(--gg-topbar-h, 0);
   padding: var(--semantic-dimension-space-padding-panel);
 }
 

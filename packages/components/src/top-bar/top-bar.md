@@ -30,4 +30,4 @@ body: [
 
 ## Its height
 
-The page's first top bar keeps `--topbar-h` on the page's root at its height however it wraps, so anchors land clear of it. It does this through a Mount, which reports a Message the parent lifts with `toParentMessage` and changes nothing for. A top bar shown inside a page, as above, leaves the property alone. In a Scene, resolve the Mount with `Scene.Mount.resolveAll(...TopBar.sceneMounts(toParentMessage))`.
+The page's first top bar keeps `--gg-topbar-h` on the page's root at its height however it wraps, so anchors land clear of it. It does this through a Mount, which reports a Message the parent lifts with `toParentMessage` and changes nothing for. A top bar shown inside a page, as above, leaves the property alone. In a Scene, resolve the Mount with `Scene.Mount.resolveAll(...TopBar.sceneMounts(toParentMessage))`.

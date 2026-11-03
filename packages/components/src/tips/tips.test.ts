@@ -205,7 +205,7 @@ describe("Tips view", () => {
       Scene.expect(Scene.selector("#tip")).toHaveAttr("popover", "manual"),
       Scene.expect(Scene.selector("#tip")).toHaveAttr("aria-hidden", "true"),
       Scene.expect(Scene.selector("#tip")).toHaveText("Move"),
-      Scene.expect(Scene.selector("#tip")).toHaveAttr("data-side", "right")
+      Scene.expect(Scene.selector("#tip")).toHaveAttr("data-gg-side", "right")
     );
   });
 
@@ -233,16 +233,16 @@ describe("Tips view", () => {
       { update: Tips.update, view: Tips.view },
       Scene.given(fresh),
       Scene.expect(Scene.selector("#tip")).toBeEmpty(),
-      Scene.expect(Scene.selector("#tip")).not.toHaveAttr("data-side")
+      Scene.expect(Scene.selector("#tip")).not.toHaveAttr("data-gg-side")
     );
   });
 });
 
 const renderPage = (): void => {
   document.body.innerHTML = `
-    <div role="toolbar" aria-orientation="vertical"><button id="side" data-tip="Zoom in">+</button></div>
-    <button id="move" data-tip="Move"><svg id="glyph"></svg></button>
-    <header><button style="writing-mode: vertical-rl" id="fold" data-tip="Show tasks" data-tip-key="⌃\\">|</button></header>
+    <div role="toolbar" aria-orientation="vertical"><button id="side" data-gg-tip="Zoom in">+</button></div>
+    <button id="move" data-gg-tip="Move"><svg id="glyph"></svg></button>
+    <header><button style="writing-mode: vertical-rl" id="fold" data-gg-tip="Show tasks" data-gg-tip-key="⌃\\">|</button></header>
     <p id="plain">text</p>
     <div id="tip" popover="manual" aria-hidden="true"></div>`;
 };

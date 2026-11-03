@@ -88,11 +88,11 @@ describe("FilterChip", () => {
       Scene.expect(clearScope).toHaveClass("gg-reset"),
       Scene.expect(clearScope).toHaveText("Operations ×"),
       Scene.expect(clearScope).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Clear scope: Operations"
       ),
       Scene.expect(Scene.selector("span.gg-fchip")).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Owned by me"
       ),
       Scene.expect(Scene.selector("span.gg-fchip .sr-only")).toHaveText(

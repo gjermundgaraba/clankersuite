@@ -6,7 +6,7 @@ export type ViewConfig = Readonly<{
    *  a PageHead, notices, and a Rail's open button first. */
   head: ReadonlyArray<Html | string>;
   /** The work, taking the rest of the window's height and never less than
-   *  `--bench-work-min`: a Reel, which fills it, and the page's dialogs. */
+   *  `--semantic-dimension-size-min-height-bench-work`: a Reel, which fills it, and the page's dialogs. */
   body: ReadonlyArray<Html | string>;
 }>;
 

@@ -258,15 +258,17 @@ const tabHook = (model: Model, paneId: string): string =>
   `${model.id}/tab/${paneId}`;
 
 const scrollerOf = (reelHook: string): Option.Option<HTMLElement> =>
-  htmlElement(`[data-reel="${CSS.escape(reelHook)}"] > .gg-reel-view`);
+  htmlElement(`[data-gg-reel="${CSS.escape(reelHook)}"] > .gg-reel-view`);
 
 const paneElement = (hook: string): Option.Option<HTMLElement> =>
-  htmlElement(`[data-reel-pane="${CSS.escape(hook)}"]`);
+  htmlElement(`[data-gg-reel-pane="${CSS.escape(hook)}"]`);
 
 const focusInto = (pane: HTMLElement): void => {
-  Option.getOrElse(htmlElement("[data-reel-focus]", pane), () => pane).focus({
-    preventScroll: true,
-  });
+  Option.getOrElse(htmlElement("[data-gg-reel-focus]", pane), () => pane).focus(
+    {
+      preventScroll: true,
+    }
+  );
 };
 
 /** Says a focus move, a move or a step of a drag through the page's live region (as
@@ -279,7 +281,7 @@ export const AnnounceReel = Command.define("AnnounceReel", {
 });
 
 /** Focuses the pane `paneHook` names, unless focus is already inside it: the control in it
- *  marked `data-reel-focus` (a terminal's input), or the pane itself. It does not scroll;
+ *  marked `data-gg-reel-focus` (a terminal's input), or the pane itself. It does not scroll;
  *  ScrollIntoView does. */
 export const FocusPane = Command.define("FocusPane", {
   args: { paneHook: Schema.String },
@@ -311,7 +313,7 @@ export const FocusTab = Command.define("FocusTab", {
       yield* Render.afterCommit;
       yield* Effect.sync(() => {
         Option.map(
-          htmlElement(`[data-reel-tab="${CSS.escape(hook)}"]`),
+          htmlElement(`[data-gg-reel-tab="${CSS.escape(hook)}"]`),
           (tab) => {
             tab.focus();
           }
@@ -354,7 +356,7 @@ export const ScrollIntoView = Command.define("ScrollIntoView", {
       yield* Effect.sync(() => {
         document
           .querySelector(
-            `[data-reel-pane="${CSS.escape(hook)}"], [data-reel-hook="${CSS.escape(hook)}"]`
+            `[data-gg-reel-pane="${CSS.escape(hook)}"], [data-gg-reel-hook="${CSS.escape(hook)}"]`
           )
           ?.scrollIntoView({ block: "nearest", inline: "nearest" });
       });
@@ -1131,7 +1133,7 @@ const columnBoxOf = (element: HTMLElement): ColumnBox => {
   const rect = element.getBoundingClientRect();
 
   return {
-    id: element.dataset["reelColumn"] ?? "",
+    id: element.dataset["ggReelColumn"] ?? "",
     left: rect.left,
     right: rect.right,
   };
@@ -1144,9 +1146,9 @@ const slotMiddlesOf = (
   Array.map(
     Array.filter(
       Array.fromIterable(
-        element.querySelectorAll<HTMLElement>("[data-reel-slot]")
+        element.querySelectorAll<HTMLElement>("[data-gg-reel-slot]")
       ),
-      (slot) => slot.dataset["reelSlot"] !== heldId
+      (slot) => slot.dataset["ggReelSlot"] !== heldId
     ),
     (slot) => {
       const slotRect = slot.getBoundingClientRect();
@@ -1174,7 +1176,7 @@ const pointerTarget = (
     }),
     (view) => {
       const columns = Array.fromIterable(
-        view.querySelectorAll<HTMLElement>("[data-reel-column]")
+        view.querySelectorAll<HTMLElement>("[data-gg-reel-column]")
       );
 
       return targetAtPoint(
@@ -1359,10 +1361,10 @@ const scaleOf = (hold: SplitterHold): number =>
               Array.fromIterable(
                 view
                   .querySelector(
-                    `[data-reel-slot="${CSS.escape(abovePaneId)}"]`
+                    `[data-gg-reel-slot="${CSS.escape(abovePaneId)}"]`
                   )
                   ?.closest(".gg-reel-column")
-                  ?.querySelectorAll("[data-reel-slot]") ?? []
+                  ?.querySelectorAll("[data-gg-reel-slot]") ?? []
               ),
               heightOf
             )
@@ -1511,7 +1513,7 @@ export type ViewInputs = Readonly<{
   label: string;
   /** Renders one pane, a `Window.view` with `render.lead` as its `lead` and `render.id` as its
    *  `id`. Mark the control focus should land on in it (a terminal's input) with
-   *  `data-reel-focus`. */
+   *  `data-gg-reel-focus`. */
   toPaneView: (pane: Pane, render: PaneRender) => Html;
   /** How the panes print: in their columns (`Strip`, when not given), or one at a time under
    *  their tabs (`Tabs`). Pass the same to `perform`. */
@@ -1543,9 +1545,9 @@ const HELD_STEPS: Record.ReadonlyRecord<string, Step> = {
 
 const isDropKey = (key: string): boolean => key === " " || key === "Enter";
 
-const STAGE_ANCHOR = "--reel-stage";
+const STAGE_ANCHOR = "--gg-reel-stage";
 
-const anchorName = (index: number): string => `--reel-${index}`;
+const anchorName = (index: number): string => `--gg-reel-${index}`;
 
 const byId = Order.mapInput(Order.String, (pane: Pane) => pane.id);
 
@@ -1620,7 +1622,7 @@ const gripView = (model: Model, pane: Pane, h: HtmlBuilder<Message>): Html => {
       label: fill(COPY.paneGrip, { pane: pane.label }),
       isQuiet: true,
       attributes: [
-        h.DataAttribute("reel-grip", paneHook(model, pane.id)),
+        h.DataAttribute("gg-reel-grip", paneHook(model, pane.id)),
         h.AriaRoleDescription("draggable"),
         h.AriaDescribedBy(helpId(model)),
         Button.pressedAttribute(isHeld, h),
@@ -1704,10 +1706,10 @@ const slotView = (
         { onNone: () => "", onSome: ({ markClass }) => markClass }
       )}`
     ),
-    h.DataAttribute("reel-slot", pane.id),
+    h.DataAttribute("gg-reel-slot", pane.id),
     h.Style({
-      "--reel-weight": `${pane.weight}`,
-      "--reel-anchor": anchors.get(pane.id) ?? "none",
+      "--gg-reel-weight": `${pane.weight}`,
+      "--gg-reel-anchor": anchors.get(pane.id) ?? "none",
     }),
   ]);
 
@@ -1725,7 +1727,7 @@ const splitView = (
     h.AriaValuemax(100),
     h.AriaValuenow(Math.round(share * 100)),
     h.Tabindex(0),
-    h.DataAttribute("reel-split", above.id),
+    h.DataAttribute("gg-reel-split", above.id),
     ...reelSplitterAttributes(
       model,
       Splitter.Split({ abovePaneId: above.id }),
@@ -1760,9 +1762,9 @@ const columnView = (
       `column:${column.id}`,
       [
         h.Class("gg-reel-column"),
-        h.DataAttribute("reel-column", column.id),
-        h.DataAttribute("reel-hook", columnHook(model, column.id)),
-        h.Style({ "--reel-width": `${column.width}` }),
+        h.DataAttribute("gg-reel-column", column.id),
+        h.DataAttribute("gg-reel-hook", columnHook(model, column.id)),
+        h.Style({ "--gg-reel-width": `${column.width}` }),
       ],
       stack
     ),
@@ -1777,7 +1779,7 @@ const columnView = (
       h.AriaValuenow(Math.round(column.width * 100)),
       h.AriaValuetext(widthWords(column.width)),
       h.Tabindex(0),
-      h.DataAttribute("reel-resize", column.id),
+      h.DataAttribute("gg-reel-resize", column.id),
       ...reelSplitterAttributes(
         model,
         Splitter.Width({ columnId: column.id }),
@@ -1808,8 +1810,8 @@ const paneLayerView = (
           h.Class(
             `gg-reel-pane${isFocused ? " gg-focused" : ""}${isHeld ? " gg-drag-dim" : ""}${isBehind ? " gg-behind" : ""}`
           ),
-          h.DataAttribute("reel-pane", paneHook(model, pane.id)),
-          h.Style({ "--reel-anchor": anchors.get(pane.id) ?? "none" }),
+          h.DataAttribute("gg-reel-pane", paneHook(model, pane.id)),
+          h.Style({ "--gg-reel-anchor": anchors.get(pane.id) ?? "none" }),
           h.Tabindex(-1),
           ...(isBehind ? [h.Inert(true)] : []),
           h.OnFocusEnter(Message.FocusedPane({ paneId: pane.id })),
@@ -1845,7 +1847,7 @@ const liftedCopyView = (
                 h.Inert(true),
                 h.OnMount(
                   SizeLiftedPane({
-                    sourceSelector: `[data-reel-pane="${CSS.escape(paneHook(model, held.paneId))}"]`,
+                    sourceSelector: `[data-gg-reel-pane="${CSS.escape(paneHook(model, held.paneId))}"]`,
                     pressX,
                     pressY,
                   })
@@ -1922,7 +1924,7 @@ const tabListView = (
           h.AriaSelected(isSelected),
           h.AriaControls(`${model.id}-${pane.id}`),
           h.Tabindex(isSelected ? 0 : -1),
-          h.DataAttribute("reel-tab", tabHook(model, pane.id)),
+          h.DataAttribute("gg-reel-tab", tabHook(model, pane.id)),
           h.OnClick(Message.PressedTab({ paneId: pane.id })),
           h.OnKeyDownPreventDefault((key, modifiers) =>
             isPlain(modifiers) ? keyOf(index, key) : Option.none()
@@ -2019,7 +2021,7 @@ export const view = defineView<Model, Message, ViewInputs>(
         h.Class(isTabbed ? "gg-reel gg-tabbed" : "gg-reel"),
         h.Role("group"),
         h.AriaLabel(label),
-        h.DataAttribute("reel", model.id),
+        h.DataAttribute("gg-reel", model.id),
       ],
       [
         ...(isTabbed ? [tabListView(info, label, toTabLeadView, h)] : []),
@@ -2033,7 +2035,7 @@ export const view = defineView<Model, Message, ViewInputs>(
                   ? [
                       h.div([
                         h.Class("gg-reel-slot gg-reel-stage"),
-                        h.Style({ "--reel-anchor": STAGE_ANCHOR }),
+                        h.Style({ "--gg-reel-anchor": STAGE_ANCHOR }),
                       ]),
                     ]
                   : strip()),

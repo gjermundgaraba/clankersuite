@@ -260,7 +260,7 @@ const toggleView = (
             h.AriaExpanded(model.isOpen),
             ...(model.isOpen ? [h.AriaControls(slipId(model))] : []),
             ...(isNamedByLabel(viewInputs)
-              ? [h.AriaLabel(label), h.DataAttribute("tip", label)]
+              ? [h.AriaLabel(label), h.DataAttribute("gg-tip", label)]
               : []),
             h.OnMount(BindToggleKeys()),
             h.Class(toggleClass(viewInputs)),

@@ -4,7 +4,7 @@ category: overlays
 
 # Tips
 
-The page's one tip: it shows the words of any control carrying `data-tip`, which is the control's accessible name, then its key where it has one. An icon button, a menu's glyph toggle, a chip dot and a mark all carry one.
+The page's one tip: it shows the words of any control carrying `data-gg-tip`, which is the control's accessible name, then its key where it has one. An icon button, a menu's glyph toggle, a chip dot and a mark all carry one.
 
 ## Rest or Tab
 

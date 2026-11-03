@@ -170,7 +170,7 @@ describe("CopyButton view", () => {
         "gg-quiet"
       ),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Copy link"
       ),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveId(

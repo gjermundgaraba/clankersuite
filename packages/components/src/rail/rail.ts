@@ -470,8 +470,8 @@ export type ViewInputs = Readonly<{
  *
  * Its splitter sizes it, by a pointer (previewed as it moves) or the side arrows, within its
  * bounds, and reports the width as `ResizedRail` for the parent to keep and pass back as
- * `maybeWidth`, which the view sets as `--railed-width` on `div.railed`, so the page's padding
- * and the rail's width follow it (without one, `--rail`). The drawer keeps its own width. Lift
+ * `maybeWidth`, which the view sets as `--gg-railed-width` on `div.railed`, so the page's padding
+ * and the rail's width follow it (without one, `--semantic-dimension-size-rail-default`). The drawer keeps its own width. Lift
  * `subscriptions(keyPrefix)` into the application's, or a dragged splitter follows nothing.
  *
  * Its toggle, `span.rail-toggle > button.iconbtn.quiet[aria-expanded]` ("Hide <label>"), comes
@@ -573,7 +573,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ? []
           : Array.fromOption(
               Option.map(maybeWidth, (shown) =>
-                h.Style({ "--railed-width": `${shown}px` })
+                h.Style({ "--gg-railed-width": `${shown}px` })
               )
             )),
       ],

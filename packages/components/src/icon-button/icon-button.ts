@@ -17,7 +17,7 @@ export type ViewConfig<Message> = Readonly<{
   isQuiet?: boolean;
   /** Unavailable but focusable (`aria-disabled`), as in `@foldkit/ui`. */
   isDisabled?: boolean;
-  /** The key that does the same, printed in the tip after the label (`data-tip-key`): the
+  /** The key that does the same, printed in the tip after the label (`data-gg-tip-key`): the
    *  button has no words to print it beside. */
   keyHint?: KeyHintConfig;
   /** Further attributes for the `<button>`, never a class. */
@@ -50,12 +50,12 @@ export const view = <Message>(
             ...attributes,
             ...groups.button,
             h.AriaLabel(label),
-            h.DataAttribute("tip", label),
+            h.DataAttribute("gg-tip", label),
             ...(keyHint === undefined
               ? []
               : [
                   h.DataAttribute(
-                    "tip-key",
+                    "gg-tip-key",
                     keyLabel(keyHint.keys, keyHint.platform)
                   ),
                 ]),

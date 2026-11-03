@@ -11,8 +11,8 @@ interface Declaration {
 const TILE_GEOMETRY_PROPERTIES: ReadonlySet<string> = new Set([
   "background-position",
   "background-size",
-  "--dither",
-  "--veil-grain",
+  "--gg-dither",
+  "--gg-veil-grain",
 ]);
 
 const TOKENED_UNITLESS_PROPERTIES: ReadonlySet<string> = new Set([
@@ -155,5 +155,50 @@ describe("the stylesheet's selectors", () => {
         (name) => !name.startsWith("gg-") && !THIRD_PARTY_CLASS.test(name)
       )
     ).toStrictEqual([]);
+  });
+});
+
+const THIRD_PARTY_ATTRIBUTE = /^data-(?:drag-over|foldkit-)/u;
+
+const withoutComments = STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "");
+
+const namesIn = (pattern: RegExp): readonly string[] => [
+  ...new Set(
+    Array.from(
+      withoutComments.matchAll(pattern),
+      ({ groups }) => groups?.["name"] ?? ""
+    )
+  ),
+];
+
+describe("the stylesheet's other names", () => {
+  it("selects only attributes prefixed data-gg-, beside @foldkit/ui's", () => {
+    const attributes = namesIn(/\[(?<name>data-[-\w]+)/gu);
+
+    expect(attributes.length).toBeGreaterThan(5);
+    expect(
+      attributes.filter(
+        (name) =>
+          !name.startsWith("data-gg-") && !THIRD_PARTY_ATTRIBUTE.test(name)
+      )
+    ).toStrictEqual([]);
+  });
+
+  it("names its own custom properties and anchors --gg-, beside the brand's tokens", () => {
+    const names = namesIn(/(?<![\w-])(?<name>--[a-zA-Z][-\w]*)/gu);
+
+    expect(names.length).toBeGreaterThan(100);
+    expect(
+      names.filter((name) => !/^--(?:gg|semantic|primitive)-/u.test(name))
+    ).toStrictEqual([]);
+  });
+
+  it("names its keyframes gg-", () => {
+    const keyframes = namesIn(/@keyframes\s+(?<name>[-\w]+)/gu);
+
+    expect(keyframes.length).toBeGreaterThan(3);
+    expect(keyframes.filter((name) => !name.startsWith("gg-"))).toStrictEqual(
+      []
+    );
   });
 });

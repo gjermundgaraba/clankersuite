@@ -124,7 +124,7 @@ export type Message = typeof Message.Type;
  *   already was, over no column, or while cards may not move reports nothing. The parent
  *   moves the item (or decides not to): the data is its own.
  * - `SelectedCard`: a primary press on a card's body, not on a control inside it (an input,
- *   a link, a button other than the title, `[data-no-lift]`) nor its grip.
+ *   a link, a button other than the title, `[data-gg-no-lift]`) nor its grip.
  */
 export const OutMessage = defineMessageUnion({
   Moved: {
@@ -168,9 +168,9 @@ const cardHook = (model: Model, cardId: string): string =>
 const columnHook = (model: Model, columnId: string): string =>
   hookId(id(model), columnId);
 
-const CARD_ATTRIBUTE = "board-card";
-const TITLE_ATTRIBUTE = "board-title";
-const GRIP_ATTRIBUTE = "board-grip";
+const CARD_ATTRIBUTE = "gg-board-card";
+const TITLE_ATTRIBUTE = "gg-board-title";
+const GRIP_ATTRIBUTE = "gg-board-grip";
 
 /** Says a step of a move through the page's live region (as `Announcer.Announce` does), which is
  *  inside the topmost open dialog when there is one. */
@@ -958,7 +958,7 @@ export const view = defineView<Model, Message, ViewInputs>(
     };
 
     return h.div(
-      [h.Class("gg-board"), h.Style({ "--cols": `${columns.length}` })],
+      [h.Class("gg-board"), h.Style({ "--gg-cols": `${columns.length}` })],
       [
         ...Array.map(columns, (column) => columnView(info, column, h)),
         h.p([h.Id(gripHelpId(model)), h.Class("sr-only")], [COPY.gripHelp]),

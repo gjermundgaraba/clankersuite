@@ -27,7 +27,7 @@ Bench.view(
 )
 ```
 
-The head holds a PageHead, notices and a Rail's open button. The body is the work, never shorter than `--bench-work-min`: a Reel, which fills it, and the page's dialogs.
+The head holds a PageHead, notices and a Rail's open button. The body is the work, never shorter than `--semantic-dimension-size-min-height-bench-work`: a Reel, which fills it, and the page's dialogs.
 
 ## Scrolling
 

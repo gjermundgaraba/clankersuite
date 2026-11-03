@@ -136,7 +136,7 @@ export const maybePageId = (model: Model): Option.Option<string> =>
 export const isPicking = (model: Model): boolean =>
   Option.isSome(model.maybePicking);
 
-const ROW_ATTRIBUTE = "value";
+const ROW_ATTRIBUTE = "gg-palette-value";
 
 const OPENS_PAGE_ATTRIBUTE = "gg-palette-opens-page";
 
@@ -888,7 +888,7 @@ const rowView = (
       ),
       ...Option.match(levelOf(row), {
         onNone: () => [],
-        onSome: (level) => [h.Style({ "--palette-level": `${level}` })],
+        onSome: (level) => [h.Style({ "--gg-palette-level": `${level}` })],
       }),
       ...(shownRow.isHeld || isPicking(model)
         ? []

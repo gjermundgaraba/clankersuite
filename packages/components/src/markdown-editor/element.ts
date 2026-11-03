@@ -139,7 +139,7 @@ class MarkdownEditorElement extends HTMLElement {
 
     const attributeObserver = new MutationObserver(syncAccess);
 
-    surface.style.setProperty("--rows", `${textarea.rows}`);
+    surface.style.setProperty("--gg-rows", `${textarea.rows}`);
     textarea.tabIndex = -1;
     textarea.setAttribute("aria-hidden", "true");
     textarea.addEventListener("focus", engine.focus, { signal });

@@ -399,11 +399,11 @@ describe("Sortable panels", () => {
       Scene.expect(Scene.selector(".gg-sortable")).toHaveClass("gg-panels"),
       Scene.expectAll(Scene.all.role("listitem")).toHaveCount(3),
       Scene.expect(
-        Scene.selector("#panel-beta .gg-panel-lead [data-sortable-grip]")
+        Scene.selector("#panel-beta .gg-panel-lead [data-gg-sortable-grip]")
       ).toHaveAttr("aria-label", "Move Beta"),
-      Scene.expectAll(Scene.all.selector("[data-sortable-grip]")).toHaveCount(
-        3
-      ),
+      Scene.expectAll(
+        Scene.all.selector("[data-gg-sortable-grip]")
+      ).toHaveCount(3),
       Scene.expect(Scene.selector(".gg-sortable-item")).toHaveClass(
         "gg-movable"
       )
@@ -423,7 +423,7 @@ describe("Sortable panels", () => {
         Scene.selector(".gg-sortable-slot .gg-lifted #panel-alpha-lifted")
       ).toExist(),
       Scene.expect(
-        Scene.selector(".gg-sortable-slot [data-sortable-grip]")
+        Scene.selector(".gg-sortable-slot [data-gg-sortable-grip]")
       ).toBeAbsent(),
       Scene.expectAll(Scene.all.selector("#panel-alpha")).toHaveCount(1)
     );

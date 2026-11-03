@@ -56,7 +56,7 @@ describe("Table", () => {
       ),
       Scene.expect(Scene.role("columnheader", { name: "Actions" })).toExist(),
       Scene.expect(Scene.role("cell", { name: "41,200" })).toHaveAttr(
-        "data-label",
+        "data-gg-label",
         "Requests"
       ),
       Scene.expect(Scene.role("button", { name: "Edit Contoso" })).toExist()

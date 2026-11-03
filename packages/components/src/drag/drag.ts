@@ -91,7 +91,7 @@ export const innerControls = (liftingButtons: string): string =>
     "a[href]",
     '[contenteditable]:not([contenteditable="false"])',
     `button:not(${liftingButtons})`,
-    "[data-no-lift]",
+    "[data-gg-no-lift]",
   ].join(", ");
 
 export const takeEscape = <Message>(
@@ -213,9 +213,9 @@ export const measureLift = (
 
   if (Option.isSome(maybeSource) && element instanceof HTMLElement) {
     const rect = maybeSource.value.getBoundingClientRect();
-    element.style.setProperty("--lift-width", `${rect.width}px`);
-    element.style.setProperty("--lift-x", `${rect.left - pressX}px`);
-    element.style.setProperty("--lift-y", `${rect.top - pressY}px`);
+    element.style.setProperty("--gg-lift-width", `${rect.width}px`);
+    element.style.setProperty("--gg-lift-x", `${rect.left - pressX}px`);
+    element.style.setProperty("--gg-lift-y", `${rect.top - pressY}px`);
   }
 };
 

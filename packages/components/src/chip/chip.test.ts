@@ -65,7 +65,7 @@ describe("Chip and Mark", () => {
         "gg-mark"
       ),
       Scene.expect(Scene.role("img", { name: "Needs attention" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Needs attention"
       )
     );
@@ -82,7 +82,7 @@ describe("Chip and Mark", () => {
         "gg-go"
       ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "In progress"
       ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveText(""),

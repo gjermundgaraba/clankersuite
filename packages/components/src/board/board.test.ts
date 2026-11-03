@@ -326,7 +326,7 @@ const itemCardView =
         meta: [
           h.span([h.Class("gg-age")], ["2d"]),
           h.button([h.Type("button"), h.Class("tool")], ["snooze"]),
-          h.span([h.DataAttribute("no-lift", "")], ["note"]),
+          h.span([h.DataAttribute("gg-no-lift", "")], ["note"]),
         ],
         attributes: [h.AriaCurrent(card.id === "sink" ? "true" : "false")],
       },
@@ -387,7 +387,7 @@ describe("Board view", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
-      Scene.expect(Scene.selector(".gg-board")).toHaveStyle("--cols", "3"),
+      Scene.expect(Scene.selector(".gg-board")).toHaveStyle("--gg-cols", "3"),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"] .gg-panel-tb')
       ).toHaveText("To do"),
@@ -408,8 +408,8 @@ describe("Board view", () => {
     Scene.scene(
       { update: Board.update, view: boardView },
       Scene.given(fresh),
-      Scene.expect(grip).toHaveAttr("data-board-grip", ""),
-      Scene.expect(grip).toHaveAttr("data-tip", "Move Fix the sink"),
+      Scene.expect(grip).toHaveAttr("data-gg-board-grip", ""),
+      Scene.expect(grip).toHaveAttr("data-gg-tip", "Move Fix the sink"),
       Scene.expect(grip).toHaveAttr("aria-roledescription", "draggable"),
       Scene.expect(grip).toHaveAttr("aria-pressed", "false"),
       Scene.expect(grip).toHaveAttr("data-draggable-id", "work/sink"),
@@ -587,7 +587,7 @@ describe("Board view", () => {
       }),
       Scene.expectIgnored(),
       Scene.pointerDown(
-        Scene.selector('li[data-sortable-id="work/sink"] [data-no-lift]'),
+        Scene.selector('li[data-sortable-id="work/sink"] [data-gg-no-lift]'),
         {
           pointerType: "mouse",
         }

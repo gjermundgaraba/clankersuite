@@ -63,7 +63,7 @@ export const view = <Row, Message>(
         ...Array.map(columns, (column) =>
           h.keyed("td")(
             column.key,
-            [h.DataAttribute("label", column.header)],
+            [h.DataAttribute("gg-label", column.header)],
             column.cell(row)
           )
         ),

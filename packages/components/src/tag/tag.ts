@@ -23,7 +23,7 @@ export const view = <Message>(
   const { label, full, onClick, key } = config;
 
   const fullAttributes =
-    full === undefined ? [] : [h.DataAttribute("tip", full)];
+    full === undefined ? [] : [h.DataAttribute("gg-tip", full)];
 
   const keyAttributes = key === undefined ? [] : [h.Key(key)];
 

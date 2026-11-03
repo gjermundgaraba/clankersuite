@@ -190,7 +190,7 @@ describe("Menu toggle", () => {
         view: menuView(NEW, { label: "More", glyph: "more", isQuiet: true }),
       },
       Scene.given(closedMenu),
-      Scene.expect(toggle("More")).toHaveAttr("data-tip", "More"),
+      Scene.expect(toggle("More")).toHaveAttr("data-gg-tip", "More"),
       Scene.expect(toggle("More")).toHaveClass("gg-iconbtn"),
       Scene.expect(toggle("More")).toHaveClass("gg-quiet"),
       resolveToggle,

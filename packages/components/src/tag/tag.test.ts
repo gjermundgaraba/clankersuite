@@ -31,7 +31,7 @@ describe("Tag", () => {
       { update, view: tagsView },
       Scene.given(0),
       Scene.expect(Scene.first(Scene.all.selector("span.gg-tag"))).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "3 in Operations"
       ),
       Scene.expect(Scene.selector("span.gg-tag .sr-only")).toHaveText(
@@ -40,7 +40,7 @@ describe("Tag", () => {
       Scene.expect(Scene.selector("span.gg-tag [aria-hidden]")).toHaveText("3"),
       Scene.expect(
         Scene.last(Scene.all.selector("span.gg-tag"))
-      ).not.toHaveAttr("data-tip"),
+      ).not.toHaveAttr("data-gg-tip"),
       Scene.expect(Scene.last(Scene.all.selector("span.gg-tag"))).toHaveText(
         "draft"
       )

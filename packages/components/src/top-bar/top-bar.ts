@@ -13,7 +13,7 @@ export type ViewConfig<Message> = Readonly<{
   /** The right-hand tools; they wrap as one group. */
   tools?: ReadonlyArray<Html | string>;
   /** Lifts the bar's lifecycle Message (`MeasureHeight` started: the page's first top bar
-   *  keeps `--topbar-h` at its height however it wraps, so anchors land clear of it) into the
+   *  keeps `--gg-topbar-h` at its height however it wraps, so anchors land clear of it) into the
    *  parent's Message, which the parent's update takes and changes nothing for. In a Scene,
    *  resolve it with `TopBar.sceneMounts(toParentMessage)`. */
   toParentMessage: (message: BarHeightMessage) => Message;
@@ -31,7 +31,7 @@ export const view = <Message>(
     [
       ...measureAttributes(
         toParentMessage,
-        { selector: ".gg-topbar", property: "--topbar-h" },
+        { selector: ".gg-topbar", property: "--gg-topbar-h" },
         h
       ),
       h.Class("gg-topbar"),

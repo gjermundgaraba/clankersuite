@@ -5,14 +5,14 @@
 }
 
 :root {
-  --topbar-h: var(--semantic-dimension-size-top-bar);
-  --statusbar-h: 0px;
+  --gg-topbar-h: var(--semantic-dimension-size-top-bar);
+  --gg-statusbar-h: 0px;
   /* The grain and the dither are drawn with gradients, not images, so a host's
      Content-Security-Policy needs no img-src for them. Each is a 4px tile with 1px dots at
      (0, 0) and (2, 2), one conic layer per dot, and a background shorthand rather than an
-     image: write background: var(--dither) for the ground (it paints its own base) and
-     background: var(--veil-grain), var(--semantic-color-background-backdrop) for a veil. */
-  --veil-grain:
+     image: write background: var(--gg-dither) for the ground (it paints its own base) and
+     background: var(--gg-veil-grain), var(--semantic-color-background-backdrop) for a veil. */
+  --gg-veil-grain:
     conic-gradient(
         at 1px 1px,
         transparent 75%,
@@ -25,7 +25,7 @@
         var(--semantic-color-background-backdrop-grain) 0
       )
       2px 2px / 4px 4px;
-  --dither:
+  --gg-dither:
     conic-gradient(
         at 1px 1px,
         transparent 75%,
@@ -44,24 +44,24 @@
 html {
   height: 100%;
   scroll-padding-top: calc(
-    var(--topbar-h) + var(--semantic-dimension-space-gap-xx-large)
+    var(--gg-topbar-h) + var(--semantic-dimension-space-gap-xx-large)
   );
-  scroll-padding-bottom: var(--statusbar-h);
+  scroll-padding-bottom: var(--gg-statusbar-h);
 }
 
 :root:has(footer.gg-statusbar) {
-  --statusbar-h: var(--semantic-dimension-size-status-bar);
+  --gg-statusbar-h: var(--semantic-dimension-size-status-bar);
 }
 
 body {
   min-height: 100%;
-  padding-bottom: var(--statusbar-h);
+  padding-bottom: var(--gg-statusbar-h);
   font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-body);
   line-height: var(--semantic-number-line-height-body);
   color: var(--semantic-color-text-primary);
   caret-color: var(--semantic-color-text-primary);
-  background: var(--dither);
+  background: var(--gg-dither);
 }
 
 fieldset {
@@ -329,7 +329,7 @@ button.gg-tag > span {
 }
 
 .gg-topbar {
-  anchor-name: --topbar;
+  anchor-name: --gg-topbar;
   position: sticky;
   top: 0;
   z-index: var(--semantic-number-layer-sticky);
@@ -362,10 +362,10 @@ button.gg-tag > span {
   height: var(--semantic-dimension-size-cursor-height);
   vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-small));
   background: currentColor;
-  animation: blink var(--semantic-duration-blink) steps(1) infinite;
+  animation: gg-blink var(--semantic-duration-blink) steps(1) infinite;
 }
 
-@keyframes blink {
+@keyframes gg-blink {
   50% {
     opacity: 0;
   }
@@ -1424,7 +1424,7 @@ button.gg-glyph {
 }
 
 .gg-row.gg-linked
-  :is(button, input, select, textarea, [data-tip], .gg-row-check) {
+  :is(button, input, select, textarea, [data-gg-tip], .gg-row-check) {
   position: relative;
   z-index: var(--semantic-number-layer-raised);
 }
@@ -1900,7 +1900,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 .gg-markdown-surface .cm-scroller {
   min-height: max(
     var(--semantic-dimension-size-min-height-textarea),
-    calc(var(--rows) * 1lh)
+    calc(var(--gg-rows) * 1lh)
   );
 }
 
@@ -2253,8 +2253,8 @@ select[aria-invalid="true"] {
     overflow-wrap: anywhere;
   }
 
-  .gg-table td[data-label]::before {
-    content: attr(data-label);
+  .gg-table td[data-gg-label]::before {
+    content: attr(data-gg-label);
     display: block;
     font-family: var(--semantic-font-family-ui);
     font-size: var(--semantic-dimension-font-size-label);
@@ -2683,11 +2683,11 @@ dialog.gg-veil:focus {
 .gg-veil-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--veil-grain), var(--semantic-color-background-backdrop);
-  animation: veilIn var(--semantic-duration-veil) steps(3, end);
+  background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
+  animation: gg-veil-in var(--semantic-duration-veil) steps(3, end);
 }
 
-@keyframes veilIn {
+@keyframes gg-veil-in {
   from {
     opacity: 0;
   }
@@ -2700,7 +2700,7 @@ dialog.gg-veil:focus {
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
   width: min(var(--semantic-dimension-size-max-width-card), 100%);
-  animation: cardIn var(--semantic-duration-card) steps(3, end);
+  animation: gg-card-in var(--semantic-duration-card) steps(3, end);
   max-height: calc(
     100vh - var(--semantic-dimension-space-viewport-gutter-x-large)
   );
@@ -2712,7 +2712,7 @@ dialog.gg-veil:focus {
   width: min(var(--semantic-dimension-size-max-width-card-narrow), 100%);
 }
 
-@keyframes cardIn {
+@keyframes gg-card-in {
   from {
     transform: scale(var(--semantic-number-scale-card));
     opacity: 0;
@@ -2940,7 +2940,7 @@ dialog.gg-veil:focus {
     calc(
       var(--semantic-dimension-space-padding-x-large) +
         min(
-          (var(--palette-level, 1) - 1) *
+          (var(--gg-palette-level, 1) - 1) *
             var(--semantic-dimension-space-indent-palette),
           33%
         )
@@ -3081,7 +3081,7 @@ dialog.gg-veil:focus {
 .gg-banner {
   position: fixed;
   bottom: calc(
-    var(--statusbar-h) + var(--semantic-dimension-space-gap-xx-large)
+    var(--gg-statusbar-h) + var(--semantic-dimension-space-gap-xx-large)
   );
   left: 50%;
   transform: translateX(-50%);
@@ -3199,7 +3199,7 @@ dialog.gg-veil:focus {
 
 .gg-board {
   display: grid;
-  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--gg-cols, 3), minmax(0, 1fr));
   gap: var(--semantic-dimension-space-gap-surface);
   align-items: start;
 }
@@ -3270,7 +3270,7 @@ dialog.gg-veil:focus {
   cursor: grab;
 }
 
-.gg-board-card [data-board-grip] {
+.gg-board-card [data-gg-board-grip] {
   margin-right: calc(
     -1 * var(--semantic-dimension-space-control-padding-inline-x-small)
   );
@@ -3285,8 +3285,8 @@ dialog.gg-veil:focus {
 }
 
 .gg-board-lift {
-  width: var(--lift-width, var(--semantic-dimension-size-lift-board-card));
-  translate: var(--lift-x, 0) var(--lift-y, 0);
+  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-board-card));
+  translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
 }
 
 .gg-board-lift-slot {
@@ -3378,11 +3378,11 @@ dialog.gg-veil:focus {
   min-width: 0;
 }
 
-.gg-sortable-item [data-sortable-grip] {
+.gg-sortable-item [data-gg-sortable-grip] {
   flex: none;
 }
 
-.gg-sortable-item.gg-movable [data-sortable-grip] {
+.gg-sortable-item.gg-movable [data-gg-sortable-grip] {
   cursor: grab;
   touch-action: none;
 }
@@ -3444,8 +3444,8 @@ dialog.gg-veil:focus {
 
 .gg-sortable-lift,
 .gg-reel-lift {
-  width: var(--lift-width, var(--semantic-dimension-size-lift-list-item));
-  translate: var(--lift-x, 0) var(--lift-y, 0);
+  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-list-item));
+  translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
 }
 
 .gg-sortable.gg-grid .gg-sortable-items {
@@ -4268,7 +4268,7 @@ dialog.gg-veil:focus {
 
 .gg-stats {
   display: grid;
-  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--gg-cols, 4), minmax(0, 1fr));
   overflow: clip;
 }
 
@@ -4364,7 +4364,7 @@ dialog.gg-veil:focus {
   opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
-.gg-tip[popover][data-side="right"] {
+.gg-tip[popover][data-gg-side="right"] {
   margin: 0 0 0 var(--semantic-dimension-space-gap-x-small);
   position-area: right;
   position-try-fallbacks: flip-inline;
@@ -4480,32 +4480,32 @@ dialog.gg-veil:focus {
   color: var(--semantic-color-text-primary);
 }
 
-@property --railed-width {
+@property --gg-railed-width {
   syntax: "*";
   inherits: false;
 }
 
 .gg-railed {
   padding-left: var(
-    --railed-width,
+    --gg-railed-width,
     var(--semantic-dimension-size-rail-default)
   );
 }
 
 .gg-railed > :is(.gg-rail, .gg-rail-resize, .gg-bench) {
-  --railed-width: inherit;
+  --gg-railed-width: inherit;
 }
 
 .gg-rail[popover] {
   position: fixed;
   inset: auto;
-  top: anchor(--topbar bottom, 0px);
-  bottom: var(--statusbar-h);
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: var(--gg-statusbar-h);
   left: 0;
   display: flex;
   flex-direction: column;
   gap: var(--semantic-dimension-space-gap-surface);
-  width: var(--railed-width, var(--semantic-dimension-size-rail-default));
+  width: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
   height: auto;
   padding: var(--semantic-dimension-space-gap-surface)
     var(--semantic-dimension-space-control-padding-inline-medium)
@@ -4557,9 +4557,9 @@ dialog.gg-veil:focus {
 
 .gg-rail-resize {
   position: fixed;
-  top: anchor(--topbar bottom, 0px);
-  bottom: var(--statusbar-h);
-  left: var(--railed-width, var(--semantic-dimension-size-rail-default));
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: var(--gg-statusbar-h);
+  left: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
   z-index: var(--semantic-number-layer-raised);
   width: var(--semantic-dimension-size-rail-resize);
   cursor: col-resize;
@@ -4595,7 +4595,7 @@ dialog.gg-veil:focus {
 
 @media not (max-width: 900px) {
   .gg-railed.gg-folded {
-    --railed-width: var(--semantic-dimension-size-rail-folded);
+    --gg-railed-width: var(--semantic-dimension-size-rail-folded);
   }
 
   .gg-railed.gg-folded > .gg-rail > :not(.gg-rail-head + .gg-panel),
@@ -4669,15 +4669,15 @@ dialog.gg-veil:focus {
       var(--semantic-dimension-space-padding-x-large)
       var(--semantic-dimension-space-gap-surface)
       var(--semantic-dimension-space-padding-medium);
-    background: var(--dither);
+    background: var(--gg-dither);
     border-right: var(--semantic-dimension-border-width-container) solid
       var(--semantic-color-border-primary);
     box-shadow: var(--semantic-shadow-card);
-    animation: railIn var(--semantic-duration-card) steps(3, end);
+    animation: gg-rail-in var(--semantic-duration-card) steps(3, end);
   }
 
   .gg-rail[popover]::backdrop {
-    background: var(--veil-grain), var(--semantic-color-background-backdrop);
+    background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
   }
 
   .gg-rail-head {
@@ -4701,7 +4701,7 @@ dialog.gg-veil:focus {
   }
 }
 
-@keyframes railIn {
+@keyframes gg-rail-in {
   from {
     translate: -100% 0;
   }
@@ -4709,9 +4709,9 @@ dialog.gg-veil:focus {
 
 .gg-bench {
   position: fixed;
-  top: anchor(--topbar bottom, 0px);
+  top: anchor(--gg-topbar bottom, 0px);
   right: 0;
-  bottom: var(--statusbar-h);
+  bottom: var(--gg-statusbar-h);
   left: 0;
   display: grid;
   grid-template-rows: minmax(0, max-content) minmax(
@@ -4724,7 +4724,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-railed > .gg-bench {
-  left: var(--railed-width, var(--semantic-dimension-size-rail-default));
+  left: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
 }
 
 .gg-bench-head {
@@ -4757,9 +4757,9 @@ dialog.gg-veil:focus {
 
 .gg-stage {
   position: fixed;
-  top: anchor(--topbar bottom, 0px);
+  top: anchor(--gg-topbar bottom, 0px);
   right: 0;
-  bottom: var(--statusbar-h);
+  bottom: var(--gg-statusbar-h);
   left: 0;
   overflow: hidden;
 }
@@ -4777,7 +4777,7 @@ dialog.gg-veil:focus {
   display: grid;
   place-items: center;
   padding: var(--semantic-dimension-space-padding-xxx-large);
-  background: var(--veil-grain), var(--semantic-color-background-backdrop);
+  background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
 }
 
 .gg-stage-paused > .gg-notice {
@@ -4890,7 +4890,7 @@ dialog.gg-veil:focus {
   flex-direction: column;
   width: max(
     var(--semantic-dimension-size-min-width-reel-column),
-    var(--reel-width) * (100cqw - var(--semantic-dimension-space-gap-reel)) -
+    var(--gg-reel-width) * (100cqw - var(--semantic-dimension-space-gap-reel)) -
       var(--semantic-dimension-space-gap-reel)
   );
   min-height: calc(100cqh - 2 * var(--semantic-dimension-space-gap-reel));
@@ -4898,9 +4898,9 @@ dialog.gg-veil:focus {
 
 .gg-reel-slot {
   position: relative;
-  flex: var(--reel-weight, 1) 1 0;
+  flex: var(--gg-reel-weight, 1) 1 0;
   min-height: var(--semantic-dimension-size-min-height-reel-pane);
-  anchor-name: var(--reel-anchor);
+  anchor-name: var(--gg-reel-anchor);
 }
 
 .gg-reel-split {
@@ -4997,7 +4997,7 @@ dialog.gg-veil:focus {
 
 .gg-reel-pane {
   position: absolute;
-  position-anchor: var(--reel-anchor);
+  position-anchor: var(--gg-reel-anchor);
   top: anchor(top);
   right: anchor(right);
   bottom: anchor(bottom);
@@ -5065,7 +5065,7 @@ dialog.gg-veil:focus {
   visibility: hidden;
 }
 
-[data-reel-grip] {
+[data-gg-reel-grip] {
   cursor: grab;
   touch-action: none;
 }
@@ -5091,8 +5091,10 @@ dialog.gg-veil:focus {
 .gg-toasts .gg-toast-stack {
   bottom: calc(
     anchor(
-        --banner top,
-        calc(var(--statusbar-h) + var(--semantic-dimension-space-gap-xx-small))
+        --gg-banner top,
+        calc(
+          var(--gg-statusbar-h) + var(--semantic-dimension-space-gap-xx-small)
+        )
       ) -
       var(--semantic-dimension-space-gap-xx-small)
   ) !important;
@@ -5101,7 +5103,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-banner {
-  anchor-name: --banner;
+  anchor-name: --gg-banner;
 }
 
 .gg-toast {
@@ -5127,10 +5129,10 @@ dialog.gg-veil:focus {
 }
 
 .gg-toasts .gg-toast {
-  animation: toastIn var(--semantic-duration-card) steps(3, end);
+  animation: gg-toast-in var(--semantic-duration-card) steps(3, end);
 }
 
-@keyframes toastIn {
+@keyframes gg-toast-in {
   from {
     transform: translateY(var(--semantic-dimension-travel-toast));
     opacity: 0;

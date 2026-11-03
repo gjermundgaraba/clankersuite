@@ -47,7 +47,7 @@ describe("TopBar", () => {
 });
 
 describe("TopBar.MeasureHeight", () => {
-  it("writes --topbar-h while the first bar is mounted and removes it after", async () => {
+  it("writes --gg-topbar-h while the first bar is mounted and removes it after", async () => {
     document.body.innerHTML = `<header class="gg-topbar"></header><header class="gg-topbar"></header>`;
     const [first, second] = [...document.querySelectorAll(".gg-topbar")];
 
@@ -56,7 +56,7 @@ describe("TopBar.MeasureHeight", () => {
     }
 
     const root = document.documentElement.style;
-    const args = { selector: ".gg-topbar", property: "--topbar-h" };
+    const args = { selector: ".gg-topbar", property: "--gg-topbar-h" };
 
     const specimen = Effect.runFork(
       BarHeight.MeasureHeight(args)
@@ -65,7 +65,7 @@ describe("TopBar.MeasureHeight", () => {
     );
 
     await settle();
-    expect(root.getPropertyValue("--topbar-h")).toBe("");
+    expect(root.getPropertyValue("--gg-topbar-h")).toBe("");
 
     const fiber = Effect.runFork(
       BarHeight.MeasureHeight(args)
@@ -73,12 +73,12 @@ describe("TopBar.MeasureHeight", () => {
         .pipe(Stream.runDrain)
     );
 
-    await settleUntil(() => root.getPropertyValue("--topbar-h") !== "");
-    expect(root.getPropertyValue("--topbar-h")).toMatch(/px$/u);
+    await settleUntil(() => root.getPropertyValue("--gg-topbar-h") !== "");
+    expect(root.getPropertyValue("--gg-topbar-h")).toMatch(/px$/u);
 
     await Effect.runPromise(Fiber.interrupt(fiber));
     await settle();
-    expect(root.getPropertyValue("--topbar-h")).toBe("");
+    expect(root.getPropertyValue("--gg-topbar-h")).toBe("");
     await Effect.runPromise(Fiber.interrupt(specimen));
   });
 });

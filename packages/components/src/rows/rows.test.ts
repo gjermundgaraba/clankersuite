@@ -512,7 +512,7 @@ describe("A row whose box is its link's target", () => {
         "tabindex"
       ),
       Scene.expect(Scene.role("img", { name: "In progress" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "In progress"
       ),
       Scene.expect(Scene.selector(".gg-row.gg-linked a button")).toBeAbsent(),

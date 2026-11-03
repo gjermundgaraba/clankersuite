@@ -40,7 +40,7 @@ describe("IconButton", () => {
       },
       Scene.given<Model>(0),
       Scene.expect(Scene.role("button", { name: "Copy" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Copy"
       ),
       Scene.expect(Scene.role("button", { name: "Copy" })).toHaveClass(
@@ -97,11 +97,11 @@ describe("IconButton", () => {
       },
       Scene.given<Model>(0),
       Scene.expect(Scene.role("button", { name: "Hide tasks" })).toHaveAttr(
-        "data-tip-key",
+        "data-gg-tip-key",
         "⌘B"
       ),
       Scene.expect(Scene.role("button", { name: "Hide tasks" })).toHaveAttr(
-        "data-tip",
+        "data-gg-tip",
         "Hide tasks"
       )
     );

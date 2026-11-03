@@ -63,7 +63,7 @@ export const dotView = <Message>(
   return h.span([
     h.Role("img"),
     h.AriaLabel(label),
-    h.DataAttribute("tip", label),
+    h.DataAttribute("gg-tip", label),
     h.Class(`gg-chip-dot${TONE_CLASS[tone]}`),
   ]);
 };

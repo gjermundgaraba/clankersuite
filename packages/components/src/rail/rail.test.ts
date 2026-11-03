@@ -136,7 +136,7 @@ describe("Rail splitter", () => {
       Scene.expect(splitter).toHaveAttr("aria-valuenow", "300"),
       Scene.expect(splitter).toHaveAttr("aria-valuetext", "300 pixels"),
       Scene.expect(Scene.selector(".gg-railed")).toHaveStyle(
-        "--railed-width",
+        "--gg-railed-width",
         "300px"
       ),
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
@@ -162,7 +162,7 @@ describe("Rail splitter", () => {
       { update: Rail.update, view: railViewAt(Option.some(9000)) },
       Scene.given(fresh),
       Scene.expect(Scene.selector(".gg-railed")).toHaveStyle(
-        "--railed-width",
+        "--gg-railed-width",
         "480px"
       ),
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer())
@@ -300,7 +300,7 @@ describe("Rail toggle", () => {
       Scene.expect(hideButton).toHaveId("collections-toggle"),
       Scene.expect(hideButton).toHaveAttr("aria-expanded", "true"),
       Scene.expect(hideButton).toHaveAttr("aria-controls", "collections"),
-      Scene.expect(hideButton).toHaveAttr("data-tip-key", "⌘B"),
+      Scene.expect(hideButton).toHaveAttr("data-gg-tip-key", "⌘B"),
       Scene.expect(Scene.selector(".gg-railed")).not.toHaveClass("gg-folded"),
       Scene.expect(Scene.role("separator")).toExist(),
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
@@ -445,10 +445,10 @@ describe("Rail drawer events", () => {
 describe("Rail stylesheet", () => {
   it("passes the reader's width, not inherited, to the boxes it sizes, and falls back to --rail", () => {
     expect(STYLESHEET).toMatch(
-      /@property --railed-width \{[^}]*inherits: false;/u
+      /@property --gg-railed-width \{[^}]*inherits: false;/u
     );
     expect(STYLESHEET).toContain(
-      ".gg-railed > :is(.gg-rail, .gg-rail-resize, .gg-bench) {\n  --railed-width: inherit;"
+      ".gg-railed > :is(.gg-rail, .gg-rail-resize, .gg-bench) {\n  --gg-railed-width: inherit;"
     );
     expect(
       STYLESHEET.match(/var\(--semantic-dimension-size-rail-default\)/gu)
@@ -456,7 +456,7 @@ describe("Rail stylesheet", () => {
     ).toBe(4);
     expect(
       STYLESHEET.match(
-        /var\(\s*--railed-width,\s*var\(--semantic-dimension-size-rail-default\)\s*\)/gu
+        /var\(\s*--gg-railed-width,\s*var\(--semantic-dimension-size-rail-default\)\s*\)/gu
       )?.length
     ).toBe(4);
   });

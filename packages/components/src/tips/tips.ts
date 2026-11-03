@@ -111,9 +111,9 @@ const GRACE = Duration.millis(120);
 
 const WARMTH = Duration.millis(400);
 
-const TIP_ATTRIBUTE = "data-tip";
+const TIP_ATTRIBUTE = "data-gg-tip";
 
-const TIP_KEY_ATTRIBUTE = "data-tip-key";
+const TIP_KEY_ATTRIBUTE = "data-gg-tip-key";
 
 const TIP_SELECTOR = `[${TIP_ATTRIBUTE}]`;
 
@@ -572,8 +572,8 @@ const maybeWordsOf = (model: Model): Option.Option<Words> =>
 
 /**
  * The page's one tip: `div.tip[popover="manual"][aria-hidden="true"]`, which shows the words
- * of any control carrying `data-tip` (IconButton, the glyph switch, a board's grip), then the
- * key in its `data-tip-key` where it has one (an IconButton's `keyHint`). Render it
+ * of any control carrying `data-gg-tip` (IconButton, the glyph switch, a board's grip), then the
+ * key in its `data-gg-tip-key` where it has one (an IconButton's `keyHint`). Render it
  * once, beside the Announcer, and lift `subscriptions(keyPrefix)`. It opens on a resting
  * pointer after a moment (at once while another has just closed), never on touch, and on
  * keyboard focus; it can be hovered; leaving, blur, a press or any key closes it, and Escape
@@ -582,7 +582,7 @@ const maybeWordsOf = (model: Model): Option.Option<Words> =>
  * Built as a page-level Submodel rather than over `@foldkit/ui`'s Tooltip, which is one
  * Submodel per control and describes its control (`aria-describedby`). The Tip Rule is the
  * opposite: a tip says its control's accessible name and nothing else, so it stays out of the
- * accessibility tree, and any control takes one by carrying `data-tip`.
+ * accessibility tree, and any control takes one by carrying `data-gg-tip`.
  */
 export const view = defineView<Model, Message>((model, h): Html => {
   const maybeWords = maybeWordsOf(model);
@@ -594,7 +594,7 @@ export const view = defineView<Model, Message>((model, h): Html => {
       h.AriaHidden(true),
       h.Class("gg-tip"),
       ...(Option.exists(maybeWords, ({ side }) => side === "Right")
-        ? [h.DataAttribute("side", "right")]
+        ? [h.DataAttribute("gg-side", "right")]
         : []),
     ],
     Option.match(maybeWords, {

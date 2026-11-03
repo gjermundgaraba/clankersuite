@@ -143,7 +143,7 @@ const id = (model: Model): string => model.dragAndDrop.id;
 const itemHook = (model: Model, itemId: string): string =>
   `${id(model)}/${itemId}`;
 
-const GRIP_ATTRIBUTE = "sortable-grip";
+const GRIP_ATTRIBUTE = "gg-sortable-grip";
 
 /** Says a step of a move through the page's live region (as `Announcer.Announce` does). */
 export const AnnounceReorder = Command.define("AnnounceReorder", {

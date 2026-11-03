@@ -31,7 +31,7 @@ export const view = <Message>(
         [
           h.Role("img"),
           h.AriaLabel(label),
-          h.DataAttribute("tip", label),
+          h.DataAttribute("gg-tip", label),
           h.Class(markClass),
         ],
         [glyph]
@@ -45,7 +45,7 @@ export const view = <Message>(
                 ...groups.button,
                 h.AriaLabel(label),
                 pressedAttribute(isPressed, h),
-                h.DataAttribute("tip", label),
+                h.DataAttribute("gg-tip", label),
                 h.Class(markClass),
               ],
               [glyph]
