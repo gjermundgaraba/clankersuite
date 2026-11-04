@@ -86,8 +86,7 @@ export type ViewInputs = Readonly<{
 
 /**
  * The nav strip at tab size over the selected tab's panel, built on `@foldkit/ui`'s Tabs:
- * `div.nav.tabs[role="tablist"]` of `button[role="tab"][aria-selected]`, then the
- * `div[role="tabpanel"]` named by its tab. Arrows move and select (they wrap), Home and End
+ * a tab list, then the selected tab's panel, which its tab names. Arrows move and select (they wrap), Home and End
  * go to the ends, and only the selected tab is in the keyboard's Tab order.
  */
 export const view = defineView<Model, Message, ViewInputs>(

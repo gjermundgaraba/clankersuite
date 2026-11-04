@@ -755,7 +755,7 @@ export type CardViewConfig<ParentMessage> = Readonly<{
   /** Shown in the title's place while the card's title is edited, such as an `InlineInput`
    *  and its `errorView`. The held copy shows `title`. */
   editor?: ReadonlyArray<Html | string>;
-  /** The meta row under the title: a mark, a tag, a chip; `span.gap` pushes what follows
+  /** The meta row under the title: a mark, a tag, a chip; `h.span([h.Class("gg-gap")])` pushes what follows
    *  right. A press on a control here neither selects nor lifts the card. */
   meta?: ReadonlyArray<Html | string>;
   /** Further attributes for the card (an id, `aria-current`), never a class. The held copy
@@ -764,10 +764,9 @@ export type CardViewConfig<ParentMessage> = Readonly<{
 }>;
 
 /**
- * One card on the board, from what the board handed `toCardView`: `article.board-card`, a
- * paper slip on the 3px print shadow, its title a two-line `button.title` (or `span.title`
- * without `onOpen`, or the `editor` while the title is edited) over `div.meta-row`, which
- * ends in the grip. Spread
+ * One card on the board, from what the board handed `toCardView`: a paper slip on the 3px
+ * print shadow, its title two lines (a button with `onOpen`, or the `editor` while the title
+ * is edited) over the meta row, which ends in the grip. Spread
  * `aria-current="true"` through `attributes` for the board's cursor, which prints inverted.
  */
 export const cardView = <ParentMessage>(
@@ -929,8 +928,8 @@ const liftedCopyView = (
 
 /**
  * Columns of printed slips, one panel per column (one column on narrow screens), built on
- * `@foldkit/ui`'s DragAndDrop: `div.board` of `div.board-col`, each a `section.panel` titled
- * by its column and holding `ul.board-cards`. The cards are the parent's; each renders
+ * `@foldkit/ui`'s DragAndDrop, each panel titled by its column and holding a list of cards.
+ * The cards are the parent's; each renders
  * through `toCardView`, usually with `cardView`.
  *
  * A press on a card's body reports `SelectedCard`. While cards may move, a mouse drags a slip

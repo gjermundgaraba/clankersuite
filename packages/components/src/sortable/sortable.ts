@@ -842,9 +842,8 @@ const layoutClass = (layout: Layout): string =>
 
 /**
  * Items the reader puts in order, as rows, as tiles or as panels, built on `@foldkit/ui`'s
- * DragAndDrop: `div.sortable` holding `ul.sortable-items` (named by `label`) of
- * `li.sortable-item`, each its grip and the parent's content (a panel holds its grip in its
- * title bar). The items are the parent's; a drop reports `Moved`.
+ * DragAndDrop: a list named by `label`, each item its grip and the parent's content (a panel
+ * holds its grip in its title bar). The items are the parent's; a drop reports `Moved`.
  *
  * Only the grip lifts an item, under every pointer, so the item's own text selects and a
  * finger on it scrolls the page; the keyboard takes the grip too: Space or Enter picks the

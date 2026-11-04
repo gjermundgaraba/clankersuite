@@ -82,10 +82,9 @@ export type ViewInputs = Readonly<{
 
 /**
  * A dashed box that goes solid and tinted while a file hovers it, with a button to choose
- * files for those who cannot drag, built on `@foldkit/ui`'s FileDrop: `div.drop-zone`
- * (FileDrop sets `data-drag-over` on it while a file hovers) holding a glyph box, the title
- * and a sentence, and `label.btn.small` around a visually hidden file input, so the button's
- * word is the input's name.
+ * files for those who cannot drag, built on `@foldkit/ui`'s FileDrop: a glyph box, the title
+ * and a sentence, and a small button that is the label of a visually hidden file input, so
+ * the button's word is the input's name.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {

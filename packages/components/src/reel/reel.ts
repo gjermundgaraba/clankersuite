@@ -1949,10 +1949,9 @@ const previewed = (model: Model, layout: Layout): Layout =>
 
 /**
  * A row of columns wider than the view when it must be, each a stack of panes, scrolled
- * sideways, and down where a column is taller than the view: `div.reel` holding the scroller
- * `div.reel-view`, whose `div.reel-track` lays out the columns (`div.reel-column`, a slot per
- * pane with a splitter between) with a splitter after each, and the panes themselves in
- * `div.reel-panes`, each pinned to its slot by anchor positioning. The reel takes its height
+ * sideways, and down where a column is taller than the view. The scroller's track lays out the columns (a
+ * slot per pane with a splitter between) with a splitter after each, and each pane is pinned
+ * to its slot by anchor positioning. The reel takes its height
  * from whatever holds it. The layout is the parent's; each pane renders through `toPaneView`.
  *
  * A pane's grip lifts it under a pointer or the keyboard: Space or Enter picks it up, the
@@ -1961,10 +1960,9 @@ const previewed = (model: Model, layout: Layout): Layout =>
  * of the layout as the OutMessage. Lift `subscriptions(keyPrefix)` into the application's, or
  * nothing follows the pointer, and call `reconcile` whenever the layout changes.
  *
- * Under tabs (`arrangement: "Tabs"`) the reel is `div.reel.tabbed`: a `div.nav.tabs.reel-tabs`
- * tab list over the scroller, whose track holds one `div.reel-slot.reel-stage` at the reel's
- * full size where the columns were. Every pane is pinned to it, the focused one shown and the
- * others `.behind`, hidden and inert; there are no grips and no splitters.
+ * Under tabs (`arrangement: "Tabs"`) the reel is a tab list over the scroller, whose track
+ * holds one slot at the reel's full size where the columns were. Every pane is pinned to it,
+ * the focused one shown and the others hidden and inert; there are no grips and no splitters.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {

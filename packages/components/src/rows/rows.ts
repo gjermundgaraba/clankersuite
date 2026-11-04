@@ -70,14 +70,14 @@ export type RowConfig<Message> = Readonly<{
   body: ReadonlyArray<Html | string>;
   /** Right-aligned chips, marks, counts, due days. */
   slot?: ReadonlyArray<Html | string>;
-  /** Further attributes for the slot's `span.slot`, such as an id the row's line is described
+  /** Further attributes for the slot's span, such as an id the row's line is described
    *  by (`aria-describedby`); there is no span, and so nothing to point at, while `slot` is
    *  empty. Never a class. */
   slotAttributes?: Attributes<Message>;
   /** Controls that belong to the row's job, before the tools (an approve and reject pair). */
   actions?: ReadonlyArray<Html | string>;
   /** Icon buttons at the row's right end, dimmed until the row is hovered or focused (full
-   *  on the cursor row) and hidden on a phone: `span.tools`. */
+   *  on the cursor row) and hidden on a phone. */
   tools?: ReadonlyArray<Html | string>;
   /** Rows under this one, in an outline, each made with `rowView`. */
   nested?: readonly Html[];
@@ -96,7 +96,7 @@ export type RowConfig<Message> = Readonly<{
   select?: RowSelect<Message>;
   /** The row's place in a treegrid; every row of a treegrid has one. */
   treegrid?: TreegridPlace;
-  /** Further attributes for the row's line, the `div.row`, not its `li`: a keyboard list's
+  /** Further attributes for the row's line, not its `li`: a keyboard list's
    *  cursor (`aria-current="true"`, which the stylesheet outlines, and a roving `tabindex`),
    *  its name (with `role="group"` outside a treegrid, whose row is already a named `row`), data
    *  attributes, key and focus handlers. Never a class. */

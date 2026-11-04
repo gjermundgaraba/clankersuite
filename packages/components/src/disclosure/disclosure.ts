@@ -20,9 +20,8 @@ export type ViewConfig<Message> = Readonly<{
 
 /**
  * A line that opens what is under it, built on `@foldkit/ui`'s Disclosure: the parent owns
- * whether it is open. `div.disclosure > button.disclosure-summary[aria-expanded]` (the caret
- * and the label) and `div.disclosure-body`, which hangs from the caret on a 1px
- * rule guide. Open, the caret turns a quarter in one step. For what a reader opens on purpose
+ * whether it is open. A button (the caret and the label) over the body, which hangs from the
+ * caret on a 1px rule guide. Open, the caret turns a quarter in one step. For what a reader opens on purpose
  * (grants to edit, details, a danger zone), never to hide the one thing the screen is for.
  */
 export const view = <Message>(

@@ -571,7 +571,7 @@ const maybeWordsOf = (model: Model): Option.Option<Words> =>
   );
 
 /**
- * The page's one tip: `div.tip[popover="manual"][aria-hidden="true"]`, which shows the words
+ * The page's one tip, a manual popover hidden from the accessibility tree, which shows the words
  * of any control carrying `data-gg-tip` (IconButton, the glyph switch, a board's grip), then the
  * key in its `data-gg-tip-key` where it has one (an IconButton's `keyHint`). Render it
  * once, beside the Announcer, and lift `subscriptions(keyPrefix)`. It opens on a resting

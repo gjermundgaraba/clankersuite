@@ -451,32 +451,31 @@ export type ViewInputs = Readonly<{
    *  only at the top level, and Foldkit runs this one in the parent's boundary, so the
    *  handlers in what it returns dispatch the parent's Messages. */
   toAsideView: (toggle: Html) => readonly Html[];
-  /** The page beside the rail, `main.deck#main` or `main.bench#main`, given the button that
+  /** The page beside the rail, a `Deck` or a `Bench`, given the button that
    *  opens the drawer to print first in it. A function because it receives that button, and
    *  runs in the parent's boundary like `toAsideView`. */
   toDeckView: (openButton: Html) => Html;
 }>;
 
 /**
- * A column of panels beside the deck, fixed under the top bar: `div.railed >` the deck, then
- * `aside.rail[popover="auto"][aria-label]`, then its splitter, `div.rail-resize[role="separator"]`,
- * on its right edge. What comes before its last panel keeps its height, and the last panel
+ * A column of panels beside the deck, fixed under the top bar: a labelled `aside` with a
+ * splitter on its right edge. What comes before its last panel keeps its height, and the last panel
  * shrinks to the room left, its bar and foot staying while its body scrolls. One element
  * serves both layouts, so nothing in it renders twice or loses its state. At 900px and under it leaves the page, and
- * `span.rail-open > button.btn.small` at the top of the deck opens the same element as a drawer
+ * a small button at the top of the deck opens the same element as a drawer
  * over a veil, its head (the name and a close glyph) showing. Opening focuses its first
  * control; Escape, a press on the veil, the close glyph, focus leaving or the window growing
  * past 900px closes it, and the first three put focus back on the button.
  *
  * Its splitter sizes it, by a pointer (previewed as it moves) or the side arrows, within its
  * bounds, and reports the width as `ResizedRail` for the parent to keep and pass back as
- * `maybeWidth`, which the view sets as `--gg-railed-width` on `div.railed`, so the page's padding
+ * `maybeWidth`, which the view sets as `--gg-railed-width`, so the page's padding
  * and the rail's width follow it (without one, `--semantic-dimension-size-rail-default`). The drawer keeps its own width. Lift
  * `subscriptions(keyPrefix)` into the application's, or a dragged splitter follows nothing.
  *
- * Its toggle, `span.rail-toggle > button.iconbtn.quiet[aria-expanded]` ("Hide <label>"), comes
+ * Its toggle, a quiet glyph button ("Hide <label>"), comes
  * to `toAsideView` to print as the first panel's `lead`. Pressed, it reports `ToggledRail` for
- * the parent to keep and pass back as `isHidden`: `div.railed.folded` then stands the first
+ * the parent to keep and pass back as `isHidden`: the rail then stands the first
  * panel's title bar on end on the ground (the toggle at its top, "Show <label>"), the rest of
  * the rail and its splitter gone, and the deck takes the width. Focus in the rail lands on the
  * toggle. The drawer, at 900px and under, prints neither the toggle nor the fold.

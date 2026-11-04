@@ -8,8 +8,12 @@ const SOURCES = import.meta.glob<string>(
 const THIRD_PARTY_ATTRIBUTE =
   /^data-(?:color-scheme|drag-over|sortable-id|draggable-id|droppable-id|foldkit-)/u;
 
-const namesIn = (source: string, pattern: RegExp): readonly string[] =>
-  Array.from(source.matchAll(pattern), ({ groups }) => groups?.["name"] ?? "");
+const namesIn = (
+  source: string,
+  pattern: RegExp,
+  group = "name"
+): readonly string[] =>
+  Array.from(source.matchAll(pattern), ({ groups }) => groups?.[group] ?? "");
 
 const attributesIn = (source: string): readonly string[] => [
   ...namesIn(source, /(?<![\w-])(?<name>data-[a-z][-a-z]*)/gu),
@@ -49,6 +53,48 @@ describe("the components' classes", () => {
       )
     );
 
+    expect(offenders).toStrictEqual([]);
+  });
+});
+
+const PAGES = import.meta.glob<string>(["./*/*.md", "../docs/*.md"], {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+const commentsIn = (source: string): string =>
+  Array.from(
+    source.matchAll(/\/\*[\s\S]*?\*\/|\/\/.*$/gmu),
+    ([comment]) => comment
+  ).join("\n");
+
+const SELECTOR =
+  /(?<![\w.$-])(?:a|article|aside|button|code|details|dialog|div|em|footer|form|h[1-6]|header|input|kbd|label|li|main|nav|ol|output|p|pre|section|span|strong|summary|table|td|textarea|th|tr|ul)(?<classes>(?:\.[a-z][-a-z\d]*)+)/gu;
+
+const selectorClassesIn = (text: string): readonly string[] =>
+  Array.from(text.matchAll(/`[^`\n]*`/gu), ([code]) => code).flatMap((code) =>
+    namesIn(code, SELECTOR, "classes").flatMap((classes) =>
+      classes.split(".").slice(1)
+    )
+  );
+
+describe("the classes the docs name", () => {
+  it("are prefixed gg-, in the pages and in the doc comments", () => {
+    const texts = [
+      ...Object.entries(PAGES),
+      ...Object.entries(SOURCES).map(
+        ([path, source]) => [path, commentsIn(source)] as const
+      ),
+    ];
+
+    const offenders = texts.flatMap(([path, text]) =>
+      selectorClassesIn(text).flatMap((name) =>
+        name.startsWith("gg-") ? [] : [`${path}: ${name}`]
+      )
+    );
+
+    expect(Object.keys(PAGES).length).toBeGreaterThan(80);
     expect(offenders).toStrictEqual([]);
   });
 });
