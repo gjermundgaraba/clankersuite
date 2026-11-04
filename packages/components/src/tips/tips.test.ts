@@ -56,6 +56,46 @@ describe("Tips update", () => {
     );
   });
 
+  it("ignores a wait that a newer one replaced", () => {
+    const words = {
+      text: "Move",
+      maybeKey: Option.none(),
+      side: "Top",
+    } as const;
+
+    const cases = [
+      [
+        Tips.TipState.Waiting(words),
+        Tips.Message.CompletedWaitBeforeShowing({ version: 1 }),
+      ],
+      [
+        Tips.TipState.Leaving({ ...words, trigger: "Pointer" }),
+        Tips.Message.CompletedWaitBeforeHiding({ version: 1 }),
+      ],
+      [
+        Tips.TipState.Warm(),
+        Tips.Message.CompletedWaitBeforeCooling({ version: 1 }),
+      ],
+    ] as const;
+
+    for (const [state, message] of cases) {
+      const waiting = modifyFields(fresh, {
+        version: () => 2,
+        state: () => state,
+      });
+
+      Story.story(
+        Tips.update,
+        Story.given(waiting),
+        Story.message(message),
+        Story.Command.expectNone(),
+        Story.model((model) => {
+          expect(model).toStrictEqual(waiting);
+        })
+      );
+    }
+  });
+
   it("gives the pointer a moment to cross onto the tip, then closes and stays warm", () => {
     Story.story(
       Tips.update,

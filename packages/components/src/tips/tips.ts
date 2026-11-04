@@ -317,6 +317,12 @@ const entered = (model: Model, words: Words): UpdateReturn =>
     Warm: () => show(model, words, "Pointer"),
   });
 
+const whenCurrentVersion = (
+  model: Model,
+  version: number,
+  step: () => UpdateReturn
+): UpdateReturn => (model.version === version ? step() : { model });
+
 /** Processes a tip layer Message and returns the next Model and Commands. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
@@ -352,29 +358,28 @@ export const update = (model: Model, message: Message) =>
     PressedPointer: () => dismiss(model),
     PressedKey: () => dismiss(model),
     CompletedWaitBeforeShowing: ({ version }) =>
-      TipState.matchOrElse<UpdateReturn>(
-        model.state,
-        {
-          Waiting: (waiting) =>
-            model.version === version
-              ? show(model, wordsOf(waiting), "Pointer")
-              : { model },
-        },
-        () => ({ model })
+      whenCurrentVersion(model, version, () =>
+        TipState.matchOrElse<UpdateReturn>(
+          model.state,
+          { Waiting: (waiting) => show(model, wordsOf(waiting), "Pointer") },
+          () => ({ model })
+        )
       ),
     CompletedWaitBeforeHiding: ({ version }) =>
-      TipState.matchOrElse<UpdateReturn>(
-        model.state,
-        {
-          Leaving: () => (model.version === version ? hide(model) : { model }),
-        },
-        () => ({ model })
+      whenCurrentVersion(model, version, () =>
+        TipState.matchOrElse<UpdateReturn>(
+          model.state,
+          { Leaving: () => hide(model) },
+          () => ({ model })
+        )
       ),
     CompletedWaitBeforeCooling: ({ version }) =>
-      TipState.matchOrElse<UpdateReturn>(
-        model.state,
-        { Warm: () => (model.version === version ? cool(model) : { model }) },
-        () => ({ model })
+      whenCurrentVersion(model, version, () =>
+        TipState.matchOrElse<UpdateReturn>(
+          model.state,
+          { Warm: () => cool(model) },
+          () => ({ model })
+        )
       ),
     CompletedShowTip: () => ({ model }),
     CompletedHideTip: () => ({ model }),
