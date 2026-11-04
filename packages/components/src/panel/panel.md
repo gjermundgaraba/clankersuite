@@ -8,7 +8,7 @@ The unit of the system: paper in a 2px ink box on a 5px print shadow, under an i
 
 ## Title, meta, actions, body and foot
 
-A count or state sits at the title bar's right, then small Buttons and IconButtons, which print in paper on the ink bar. The foot is a ruled line under the body: a note, then actions pushed right.
+A count or state sits at the title bar's right, then small Buttons and IconButtons, which print in paper on the ink bar. The foot is a ruled line under the body: a note in `foot`, then the buttons in `footActions`, pushed right.
 
 ::Example{name="parts"}
 

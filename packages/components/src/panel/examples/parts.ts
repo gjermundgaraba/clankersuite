@@ -10,6 +10,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
       actions: [Button.view({ label: "clear", isSmall: true }, h)],
       body: [h.p([], ["Three items wait for review."])],
       foot: ["Updated a minute ago."],
+      footActions: [Button.view({ label: "review", isSmall: true }, h)],
     },
     h
   );

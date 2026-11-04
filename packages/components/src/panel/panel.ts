@@ -29,8 +29,10 @@ export type ViewConfig = Readonly<{
    *  the body shows (an area over its tasks). Its labels print in on-head. */
   shelf?: ReadonlyArray<Html | string>;
   body: ReadonlyArray<Html | string>;
-  /** A ruled foot under the body: a note line, then actions pushed right. */
+  /** A ruled foot under the body: a note line, a time. */
   foot?: ReadonlyArray<Html | string>;
+  /** Buttons in the foot, pushed to its right end. */
+  footActions?: ReadonlyArray<Html | string>;
   /** The body sits edge to edge (rows, tables, meters) instead of in the padded body. */
   isFlush?: boolean;
 }>;
@@ -53,6 +55,7 @@ export const view = <Message>(
     shelf = [],
     body,
     foot = [],
+    footActions = [],
     isFlush = false,
   } = config;
 
@@ -77,7 +80,12 @@ export const view = <Message>(
       ),
       ...slotView("div", "gg-panel-shelf", shelf, h),
       ...(isFlush ? body : [h.div([h.Class("gg-panel-body")], body)]),
-      ...slotView("div", "gg-panel-foot", foot, h),
+      ...slotView(
+        "div",
+        "gg-panel-foot",
+        [...foot, ...slotView("span", "gg-push", footActions, h)],
+        h
+      ),
     ]
   );
 };

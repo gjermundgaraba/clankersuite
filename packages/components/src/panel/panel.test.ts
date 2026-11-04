@@ -30,6 +30,7 @@ describe("Panel", () => {
           actions: ["act"],
           shelf: ["area"],
           foot: ["note"],
+          footActions: ["save"],
         }),
       },
       Scene.given(null),
@@ -50,7 +51,8 @@ describe("Panel", () => {
       Scene.expect(Scene.selector(".gg-panel-body p")).toHaveText(
         "Twelve waiting."
       ),
-      Scene.expect(Scene.selector(".gg-panel-foot")).toHaveText("note")
+      Scene.expect(Scene.selector(".gg-panel-foot")).toHaveText("notesave"),
+      Scene.expect(Scene.selector(".gg-panel-foot .gg-push")).toHaveText("save")
     );
   });
 
