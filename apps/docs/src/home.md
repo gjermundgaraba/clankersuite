@@ -9,10 +9,8 @@ One set of Foldkit components for the clanker applications, styled by a brand. A
 | `@gjermundgaraba/icons`         | the 12×12 glyphs, as Foldkit views          |
 | `@gjermundgaraba/components`    | the Foldkit components and their stylesheet |
 
-The packages are released together, at one version. An application imports the font, then its brand's tokens, then the components' stylesheet:
+The packages are released together, at one version. An application imports its brand's stylesheet, which brings the font, the brand's tokens and the components' stylesheet:
 
 ```ts
-import "@gjermundgaraba/fonts/departure-mono.css";
-import "@gjermundgaraba/design-tokens/clankersuite.css";
-import "@gjermundgaraba/components/components.css";
+import "@gjermundgaraba/components/clankersuite.css";
 ```

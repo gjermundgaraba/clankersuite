@@ -345,6 +345,12 @@ importers:
       '@codemirror/view':
         specifier: 'catalog:'
         version: 6.43.15
+      '@gjermundgaraba/design-tokens':
+        specifier: workspace:*
+        version: link:../design-tokens
+      '@gjermundgaraba/fonts':
+        specifier: workspace:*
+        version: link:../fonts
       '@gjermundgaraba/icons':
         specifier: workspace:*
         version: link:../icons
@@ -370,9 +376,6 @@ importers:
       '@foldkit/vite-plugin':
         specifier: 'catalog:'
         version: 0.29.0(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.2)(foldkit@0.170.0(@effect/platform-browser@4.1.2(effect@4.1.2))(effect@4.1.2))(redis@6.3.0)
-      '@gjermundgaraba/design-tokens':
-        specifier: workspace:*
-        version: link:../design-tokens
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6

@@ -8,12 +8,10 @@ The pixel font of clankersuite, set in every control, label and title: the `--se
 
 ## Import
 
-Import its stylesheet once, from the client entry, before the brand's tokens and the components' stylesheet:
+The clankersuite brand's stylesheet imports it, before the brand's tokens and the components' stylesheet, so an application imports that once, from the client entry:
 
 ```ts
-import "@gjermundgaraba/fonts/departure-mono.css";
-import "@gjermundgaraba/design-tokens/clankersuite.css";
-import "@gjermundgaraba/components/components.css";
+import "@gjermundgaraba/components/clankersuite.css";
 ```
 
 | Stylesheet           | `font-family`    | Weight | Brands       |

@@ -1,9 +1,7 @@
 import { defineMarkdownEditorElement } from "@gjermundgaraba/components/markdown-editor/element";
 import { Runtime } from "foldkit";
 
-import "@gjermundgaraba/fonts/departure-mono.css";
-import "@gjermundgaraba/design-tokens/clankersuite.css";
-import "@gjermundgaraba/components/components.css";
+import "@gjermundgaraba/components/clankersuite.css";
 import "../site.css";
 import { init, update, view } from "./main.ts";
 import { Message } from "./message.ts";

@@ -10,6 +10,7 @@
   },
   "files": [
     "dist",
+    "src/clankersuite.css",
     "src/components.css",
     "THIRD_PARTY_NOTICES.md"
   ],
@@ -21,7 +22,8 @@
     ".": "./src/index.ts",
     "./scheme": "./src/scheme/script.ts",
     "./markdown-editor/element": "./src/markdown-editor/element.ts",
-    "./components.css": "./src/components.css"
+    "./components.css": "./src/components.css",
+    "./clankersuite.css": "./src/clankersuite.css"
   },
   "publishConfig": {
     "exports": {
@@ -53,6 +55,8 @@
     "@codemirror/merge": "catalog:",
     "@codemirror/state": "catalog:",
     "@codemirror/view": "catalog:",
+    "@gjermundgaraba/design-tokens": "workspace:*",
+    "@gjermundgaraba/fonts": "workspace:*",
     "@gjermundgaraba/icons": "workspace:*",
     "@lezer/common": "catalog:",
     "@lezer/markdown": "catalog:",
@@ -63,7 +67,6 @@
     "@effect/vitest": "catalog:",
     "@foldkit/ui": "catalog:",
     "@foldkit/vite-plugin": "catalog:",
-    "@gjermundgaraba/design-tokens": "workspace:*",
     "@types/node": "catalog:",
     "effect": "catalog:",
     "foldkit": "catalog:",

@@ -5,7 +5,7 @@ The [Foldkit](https://foldkit.dev) components of the gjermundgaraba design syste
 ## Install
 
 ```bash
-pnpm add @gjermundgaraba/components @gjermundgaraba/icons @gjermundgaraba/design-tokens @gjermundgaraba/fonts foldkit @foldkit/ui effect @effect/platform-browser
+pnpm add @gjermundgaraba/components @gjermundgaraba/icons foldkit @foldkit/ui effect @effect/platform-browser
 ```
 
 Foldkit pins `effect` and `@effect/platform-browser` exactly as peers. An app on a later patch keeps one Effect instance by allowing it:
@@ -20,12 +20,10 @@ peerDependencyRules:
 
 ## Set up
 
-The views ship branded for Foldkit's view identity, so the app's build needs only `foldkit()`. Import the brand's font and tokens, then the component stylesheet, once, from the client entry:
+The views ship branded for Foldkit's view identity, so the app's build needs only `foldkit()`. Import the brand's stylesheet once, from the client entry. It brings the brand's font and tokens, then the components' stylesheet:
 
 ```ts
-import "@gjermundgaraba/fonts/departure-mono.css";
-import "@gjermundgaraba/design-tokens/clankersuite.css";
-import "@gjermundgaraba/components/components.css";
+import "@gjermundgaraba/components/clankersuite.css";
 ```
 
 Every class the stylesheet styles starts with `gg-`, and every attribute it reads with `data-gg-`. Glyphs come from `@gjermundgaraba/icons`: `import { Glyph } from "@gjermundgaraba/icons"`.
