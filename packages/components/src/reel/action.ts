@@ -27,8 +27,8 @@ import {
   paneHook,
   readingOrder,
 } from "./model.ts";
-import type { UpdateContext, UpdateReturn } from "./update.ts";
-import { announce, focusOn } from "./update.ts";
+import type { UpdateContext, UpdateReturn } from "./reel.ts";
+import { announce, focusOn } from "./reel.ts";
 
 /** What the application's keys ask of the reel. `Focus*`: focus the pane beside the focused
  *  one. `MovePane*`: move the focused pane up or down its column, or into the column beside it
