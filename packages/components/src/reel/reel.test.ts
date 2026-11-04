@@ -765,6 +765,7 @@ describe("Reel view", () => {
         "gg-reel"
       ),
       Scene.expectAll(Scene.all.role("region")).toHaveCount(4),
+      Scene.expectAll(Scene.all.role("tabpanel")).toHaveCount(0),
       Scene.expect(Scene.role("region", { name: "Notes" })).toHaveClass(
         "gg-window"
       ),
@@ -1010,7 +1011,14 @@ describe("Reel view under tabs", () => {
       Scene.expect(Scene.nth(Scene.all.role("tab"), 1)).toHaveText("Notes"),
       Scene.expect(Scene.nth(Scene.all.role("tab"), 3)).toHaveText("Canvas"),
       Scene.expect(tab("Shell")).toHaveAttr("aria-selected", "true"),
-      Scene.expect(tab("Shell")).toHaveAttr("aria-controls", "work-shell"),
+      Scene.expect(tab("Shell")).toHaveAttr(
+        "aria-controls",
+        "work-shell-panel"
+      ),
+      Scene.expect(Scene.role("tabpanel", { name: "Shell" })).toHaveAttr(
+        "id",
+        "work-shell-panel"
+      ),
       Scene.expect(tab("Notes")).toHaveAttr("aria-selected", "false"),
       Scene.expectAll(Scene.all.selector(".gg-reel-stage")).toHaveCount(1),
       Scene.expect(Scene.selector(".gg-reel-column")).toBeAbsent()

@@ -93,6 +93,12 @@ type ReelInfo = Readonly<{
 
 const helpId = (model: Model): string => `${model.id}-grip-help`;
 
+const tabId = (model: Model, paneId: string): string =>
+  `${model.id}-${paneId}-tab`;
+
+const tabPanelId = (model: Model, paneId: string): string =>
+  `${model.id}-${paneId}-panel`;
+
 const SPLITTER_STEP = 0.05;
 
 const HELD_STEPS: Record.ReadonlyRecord<string, Step> = {
@@ -372,6 +378,13 @@ const paneLayerView = (
           h.DataAttribute("gg-reel-pane", paneHook(model, pane.id)),
           h.Style({ "--gg-reel-anchor": anchors.get(pane.id) ?? "none" }),
           h.Tabindex(-1),
+          ...(info.isTabbed
+            ? [
+                h.Id(tabPanelId(model, pane.id)),
+                h.Role("tabpanel"),
+                h.AriaLabelledBy(tabId(model, pane.id)),
+              ]
+            : []),
           ...(isBehind ? [h.Inert(true)] : []),
           h.OnFocusEnter(Message.FocusedPane({ paneId: pane.id })),
         ],
@@ -479,9 +492,10 @@ const tabListView = (
         pane.id,
         [
           h.Type("button"),
+          h.Id(tabId(model, pane.id)),
           h.Role("tab"),
           h.AriaSelected(isSelected),
-          h.AriaControls(`${model.id}-${pane.id}`),
+          h.AriaControls(tabPanelId(model, pane.id)),
           h.Tabindex(isSelected ? 0 : -1),
           h.DataAttribute("gg-reel-tab", tabHook(model, pane.id)),
           h.OnClick(Message.ClickedTab({ paneId: pane.id })),
@@ -522,6 +536,9 @@ const previewed = (model: Model, layout: Layout): Layout =>
  * Under tabs (`arrangement: "Tabs"`) the reel is a tab list over the scroller, whose track
  * holds one slot at the reel's full size where the columns were. Every pane is pinned to it,
  * the focused one shown and the others hidden and inert; there are no grips and no splitters.
+ * Each tab names its pane's tabpanel. The tabs are the reel's own, not `@foldkit/ui`'s Tabs,
+ * which keeps the selected tab in a Model of its own: here the selected tab is the reel's
+ * focused pane, which the strip shares, so a reel switched between the two keeps its place.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
