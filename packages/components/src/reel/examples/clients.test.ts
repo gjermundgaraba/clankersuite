@@ -5,6 +5,15 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { Message, init, update } from "./clients.ts";
 
+const fromStrip = (message: Reel.Message) =>
+  Message.GotStripMessage({ message });
+
+const resolveStrip = Story.Command.resolveAll(
+  [Reel.AnnounceReel, Reel.Message.CompletedAnnounceReel()],
+  [Reel.FocusPane, Reel.Message.CompletedFocusPane()],
+  [Reel.ScrollIntoView, Reel.Message.CompletedScrollIntoView()]
+);
+
 describe("the clients example", () => {
   it("applies a resize asked in one reel to the layout both show, each keeping its own focus", () => {
     Story.story(
@@ -34,6 +43,35 @@ describe("the clients example", () => {
         );
         expect(Reel.focusedPaneId(model.tabs, model.layout)).toStrictEqual(
           Option.some("shell")
+        );
+      })
+    );
+  });
+
+  it("keeps the other reel's focus on its pane when a move in one reel shifts the columns", () => {
+    Story.story(
+      update,
+      Story.given(init().model),
+      Story.message(
+        Message.GotTabsMessage({
+          message: Reel.Message.FocusedPane({ paneId: "log" }),
+        })
+      ),
+      Story.message(fromStrip(Reel.Message.PressedGripKey({ paneId: "diff" }))),
+      resolveStrip,
+      Story.message(
+        fromStrip(Reel.Message.PressedHeldArrowKey({ step: "Left" }))
+      ),
+      resolveStrip,
+      Story.message(fromStrip(Reel.Message.PressedHeldDropKey())),
+      resolveStrip,
+      Story.model((model) => {
+        expect(Array.map(model.layout, ({ id }) => id)).toStrictEqual([
+          "work",
+          "watch",
+        ]);
+        expect(model.tabs.maybeFocus).toStrictEqual(
+          Option.some({ paneId: "log", column: 1, row: 0 })
         );
       })
     );

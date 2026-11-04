@@ -429,7 +429,7 @@ export const update = (
 export const reconcile = (
   model: Model,
   context: UpdateContext
-): UpdateReturn => {
+): Update.Return<Model, Message> => {
   const { layout } = context;
 
   const isFocusGone = Option.exists(model.maybeFocus, (focus) =>

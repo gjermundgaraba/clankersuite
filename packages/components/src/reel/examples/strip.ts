@@ -17,7 +17,7 @@ import {
   Stream,
   String,
 } from "effect";
-import { Command, Mount, Subscription, Update } from "foldkit";
+import { Mount, Subscription, Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
@@ -78,17 +78,21 @@ export const closed = (layout: Reel.Layout, paneId: string): Reel.Layout =>
 const toReelMessage = (message: Reel.Message): Message =>
   Message.GotReelMessage({ message });
 
+const reelFold = {
+  read: (model: Model) => Option.some(model.reel),
+  write: (model: Model, reel: Reel.Model): Model =>
+    modifyFields(model, { reel: () => reel }),
+  toParentMessage: toReelMessage,
+};
+
 const withLayout = (
   model: Model,
   layout: Reel.Layout
-): Update.Return<Model, Message> => {
-  const reconciled = Reel.reconcile(model.reel, { layout });
-
-  return {
-    model: { layout, reel: reconciled.model },
-    commands: Command.mapMessages(reconciled.commands, toReelMessage),
-  };
-};
+): Update.Return<Model, Message> =>
+  Update.foldChildStep({
+    update: (reel: Reel.Model) => Reel.reconcile(reel, { layout }),
+    ...reelFold,
+  })(modifyFields(model, { layout: () => layout }));
 
 const foldReel = (
   model: Model,
@@ -96,10 +100,7 @@ const foldReel = (
 ) =>
   Update.foldChildStep({
     update: step,
-    read: (current: Model) => Option.some(current.reel),
-    write: (current: Model, reel: Reel.Model) =>
-      modifyFields(current, { reel: () => reel }),
-    toParentMessage: toReelMessage,
+    ...reelFold,
     foldOutMessage: (request: Reel.OutMessage) => (current: Model) =>
       withLayout(current, Reel.apply(current.layout, request)),
   })(model);

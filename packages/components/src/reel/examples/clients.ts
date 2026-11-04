@@ -2,9 +2,10 @@ import { LiveRegion, Reel, Stack, Window } from "@gjermundgaraba/components";
 import { Glyph } from "@gjermundgaraba/icons";
 import type { GlyphName } from "@gjermundgaraba/icons";
 import { Option, Record, Schema } from "effect";
-import { Command, Subscription, Update } from "foldkit";
+import { Subscription, Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
+import { modifyFields } from "foldkit/struct";
 
 export const Model = Schema.Struct({
   layout: Reel.Layout,
@@ -63,45 +64,56 @@ const TO_MESSAGE: Readonly<Record<Client, (message: Reel.Message) => Message>> =
     tabs: (message) => Message.GotTabsMessage({ message }),
   };
 
+const clientFold = {
+  readAt: (model: Model, client: Client) => Option.some(model[client]),
+  writeAt: (model: Model, client: Client, reel: Reel.Model): Model => ({
+    ...model,
+    [client]: reel,
+  }),
+  toParentMessage: (client: Client, message: Reel.Message) =>
+    TO_MESSAGE[client](message),
+};
+
+const reconcileClient = Update.foldChildAt({
+  update: (reel: Reel.Model, layout: Reel.Layout) =>
+    Reel.reconcile(reel, { layout }),
+  ...clientFold,
+});
+
 const withLayout = (
   model: Model,
   layout: Reel.Layout
-): Update.Return<Model, Message> => {
-  const strip = Reel.reconcile(model.strip, { layout });
-  const tabs = Reel.reconcile(model.tabs, { layout });
+): Update.Return<Model, Message> =>
+  Update.combine(modifyFields(model, { layout: () => layout }), [
+    (stepModel) => reconcileClient(stepModel, "strip", layout),
+    (stepModel) => reconcileClient(stepModel, "tabs", layout),
+  ]);
 
-  return {
-    model: { layout, strip: strip.model, tabs: tabs.model },
-    commands: [
-      ...Command.mapMessages(strip.commands, TO_MESSAGE.strip),
-      ...Command.mapMessages(tabs.commands, TO_MESSAGE.tabs),
-    ],
-  };
-};
+type ClientInput = Readonly<{
+  message: Reel.Message;
+  context: Reel.UpdateContext;
+}>;
 
-const foldClient = (model: Model, client: Client, message: Reel.Message) =>
-  Update.foldChildStep({
-    update: (reel: Reel.Model) =>
-      Reel.update(reel, message, {
-        layout: model.layout,
-        arrangement: ARRANGEMENT[client],
-      }),
-    read: (current: Model) => Option.some(current[client]),
-    write: (current: Model, reel: Reel.Model): Model => ({
-      ...current,
-      [client]: reel,
-    }),
-    toParentMessage: TO_MESSAGE[client],
-    foldOutMessage: (request: Reel.OutMessage) => (current: Model) =>
-      withLayout(current, Reel.apply(current.layout, request)),
-  })(model);
+const foldClient = Update.foldChildAt({
+  update: (reel: Reel.Model, { message, context }: ClientInput) =>
+    Reel.update(reel, message, context),
+  ...clientFold,
+  foldOutMessage: () => (request: Reel.OutMessage) => (model: Model) =>
+    withLayout(model, Reel.apply(model.layout, request)),
+});
+
+const updateClient = (model: Model, client: Client, message: Reel.Message) =>
+  foldClient(model, client, {
+    message,
+    context: { layout: model.layout, arrangement: ARRANGEMENT[client] },
+  });
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     GotStripMessage: ({ message: reelMessage }) =>
-      foldClient(model, "strip", reelMessage),
+      updateClient(model, "strip", reelMessage),
     GotTabsMessage: ({ message: reelMessage }) =>
-      foldClient(model, "tabs", reelMessage),
+      updateClient(model, "tabs", reelMessage),
   });
 
 export const subscriptions = Subscription.aggregate(
