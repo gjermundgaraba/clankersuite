@@ -320,9 +320,10 @@ export const widthChangeMessage = (
   isDrawerWidth: boolean,
   isDrawerOpen: boolean
 ): Option.Option<DrawerMessage> =>
-  !isDrawerWidth && isDrawerOpen
-    ? Option.some(Message.WidenedPastDrawer())
-    : Option.none();
+  Option.liftPredicate(
+    Message.WidenedPastDrawer(),
+    () => !isDrawerWidth && isDrawerOpen
+  );
 
 export const drawerToggleMessage = (
   event: Pick<ToggleEvent, "newState">

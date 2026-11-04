@@ -33,10 +33,8 @@ describe("the pages", () => {
 
   it("place every component in a category", () => {
     expect(
-      Array.flatMap(COMPONENT_PAGES, ({ href, placement }) =>
-        placement._tag === "Component" && Option.isNone(placement.category)
-          ? [href]
-          : []
+      Array.flatMap(COMPONENT_PAGES, ({ href, maybeCategory }) =>
+        Option.isNone(maybeCategory) ? [href] : []
       )
     ).toStrictEqual([]);
   });

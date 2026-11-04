@@ -12,7 +12,7 @@ export type AppRoute = typeof AppRoute.Type;
 
 export const homeRouter = pipe(Route.root, Route.mapTo(AppRoute.Home));
 
-const pageRouter = pipe(
+export const pageRouter = pipe(
   Route.string("section"),
   Route.slash(Route.string("slug")),
   Route.mapTo(AppRoute.Page)
@@ -25,7 +25,7 @@ export const urlToAppRoute = Route.parseUrlWithFallback(
 
 export const hrefOf = (route: AppRoute): string =>
   AppRoute.match(route, {
-    Home: () => "/",
-    Page: ({ section, slug }) => `/${section}/${slug}`,
+    Home: () => homeRouter(),
+    Page: ({ section, slug }) => pageRouter({ section, slug }),
     NotFound: ({ path }) => path,
   });

@@ -1,4 +1,13 @@
-import { Array, Duration, Effect, Match, Option, Schema, Stream } from "effect";
+import {
+  Array,
+  Duration,
+  Effect,
+  Match,
+  Option,
+  Schema,
+  Stream,
+  String,
+} from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -405,8 +414,8 @@ const isOutside = (stack: Element, target: EventTarget | null): boolean =>
   !(target instanceof Node && stack.contains(target));
 
 const elementId = (target: EventTarget | null): Option.Option<string> =>
-  target instanceof Element && target.id !== ""
-    ? Option.some(target.id)
+  target instanceof Element
+    ? Option.liftPredicate(target.id, String.isNonEmpty)
     : Option.none();
 
 const isEscape = (event: KeyboardEvent): boolean =>

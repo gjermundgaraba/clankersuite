@@ -1,4 +1,4 @@
-import { Array } from "effect";
+import { Array, Option, String } from "effect";
 
 /** A custom property as the stylesheet declares it: its first declaration. */
 export type Token = Readonly<{
@@ -55,33 +55,15 @@ const VARIABLE = /var\((?<name>--[\w-]+)\)/gu;
 
 const LIGHT_DARK = "light-dark(";
 
-const closingParenthesis = (value: string, open: number): number => {
-  let depth = 0;
+type Arguments = Readonly<{ list: readonly string[]; end: number }>;
+
+const argumentsFrom = (value: string, open: number): Arguments => {
+  const list: string[] = [];
+  let depth = 1;
+  let start = open;
 
   for (let index = open; index < value.length; index += 1) {
-    if (value[index] === "(") {
-      depth += 1;
-    }
-
-    if (value[index] === ")") {
-      depth -= 1;
-
-      if (depth === 0) {
-        return index;
-      }
-    }
-  }
-
-  return value.length;
-};
-
-const topLevelArguments = (list: string): readonly string[] => {
-  const parts: string[] = [];
-  let depth = 0;
-  let start = 0;
-
-  for (let index = 0; index < list.length; index += 1) {
-    const character = list[index];
+    const character = value[index];
 
     if (character === "(") {
       depth += 1;
@@ -91,33 +73,33 @@ const topLevelArguments = (list: string): readonly string[] => {
       depth -= 1;
     }
 
-    if (character === "," && depth === 0) {
-      parts.push(list.slice(start, index).trim());
+    if (depth === 0) {
+      list.push(value.slice(start, index).trim());
+
+      return { list, end: index + 1 };
+    }
+
+    if (character === "," && depth === 1) {
+      list.push(value.slice(start, index).trim());
       start = index + 1;
     }
   }
 
-  parts.push(list.slice(start).trim());
+  list.push(value.slice(start).trim());
 
-  return parts;
+  return { list, end: value.length };
 };
 
-const inScheme = (value: string, scheme: keyof Schemes): string => {
-  const at = value.indexOf(LIGHT_DARK);
+const inScheme = (value: string, scheme: keyof Schemes): string =>
+  Option.match(String.indexOf(LIGHT_DARK)(value), {
+    onNone: () => value,
+    onSome: (at) => {
+      const { list, end } = argumentsFrom(value, at + LIGHT_DARK.length);
+      const [light = "", dark = light] = list;
 
-  if (at === -1) {
-    return value;
-  }
-
-  const open = at + LIGHT_DARK.length - 1;
-  const close = closingParenthesis(value, open);
-
-  const [light = "", dark = light] = topLevelArguments(
-    value.slice(open + 1, close)
-  );
-
-  return `${value.slice(0, at)}${inScheme(scheme === "light" ? light : dark, scheme)}${inScheme(value.slice(close + 1), scheme)}`;
-};
+      return `${value.slice(0, at)}${inScheme(scheme === "light" ? light : dark, scheme)}${inScheme(value.slice(end), scheme)}`;
+    },
+  });
 
 const substitute = (
   byName: ReadonlyMap<string, string>,

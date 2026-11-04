@@ -191,17 +191,12 @@ const CATEGORY_HEADINGS: Readonly<Record<Category, string>> = {
 };
 
 const packageGroups: readonly NavGroup[] = Array.map(
-  Array.dedupe(
-    Array.flatMap(PACKAGE_PAGES, ({ placement }) =>
-      placement._tag === "Package" ? [placement.packageName] : []
-    )
-  ),
+  Array.dedupe(Array.map(PACKAGE_PAGES, ({ packageName }) => packageName)),
   (packageName) => ({
     heading: packageName,
     pages: Array.filter(
       PACKAGE_PAGES,
-      ({ placement }) =>
-        placement._tag === "Package" && placement.packageName === packageName
+      (page) => page.packageName === packageName
     ),
   })
 );
@@ -210,11 +205,8 @@ const categoryGroups: readonly NavGroup[] = Array.map(
   Category.literals,
   (category) => ({
     heading: CATEGORY_HEADINGS[category],
-    pages: Array.filter(
-      COMPONENT_PAGES,
-      ({ placement }) =>
-        placement._tag === "Component" &&
-        Option.contains(placement.category, category)
+    pages: Array.filter(COMPONENT_PAGES, ({ maybeCategory }) =>
+      Option.contains(maybeCategory, category)
     ),
   })
 );

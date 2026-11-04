@@ -1,3 +1,5 @@
+import { Array, Option } from "effect";
+
 /** Documents the editor sent up whose render has not come back yet, oldest first. */
 export type Pending = readonly string[];
 
@@ -25,14 +27,17 @@ export const afterSource = (
   pending: Pending,
   source: string,
   doc: string
-): Reconciled => {
-  const echoIndex = pending.indexOf(source);
-
-  if (echoIndex !== -1) {
-    return { pending: pending.slice(echoIndex + 1), isExternal: false };
-  }
-
-  return withLfLineEndings(source) === doc
-    ? { pending, isExternal: false }
-    : { pending: [], isExternal: true };
-};
+): Reconciled =>
+  Option.match(
+    Array.findFirstIndex(pending, (sent) => sent === source),
+    {
+      onSome: (echoIndex) => ({
+        pending: Array.drop(pending, echoIndex + 1),
+        isExternal: false,
+      }),
+      onNone: () =>
+        withLfLineEndings(source) === doc
+          ? { pending, isExternal: false }
+          : { pending: [], isExternal: true },
+    }
+  );

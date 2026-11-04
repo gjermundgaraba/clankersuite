@@ -3,6 +3,7 @@ import {
   Array,
   Effect,
   Match,
+  Number,
   Option,
   Queue,
   Schema,
@@ -111,9 +112,8 @@ const entryView = <Message>(
   context: RowContext<Message>,
   h: HtmlBuilder<Message>
 ): Html =>
-  Match.value(entry).pipe(
-    Match.withReturnType<Html>(),
-    Match.tag("Action", (action) =>
+  Match.valueTags(entry, {
+    Action: (action) =>
       buttonRowView(
         {
           entry: action,
@@ -123,9 +123,8 @@ const entryView = <Message>(
         },
         context,
         h
-      )
-    ),
-    Match.tag("Radio", (radio) =>
+      ),
+    Radio: (radio) =>
       buttonRowView(
         {
           entry: radio,
@@ -135,9 +134,8 @@ const entryView = <Message>(
         },
         context,
         h
-      )
-    ),
-    Match.tag("Check", (check) =>
+      ),
+    Check: (check) =>
       buttonRowView(
         {
           entry: check,
@@ -153,9 +151,8 @@ const entryView = <Message>(
         },
         context,
         h
-      )
-    ),
-    Match.tag("Link", (link) =>
+      ),
+    Link: (link) =>
       h.keyed("a")(
         link.id,
         [
@@ -166,10 +163,8 @@ const entryView = <Message>(
           ...edgeAttributes(context, link.id, h),
         ],
         wordsView(link, h)
-      )
-    ),
-    Match.exhaustive
-  );
+      ),
+  });
 
 export const rowsView = <Message>(
   config: Readonly<{
@@ -242,12 +237,12 @@ const startsWith = (item: HTMLElement, key: string): boolean =>
   );
 
 const typeahead = (items: readonly HTMLElement[], key: string): boolean => {
-  const from = Option.getOrElse(focusedIndex(items), () => -1);
+  const start = Option.match(focusedIndex(items), {
+    onNone: () => 0,
+    onSome: Number.increment,
+  });
 
-  const ordered = [
-    ...Array.drop(items, from + 1),
-    ...Array.take(items, from + 1),
-  ];
+  const ordered = [...Array.drop(items, start), ...Array.take(items, start)];
 
   return Option.match(
     Array.findFirst(ordered, (item) => startsWith(item, key)),
@@ -284,7 +279,17 @@ const handleSlipKey = <Message>(
 
   const items = itemsOf(slip);
   const { length } = items;
-  const current = Option.getOrElse(focusedIndex(items), () => -1);
+  const maybeCurrent = focusedIndex(items);
+
+  const below = Option.match(maybeCurrent, {
+    onNone: () => 0,
+    onSome: Number.increment,
+  });
+
+  const above = Option.match(maybeCurrent, {
+    onNone: () => length - 1,
+    onSome: Number.decrement,
+  });
 
   const moved = (didMove: boolean): Option.Option<Message> => {
     if (didMove) {
@@ -303,12 +308,10 @@ const handleSlipKey = <Message>(
   return Match.value(event.key).pipe(
     Match.withReturnType<Option.Option<Message>>(),
     Match.when("ArrowDown", () =>
-      moved(length > 0 && focusAt(items, wrap(current + 1, length)))
+      moved(length > 0 && focusAt(items, wrap(below, length)))
     ),
     Match.when("ArrowUp", () =>
-      moved(
-        length > 0 && focusAt(items, wrap(Math.max(current, 0) - 1, length))
-      )
+      moved(length > 0 && focusAt(items, wrap(above, length)))
     ),
     Match.when("Home", () => moved(focusAt(items, 0))),
     Match.when("End", () => moved(focusAt(items, length - 1))),

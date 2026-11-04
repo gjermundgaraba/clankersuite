@@ -22,6 +22,7 @@ import type {
 } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import * as Render from "foldkit/render";
+import { defineTaggedUnion } from "foldkit/schema";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
@@ -353,10 +354,12 @@ const isListed = (
   rowId: string
 ): boolean => Array.some(rows, (row) => row.id === rowId);
 
-type CursorAsShown =
-  | Readonly<{ _tag: "Listed"; rowId: string }>
-  | Readonly<{ _tag: "Shown"; maybeRowId: Option.Option<string> }>
-  | Readonly<{ _tag: "Waiting" }>;
+const CursorAsShown = defineTaggedUnion({
+  Known: { maybeRowId: Schema.Option(Schema.String) },
+  Waiting: {},
+});
+
+type CursorAsShown = typeof CursorAsShown.Type;
 
 const cursorAsShown = (model: Model, shown: RenderSnapshot): CursorAsShown => {
   const { rows, maybeShownCursor, shownQuery, shownShift } = shown;
@@ -365,23 +368,19 @@ const cursorAsShown = (model: Model, shown: RenderSnapshot): CursorAsShown => {
   const hasAppliedWaitingArrows = shownShift === model.cursorShift;
 
   if (isTheList && hasNoWaitingArrows) {
-    return Option.match(
-      Option.filter(maybeCurrentCursor(model), (rowId) =>
-        isListed(rows, rowId)
-      ),
-      {
-        onSome: (rowId): CursorAsShown => ({ _tag: "Listed", rowId }),
-        onNone: (): CursorAsShown => ({
-          _tag: "Shown",
-          maybeRowId: maybeShownCursor,
-        }),
-      }
+    const maybeListedCursor = Option.filter(
+      maybeCurrentCursor(model),
+      (rowId) => isListed(rows, rowId)
     );
+
+    return CursorAsShown.Known({
+      maybeRowId: Option.orElse(maybeListedCursor, () => maybeShownCursor),
+    });
   } else if (isTheList && hasAppliedWaitingArrows) {
-    return { _tag: "Shown", maybeRowId: maybeShownCursor };
+    return CursorAsShown.Known({ maybeRowId: maybeShownCursor });
   }
 
-  return { _tag: "Waiting" };
+  return CursorAsShown.Waiting();
 };
 
 const stepTo = (model: Model, rowId: string): UpdateReturn => {
@@ -439,9 +438,8 @@ const pressArrow = (
   key: ArrowKey,
   shown: RenderSnapshot
 ): UpdateReturn =>
-  Match.valueTags(cursorAsShown(model, shown), {
-    Listed: ({ rowId }) => stepFrom(model, key, shown.rows, Option.some(rowId)),
-    Shown: ({ maybeRowId }) => stepFrom(model, key, shown.rows, maybeRowId),
+  CursorAsShown.match<UpdateReturn>(cursorAsShown(model, shown), {
+    Known: ({ maybeRowId }) => stepFrom(model, key, shown.rows, maybeRowId),
     Waiting: () => pendArrow(model, key),
   });
 
@@ -466,9 +464,8 @@ const enterOn = (
   );
 
 const pressEnter = (model: Model, shown: RenderSnapshot): UpdateReturn =>
-  Match.valueTags(cursorAsShown(model, shown), {
-    Listed: ({ rowId }) => enterOn(model, shown.rows, Option.some(rowId)),
-    Shown: ({ maybeRowId }) => enterOn(model, shown.rows, maybeRowId),
+  CursorAsShown.match<UpdateReturn>(cursorAsShown(model, shown), {
+    Known: ({ maybeRowId }) => enterOn(model, shown.rows, maybeRowId),
     Waiting: () => pendEnter(model),
   });
 
@@ -596,7 +593,7 @@ const earlyKeySubscriptions = Subscription.make<Model, Message>()((entry) => ({
     { maybeOpenId: Schema.Option(Schema.String) },
     {
       modelToDependencies: (model) => ({
-        maybeOpenId: isOpen(model) ? Option.some(id(model)) : Option.none(),
+        maybeOpenId: Option.liftPredicate(id(model), () => isOpen(model)),
       }),
       dependenciesToStream: ({ maybeOpenId }) =>
         Option.match(maybeOpenId, {
