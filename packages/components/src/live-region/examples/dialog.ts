@@ -36,8 +36,6 @@ export const init = (): Update.Return<Model, Message> => ({
   },
 });
 
-type UpdateReturn = Update.Return<Model, Message>;
-
 const settingsFold = Dialog.foldDialog(Dialog, {
   read: (model: Model) => model.settings,
   write: (model: Model, settings: Dialog.Model): Model =>
@@ -59,7 +57,7 @@ const show = Update.foldChild({ update: Toast.show, ...toastsFold });
 const foldToasts = Update.foldChild({ update: Toast.update, ...toastsFold });
 
 export const update = (model: Model, message: Message) =>
-  Message.match<UpdateReturn>(message, {
+  Message.match<Update.Return<Model, Message>>(message, {
     ClickedSync: () =>
       show(model, {
         tone: "Quiet",

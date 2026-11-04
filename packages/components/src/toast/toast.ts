@@ -71,8 +71,6 @@ const slips = (model: Model): readonly Stack.Entry[] =>
 
 type UpdateReturn = Update.Return<Model, Message>;
 
-type StepReturn = Update.Return<Model, Message>;
-
 const foldStackOutMessage = Stack.OutMessage.match<Update.Step<Model, Message>>(
   {
     DismissedToast: () => (model) => ({ model }),
@@ -112,7 +110,7 @@ const eachSlip = (
     entryId: string
   ) => ReturnType<typeof Stack.update>,
   maybeExceptId: Option.Option<string>
-): StepReturn =>
+): UpdateReturn =>
   Update.combine(
     model,
     Array.map(
@@ -124,13 +122,13 @@ const eachSlip = (
     )
   );
 
-const holdAll = (model: Model): StepReturn =>
+const holdAll = (model: Model): UpdateReturn =>
   eachSlip(model, Stack.hold, Option.none());
 
 const releaseUnlessHeld = (
   model: Model,
   maybeExceptId: Option.Option<string>
-): StepReturn =>
+): UpdateReturn =>
   isHeld(model)
     ? holdAll(model)
     : eachSlip(model, Stack.release, maybeExceptId);
@@ -237,7 +235,7 @@ const focusAfter = (
   );
 };
 
-const dismissKeepingFocus = (model: Model, entryId: string): StepReturn =>
+const dismissKeepingFocus = (model: Model, entryId: string): UpdateReturn =>
   Update.combine(model, [
     dismissStep(entryId),
     (stepModel) =>
@@ -375,7 +373,7 @@ export const show = (model: Model, config: ShowConfig): ShowReturn => {
 };
 
 /** Takes a slip back by its id: what it reported has recovered. */
-export const dismiss = (model: Model, entryId: string): StepReturn =>
+export const dismiss = (model: Model, entryId: string): UpdateReturn =>
   dismissKeepingFocus(model, entryId);
 
 const slipView = (entry: Stack.Entry, h: HtmlBuilder<Message>): Html => {

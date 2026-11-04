@@ -622,7 +622,7 @@ export const update = (
   model: Model,
   message: Message,
   context: UpdateContext
-): UpdateReturn => {
+) => {
   const { layout } = context;
 
   return Message.match<UpdateReturn>(message, {

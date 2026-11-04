@@ -1,5 +1,5 @@
 import type { Cause } from "effect";
-import { Array, Effect, Number, Option, Schema, Stream } from "effect";
+import { Array, Effect, Number, Option, Schema, Stream, pipe } from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html } from "foldkit/html";
@@ -9,7 +9,7 @@ import * as Render from "foldkit/render";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
-import type * as Update from "foldkit/update";
+import * as Update from "foldkit/update";
 
 import * as Button from "../button/button.ts";
 import { htmlElement } from "../dom/html-element.ts";
@@ -265,10 +265,8 @@ export const update = (model: Model, message: Message) =>
     message,
     {
       ClickedOpen: () => open(model),
-      ClickedToggle: () => ({
-        ...toggle(model),
-        outMessage: OutMessage.ToggledRail(),
-      }),
+      ClickedToggle: () =>
+        pipe(toggle(model), Update.withOutMessage(OutMessage.ToggledRail())),
       PressedSplitter: ({ pointerId, clientX, width }) =>
         Option.isSome(model.maybeResizing)
           ? { model }
@@ -287,12 +285,13 @@ export const update = (model: Model, message: Message) =>
       ReleasedSplitter: ({ clientX }) =>
         Option.match(dragTo(model, clientX).maybeResizing, {
           onNone: () => ({ model }),
-          onSome: ({ fromWidth, width }) => ({
-            model: withResizing(model, Option.none()),
-            ...(width === fromWidth
-              ? {}
-              : { outMessage: OutMessage.ResizedRail({ width }) }),
-          }),
+          onSome: ({ fromWidth, width }) =>
+            Update.withOutMessage(
+              { model: withResizing(model, Option.none()) },
+              width === fromWidth
+                ? undefined
+                : OutMessage.ResizedRail({ width })
+            ),
         }),
       CancelledSplitter: () => ({ model: withResizing(model, Option.none()) }),
       PressedEscape: () => ({ model: withResizing(model, Option.none()) }),
