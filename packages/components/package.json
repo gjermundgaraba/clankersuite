@@ -39,7 +39,8 @@
         "types": "./dist/markdown-editor/element.d.ts",
         "default": "./dist/markdown-editor/element.js"
       },
-      "./components.css": "./src/components.css"
+      "./components.css": "./src/components.css",
+      "./clankersuite.css": "./src/clankersuite.css"
     },
     "access": "public"
   },
