@@ -4,6 +4,7 @@ import { Glyph } from "@gjermundgaraba/icons";
 import { Array, Effect, Option } from "effect";
 import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import * as CopyButton from "./copy-button.ts";
@@ -48,7 +49,9 @@ describe("CopyButton update", () => {
   it("takes no second click until the beat has ended", () => {
     Story.story(
       CopyButton.update,
-      Story.given({ ...fresh, state: CopyButton.CopyState.Copied() }),
+      Story.given(
+        modifyFields(fresh, { state: () => CopyButton.CopyState.Copied() })
+      ),
       Story.message(CopyButton.Message.ClickedCopy({ text: "again" })),
       Story.Command.expectNone(),
       Story.model((model) => {
@@ -60,7 +63,9 @@ describe("CopyButton update", () => {
   it("takes no second click while the write is out", () => {
     Story.story(
       CopyButton.update,
-      Story.given({ ...fresh, state: CopyButton.CopyState.Copying() }),
+      Story.given(
+        modifyFields(fresh, { state: () => CopyButton.CopyState.Copying() })
+      ),
       Story.message(CopyButton.Message.ClickedCopy({ text: "again" })),
       Story.Command.expectNone(),
       Story.model((model) => {

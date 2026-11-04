@@ -16,7 +16,7 @@ describe("the outline example", () => {
     Story.story(
       update,
       Story.given(init().model),
-      Story.message(Message.MovedCursor({ id: "minutes" })),
+      Story.message(Message.FocusedRow({ id: "minutes" })),
       Story.message(Message.ToggledNotes()),
       Story.model((model) => {
         expect(model.isNotesOpen).toBe(false);
@@ -35,26 +35,26 @@ describe("the outline example", () => {
     const folded = { ...open, isNotesOpen: false };
 
     expect(target(open, "notes", "ArrowDown")).toStrictEqual(
-      Option.some(["agenda", "MovedCursor"])
+      Option.some(["agenda", "FocusedRow"])
     );
     expect(target(folded, "notes", "ArrowDown")).toStrictEqual(
-      Option.some(["later", "MovedCursor"])
+      Option.some(["later", "FocusedRow"])
     );
     expect(target(open, "notes", "ArrowUp")).toStrictEqual(Option.none());
     expect(target(open, "agenda", "End")).toStrictEqual(
-      Option.some(["later", "MovedCursor"])
+      Option.some(["later", "FocusedRow"])
     );
     expect(target(open, "later", "Home")).toStrictEqual(
-      Option.some(["notes", "MovedCursor"])
+      Option.some(["notes", "FocusedRow"])
     );
     expect(target(open, "notes", "ArrowRight")).toStrictEqual(
-      Option.some(["agenda", "MovedCursor"])
+      Option.some(["agenda", "FocusedRow"])
     );
     expect(target(folded, "notes", "ArrowRight")).toStrictEqual(
       Option.some(["notes", "ToggledNotes"])
     );
     expect(target(open, "minutes", "ArrowLeft")).toStrictEqual(
-      Option.some(["notes", "MovedCursor"])
+      Option.some(["notes", "FocusedRow"])
     );
     expect(target(open, "notes", "ArrowLeft")).toStrictEqual(
       Option.some(["notes", "ToggledNotes"])

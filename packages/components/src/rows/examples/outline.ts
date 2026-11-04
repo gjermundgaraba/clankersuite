@@ -1,5 +1,5 @@
 import { Rows } from "@gjermundgaraba/components";
-import { Array, Option, Schema } from "effect";
+import { Array, Option, Record, Schema } from "effect";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -23,7 +23,7 @@ export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   ToggledNotes: {},
-  MovedCursor: { id: OutlineId },
+  FocusedRow: { id: OutlineId },
 });
 
 export type Message = typeof Message.Type;
@@ -46,7 +46,7 @@ type Move = Readonly<{ id: OutlineId; message: Message }>;
 
 const moveTo = (id: OutlineId): Move => ({
   id,
-  message: Message.MovedCursor({ id }),
+  message: Message.FocusedRow({ id }),
 });
 
 const step = (
@@ -65,48 +65,36 @@ const step = (
   );
 };
 
+const fold = (id: OutlineId): Move => ({ id, message: Message.ToggledNotes() });
+
+const openOrEnter = (model: Model, id: OutlineId): Option.Option<Move> =>
+  Option.liftPredicate(
+    model.isNotesOpen ? moveTo("agenda") : fold(id),
+    () => id === "notes"
+  );
+
+const closeOrLeave = (model: Model, id: OutlineId): Option.Option<Move> =>
+  isUnderNotes(id)
+    ? Option.some(moveTo("notes"))
+    : Option.liftPredicate(fold(id), () => id === "notes" && model.isNotesOpen);
+
+const KEY_MOVES: Readonly<
+  Record<string, (model: Model, id: OutlineId) => Option.Option<Move>>
+> = {
+  ArrowDown: (model, id) => step(model, id, 1),
+  ArrowUp: (model, id) => step(model, id, -1),
+  Home: (model) => Option.map(Array.head(visibleIds(model)), moveTo),
+  End: (model) => Option.map(Array.last(visibleIds(model)), moveTo),
+  ArrowRight: openOrEnter,
+  ArrowLeft: closeOrLeave,
+};
+
 export const outlineMove = (
   model: Model,
   id: OutlineId,
   key: string
-): Option.Option<Move> => {
-  const ids = visibleIds(model);
-  const fold: Move = { id, message: Message.ToggledNotes() };
-
-  switch (key) {
-    case "ArrowDown": {
-      return step(model, id, 1);
-    }
-
-    case "ArrowUp": {
-      return step(model, id, -1);
-    }
-
-    case "Home": {
-      return Option.map(Array.head(ids), moveTo);
-    }
-
-    case "End": {
-      return Option.map(Array.last(ids), moveTo);
-    }
-
-    case "ArrowRight": {
-      return id === "notes"
-        ? Option.some(model.isNotesOpen ? moveTo("agenda") : fold)
-        : Option.none();
-    }
-
-    case "ArrowLeft": {
-      return isUnderNotes(id)
-        ? Option.some(moveTo("notes"))
-        : Option.liftPredicate(fold, () => id === "notes" && model.isNotesOpen);
-    }
-
-    default: {
-      return Option.none();
-    }
-  }
-};
+): Option.Option<Move> =>
+  Option.flatMap(Record.get(KEY_MOVES, key), (move) => move(model, id));
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
@@ -117,7 +105,7 @@ export const update = (model: Model, message: Message) =>
           model.isNotesOpen && isUnderNotes(cursorId) ? "notes" : cursorId,
       }),
     }),
-    MovedCursor: ({ id }) => ({
+    FocusedRow: ({ id }) => ({
       model: modifyFields(model, { cursorId: () => id }),
     }),
   });
@@ -140,7 +128,7 @@ const outlineRow = (
         h.DataAttribute(OUTLINE_ROW, id),
         h.Tabindex(model.cursorId === id ? 0 : -1),
         ...(model.cursorId === id ? [h.AriaCurrent("true")] : []),
-        h.OnFocus(Message.MovedCursor({ id })),
+        h.OnFocus(Message.FocusedRow({ id })),
         h.OnKeyDownFocus((key) =>
           Option.map(outlineMove(model, id, key), (move) => ({
             focusSelector: `[data-${OUTLINE_ROW}="${move.id}"]`,

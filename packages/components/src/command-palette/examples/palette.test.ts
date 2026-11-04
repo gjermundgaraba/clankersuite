@@ -2,6 +2,7 @@ import { Dialog as UiDialog, Toast as UiToast } from "@foldkit/ui";
 import { CommandPalette, Toast } from "@gjermundgaraba/components";
 import { Array, Option } from "effect";
 import { Story } from "foldkit";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import { ApplyPick, Message, init, update } from "./palette.ts";
@@ -11,10 +12,10 @@ const REFUSAL = "The archive is read-only here.";
 
 const fresh = init().model;
 
-const onMovePage: Model = {
-  ...fresh,
-  palette: CommandPalette.openAt(fresh.palette, { commandId: "move" }).model,
-};
+const onMovePage: Model = modifyFields(fresh, {
+  palette: (palette) =>
+    CommandPalette.openAt(palette, { commandId: "move" }).model,
+});
 
 const pick = (choiceId: string) =>
   Message.GotPaletteMessage({

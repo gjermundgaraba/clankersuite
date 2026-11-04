@@ -1,4 +1,4 @@
-import { Array } from "effect";
+import { Array, Option } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** One step of the path: its words, and where it links. */
@@ -14,17 +14,25 @@ export type ViewConfig = Readonly<{
   crumbs: readonly Crumb[];
 }>;
 
+const stepView = <Message>(
+  { label, href }: Crumb,
+  isLast: boolean,
+  h: HtmlBuilder<Message>
+): Html =>
+  isLast
+    ? h.span([h.AriaCurrent("page")], [label])
+    : Option.match(Option.fromNullishOr(href), {
+        onNone: () => h.span([], [label]),
+        onSome: (link) => h.a([h.Href(link)], [label]),
+      });
+
 const crumbView =
   <Message>(lastIndex: number, h: HtmlBuilder<Message>) =>
-  ({ label, href }: Crumb, index: number): Html =>
+  (crumb: Crumb, index: number): Html =>
     h.keyed("li")(
-      href ?? label,
+      crumb.href ?? crumb.label,
       [],
-      [
-        href === undefined || index === lastIndex
-          ? h.span(index === lastIndex ? [h.AriaCurrent("page")] : [], [label])
-          : h.a([h.Href(href)], [label]),
-      ]
+      [stepView(crumb, index === lastIndex, h)]
     );
 
 /** The path to where you are, in the pixel face, split by muted slashes: a navigation

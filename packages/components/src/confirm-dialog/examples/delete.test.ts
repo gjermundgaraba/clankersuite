@@ -2,6 +2,7 @@ import { Dialog as UiDialog } from "@foldkit/ui";
 import { Announcer, ConfirmDialog } from "@gjermundgaraba/components";
 import { Option } from "effect";
 import { Story } from "foldkit";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import { Delete, Message, init, update } from "./delete.ts";
@@ -49,15 +50,17 @@ describe("the delete example", () => {
   });
 
   it("changes nothing for cancel while the delete runs", () => {
-    const { model } = init();
+    const init_ = init();
 
     Story.story(
       update,
-      Story.given({
-        ...model,
-        deleteConfirm: ConfirmDialog.open(model.deleteConfirm).model,
-        fileState: "Deleting",
-      }),
+      Story.given(
+        modifyFields(init_.model, {
+          deleteConfirm: (deleteConfirm) =>
+            ConfirmDialog.open(deleteConfirm).model,
+          fileState: () => "Deleting",
+        })
+      ),
       Story.message(
         Message.GotDeleteConfirmMessage({
           message: ConfirmDialog.Message.ClickedCancel(),

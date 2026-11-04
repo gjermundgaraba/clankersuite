@@ -13,7 +13,7 @@ import {
   view,
 } from "./glyphs.ts";
 
-const { model: EMPTY } = init();
+const EMPTY = init().model;
 
 describe("the glyphs example", () => {
   it("lists every glyph once", () => {

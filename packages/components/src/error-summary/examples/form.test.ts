@@ -1,6 +1,7 @@
 import { Focus } from "@gjermundgaraba/components";
 import { Array } from "effect";
 import { Story } from "foldkit";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import { Message, SUMMARY_ID, Save, init, update } from "./form.ts";
@@ -13,12 +14,11 @@ const resolveFocus = Story.Command.resolve(
 
 const resolveSave = Story.Command.resolve(Save, Message.CompletedSave());
 
-const filled: Model = {
-  ...init().model,
-  name: "Field notes",
-  hosts: "app.example.com",
-  password: "a sample password",
-};
+const filled: Model = modifyFields(init().model, {
+  name: () => "Field notes",
+  hosts: () => "app.example.com",
+  password: () => "a sample password",
+});
 
 describe("the form example", () => {
   it("lists what is wrong and moves the keyboard to the summary", () => {
@@ -40,7 +40,7 @@ describe("the form example", () => {
   it("saves, then rests so it can save again", () => {
     Story.story(
       update,
-      Story.given({ ...filled, isPasswordShown: true }),
+      Story.given(modifyFields(filled, { isPasswordShown: () => true })),
       Story.message(Message.SubmittedForm()),
       Story.Command.expectExact(Save()),
       Story.model((model) => {
@@ -61,7 +61,7 @@ describe("the form example", () => {
   it("ignores a second submit while the save is out", () => {
     Story.story(
       update,
-      Story.given({ ...filled, isSaving: true }),
+      Story.given(modifyFields(filled, { isSaving: () => true })),
       Story.message(Message.SubmittedForm()),
       Story.Command.expectNone()
     );

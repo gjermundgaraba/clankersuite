@@ -9,6 +9,7 @@ import { Array, Schema } from "effect";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
+import { modifyFields } from "foldkit/struct";
 
 export const Model = Schema.Struct({ fileNames: Schema.Array(Schema.String) });
 
@@ -28,9 +29,9 @@ export const init = (): Update.Return<Model, Message> => ({
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     ClickedArchive: ({ fileName }) => ({
-      model: {
-        fileNames: Array.filter(model.fileNames, (name) => name !== fileName),
-      },
+      model: modifyFields(model, {
+        fileNames: Array.filter((name) => name !== fileName),
+      }),
       commands: [Announcer.Announce({ text: `Archived ${fileName}.` })],
     }),
     CompletedAnnounce: () => ({ model }),

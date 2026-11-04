@@ -4,6 +4,7 @@ import { Command } from "foldkit";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
+import { modifyFields } from "foldkit/struct";
 
 export const Model = Schema.Struct({
   maybeSavedWord: Schema.Option(Schema.String),
@@ -38,17 +39,20 @@ export const WaitBeforeClearFlashWord = Command.define(
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     ClickedSave: () => {
-      const count = model.savedCount + 1;
+      const nextSavedCount = model.savedCount + 1;
 
       return {
-        model: { maybeSavedWord: Option.some("saved"), savedCount: count },
-        commands: [WaitBeforeClearFlashWord({ count })],
+        model: modifyFields(model, {
+          maybeSavedWord: () => Option.some("saved"),
+          savedCount: () => nextSavedCount,
+        }),
+        commands: [WaitBeforeClearFlashWord({ count: nextSavedCount })],
       };
     },
     CompletedWaitBeforeClearFlashWord: ({ count }) => ({
       model:
         count === model.savedCount
-          ? { ...model, maybeSavedWord: Option.none() }
+          ? modifyFields(model, { maybeSavedWord: () => Option.none() })
           : model,
     }),
   });

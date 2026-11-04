@@ -280,10 +280,10 @@ describe("Rail toggle", () => {
   });
 
   it("moves focus to the toggle for a key of the parent's, asking nothing", () => {
-    const { model, commands } = Rail.toggle(fresh);
+    const toggle = Rail.toggle(fresh);
 
-    expect(model).toStrictEqual(fresh);
-    expect(commands?.map(({ name }) => name)).toStrictEqual([
+    expect(toggle.model).toStrictEqual(fresh);
+    expect(toggle.commands?.map(({ name }) => name)).toStrictEqual([
       Rail.FocusRailToggle.name,
     ]);
   });

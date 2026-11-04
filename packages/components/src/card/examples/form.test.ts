@@ -1,6 +1,7 @@
 import { Card, Focus } from "@gjermundgaraba/components";
 import { Option } from "effect";
 import { Story } from "foldkit";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import { Message, SendInvite, init, update } from "./form.ts";
@@ -34,11 +35,12 @@ describe("the form card example", () => {
   it("sends nothing a second time while the invite sends", () => {
     Story.story(
       update,
-      Story.given({
-        ...init().model,
-        email: "ada@example.com",
-        isSending: true,
-      }),
+      Story.given(
+        modifyFields(init().model, {
+          email: () => "ada@example.com",
+          isSending: () => true,
+        })
+      ),
       Story.message(Message.SubmittedInvite()),
       Story.Command.expectNone()
     );

@@ -2,6 +2,7 @@ import { Dialog as UiDialog } from "@foldkit/ui";
 import { Announcer, Dialog, Focus } from "@gjermundgaraba/components";
 import { Option } from "effect";
 import { Story } from "foldkit";
+import { modifyFields } from "foldkit/struct";
 import { describe, expect, it } from "vite-plus/test";
 
 import { Message, SaveRename, init, update } from "./rename.ts";
@@ -63,15 +64,16 @@ describe("the rename example", () => {
   });
 
   it("changes nothing for Escape while the save runs", () => {
-    const { model } = init();
+    const init_ = init();
 
     Story.story(
       update,
-      Story.given({
-        ...model,
-        renameDialog: Dialog.open(model.renameDialog).model,
-        isRenaming: true,
-      }),
+      Story.given(
+        modifyFields(init_.model, {
+          renameDialog: (renameDialog) => Dialog.open(renameDialog).model,
+          isRenaming: () => true,
+        })
+      ),
       Story.message(pressedEscape),
       Story.Command.expectNone(),
       Story.model((heldModel) => {

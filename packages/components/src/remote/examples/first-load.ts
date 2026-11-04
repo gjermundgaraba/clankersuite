@@ -4,6 +4,7 @@ import { AsyncData, Command } from "foldkit";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
+import { modifyFields } from "foldkit/struct";
 
 const Usage = AsyncData.Schema(Schema.Finite, Schema.String);
 
@@ -50,20 +51,28 @@ export const update = (model: Model, message: Message) =>
       Option.match(AsyncData.revalidateOrLoad(model.usage), {
         onNone: () => ({ model }),
         onSome: (usage) => {
-          const attempt = model.attempt + 1;
+          const nextAttempt = model.attempt + 1;
 
           return {
-            model: { usage, attempt },
-            commands: [Focus.Focus({ id: USAGE_ID }), ReadUsage({ attempt })],
+            model: modifyFields(model, {
+              usage: () => usage,
+              attempt: () => nextAttempt,
+            }),
+            commands: [
+              Focus.Focus({ id: USAGE_ID }),
+              ReadUsage({ attempt: nextAttempt }),
+            ],
           };
         },
       }),
     CompletedFocus: () => ({ model }),
     SucceededReadUsage: ({ tokens }) => ({
-      model: { ...model, usage: Usage.Success({ data: tokens }) },
+      model: modifyFields(model, {
+        usage: () => Usage.Success({ data: tokens }),
+      }),
     }),
     FailedReadUsage: ({ error }) => ({
-      model: { ...model, usage: Usage.Failure({ error }) },
+      model: modifyFields(model, { usage: () => Usage.Failure({ error }) }),
     }),
   });
 
