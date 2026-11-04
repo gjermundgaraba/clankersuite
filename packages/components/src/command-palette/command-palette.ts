@@ -1155,6 +1155,9 @@ const cardView = (
  * A `Dialog` (named "Commands", hung near the top) holding a field built on
  * `@foldkit/ui`'s Input as an ARIA combobox (`aria-activedescendant` on the cursor's row) over
  * an always open `role="listbox"` of `role="option"` rows, grouped under their headings.
+ *
+ * Built beside `@foldkit/ui`'s Combobox, whose list opens and closes with its own state and
+ * has neither pages nor rows held while a pick is out.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html =>

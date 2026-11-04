@@ -285,6 +285,9 @@ const toggleView = (
  * sits on is gone). Radio and check rows say `aria-checked`, a link to the current page
  * `aria-current`. A check row keeps the slip open. The menu does not trap focus, so it
  * hosts no live region.
+ *
+ * Built beside `@foldkit/ui`'s Menu, which has no radio, check or link rows and closes on
+ * every choice.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
