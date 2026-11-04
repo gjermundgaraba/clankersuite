@@ -1,10 +1,15 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import type { Attributes } from "../attributes/attributes.ts";
+
 /** Configuration for rendering a bench with `view`. */
-export type ViewConfig = Readonly<{
+export type ViewConfig<Message> = Readonly<{
   /** Above the work, at its own height while the work keeps its floor, past which it scrolls:
    *  a PageHead, notices, and a Rail's open button first. */
   head: ReadonlyArray<Html | string>;
+  /** Further attributes for the head: a hook the application's keys find it by. Never a
+   *  class. */
+  headAttributes?: Attributes<Message>;
   /** The work, taking the rest of the window's height and never less than
    *  `--semantic-dimension-size-min-height-bench-work`: a Reel, which fills it, and the page's dialogs. */
   body: ReadonlyArray<Html | string>;
@@ -16,15 +21,15 @@ export type ViewConfig = Readonly<{
  *  the work scrolls itself where it must (a reel's columns, sideways), and on a short window
  *  the head scrolls in what the work's floor leaves it. */
 export const view = <Message>(
-  config: ViewConfig,
+  config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { head, body } = config;
+  const { head, headAttributes = [], body } = config;
 
   return h.main(
     [h.Id("main"), h.Class("gg-bench")],
     [
-      h.div([h.Class("gg-bench-head")], head),
+      h.div([...headAttributes, h.Class("gg-bench-head")], head),
       h.div([h.Class("gg-bench-work")], body),
     ]
   );

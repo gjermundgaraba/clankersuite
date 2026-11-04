@@ -31,4 +31,25 @@ describe("Bench", () => {
       )
     );
   });
+
+  it("takes the caller's attributes on its head, its class kept", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          Bench.view(
+            {
+              head: ["head"],
+              headAttributes: [h.DataAttribute("workspace-head", "")],
+              body: [],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(Scene.selector("[data-workspace-head]")).toHaveClass(
+        "gg-bench-head"
+      )
+    );
+  });
 });
