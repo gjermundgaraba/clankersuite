@@ -14,8 +14,10 @@ import { keydown } from "../test/events.ts";
 import { byId, bySelector } from "../test/fixture.ts";
 import { settle, settleUntil } from "../test/settle.ts";
 import * as Window from "../window/window.ts";
+import { FocusTab, RestoreFocus } from "./command.ts";
+import * as Reel from "./index.ts";
 import * as ReelLayout from "./layout.ts";
-import * as Reel from "./reel.ts";
+import { SizeLiftedPane } from "./view.ts";
 
 const pane = (id: string, label: string, weight = 1): ReelLayout.Pane => ({
   id,
@@ -285,7 +287,7 @@ describe("Reel.perform", () => {
 
 const restoreFocus = (paneId: string) =>
   Story.Command.resolve(
-    Reel.RestoreFocus({ paneHook: `work/pane/${paneId}` }),
+    RestoreFocus({ paneHook: `work/pane/${paneId}` }),
     Reel.Message.CompletedRestoreFocus()
   );
 
@@ -722,7 +724,7 @@ const reelView =
     );
 
 const sizeLifted = Scene.Mount.resolve(
-  Reel.SizeLiftedPane,
+  SizeLiftedPane,
   Reel.Message.CompletedSizeLiftedPane()
 );
 
@@ -979,7 +981,7 @@ const tab = (name: string) => Scene.role("tab", { name });
 
 const tabFocus = (paneId: string) =>
   Scene.Command.resolve(
-    Reel.FocusTab({ tabHook: `work/tab/${paneId}` }),
+    FocusTab({ tabHook: `work/tab/${paneId}` }),
     Reel.Message.CompletedFocusTab()
   );
 
