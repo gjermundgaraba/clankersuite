@@ -6,6 +6,7 @@ import * as Button from "../button/button.ts";
 import * as Fields from "../fields/fields.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { slotView } from "../slot/slot.ts";
+import * as Text from "../text/text.ts";
 
 /** Configuration for rendering a card with `view`. */
 export type ViewConfig<Message> = Readonly<{
@@ -51,7 +52,9 @@ const childrenView = <Message>(
     [h.Class("gg-card-tb")],
     [
       h.h2(titleAttributes, [title]),
-      ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
+      ...(meta === undefined
+        ? []
+        : [Text.view({ tone: "Meta", body: [meta] }, h)]),
       ...(closeAttributes === undefined
         ? []
         : [

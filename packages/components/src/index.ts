@@ -148,6 +148,8 @@ export * as TextareaField from "./textarea-field/index.ts";
 
 export * as TextButton from "./text-button/index.ts";
 
+export * as Text from "./text/index.ts";
+
 export * as Time from "./time/index.ts";
 
 export * as Tips from "./tips/index.ts";

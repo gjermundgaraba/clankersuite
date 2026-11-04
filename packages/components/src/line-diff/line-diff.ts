@@ -2,6 +2,7 @@ import { Array, Option } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { LOCALE } from "../locale/locale.ts";
+import * as Text from "../text/text.ts";
 import { DiffRow } from "./diff.ts";
 import type { LineKind } from "./diff.ts";
 import { SAME_NOTE, readPatch } from "./patch.ts";
@@ -76,7 +77,7 @@ const rowView = <Message>(row: DiffRow, h: HtmlBuilder<Message>): Html =>
   });
 
 const noteView = <Message>(note: string, h: HtmlBuilder<Message>): Html =>
-  h.p([h.Class("gg-note-line")], [note]);
+  Text.view({ tone: "Note", body: [note] }, h);
 
 const tableView = <Message>(
   rows: readonly DiffRow[],

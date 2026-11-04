@@ -1,6 +1,7 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { slotView } from "../slot/slot.ts";
+import * as Text from "../text/text.ts";
 
 /** Configuration for rendering a panel with `view`. */
 export type ViewConfig = Readonly<{
@@ -68,7 +69,9 @@ export const view = <Message>(
         [
           ...slotView("span", "gg-panel-lead", lead, h),
           h.h2([h.Id(titleId(id))], [title]),
-          ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
+          ...(meta === undefined
+            ? []
+            : [Text.view({ tone: "Meta", body: [meta] }, h)]),
           ...slotView("span", "gg-panel-acts", actions, h),
         ]
       ),

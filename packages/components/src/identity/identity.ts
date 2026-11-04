@@ -1,7 +1,8 @@
+import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import * as Monogram from "../monogram/monogram.ts";
-import { slotView } from "../slot/slot.ts";
+import * as Text from "../text/text.ts";
 
 /** Configuration for rendering an identity with `view`. */
 export type ViewConfig = Readonly<{
@@ -36,7 +37,13 @@ export const view = <Message>(
       ),
       h.span(
         [h.Class("gg-identity-text")],
-        [h.strong([], [label]), ...slotView("span", "gg-meta", meta, h)]
+        [
+          h.strong([], [label]),
+          ...Array.match(meta, {
+            onEmpty: () => [],
+            onNonEmpty: (body) => [Text.view({ tone: "Meta", body }, h)],
+          }),
+        ]
       ),
     ]
   );

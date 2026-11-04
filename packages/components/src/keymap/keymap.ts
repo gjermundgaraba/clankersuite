@@ -1,6 +1,8 @@
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import * as Text from "../text/text.ts";
+
 /** One key and what it does, both as printed. */
 export type KeymapRow = Readonly<{ keys: string; does: string }>;
 
@@ -47,6 +49,6 @@ export const view = <Message>(
       ...Array.map(config.groups, groupView(h)),
       ...(config.note === undefined
         ? []
-        : [h.p([h.Class("gg-note-line")], [config.note])]),
+        : [Text.view({ tone: "Note", body: [config.note] }, h)]),
     ]
   );

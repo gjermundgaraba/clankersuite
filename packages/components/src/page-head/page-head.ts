@@ -1,6 +1,7 @@
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 
 import { slotView } from "../slot/slot.ts";
+import * as Text from "../text/text.ts";
 
 /** Configuration for rendering a page head with `view`. */
 export type ViewConfig<Message = never> = Readonly<{
@@ -30,7 +31,9 @@ export const view = <Message>(
         [h.Class("gg-page-name")],
         [
           h.h1([...titleAttributes, h.Class("gg-page-title")], [title]),
-          ...(meta === undefined ? [] : [h.span([h.Class("gg-meta")], [meta])]),
+          ...(meta === undefined
+            ? []
+            : [Text.view({ tone: "Meta", body: [meta] }, h)]),
         ]
       ),
       ...slotView("div", "gg-page-acts", actions, h),
