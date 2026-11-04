@@ -1,3 +1,3 @@
-export { view } from "./window.ts";
+export { toolsView, view } from "./window.ts";
 
 export type { ViewConfig } from "./window.ts";

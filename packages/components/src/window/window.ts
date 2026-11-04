@@ -19,8 +19,7 @@ export type ViewConfig<Message> = Readonly<{
   /** A chip in the title bar: its state. */
   status?: ReadonlyArray<Html | string>;
   /** IconButtons in the title bar, before the close. A child Submodel, whose view is one
-   *  `Html`, hands back several in a `span.gg-window-tools`: it is no box of its own
-   *  (`display: contents`), so its buttons sit in the bar as the others do. */
+   *  `Html`, hands back several as one through `toolsView`. */
   tools?: readonly Html[];
   /** The close glyph's Message; the glyph prints when it is given. */
   onClose?: Message;
@@ -77,3 +76,11 @@ export const view = <Message>(
     ]
   );
 };
+
+/** Several title-bar tools as one `Html`, for a child Submodel's view to hand back: the group
+ *  is no box of its own (`display: contents`), so its buttons sit in the bar as the others
+ *  do. */
+export const toolsView = <Message>(
+  tools: ReadonlyArray<Html | string>,
+  h: HtmlBuilder<Message>
+): Html => h.span([h.Class("gg-window-tools")], tools);

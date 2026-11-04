@@ -73,8 +73,7 @@ describe("Window", () => {
               id: "page",
               title: "Page",
               tools: [
-                h.span(
-                  [h.Class("gg-window-tools")],
+                Window.toolsView(
                   [
                     h.button(
                       [h.Class("gg-iconbtn"), h.AriaLabel("Back")],
@@ -84,7 +83,8 @@ describe("Window", () => {
                       [h.Class("gg-iconbtn"), h.AriaLabel("Reload")],
                       ["o"]
                     ),
-                  ]
+                  ],
+                  h
                 ),
               ],
               onClose: Message.ClickedClose(),

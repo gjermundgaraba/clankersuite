@@ -8,7 +8,7 @@ A panel that lives on a stage or in a reel, sized by whatever places it: its bod
 
 ## Kind, state and tools
 
-The glyph says what kind of thing it is, a chip in the title bar its state, and IconButtons its tools. With `onClose`, a close glyph prints after them.
+The glyph says what kind of thing it is, a chip in the title bar its state, and IconButtons its tools. A child Submodel that owns several tools hands them back as one through `Window.toolsView`. With `onClose`, a close glyph prints after them.
 
 ::Example{name="machine"}
 
