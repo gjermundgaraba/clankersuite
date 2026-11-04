@@ -36,8 +36,7 @@ export type Binding = Readonly<{
 /** The key that opens the help, `?`, which the application binds. */
 export const HELP_KEYS: KeySequence = "Shift+?";
 
-/** The help's own line in its listing. */
-export const helpBinding: Binding = {
+const helpBinding: Binding = {
   keys: [HELP_KEYS],
   group: "Help",
   does: "These keys",

@@ -11,7 +11,7 @@ export {
   view,
 } from "./menu.ts";
 
-export type { InitConfig, ViewInputs } from "./menu.ts";
+export type { Align, InitConfig, ViewInputs } from "./menu.ts";
 
 export { action, check, group, link, radio } from "./item.ts";
 

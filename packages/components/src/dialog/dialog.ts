@@ -33,7 +33,7 @@ export type Placement = typeof Placement.Type;
  *  that moved focus there (the Mount already moved it); nothing in the Model follows it. */
 export const Message = defineMessageUnion({
   GotDialogMessage: { message: UiDialog.Message },
-  PressedActionKey: { direction: ActionDirection },
+  PressedActionKey: {},
 });
 
 export type Message = typeof Message.Type;
@@ -193,8 +193,8 @@ export const BindActionKeys = Mount.defineStream("BindActionKeys", {
       target: element,
       type: "keydown",
       filterMapEvent: (event) =>
-        Option.map(moveActionFocus(element, event), (direction) =>
-          Message.PressedActionKey({ direction })
+        Option.map(moveActionFocus(element, event), () =>
+          Message.PressedActionKey()
         ),
     }),
 });
@@ -206,7 +206,7 @@ export const BindActionKeys = Mount.defineStream("BindActionKeys", {
 export const sceneMounts = [
   // oxlint-disable-next-line foldkit/no-child-message-construction-in-root
   [UiDialog.AcquireResources, UiDialog.Message.SucceededAcquireResources()],
-  [BindActionKeys, Message.PressedActionKey({ direction: "Next" })],
+  [BindActionKeys, Message.PressedActionKey()],
 ] as const;
 
 /** Attribute groups a dialog hands its content. Spread each onto the element it names; a Card

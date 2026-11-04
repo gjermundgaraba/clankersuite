@@ -11,4 +11,4 @@ export {
   view,
 } from "./toast.ts";
 
-export type { InitConfig, ShowConfig } from "./toast.ts";
+export type { InitConfig, ShowConfig, ShowReturn } from "./toast.ts";
