@@ -10,20 +10,8 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Stack.view(
           {
             body: [
-              h.p(
-                [],
-                [
-                  "ada@example.com ",
-                  Text.view({ tone: "Meta", body: ["owner"] }, h),
-                ]
-              ),
-              Text.view(
-                {
-                  tone: "Note",
-                  body: ["An invited member can sign in once they accept."],
-                },
-                h
-              ),
+              h.p([], ["ada@example.com ", Text.meta(["owner"], h)]),
+              Text.note(["An invited member can sign in once they accept."], h),
             ],
           },
           h

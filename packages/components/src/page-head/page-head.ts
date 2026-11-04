@@ -31,9 +31,7 @@ export const view = <Message>(
         [h.Class("gg-page-name")],
         [
           h.h1([...titleAttributes, h.Class("gg-page-title")], [title]),
-          ...(meta === undefined
-            ? []
-            : [Text.view({ tone: "Meta", body: [meta] }, h)]),
+          ...(meta === undefined ? [] : [Text.meta([meta], h)]),
         ]
       ),
       ...slotView("div", "gg-page-acts", actions, h),

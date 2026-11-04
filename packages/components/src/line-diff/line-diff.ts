@@ -77,7 +77,7 @@ const rowView = <Message>(row: DiffRow, h: HtmlBuilder<Message>): Html =>
   });
 
 const noteView = <Message>(note: string, h: HtmlBuilder<Message>): Html =>
-  Text.view({ tone: "Note", body: [note] }, h);
+  Text.note([note], h);
 
 const tableView = <Message>(
   rows: readonly DiffRow[],

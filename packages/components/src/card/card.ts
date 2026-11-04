@@ -52,9 +52,7 @@ const childrenView = <Message>(
     [h.Class("gg-card-tb")],
     [
       h.h2(titleAttributes, [title]),
-      ...(meta === undefined
-        ? []
-        : [Text.view({ tone: "Meta", body: [meta] }, h)]),
+      ...(meta === undefined ? [] : [Text.meta([meta], h)]),
       ...(closeAttributes === undefined
         ? []
         : [

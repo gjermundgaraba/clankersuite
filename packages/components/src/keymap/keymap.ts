@@ -47,8 +47,6 @@ export const view = <Message>(
     [h.Class("gg-keymap")],
     [
       ...Array.map(config.groups, groupView(h)),
-      ...(config.note === undefined
-        ? []
-        : [Text.view({ tone: "Note", body: [config.note] }, h)]),
+      ...(config.note === undefined ? [] : [Text.note([config.note], h)]),
     ]
   );

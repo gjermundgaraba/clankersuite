@@ -1,3 +1,1 @@
-export { Tone, view } from "./text.ts";
-
-export type { ViewConfig } from "./text.ts";
+export { meta, note } from "./text.ts";

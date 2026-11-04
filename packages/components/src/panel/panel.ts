@@ -72,9 +72,7 @@ export const view = <Message>(
         [
           ...slotView("span", "gg-panel-lead", lead, h),
           h.h2([h.Id(titleId(id))], [title]),
-          ...(meta === undefined
-            ? []
-            : [Text.view({ tone: "Meta", body: [meta] }, h)]),
+          ...(meta === undefined ? [] : [Text.meta([meta], h)]),
           ...slotView("span", "gg-panel-acts", actions, h),
         ]
       ),

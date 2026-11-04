@@ -41,7 +41,7 @@ export const view = <Message>(
           h.strong([], [label]),
           ...Array.match(meta, {
             onEmpty: () => [],
-            onNonEmpty: (body) => [Text.view({ tone: "Meta", body }, h)],
+            onNonEmpty: (body) => [Text.meta(body, h)],
           }),
         ]
       ),
