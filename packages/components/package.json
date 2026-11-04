@@ -74,7 +74,8 @@
     "happy-dom": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@effect/platform-browser": "^4.0.0",
