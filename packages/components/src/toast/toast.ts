@@ -325,6 +325,12 @@ const spoken = (config: ShowConfig): string =>
     ? `${config.title}.`
     : `${config.title}. ${config.body}`;
 
+const newestEntryId = (model: Model): string =>
+  Option.getOrThrowWith(
+    Stack.newestId(model.stack),
+    () => new Error("The toast stack raised no entry.")
+  );
+
 /**
  * Raises a slip and says it once (see `AnnounceSlip`). At most `MOST_SHOWING` slips that are
  * not errors show: one more takes the place of the oldest of them. Errors stack without limit,
@@ -344,7 +350,7 @@ export const show = (model: Model, config: ShowConfig): ShowReturn => {
     () => config.tone !== "Error"
   );
 
-  const raised = Update.combine(model, [
+  const shown = Update.combine(model, [
     ...Array.fromOption(
       Option.map(maybeReplaced, (slip) => dismissStep(slip.id))
     ),
@@ -357,15 +363,7 @@ export const show = (model: Model, config: ShowConfig): ShowReturn => {
         }),
       ...foldConfig,
     }),
-  ]);
-
-  const entryId = Option.getOrThrowWith(
-    Stack.newestId(raised.model.stack),
-    () => new Error("The toast stack raised no entry.")
-  );
-
-  const shown = Update.combine(raised.model, [
-    holdIfHeld(entryId),
+    (stepModel) => holdIfHeld(newestEntryId(stepModel))(stepModel),
     (stepModel) => ({
       model: stepModel,
       commands: [
@@ -374,11 +372,7 @@ export const show = (model: Model, config: ShowConfig): ShowReturn => {
     }),
   ]);
 
-  return {
-    model: shown.model,
-    commands: [...(raised.commands ?? []), ...(shown.commands ?? [])],
-    entryId,
-  };
+  return { ...shown, entryId: newestEntryId(shown.model) };
 };
 
 /** Takes a slip back by its id: what it reported has recovered. */
