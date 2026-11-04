@@ -58,6 +58,16 @@ defineMarkdownEditorElement();
 
 Only that subpath loads CodeMirror, so an application that never imports it pays nothing and shows a plain textarea, or for a read view the source as prose. Links open with Ctrl or Cmd and a click, or Ctrl or Cmd and Enter at the caret; in a read view they are links, opened with a click or from the keyboard. A disabled fieldset makes the editor read-only.
 
+## In an application
+
+An application on the components keeps these rules. Its `AGENTS.md` points here, so they change with the version it installs.
+
+- It imports the brand's stylesheet whole, once, as above, and depends on `@gjermundgaraba/components` and `@gjermundgaraba/icons`, not on the tokens or the font.
+- It writes no `gg-` class and no `data-gg-` attribute: a component's config prints them. A component's `attributes` never carry a class, since Foldkit keeps the last `Class` and the component's own comes last. Where the application needs a hook of its own, it wraps the component in an element of its own.
+- It may read the `gg-` classes and `data-gg-` attributes the components print: in a test, or in a stylesheet that places a component (margin, gap, width, a container query). It does not change a component's look (colour, type, border, shadow); a look it needs goes into the component.
+- A test finds an element by its role, label or text where it has one, and reads a state that has a meaning through ARIA (`aria-current`, `aria-expanded`, `aria-pressed`, `inert`).
+- Its own stylesheet takes values from the brand's `--semantic-*` tokens, never `--primitive-*`. Of the components' custom properties it uses only `--gg-dither`, the brand's ground.
+
 ## Licence
 
 MIT. `THIRD_PARTY_NOTICES.md` carries the licence of the Markdown editor's live layer.
