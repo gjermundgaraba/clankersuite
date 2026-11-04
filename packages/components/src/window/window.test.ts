@@ -99,4 +99,26 @@ describe("Window", () => {
       Scene.expect(Scene.role("button", { name: "Reload" })).toExist()
     );
   });
+
+  it("takes the caller's attributes on its title bar, its class kept", () => {
+    Scene.scene(
+      {
+        update,
+        view: (_model: Model, h: HtmlBuilder<Message>) =>
+          Window.view(
+            {
+              id: "page",
+              title: "Page",
+              titleBarAttributes: [h.DataAttribute("pane-bar", "page")],
+              body: [],
+            },
+            h
+          ),
+      },
+      Scene.given<Model>({ isOpen: true }),
+      Scene.expect(Scene.selector('[data-pane-bar="page"]')).toHaveClass(
+        "gg-panel-tb"
+      )
+    );
+  });
 });

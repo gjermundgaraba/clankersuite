@@ -2,6 +2,7 @@ import { Glyph } from "@gjermundgaraba/icons";
 import type { GlyphName } from "@gjermundgaraba/icons";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import type { Attributes } from "../attributes/attributes.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { titleId } from "../panel/panel.ts";
 import { slotView } from "../slot/slot.ts";
@@ -21,6 +22,9 @@ export type ViewConfig<Message> = Readonly<{
   /** IconButtons in the title bar, before the close. A child Submodel, whose view is one
    *  `Html`, hands back several as one through `toolsView`. */
   tools?: readonly Html[];
+  /** Further attributes for the title bar: a hook the application finds it by, to move the
+   *  window by its bar. Never a class. */
+  titleBarAttributes?: Attributes<Message>;
   /** The close glyph's Message; the glyph prints when it is given. */
   onClose?: Message;
   body: ReadonlyArray<Html | string>;
@@ -42,6 +46,7 @@ export const view = <Message>(
     glyph,
     status = [],
     tools = [],
+    titleBarAttributes = [],
     onClose,
     body,
     isFlush = false,
@@ -55,7 +60,7 @@ export const view = <Message>(
     ],
     [
       h.header(
-        [h.Class("gg-panel-tb")],
+        [...titleBarAttributes, h.Class("gg-panel-tb")],
         [
           ...slotView("span", "gg-panel-lead", lead, h),
           ...(glyph === undefined ? [] : [Glyph.view({ name: glyph }, h)]),
