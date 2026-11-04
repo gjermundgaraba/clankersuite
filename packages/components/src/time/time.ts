@@ -135,7 +135,6 @@ export const view = <Message>(
 
 const TICK = Duration.seconds(1);
 
-/** Configuration for the `clockEntry` Subscription helper. */
 /** Configuration for rendering a calendar day with `dayView`. */
 export type DayConfig = Readonly<{
   /** The day, `YYYY-MM-DD`. */
@@ -171,6 +170,7 @@ export const dayView = <Message>(
   );
 };
 
+/** Configuration for the `clockEntry` Subscription helper. */
 export type ClockConfig<Model, Message> = Readonly<{
   /** Whether anything on the page reads the clock; it stops while this is false. */
   isActive: (model: Model) => boolean;
