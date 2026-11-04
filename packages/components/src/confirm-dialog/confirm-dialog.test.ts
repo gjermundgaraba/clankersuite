@@ -60,11 +60,13 @@ describe("ConfirmDialog update", () => {
     );
   });
 
-  it("stays open and reports nothing for Escape or cancel while its ways out are held", () => {
+  it("stays open and reports nothing for the action, Escape or cancel while its ways out are held", () => {
     Story.story(
       (model: ConfirmDialog.Model, message: ConfirmDialog.Message) =>
         ConfirmDialog.update(model, message, { isCloseHeld: true }),
       Story.given(openConfirm),
+      Story.message(ConfirmDialog.Message.ClickedConfirm()),
+      Story.expectNoOutMessage(),
       Story.message(pressedEscape),
       Story.message(ConfirmDialog.Message.ClickedCancel()),
       Story.expectNoOutMessage(),

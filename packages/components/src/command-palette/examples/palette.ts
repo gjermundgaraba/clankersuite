@@ -146,6 +146,8 @@ const commands = (model: Model): readonly CommandPalette.Command[] => [
 
 const PICK_TIME = Duration.millis(500);
 
+const PICK_TIMEOUT = Duration.seconds(10);
+
 export const ApplyPick = Command.define("ApplyPick", {
   args: { commandId: Schema.String, choiceId: Schema.String },
   messages: [Message.SucceededApplyPick, Message.FailedApplyPick],
@@ -158,7 +160,17 @@ export const ApplyPick = Command.define("ApplyPick", {
               reason: "The archive is read-only here.",
             })
           : Message.SucceededApplyPick({ commandId, choiceId })
-      )
+      ),
+      Effect.timeoutOrElse({
+        duration: PICK_TIMEOUT,
+        orElse: () =>
+          Effect.succeed(
+            Message.FailedApplyPick({
+              choiceId,
+              reason: "The change took too long. Try again.",
+            })
+          ),
+      })
     ),
 });
 

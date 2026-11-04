@@ -505,6 +505,11 @@ describe("CommandPalette update", () => {
         UiDialog.Message.CompletedCloseDialog()
       ),
       Story.model((model) => {
+        expect(CommandPalette.isPicking(model)).toBe(false);
+        expect(CommandPalette.pickSucceeded(model, "done").model).toStrictEqual(
+          model
+        );
+
         const reopened = CommandPalette.open(model).model;
         expect(
           CommandPalette.pickSucceeded(reopened, "done").model

@@ -1904,8 +1904,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
   );
 }
 
-.gg-markdown-surface:focus-within,
-.gg-field:has([aria-invalid="true"]) .gg-markdown-surface {
+.gg-markdown-surface:focus-within {
   border-bottom: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   padding-bottom: 0;
@@ -1951,11 +1950,7 @@ textarea::-webkit-resizer {
 
 .gg-field input[aria-invalid="true"],
 .gg-field textarea[aria-invalid="true"] {
-  border-bottom: var(--semantic-dimension-border-width-container) solid
-    var(--semantic-color-border-negative);
-  padding-bottom: var(
-    --semantic-dimension-space-control-padding-block-xxx-small
-  );
+  border-bottom-color: var(--semantic-color-border-negative);
 }
 
 .gg-field:has([aria-invalid="true"]) > label {

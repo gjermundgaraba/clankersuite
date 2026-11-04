@@ -132,9 +132,13 @@ export const query = (model: Model): string =>
 export const maybePageId = (model: Model): Option.Option<string> =>
   Option.map(model.maybePage, (page) => page.commandId);
 
-/** Whether a picked choice is waiting for the caller's answer. */
+const maybeOutPick = (model: Model): Option.Option<string> =>
+  Option.filter(model.maybePicking, () => isOpen(model));
+
+/** Whether a picked choice is waiting for the caller's answer. A pick is out only while the
+ *  palette is open. */
 export const isPicking = (model: Model): boolean =>
-  Option.isSome(model.maybePicking);
+  Option.isSome(maybeOutPick(model));
 
 const ROW_ATTRIBUTE = "gg-palette-value";
 
@@ -572,7 +576,7 @@ export const pickSucceeded = (
   model: Model,
   choiceId: string
 ): Update.Return<Model, Message> =>
-  Option.contains(model.maybePicking, choiceId)
+  Option.contains(maybeOutPick(model), choiceId)
     ? dialogFold.close(fresh(model, Option.none()))
     : { model };
 
@@ -583,7 +587,7 @@ export const pickFailed = (
   model: Model,
   choiceId: string
 ): Update.Return<Model, Message> =>
-  Option.contains(model.maybePicking, choiceId)
+  Option.contains(maybeOutPick(model), choiceId)
     ? { model: modifyFields(model, { maybePicking: () => Option.none() }) }
     : { model };
 

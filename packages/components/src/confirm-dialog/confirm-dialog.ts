@@ -60,7 +60,8 @@ const dialogFold = foldDialog(Dialog, {
 });
 
 /** Processes a confirm dialog Message and returns the next Model, Commands and OutMessage.
- *  While `context.isCloseHeld`, cancel, Escape and the veil change nothing. */
+ *  While `context.isCloseHeld`, the action, cancel, Escape and the veil change nothing, so
+ *  confirmed work cannot start twice. */
 export const update = (
   model: Model,
   message: Message,
@@ -71,7 +72,10 @@ export const update = (
     {
       GotDialogMessage: ({ message: dialogMessage }) =>
         dialogFold.updateWith(context)(model, dialogMessage),
-      ClickedConfirm: () => ({ model, outMessage: OutMessage.Confirmed() }),
+      ClickedConfirm: () =>
+        context.isCloseHeld
+          ? { model }
+          : { model, outMessage: OutMessage.Confirmed() },
       ClickedCancel: () =>
         context.isCloseHeld
           ? { model }
