@@ -173,3 +173,7 @@ The Markdown editor's `lmd-` classes are `gg-md-`: `.lmd-link` is `.gg-md-link`.
 | `--reel-width`, `--reel-weight`, `--reel-anchor`                                                | `--gg-reel-width`, `--gg-reel-weight`, `--gg-reel-anchor`           |
 | the anchor names `--topbar`, `--banner`, `--reel-stage`, `--reel-<n>`                           | `--gg-topbar`, `--gg-banner`, `--gg-reel-stage`, `--gg-reel-<n>`    |
 | the keyframes `blink`, `cardIn`, `railIn`, `toastIn`, `veilIn`                                  | `gg-blink`, `gg-card-in`, `gg-rail-in`, `gg-toast-in`, `gg-veil-in` |
+
+## The last step
+
+When all six applications are on the new packages, delete this file and the line in `README.md` that points to it.
