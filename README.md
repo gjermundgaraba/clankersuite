@@ -10,7 +10,7 @@ The gjermundgaraba design system: one set of components for the clanker applicat
 | [`packages/components`](packages/components)       | `@gjermundgaraba/components`    | the Foldkit components and their stylesheet           |
 | [`apps/docs`](apps/docs)                           | not published                   | the documentation site                                |
 
-The packages are released together, at one version. `MIGRATION.md` maps `@gjermundgaraba/pixel-paper` onto them.
+The packages are released together, at one version.
 
 ## Development
 
