@@ -1,6 +1,6 @@
 import { Scheme } from "@gjermundgaraba/components";
 import { Option, Schema } from "effect";
-import { Subscription, Update } from "foldkit";
+import { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
@@ -39,13 +39,6 @@ export const update = (model: Model, message: Message) =>
     GotSchemeSwitchMessage: ({ message: schemeMessage }) =>
       foldSchemeSwitch(model, schemeMessage),
   });
-
-export const subscriptions = Subscription.lift(
-  Scheme.SchemeSwitch.subscriptions
-)<Model, Message>({
-  read: (model) => Option.some(model.schemeSwitch),
-  toParentMessage: toSchemeSwitchMessage,
-});
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   h.submodel({

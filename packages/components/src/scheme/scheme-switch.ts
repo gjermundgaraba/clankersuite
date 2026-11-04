@@ -1,22 +1,18 @@
 import { Effect, Option, Schema } from "effect";
 import * as Command from "foldkit/command";
-import * as Dom from "foldkit/dom";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
-import * as Subscription from "foldkit/subscription";
 import type * as Update from "foldkit/update";
 
 import * as Segmented from "../segmented/segmented.ts";
-import { Palette, Scheme, fromPinnedValue, toPinnedValue } from "./scheme.ts";
+import { Scheme, fromPinnedValue, toPinnedValue } from "./scheme.ts";
 import { SCHEME_ATTRIBUTE, SCHEME_STORAGE_KEY } from "./script.ts";
 
-/** Schema for the scheme switch: the scheme in force as far as the page has seen, and the
- *  palette the reader's system prefers, which `System` prints in. */
+/** Schema for the scheme switch: the scheme in force as far as the page has seen. */
 export const Model = Schema.Struct({
   scheme: Scheme,
-  systemPalette: Palette,
 });
 
 export type Model = typeof Model.Type;
@@ -26,7 +22,6 @@ export const Message = defineMessageUnion({
   SelectedScheme: { scheme: Scheme },
   CompletedPinScheme: {},
   CompletedReadScheme: { scheme: Scheme },
-  UpdatedSystemPalette: { palette: Palette },
 });
 
 export type Message = typeof Message.Type;
@@ -66,10 +61,9 @@ const ReadScheme = Command.define("ReadScheme", {
 
 /** Creates the switch on `System` in the paper palette, as the server renders it, with a
  *  Command that reads `<html data-color-scheme>` once the client runs it after hydration: the scheme
- *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. The `subscriptions` bring in the
- *  system's palette. A change made in another tab is seen on the next load, not live. */
+ *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. A change made in another tab is seen on the next load, not live. */
 export const init = (): Update.Return<Model, Message> => ({
-  model: { scheme: "System", systemPalette: "Paper" },
+  model: { scheme: "System" },
   commands: [ReadScheme()],
 });
 
@@ -89,27 +83,11 @@ export const update = (model: Model, message: Message) =>
     CompletedReadScheme: ({ scheme: read }) => ({
       model: modifyFields(model, { scheme: () => read }),
     }),
-    UpdatedSystemPalette: ({ palette: systemPalette }) => ({
-      model: modifyFields(model, { systemPalette: () => systemPalette }),
-    }),
   });
 
 /** Pins a scheme from outside the switch, such as a command palette entry. */
 export const select = (model: Model, chosen: Scheme): UpdateReturn =>
   update(model, Message.SelectedScheme({ scheme: chosen }));
-
-const systemPaletteChanges = Dom.streamFromMediaQuery({
-  query: "(prefers-color-scheme: dark)",
-  mapMatches: (isDark) =>
-    Message.UpdatedSystemPalette({ palette: isDark ? "Plum" : "Paper" }),
-});
-
-/** Keeps the switch in step with the palette the reader's system prefers, which `System`
- *  prints in. Lift it into the application's Subscriptions. One switch per page: its key is
- *  fixed, `schemeSwitchSystemPalette`. */
-export const subscriptions = Subscription.make<Model, Message>()(() => ({
-  schemeSwitchSystemPalette: Subscription.persistentEntry(systemPaletteChanges),
-}));
 
 const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = [
   { value: "System", label: "system" },

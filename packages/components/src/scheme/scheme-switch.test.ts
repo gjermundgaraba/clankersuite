@@ -1,4 +1,4 @@
-import { Effect, Stream } from "effect";
+import { Effect } from "effect";
 import { Scene, Story } from "foldkit";
 import { describe, expect, it, vi } from "vite-plus/test";
 
@@ -10,7 +10,6 @@ const schemeSwitchInit = SchemeSwitch.init();
 describe("SchemeSwitch init", () => {
   it("starts on System and takes up the scheme schemeScript pinned before the page ran", () => {
     expect(SchemeSwitch.scheme(schemeSwitchInit.model)).toBe("System");
-    expect(schemeSwitchInit.model.systemPalette).toBe("Paper");
     expect(schemeSwitchInit.commands?.map(({ name }) => name)).toStrictEqual([
       "ReadScheme",
     ]);
@@ -53,30 +52,6 @@ describe("SchemeSwitch update", () => {
       Story.Command.expectNone(),
       Story.model((model) => {
         expect(model.scheme).toBe("Paper");
-      })
-    );
-  });
-});
-
-describe("SchemeSwitch system palette", () => {
-  it("follows the palette the reader's system prefers, whatever is pinned", () => {
-    Story.story(
-      SchemeSwitch.update,
-      Story.given(schemeSwitchInit.model),
-      Story.message(
-        SchemeSwitch.Message.UpdatedSystemPalette({ palette: "Plum" })
-      ),
-      Story.Command.expectNone(),
-      Story.model((model) => {
-        expect(SchemeSwitch.scheme(model)).toBe("System");
-        expect(model.systemPalette).toBe("Plum");
-      }),
-      Story.message(
-        SchemeSwitch.Message.CompletedReadScheme({ scheme: "Paper" })
-      ),
-      Story.model((model) => {
-        expect(SchemeSwitch.scheme(model)).toBe("Paper");
-        expect(model.systemPalette).toBe("Plum");
       })
     );
   });
@@ -157,31 +132,6 @@ describe("SchemeSwitch view", () => {
         "aria-pressed",
         "true"
       )
-    );
-  });
-});
-
-describe("SchemeSwitch subscriptions", () => {
-  it("starts with the palette the system prefers", async () => {
-    const { schemeSwitchSystemPalette: systemPalette } =
-      SchemeSwitch.subscriptions;
-
-    const first = await Effect.runPromise(
-      Stream.runHead(
-        systemPalette.dependenciesToStream(
-          systemPalette.modelToDependencies(schemeSwitchInit.model)
-        )
-      )
-    );
-
-    expect(first).toStrictEqual(
-      expect.objectContaining({
-        value: SchemeSwitch.Message.UpdatedSystemPalette({
-          palette: window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "Plum"
-            : "Paper",
-        }),
-      })
     );
   });
 });

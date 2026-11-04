@@ -6,7 +6,7 @@ category: plumbing
 
 The reader's choice of palette: system, paper or plum. `SchemeSwitch` pins it on `<html data-color-scheme>` and remembers it on this device; under system, the page follows the palette the reader's system prefers. The switch is a `Segmented`.
 
-Put `schemeScript` from `@gjermundgaraba/components/scheme` inline in the page's `<head>`, so a remembered choice applies before first paint. Lift the switch's `subscriptions` into the application's; their key is fixed, so an application has one switch.
+Put `schemeScript` from `@gjermundgaraba/components/scheme` inline in the page's `<head>`, so a remembered choice applies before first paint.
 
 ::Example{name="switch"}
 

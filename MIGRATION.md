@@ -174,6 +174,10 @@ The Markdown editor's `lmd-` classes are `gg-md-`: `.lmd-link` is `.gg-md-link`.
 | the anchor names `--topbar`, `--banner`, `--reel-stage`, `--reel-<n>`                           | `--gg-topbar`, `--gg-banner`, `--gg-reel-stage`, `--gg-reel-<n>`    |
 | the keyframes `blink`, `cardIn`, `railIn`, `toastIn`, `veilIn`                                  | `gg-blink`, `gg-card-in`, `gg-rail-in`, `gg-toast-in`, `gg-veil-in` |
 
+## API changes
+
+- `SchemeSwitch.subscriptions` is gone, with `systemPalette` on its Model and the `UpdatedSystemPalette` Message: `System` follows the reader's system in CSS alone, so the switch reads nothing from it. Delete the switch's line from the application's Subscriptions.
+
 ## The last step
 
 When all six applications are on the new packages, delete this file and the line in `README.md` that points to it.

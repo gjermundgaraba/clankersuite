@@ -6,12 +6,6 @@ export const Scheme = Schema.Literals(["System", "Paper", "Plum"]);
 
 export type Scheme = typeof Scheme.Type;
 
-/** The palette a page prints in: `Paper` (light) or `Plum` (dark). Under `System` it is the
- *  one the reader's system prefers. */
-export const Palette = Schema.Literals(["Paper", "Plum"]);
-
-export type Palette = typeof Palette.Type;
-
 export const toPinnedValue = (scheme: Scheme): Option.Option<string> =>
   Match.value(scheme).pipe(
     Match.withReturnType<Option.Option<string>>(),
