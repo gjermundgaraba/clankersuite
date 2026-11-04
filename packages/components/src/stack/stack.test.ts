@@ -5,7 +5,7 @@ import { describe, it } from "vite-plus/test";
 import * as Stack from "./stack.ts";
 
 const stackView =
-  (config: Stack.ViewConfig) => (_model: null, h: HtmlBuilder<never>) =>
+  (config: Stack.ViewConfig<never>) => (_model: null, h: HtmlBuilder<never>) =>
     Stack.view(config, h);
 
 describe("Stack", () => {
@@ -26,6 +26,29 @@ describe("Stack", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.selector(".gg-stack")).toHaveClass("gg-gap-l")
+    );
+  });
+
+  it("takes the caller's attributes, a named region, its classes kept", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          Stack.view(
+            {
+              body: ["a"],
+              attributes: [h.Role("region"), h.AriaLabel("Keys")],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(Scene.role("region", { name: "Keys" })).toHaveClass(
+        "gg-stack"
+      ),
+      Scene.expect(Scene.role("region", { name: "Keys" })).toHaveClass(
+        "gg-gap-m"
+      )
     );
   });
 });

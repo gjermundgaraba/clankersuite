@@ -4,7 +4,7 @@ category: layout
 
 # Stack
 
-A column of components a gap apart, each taking the column's width. It is space only: no paper, border or shadow. Put buttons and chips in a Group or a Wrap inside it, so they keep their own width.
+A column of components a gap apart, each taking the column's width. It is space only: no paper, border or shadow. Put buttons and chips in a Group or a Wrap inside it, so they keep their own width. A column that needs an id, a name or a `tabindex` takes them through `attributes`.
 
 ## Inside a body
 
