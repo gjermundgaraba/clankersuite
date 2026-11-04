@@ -17,6 +17,7 @@ export {
   Model,
   focusedPaneId,
   init,
+  isScroller,
   markFocusTarget,
   paneIdAt,
 } from "./model.ts";

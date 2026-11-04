@@ -150,8 +150,10 @@ export const isCarried = (held: Held): boolean =>
     Keyboard: () => true,
   });
 
-export const paneHook = (model: Model, paneId: string): string =>
-  `${model.id}/pane/${paneId}`;
+export const paneHook = (
+  reel: Readonly<{ id: string }>,
+  paneId: string
+): string => `${reel.id}/pane/${paneId}`;
 
 export const columnHook = (model: Model, columnId: string): string =>
   `${model.id}/column/${columnId}`;
@@ -166,12 +168,13 @@ export const paneElement = (hook: string): Option.Option<HTMLElement> =>
   htmlElement(`[data-gg-reel-pane="${CSS.escape(hook)}"]`);
 
 /** The id of this reel's pane that holds `element`, if one does: for keys that act on the
- *  pane they were pressed in. */
+ *  pane they were pressed in. It reads only the reel's `id`, so a Subscription can depend on
+ *  that alone. */
 export const paneIdAt = (
-  model: Model,
+  reel: Readonly<{ id: string }>,
   element: Element
 ): Option.Option<string> => {
-  const prefix = paneHook(model, "");
+  const prefix = paneHook(reel, "");
 
   return Option.flatMap(
     Option.fromNullishOr(
@@ -185,6 +188,14 @@ export const paneIdAt = (
       )
   );
 };
+
+/** Whether `element` is this reel's strip, the element that scrolls its columns sideways (not
+ *  a scroll inside one of its panes). */
+export const isScroller = (
+  reel: Readonly<{ id: string }>,
+  element: Element
+): boolean =>
+  Option.exists(scrollerOf(reel.id), (scroller) => scroller === element);
 
 /** Marks the control inside a pane that focus lands on when the reel focuses the pane (a
  *  terminal's input), for a control a Mount creates. A view marks it with

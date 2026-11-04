@@ -56,6 +56,21 @@ describe("Reel.paneIdAt", () => {
     );
     expect(Reel.paneIdAt(fresh, byId("in-other"))).toStrictEqual(Option.none());
     expect(Reel.paneIdAt(fresh, byId("outside"))).toStrictEqual(Option.none());
+    expect(Reel.paneIdAt({ id: "other" }, byId("in-other"))).toStrictEqual(
+      Option.some("notes")
+    );
+    document.body.innerHTML = "";
+  });
+});
+
+describe("Reel.isScroller", () => {
+  it("is true only of this reel's strip, not of a scroll inside a pane", () => {
+    document.body.innerHTML = `
+      <div data-gg-reel="work"><div class="gg-reel-view" id="strip"><div id="pane-body"></div></div></div>`;
+
+    expect(Reel.isScroller(fresh, byId("strip"))).toBe(true);
+    expect(Reel.isScroller(fresh, byId("pane-body"))).toBe(false);
+    expect(Reel.isScroller({ id: "other" }, byId("strip"))).toBe(false);
     document.body.innerHTML = "";
   });
 });
