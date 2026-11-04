@@ -1,7 +1,7 @@
 import { Array, Equal, Option, String } from "effect";
 import type * as Command from "foldkit/command";
 import { modifyFields } from "foldkit/struct";
-import type * as Update from "foldkit/update";
+import * as Update from "foldkit/update";
 
 import {
   AnnounceReel,
@@ -253,31 +253,37 @@ const whileHeldBy = (
 ): UpdateReturn =>
   whileHeld(model, (held) => (held.by._tag === by ? f(held) : { model }));
 
-const resizeSplitter = (
+const previewResize = (
   model: Model,
   layout: Layout,
-  share: number,
-  isLetGo: boolean
+  share: number
 ): UpdateReturn =>
   Option.match(model.maybeResizing, {
     onNone: () => ({ model }),
-    onSome: (resizing) => {
-      const maybeResize = resizeOf(layout, resizing.splitter, share);
+    onSome: (resizing) => ({
+      model: withResizing(
+        model,
+        Option.some(
+          modifyFields(resizing, {
+            maybeResize: () => resizeOf(layout, resizing.splitter, share),
+          })
+        )
+      ),
+    }),
+  });
 
-      if (!isLetGo) {
-        return {
-          model: withResizing(model, Option.some({ ...resizing, maybeResize })),
-        };
-      }
-
-      return Option.match(maybeResize, {
-        onNone: () => ({ model: withResizing(model, Option.none()) }),
-        onSome: (resize) => ({
-          model: withResizing(model, Option.none()),
-          outMessage: resize,
-        }),
-      });
-    },
+const commitResize = (
+  model: Model,
+  layout: Layout,
+  share: number
+): UpdateReturn =>
+  Option.match(model.maybeResizing, {
+    onNone: () => ({ model }),
+    onSome: (resizing) =>
+      Update.withOutMessage(
+        { model: withResizing(model, Option.none()) },
+        Option.getOrUndefined(resizeOf(layout, resizing.splitter, share))
+      ),
   });
 
 const selectTab = (
@@ -395,8 +401,8 @@ export const update = (
               })
             ),
           },
-    MovedSplitter: ({ share }) => resizeSplitter(model, layout, share, false),
-    ReleasedSplitter: ({ share }) => resizeSplitter(model, layout, share, true),
+    MovedSplitter: ({ share }) => previewResize(model, layout, share),
+    ReleasedSplitter: ({ share }) => commitResize(model, layout, share),
     CancelledSplitter: () => ({ model: withResizing(model, Option.none()) }),
     PressedSplitterKey: ({ splitter, share }) =>
       Option.match(resizeOf(layout, splitter, share), {

@@ -12,7 +12,7 @@ import type { ColumnBox, Target } from "./layout.ts";
 import { Message } from "./message.ts";
 import type { PointerAt } from "./message.ts";
 import type { Model } from "./model.ts";
-import { By, isIdle, scrollerOf } from "./model.ts";
+import { By, isCarried, isIdle, scrollerOf } from "./model.ts";
 
 const EDGE_SCROLL = 40;
 
@@ -233,37 +233,34 @@ type SplitterHold = typeof SplitterHold.Type;
 const heightOf = (element: Element): number =>
   element.getBoundingClientRect().height;
 
-const scaleOf = (hold: SplitterHold): number =>
-  Option.getOrElse(
-    Option.map(scrollerOf(hold.reelHook), (view) =>
-      Splitter.match(hold.splitter, {
-        Width: () =>
-          view.clientWidth -
-          Option.getOrElse(
-            Option.map(
-              Option.fromNullishOr(view.querySelector(".gg-reel-gap")),
-              (gap) => gap.getBoundingClientRect().width
-            ),
-            () => 0
-          ),
-        Split: ({ abovePaneId }) =>
-          Number.sumAll(
-            Array.map(
-              Array.fromIterable(
-                view
-                  .querySelector(
-                    `[data-gg-reel-slot="${CSS.escape(abovePaneId)}"]`
-                  )
-                  ?.closest(".gg-reel-column")
-                  ?.querySelectorAll("[data-gg-reel-slot]") ?? []
-              ),
-              heightOf
-            )
-          ),
-      })
-    ),
-    () => 0
+const gapWidthOf = (view: HTMLElement): number =>
+  Option.match(Option.fromNullishOr(view.querySelector(".gg-reel-gap")), {
+    onNone: () => 0,
+    onSome: (gap) => gap.getBoundingClientRect().width,
+  });
+
+const columnHeightOf = (view: HTMLElement, abovePaneId: string): number =>
+  Number.sumAll(
+    Array.map(
+      Array.fromIterable(
+        view
+          .querySelector(`[data-gg-reel-slot="${CSS.escape(abovePaneId)}"]`)
+          ?.closest(".gg-reel-column")
+          ?.querySelectorAll("[data-gg-reel-slot]") ?? []
+      ),
+      heightOf
+    )
   );
+
+const scaleOf = (hold: SplitterHold): number =>
+  Option.match(scrollerOf(hold.reelHook), {
+    onNone: () => 0,
+    onSome: (view) =>
+      Splitter.match(hold.splitter, {
+        Width: () => view.clientWidth - gapWidthOf(view),
+        Split: ({ abovePaneId }) => columnHeightOf(view, abovePaneId),
+      }),
+  });
 
 const splitterMessages = (hold: SplitterHold): Stream.Stream<Message> =>
   Stream.suspend(() => {
@@ -285,18 +282,18 @@ const splitterMessages = (hold: SplitterHold): Stream.Stream<Message> =>
     });
   });
 
-const pointerHoldOf = (
-  model: Model,
-  isCarryingOnly: boolean
-): Option.Option<PointerHold> =>
+const pointerHoldOf = (model: Model): Option.Option<PointerHold> =>
   Option.flatMap(model.maybeHeld, ({ paneId, by }) =>
     By.match(by, {
       Keyboard: () => Option.none(),
-      Pointer: ({ pointerId, isCarrying }) =>
-        isCarryingOnly && !isCarrying
-          ? Option.none()
-          : Option.some({ reelHook: model.id, paneId, pointerId }),
+      Pointer: ({ pointerId }) =>
+        Option.some({ reelHook: model.id, paneId, pointerId }),
     })
+  );
+
+const carriedHoldOf = (model: Model): Option.Option<PointerHold> =>
+  Option.filter(pointerHoldOf(model), () =>
+    Option.exists(model.maybeHeld, isCarried)
   );
 
 const reelSubscriptions = Subscription.make<Model, Message>()((entry) => ({
@@ -304,7 +301,7 @@ const reelSubscriptions = Subscription.make<Model, Message>()((entry) => ({
     { maybeHold: Schema.Option(PointerHold) },
     {
       modelToDependencies: (model) => ({
-        maybeHold: pointerHoldOf(model, false),
+        maybeHold: pointerHoldOf(model),
       }),
       dependenciesToStream: ({ maybeHold }) =>
         Option.match(maybeHold, {
@@ -317,7 +314,7 @@ const reelSubscriptions = Subscription.make<Model, Message>()((entry) => ({
     { maybeHold: Schema.Option(PointerHold) },
     {
       modelToDependencies: (model) => ({
-        maybeHold: pointerHoldOf(model, true),
+        maybeHold: carriedHoldOf(model),
       }),
       dependenciesToStream: ({ maybeHold }) =>
         Option.match(maybeHold, {

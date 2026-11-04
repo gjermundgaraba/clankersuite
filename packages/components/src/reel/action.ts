@@ -167,6 +167,166 @@ const performTabbed = (
 const columnIdAt = (layout: Layout, index: number): Option.Option<string> =>
   Option.map(Array.get(layout, index), ({ id }) => id);
 
+type Performing = Readonly<{ model: Model; layout: Layout; place: Place }>;
+
+const askFor = (
+  { model, layout, place }: Performing,
+  maybeRequest: Option.Option<OutMessage>,
+  subject: Subject = Subject.Pane({ paneId: place.pane.id })
+): UpdateReturn => requestStep(model, layout, place, subject, maybeRequest);
+
+const focusAt = (
+  { model, layout, place }: Performing,
+  toColumn: number,
+  toRow: number
+): UpdateReturn =>
+  Option.match(
+    Option.flatMap(Array.get(layout, toColumn), (found) =>
+      placeAt(
+        layout,
+        toColumn,
+        Number.clamp(toRow, { minimum: 0, maximum: found.panes.length - 1 })
+      )
+    ),
+    {
+      onNone: () => ({ model }),
+      onSome: (next) =>
+        next.pane.id === place.pane.id
+          ? { model }
+          : focusStep(model, layout, next),
+    }
+  );
+
+const pullOutPane = (
+  { place }: Performing,
+  maybeBeforeColumnId: Option.Option<string>
+): Option.Option<OutMessage> =>
+  Option.some(
+    OutMessage.PulledOutPane({ paneId: place.pane.id, maybeBeforeColumnId })
+  );
+
+const movePaneSideways = (
+  performing: Performing,
+  toColumn: number,
+  maybeEdge: Option.Option<string>
+): UpdateReturn => {
+  const { layout, place } = performing;
+
+  return askFor(
+    performing,
+    Option.match(Array.get(layout, toColumn), {
+      onSome: (found) =>
+        Option.some(
+          OutMessage.MovedPane({
+            paneId: place.pane.id,
+            toColumnId: found.id,
+            toIndex: Math.min(place.row, found.panes.length),
+          })
+        ),
+      onNone: () => pullOutPane(performing, maybeEdge),
+    })
+  );
+};
+
+const movePaneInColumn = (
+  performing: Performing,
+  toIndex: number
+): UpdateReturn => {
+  const { place } = performing;
+
+  return askFor(
+    performing,
+    Option.some(
+      OutMessage.MovedPane({
+        paneId: place.pane.id,
+        toColumnId: place.column.id,
+        toIndex,
+      })
+    )
+  );
+};
+
+const moveColumn = (
+  performing: Performing,
+  maybeBefore: Option.Option<Option.Option<string>>
+): UpdateReturn => {
+  const { column } = performing.place;
+
+  return askFor(
+    performing,
+    Option.map(maybeBefore, (maybeBeforeColumnId) =>
+      OutMessage.MovedColumn({ columnId: column.id, maybeBeforeColumnId })
+    ),
+    Subject.Column({ columnId: column.id })
+  );
+};
+
+const cycleWidth = ({ model, place }: Performing): UpdateReturn => {
+  const { column, columnIndex, pane } = place;
+  const width = nextPreset(column.width);
+
+  return {
+    model,
+    commands: [
+      ScrollIntoView({ hook: paneHook(model, pane.id) }),
+      announce(
+        fill(COPY.widened, {
+          column: columnIndex + 1,
+          width: widthWords(width),
+        })
+      ),
+    ],
+    outMessage: OutMessage.ResizedColumn({ columnId: column.id, width }),
+  };
+};
+
+const performAt = (performing: Performing, action: Action): UpdateReturn => {
+  const { model, layout, place } = performing;
+  const { columnIndex, row } = place;
+
+  return Match.value(action).pipe(
+    Match.withReturnType<UpdateReturn>(),
+    Match.when("FocusLeft", () => focusAt(performing, columnIndex - 1, row)),
+    Match.when("FocusRight", () => focusAt(performing, columnIndex + 1, row)),
+    Match.when("FocusUp", () =>
+      row > 0 ? focusAt(performing, columnIndex, row - 1) : { model }
+    ),
+    Match.when("FocusDown", () => focusAt(performing, columnIndex, row + 1)),
+    Match.when("MovePaneUp", () => movePaneInColumn(performing, row - 1)),
+    Match.when("MovePaneDown", () => movePaneInColumn(performing, row + 1)),
+    Match.when("MovePaneLeft", () =>
+      movePaneSideways(performing, columnIndex - 1, columnIdAt(layout, 0))
+    ),
+    Match.when("MovePaneRight", () =>
+      movePaneSideways(performing, columnIndex + 1, Option.none())
+    ),
+    Match.when("MoveColumnLeft", () =>
+      moveColumn(
+        performing,
+        Option.map(columnIdAt(layout, columnIndex - 1), (before) =>
+          Option.some(before)
+        )
+      )
+    ),
+    Match.when("MoveColumnRight", () =>
+      moveColumn(
+        performing,
+        Option.map(columnIdAt(layout, columnIndex + 1), () =>
+          columnIdAt(layout, columnIndex + 2)
+        )
+      )
+    ),
+    Match.when("CycleWidth", () => cycleWidth(performing)),
+    Match.when("PullOut", () =>
+      askFor(
+        performing,
+        pullOutPane(performing, columnIdAt(layout, columnIndex + 1))
+      )
+    ),
+    Match.exhaustive
+  );
+};
+
 /**
  * Does what the application's key for `action` asks, from the focused pane, against the
  * layout as the application holds it: focus moves focus the pane and scroll the reel to it;
@@ -190,159 +350,7 @@ export const perform = (
     Option.filter(focusedPlace(model, layout), () => !isHolding(model)),
     {
       onNone: () => ({ model }),
-      onSome: (place) => {
-        const { column, columnIndex, row, pane } = place;
-        const rows = column.panes.length;
-        const paneId = pane.id;
-
-        const ask = (
-          maybeRequest: Option.Option<OutMessage>,
-          subject: Subject = Subject.Pane({ paneId })
-        ) => requestStep(model, layout, place, subject, maybeRequest);
-
-        const focusAt = (toColumn: number, toRow: number): UpdateReturn =>
-          Option.match(
-            Option.flatMap(Array.get(layout, toColumn), (found) =>
-              placeAt(
-                layout,
-                toColumn,
-                Number.clamp(toRow, {
-                  minimum: 0,
-                  maximum: found.panes.length - 1,
-                })
-              )
-            ),
-            {
-              onNone: () => ({ model }),
-              onSome: (next) =>
-                next.pane.id === paneId
-                  ? { model }
-                  : focusStep(model, layout, next),
-            }
-          );
-
-        const sideways = (
-          toColumn: number,
-          maybeEdge: Option.Option<string>
-        ): UpdateReturn =>
-          ask(
-            Option.match(Array.get(layout, toColumn), {
-              onSome: (found) =>
-                Option.some(
-                  OutMessage.MovedPane({
-                    paneId,
-                    toColumnId: found.id,
-                    toIndex: Math.min(row, found.panes.length),
-                  })
-                ),
-              onNone: () =>
-                Option.liftPredicate(
-                  OutMessage.PulledOutPane({
-                    paneId,
-                    maybeBeforeColumnId: maybeEdge,
-                  }),
-                  () => rows > 1
-                ),
-            })
-          );
-
-        const moveColumn = (
-          maybeBefore: Option.Option<Option.Option<string>>
-        ): UpdateReturn =>
-          ask(
-            Option.map(maybeBefore, (maybeBeforeColumnId) =>
-              OutMessage.MovedColumn({
-                columnId: column.id,
-                maybeBeforeColumnId,
-              })
-            ),
-            Subject.Column({ columnId: column.id })
-          );
-
-        return Match.value(action).pipe(
-          Match.withReturnType<UpdateReturn>(),
-          Match.when("FocusLeft", () => focusAt(columnIndex - 1, row)),
-          Match.when("FocusRight", () => focusAt(columnIndex + 1, row)),
-          Match.when("FocusUp", () =>
-            row > 0 ? focusAt(columnIndex, row - 1) : { model }
-          ),
-          Match.when("FocusDown", () => focusAt(columnIndex, row + 1)),
-          Match.when("MovePaneUp", () =>
-            ask(
-              Option.some(
-                OutMessage.MovedPane({
-                  paneId,
-                  toColumnId: column.id,
-                  toIndex: row - 1,
-                })
-              )
-            )
-          ),
-          Match.when("MovePaneDown", () =>
-            ask(
-              Option.some(
-                OutMessage.MovedPane({
-                  paneId,
-                  toColumnId: column.id,
-                  toIndex: row + 1,
-                })
-              )
-            )
-          ),
-          Match.when("MovePaneLeft", () =>
-            sideways(columnIndex - 1, columnIdAt(layout, 0))
-          ),
-          Match.when("MovePaneRight", () =>
-            sideways(columnIndex + 1, Option.none())
-          ),
-          Match.when("MoveColumnLeft", () =>
-            moveColumn(
-              Option.map(columnIdAt(layout, columnIndex - 1), (before) =>
-                Option.some(before)
-              )
-            )
-          ),
-          Match.when("MoveColumnRight", () =>
-            moveColumn(
-              Option.map(columnIdAt(layout, columnIndex + 1), () =>
-                columnIdAt(layout, columnIndex + 2)
-              )
-            )
-          ),
-          Match.when("CycleWidth", () => {
-            const width = nextPreset(column.width);
-
-            return {
-              model,
-              commands: [
-                ScrollIntoView({ hook: paneHook(model, paneId) }),
-                announce(
-                  fill(COPY.widened, {
-                    column: columnIndex + 1,
-                    width: widthWords(width),
-                  })
-                ),
-              ],
-              outMessage: OutMessage.ResizedColumn({
-                columnId: column.id,
-                width,
-              }),
-            };
-          }),
-          Match.when("PullOut", () =>
-            ask(
-              Option.liftPredicate(
-                OutMessage.PulledOutPane({
-                  paneId,
-                  maybeBeforeColumnId: columnIdAt(layout, columnIndex + 1),
-                }),
-                () => rows > 1
-              )
-            )
-          ),
-          Match.exhaustive
-        );
-      },
+      onSome: (place) => performAt({ model, layout, place }, action),
     }
   );
 };

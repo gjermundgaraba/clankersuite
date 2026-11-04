@@ -216,7 +216,7 @@ describe("Reel.perform", () => {
     ).toBeUndefined();
   });
 
-  it("asks nothing to move a pane alone in its column up or down it", () => {
+  it("asks nothing to move a pane alone in its column up, down or out of it", () => {
     const onDiff = reelUpdate(LAYOUT)(
       fresh,
       Reel.Message.FocusedPane({ paneId: "diff" })
@@ -224,6 +224,7 @@ describe("Reel.perform", () => {
 
     expect(performOn(onDiff, "MovePaneUp")).toBeUndefined();
     expect(performOn(onDiff, "MovePaneDown")).toBeUndefined();
+    expect(performOn(onDiff, "PullOut")).toBeUndefined();
   });
 
   it("moves the pane within its column, pulls it out to the right, and stops at the ends", () => {
@@ -231,6 +232,15 @@ describe("Reel.perform", () => {
       MovedPane({ paneId: "shell", toColumnId: "c1", toIndex: 1 })
     );
     expect(performOn(fresh, "MovePaneUp")).toBeUndefined();
+    expect(
+      performOn(
+        reelUpdate(LAYOUT)(fresh, Reel.Message.FocusedPane({ paneId: "notes" }))
+          .model,
+        "MovePaneUp"
+      )
+    ).toStrictEqual(
+      MovedPane({ paneId: "notes", toColumnId: "c1", toIndex: 0 })
+    );
     expect(performOn(fresh, "PullOut")).toStrictEqual(
       PulledOutPane({ paneId: "shell", maybeBeforeColumnId: Option.some("c2") })
     );
@@ -1621,5 +1631,31 @@ describe("Reel live keys and pointer", () => {
     await settleUntil(() => document.querySelector(".gg-reel-lift") === null);
 
     expect(escape.defaultPrevented).toBe(true);
+  });
+});
+
+describe("Reel.subscriptions", () => {
+  it("follows a pressed grip's pointer at once, and scrolls at the edges only once the pane is carried", () => {
+    const { workPointer, workEdge } = Reel.subscriptions("work");
+    const updateOn = reelUpdate(LAYOUT);
+    const pressed = updateOn(fresh, press("shell")).model;
+
+    const carried = updateOn(
+      pressed,
+      pointer("MovedPointer", Option.none())
+    ).model;
+
+    expect(
+      Option.isSome(workPointer.modelToDependencies(pressed).maybeHold)
+    ).toBe(true);
+    expect(Option.isNone(workEdge.modelToDependencies(pressed).maybeHold)).toBe(
+      true
+    );
+    expect(Option.isSome(workEdge.modelToDependencies(carried).maybeHold)).toBe(
+      true
+    );
+    expect(
+      Option.isNone(workPointer.modelToDependencies(fresh).maybeHold)
+    ).toBe(true);
   });
 });
