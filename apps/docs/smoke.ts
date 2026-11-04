@@ -133,6 +133,15 @@ try {
     problems.push("/no-such-page: the page does not say it was not found");
   }
 
+  await page.goto(base);
+  await page.waitForTimeout(MOUNT);
+  await page.locator(".site-nav a").nth(1).click();
+  await page.waitForTimeout(RENDER);
+
+  if ((await page.evaluate(() => document.activeElement?.id)) !== "main") {
+    problems.push("a followed link does not put focus on the page's main");
+  }
+
   await page.goto(`${base}/components/button`);
   await page.waitForTimeout(MOUNT);
   const send = page.getByRole("button", { name: "send" });

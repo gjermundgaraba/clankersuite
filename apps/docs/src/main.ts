@@ -12,6 +12,7 @@ import {
 import { Array, Effect, Option, Schema } from "effect";
 import type { Runtime } from "foldkit";
 import { Command, Update } from "foldkit";
+import * as Dom from "foldkit/dom";
 import type { Document, Html, HtmlBuilder } from "foldkit/html";
 import { UrlRequest, load, pushUrl } from "foldkit/navigation";
 import { modifyFields } from "foldkit/struct";
@@ -47,6 +48,14 @@ const LoadExternal = Command.define("LoadExternal", {
     load(href).pipe(Effect.as(Message.CompletedLoadExternal())),
 });
 
+const FocusMain = Command.define("FocusMain", {
+  messages: [Message.CompletedFocusMain],
+  execute: Dom.focus("#main", {
+    preventScroll: true,
+    makeFocusable: true,
+  }).pipe(Effect.ignore, Effect.as(Message.CompletedFocusMain())),
+});
+
 export const init: Runtime.RoutingApplicationInit<Model, Message> = (url) =>
   Update.foldChildInit(Scheme.SchemeSwitch.init(), {
     toParentModel: (schemeSwitch): Model => ({
@@ -78,9 +87,16 @@ export const update = (model: Model, message: Message) =>
       }),
     ChangedUrl: ({ url }) => ({
       model: modifyFields(model, { route: () => urlToAppRoute(url) }),
-      commands: [SkipLink.ScrollToFragment({ maybeFragment: url.hash })],
+      commands: [
+        SkipLink.ScrollToFragment({ maybeFragment: url.hash }),
+        ...Option.match(url.hash, {
+          onNone: () => [FocusMain()],
+          onSome: () => [],
+        }),
+      ],
     }),
     CompletedScrollToFragment: () => ({ model }),
+    CompletedFocusMain: () => ({ model }),
     CompletedNavigateInternal: () => ({ model }),
     CompletedLoadExternal: () => ({ model }),
     CompletedMountExample: () => ({ model }),

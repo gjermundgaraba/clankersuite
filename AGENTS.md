@@ -40,7 +40,7 @@ The gjermundgaraba design system, for six applications: clankerauth, clankerbot,
 git subtree pull --prefix=repos/foldkit https://github.com/foldkit/foldkit.git foldkit@<version> --squash
 ```
 
-Compare primitives with `===`. A function does one job; there is no line limit. The docs app is tested by its smoke test, `vp run docs#smoke`, which loads every page in a browser, runs every example on it, and checks the navigation marks the page it is on.
+Compare primitives with `===`. A function does one job; there is no line limit. The docs app is tested by its smoke test, `vp run docs#smoke`, which loads every page in a browser, runs every example on it, and checks the navigation marks the page it is on and a followed link puts focus on `main`.
 
 # components
 
