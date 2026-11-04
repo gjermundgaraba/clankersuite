@@ -2,7 +2,7 @@ import type { Record } from "effect";
 import { Array, Match, Number, Option, Schema, String } from "effect";
 
 import { fill } from "../locale/locale.ts";
-import { FocusPane, ScrollIntoView } from "./command.ts";
+import { focusPane, scrollToPane } from "./command.ts";
 import {
   OutMessage,
   Subject,
@@ -24,7 +24,6 @@ import {
   focusedPaneId,
   focusedPlace,
   isHolding,
-  paneHook,
   readingOrder,
 } from "./model.ts";
 import type { UpdateContext, UpdateReturn } from "./reel.ts";
@@ -59,8 +58,8 @@ const focusStep = (
 ): UpdateReturn => ({
   model: focusOn(model, place),
   commands: [
-    FocusPane({ paneHook: paneHook(model, place.pane.id) }),
-    ScrollIntoView({ hook: paneHook(model, place.pane.id) }),
+    focusPane(model, place.pane.id),
+    scrollToPane(model, place.pane.id),
     announce(
       fill(COPY.focused, {
         pane: place.pane.label,
@@ -102,7 +101,7 @@ const requestStep = (
         return {
           model: focusOn(model, landing),
           commands: [
-            ScrollIntoView({ hook: paneHook(model, place.pane.id) }),
+            scrollToPane(model, place.pane.id),
             announce(
               fill(COPY.moved, { subject: String.capitalize(words), where })
             ),
@@ -150,7 +149,7 @@ const performTabbed = (
       onSome: ({ place, tab }) => ({
         model: focusOn(model, place),
         commands: [
-          FocusPane({ paneHook: paneHook(model, place.pane.id) }),
+          focusPane(model, place.pane.id),
           announce(
             fill(COPY.focusedTab, {
               pane: place.pane.label,
@@ -268,7 +267,7 @@ const cycleWidth = ({ model, place }: Performing): UpdateReturn => {
   return {
     model,
     commands: [
-      ScrollIntoView({ hook: paneHook(model, pane.id) }),
+      scrollToPane(model, pane.id),
       announce(
         fill(COPY.widened, {
           column: columnIndex + 1,

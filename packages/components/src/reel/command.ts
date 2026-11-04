@@ -5,7 +5,8 @@ import * as Render from "foldkit/render";
 import * as Announcer from "../announcer/announcer.ts";
 import { htmlElement } from "../dom/html-element.ts";
 import { Message } from "./message.ts";
-import { focusInto, paneElement } from "./model.ts";
+import type { Model } from "./model.ts";
+import { focusInto, paneElement, paneHook } from "./model.ts";
 
 /** Says a focus move, a move or a step of a drag through the page's live region (as
  *  `Announcer.Announce` does). */
@@ -100,3 +101,11 @@ export const ScrollIntoView = Command.define("ScrollIntoView", {
       return Message.CompletedScrollIntoView();
     }),
 });
+
+/** FocusPane for this reel's pane `paneId`, so the application never builds a pane hook. */
+export const focusPane = (model: Model, paneId: string) =>
+  FocusPane({ paneHook: paneHook(model, paneId) });
+
+/** ScrollIntoView for this reel's pane `paneId`. */
+export const scrollToPane = (model: Model, paneId: string) =>
+  ScrollIntoView({ hook: paneHook(model, paneId) });

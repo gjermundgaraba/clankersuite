@@ -165,6 +165,34 @@ export const scrollerOf = (reelHook: string): Option.Option<HTMLElement> =>
 export const paneElement = (hook: string): Option.Option<HTMLElement> =>
   htmlElement(`[data-gg-reel-pane="${CSS.escape(hook)}"]`);
 
+/** The id of this reel's pane that holds `element`, if one does: for keys that act on the
+ *  pane they were pressed in. */
+export const paneIdAt = (
+  model: Model,
+  element: Element
+): Option.Option<string> => {
+  const prefix = paneHook(model, "");
+
+  return Option.flatMap(
+    Option.fromNullishOr(
+      element.closest<HTMLElement>(
+        `[data-gg-reel-pane^="${CSS.escape(prefix)}"]`
+      )
+    ),
+    (pane) =>
+      Option.map(Option.fromNullishOr(pane.dataset["ggReelPane"]), (hook) =>
+        hook.slice(prefix.length)
+      )
+  );
+};
+
+/** Marks the control inside a pane that focus lands on when the reel focuses the pane (a
+ *  terminal's input), for a control a Mount creates. A view marks it with
+ *  `h.DataAttribute("gg-reel-focus", "")`. */
+export const markFocusTarget = (element: HTMLElement): void => {
+  element.dataset["ggReelFocus"] = "";
+};
+
 export const focusInto = (pane: HTMLElement): void => {
   Option.getOrElse(htmlElement("[data-gg-reel-focus]", pane), () => pane).focus(
     {

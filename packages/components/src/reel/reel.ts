@@ -6,7 +6,7 @@ import * as Update from "foldkit/update";
 import { fill } from "../locale/locale.ts";
 import {
   AnnounceReel,
-  FocusPane,
+  focusPane,
   FocusTab,
   RestoreFocus,
   ScrollIntoView,
@@ -361,12 +361,7 @@ export const update = (
         ? { model: withResizing(model, Option.none()) }
         : whileHeld(model, (held) => cancel(model, layout, held)),
     ClickedTab: ({ paneId }) =>
-      selectTab(
-        model,
-        layout,
-        paneId,
-        FocusPane({ paneHook: paneHook(model, paneId) })
-      ),
+      selectTab(model, layout, paneId, focusPane(model, paneId)),
     PressedTabArrowKey: ({ paneId }) =>
       selectTab(
         model,

@@ -2,11 +2,24 @@ export { Layout, OutMessage, Pane, apply } from "./layout.ts";
 
 export { Action, perform } from "./action.ts";
 
-export { AnnounceReel, FocusPane, ScrollIntoView } from "./command.ts";
+export {
+  AnnounceReel,
+  FocusPane,
+  ScrollIntoView,
+  focusPane,
+  scrollToPane,
+} from "./command.ts";
 
 export { Message } from "./message.ts";
 
-export { Arrangement, Model, focusedPaneId, init } from "./model.ts";
+export {
+  Arrangement,
+  Model,
+  focusedPaneId,
+  init,
+  markFocusTarget,
+  paneIdAt,
+} from "./model.ts";
 
 export { reconcile, update } from "./reel.ts";
 

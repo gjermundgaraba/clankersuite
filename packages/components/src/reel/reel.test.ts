@@ -44,6 +44,22 @@ const reelUpdate =
   (layout: ReelLayout.Layout) => (model: Reel.Model, message: Reel.Message) =>
     Reel.update(model, message, { layout });
 
+describe("Reel.paneIdAt", () => {
+  it("reads the pane an element is in, only for this reel's panes", () => {
+    document.body.innerHTML = `
+      <div data-gg-reel-pane="work/pane/shell"><button id="in-shell"></button></div>
+      <div data-gg-reel-pane="other/pane/notes"><button id="in-other"></button></div>
+      <button id="outside"></button>`;
+
+    expect(Reel.paneIdAt(fresh, byId("in-shell"))).toStrictEqual(
+      Option.some("shell")
+    );
+    expect(Reel.paneIdAt(fresh, byId("in-other"))).toStrictEqual(Option.none());
+    expect(Reel.paneIdAt(fresh, byId("outside"))).toStrictEqual(Option.none());
+    document.body.innerHTML = "";
+  });
+});
+
 describe("Reel focus", () => {
   it("starts on the first pane, and finds the nearest pane when the focused one goes", () => {
     expect(Reel.focusedPaneId(fresh, LAYOUT)).toStrictEqual(
