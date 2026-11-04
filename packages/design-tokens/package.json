@@ -1,6 +1,6 @@
 {
   "name": "@gjermundgaraba/design-tokens",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Design tokens for the gjermundgaraba design system: W3C DTCG sources built by Terrazzo into one stylesheet per brand.",
   "license": "MIT",
   "repository": {
