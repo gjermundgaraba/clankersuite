@@ -1,13 +1,13 @@
 import type { Record } from "effect";
 import { Array, Match, Number, Option, Schema, String } from "effect";
 
+import { fill } from "../locale/locale.ts";
 import { FocusPane, ScrollIntoView } from "./command.ts";
 import {
   OutMessage,
   Subject,
   WHERE_IT_WAS,
   apply,
-  fill,
   isChange,
   nextPreset,
   placeAt,

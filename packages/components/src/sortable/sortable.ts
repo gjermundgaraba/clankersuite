@@ -30,7 +30,7 @@ import {
   settle as settleDrag,
 } from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
-import { LOCALE } from "../locale/locale.ts";
+import { fill } from "../locale/locale.ts";
 import { prefixKeys } from "../subscription/prefix-keys.ts";
 
 /** Schema for one item as the list knows it: its id, unique in the list, and its name in
@@ -157,17 +157,6 @@ export const AnnounceReorder = Command.define("AnnounceReorder", {
 
 type UpdateReturn = Update.ReturnWithOutMessage<Model, Message, OutMessage>;
 
-const fill = (
-  template: string,
-  item: string,
-  position = 0,
-  total = 0
-): string =>
-  template
-    .replaceAll("{item}", item)
-    .replaceAll("{position}", position.toLocaleString(LOCALE))
-    .replaceAll("{total}", total.toLocaleString(LOCALE));
-
 const indexOf = (
   items: readonly Item[],
   itemId: string
@@ -251,17 +240,25 @@ const moveText = (
     return isCarrying(before)
       ? Option.some(
           Option.match(maybeOutMessage, {
-            onNone: () => fill(putBack, label),
+            onNone: () => fill(putBack, { item: label }),
             onSome: ({ toIndex }) =>
-              fill(COPY.dropped, label, positionOf(toIndex), total),
+              fill(COPY.dropped, {
+                item: label,
+                position: positionOf(toIndex),
+                total,
+              }),
           })
         )
       : Option.none();
   } else if (before === "Pressed" && after === "PointerDragging") {
-    return Option.some(fill(COPY.pickedUp, label));
+    return Option.some(fill(COPY.pickedUp, { item: label }));
   } else if (before === "Idle" && after === "KeyboardDragging") {
     return Option.map(targetIndex(next, held), (index) =>
-      fill(COPY.pickedUpByKeyboard, label, positionOf(index), total)
+      fill(COPY.pickedUpByKeyboard, {
+        item: label,
+        position: positionOf(index),
+        total,
+      })
     );
   } else if (after === "KeyboardDragging") {
     return pipe(
@@ -269,7 +266,9 @@ const moveText = (
       Option.filter(
         (index) => !Option.contains(targetIndex(previous, held), index)
       ),
-      Option.map((index) => fill(COPY.over, label, positionOf(index), total))
+      Option.map((index) =>
+        fill(COPY.over, { item: label, position: positionOf(index), total })
+      )
     );
   }
 
@@ -677,7 +676,7 @@ const gripView = (
   return IconButton.view(
     {
       glyph: "grip",
-      label: fill(COPY.gripLabel, item.label),
+      label: fill(COPY.gripLabel, { item: item.label }),
       isQuiet: true,
       isDisabled: !isMovable,
       attributes: [

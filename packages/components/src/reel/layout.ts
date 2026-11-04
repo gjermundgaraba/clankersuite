@@ -4,7 +4,6 @@ import {
   Match,
   Number,
   Option,
-  Predicate,
   Record,
   Schema,
   pipe,
@@ -12,7 +11,7 @@ import {
 import { defineMessageUnion } from "foldkit/message";
 import { defineTaggedUnion } from "foldkit/schema";
 
-import { LOCALE } from "../locale/locale.ts";
+import { LOCALE, fill } from "../locale/locale.ts";
 
 /** Schema for one pane as the reel knows it: its id, unique in the reel and the application's
  *  to keep, its name in words (its grip, its splitter and what screen readers hear), and its
@@ -360,17 +359,6 @@ const WORDS = {
 };
 
 export const WHERE_IT_WAS = "where it was";
-
-export const fill = (
-  template: string,
-  fields: Readonly<Record<string, string | number>>
-): string =>
-  Array.reduce(Object.entries(fields), template, (text, [key, value]) =>
-    text.replaceAll(
-      `{${key}}`,
-      Predicate.isNumber(value) ? value.toLocaleString(LOCALE) : value
-    )
-  );
 
 export const subjectWords = (
   layout: Layout,

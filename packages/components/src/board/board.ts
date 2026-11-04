@@ -33,6 +33,7 @@ import {
   settle as settleDrag,
 } from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
+import { fill } from "../locale/locale.ts";
 import { slotView } from "../slot/slot.ts";
 import { prefixKeys } from "../subscription/prefix-keys.ts";
 
@@ -199,9 +200,6 @@ const placeOf = (
     )
   );
 
-const fill = (template: string, card: string, column = ""): string =>
-  template.replaceAll("{card}", card).replaceAll("{column}", column);
-
 const columnOfHook = (
   model: Model,
   held: Held,
@@ -311,16 +309,17 @@ const moveText = (
           Option.match(
             Option.flatMap(maybeMoved, () => overColumn(previous)),
             {
-              onNone: () => fill(putBack, label),
-              onSome: (column) => fill(COPY.dropped, label, column.title),
+              onNone: () => fill(putBack, { card: label }),
+              onSome: (column) =>
+                fill(COPY.dropped, { card: label, column: column.title }),
             }
           )
         )
       : Option.none();
   } else if (before === "Pressed" && after === "PointerDragging") {
-    return Option.some(fill(COPY.pickedUp, label));
+    return Option.some(fill(COPY.pickedUp, { card: label }));
   } else if (before === "Idle" && after === "KeyboardDragging") {
-    return Option.some(fill(COPY.pickedUpByKeyboard, label));
+    return Option.some(fill(COPY.pickedUpByKeyboard, { card: label }));
   }
 
   return pipe(
@@ -332,7 +331,9 @@ const moveText = (
           Option.some(column.id)
         )
     ),
-    Option.map((column) => fill(COPY.over, label, column.title))
+    Option.map((column) =>
+      fill(COPY.over, { card: label, column: column.title })
+    )
   );
 };
 
@@ -718,7 +719,7 @@ const cardRender = (
     IconButton.view(
       {
         glyph: "grip",
-        label: fill(COPY.gripLabel, card.label),
+        label: fill(COPY.gripLabel, { card: card.label }),
         isQuiet: true,
         attributes: [
           h.DataAttribute("draggable-id", cardHook(model, card.id)),

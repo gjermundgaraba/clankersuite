@@ -3,6 +3,7 @@ import type * as Command from "foldkit/command";
 import { modifyFields } from "foldkit/struct";
 import * as Update from "foldkit/update";
 
+import { fill } from "../locale/locale.ts";
 import {
   AnnounceReel,
   FocusPane,
@@ -15,7 +16,6 @@ import {
   WHERE_IT_WAS,
   apply,
   columnOfTarget,
-  fill,
   isSplitterPresent,
   isTargetPresent,
   landingWords,
