@@ -1,3 +1,3 @@
-export { clockEntry, view } from "./time.ts";
+export { clockEntry, dayView, view } from "./time.ts";
 
-export type { ClockConfig, ViewConfig } from "./time.ts";
+export type { ClockConfig, DayConfig, ViewConfig } from "./time.ts";

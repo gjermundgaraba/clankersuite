@@ -136,6 +136,41 @@ export const view = <Message>(
 const TICK = Duration.seconds(1);
 
 /** Configuration for the `clockEntry` Subscription helper. */
+/** Configuration for rendering a calendar day with `dayView`. */
+export type DayConfig = Readonly<{
+  /** The day, `YYYY-MM-DD`. */
+  day: string;
+  /** The day as the application says it against its own today: "wakes Mon", "due today". */
+  label: string;
+  /** `Age` sets the day in the age register, `Until` in the due register, as `view` sets a
+   *  moment. */
+  format: "Age" | "Until";
+  /** Prints red: a stale age, a due day gone by. */
+  isLate?: boolean;
+}>;
+
+const dayClassName = (format: "Age" | "Until", isLate: boolean): string =>
+  Match.value(format).pipe(
+    Match.withReturnType<string>(),
+    Match.when("Age", () => (isLate ? "gg-age gg-stale" : "gg-age")),
+    Match.when("Until", () => (isLate ? "gg-due gg-late" : "gg-due")),
+    Match.exhaustive
+  );
+
+/** A calendar day, in a `<time>` whose `datetime` is the day, in the register a moment of
+ *  that format prints in. The application words it: a day has no zone to say it in. */
+export const dayView = <Message>(
+  config: DayConfig,
+  h: HtmlBuilder<Message>
+): Html => {
+  const { day, label, format, isLate = false } = config;
+
+  return h.time(
+    [h.Datetime(day), h.Class(dayClassName(format, isLate))],
+    [label]
+  );
+};
+
 export type ClockConfig<Model, Message> = Readonly<{
   /** Whether anything on the page reads the clock; it stops while this is false. */
   isActive: (model: Model) => boolean;

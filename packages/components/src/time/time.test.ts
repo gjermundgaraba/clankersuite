@@ -27,6 +27,10 @@ const timeScene = (
 
 const time = Scene.selector("time");
 
+const dayView =
+  (config: Time.DayConfig) => (_model: null, h: HtmlBuilder<never>) =>
+    Time.dayView(config, h);
+
 describe("Time.view", () => {
   it("prints the moment in UTC until the clock has ticked", () => {
     timeScene(
@@ -87,6 +91,58 @@ describe("Time.view", () => {
       },
       Scene.expect(time).toHaveText("expired"),
       Scene.expect(time).toHaveClass("gg-due")
+    );
+  });
+});
+
+describe("Time.dayView", () => {
+  it("prints the application's words for a day, in the age or due register, red when late", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: dayView({ day: "2026-03-12", label: "wakes Thu", format: "Age" }),
+      },
+      Scene.given(null),
+      Scene.expect(time).toHaveText("wakes Thu"),
+      Scene.expect(time).toHaveClass("gg-age"),
+      Scene.expect(time).not.toHaveClass("gg-stale")
+    );
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: dayView({
+          day: "2026-03-12",
+          label: "due today",
+          format: "Until",
+        }),
+      },
+      Scene.given(null),
+      Scene.expect(time).toHaveClass("gg-due"),
+      Scene.expect(time).not.toHaveClass("gg-late")
+    );
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: dayView({
+          day: "2026-03-10",
+          label: "due Tue",
+          format: "Until",
+          isLate: true,
+        }),
+      },
+      Scene.given(null),
+      Scene.expect(time).toHaveClass("gg-due"),
+      Scene.expect(time).toHaveClass("gg-late")
+    );
+  });
+
+  it("writes the day in datetime", async () => {
+    await renderOnPage(null, (_model, h: HtmlBuilder<never>) =>
+      Time.dayView({ day: "2026-03-12", label: "due Thu", format: "Until" }, h)
+    );
+
+    expect(document.querySelector("time")?.getAttribute("datetime")).toBe(
+      "2026-03-12"
     );
   });
 });
