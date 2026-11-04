@@ -1,5 +1,5 @@
 import { Clipboard } from "@effect/platform-browser";
-import { Duration, Effect, Schema } from "effect";
+import { Effect, Schema } from "effect";
 import * as Command from "foldkit/command";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -9,6 +9,7 @@ import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
 import * as Announcer from "../announcer/announcer.ts";
+import { HOLD } from "../flash-word/flash-word.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 
 export const CopyState = defineTaggedUnion({
@@ -32,7 +33,7 @@ export const Message = defineMessageUnion({
   ClickedCopy: { text: Schema.String },
   SucceededCopyText: {},
   FailedCopyText: {},
-  CompletedWaitBeforeResettingWord: {},
+  CompletedWaitBeforeResetWord: {},
   CompletedAnnounceCopy: {},
 });
 
@@ -55,8 +56,6 @@ export const id = (model: Model): string => model.id;
 export const isCopied = (model: Model): boolean =>
   CopyState.guards.Copied(model.state);
 
-const WORD_BEAT = Duration.millis(1800);
-
 const FAILED = "Copy failed: the clipboard is not available here.";
 
 /** Writes the text to the clipboard through Effect's `Clipboard` port. Provide
@@ -75,15 +74,12 @@ export const CopyText = Command.define("CopyText", {
 });
 
 /** Waits out the beat the word or the check shows for. */
-export const WaitBeforeResettingWord = Command.define(
-  "WaitBeforeResettingWord",
-  {
-    messages: [Message.CompletedWaitBeforeResettingWord],
-    execute: Effect.sleep(WORD_BEAT).pipe(
-      Effect.as(Message.CompletedWaitBeforeResettingWord())
-    ),
-  }
-);
+export const WaitBeforeResetWord = Command.define("WaitBeforeResetWord", {
+  messages: [Message.CompletedWaitBeforeResetWord],
+  execute: Effect.sleep(HOLD).pipe(
+    Effect.as(Message.CompletedWaitBeforeResetWord())
+  ),
+});
 
 /** Says how the copy went through the page's live region. */
 export const AnnounceCopy = Command.define("AnnounceCopy", {
@@ -106,13 +102,13 @@ export const update = (model: Model, message: Message) =>
         : { model },
     SucceededCopyText: () => ({
       model: modifyFields(model, { state: () => CopyState.Copied() }),
-      commands: [WaitBeforeResettingWord(), AnnounceCopy({ text: "Copied." })],
+      commands: [WaitBeforeResetWord(), AnnounceCopy({ text: "Copied." })],
     }),
     FailedCopyText: () => ({
       model: modifyFields(model, { state: () => CopyState.Idle() }),
       commands: [AnnounceCopy({ text: FAILED })],
     }),
-    CompletedWaitBeforeResettingWord: () => ({
+    CompletedWaitBeforeResetWord: () => ({
       model: modifyFields(model, { state: () => CopyState.Idle() }),
     }),
     CompletedAnnounceCopy: () => ({ model }),

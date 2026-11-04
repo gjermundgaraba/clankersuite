@@ -117,7 +117,7 @@ describe("Menu update", () => {
     Story.story(
       Menu.update,
       Story.given(openMenu),
-      Story.message(Menu.Message.LeftSlip()),
+      Story.message(Menu.Message.BlurredSlip()),
       Story.model((model) => {
         expect(model.isOpen).toBe(false);
       }),
@@ -454,7 +454,7 @@ describe("Menu keys", () => {
     expect(messages).toStrictEqual([
       Menu.Message.CompletedPlaceSlip(),
       Menu.Message.PressedTab(),
-      Menu.Message.LeftSlip(),
+      Menu.Message.BlurredSlip(),
     ]);
   });
 });

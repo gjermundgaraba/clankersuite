@@ -166,13 +166,13 @@ export const Message = defineMessageUnion({
   MovedPointer: PointerAt.fields,
   ReleasedPointer: PointerAt.fields,
   CancelledPointer: {},
-  SteppedHeld: { step: Step },
-  DroppedHeld: {},
-  LeftGrip: {},
+  PressedHeldArrowKey: { step: Step },
+  PressedHeldDropKey: {},
+  BlurredGrip: {},
   PressedEscape: {},
   FocusedPane: { paneId: Schema.String },
-  PressedTab: { paneId: Schema.String },
-  SteppedTab: { paneId: Schema.String },
+  ClickedTab: { paneId: Schema.String },
+  PressedTabArrowKey: { paneId: Schema.String },
   PressedSplitter: {
     splitter: Splitter,
     pointerId: Schema.Finite,
@@ -665,28 +665,28 @@ export const update = (
           COPY.putBack
         )
       ),
-    SteppedHeld: ({ step }) =>
+    PressedHeldArrowKey: ({ step }) =>
       whileHeldBy(model, "Keyboard", (held) =>
         stepHeld(model, layout, held, step)
       ),
-    DroppedHeld: () =>
+    PressedHeldDropKey: () =>
       whileHeldBy(model, "Keyboard", (held) =>
         letGo(model, layout, held, COPY.putBack)
       ),
-    LeftGrip: () =>
+    BlurredGrip: () =>
       whileHeldBy(model, "Keyboard", (held) => cancel(model, layout, held)),
     PressedEscape: () =>
       Option.isSome(model.maybeResizing)
         ? { model: withResizing(model, Option.none()) }
         : whileHeld(model, (held) => cancel(model, layout, held)),
-    PressedTab: ({ paneId }) =>
+    ClickedTab: ({ paneId }) =>
       selectTab(
         model,
         layout,
         paneId,
         FocusPane({ paneHook: paneHook(model, paneId) })
       ),
-    SteppedTab: ({ paneId }) =>
+    PressedTabArrowKey: ({ paneId }) =>
       selectTab(
         model,
         layout,
@@ -1001,7 +1001,7 @@ export const perform = (
 
         const sideways = (
           toColumn: number,
-          edge: Option.Option<string>
+          maybeEdge: Option.Option<string>
         ): UpdateReturn =>
           ask(
             Option.match(Array.get(layout, toColumn), {
@@ -1017,7 +1017,7 @@ export const perform = (
                 Option.liftPredicate(
                   OutMessage.PulledOutPane({
                     paneId,
-                    maybeBeforeColumnId: edge,
+                    maybeBeforeColumnId: maybeEdge,
                   }),
                   () => rows > 1
                 ),
@@ -1586,9 +1586,9 @@ const gripView = (model: Model, pane: Pane, h: HtmlBuilder<Message>): Html => {
         return Option.none();
       } else if (isKeyboardHeld) {
         return isDropKey(key)
-          ? Option.some(Message.DroppedHeld())
+          ? Option.some(Message.PressedHeldDropKey())
           : Option.map(Record.get(HELD_STEPS, key), (step) =>
-              Message.SteppedHeld({ step })
+              Message.PressedHeldArrowKey({ step })
             );
       }
 
@@ -1628,7 +1628,7 @@ const gripView = (model: Model, pane: Pane, h: HtmlBuilder<Message>): Html => {
         Button.pressedAttribute(isHeld, h),
         onGripKey,
         onGripPress,
-        ...(isKeyboardHeld ? [h.OnBlur(Message.LeftGrip())] : []),
+        ...(isKeyboardHeld ? [h.OnBlur(Message.BlurredGrip())] : []),
       ],
     },
     h
@@ -1895,7 +1895,7 @@ const tabListView = (
   const stepTo = (index: number): Option.Option<Message> =>
     Option.map(
       Array.get(panes, (index + panes.length) % panes.length),
-      ({ id }) => Message.SteppedTab({ paneId: id })
+      ({ id }) => Message.PressedTabArrowKey({ paneId: id })
     );
 
   const keyOf = (index: number, key: string): Option.Option<Message> =>
@@ -1925,7 +1925,7 @@ const tabListView = (
           h.AriaControls(`${model.id}-${pane.id}`),
           h.Tabindex(isSelected ? 0 : -1),
           h.DataAttribute("gg-reel-tab", tabHook(model, pane.id)),
-          h.OnClick(Message.PressedTab({ paneId: pane.id })),
+          h.OnClick(Message.ClickedTab({ paneId: pane.id })),
           h.OnKeyDownPreventDefault((key, modifiers) =>
             isPlain(modifiers) ? keyOf(index, key) : Option.none()
           ),

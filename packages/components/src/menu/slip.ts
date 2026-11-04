@@ -46,8 +46,8 @@ const entryIds = (items: readonly Item[]): readonly string[] =>
   Array.map(entriesOf(items), (entry) => entry.id);
 
 type RowContext<Message> = Readonly<{
-  firstId: Option.Option<string>;
-  lastId: Option.Option<string>;
+  maybeFirstId: Option.Option<string>;
+  maybeLastId: Option.Option<string>;
   toChoose: (id: string, kind: ChoiceKind) => Message;
 }>;
 
@@ -56,10 +56,10 @@ const edgeAttributes = <Message>(
   id: string,
   h: HtmlBuilder<Message>
 ) => [
-  ...(Option.contains(context.firstId, id)
+  ...(Option.contains(context.maybeFirstId, id)
     ? [h.Attribute(FIRST_ATTRIBUTE, "")]
     : []),
-  ...(Option.contains(context.lastId, id)
+  ...(Option.contains(context.maybeLastId, id)
     ? [h.Attribute(LAST_ATTRIBUTE, "")]
     : []),
 ];
@@ -177,8 +177,8 @@ export const rowsView = <Message>(
   const ids = entryIds(config.items);
 
   const context: RowContext<Message> = {
-    firstId: Array.head(ids),
-    lastId: Array.last(ids),
+    maybeFirstId: Array.head(ids),
+    maybeLastId: Array.last(ids),
     toChoose: config.toChoose,
   };
 
@@ -328,10 +328,10 @@ const handleSlipKey = <Message>(
 const isLeaving = (
   slip: Element,
   next: EventTarget | null,
-  keepId: Option.Option<string>
+  maybeKeepId: Option.Option<string>
 ) =>
   !(next instanceof Node && slip.contains(next)) &&
-  !(next instanceof Element && Option.contains(keepId, next.id));
+  !(next instanceof Element && Option.contains(maybeKeepId, next.id));
 
 const preventMouseDown = (event: Event): void => {
   event.preventDefault();
@@ -345,7 +345,7 @@ export const slipStream = <Message>(
   config: Readonly<{
     placed: Message;
     events: SlipEvents<Message>;
-    keepId: Option.Option<string>;
+    maybeKeepId: Option.Option<string>;
     setup: (element: Element) => () => void;
   }>
 ): Stream.Stream<Message> =>
@@ -370,7 +370,7 @@ export const slipStream = <Message>(
           const onFocusOut = (event: Event): void => {
             if (
               event instanceof FocusEvent &&
-              isLeaving(element, event.relatedTarget, config.keepId)
+              isLeaving(element, event.relatedTarget, config.maybeKeepId)
             ) {
               Queue.offerUnsafe(queue, config.events.left);
             }

@@ -36,10 +36,10 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a menu can produce. `LeftSlip` (focus went outside the slip),
+/** Union of all Messages a menu can produce. `BlurredSlip` (focus went outside the slip),
  *  `UnmountedSlip` (the slip left the page) and `CompletedFocus` (focus is back on the
  *  toggle) can arrive after the menu has closed. Each must reach the Model of the menu that
- *  sent it, where a late one changes nothing: given to another menu's Model, a late `LeftSlip`
+ *  sent it, where a late one changes nothing: given to another menu's Model, a late `BlurredSlip`
  *  or `UnmountedSlip` closes that one. */
 export const Message = defineMessageUnion({
   ClickedToggle: {},
@@ -47,7 +47,7 @@ export const Message = defineMessageUnion({
   SelectedItem: { id: Schema.String, kind: ChoiceKind },
   PressedEscape: {},
   PressedTab: {},
-  LeftSlip: {},
+  BlurredSlip: {},
   UnmountedSlip: {},
   CompletedPlaceSlip: {},
   CompletedFocus: {},
@@ -129,7 +129,7 @@ export const update = (model: Model, message: Message) =>
             ),
       PressedEscape: () => closedWithFocus(model),
       PressedTab: () => closedWithFocus(model),
-      LeftSlip: () => ({ model: closed(model) }),
+      BlurredSlip: () => ({ model: closed(model) }),
       UnmountedSlip: () => ({ model: closed(model) }),
       CompletedPlaceSlip: () => ({ model }),
       CompletedFocus: () => ({ model }),
@@ -171,7 +171,7 @@ type SlipMessage =
   | typeof Message.CompletedPlaceSlip.Type
   | typeof Message.PressedEscape.Type
   | typeof Message.PressedTab.Type
-  | typeof Message.LeftSlip.Type;
+  | typeof Message.BlurredSlip.Type;
 
 /** The open slip: hung under the toggle by `@foldkit/ui`'s Anchor (portaled, into the dialog
  *  when inside one), focus on its first or last row, and its keys (see `handleSlipKey`). It
@@ -182,7 +182,7 @@ export const BindSlip = Mount.defineStream("BindSlip", {
     Message.CompletedPlaceSlip,
     Message.PressedEscape,
     Message.PressedTab,
-    Message.LeftSlip,
+    Message.BlurredSlip,
   ],
   execute: ({ element, toggleId: slipToggleId, isEnd, edge }) =>
     slipStream<SlipMessage>(element, {
@@ -190,9 +190,9 @@ export const BindSlip = Mount.defineStream("BindSlip", {
       events: {
         escape: Message.PressedEscape(),
         tab: Message.PressedTab(),
-        left: Message.LeftSlip(),
+        left: Message.BlurredSlip(),
       },
-      keepId: Option.some(slipToggleId),
+      maybeKeepId: Option.some(slipToggleId),
       setup: anchorUnder({ toggleId: slipToggleId, isEnd, edge }),
     }),
 });

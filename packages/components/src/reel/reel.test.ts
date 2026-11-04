@@ -351,9 +351,10 @@ describe("Reel.perform under tabs", () => {
 
 const NOTES = "notes";
 
-const step = (by: ReelLayout.Step) => Reel.Message.SteppedHeld({ step: by });
+const step = (by: ReelLayout.Step) =>
+  Reel.Message.PressedHeldArrowKey({ step: by });
 
-const drop = Reel.Message.DroppedHeld();
+const drop = Reel.Message.PressedHeldDropKey();
 
 const SHELL_SPLIT = { _tag: "Split", abovePaneId: "shell" } as const;
 
@@ -553,7 +554,7 @@ describe("Reel keyboard drag", () => {
       Story.message(step("Right")),
       announce("Notes, column 2 of 4."),
       scrollTo("column/c2"),
-      Story.message(Reel.Message.LeftGrip()),
+      Story.message(Reel.Message.BlurredGrip()),
       Story.expectNoOutMessage(),
       announce("Move cancelled. Notes put back where it was.")
     );

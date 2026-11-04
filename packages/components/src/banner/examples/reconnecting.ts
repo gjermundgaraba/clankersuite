@@ -20,7 +20,7 @@ export const Message = defineMessageUnion({
   ClickedDropLink: {},
   ClickedRetry: {},
   CompletedAnnounce: {},
-  ElapsedBackOnline: {},
+  CompletedWaitBackOnline: {},
 });
 
 export type Message = typeof Message.Type;
@@ -31,9 +31,9 @@ export const RECONNECTING =
 export const BACK_ONLINE = "Back online. Your changes are saved.";
 
 export const WaitBackOnline = Command.define("WaitBackOnline", {
-  messages: [Message.ElapsedBackOnline],
+  messages: [Message.CompletedWaitBackOnline],
   execute: Effect.sleep(Duration.seconds(3)).pipe(
-    Effect.as(Message.ElapsedBackOnline())
+    Effect.as(Message.CompletedWaitBackOnline())
   ),
 });
 
@@ -52,7 +52,7 @@ export const update = (model: Model, message: Message) =>
       commands: [Announcer.Announce({ text: BACK_ONLINE }), WaitBackOnline()],
     }),
     CompletedAnnounce: () => ({ model }),
-    ElapsedBackOnline: () => ({ model: { link: "Online" } }),
+    CompletedWaitBackOnline: () => ({ model: { link: "Online" } }),
   });
 
 const bannerView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>

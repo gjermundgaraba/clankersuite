@@ -556,20 +556,20 @@ const stepOnce = (
 const presentOrOrigin = (
   layout: Layout,
   target: Target,
-  origin: Option.Option<Target>
+  maybeOrigin: Option.Option<Target>
 ): Target =>
   isTargetPresent(layout, target)
     ? target
-    : Option.getOrElse(origin, () => target);
+    : Option.getOrElse(maybeOrigin, () => target);
 
 const isChangingDropOrOrigin = (
   layout: Layout,
   paneId: string,
-  origin: Option.Option<Target>,
+  maybeOrigin: Option.Option<Target>,
   candidate: Target
 ): boolean =>
   Option.isSome(requestOf(layout, paneId, candidate)) ||
-  Option.exists(origin, (place) => Equal.equals(place, candidate));
+  Option.exists(maybeOrigin, (place) => Equal.equals(place, candidate));
 
 const stopAndRowCount = (layout: Layout): number =>
   layout.length * 2 + Array.length(placesOf(layout));

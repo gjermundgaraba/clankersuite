@@ -37,8 +37,8 @@ describe("CopyButton update", () => {
         CopyButton.Message.CompletedAnnounceCopy()
       ),
       Story.Command.resolve(
-        CopyButton.WaitBeforeResettingWord,
-        CopyButton.Message.CompletedWaitBeforeResettingWord()
+        CopyButton.WaitBeforeResetWord,
+        CopyButton.Message.CompletedWaitBeforeResetWord()
       ),
       Story.model((model) => {
         expect(CopyButton.isCopied(model)).toBe(false);
@@ -195,8 +195,8 @@ describe("CopyButton view", () => {
       Scene.Command.resolveAll(
         [CopyButton.AnnounceCopy, CopyButton.Message.CompletedAnnounceCopy()],
         [
-          CopyButton.WaitBeforeResettingWord,
-          CopyButton.Message.CompletedWaitBeforeResettingWord(),
+          CopyButton.WaitBeforeResetWord,
+          CopyButton.Message.CompletedWaitBeforeResetWord(),
         ]
       ),
       Scene.expect(copyCell).toExist(),

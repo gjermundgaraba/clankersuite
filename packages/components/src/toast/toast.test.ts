@@ -229,7 +229,7 @@ describe("Toast hold", () => {
       Toast.Message.FocusedStack({ maybeFromId: Option.none() })
     );
 
-    const moved = Toast.update(focused.model, Toast.Message.MovedHost());
+    const moved = Toast.update(focused.model, Toast.Message.UnmountedStack());
 
     expect(moved.model.isFocusIn).toBe(false);
     expect(names(moved.commands)).toStrictEqual([WAIT, WAIT]);

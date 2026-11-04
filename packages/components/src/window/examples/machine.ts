@@ -9,7 +9,7 @@ export const Model = Schema.Struct({ isRunning: Schema.Boolean });
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
-  ToggledRunning: {},
+  ClickedRunToggle: {},
 });
 
 export type Message = typeof Message.Type;
@@ -20,7 +20,7 @@ export const init = (): Update.Return<Model, Message> => ({
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
-    ToggledRunning: () => ({ model: { isRunning: !model.isRunning } }),
+    ClickedRunToggle: () => ({ model: { isRunning: !model.isRunning } }),
   });
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
@@ -39,7 +39,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           {
             glyph: model.isRunning ? "pause" : "play",
             label: model.isRunning ? "Pause" : "Start",
-            onClick: Message.ToggledRunning(),
+            onClick: Message.ClickedRunToggle(),
           },
           h
         ),

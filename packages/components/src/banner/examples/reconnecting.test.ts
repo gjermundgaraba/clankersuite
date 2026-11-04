@@ -30,7 +30,7 @@ describe("the reconnecting example", () => {
       Scene.click(Scene.role("button", { name: "retry" })),
       Scene.Command.resolve(Announcer.Announce, Message.CompletedAnnounce()),
       Scene.expect(Scene.text(BACK_ONLINE)).toExist(),
-      Scene.Command.resolve(WaitBackOnline, Message.ElapsedBackOnline()),
+      Scene.Command.resolve(WaitBackOnline, Message.CompletedWaitBackOnline()),
       Scene.expect(Scene.text(BACK_ONLINE)).toBeAbsent()
     );
   });

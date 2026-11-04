@@ -62,38 +62,36 @@ export const MountExample = Mount.define("MountExample", {
   args: { directory: Schema.String, name: Schema.String },
   messages: [Message.CompletedMountExample],
   execute: ({ element, directory, name }) =>
-    Effect.gen(function* () {
-      const load = Record.get(PROGRAMS, examplePath(directory, name));
+    Option.match(Record.get(PROGRAMS, examplePath(directory, name)), {
+      onNone: () => Effect.succeed(Message.CompletedMountExample()),
+      onSome: (load) =>
+        Effect.gen(function* () {
+          const module = yield* Effect.promise(load);
 
-      if (Option.isNone(load)) {
-        return Message.CompletedMountExample();
-      }
+          yield* Effect.acquireRelease(
+            Effect.sync(() => {
+              const container = document.createElement("div");
+              container.id = `example-${Array.join(
+                Array.filter(
+                  directory.split("/"),
+                  (part) => !/^\.{1,2}$/u.test(part)
+                ),
+                "-"
+              )}-${name}`;
+              element.replaceChildren(container);
 
-      const module = yield* Effect.promise(load.value);
-
-      yield* Effect.acquireRelease(
-        Effect.sync(() => {
-          const container = document.createElement("div");
-          container.id = `example-${Array.join(
-            Array.filter(
-              directory.split("/"),
-              (part) => !/^\.{1,2}$/u.test(part)
-            ),
-            "-"
-          )}-${name}`;
-          element.replaceChildren(container);
-
-          return Runtime.embed(
-            Runtime.makeElement({ ...toProgram(module), container })
+              return Runtime.embed(
+                Runtime.makeElement({ ...toProgram(module), container })
+              );
+            }),
+            (handle) =>
+              Effect.sync(() => {
+                handle.dispose();
+              })
           );
-        }),
-        (handle) =>
-          Effect.sync(() => {
-            handle.dispose();
-          })
-      );
 
-      return Message.CompletedMountExample();
+          return Message.CompletedMountExample();
+        }),
     }),
 });
 

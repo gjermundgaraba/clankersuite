@@ -178,6 +178,19 @@ The Markdown editor's `lmd-` classes are `gg-md-`: `.lmd-link` is `.gg-md-link`.
 
 - `SchemeSwitch.subscriptions` is gone, with `systemPalette` on its Model and the `UpdatedSystemPalette` Message: `System` follows the reader's system in CSS alone, so the switch reads nothing from it. Delete the switch's line from the application's Subscriptions.
 
+- Renamed Messages, for tests and fixtures that build them:
+
+  | before                                           | now                                                      |
+  | ------------------------------------------------ | -------------------------------------------------------- |
+  | `Menu.Message.LeftSlip`                          | `Menu.Message.BlurredSlip`                               |
+  | `Reel.Message.LeftGrip`                          | `Reel.Message.BlurredGrip`                               |
+  | `Reel.Message.PressedTab`                        | `Reel.Message.ClickedTab`                                |
+  | `Reel.Message.SteppedHeld`, `DroppedHeld`        | `Reel.Message.PressedHeldArrowKey`, `PressedHeldDropKey` |
+  | `Reel.Message.SteppedTab`                        | `Reel.Message.PressedTabArrowKey`                        |
+  | `Toast.Message.MovedHost`                        | `Toast.Message.UnmountedStack`                           |
+  | `CopyButton`'s `WaitBeforeResettingWord`         | `WaitBeforeResetWord`                                    |
+  | `Dialog.Message.PressedActionKey({ direction })` | `Dialog.Message.PressedActionKey()`                      |
+
 ## The last step
 
 When all six applications are on the new packages, delete this file and the line in `README.md` that points to it.

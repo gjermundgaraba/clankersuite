@@ -742,12 +742,8 @@ const cardRender = (
   };
 };
 
-const cardClass = ({
-  isMovable: movable,
-  isHeld,
-  isLifted,
-}: CardRender): string =>
-  `gg-board-card${movable ? " gg-movable" : ""}${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
+const cardClass = ({ isMovable, isHeld, isLifted }: CardRender): string =>
+  `gg-board-card${isMovable ? " gg-movable" : ""}${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
 
 /** Configuration for rendering one card with `cardView`. */
 export type CardViewConfig<ParentMessage> = Readonly<{

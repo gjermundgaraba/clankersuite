@@ -11,15 +11,15 @@ const SECONDS_PER_HOUR = 3600;
 
 export const UNKNOWN_CLOCK = "-:--";
 
-const dateFormat = (timeZone: Option.Option<string>) =>
+const dateFormat = (maybeTimeZone: Option.Option<string>) =>
   new Intl.DateTimeFormat(LOCALE, {
     day: "numeric",
     month: "short",
     year: "numeric",
-    timeZone: Option.getOrUndefined(timeZone),
+    timeZone: Option.getOrUndefined(maybeTimeZone),
   });
 
-const dateTimeFormat = (timeZone: Option.Option<string>) =>
+const dateTimeFormat = (maybeTimeZone: Option.Option<string>) =>
   new Intl.DateTimeFormat(LOCALE, {
     day: "numeric",
     month: "short",
@@ -27,20 +27,20 @@ const dateTimeFormat = (timeZone: Option.Option<string>) =>
     hour: "2-digit",
     minute: "2-digit",
     hourCycle: "h23",
-    timeZone: Option.getOrUndefined(timeZone),
+    timeZone: Option.getOrUndefined(maybeTimeZone),
   });
 
-/** A day as `"12 Mar 2026"`, in the reader's zone unless `timeZone` names another. Always
+/** A day as `"12 Mar 2026"`, in the reader's zone unless `maybeTimeZone` names another. Always
  *  English, so the server and every browser write the same words. */
 export const formatDate = (
   at: Date,
-  timeZone: Option.Option<string> = Option.none()
-): string => dateFormat(timeZone).format(at);
+  maybeTimeZone: Option.Option<string> = Option.none()
+): string => dateFormat(maybeTimeZone).format(at);
 
 export const formatDateTime = (
   at: Date,
-  timeZone: Option.Option<string> = Option.none()
-): string => dateTimeFormat(timeZone).format(at);
+  maybeTimeZone: Option.Option<string> = Option.none()
+): string => dateTimeFormat(maybeTimeZone).format(at);
 
 export const formatSpan = (milliseconds: number): string => {
   const span = Math.abs(milliseconds);

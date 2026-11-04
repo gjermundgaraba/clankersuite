@@ -45,7 +45,7 @@ export const Message = defineMessageUnion({
   FocusedStack: { maybeFromId: Schema.Option(Schema.String) },
   BlurredStack: {},
   PressedEscape: {},
-  MovedHost: {},
+  UnmountedStack: {},
   ClickedDismiss: { entryId: Schema.String },
   CompletedFocusSlip: {},
   CompletedFocus: {},
@@ -283,7 +283,7 @@ export const update = (model: Model, message: Message) =>
         onNone: () => ({ model }),
         onSome: (newest) => dismissKeepingFocus(model, newest.id),
       }),
-    MovedHost: () =>
+    UnmountedStack: () =>
       releaseUnlessHeld(
         modifyFields(model, {
           isFocusIn: () => false,
@@ -491,7 +491,7 @@ export const view = defineView<Model, Message>((model, h): Html =>
   h.div(
     [
       h.OnMount(BindStack()),
-      h.OnUnmount(Message.MovedHost()),
+      h.OnUnmount(Message.UnmountedStack()),
       h.Class("gg-toasts"),
     ],
     [
