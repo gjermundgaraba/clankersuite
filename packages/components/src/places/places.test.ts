@@ -57,7 +57,7 @@ describe("Places", () => {
       ),
       Scene.expect(Scene.role("button", { name: "Inbox" })).toHaveAttr(
         "aria-current",
-        "page"
+        "true"
       ),
       Scene.expect(Scene.role("button", { name: "Later" })).not.toHaveAttr(
         "aria-current"
@@ -65,7 +65,7 @@ describe("Places", () => {
       Scene.click(Scene.role("button", { name: "Later" })),
       Scene.expect(Scene.role("button", { name: "Later" })).toHaveAttr(
         "aria-current",
-        "page"
+        "true"
       ),
       Scene.expect(Scene.role("button", { name: "Inbox" })).not.toHaveAttr(
         "aria-current"
@@ -102,7 +102,7 @@ describe("Places", () => {
       Scene.click(Scene.last(Scene.all.role("button", { name: "Inbox" }))),
       Scene.expect(
         Scene.last(Scene.all.role("button", { name: "Inbox" }))
-      ).toHaveAttr("aria-current", "page"),
+      ).toHaveAttr("aria-current", "true"),
       Scene.expect(
         Scene.first(Scene.all.role("button", { name: "Inbox" }))
       ).not.toHaveAttr("aria-current")

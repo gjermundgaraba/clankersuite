@@ -68,12 +68,12 @@ describe("FilterChip", () => {
     );
   });
 
-  it("is a pinned label without onToggle, and a plain button to reset", () => {
+  it("is a pinned label without onToggle that says so, and a plain button to reset", () => {
     Scene.scene(
       { update, view: chipsView },
       Scene.given(true),
       Scene.expect(Scene.selector("span.gg-fchip")).toHaveClass("gg-pinned"),
-      Scene.expect(Scene.selector("span.gg-fchip")).toHaveText("me"),
+      Scene.expect(Scene.selector("span.gg-fchip")).toHaveText("me (pinned)"),
       Scene.expect(reset).toHaveClass("gg-reset"),
       Scene.expect(reset).not.toHaveAttr("aria-pressed"),
       Scene.click(reset),

@@ -295,7 +295,8 @@ export const toggleView = <Message>(
 export type TitleConfig<Message> = Readonly<{
   label: string;
   onOpen: Message;
-  /** Closed items print muted and struck through. */
+  /** Closed items print muted and struck through, and screen readers hear "(done)" after
+   *  the title. */
   isDone?: boolean;
 }>;
 
@@ -316,7 +317,9 @@ export const titleView = <Message>(
               config.isDone === true ? "gg-title gg-done-title" : "gg-title"
             ),
           ],
-          [config.label]
+          config.isDone === true
+            ? [config.label, h.span([h.Class("sr-only")], [" (done)"])]
+            : [config.label]
         ),
     },
     h

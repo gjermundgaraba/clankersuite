@@ -12,7 +12,8 @@ export type PlaceContent = Readonly<{
   id: string;
   /** The place's name, in sans: it is authored. It wraps rather than clipping. */
   label: string;
-  /** The place you are in: `aria-current="page"`, printed inverted. */
+  /** The place you are in, printed inverted: `aria-current="page"` on a link, `"true"` on a
+   *  button, which shows the place without leaving the page. */
   isCurrent?: boolean;
 }>;
 
@@ -40,18 +41,24 @@ const lineView = <Message>(
   h: HtmlBuilder<Message>
 ): Html => {
   const { label, isCurrent = false } = place;
-  const current = isCurrent ? [h.AriaCurrent("page")] : [];
   const content = [h.span([h.Class("gg-place-name")], [label])];
 
   return place.href === undefined
     ? UiButton.view(
         {
           onClick: place.onSelect,
-          toView: (groups) => h.button([...groups.button, ...current], content),
+          toView: (groups) =>
+            h.button(
+              [...groups.button, ...(isCurrent ? [h.AriaCurrent("true")] : [])],
+              content
+            ),
         },
         h
       )
-    : h.a([h.Href(place.href), ...current], content);
+    : h.a(
+        [h.Href(place.href), ...(isCurrent ? [h.AriaCurrent("page")] : [])],
+        content
+      );
 };
 
 const placeView =

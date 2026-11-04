@@ -119,12 +119,12 @@ describe("Rows", () => {
     );
   });
 
-  it("prints a done title muted, as the button that opens it", () => {
+  it("prints a done title muted, says it is done, as the button that opens it", () => {
     Scene.scene(
       { update, view },
       Scene.given({ selectedIds: [], isExpanded: false }),
       Scene.expect(
-        Scene.role("button", { name: "Archive the drafts" })
+        Scene.role("button", { name: "Archive the drafts (done)" })
       ).toHaveClass("gg-done-title")
     );
   });

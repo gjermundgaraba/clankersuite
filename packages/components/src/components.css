@@ -5155,3 +5155,14 @@ dialog.gg-veil:focus {
     transition: none;
   }
 }
+
+@media (forced-colors: active) {
+  :is(
+    [aria-pressed="true"],
+    [aria-current]:not([aria-current="false"]),
+    [aria-selected="true"]
+  ) {
+    outline: var(--semantic-dimension-border-width-container) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-container));
+  }
+}

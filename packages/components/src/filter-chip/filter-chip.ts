@@ -48,12 +48,15 @@ export const view = <Message>(
           ...fullAttributes,
           h.Class(isPressed ? "gg-fchip gg-pinned" : "gg-fchip"),
         ],
-        full === undefined
-          ? [label]
-          : [
-              h.span([h.AriaHidden(true)], [label]),
-              h.span([h.Class("sr-only")], [full]),
-            ]
+        [
+          ...(full === undefined
+            ? [label]
+            : [
+                h.span([h.AriaHidden(true)], [label]),
+                h.span([h.Class("sr-only")], [full]),
+              ]),
+          ...(isPressed ? [h.span([h.Class("sr-only")], [" (pinned)"])] : []),
+        ]
       )
     : UiButton.view(
         {
