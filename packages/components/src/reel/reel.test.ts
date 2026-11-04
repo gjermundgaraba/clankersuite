@@ -1538,6 +1538,8 @@ describe("Reel live keys and pointer", () => {
     expect(typed.defaultPrevented).toBe(false);
   });
 
+  const OTHER_POINTER_MILLIS = 10;
+
   it("carries a pane once the pressing pointer moves past the threshold, follows no other, and lets go on release", async () => {
     await mountReel();
     gripOf("work/pane/notes").dispatchEvent(
@@ -1545,11 +1547,11 @@ describe("Reel live keys and pointer", () => {
     );
     await settle();
 
-    await settleUntil(() => {
-      document.dispatchEvent(pointerEvent("pointermove", 2, 400));
+    for (const x of [200, 300, 400]) {
+      document.dispatchEvent(pointerEvent("pointermove", 2, x));
+      await settle(OTHER_POINTER_MILLIS);
+    }
 
-      return false;
-    }, 5);
     const isCarriedByOther = document.querySelector(".gg-reel-lift") !== null;
 
     await settleUntil(() => {

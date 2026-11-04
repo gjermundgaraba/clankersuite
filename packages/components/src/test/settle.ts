@@ -11,8 +11,12 @@ export const settleUntil = async (
   isReady: () => boolean,
   waits = MAX_WAITS
 ): Promise<void> => {
-  if (isReady() || waits === 0) {
+  if (isReady()) {
     return;
+  }
+
+  if (waits === 0) {
+    throw new Error("settleUntil ran out of waits before the condition held.");
   }
 
   await settle(WAIT_MILLIS);
