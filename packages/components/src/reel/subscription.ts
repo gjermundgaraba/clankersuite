@@ -49,13 +49,13 @@ const slotMiddlesOf = (
   );
 
 const pointerTarget = (
-  reelHook: string,
+  reelId: string,
   paneId: string,
   clientX: number,
   clientY: number
 ): Option.Option<Target> =>
   Option.map(
-    Option.filter(scrollerOf(reelHook), (view) => {
+    Option.filter(scrollerOf(reelId), (view) => {
       const rect = view.getBoundingClientRect();
 
       return (
@@ -84,7 +84,7 @@ const pointerTarget = (
   );
 
 const PointerHold = Schema.Struct({
-  reelHook: Schema.String,
+  reelId: Schema.String,
   paneId: Schema.String,
   pointerId: Schema.Finite,
 });
@@ -95,7 +95,7 @@ const pointerAt = (hold: PointerHold, event: PointerEvent): PointerAt => ({
   clientX: event.clientX,
   clientY: event.clientY,
   maybeTarget: pointerTarget(
-    hold.reelHook,
+    hold.reelId,
     hold.paneId,
     event.clientX,
     event.clientY
@@ -196,7 +196,7 @@ const edgeScroll = (hold: PointerHold): Stream.Stream<never> =>
 
           state.last = now;
           Option.map(
-            Option.all({ view: scrollerOf(hold.reelHook), at: state.maybeAt }),
+            Option.all({ view: scrollerOf(hold.reelId), at: state.maybeAt }),
             ({ view, at }) => {
               const rect = view.getBoundingClientRect();
               view.scrollLeft +=
@@ -221,7 +221,7 @@ const edgeScroll = (hold: PointerHold): Stream.Stream<never> =>
   );
 
 const SplitterHold = Schema.Struct({
-  reelHook: Schema.String,
+  reelId: Schema.String,
   splitter: Splitter,
   pointerId: Schema.Finite,
   pressX: Schema.Finite,
@@ -253,7 +253,7 @@ const columnHeightOf = (view: HTMLElement, abovePaneId: string): number =>
   );
 
 const scaleOf = (hold: SplitterHold): number =>
-  Option.match(scrollerOf(hold.reelHook), {
+  Option.match(scrollerOf(hold.reelId), {
     onNone: () => 0,
     onSome: (view) =>
       Splitter.match(hold.splitter, {
@@ -287,7 +287,7 @@ const pointerHoldOf = (model: Model): Option.Option<PointerHold> =>
     By.match(by, {
       Keyboard: () => Option.none(),
       Pointer: ({ pointerId }) =>
-        Option.some({ reelHook: model.id, paneId, pointerId }),
+        Option.some({ reelId: model.id, paneId, pointerId }),
     })
   );
 
@@ -330,7 +330,7 @@ const reelSubscriptions = Subscription.make<Model, Message>()((entry) => ({
         maybeHold: Option.map(
           model.maybeResizing,
           ({ splitter, pointerId, pressX, pressY }) => ({
-            reelHook: model.id,
+            reelId: model.id,
             splitter,
             pointerId,
             pressX,

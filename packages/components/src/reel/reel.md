@@ -22,7 +22,7 @@ The application's keys focus and move panes through `Reel.perform`. These are bo
 | Meta Alt E                      | Move the pane into a column of its own                                               |
 | Meta Alt R                      | The column's next width                                                              |
 
-The application talks to the reel in pane ids. It focuses a pane it chose with the Command `Reel.focusPane(reel, paneId)`, and brings it into view with `Reel.scrollToPane`. A key handler finds the pane it was pressed in with `Reel.paneIdAt(reel, element)`, and a scroll watcher tells the strip's own scroll from one inside a pane with `Reel.isScroller(reel, element)`; both read only the reel's `id`. In a pane, focus lands on the control marked `data-gg-reel-focus`, or on the pane itself; a control a Mount creates is marked with `Reel.markFocusTarget(element)`.
+The application talks to the reel in pane ids. It focuses a pane it chose with the Command `Reel.focusPane(reel, paneId)`, and brings it into view with `Reel.scrollToPane`. A key handler finds the pane it was pressed in with `Reel.paneIdAt(element)`, and a scroll watcher tells a strip's own scroll from one inside a pane with `Reel.isScroller(element)`. In a pane, focus lands on the control marked `data-gg-reel-focus`, or on the pane itself; a control a Mount creates is marked with `Reel.markFocusTarget(element)`.
 
 Lift `Reel.subscriptions` into the application's, once per reel, with a key prefix no other Subscription uses, or nothing follows the pointer.
 

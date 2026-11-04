@@ -33,13 +33,10 @@ import type { Arrangement, Held, Model, Resizing } from "./model.ts";
 import {
   By,
   COPY,
-  columnHook,
   focusedPlace,
   heldLabel,
   isCarried,
   isIdle,
-  paneHook,
-  tabHook,
 } from "./model.ts";
 
 /** What the reel reads from its parent as each Message arrives: the layout as the
@@ -84,7 +81,7 @@ const heldWords = (layout: Layout, held: Held): string =>
 const scrollToTarget = (model: Model, layout: Layout, target: Target) =>
   Array.fromOption(
     Option.map(columnOfTarget(layout, target), (columnId) =>
-      ScrollIntoView({ hook: columnHook(model, columnId) })
+      ScrollIntoView({ reelId: model.id, part: "column", id: columnId })
     )
   );
 
@@ -363,12 +360,7 @@ export const update = (
     ClickedTab: ({ paneId }) =>
       selectTab(model, layout, paneId, focusPane(model, paneId)),
     PressedTabArrowKey: ({ paneId }) =>
-      selectTab(
-        model,
-        layout,
-        paneId,
-        FocusTab({ tabHook: tabHook(model, paneId) })
-      ),
+      selectTab(model, layout, paneId, FocusTab({ reelId: model.id, paneId })),
     FocusedPane: ({ paneId }) =>
       Option.match(
         Option.filter(
@@ -443,7 +435,7 @@ export const reconcile = (
   const restore = Array.fromOption(
     Option.map(
       Option.filter(maybePlace, () => isFocusGone),
-      (place) => RestoreFocus({ paneHook: paneHook(model, place.pane.id) })
+      (place) => RestoreFocus({ reelId: model.id, paneId: place.pane.id })
     )
   );
 

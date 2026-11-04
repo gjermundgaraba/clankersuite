@@ -92,7 +92,7 @@ export const Arrangement = Schema.Literals(["Strip", "Tabs"]);
 export type Arrangement = typeof Arrangement.Type;
 
 /** Configuration for creating a reel with `init`. The `id` must be unique in the document;
- *  the reel's DOM hooks are scoped by it. */
+ *  the commands find its parts through it. */
 export type InitConfig = Readonly<{ id: string }>;
 
 /** Creates a reel focused on its first pane, holding nothing, at rest. */
@@ -150,52 +150,35 @@ export const isCarried = (held: Held): boolean =>
     Keyboard: () => true,
   });
 
-export const paneHook = (
-  reel: Readonly<{ id: string }>,
+/** A part of a reel the commands find again: each prints its id, bare, in
+ *  `data-gg-reel-<part>`, and the reel's root prints the reel's in `data-gg-reel`. */
+export type Part = "pane" | "column" | "tab";
+
+/** The selector for this reel's `part` with the id `id`. */
+export const partSelector = (reelId: string, part: Part, id: string): string =>
+  `[data-gg-reel="${CSS.escape(reelId)}"] [data-gg-reel-${part}="${CSS.escape(id)}"]`;
+
+export const scrollerOf = (reelId: string): Option.Option<HTMLElement> =>
+  htmlElement(`[data-gg-reel="${CSS.escape(reelId)}"] > .gg-reel-view`);
+
+export const paneElement = (
+  reelId: string,
   paneId: string
-): string => `${reel.id}/pane/${paneId}`;
+): Option.Option<HTMLElement> =>
+  htmlElement(partSelector(reelId, "pane", paneId));
 
-export const columnHook = (model: Model, columnId: string): string =>
-  `${model.id}/column/${columnId}`;
-
-export const tabHook = (model: Model, paneId: string): string =>
-  `${model.id}/tab/${paneId}`;
-
-export const scrollerOf = (reelHook: string): Option.Option<HTMLElement> =>
-  htmlElement(`[data-gg-reel="${CSS.escape(reelHook)}"] > .gg-reel-view`);
-
-export const paneElement = (hook: string): Option.Option<HTMLElement> =>
-  htmlElement(`[data-gg-reel-pane="${CSS.escape(hook)}"]`);
-
-/** The id of this reel's pane that holds `element`, if one does: for keys that act on the
- *  pane they were pressed in. It reads only the reel's `id`, so a Subscription can depend on
- *  that alone. */
-export const paneIdAt = (
-  reel: Readonly<{ id: string }>,
-  element: Element
-): Option.Option<string> => {
-  const prefix = paneHook(reel, "");
-
-  return Option.flatMap(
-    Option.fromNullishOr(
-      element.closest<HTMLElement>(
-        `[data-gg-reel-pane^="${CSS.escape(prefix)}"]`
-      )
-    ),
-    (pane) =>
-      Option.map(Option.fromNullishOr(pane.dataset["ggReelPane"]), (hook) =>
-        hook.slice(prefix.length)
-      )
+/** The id of the pane that holds `element`, if one does: for keys that act on the pane they
+ *  were pressed in. */
+export const paneIdAt = (element: Element): Option.Option<string> =>
+  Option.flatMap(
+    Option.fromNullishOr(element.closest<HTMLElement>("[data-gg-reel-pane]")),
+    (pane) => Option.fromNullishOr(pane.dataset["ggReelPane"])
   );
-};
 
-/** Whether `element` is this reel's strip, the element that scrolls its columns sideways (not
- *  a scroll inside one of its panes). */
-export const isScroller = (
-  reel: Readonly<{ id: string }>,
-  element: Element
-): boolean =>
-  Option.exists(scrollerOf(reel.id), (scroller) => scroller === element);
+/** Whether `element` is a reel's strip, the element that scrolls its columns sideways (not a
+ *  scroll inside one of its panes). */
+export const isScroller = (element: Element): boolean =>
+  element.matches("[data-gg-reel] > .gg-reel-view");
 
 /** Marks the control inside a pane that focus lands on when the reel focuses the pane (a
  *  terminal's input), for a control a Mount creates. A view marks it with

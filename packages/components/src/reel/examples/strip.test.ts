@@ -90,7 +90,7 @@ describe("the strip example", () => {
     ).toStrictEqual([
       {
         name: "RestoreFocus",
-        args: { paneHook: "workspace-reel/pane/canvas" },
+        args: { reelId: "workspace-reel", paneId: "canvas" },
       },
     ]);
   });

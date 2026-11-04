@@ -45,32 +45,24 @@ const reelUpdate =
     Reel.update(model, message, { layout });
 
 describe("Reel.paneIdAt", () => {
-  it("reads the pane an element is in, only for this reel's panes", () => {
+  it("reads the pane an element is in", () => {
     document.body.innerHTML = `
-      <div data-gg-reel-pane="work/pane/shell"><button id="in-shell"></button></div>
-      <div data-gg-reel-pane="other/pane/notes"><button id="in-other"></button></div>
+      <div data-gg-reel="work"><div data-gg-reel-pane="shell"><button id="in-shell"></button></div></div>
       <button id="outside"></button>`;
 
-    expect(Reel.paneIdAt(fresh, byId("in-shell"))).toStrictEqual(
-      Option.some("shell")
-    );
-    expect(Reel.paneIdAt(fresh, byId("in-other"))).toStrictEqual(Option.none());
-    expect(Reel.paneIdAt(fresh, byId("outside"))).toStrictEqual(Option.none());
-    expect(Reel.paneIdAt({ id: "other" }, byId("in-other"))).toStrictEqual(
-      Option.some("notes")
-    );
+    expect(Reel.paneIdAt(byId("in-shell"))).toStrictEqual(Option.some("shell"));
+    expect(Reel.paneIdAt(byId("outside"))).toStrictEqual(Option.none());
     document.body.innerHTML = "";
   });
 });
 
 describe("Reel.isScroller", () => {
-  it("is true only of this reel's strip, not of a scroll inside a pane", () => {
+  it("is true of a reel's strip, not of a scroll inside a pane", () => {
     document.body.innerHTML = `
       <div data-gg-reel="work"><div class="gg-reel-view" id="strip"><div id="pane-body"></div></div></div>`;
 
-    expect(Reel.isScroller(fresh, byId("strip"))).toBe(true);
-    expect(Reel.isScroller(fresh, byId("pane-body"))).toBe(false);
-    expect(Reel.isScroller({ id: "other" }, byId("strip"))).toBe(false);
+    expect(Reel.isScroller(byId("strip"))).toBe(true);
+    expect(Reel.isScroller(byId("pane-body"))).toBe(false);
     document.body.innerHTML = "";
   });
 });
@@ -172,15 +164,15 @@ const announce = (text: string) =>
     Reel.Message.CompletedAnnounceReel()
   );
 
-const scrollTo = (hook: string) =>
+const scrollTo = (part: "pane" | "column", id: string) =>
   Story.Command.resolve(
-    Reel.ScrollIntoView({ hook: `work/${hook}` }),
+    Reel.ScrollIntoView({ reelId: "work", part, id }),
     Reel.Message.CompletedScrollIntoView()
   );
 
 const focusPane = (paneId: string) =>
   Story.Command.resolve(
-    Reel.FocusPane({ paneHook: `work/pane/${paneId}` }),
+    Reel.FocusPane({ reelId: "work", paneId }),
     Reel.Message.CompletedFocusPane()
   );
 
@@ -195,15 +187,15 @@ describe("Reel.perform", () => {
       Story.message(Harness.Pressed({ action: "FocusRight" })),
       Story.expectNoOutMessage(),
       focusPane("diff"),
-      scrollTo("pane/diff"),
+      scrollTo("pane", "diff"),
       announce("Diff, column 2 of 3."),
       Story.message(Harness.Pressed({ action: "FocusLeft" })),
       focusPane("shell"),
-      scrollTo("pane/shell"),
+      scrollTo("pane", "shell"),
       announce("Shell, 1 of 2 in column 1 of 3."),
       Story.message(Harness.Pressed({ action: "FocusDown" })),
       focusPane("notes"),
-      scrollTo("pane/notes"),
+      scrollTo("pane", "notes"),
       announce("Notes, 2 of 2 in column 1 of 3."),
       Story.message(Harness.Pressed({ action: "FocusDown" })),
       Story.Command.expectNone(),
@@ -223,7 +215,7 @@ describe("Reel.perform", () => {
       Story.expectOutMessage(
         MovedPane({ paneId: "shell", toColumnId: "c2", toIndex: 0 })
       ),
-      scrollTo("pane/shell"),
+      scrollTo("pane", "shell"),
       announce("Shell moved to 1 of 2 in column 2 of 3.")
     );
   });
@@ -285,7 +277,7 @@ describe("Reel.perform", () => {
       Story.expectOutMessage(
         MovedColumn({ columnId: "c1", maybeBeforeColumnId: Option.some("c3") })
       ),
-      scrollTo("pane/shell"),
+      scrollTo("pane", "shell"),
       announce("Column with Shell moved to column 2 of 3."),
       Story.message(Harness.Pressed({ action: "MoveColumnLeft" })),
       Story.Command.expectNone()
@@ -298,7 +290,7 @@ describe("Reel.perform", () => {
       Story.given(fresh),
       Story.message(Harness.Pressed({ action: "CycleWidth" })),
       Story.expectOutMessage(ResizedColumn({ columnId: "c1", width: 2 / 3 })),
-      scrollTo("pane/shell"),
+      scrollTo("pane", "shell"),
       announce("Column 1 takes two thirds of the width.")
     );
 
@@ -328,7 +320,7 @@ describe("Reel.perform", () => {
 
 const restoreFocus = (paneId: string) =>
   Story.Command.resolve(
-    RestoreFocus({ paneHook: `work/pane/${paneId}` }),
+    RestoreFocus({ reelId: "work", paneId }),
     Reel.Message.CompletedRestoreFocus()
   );
 
@@ -509,7 +501,7 @@ describe("Reel.reconcile", () => {
       }),
       Story.message(Harness.Got({ message: step("Right") })),
       announce("Notes, column 2 of 3."),
-      scrollTo("column/c3")
+      scrollTo("column", "c3")
     );
   });
 
@@ -544,13 +536,13 @@ describe("Reel keyboard drag", () => {
       ),
       Story.message(step("Right")),
       announce("Notes, column 2 of 4."),
-      scrollTo("column/c2"),
+      scrollTo("column", "c2"),
       Story.message(step("Right")),
       announce("Notes, 1 of 2 in column 2 of 3."),
-      scrollTo("column/c2"),
+      scrollTo("column", "c2"),
       Story.message(step("Down")),
       announce("Notes, 2 of 2 in column 2 of 3."),
-      scrollTo("column/c2"),
+      scrollTo("column", "c2"),
       Story.message(drop),
       Story.expectOutMessage(
         MovedPane({ paneId: "notes", toColumnId: "c2", toIndex: 1 })
@@ -586,7 +578,7 @@ describe("Reel keyboard drag", () => {
       ),
       Story.message(step("Right")),
       announce("Notes, column 2 of 4."),
-      scrollTo("column/c2"),
+      scrollTo("column", "c2"),
       Story.message(Reel.Message.PressedEscape()),
       Story.expectNoOutMessage(),
       announce("Move cancelled. Notes put back where it was."),
@@ -596,7 +588,7 @@ describe("Reel keyboard drag", () => {
       ),
       Story.message(step("Right")),
       announce("Notes, column 2 of 4."),
-      scrollTo("column/c2"),
+      scrollTo("column", "c2"),
       Story.message(Reel.Message.BlurredGrip()),
       Story.expectNoOutMessage(),
       announce("Move cancelled. Notes put back where it was.")
@@ -828,22 +820,23 @@ describe("Reel view", () => {
       fresh,
       Scene.expect(
         Scene.nth(Scene.all.selector(".gg-reel-pane"), 0)
-      ).toHaveAttr("data-gg-reel-pane", "work/pane/canvas"),
+      ).toHaveAttr("data-gg-reel-pane", "canvas"),
       Scene.expect(
         Scene.nth(Scene.all.selector(".gg-reel-pane"), 3)
-      ).toHaveAttr("data-gg-reel-pane", "work/pane/shell"),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/shell"]')
-      ).toHaveStyle("--gg-reel-anchor", "--gg-reel-3"),
+      ).toHaveAttr("data-gg-reel-pane", "shell"),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="shell"]')).toHaveStyle(
+        "--gg-reel-anchor",
+        "--gg-reel-3"
+      ),
       Scene.expect(Scene.selector('[data-gg-reel-slot="shell"]')).toHaveStyle(
         "--gg-reel-anchor",
         "--gg-reel-3"
       ),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="shell"]')).toHaveClass(
+        "gg-focused"
+      ),
       Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/shell"]')
-      ).toHaveClass("gg-focused"),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/notes"]')
+        Scene.selector('[data-gg-reel-pane="notes"]')
       ).not.toHaveClass("gg-focused")
     );
   });
@@ -909,9 +902,9 @@ describe("Reel view", () => {
         "aria-pressed",
         "true"
       ),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/notes"]')
-      ).toHaveClass("gg-drag-dim"),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="notes"]')).toHaveClass(
+        "gg-drag-dim"
+      ),
       Scene.expect(Scene.selector(".gg-drop-here")).toBeAbsent(),
       Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent()
     );
@@ -1023,7 +1016,7 @@ const tab = (name: string) => Scene.role("tab", { name });
 
 const tabFocus = (paneId: string) =>
   Scene.Command.resolve(
-    FocusTab({ tabHook: `work/tab/${paneId}` }),
+    FocusTab({ reelId: "work", paneId }),
     Reel.Message.CompletedFocusTab()
   );
 
@@ -1060,24 +1053,26 @@ describe("Reel view under tabs", () => {
     tabbedScene(
       fresh,
       Scene.expectAll(Scene.all.selector(".gg-reel-pane")).toHaveCount(4),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/notes"]')
-      ).toHaveStyle("--gg-reel-anchor", "--gg-reel-stage"),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="notes"]')).toHaveStyle(
+        "--gg-reel-anchor",
+        "--gg-reel-stage"
+      ),
       Scene.expect(Scene.selector(".gg-reel-stage")).toHaveStyle(
         "--gg-reel-anchor",
         "--gg-reel-stage"
       ),
       Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/shell"]')
+        Scene.selector('[data-gg-reel-pane="shell"]')
       ).not.toHaveClass("gg-behind"),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="notes"]')).toHaveClass(
+        "gg-behind"
+      ),
+      Scene.expect(Scene.selector('[data-gg-reel-pane="notes"]')).toHaveAttr(
+        "inert",
+        "true"
+      ),
       Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/notes"]')
-      ).toHaveClass("gg-behind"),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/notes"]')
-      ).toHaveAttr("inert", "true"),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/shell"]')
+        Scene.selector('[data-gg-reel-pane="shell"]')
       ).not.toHaveAttr("inert"),
       Scene.expect(Scene.selector("[data-gg-reel-grip]")).toBeAbsent(),
       Scene.expect(Scene.selector(".gg-panel-lead")).toBeAbsent(),
@@ -1090,17 +1085,17 @@ describe("Reel view under tabs", () => {
       fresh,
       Scene.click(tab("Diff")),
       Scene.Command.resolve(
-        Reel.FocusPane({ paneHook: "work/pane/diff" }),
+        Reel.FocusPane({ reelId: "work", paneId: "diff" }),
         Reel.Message.CompletedFocusPane()
       ),
       Scene.expect(tab("Diff")).toHaveAttr("aria-selected", "true"),
       Scene.expect(tab("Shell")).toHaveAttr("aria-selected", "false"),
       Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/diff"]')
+        Scene.selector('[data-gg-reel-pane="diff"]')
       ).not.toHaveClass("gg-behind"),
-      Scene.expect(
-        Scene.selector('[data-gg-reel-pane="work/pane/shell"]')
-      ).toHaveClass("gg-behind")
+      Scene.expect(Scene.selector('[data-gg-reel-pane="shell"]')).toHaveClass(
+        "gg-behind"
+      )
     );
   });
 
@@ -1150,7 +1145,7 @@ describe("Reel view under tabs", () => {
         "Notes:Notes"
       ),
       Scene.expect(
-        Scene.selector('[data-gg-reel-tab="work/tab/notes"] .gg-reel-tab-words')
+        Scene.selector('[data-gg-reel-tab="notes"] .gg-reel-tab-words')
       ).toHaveText("Notes"),
       Scene.expectAll(
         Scene.all.selector(".gg-reel-tabs .tab-lead")
@@ -1205,7 +1200,7 @@ describe("Reel keys", () => {
       Scene.keydown(notesGrip, "ArrowRight"),
       announced("Notes, column 2 of 4."),
       Scene.Command.resolve(
-        Reel.ScrollIntoView({ hook: "work/column/c2" }),
+        Reel.ScrollIntoView({ reelId: "work", part: "column", id: "c2" }),
         Reel.Message.CompletedScrollIntoView()
       ),
       Scene.expect(Scene.selector(".gg-reel-gap.gg-drop-here")).toHaveAttr(
@@ -1343,7 +1338,7 @@ const liveSubscriptions = FoldkitSubscription.lift(Reel.subscriptions("work"))<
 });
 
 const paneOf = (paneId: string): HTMLElement =>
-  bySelector(`[data-gg-reel-pane="work/pane/${paneId}"]`);
+  bySelector(`[data-gg-reel-pane="${paneId}"]`);
 
 const layer = (): HTMLElement => bySelector(".gg-reel-panes");
 
@@ -1480,8 +1475,7 @@ describe("Reel pane order", () => {
 
     byId("add-pane").click();
     await settleUntil(
-      () =>
-        document.querySelector('[data-gg-reel-pane="work/pane/log"]') !== null
+      () => document.querySelector('[data-gg-reel-pane="log"]') !== null
     );
     observer.disconnect();
 
@@ -1500,18 +1494,12 @@ describe("Reel pane order", () => {
       Array.map(Array.fromIterable(layer().children), (child) =>
         child instanceof HTMLElement ? child.dataset["ggReelPane"] : undefined
       )
-    ).toStrictEqual([
-      "work/pane/canvas",
-      "work/pane/diff",
-      "work/pane/log",
-      "work/pane/notes",
-      "work/pane/shell",
-    ]);
+    ).toStrictEqual(["canvas", "diff", "log", "notes", "shell"]);
   });
 });
 
-const gripOf = (hook: string): HTMLElement =>
-  bySelector(`[data-gg-reel-grip="${hook}"]`);
+const gripOf = (paneId: string): HTMLElement =>
+  bySelector(`[data-gg-reel-grip="${paneId}"]`);
 
 const pointerEvent = (
   type: string,
@@ -1563,7 +1551,7 @@ describe("Reel live keys and pointer", () => {
 
   it("takes keys only on the held grip, and lets a field reached by Tab type", async () => {
     await mountReel();
-    const grip = gripOf("work/pane/shell");
+    const grip = gripOf("shell");
     grip.focus();
     grip.dispatchEvent(keydown(" "));
     await settleUntil(() => grip.getAttribute("aria-pressed") === "true");
@@ -1578,7 +1566,7 @@ describe("Reel live keys and pointer", () => {
     document.body.append(field);
     field.focus();
     await settleUntil(
-      () => gripOf("work/pane/shell").getAttribute("aria-pressed") === "false"
+      () => gripOf("shell").getAttribute("aria-pressed") === "false"
     );
     const typed = keydown(" ");
     field.dispatchEvent(typed);
@@ -1593,9 +1581,7 @@ describe("Reel live keys and pointer", () => {
 
   it("carries a pane once the pressing pointer moves past the threshold, follows no other, and lets go on release", async () => {
     await mountReel();
-    gripOf("work/pane/notes").dispatchEvent(
-      pointerEvent("pointerdown", 1, 100)
-    );
+    gripOf("notes").dispatchEvent(pointerEvent("pointerdown", 1, 100));
     await settle();
 
     for (const x of [200, 300, 400]) {
@@ -1611,24 +1597,20 @@ describe("Reel live keys and pointer", () => {
 
       return document.querySelector(".gg-reel-lift") !== null;
     });
-    expect(gripOf("work/pane/notes").getAttribute("aria-pressed")).toBe("true");
+    expect(gripOf("notes").getAttribute("aria-pressed")).toBe("true");
     expect("ggDragging" in document.documentElement.dataset).toBe(true);
 
     document.dispatchEvent(pointerEvent("pointerup", 1, 400));
     await settleUntil(() => document.querySelector(".gg-reel-lift") === null);
 
     expect(isCarriedByOther).toBe(false);
-    expect(gripOf("work/pane/notes").getAttribute("aria-pressed")).toBe(
-      "false"
-    );
+    expect(gripOf("notes").getAttribute("aria-pressed")).toBe("false");
     expect("ggDragging" in document.documentElement.dataset).toBe(false);
   });
 
   it("reads a carried pane's target once a frame from the column under it, and drops it where it was let go", async () => {
     await mountReel();
-    gripOf("work/pane/notes").dispatchEvent(
-      pointerEvent("pointerdown", 1, 100)
-    );
+    gripOf("notes").dispatchEvent(pointerEvent("pointerdown", 1, 100));
     await settleUntil(() => {
       document.dispatchEvent(pointerEvent("pointermove", 1, 400));
 
@@ -1656,9 +1638,7 @@ describe("Reel live keys and pointer", () => {
 
   it("puts a carried pane back on Escape", async () => {
     await mountReel();
-    gripOf("work/pane/notes").dispatchEvent(
-      pointerEvent("pointerdown", 1, 100)
-    );
+    gripOf("notes").dispatchEvent(pointerEvent("pointerdown", 1, 100));
     await settleUntil(() => {
       document.dispatchEvent(pointerEvent("pointermove", 1, 400));
 

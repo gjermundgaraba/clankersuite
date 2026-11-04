@@ -26,14 +26,12 @@ import type { Arrangement, Model } from "./model.ts";
 import {
   By,
   COPY,
-  columnHook,
   focusedPaneId,
   heldLabel,
   isCarried,
   isIdle,
-  paneHook,
+  partSelector,
   readingOrder,
-  tabHook,
 } from "./model.ts";
 
 /** Sizes the copy that follows the pointer to what it lifts, and keeps the pointer where it
@@ -187,7 +185,7 @@ const gripView = (model: Model, pane: Pane, h: HtmlBuilder<Message>): Html => {
       label: fill(COPY.paneGrip, { pane: pane.label }),
       isQuiet: true,
       attributes: [
-        h.DataAttribute("gg-reel-grip", paneHook(model, pane.id)),
+        h.DataAttribute("gg-reel-grip", pane.id),
         h.AriaRoleDescription("draggable"),
         h.AriaDescribedBy(helpId(model)),
         Button.pressedAttribute(isHeld, h),
@@ -328,7 +326,6 @@ const columnView = (
       [
         h.Class("gg-reel-column"),
         h.DataAttribute("gg-reel-column", column.id),
-        h.DataAttribute("gg-reel-hook", columnHook(model, column.id)),
         h.Style({ "--gg-reel-width": `${column.width}` }),
       ],
       stack
@@ -375,7 +372,7 @@ const paneLayerView = (
           h.Class(
             `gg-reel-pane${isFocused ? " gg-focused" : ""}${isHeld ? " gg-drag-dim" : ""}${isBehind ? " gg-behind" : ""}`
           ),
-          h.DataAttribute("gg-reel-pane", paneHook(model, pane.id)),
+          h.DataAttribute("gg-reel-pane", pane.id),
           h.Style({ "--gg-reel-anchor": anchors.get(pane.id) ?? "none" }),
           h.Tabindex(-1),
           ...(info.isTabbed
@@ -419,7 +416,7 @@ const liftedCopyView = (
                 h.Inert(true),
                 h.OnMount(
                   SizeLiftedPane({
-                    sourceSelector: `[data-gg-reel-pane="${CSS.escape(paneHook(model, held.paneId))}"]`,
+                    sourceSelector: partSelector(model.id, "pane", held.paneId),
                     pressX,
                     pressY,
                   })
@@ -497,7 +494,7 @@ const tabListView = (
           h.AriaSelected(isSelected),
           h.AriaControls(tabPanelId(model, pane.id)),
           h.Tabindex(isSelected ? 0 : -1),
-          h.DataAttribute("gg-reel-tab", tabHook(model, pane.id)),
+          h.DataAttribute("gg-reel-tab", pane.id),
           h.OnClick(Message.ClickedTab({ paneId: pane.id })),
           h.OnKeyDownPreventDefault((key, modifiers) =>
             isPlain(modifiers) ? keyOf(index, key) : Option.none()
