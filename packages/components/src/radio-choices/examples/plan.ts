@@ -1,7 +1,6 @@
 import { Fieldset, RadioChoices } from "@gjermundgaraba/components";
 import { Option, Schema } from "effect";
-import { Command } from "foldkit";
-import type { Update } from "foldkit";
+import { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
@@ -28,25 +27,23 @@ export const init = (): Update.Return<Model, Message> => ({
   },
 });
 
-const foldPlan = (
-  model: Model,
-  message: RadioChoices.Message
-): Update.Return<Model, Message> => {
-  const next = RadioChoices.update(model.plan, message);
+const toPlanMessage = (message: RadioChoices.Message): Message =>
+  Message.GotPlanMessage({ message });
 
-  return {
-    model: modifyFields(model, {
-      plan: () => next.model,
-      maybePlan: (held) =>
-        next.outMessage === undefined
-          ? held
-          : Option.some(next.outMessage.value),
-    }),
-    commands: Command.mapMessages(next.commands ?? [], (planMessage) =>
-      Message.GotPlanMessage({ message: planMessage })
-    ),
-  };
-};
+const foldPlan = Update.foldChild({
+  update: RadioChoices.update,
+  read: (model: Model) => Option.some(model.plan),
+  write: (model: Model, nextPlan: RadioChoices.Model): Model =>
+    modifyFields(model, { plan: () => nextPlan }),
+  toParentMessage: toPlanMessage,
+  foldOutMessage: RadioChoices.OutMessage.match<Update.Step<Model, Message>>({
+    Selected:
+      ({ value }) =>
+      (model) => ({
+        model: modifyFields(model, { maybePlan: () => Option.some(value) }),
+      }),
+  }),
+});
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
@@ -75,7 +72,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             ],
             selectedValue: model.maybePlan,
           },
-          toParentMessage: (message) => Message.GotPlanMessage({ message }),
+          toParentMessage: toPlanMessage,
         }),
       ],
     },

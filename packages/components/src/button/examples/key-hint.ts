@@ -10,15 +10,15 @@ export const Model = Schema.Struct({ platform: KeyHint.KeyPlatform });
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
-  DetectedKeyPlatform: { platform: KeyHint.KeyPlatform },
+  CompletedDetectKeyPlatform: { platform: KeyHint.KeyPlatform },
 });
 
 export type Message = typeof Message.Type;
 
 export const DetectKeyPlatform = Command.define("DetectKeyPlatform", {
-  messages: [Message.DetectedKeyPlatform],
+  messages: [Message.CompletedDetectKeyPlatform],
   execute: KeyHint.detectKeyPlatform.pipe(
-    Effect.map((platform) => Message.DetectedKeyPlatform({ platform }))
+    Effect.map((platform) => Message.CompletedDetectKeyPlatform({ platform }))
   ),
 });
 
@@ -29,7 +29,7 @@ export const init = (): Update.Return<Model, Message> => ({
 
 export const update = (_model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
-    DetectedKeyPlatform: ({ platform }) => ({ model: { platform } }),
+    CompletedDetectKeyPlatform: ({ platform }) => ({ model: { platform } }),
   });
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>

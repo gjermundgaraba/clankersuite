@@ -104,6 +104,10 @@ try {
 
     const mains = await page.locator("main").count();
 
+    const current = await page
+      .locator('.site-nav a[aria-current="page"]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+
     if (empty > 0) {
       problems.push(`${href}: ${empty} of ${stages.length} examples are empty`);
     }
@@ -112,7 +116,21 @@ try {
       problems.push(`${href}: ${mains} main landmarks`);
     }
 
+    if (current.length !== 1 || current[0] !== href) {
+      problems.push(`${href}: the navigation marks ${current.join(", ")}`);
+    }
+
     problems.push(...errors.map((error) => `${href}: ${error}`));
+  }
+
+  await page.goto(`${base}/no-such-page`);
+  await page.waitForTimeout(MOUNT);
+
+  if (
+    (await page.getByRole("heading", { level: 1 }).textContent()) !==
+    "Not found"
+  ) {
+    problems.push("/no-such-page: the page does not say it was not found");
   }
 
   await page.goto(`${base}/components/button`);

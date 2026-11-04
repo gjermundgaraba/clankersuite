@@ -34,11 +34,13 @@ release. Add a tool name to select part of the graph. For example, run
 
 The gjermundgaraba design system, for six applications: clankerauth, clankerbot, clankerpedia, clankerspace, clankerusage and wtf. Four packages are published to npm, `@gjermundgaraba/design-tokens`, `fonts`, `icons` and `components`, released together at one version; a package depends on another at exactly that version (`workspace:*`). `apps/docs` is the documentation site and is not published. A component's page is `<dir>/<dir>.md` in its directory, and each `::Example{name}` on it is `<dir>/examples/<name>.ts`, run as its own Foldkit program; a package's other pages are in `packages/<package>/docs/`, and their examples in `apps/docs/src/foundations/<package>/examples/`, since an example lays out with components and only `apps/docs` can depend on all four packages. Every export has a page, and the page shows each of its states. A brand is a token set, a font and, one day, its own drawing of the glyph names; clankersuite is the only brand.
 
-`repos/foldkit` is Foldkit's source at the catalog's `foldkit` version, the reference for Foldkit's APIs and conventions. Where this repo's lint config and Foldkit's conventions differ, the lint wins (arrays are `readonly T[]`). Compare primitives with `===`. A function does one job; there is no line limit. The docs app is tested by its smoke test, `vp run docs#smoke`, which loads every page in a browser and runs every example on it. Never edit it; after a Foldkit upgrade, re-pin it:
+`repos/foldkit` is Foldkit's source at the catalog's `foldkit` version, the reference for Foldkit's APIs and conventions. Where this repo's lint config and Foldkit's conventions differ, the lint wins (arrays are `readonly T[]`). Never edit `repos/foldkit`; after a Foldkit upgrade, re-pin it:
 
 ```bash
 git subtree pull --prefix=repos/foldkit https://github.com/foldkit/foldkit.git foldkit@<version> --squash
 ```
+
+Compare primitives with `===`. A function does one job; there is no line limit. The docs app is tested by its smoke test, `vp run docs#smoke`, which loads every page in a browser, runs every example on it, and checks the navigation marks the page it is on.
 
 # components
 
