@@ -955,6 +955,10 @@ a.gg-textbtn {
 
 .gg-panel-foot .gg-push {
   margin-left: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-inline);
 }
 
 .gg-panel-foot > .gg-notice {
@@ -2531,20 +2535,6 @@ pre.gg-code-surface {
   color: inherit;
 }
 
-.gg-save-row {
-  display: flex;
-  align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
-  flex-wrap: wrap;
-}
-
-.gg-save-row .gg-push {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
-}
-
 .gg-diff-wrap {
   overflow-x: auto;
   border: var(--semantic-dimension-border-width-container) solid
@@ -3703,10 +3693,6 @@ dialog.gg-veil:focus {
   color: var(--semantic-color-text-secondary);
 }
 
-.gg-meter-foot .gg-late {
-  color: var(--semantic-color-text-negative);
-}
-
 .gg-history-list.gg-checks {
   border-top: 0;
 }
@@ -4118,12 +4104,6 @@ dialog.gg-veil:focus {
 
 .gg-prose a:hover {
   text-decoration-thickness: var(--semantic-dimension-border-width-container);
-}
-
-.gg-prose a.gg-missing {
-  color: var(--semantic-color-text-negative);
-  text-decoration-style: dotted;
-  text-decoration-color: var(--semantic-color-text-negative);
 }
 
 .gg-toc {
