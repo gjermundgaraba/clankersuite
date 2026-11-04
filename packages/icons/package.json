@@ -1,12 +1,11 @@
 {
   "name": "@gjermundgaraba/icons",
-  "version": "0.4.0",
-  "private": true,
+  "version": "0.5.0",
   "description": "The glyphs of the gjermundgaraba design system: 12×12 pixel drawings as Foldkit views.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gjermundgaraba/design-system.git",
+    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
     "directory": "packages/icons"
   },
   "files": [

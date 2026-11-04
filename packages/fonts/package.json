@@ -1,12 +1,11 @@
 {
   "name": "@gjermundgaraba/fonts",
-  "version": "0.4.0",
-  "private": true,
+  "version": "0.5.0",
   "description": "The fonts of the gjermundgaraba design system, self-hosted, one stylesheet per font.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gjermundgaraba/design-system.git",
+    "url": "git+https://github.com/gjermundgaraba/clankersuite.git",
     "directory": "packages/fonts"
   },
   "files": [
@@ -20,5 +19,8 @@
   ],
   "exports": {
     "./departure-mono.css": "./departure-mono.css"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
