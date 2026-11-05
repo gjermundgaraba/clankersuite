@@ -3302,9 +3302,6 @@ dialog.gg-veil:focus {
 
 .gg-sortable-item [data-gg-sortable-grip] {
   flex: none;
-}
-
-.gg-sortable-item.gg-movable [data-gg-sortable-grip] {
   cursor: grab;
   touch-action: none;
 }

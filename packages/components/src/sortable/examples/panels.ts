@@ -1,7 +1,5 @@
 import {
   Announcer,
-  Button,
-  Group,
   LiveRegion,
   Panel,
   Sortable,
@@ -24,14 +22,12 @@ type Feed = typeof Feed.Type;
 export const Model = Schema.Struct({
   desk: Sortable.Model,
   feeds: Schema.Array(Feed),
-  isReadOnly: Schema.Boolean,
 });
 
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
   GotDeskMessage: { message: Sortable.Message },
-  ToggledReadOnly: {},
   CompletedFlash: {},
 });
 
@@ -53,7 +49,6 @@ export const init = (): Update.Return<Model, Message> => ({
   model: {
     desk: Sortable.init({ id: "feed-desk" }),
     feeds: FEEDS,
-    isReadOnly: false,
   },
 });
 
@@ -102,9 +97,6 @@ const foldDesk = Update.foldChild({
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
     GotDeskMessage: ({ message: deskMessage }) => foldDesk(model, deskMessage),
-    ToggledReadOnly: () => ({
-      model: modifyFields(model, { isReadOnly: (isReadOnly) => !isReadOnly }),
-    }),
     CompletedFlash: () => ({ model }),
   });
 
@@ -131,7 +123,6 @@ const deskView = (model: Model, h: HtmlBuilder<Message>): Html =>
       items: Array.map(model.feeds, ({ id, label }) => ({ id, label })),
       label: "Feeds in order",
       layout: "Panels",
-      isReadOnly: model.isReadOnly,
       toItemView: (item, render) => [
         Panel.view(
           {
@@ -153,22 +144,6 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Stack.view(
     {
       body: [
-        Group.view(
-          {
-            body: [
-              Button.view(
-                {
-                  label: "read only",
-                  isSmall: true,
-                  onClick: Message.ToggledReadOnly(),
-                  attributes: [Button.pressedAttribute(model.isReadOnly, h)],
-                },
-                h
-              ),
-            ],
-          },
-          h
-        ),
         deskView(model, h),
         ...LiveRegion.place([], () => LiveRegion.view({}, h)).toPageView(),
       ],

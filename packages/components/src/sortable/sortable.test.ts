@@ -247,7 +247,7 @@ const listView =
     );
 
 const panelsView =
-  (items: readonly Sortable.Item[], isReadOnly = false) =>
+  (items: readonly Sortable.Item[]) =>
   (model: Sortable.Model, h: HtmlBuilder<Sortable.Message>) =>
     Sortable.view(
       model,
@@ -255,7 +255,6 @@ const panelsView =
         items,
         label: "Targets in order",
         layout: "Panels",
-        isReadOnly,
         toItemView: (item, render) => [
           Panel.view(
             {
@@ -403,10 +402,7 @@ describe("Sortable panels", () => {
       ).toHaveAttr("aria-label", "Move Beta"),
       Scene.expectAll(
         Scene.all.selector("[data-gg-sortable-grip]")
-      ).toHaveCount(3),
-      Scene.expect(Scene.selector(".gg-sortable-item")).toHaveClass(
-        "gg-movable"
-      )
+      ).toHaveCount(3)
     );
   });
 
@@ -426,26 +422,6 @@ describe("Sortable panels", () => {
         Scene.selector(".gg-sortable-slot [data-gg-sortable-grip]")
       ).toBeAbsent(),
       Scene.expectAll(Scene.all.selector("#panel-alpha")).toHaveCount(1)
-    );
-  });
-
-  it("holds every grip and lifts nothing for a reader who may not reorder", () => {
-    Scene.scene(
-      { update: Sortable.update, view: panelsView(ITEMS, true) },
-      Scene.given(fresh),
-      Scene.expect(Scene.role("button", { name: "Move Beta" })).toHaveAttr(
-        "aria-disabled",
-        "true"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Move Beta" })
-      ).not.toHaveHandler("keydown"),
-      Scene.expect(Scene.selector(".gg-sortable-item")).not.toHaveClass(
-        "gg-movable"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Move Beta" })
-      ).not.toHaveHandler("pointerdown")
     );
   });
 });

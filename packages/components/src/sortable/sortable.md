@@ -22,6 +22,6 @@ Lift `Sortable.subscriptions` into the application's, once per list, with a key 
 
 ## Panels
 
-`layout: "Panels"` reorders the application's own panels, each by the grip it puts in its title bar's `lead`. With `isReadOnly`, as for a reader without the right to change the order, every grip prints held and nothing lifts.
+`layout: "Panels"` reorders the application's own panels, each by the grip it puts in its title bar's `lead`.
 
 ::Example{name="panels"}

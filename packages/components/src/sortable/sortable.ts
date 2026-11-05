@@ -577,9 +577,6 @@ export type ViewInputs = Readonly<{
    *  wrap, 180px and up. `"Panels"`: each item is a Panel the parent prints, with `render.grip`
    *  in its `lead`, up to three across in the deck's gutter, 300px and up. */
   layout?: Layout;
-  /** The reader may look but not reorder, as a read-only sign-in: every grip prints held, as
-   *  while moves are held, and nothing lifts. */
-  isReadOnly?: boolean;
   /** One item's content, beside its grip. Also called for the held copy, with
    *  `render.isLifted`. */
   toItemView: (item: Item, render: ItemRender) => readonly Html[];
@@ -588,7 +585,6 @@ export type ViewInputs = Readonly<{
 type ListInfo = Readonly<{
   model: Model;
   layout: Layout;
-  isMovable: boolean;
   items: readonly Item[];
   maybeDropMark: Option.Option<DropMark>;
   toItemView: (item: Item, render: ItemRender) => readonly Html[];
@@ -638,7 +634,7 @@ const gripView = (
   item: Item,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { model, isMovable, items } = info;
+  const { model, items } = info;
   const isIdleNow = phaseOf(model.dragAndDrop) === "Idle";
 
   const onGripKey: Attribute<Message> = h.OnKeyDownPreventDefault((key) =>
@@ -678,14 +674,14 @@ const gripView = (
       glyph: "grip",
       label: fill(COPY.gripLabel, { item: item.label }),
       isQuiet: true,
-      isDisabled: !isMovable,
       attributes: [
         h.DataAttribute("draggable-id", itemHook(model, item.id)),
         h.DataAttribute(GRIP_ATTRIBUTE, ""),
         h.AriaRoleDescription("draggable"),
         h.AriaDescribedBy(helpId(model)),
         Button.pressedAttribute(isHeldItem(model, item.id), h),
-        ...(isMovable ? [onGripKey, onGripPress] : []),
+        onGripKey,
+        onGripPress,
       ],
     },
     h
@@ -737,7 +733,7 @@ const dropClass = (info: ListInfo, item: Item): string =>
   );
 
 const itemClass = (info: ListInfo, item: Item): string =>
-  `gg-sortable-item${info.isMovable ? " gg-movable" : ""}${isHeldItem(info.model, item.id) ? " gg-drag-dim" : ""}${dropClass(info, item)}`;
+  `gg-sortable-item${isHeldItem(info.model, item.id) ? " gg-drag-dim" : ""}${dropClass(info, item)}`;
 
 const itemView = (info: ListInfo, item: Item, h: HtmlBuilder<Message>): Html =>
   h.keyed("li")(
@@ -854,18 +850,11 @@ const layoutClass = (layout: Layout): string =>
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const {
-      items,
-      label,
-      layout = "List",
-      isReadOnly = false,
-      toItemView,
-    } = viewInputs;
+    const { items, label, layout = "List", toItemView } = viewInputs;
 
     const info: ListInfo = {
       model,
       layout,
-      isMovable: !isReadOnly,
       items,
       maybeDropMark: dropMarkOf(model),
       toItemView,
