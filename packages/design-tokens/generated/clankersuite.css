@@ -138,7 +138,6 @@
   --primitive-number-layer-1000: 1;
   --primitive-number-layer-20000: 20;
   --primitive-number-layer-40000: 40;
-  --primitive-number-layer-150000: 150;
   --primitive-number-layer-200000: 200;
   --primitive-number-layer-250000: 250;
   --primitive-number-layer-300000: 300;
@@ -248,7 +247,6 @@
   --semantic-dimension-size-cursor-wordmark-width: var(--primitive-dimension-8);
   --semantic-dimension-size-diff-line: var(--primitive-dimension-19);
   --semantic-dimension-size-dot: var(--primitive-dimension-10);
-  --semantic-dimension-size-glyph-banner: var(--primitive-dimension-26);
   --semantic-dimension-size-glyph-large: var(--primitive-dimension-34);
   --semantic-dimension-size-glyph-notice: var(--primitive-dimension-20);
   --semantic-dimension-size-glyph-row: var(--primitive-dimension-18);
@@ -258,7 +256,6 @@
   --semantic-dimension-size-max-height-board-column-room: var(--primitive-dimension-150);
   --semantic-dimension-size-max-height-markdown-image: var(--primitive-dimension-480);
   --semantic-dimension-size-max-height-palette: var(--primitive-dimension-420);
-  --semantic-dimension-size-max-width-banner: var(--primitive-dimension-680);
   --semantic-dimension-size-max-width-card: var(--primitive-dimension-680);
   --semantic-dimension-size-max-width-card-narrow: var(--primitive-dimension-440);
   --semantic-dimension-size-max-width-deck: var(--primitive-dimension-1160);
@@ -388,7 +385,6 @@
   --semantic-font-weight-regular: var(--primitive-font-weight-400);
   --semantic-font-weight-semi-bold: var(--primitive-font-weight-600);
   --semantic-number-font-scale-inline-code: var(--primitive-number-font-scale-850);
-  --semantic-number-layer-banner: var(--primitive-number-layer-150000);
   --semantic-number-layer-dialog: var(--primitive-number-layer-250000);
   --semantic-number-layer-lift: var(--primitive-number-layer-9999000);
   --semantic-number-layer-menu: var(--primitive-number-layer-200000);

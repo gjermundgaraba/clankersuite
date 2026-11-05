@@ -14,7 +14,7 @@ export type ViewConfig = Readonly<{
  * Where a word printed beside an action for a moment (`"copied"`, `"saved"`) goes. It is a
  * polite status, always on the page so the word is heard when it arrives; empty, it takes no
  * room. For the outcome of the control the reader just used, beside it: an outcome they may
- * not be looking at is a toast, and a state the whole interface is in is a Banner.
+ * not be looking at is a toast.
  *
  * The word and its clearing live in the caller's Model: set it to `Option.some(word)`
  * together with a Command that waits `HOLD` and reports back, and clear it when that Message

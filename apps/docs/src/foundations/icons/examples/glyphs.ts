@@ -4,7 +4,6 @@ import {
   Button,
   EmptyState,
   FilterChip,
-  FilterStrip,
   LiveRegion,
   Panel,
   QueryChip,
@@ -333,9 +332,9 @@ const shownFamilies = (model: Model): readonly Family[] => {
 };
 
 const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  FilterStrip.view(
+  Wrap.view(
     {
-      label: "Find a glyph",
+      attributes: [h.Role("group"), h.AriaLabel("Find a glyph")],
       body: [
         QueryChip.view(
           {

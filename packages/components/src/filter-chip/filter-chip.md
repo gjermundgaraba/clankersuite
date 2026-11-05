@@ -4,7 +4,7 @@ category: forms
 
 # Filter chip
 
-A filter as a chip, in a `FilterStrip` above the list it filters. With `onToggle` it is a toggle button, inverted and `aria-pressed` while in force. The reset chip is quiet and never pressed.
+A filter as a chip, beside the others in a `Group` or `Wrap` above the list it filters. With `onToggle` it is a toggle button, inverted and `aria-pressed` while in force. The reset chip is quiet and never pressed.
 
 ::Example{name="toggle"}
 

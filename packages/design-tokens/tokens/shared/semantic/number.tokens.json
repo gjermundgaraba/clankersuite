@@ -97,10 +97,6 @@
           "$value": "{primitive.number.layer.250000}",
           "$description": "A bench or stage holding an open dialog."
         },
-        "banner": {
-          "$value": "{primitive.number.layer.150000}",
-          "$description": "A banner."
-        },
         "paused": {
           "$value": "{primitive.number.layer.20000}",
           "$description": "A paused stage's notice."
