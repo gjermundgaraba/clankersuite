@@ -380,10 +380,6 @@ button.gg-tag > span {
   animation-iteration-count: 4;
 }
 
-.gg-topbar .gg-spacer {
-  flex: 1;
-}
-
 .gg-topbar-tools {
   display: flex;
   flex-wrap: wrap;
