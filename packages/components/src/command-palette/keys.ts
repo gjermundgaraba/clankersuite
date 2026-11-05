@@ -2,6 +2,7 @@ import { Match, Option, Stream } from "effect";
 import * as Dom from "foldkit/dom";
 import * as Mount from "foldkit/mount";
 
+import { htmlElementById } from "../dom/html-element.ts";
 import { isPlain } from "../keys/keys.ts";
 import { Message } from "./message.ts";
 
@@ -100,7 +101,7 @@ type EarlyKeyMessage =
 
 const isInsidePalette = (paletteId: string, event: KeyboardEvent): boolean =>
   Option.exists(
-    Option.fromNullishOr(document.querySelector(`#${CSS.escape(paletteId)}`)),
+    htmlElementById(paletteId),
     (dialog) => event.target instanceof Node && dialog.contains(event.target)
   );
 

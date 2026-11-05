@@ -2,6 +2,8 @@ import { Array, Option, Schema, Stream, pipe } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import type { EntryWithoutKeepAlive } from "foldkit/subscription";
 
+import { htmlElementById } from "../dom/html-element.ts";
+
 /** A heading's level: `2` at the margin, `3` indented under it. */
 export const Level = Schema.Literals([2, 3]);
 
@@ -69,11 +71,7 @@ const READING_LINE = 0.2;
 const readingPosition = (
   headingIds: readonly string[]
 ): Option.Option<string> => {
-  const headings = Array.getSomes(
-    Array.map(headingIds, (id) =>
-      Option.fromNullishOr(document.querySelector(`#${CSS.escape(id)}`))
-    )
-  );
+  const headings = Array.getSomes(Array.map(headingIds, htmlElementById));
 
   const line = window.innerHeight * READING_LINE;
 

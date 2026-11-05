@@ -21,7 +21,7 @@ import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
 import type * as Update from "foldkit/update";
 
-import { htmlElement } from "../dom/html-element.ts";
+import { htmlElementById } from "../dom/html-element.ts";
 import { prefixKeys } from "../subscription/prefix-keys.ts";
 
 const Side = Schema.Literals(["Top", "Right"]);
@@ -149,9 +149,6 @@ const findTipTarget = (
     Match.exhaustive
   );
 
-const tipElement = (tipId: string): Option.Option<HTMLElement> =>
-  htmlElement(`#${CSS.escape(tipId)}`);
-
 const hidePopover = (tip: HTMLElement): void => {
   if (tip.matches(":popover-open")) {
     tip.hidePopover();
@@ -171,7 +168,7 @@ export const ShowTip = Command.define("ShowTip", {
         Effect.try(() =>
           Option.map(
             Option.all({
-              tip: tipElement(tipId),
+              tip: htmlElementById(tipId),
               source: findTipTarget(trigger, text),
             }),
             ({ tip, source }) => {
@@ -191,7 +188,7 @@ export const HideTip = Command.define("HideTip", {
   args: { tipId: Schema.String },
   messages: [Message.CompletedHideTip],
   execute: ({ tipId }) =>
-    Effect.try(() => Option.map(tipElement(tipId), hidePopover)).pipe(
+    Effect.try(() => Option.map(htmlElementById(tipId), hidePopover)).pipe(
       Effect.ignore,
       Effect.as(Message.CompletedHideTip())
     ),

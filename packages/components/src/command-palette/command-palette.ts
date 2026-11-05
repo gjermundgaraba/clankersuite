@@ -30,6 +30,7 @@ import * as Update from "foldkit/update";
 
 import * as Dialog from "../dialog/dialog.ts";
 import { foldDialog } from "../dialog/fold.ts";
+import { htmlElement } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
@@ -173,12 +174,9 @@ const shownRowOf = (row: Element): Option.Option<ShownRow> =>
     })
   );
 
-const find = (selector: string): Option.Option<Element> =>
-  Option.fromNullishOr(document.querySelector(selector));
-
 const shownCursorOf = (paletteId: string): Option.Option<ShownRow> =>
   Option.flatMap(
-    find(
+    htmlElement(
       `#${CSS.escape(listIdOf(paletteId))} ${OPTION_SELECTOR}[aria-selected="true"]`
     ),
     shownRowOf
