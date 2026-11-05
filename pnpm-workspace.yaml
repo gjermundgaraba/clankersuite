@@ -14,7 +14,7 @@ catalog:
   "@codemirror/state": 6.7.6
   "@codemirror/view": 6.43.15
   "@effect/platform-browser": 4.1.2
-  "@effect/tsgo": 0.67.1
+  "@effect/tsgo": 0.67.3
   "@effect/vitest": 4.1.2
   "@foldkit/markdown": 0.15.0
   "@foldkit/oxlint-plugin": 0.15.4
