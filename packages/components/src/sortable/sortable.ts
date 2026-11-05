@@ -15,11 +15,12 @@ import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
   activatedKeyboardDrag,
-  canLift,
   cancelledDrag,
   escapeSubscriptions,
   insertionIndex,
   isCarrying,
+  isCarriedItem,
+  isHolding,
   markDragging,
   measureLift,
   movedPointer,
@@ -304,7 +305,7 @@ const liftable = (
       Array.findFirstWithIndex(items, (item) => item.id === itemId),
       ([item, index]) => ({ index, item })
     ),
-    () => canLift(model)
+    () => !isHolding(model)
   );
 
 const lift = (
@@ -593,11 +594,7 @@ type ListInfo = Readonly<{
 const helpId = (model: Model): string => `${id(model)}-grip-help`;
 
 const isHeldItem = (model: Model, itemId: string): boolean =>
-  UiDragAndDrop.isDragging(model.dragAndDrop) &&
-  Option.contains(
-    UiDragAndDrop.maybeDraggedItemId(model.dragAndDrop),
-    itemHook(model, itemId)
-  );
+  isCarriedItem(model.dragAndDrop, itemHook(model, itemId));
 
 const liftedGrip = <ParentMessage>(h: HtmlBuilder<ParentMessage>): Html =>
   h.span(
@@ -635,7 +632,7 @@ const gripView = (
   h: HtmlBuilder<Message>
 ): Html => {
   const { model, items } = info;
-  const isIdleNow = phaseOf(model.dragAndDrop) === "Idle";
+  const isIdleNow = !isHolding(model);
 
   const onGripKey: Attribute<Message> = h.OnKeyDownPreventDefault((key) =>
     Option.liftPredicate(

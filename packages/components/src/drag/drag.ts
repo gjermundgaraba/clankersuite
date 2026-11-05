@@ -36,7 +36,13 @@ type Holder = Readonly<{
 export const isHolding = (model: Holder): boolean =>
   phaseOf(model.dragAndDrop) !== "Idle";
 
-export const canLift = (model: Holder): boolean => !isHolding(model);
+/** Whether the item behind `hook` is the one being carried. */
+export const isCarriedItem = (
+  dragAndDrop: UiDragAndDrop.Model,
+  hook: string
+): boolean =>
+  UiDragAndDrop.isDragging(dragAndDrop) &&
+  Option.contains(UiDragAndDrop.maybeDraggedItemId(dragAndDrop), hook);
 
 export const settle = <Model extends Holder, Message, OutMessage>(
   step: Update.ReturnWithOutMessage<Model, Message, OutMessage>,
@@ -82,17 +88,6 @@ export const cancelledDrag = (): UiDragAndDrop.Message =>
   UiDragAndDrop.Message.CancelledDrag();
 
 export const LEFT_BUTTON = 0;
-
-export const innerControls = (liftingButtons: string): string =>
-  [
-    "input",
-    "textarea",
-    "select",
-    "a[href]",
-    '[contenteditable]:not([contenteditable="false"])',
-    `button:not(${liftingButtons})`,
-    "[data-gg-no-lift]",
-  ].join(", ");
 
 export const takeEscape = <Message>(
   event: KeyboardEvent,

@@ -105,7 +105,7 @@ describe("Board update", () => {
       Story.given(fresh),
       Story.message(pressGrip),
       Story.model((model) => {
-        expect(Board.isDragging(model)).toBe(true);
+        expect(isHolding(model)).toBe(true);
         expect(
           Option.map(model.maybeHeld, ({ card }) => card.id)
         ).toStrictEqual(Option.some("sink"));

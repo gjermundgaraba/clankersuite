@@ -22,11 +22,11 @@ import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
   activatedKeyboardDrag,
-  canLift,
   cancelledDrag,
   escapeSubscriptions,
-  innerControls,
   isCarrying,
+  isCarriedItem,
+  isHolding,
   measureLift,
   phaseOf,
   pressedDraggable,
@@ -157,7 +157,7 @@ export const init = (config: InitConfig): Model => ({
 /** The board's id, unique in the document. */
 export const id = (model: Model): string => model.dragAndDrop.id;
 
-export const isDragging = (model: Model): boolean =>
+const isDragging = (model: Model): boolean =>
   UiDragAndDrop.isDragging(model.dragAndDrop);
 
 const hookId = (boardId: string, localId: string): string =>
@@ -461,11 +461,11 @@ const pressCard =
   }: typeof Message.PressedCard.Type): UpdateReturn => {
     const maybeSelected = Option.liftPredicate(
       OutMessage.SelectedCard({ cardId }),
-      () => spot === "Body" && phaseOf(model.dragAndDrop) === "Idle"
+      () => spot === "Body" && !isHolding(model)
     );
 
     const isLifting =
-      canLift(model) && (spot === "Grip" || pointerType === "mouse");
+      !isHolding(model) && (spot === "Grip" || pointerType === "mouse");
 
     const press = Option.match(
       Option.filter(placeOf(columnsAtPress, cardId), () => isLifting),
@@ -515,7 +515,7 @@ export const update = (model: Model, message: Message) =>
     PressedCard: pressCard(model),
     PressedGripKey: ({ cardId, columnsAtPress }) =>
       Option.match(
-        Option.filter(placeOf(columnsAtPress, cardId), () => canLift(model)),
+        Option.filter(placeOf(columnsAtPress, cardId), () => !isHolding(model)),
         {
           onNone: () => ({ model }),
           onSome: (place) => liftByKeyboard(model, place, columnsAtPress),
@@ -601,9 +601,15 @@ export type ViewInputs = Readonly<{
   toEmptyView?: (column: Column) => readonly Html[];
 }>;
 
-const INNER_CONTROL = innerControls(
-  `[data-${TITLE_ATTRIBUTE}], [data-${GRIP_ATTRIBUTE}]`
-);
+const INNER_CONTROL = [
+  "input",
+  "textarea",
+  "select",
+  "a[href]",
+  '[contenteditable]:not([contenteditable="false"])',
+  `button:not([data-${TITLE_ATTRIBUTE}], [data-${GRIP_ATTRIBUTE}])`,
+  "[data-gg-no-lift]",
+].join(", ");
 
 const isInside = (outer: Element, inner: Element | null): boolean =>
   inner !== null && outer.contains(inner);
@@ -642,11 +648,7 @@ type PlaceInfo = Readonly<{
 const gripHelpId = (model: Model): string => `${id(model)}-grip-help`;
 
 const isHeldCard = (model: Model, cardId: string): boolean =>
-  isDragging(model) &&
-  Option.exists(
-    UiDragAndDrop.maybeDraggedItemId(model.dragAndDrop),
-    (heldHook) => heldHook === cardHook(model, cardId)
-  );
+  isCarriedItem(model.dragAndDrop, cardHook(model, cardId));
 
 const liftedRender = <ParentMessage>(
   h: HtmlBuilder<ParentMessage>
@@ -674,7 +676,7 @@ const cardRender = (
 ): CardRender => {
   const { model, columns } = info;
   const { card } = place;
-  const isIdleNow = phaseOf(model.dragAndDrop) === "Idle";
+  const isIdleNow = !isHolding(model);
   const isHeld = isHeldCard(model, card.id);
 
   const onPress: Attribute<Message> = h.OnPointerDown(
