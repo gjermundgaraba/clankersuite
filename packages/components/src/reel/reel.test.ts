@@ -9,6 +9,7 @@ import * as FoldkitUpdate from "foldkit/update";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { htmlElement } from "../dom/html-element.ts";
+import { SizeLifted } from "../drag/drag.ts";
 import { disposeEmbedded, embed } from "../test/embed.ts";
 import { keydown } from "../test/events.ts";
 import { byId, bySelector } from "../test/fixture.ts";
@@ -17,7 +18,6 @@ import * as Window from "../window/window.ts";
 import { FocusTab, RestoreFocus } from "./command.ts";
 import * as Reel from "./index.ts";
 import * as ReelLayout from "./layout.ts";
-import { SizeLiftedPane } from "./view.ts";
 
 const pane = (id: string, label: string, weight = 1): ReelLayout.Pane => ({
   id,
@@ -757,7 +757,7 @@ const reelView =
     );
 
 const sizeLifted = Scene.Mount.resolve(
-  SizeLiftedPane,
+  { name: SizeLifted.name },
   Reel.Message.CompletedSizeLiftedPane()
 );
 

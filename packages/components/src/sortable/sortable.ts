@@ -14,15 +14,16 @@ import * as Announcer from "../announcer/announcer.ts";
 import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
+  SizeLifted,
   activatedKeyboardDrag,
   cancelledDrag,
+  draggableSelector,
   escapeSubscriptions,
   insertionIndex,
   isCarrying,
   isCarriedItem,
   isHolding,
   markDragging,
-  measureLift,
   movedPointer,
   phaseOf,
   pointerMessages as dragMessages,
@@ -533,28 +534,6 @@ const sortableSubscriptions = Subscription.aggregate(
 export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
   prefixKeys(keyPrefix, sortableSubscriptions);
 
-/** Sizes the copy that follows the pointer to the item it lifts, and keeps the pointer where
- *  it pressed the item. Measures the item once, when the copy appears. */
-export const SizeLiftedItem = Mount.define("SizeLiftedItem", {
-  args: {
-    itemHook: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [Message.CompletedSizeLiftedItem],
-  execute: ({ element, itemHook: hook, pressX, pressY }) =>
-    Effect.sync(() => {
-      measureLift(
-        element,
-        `[data-sortable-id="${CSS.escape(hook)}"]`,
-        pressX,
-        pressY
-      );
-
-      return Message.CompletedSizeLiftedItem();
-    }),
-});
-
 /** How the items lay out: a column of rows, tiles that wrap, or the parent's own panels. */
 export type Layout = "List" | "Grid" | "Panels";
 
@@ -810,11 +789,16 @@ const liftedCopyView = (
           h.AriaHidden(true),
           h.Inert(true),
           h.OnMount(
-            SizeLiftedItem({
-              itemHook: itemHook(model, held.item.id),
-              pressX: press.clientX,
-              pressY: press.clientY,
-            })
+            Mount.mapMessage(
+              SizeLifted({
+                sourceSelector: draggableSelector(
+                  itemHook(model, held.item.id)
+                ),
+                pressX: press.clientX,
+                pressY: press.clientY,
+              }),
+              () => Message.CompletedSizeLiftedItem()
+            )
           ),
         ],
         [liftedView(info, held.item, h)]

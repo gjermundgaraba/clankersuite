@@ -3,6 +3,8 @@ import { Array, Effect, Option, Order, Schema, Stream, pipe } from "effect";
 import type * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Attribute, HtmlBuilder } from "foldkit/html";
+import { defineMessageUnion } from "foldkit/message";
+import * as Mount from "foldkit/mount";
 import * as Subscription from "foldkit/subscription";
 import * as Update from "foldkit/update";
 
@@ -196,23 +198,41 @@ export const splitterAttributes = <Message>(
   ];
 };
 
-export const measureLift = (
-  element: Element,
-  sourceSelector: string,
-  pressX: number,
-  pressY: number
-): void => {
-  const maybeSource = Option.fromNullishOr(
-    document.querySelector(sourceSelector)
-  );
+/** The selector of the draggable `@foldkit/ui` marks with `hook`. */
+export const draggableSelector = (hook: string): string =>
+  `[data-sortable-id="${CSS.escape(hook)}"]`;
 
-  if (Option.isSome(maybeSource) && element instanceof HTMLElement) {
-    const rect = maybeSource.value.getBoundingClientRect();
-    element.style.setProperty("--gg-lift-width", `${rect.width}px`);
-    element.style.setProperty("--gg-lift-x", `${rect.left - pressX}px`);
-    element.style.setProperty("--gg-lift-y", `${rect.top - pressY}px`);
-  }
-};
+/** What the lifted copy's Mount reports: the copy is sized. Nothing in a Model follows it. */
+export const LiftMessage = defineMessageUnion({ CompletedSizeLifted: {} });
+
+export type LiftMessage = typeof LiftMessage.Type;
+
+/** Sizes the copy that follows the pointer to what it lifts (`sourceSelector`), and keeps the
+ *  pointer where it pressed. Measures the source once, when the copy appears. A list maps its
+ *  Message into its own with `Mount.mapMessage`. */
+export const SizeLifted = Mount.define("SizeLifted", {
+  args: {
+    sourceSelector: Schema.String,
+    pressX: Schema.Finite,
+    pressY: Schema.Finite,
+  },
+  messages: [LiftMessage.CompletedSizeLifted],
+  execute: ({ element, sourceSelector, pressX, pressY }) =>
+    Effect.sync(() => {
+      const maybeSource = Option.fromNullishOr(
+        document.querySelector(sourceSelector)
+      );
+
+      if (Option.isSome(maybeSource) && element instanceof HTMLElement) {
+        const rect = maybeSource.value.getBoundingClientRect();
+        element.style.setProperty("--gg-lift-width", `${rect.width}px`);
+        element.style.setProperty("--gg-lift-x", `${rect.left - pressX}px`);
+        element.style.setProperty("--gg-lift-y", `${rect.top - pressY}px`);
+      }
+
+      return LiftMessage.CompletedSizeLifted();
+    }),
+});
 
 const ROW_TOLERANCE = 1;
 

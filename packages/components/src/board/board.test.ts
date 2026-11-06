@@ -4,7 +4,7 @@ import { Scene, Story, Subscription } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
-import { isHolding } from "../drag/drag.ts";
+import { SizeLifted, isHolding } from "../drag/drag.ts";
 import * as Board from "./board.ts";
 
 const COLUMNS: readonly Board.Column[] = [
@@ -531,7 +531,7 @@ describe("Board view", () => {
         Board.Message.CompletedAnnounceMove()
       ),
       Scene.Mount.resolve(
-        Board.SizeLiftedCard,
+        { name: SizeLifted.name },
         Board.Message.CompletedSizeLiftedCard()
       ),
       Scene.expect(Scene.selector(".gg-board-lift")).toHaveAttr(
@@ -571,7 +571,7 @@ describe("Board view", () => {
         Board.Message.CompletedAnnounceMove()
       ),
       Scene.Mount.resolve(
-        Board.SizeLiftedCard,
+        { name: SizeLifted.name },
         Board.Message.CompletedSizeLiftedCard()
       ),
       Scene.expect(sinkCard).toHaveClass("gg-drag-dim")

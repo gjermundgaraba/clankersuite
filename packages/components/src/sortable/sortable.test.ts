@@ -4,7 +4,7 @@ import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
-import { isHolding } from "../drag/drag.ts";
+import { SizeLifted, isHolding } from "../drag/drag.ts";
 import * as Panel from "../panel/panel.ts";
 import * as Sortable from "./sortable.ts";
 
@@ -273,7 +273,7 @@ const panelsView =
     );
 
 const sizeLifted = Scene.Mount.resolve(
-  Sortable.SizeLiftedItem,
+  { name: SizeLifted.name },
   Sortable.Message.CompletedSizeLiftedItem()
 );
 

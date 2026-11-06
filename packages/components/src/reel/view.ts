@@ -1,21 +1,11 @@
 import { Glyph } from "@gjermundgaraba/icons";
-import {
-  Array,
-  Effect,
-  Equal,
-  Match,
-  Number,
-  Option,
-  Order,
-  Record,
-  Schema,
-} from "effect";
+import { Array, Equal, Match, Number, Option, Order, Record } from "effect";
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 import * as Mount from "foldkit/mount";
 import { defineView } from "foldkit/submodel";
 
 import * as Button from "../button/button.ts";
-import { LEFT_BUTTON, measureLift, splitterAttributes } from "../drag/drag.ts";
+import { LEFT_BUTTON, SizeLifted, splitterAttributes } from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
 import { fill } from "../locale/locale.ts";
@@ -33,23 +23,6 @@ import {
   partSelector,
   readingOrder,
 } from "./model.ts";
-
-/** Sizes the copy that follows the pointer to what it lifts, and keeps the pointer where it
- *  pressed. Measures the source once, when the copy appears. */
-export const SizeLiftedPane = Mount.define("SizeLiftedPane", {
-  args: {
-    sourceSelector: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [Message.CompletedSizeLiftedPane],
-  execute: ({ element, sourceSelector, pressX, pressY }) =>
-    Effect.sync(() => {
-      measureLift(element, sourceSelector, pressX, pressY);
-
-      return Message.CompletedSizeLiftedPane();
-    }),
-});
 
 /** What the reel hands `toPaneView` for each pane: put `lead` in the Window's `lead` and give
  *  it `id`. */
@@ -415,11 +388,18 @@ const liftedCopyView = (
                 h.AriaHidden(true),
                 h.Inert(true),
                 h.OnMount(
-                  SizeLiftedPane({
-                    sourceSelector: partSelector(model.id, "pane", held.paneId),
-                    pressX,
-                    pressY,
-                  })
+                  Mount.mapMessage(
+                    SizeLifted({
+                      sourceSelector: partSelector(
+                        model.id,
+                        "pane",
+                        held.paneId
+                      ),
+                      pressX,
+                      pressY,
+                    }),
+                    () => Message.CompletedSizeLiftedPane()
+                  )
                 ),
               ],
               [

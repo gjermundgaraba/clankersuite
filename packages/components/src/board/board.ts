@@ -21,13 +21,14 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
+  SizeLifted,
   activatedKeyboardDrag,
   cancelledDrag,
+  draggableSelector,
   escapeSubscriptions,
   isCarrying,
   isCarriedItem,
   isHolding,
-  measureLift,
   phaseOf,
   pressedDraggable,
   settle as settleDrag,
@@ -550,28 +551,6 @@ const boardSubscriptions = Subscription.aggregate(
 export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
   prefixKeys(keyPrefix, boardSubscriptions);
 
-/** Sizes the copy that follows the pointer to the card it lifts, and keeps the pointer where
- *  it pressed the card. Measures the card once, when the copy appears. */
-export const SizeLiftedCard = Mount.define("SizeLiftedCard", {
-  args: {
-    cardHook: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [Message.CompletedSizeLiftedCard],
-  execute: ({ element, cardHook: hook, pressX, pressY }) =>
-    Effect.sync(() => {
-      measureLift(
-        element,
-        `[data-sortable-id="${CSS.escape(hook)}"]`,
-        pressX,
-        pressY
-      );
-
-      return Message.CompletedSizeLiftedCard();
-    }),
-});
-
 /** What the board hands `toCardView` for each card. Pass it to `cardView` as `render`. */
 export type CardRender = Readonly<{
   /** For the card's root: the press that selects it, and lifts it under a mouse. */
@@ -916,11 +895,16 @@ const liftedCopyView = (
           h.Style(style),
           h.AriaHidden(true),
           h.OnMount(
-            SizeLiftedCard({
-              cardHook: cardHook(model, held.card.id),
-              pressX: pressPoint.clientX,
-              pressY: pressPoint.clientY,
-            })
+            Mount.mapMessage(
+              SizeLifted({
+                sourceSelector: draggableSelector(
+                  cardHook(model, held.card.id)
+                ),
+                pressX: pressPoint.clientX,
+                pressY: pressPoint.clientY,
+              }),
+              () => Message.CompletedSizeLiftedCard()
+            )
           ),
         ],
         [info.toCardView(held.card, liftedRender(h))]
