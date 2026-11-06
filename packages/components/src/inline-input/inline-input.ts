@@ -10,7 +10,7 @@ import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
-import { isPlain } from "../keys/keys.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 
 const SaveTrigger = Schema.Literals(["Enter", "Blur"]);
@@ -234,14 +234,14 @@ type KeyMessage =
   | typeof Message.PressedEscape.Type;
 
 export const fieldKey = (event: KeyboardEvent): Option.Option<KeyMessage> =>
-  event.isComposing || event.defaultPrevented || !isPlain(event)
-    ? Option.none()
-    : Match.value(event.key).pipe(
+  isUnhandledPlainKey(event)
+    ? Match.value(event.key).pipe(
         Match.withReturnType<Option.Option<KeyMessage>>(),
         Match.when("Enter", () => Option.some(Message.PressedEnter())),
         Match.when("Escape", () => Option.some(Message.PressedEscape())),
         Match.orElse(() => Option.none())
-      );
+      )
+    : Option.none();
 
 /** The field's keys: Enter saves (or ends, with nothing new to save) and Escape discards and
  *  ends, while the edit is open. A key an IME is composing, a modified key and a key someone

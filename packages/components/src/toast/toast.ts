@@ -22,7 +22,7 @@ import * as Announcer from "../announcer/announcer.ts";
 import { htmlElementById } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
-import { isPlain } from "../keys/keys.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 import * as Stack from "./stack.ts";
 import type { Payload, Tone } from "./stack.ts";
@@ -410,10 +410,7 @@ const elementId = (target: EventTarget | null): Option.Option<string> =>
     : Option.none();
 
 const isEscape = (event: KeyboardEvent): boolean =>
-  event.key === "Escape" &&
-  !event.isComposing &&
-  !event.defaultPrevented &&
-  isPlain(event);
+  event.key === "Escape" && isUnhandledPlainKey(event);
 
 export const stackFocusIn = (
   stack: Element,

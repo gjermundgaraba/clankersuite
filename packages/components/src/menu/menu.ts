@@ -14,12 +14,11 @@ import * as Update from "foldkit/update";
 import { lookClassName } from "../button/button.ts";
 import type { Variant } from "../button/button.ts";
 import { Focus } from "../focus/focus.ts";
-import { isPlain } from "../keys/keys.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import type { Item } from "./item.ts";
 import {
   ChoiceKind,
   Edge,
-  anchorUnder,
   edgeSelector,
   rowsView,
   slipStream,
@@ -148,11 +147,11 @@ const toggleEdge = (key: string): Option.Option<Edge> =>
 export const toggleKey = (
   event: KeyboardEvent
 ): Option.Option<typeof Message.PressedToggleArrow.Type> =>
-  event.isComposing || event.defaultPrevented || !isPlain(event)
-    ? Option.none()
-    : Option.map(toggleEdge(event.key), (edge) =>
+  isUnhandledPlainKey(event)
+    ? Option.map(toggleEdge(event.key), (edge) =>
         Message.PressedToggleArrow({ edge })
-      );
+      )
+    : Option.none();
 
 /** ↓ and ↑ on the toggle open the slip on its first or last row (Enter and Space click it),
  *  their default prevented (see `toggleKey`). In a Scene, resolve it with
@@ -192,8 +191,9 @@ export const BindSlip = Mount.defineStream("BindSlip", {
         tab: Message.PressedTab(),
         left: Message.BlurredSlip(),
       },
-      maybeKeepId: Option.some(slipToggleId),
-      setup: anchorUnder({ toggleId: slipToggleId, isEnd, edge }),
+      toggleId: slipToggleId,
+      isEnd,
+      edge,
     }),
 });
 

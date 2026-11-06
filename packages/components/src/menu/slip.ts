@@ -324,35 +324,46 @@ const handleSlipKey = <Message>(
   );
 };
 
-const isLeaving = (
-  slip: Element,
-  next: EventTarget | null,
-  maybeKeepId: Option.Option<string>
-) =>
+const isLeaving = (slip: Element, next: EventTarget | null, toggleId: string) =>
   !(next instanceof Node && slip.contains(next)) &&
-  !(next instanceof Element && Option.contains(maybeKeepId, next.id));
+  !(next instanceof Element && next.id === toggleId);
 
 const preventMouseDown = (event: Event): void => {
   event.preventDefault();
 };
 
-/** The slip's keys and focus as a stream of its owner's Messages, set up by `setup` (anchoring,
- *  portaling) and torn down with the element. A press inside the slip keeps focus where it
- *  is, so a click on a row reaches it in every browser. */
+const GAP = 6;
+const WINDOW_PADDING = 12;
+
+/** The slip's keys and focus as a stream of its owner's Messages: hung under its toggle by
+ *  `@foldkit/ui`'s Anchor, focus on its `edge`, and torn down with the element. Focus moving
+ *  to the toggle is not leaving. A press inside the slip keeps focus where it is, so a click
+ *  on a row reaches it in every browser. */
 export const slipStream = <Message>(
   element: Element,
   config: Readonly<{
     placed: Message;
     events: SlipEvents<Message>;
-    maybeKeepId: Option.Option<string>;
-    setup: (element: Element) => () => void;
+    toggleId: string;
+    isEnd: boolean;
+    edge: Edge;
   }>
 ): Stream.Stream<Message> =>
   Stream.callback<Message>((queue) =>
     Effect.gen(function* () {
       yield* Effect.acquireRelease(
         Effect.sync(() => {
-          const cleanup = config.setup(element);
+          const cleanup = Anchor.anchorSetup(element, {
+            buttonId: config.toggleId,
+            anchor: {
+              placement: config.isEnd ? "bottom-end" : "bottom-start",
+              gap: GAP,
+              padding: WINDOW_PADDING,
+            },
+            interceptTab: false,
+            focusAfterPosition: true,
+            focusSelector: edgeSelector(config.edge),
+          });
 
           const onKeyDown = (event: Event): void => {
             if (!(event instanceof KeyboardEvent)) {
@@ -369,7 +380,7 @@ export const slipStream = <Message>(
           const onFocusOut = (event: Event): void => {
             if (
               event instanceof FocusEvent &&
-              isLeaving(element, event.relatedTarget, config.maybeKeepId)
+              isLeaving(element, event.relatedTarget, config.toggleId)
             ) {
               Queue.offerUnsafe(queue, config.events.left);
             }
@@ -393,21 +404,3 @@ export const slipStream = <Message>(
       return yield* Effect.never;
     })
   );
-
-const GAP = 6;
-const WINDOW_PADDING = 12;
-
-export const anchorUnder =
-  (config: Readonly<{ toggleId: string; isEnd: boolean; edge: Edge }>) =>
-  (element: Element): (() => void) =>
-    Anchor.anchorSetup(element, {
-      buttonId: config.toggleId,
-      anchor: {
-        placement: config.isEnd ? "bottom-end" : "bottom-start",
-        gap: GAP,
-        padding: WINDOW_PADDING,
-      },
-      interceptTab: false,
-      focusAfterPosition: true,
-      focusSelector: edgeSelector(config.edge),
-    });
