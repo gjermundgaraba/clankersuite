@@ -11,7 +11,7 @@ export const FIELD_ATTRIBUTE = "gg-palette-field";
 
 export const PAGE_ATTRIBUTE = "gg-palette-page";
 
-export const shownPageOf = (element: Element): Option.Option<string> =>
+const shownPageOf = (element: Element): Option.Option<string> =>
   Option.fromNullishOr(element.getAttribute(`data-${PAGE_ATTRIBUTE}`));
 
 const isEmptyFieldOnPage = (root: Element, field: Element): boolean =>

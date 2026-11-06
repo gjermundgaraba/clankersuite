@@ -2,7 +2,6 @@ import { Duration, Option } from "effect";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
-  formatClock,
   formatDate,
   formatDateTime,
   formatRemaining,
@@ -28,20 +27,6 @@ describe("formatRemaining", () => {
     expect(formatRemaining(millis("101 minutes"))).toBe("1h 41m");
     expect(formatRemaining(millis("2 hours"))).toBe("2h");
     expect(formatRemaining(millis("76 hours"))).toBe("3d 4h");
-  });
-});
-
-describe("formatClock", () => {
-  it("prints minutes and seconds, and hours once there are any", () => {
-    expect(formatClock(7.9)).toBe("0:07");
-    expect(formatClock(760)).toBe("12:40");
-    expect(formatClock(3729)).toBe("1:02:09");
-  });
-
-  it("prints an unknown place for a stream or a missing duration", () => {
-    expect(formatClock(Number.POSITIVE_INFINITY)).toBe("-:--");
-    expect(formatClock(Number.NaN)).toBe("-:--");
-    expect(formatClock(-1)).toBe("-:--");
   });
 });
 

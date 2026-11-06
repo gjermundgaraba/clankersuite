@@ -15,7 +15,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 import type { KeyHintConfig } from "../button/button.ts";
-import { htmlElement } from "../dom/html-element.ts";
 import * as KeyHint from "../key-hint/key-hint.ts";
 import { isPlain } from "../keys/keys.ts";
 import { Item } from "./item.ts";
@@ -412,35 +411,3 @@ export const anchorUnder =
       focusAfterPosition: true,
       focusSelector: edgeSelector(config.edge),
     });
-
-/** Where a context slip opens, in viewport pixels. */
-export const Point = Schema.Struct({ x: Schema.Finite, y: Schema.Finite });
-
-export type Point = typeof Point.Type;
-
-const clampInto = (start: number, size: number, limit: number): number =>
-  start + size > limit - WINDOW_PADDING
-    ? Math.max(WINDOW_PADDING, start - size)
-    : start;
-
-export const placeAt =
-  (point: Point) =>
-  (element: Element): (() => void) => {
-    const cleanup = Anchor.portalToContainingRoot(element);
-
-    if (element instanceof HTMLElement) {
-      element.style.left = `${point.x}px`;
-      element.style.top = `${point.y}px`;
-      const rect = element.getBoundingClientRect();
-      element.style.left = `${clampInto(point.x, rect.width, window.innerWidth)}px`;
-      element.style.top = `${clampInto(point.y, rect.height, window.innerHeight)}px`;
-
-      const maybeFirst = htmlElement(edgeSelector("First"), element);
-
-      if (Option.isSome(maybeFirst)) {
-        maybeFirst.value.focus({ preventScroll: true });
-      }
-    }
-
-    return cleanup;
-  };

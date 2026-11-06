@@ -26,13 +26,10 @@ export type Page = Readonly<{
   document: Markdown.MarkdownDocument;
 }>;
 
-/** A component's page, listed under its category. */
-export type ComponentPage = Page &
+type ComponentPage = Page &
   Readonly<{ maybeCategory: Option.Option<Category> }>;
 
-/** A package's page, listed under that package in its order. */
-export type PackagePage = Page &
-  Readonly<{ packageName: string; order: number }>;
+type PackagePage = Page & Readonly<{ packageName: string; order: number }>;
 
 const inlineText = (content: readonly Markdown.Inline[]): string =>
   Array.join(

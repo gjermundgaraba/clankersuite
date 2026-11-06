@@ -3134,15 +3134,7 @@ dialog.gg-veil:focus {
   white-space: normal;
 }
 
-.gg-group-name {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-name);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
-}
-
 .gg-row.gg-context .gg-title,
-.gg-row.gg-context .gg-group-name,
 .gg-row.gg-context:hover button.gg-glyph {
   color: var(--semantic-color-text-secondary);
 }
@@ -3160,14 +3152,6 @@ dialog.gg-veil:focus {
 
   .gg-tree .gg-row .gg-title {
     -webkit-line-clamp: 3;
-  }
-
-  .gg-tree .gg-row:has(.gg-group-name) {
-    flex-wrap: nowrap;
-  }
-
-  .gg-tree .gg-row:has(.gg-group-name) .gg-grow {
-    flex: 1;
   }
 }
 
@@ -3788,52 +3772,6 @@ dialog.gg-veil:focus {
 
 .gg-crumbs [aria-current="page"] {
   color: var(--semantic-color-text-primary);
-}
-
-.gg-file {
-  display: flex;
-  align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
-  width: 100%;
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-medium);
-  font-family: var(--semantic-font-family-code);
-  font-size: var(--semantic-dimension-font-size-control);
-  color: var(--semantic-color-text-primary);
-  background: none;
-  border: 0;
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.gg-file:hover {
-  background: var(--semantic-color-background-head);
-}
-
-.gg-file[aria-current="true"] {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
-}
-
-.gg-file .gg-glyph {
-  display: inline-flex;
-  color: var(--semantic-color-text-secondary);
-  flex: none;
-}
-
-.gg-file[aria-current="true"] .gg-glyph,
-.gg-file[aria-current="true"] .gg-tag {
-  color: inherit;
-  border-color: currentColor;
-}
-
-.gg-file .gg-name {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .gg-drop-zone {

@@ -66,8 +66,7 @@ export const kindOf = (token: Token): Kind => {
   return "Value";
 };
 
-/** The two palettes of the brand, by the colour scheme each is. */
-export type Palette = Readonly<{ name: string; scheme: keyof Schemes }>;
+type Palette = Readonly<{ name: string; scheme: keyof Schemes }>;
 
 export const PALETTES: readonly Palette[] = [
   { name: "paper", scheme: "light" },

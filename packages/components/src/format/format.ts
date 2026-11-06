@@ -1,4 +1,4 @@
-import { Duration, Match, Option, pipe } from "effect";
+import { Duration, Match, Option } from "effect";
 
 import { LOCALE } from "../locale/locale.ts";
 
@@ -6,10 +6,6 @@ const SECOND = Duration.toMillis(Duration.seconds(1));
 const MINUTE = Duration.toMillis(Duration.minutes(1));
 const HOUR = Duration.toMillis(Duration.hours(1));
 const DAY = Duration.toMillis(Duration.days(1));
-const SECONDS_PER_MINUTE = 60;
-const SECONDS_PER_HOUR = 3600;
-
-export const UNKNOWN_CLOCK = "-:--";
 
 const dateFormat = (maybeTimeZone: Option.Option<string>) =>
   new Intl.DateTimeFormat(LOCALE, {
@@ -88,30 +84,3 @@ export const formatRemaining = (milliseconds: number): string => {
 
   return twoUnits(milliseconds, [DAY, HOUR, "d", "h"]);
 };
-
-const twoDigits = (value: number): string => `${value}`.padStart(2, "0");
-
-export const formatClock = (seconds: number): string =>
-  pipe(
-    Option.liftPredicate(
-      seconds,
-      (value) => Number.isFinite(value) && value >= 0
-    ),
-    Option.map(Math.floor),
-    Option.match({
-      onNone: () => UNKNOWN_CLOCK,
-      onSome: (whole) => {
-        const hours = Math.floor(whole / SECONDS_PER_HOUR);
-
-        const minutes = Math.floor(
-          (whole % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE
-        );
-
-        const rest = twoDigits(whole % SECONDS_PER_MINUTE);
-
-        return hours > 0
-          ? `${hours}:${twoDigits(minutes)}:${rest}`
-          : `${minutes}:${rest}`;
-      },
-    })
-  );
