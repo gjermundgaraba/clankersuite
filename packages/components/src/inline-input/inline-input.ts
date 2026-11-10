@@ -10,6 +10,7 @@ import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
+import { htmlElementById } from "../dom/html-element.ts";
 import { isUnhandledPlainKey } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 
@@ -79,10 +80,13 @@ export const FocusField = Command.define("FocusField", {
     Dom.focus(`#${CSS.escape(id)}`).pipe(
       Effect.andThen(
         Effect.sync(() => {
-          const field = document.querySelector(`#${CSS.escape(id)}`);
+          const maybeField = Option.filter(
+            htmlElementById(id),
+            (element) => element instanceof HTMLInputElement
+          );
 
-          if (field instanceof HTMLInputElement) {
-            field.select();
+          if (Option.isSome(maybeField)) {
+            maybeField.value.select();
           }
         })
       ),
