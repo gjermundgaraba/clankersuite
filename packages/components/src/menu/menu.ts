@@ -16,13 +16,8 @@ import type { Variant } from "../button/button.ts";
 import { Focus } from "../focus/focus.ts";
 import { isUnhandledPlainKey } from "../keys/keys.ts";
 import type { Item } from "./item.ts";
-import {
-  ChoiceKind,
-  Edge,
-  edgeSelector,
-  rowsView,
-  slipStream,
-} from "./slip.ts";
+import { Edge, Message } from "./message.ts";
+import { BindSlip, edgeSelector, rowsView } from "./slip.ts";
 
 /** Schema for a menu: its id, whether its slip is open, and which end of the slip takes
  *  focus as it opens. One Model serves one toggle: a menu on every row of a list is a Model
@@ -34,26 +29,6 @@ export const Model = Schema.Struct({
 });
 
 export type Model = typeof Model.Type;
-
-/** Union of all Messages a menu can produce. `BlurredSlip` (focus went outside the slip),
- *  `UnmountedSlip` (the slip left the page) and `CompletedFocus` (focus is back on the
- *  toggle) can arrive after the menu has closed. Each must reach the Model of the menu that
- *  sent it, where a late one changes nothing: given to another menu's Model, a late `BlurredSlip`
- *  or `UnmountedSlip` closes that one. */
-export const Message = defineMessageUnion({
-  ClickedToggle: {},
-  PressedToggleArrow: { edge: Edge },
-  SelectedItem: { id: Schema.String, kind: ChoiceKind },
-  PressedEscape: {},
-  PressedTab: {},
-  BlurredSlip: {},
-  UnmountedSlip: {},
-  CompletedPlaceSlip: {},
-  CompletedFocus: {},
-  CompletedFocusEdge: {},
-});
-
-export type Message = typeof Message.Type;
 
 /** Union of OutMessages a menu reports. `Selected`: an action, a radio item or a link was
  *  chosen and the slip has closed (the browser follows a link itself). `Toggled`: a check item
@@ -163,37 +138,6 @@ export const BindToggleKeys = Mount.defineStream("BindToggleKeys", {
       target: element,
       type: "keydown",
       filterMapEvent: toggleKey,
-    }),
-});
-
-type SlipMessage =
-  | typeof Message.CompletedPlaceSlip.Type
-  | typeof Message.PressedEscape.Type
-  | typeof Message.PressedTab.Type
-  | typeof Message.BlurredSlip.Type;
-
-/** The open slip: hung under the toggle by `@foldkit/ui`'s Anchor (portaled, into the dialog
- *  when inside one), focus on its first or last row, and its keys (see `handleSlipKey`). It
- *  reports `CompletedPlaceSlip` once set up; in a Scene, resolve it with that. */
-export const BindSlip = Mount.defineStream("BindSlip", {
-  args: { toggleId: Schema.String, isEnd: Schema.Boolean, edge: Edge },
-  messages: [
-    Message.CompletedPlaceSlip,
-    Message.PressedEscape,
-    Message.PressedTab,
-    Message.BlurredSlip,
-  ],
-  execute: ({ element, toggleId: slipToggleId, isEnd, edge }) =>
-    slipStream<SlipMessage>(element, {
-      placed: Message.CompletedPlaceSlip(),
-      events: {
-        escape: Message.PressedEscape(),
-        tab: Message.PressedTab(),
-        left: Message.BlurredSlip(),
-      },
-      toggleId: slipToggleId,
-      isEnd,
-      edge,
     }),
 });
 
@@ -316,15 +260,7 @@ export const view = defineView<Model, Message, ViewInputs>(
                   h.OnUnmount(Message.UnmountedSlip()),
                   h.Class("gg-menu"),
                 ],
-                rowsView(
-                  {
-                    slipId: slipId(model),
-                    items,
-                    toChoose: (itemId, kind) =>
-                      Message.SelectedItem({ id: itemId, kind }),
-                  },
-                  h
-                )
+                rowsView({ slipId: slipId(model), items }, h)
               ),
             ]
           : []),

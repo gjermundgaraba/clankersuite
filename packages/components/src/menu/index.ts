@@ -1,7 +1,5 @@
 export {
-  BindSlip,
   BindToggleKeys,
-  Message,
   Model,
   OutMessage,
   id,
@@ -12,6 +10,10 @@ export {
 } from "./menu.ts";
 
 export type { Align, InitConfig, ViewInputs } from "./menu.ts";
+
+export { Message } from "./message.ts";
+
+export { BindSlip } from "./slip.ts";
 
 export { action, check, group, link, radio } from "./item.ts";
 
