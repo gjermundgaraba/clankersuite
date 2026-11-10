@@ -4,7 +4,7 @@ import { Scene, Story, Subscription } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
-import { isHolding } from "../drag/drag.ts";
+import { isHolding, phaseOf } from "../drag/drag.ts";
 import * as Board from "./board.ts";
 
 const COLUMNS: readonly Board.Column[] = [
@@ -38,8 +38,7 @@ const pressCard = (pointerType = "mouse", spot: "Body" | "Grip" = "Body") =>
     pointerType,
     screenX: 100,
     screenY: 100,
-    clientX: 100,
-    clientY: 100,
+    lift: { width: 240, offsetX: -12, offsetY: -8 },
     columnsAtPress: COLUMNS,
   });
 
@@ -105,7 +104,7 @@ describe("Board update", () => {
       Story.given(fresh),
       Story.message(pressGrip),
       Story.model((model) => {
-        expect(Board.isDragging(model)).toBe(true);
+        expect(phaseOf(model.dragAndDrop)).toBe("KeyboardDragging");
         expect(
           Option.map(model.maybeHeld, ({ card }) => card.id)
         ).toStrictEqual(Option.some("sink"));
@@ -326,7 +325,6 @@ const itemCardView =
         meta: [
           h.span([h.Class("gg-age")], ["2d"]),
           h.button([h.Type("button"), h.Class("tool")], ["snooze"]),
-          h.span([h.DataAttribute("gg-no-lift", "")], ["note"]),
         ],
         attributes: [h.AriaCurrent(card.id === "sink" ? "true" : "false")],
       },
@@ -399,8 +397,7 @@ describe("Board view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
-      ).toHaveClass("gg-board-col"),
-      Scene.expect(sinkCard).toHaveClass("gg-movable")
+      ).toHaveClass("gg-board-col")
     );
   });
 
@@ -530,13 +527,13 @@ describe("Board view", () => {
         Board.AnnounceMove,
         Board.Message.CompletedAnnounceMove()
       ),
-      Scene.Mount.resolve(
-        Board.SizeLiftedCard,
-        Board.Message.CompletedSizeLiftedCard()
-      ),
       Scene.expect(Scene.selector(".gg-board-lift")).toHaveAttr(
         "aria-hidden",
         "true"
+      ),
+      Scene.expect(Scene.selector(".gg-board-lift")).toHaveStyle(
+        "--gg-lift-x",
+        "-100px"
       ),
       Scene.expect(Scene.selector(".gg-board-lift article")).toHaveClass(
         "gg-lifted"
@@ -570,10 +567,6 @@ describe("Board view", () => {
         Board.AnnounceMove,
         Board.Message.CompletedAnnounceMove()
       ),
-      Scene.Mount.resolve(
-        Board.SizeLiftedCard,
-        Board.Message.CompletedSizeLiftedCard()
-      ),
       Scene.expect(sinkCard).toHaveClass("gg-drag-dim")
     );
   });
@@ -585,13 +578,6 @@ describe("Board view", () => {
       Scene.pointerDown(Scene.role("button", { name: "snooze" }), {
         pointerType: "mouse",
       }),
-      Scene.expectIgnored(),
-      Scene.pointerDown(
-        Scene.selector('li[data-sortable-id="work/sink"] [data-gg-no-lift]'),
-        {
-          pointerType: "mouse",
-        }
-      ),
       Scene.expectIgnored(),
       Scene.expect(Scene.selector(".gg-board-card.gg-drag-dim")).toBeAbsent()
     );

@@ -1,10 +1,10 @@
 import { DragAndDrop as UiDragAndDrop } from "@foldkit/ui";
 import { Announcer, Sortable } from "@gjermundgaraba/components";
 import { Array } from "effect";
-import { Scene, Story } from "foldkit";
+import { Story } from "foldkit";
 import { describe, expect, it } from "vite-plus/test";
 
-import { Message, init, update, view } from "./panels.ts";
+import { Message, init, update } from "./panels.ts";
 
 const resolveAnnounceReorder = Story.Command.resolve(
   Sortable.AnnounceReorder,
@@ -64,22 +64,6 @@ describe("the panels example", () => {
           "deploys",
         ]);
       })
-    );
-  });
-
-  it("holds every grip while the desk is read only", () => {
-    const grip = Scene.role("button", { name: "Move Inbox" });
-
-    Scene.scene(
-      { update, view },
-      Scene.given(init().model),
-      Scene.expect(grip).not.toHaveAttr("aria-disabled"),
-      Scene.click(Scene.role("button", { name: "read only" })),
-      Scene.expect(Scene.role("button", { name: "read only" })).toHaveAttr(
-        "aria-pressed",
-        "true"
-      ),
-      Scene.expect(grip).toHaveAttr("aria-disabled", "true")
     );
   });
 });

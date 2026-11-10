@@ -8,3 +8,6 @@ export const htmlElement = (
 
   return element instanceof HTMLElement ? Option.some(element) : Option.none();
 };
+
+export const htmlElementById = (id: string): Option.Option<HTMLElement> =>
+  htmlElement(`#${CSS.escape(id)}`);

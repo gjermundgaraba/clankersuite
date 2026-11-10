@@ -17,7 +17,6 @@ import * as Window from "../window/window.ts";
 import { FocusTab, RestoreFocus } from "./command.ts";
 import * as Reel from "./index.ts";
 import * as ReelLayout from "./layout.ts";
-import { SizeLiftedPane } from "./view.ts";
 
 const pane = (id: string, label: string, weight = 1): ReelLayout.Pane => ({
   id,
@@ -421,6 +420,7 @@ const press = (paneId: string) =>
     pointerId: 1,
     clientX: 100,
     clientY: 100,
+    lift: { width: 320, offsetX: -20, offsetY: -10 },
   });
 
 const isHolding = (model: Reel.Model): boolean =>
@@ -756,11 +756,6 @@ const reelView =
       h
     );
 
-const sizeLifted = Scene.Mount.resolve(
-  SizeLiftedPane,
-  Reel.Message.CompletedSizeLiftedPane()
-);
-
 const reelScene = (
   model: Reel.Model,
   ...steps: ReadonlyArray<
@@ -941,10 +936,13 @@ describe("Reel view", () => {
     );
     reelScene(
       carried,
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-reel-lift")).toHaveAttr(
         "aria-hidden",
         "true"
+      ),
+      Scene.expect(Scene.selector(".gg-reel-lift")).toHaveStyle(
+        "--gg-lift-width",
+        "320px"
       ),
       Scene.expect(Scene.selector(".gg-reel-lift .gg-panel-tb")).toContainText(
         "Notes"
@@ -963,7 +961,6 @@ describe("Reel view", () => {
   it("marks a drop among the carried pane's own column with the carried pane left out", () => {
     reelScene(
       carriedInFirstColumn(NOTES, 0),
-      sizeLifted,
       Scene.expect(Scene.selector('[data-gg-reel-slot="shell"]')).toHaveClass(
         "gg-drop-before"
       ),
@@ -971,7 +968,6 @@ describe("Reel view", () => {
     );
     reelScene(
       carriedInFirstColumn("shell", 1),
-      sizeLifted,
       Scene.expect(Scene.selector('[data-gg-reel-slot="notes"]')).toHaveClass(
         "gg-drop-after"
       ),
@@ -993,7 +989,6 @@ describe("Reel view", () => {
     Scene.scene(
       { update: reelUpdate(layout), view: reelView(layout) },
       Scene.given(carried),
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-reel-lift h2")).toHaveText("notes.md")
     );
   });

@@ -2,7 +2,7 @@ import { Effect, Option } from "effect";
 import { Server } from "foldkit/experimental";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import { htmlElement } from "../dom/html-element.ts";
+import { htmlElement, htmlElementById } from "../dom/html-element.ts";
 import { keydown } from "./events.ts";
 
 export const renderOnPage = async <Model, Message>(
@@ -42,7 +42,7 @@ export const elementById = (id: string): Element =>
 
 export const byId = (id: string): HTMLElement =>
   Option.getOrThrowWith(
-    htmlElement(`#${CSS.escape(id)}`),
+    htmlElementById(id),
     () => new Error(`The fixture has no #${id}.`)
   );
 

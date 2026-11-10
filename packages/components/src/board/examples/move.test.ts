@@ -52,8 +52,7 @@ describe("the move example", () => {
             pointerType: "mouse",
             screenX: 100,
             screenY: 100,
-            clientX: 100,
-            clientY: 100,
+            lift: { width: 240, offsetX: -12, offsetY: -8 },
             columnsAtPress: boardColumns(start),
           }),
         })

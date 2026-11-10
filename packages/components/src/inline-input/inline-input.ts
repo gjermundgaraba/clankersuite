@@ -10,7 +10,8 @@ import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
-import { isPlain } from "../keys/keys.ts";
+import { htmlElementById } from "../dom/html-element.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 
 const SaveTrigger = Schema.Literals(["Enter", "Blur"]);
@@ -34,7 +35,7 @@ type Phase = typeof Phase.Type;
  *  shows, and follows, the value it replaces. `replaced` is that value as the view had it at
  *  the last edit, so a draft that only restores it writes nothing. `maybeError` is why the
  *  last save was refused, until the draft changes or the next save goes out.
- *  `maybeLastSavedId` is the id of the item the edit saved last. */
+ *  `maybeLastSavedId` is the id of the last save that gave one. */
 export const Model = Schema.Struct({
   id: Schema.String,
   phase: Phase,
@@ -62,8 +63,8 @@ export type Message = typeof Message.Type;
 /** Union of OutMessages an inline field reports. `Committed`: save this text (new, non-empty,
  *  trimmed); the field holds until the caller reports back with `succeeded` or `failed`.
  *  `Ended`: the edit is over, with how it ended and the id of the item it saved last
- *  (`maybeLastSavedId`, none when it saved nothing). Move focus on `Enter` and `Escape` only:
- *  after `Blur` the reader chose where focus went. */
+ *  (`maybeLastSavedId`, none when nothing it saved gave an id). Move focus on `Enter` and
+ *  `Escape` only: after `Blur` the reader chose where focus went. */
 export const OutMessage = defineMessageUnion({
   Committed: { text: Schema.String },
   Ended: { how: InlineEnd, maybeLastSavedId: Schema.Option(Schema.String) },
@@ -79,10 +80,13 @@ export const FocusField = Command.define("FocusField", {
     Dom.focus(`#${CSS.escape(id)}`).pipe(
       Effect.andThen(
         Effect.sync(() => {
-          const field = document.querySelector(`#${CSS.escape(id)}`);
+          const maybeField = Option.filter(
+            htmlElementById(id),
+            (element) => element instanceof HTMLInputElement
+          );
 
-          if (field instanceof HTMLInputElement) {
-            field.select();
+          if (Option.isSome(maybeField)) {
+            maybeField.value.select();
           }
         })
       ),
@@ -185,14 +189,18 @@ export const update = (model: Model, message: Message) =>
     CompletedFocusField: () => ({ model }),
   });
 
-const savedAs = (model: Model, savedId: string): Model =>
-  modifyFields(model, { maybeLastSavedId: () => Option.some(savedId) });
+const savedAs = (model: Model, savedId?: string): Model =>
+  modifyFields(model, {
+    maybeLastSavedId: (maybeLast) =>
+      Option.orElse(Option.fromNullishOr(savedId), () => maybeLast),
+  });
 
-/** The caller's save went through, giving the saved item's id. A save from Enter in a
- *  repeating field empties the field and keeps it open, focused, for the next; any other
- *  save ends the edit (as `Blur` if focus left meanwhile). A result for an edit that is no
- *  longer saving changes nothing. */
-export const succeeded = (model: Model, savedId: string): UpdateReturn =>
+/** The caller's save went through, giving the saved item's id when it has one (a new item's; a
+ *  rename may have none). Without one, `maybeLastSavedId` keeps the id an earlier save gave. A
+ *  save from Enter in a repeating field empties the field and keeps it open, focused, for the
+ *  next; any other save ends the edit (as `Blur` if focus left meanwhile). A result for an
+ *  edit that is no longer saving changes nothing. */
+export const succeeded = (model: Model, savedId?: string): UpdateReturn =>
   Phase.match<UpdateReturn>(model.phase, {
     Saving: ({ trigger }) => {
       const saved = savedAs(model, savedId);
@@ -234,14 +242,14 @@ type KeyMessage =
   | typeof Message.PressedEscape.Type;
 
 export const fieldKey = (event: KeyboardEvent): Option.Option<KeyMessage> =>
-  event.isComposing || event.defaultPrevented || !isPlain(event)
-    ? Option.none()
-    : Match.value(event.key).pipe(
+  isUnhandledPlainKey(event)
+    ? Match.value(event.key).pipe(
         Match.withReturnType<Option.Option<KeyMessage>>(),
         Match.when("Enter", () => Option.some(Message.PressedEnter())),
         Match.when("Escape", () => Option.some(Message.PressedEscape())),
         Match.orElse(() => Option.none())
-      );
+      )
+    : Option.none();
 
 /** The field's keys: Enter saves (or ends, with nothing new to save) and Escape discards and
  *  ends, while the edit is open. A key an IME is composing, a modified key and a key someone

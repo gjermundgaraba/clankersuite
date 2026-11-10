@@ -36,7 +36,13 @@ type Holder = Readonly<{
 export const isHolding = (model: Holder): boolean =>
   phaseOf(model.dragAndDrop) !== "Idle";
 
-export const canLift = (model: Holder): boolean => !isHolding(model);
+/** Whether the item behind `hook` is the one being carried. */
+export const isCarriedItem = (
+  dragAndDrop: UiDragAndDrop.Model,
+  hook: string
+): boolean =>
+  isCarrying(phaseOf(dragAndDrop)) &&
+  Option.contains(UiDragAndDrop.maybeDraggedItemId(dragAndDrop), hook);
 
 export const settle = <Model extends Holder, Message, OutMessage>(
   step: Update.ReturnWithOutMessage<Model, Message, OutMessage>,
@@ -82,17 +88,6 @@ export const cancelledDrag = (): UiDragAndDrop.Message =>
   UiDragAndDrop.Message.CancelledDrag();
 
 export const LEFT_BUTTON = 0;
-
-export const innerControls = (liftingButtons: string): string =>
-  [
-    "input",
-    "textarea",
-    "select",
-    "a[href]",
-    '[contenteditable]:not([contenteditable="false"])',
-    `button:not(${liftingButtons})`,
-    "[data-gg-no-lift]",
-  ].join(", ");
 
 export const takeEscape = <Message>(
   event: KeyboardEvent,
@@ -201,23 +196,50 @@ export const splitterAttributes = <Message>(
   ];
 };
 
-export const measureLift = (
-  element: Element,
+/** The selector of the draggable `@foldkit/ui` marks with `hook`. */
+export const draggableSelector = (hook: string): string =>
+  `[data-sortable-id="${CSS.escape(hook)}"]`;
+
+/** Where the copy that follows the pointer prints and how wide: the pressed item's width, and
+ *  its corner's offset from the pointer, so the pointer stays where it pressed. */
+export const Lift = Schema.Struct({
+  width: Schema.Finite,
+  offsetX: Schema.Finite,
+  offsetY: Schema.Finite,
+});
+
+export type Lift = typeof Lift.Type;
+
+/** The lift of the item a press lands in (the element around `target` matching
+ *  `sourceSelector`), read from its box as it is pressed at (`clientX`, `clientY`). None when
+ *  the press is not inside it. */
+export const liftAt = (
+  target: EventTarget | null,
   sourceSelector: string,
-  pressX: number,
-  pressY: number
-): void => {
-  const maybeSource = Option.fromNullishOr(
-    document.querySelector(sourceSelector)
+  clientX: number,
+  clientY: number
+): Option.Option<Lift> =>
+  pipe(
+    Option.liftPredicate(target, (node) => node instanceof Element),
+    Option.flatMapNullishOr((element) => element.closest(sourceSelector)),
+    Option.map((source) => {
+      const rect = source.getBoundingClientRect();
+
+      return {
+        width: rect.width,
+        offsetX: rect.left - clientX,
+        offsetY: rect.top - clientY,
+      };
+    })
   );
 
-  if (Option.isSome(maybeSource) && element instanceof HTMLElement) {
-    const rect = maybeSource.value.getBoundingClientRect();
-    element.style.setProperty("--gg-lift-width", `${rect.width}px`);
-    element.style.setProperty("--gg-lift-x", `${rect.left - pressX}px`);
-    element.style.setProperty("--gg-lift-y", `${rect.top - pressY}px`);
-  }
-};
+/** The lifted copy's width and offset, as the custom properties its rule reads. Without them
+ *  (a copy with no press) the rule falls back to the token width at the pointer. */
+export const liftStyle = (lift: Lift) => ({
+  "--gg-lift-width": `${lift.width}px`,
+  "--gg-lift-x": `${lift.offsetX}px`,
+  "--gg-lift-y": `${lift.offsetY}px`,
+});
 
 const ROW_TOLERANCE = 1;
 

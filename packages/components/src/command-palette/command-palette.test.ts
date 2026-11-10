@@ -91,6 +91,12 @@ const click = (
   maybeShownPage: Option.Option<string> = Option.none()
 ) => Message.ClickedRow({ row: shownRow(rowId), maybeShownPage });
 
+const cursorOf = (model: CommandPalette.Model): Option.Option<string> =>
+  model.commands.maybeCursor;
+
+const pageCursorOf = (model: CommandPalette.Model): Option.Option<string> =>
+  Option.flatMap(model.maybePage, (page) => page.list.maybeCursor);
+
 const closed = CommandPalette.init({ id: "palette" });
 const opened = CommandPalette.open(closed).model;
 const onStatus = CommandPalette.update(opened, click("status")).model;
@@ -281,15 +287,17 @@ describe("CommandPalette finding", () => {
 describe("CommandPalette update", () => {
   it("opens fresh on the commands, focus in the field", () => {
     const stale = modifyFields(closed, {
-      query: () => "old words",
-      maybeCursor: () => Option.some("keys"),
+      commands: () => ({
+        query: "old words",
+        maybeCursor: Option.some("keys"),
+      }),
     });
 
     const palette = CommandPalette.open(stale);
 
     expect(CommandPalette.isOpen(palette.model)).toBe(true);
     expect(CommandPalette.query(palette.model)).toBe("");
-    expect(palette.model.maybeCursor).toStrictEqual(Option.none());
+    expect(cursorOf(palette.model)).toStrictEqual(Option.none());
     expect(palette.commands?.map(({ name }) => name)).toStrictEqual([
       UiDialog.ShowDialog.name,
     ]);
@@ -346,7 +354,7 @@ describe("CommandPalette update", () => {
       Story.model((model) => {
         expect(model.maybePage).toStrictEqual(Option.none());
         expect(CommandPalette.query(model)).toBe("stat");
-        expect(model.maybeCursor).toStrictEqual(Option.some("status"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("status"));
       })
     );
   });
@@ -358,10 +366,8 @@ describe("CommandPalette update", () => {
       Story.message(arrow("ArrowDown", onStatusPage)),
       resolveScroll,
       Story.model((model) => {
-        expect(
-          Option.flatMap(model.maybePage, (page) => page.maybeCursor)
-        ).toStrictEqual(Option.some("doing"));
-        expect(model.maybeCursor).toStrictEqual(Option.none());
+        expect(pageCursorOf(model)).toStrictEqual(Option.some("doing"));
+        expect(cursorOf(model)).toStrictEqual(Option.none());
       })
     );
   });
@@ -410,7 +416,7 @@ describe("CommandPalette update", () => {
       ),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("keys"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("keys"));
         expect(CommandPalette.pickSucceeded(model, "done").model).toStrictEqual(
           model
         );
@@ -440,7 +446,7 @@ describe("CommandPalette update", () => {
       pressDown,
       Story.model((model) => {
         expect(CommandPalette.maybePageId(model)).toStrictEqual(Option.none());
-        expect(model.maybeCursor).toStrictEqual(Option.some("status"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("status"));
       })
     );
   });
@@ -470,9 +476,7 @@ describe("CommandPalette update", () => {
         expect(CommandPalette.isPicking(model)).toBe(true);
         expect(CommandPalette.maybePageId(model)).toStrictEqual(ON_STATUS);
         expect(CommandPalette.query(model)).toBe("");
-        expect(
-          Option.flatMap(model.maybePage, (page) => page.maybeCursor)
-        ).toStrictEqual(Option.some("done"));
+        expect(pageCursorOf(model)).toStrictEqual(Option.some("done"));
       })
     );
   });
@@ -484,7 +488,7 @@ describe("CommandPalette update", () => {
     expect(CommandPalette.isOpen(landed.model)).toBe(false);
     expect(CommandPalette.isPicking(refused.model)).toBe(false);
     expect(
-      Option.map(refused.model.maybePage, (page) => page.maybeCursor)
+      Option.map(refused.model.maybePage, (page) => page.list.maybeCursor)
     ).toStrictEqual(Option.some(Option.some("done")));
   });
 
@@ -525,16 +529,16 @@ describe("CommandPalette update", () => {
       pressDown,
       pressDown,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("archive"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("archive"));
       }),
       ...Array.replicate(pressDown, 5),
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("keys"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("keys"));
       }),
       Story.message(arrow("ArrowUp")),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("archive"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("archive"));
       })
     );
     Story.story(
@@ -544,14 +548,14 @@ describe("CommandPalette update", () => {
       Story.Command.expectExact(CommandPalette.ScrollToCursor),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("edit"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("edit"));
       })
     );
   });
 
   it("steps from the row the render showed once the cursor's own row is not listed", () => {
     const onArchive = modifyFields(opened, {
-      maybeCursor: () => Option.some("archive"),
+      commands: modifyFields({ maybeCursor: () => Option.some("archive") }),
     });
 
     const withoutArchive = {
@@ -565,7 +569,7 @@ describe("CommandPalette update", () => {
       Story.message(arrow("ArrowDown", withoutArchive)),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("status"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("status"));
       })
     );
     Story.story(
@@ -621,7 +625,7 @@ describe("CommandPalette update", () => {
       Story.Command.expectNone(),
       Story.expectNoOutMessage(),
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("archive"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("archive"));
       })
     );
     Story.story(
@@ -648,8 +652,7 @@ describe("CommandPalette update", () => {
     expect(atStatus.model.maybePage).toStrictEqual(
       Option.some({
         commandId: "status",
-        query: "",
-        maybeCursor: Option.none(),
+        list: { query: "", maybeCursor: Option.none() },
       })
     );
     expect(CommandPalette.maybePageId(atStatus.model)).toStrictEqual(ON_STATUS);
@@ -681,7 +684,7 @@ describe("CommandPalette waiting arrows", () => {
       showed(pendingAgain, "status")
     ).model;
 
-    expect(settled.maybeCursor).toStrictEqual(Option.some("status"));
+    expect(cursorOf(settled)).toStrictEqual(Option.some("status"));
     expect(settled.cursorShift).toBe(0);
   });
 
@@ -755,7 +758,7 @@ describe("CommandPalette waiting arrows", () => {
       Story.Command.expectExact(CommandPalette.ScrollToCursor),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("archive"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("archive"));
         expect(model.cursorShift).toBe(0);
         expect(CommandPalette.maybeCursorId(model, withoutEdit)).toStrictEqual(
           Option.some("archive")
@@ -811,7 +814,7 @@ describe("CommandPalette waiting arrows", () => {
       CommandPalette.update,
       typeThenPressTwice,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.none());
+        expect(cursorOf(model)).toStrictEqual(Option.none());
         expect(CommandPalette.maybeCursorId(model, COMMANDS)).toStrictEqual(
           Option.some("archive")
         );
@@ -819,7 +822,7 @@ describe("CommandPalette waiting arrows", () => {
       Story.message(arrow("ArrowDown", nextRender)),
       resolveScroll,
       Story.model((model) => {
-        expect(model.maybeCursor).toStrictEqual(Option.some("keys"));
+        expect(cursorOf(model)).toStrictEqual(Option.some("keys"));
         expect(model.cursorShift).toBe(0);
       })
     );
@@ -862,7 +865,7 @@ describe("CommandPalette waiting arrows", () => {
     expect(typed.isEnterPending).toBe(true);
     expect(callsOf(pended)).toStrictEqual([reportOf(typed)]);
     expect(settled.model.isEnterPending).toBe(false);
-    expect(settled.model.maybeCursor).toStrictEqual(Option.some("keys"));
+    expect(cursorOf(settled.model)).toStrictEqual(Option.some("keys"));
     expect(CommandPalette.isOpen(settled.model)).toBe(false);
     expect(settled.outMessage).toStrictEqual(
       CommandPalette.OutMessage.SelectedCommand({ id: "keys" })
@@ -897,7 +900,7 @@ describe("CommandPalette waiting arrows", () => {
       showed(stepped.model, "archive")
     );
 
-    expect(stepped.model.maybeCursor).toStrictEqual(Option.some("archive"));
+    expect(cursorOf(stepped.model)).toStrictEqual(Option.some("archive"));
     expect(stepped.model.isEnterPending).toBe(true);
     expect(callsOf(stepped)).toContainEqual(reportOf(stepped.model));
     expect(
@@ -970,7 +973,7 @@ describe("CommandPalette waiting arrows", () => {
 
 describe("CommandPalette accessors", () => {
   const onArchive = modifyFields(opened, {
-    maybeCursor: () => Option.some("archive"),
+    commands: modifyFields({ maybeCursor: () => Option.some("archive") }),
   });
 
   const withoutArchive = COMMANDS.filter((command) => command.id !== "archive");
@@ -1125,7 +1128,7 @@ const report = async (model: CommandPalette.Model, paletteId = "palette") =>
 
 describe("CommandPalette cursor", () => {
   const onArchive = modifyFields(opened, {
-    maybeCursor: () => Option.some("archive"),
+    commands: modifyFields({ maybeCursor: () => Option.some("archive") }),
   });
 
   it("scrolls the cursor's row of the palette it is given into view", async () => {
@@ -1508,7 +1511,10 @@ const rowOf = (label: string) =>
 
 const down = [Scene.keydown(field, "ArrowDown"), resolveSceneScroll] as const;
 const up = [Scene.keydown(field, "ArrowUp"), resolveSceneScroll] as const;
-const nothingFound = modifyFields(opened, { query: () => "zzzz" });
+
+const nothingFound = modifyFields(opened, {
+  commands: modifyFields({ query: () => "zzzz" }),
+});
 
 const openStatus = [
   Scene.click(rowOf("Change status")),

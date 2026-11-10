@@ -4,7 +4,7 @@ category: status
 
 # Toast
 
-Printed slips at the bottom right, across the bottom on a phone, for an outcome the reader may not be looking at. The outcome of the control they just used goes beside it as a flash word; a state the whole interface is in is a banner.
+Printed slips at the bottom right, across the bottom on a phone, for an outcome the reader may not be looking at. The outcome of the control they just used goes beside it as a flash word.
 
 ## Tones
 

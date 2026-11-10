@@ -4,7 +4,7 @@ category: status
 
 # Flash word
 
-A word printed beside an action for a moment, such as `copied` or `saved`: the outcome of the control the reader just used, beside it. An outcome they may not be looking at is a toast, and a state the whole interface is in is a banner.
+A word printed beside an action for a moment, such as `copied` or `saved`: the outcome of the control the reader just used, beside it. An outcome they may not be looking at is a toast.
 
 ## Saved
 

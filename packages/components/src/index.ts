@@ -1,7 +1,5 @@
 export * as Announcer from "./announcer/index.ts";
 
-export * as Banner from "./banner/index.ts";
-
 export * as Bench from "./bench/index.ts";
 
 export * as Board from "./board/index.ts";
@@ -45,8 +43,6 @@ export * as FieldGrid from "./field-grid/index.ts";
 export * as Fieldset from "./fieldset/index.ts";
 
 export * as FilterChip from "./filter-chip/index.ts";
-
-export * as FilterStrip from "./filter-strip/index.ts";
 
 export * as FlashWord from "./flash-word/index.ts";
 

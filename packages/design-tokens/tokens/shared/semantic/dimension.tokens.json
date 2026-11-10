@@ -158,10 +158,6 @@
             "$value": "{primitive.dimension.440}",
             "$description": "A narrow card's width."
           },
-          "banner": {
-            "$value": "{primitive.dimension.680}",
-            "$description": "The widest a banner prints."
-          },
           "meterName": {
             "$value": "{primitive.dimension.240}",
             "$description": "The widest a meter's name column prints."
@@ -382,15 +378,11 @@
           },
           "notice": {
             "$value": "{primitive.dimension.20}",
-            "$description": "A notice's, outcome's or banner's glyph."
+            "$description": "A notice's or outcome's glyph."
           },
           "large": {
             "$value": "{primitive.dimension.34}",
             "$description": "An outcome's or drop zone's glyph."
-          },
-          "banner": {
-            "$value": "{primitive.dimension.26}",
-            "$description": "A banner's glyph."
           },
           "wall": {
             "$value": "{primitive.dimension.30}",

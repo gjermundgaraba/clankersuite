@@ -19,10 +19,10 @@ import { defineView } from "foldkit/submodel";
 import * as Update from "foldkit/update";
 
 import * as Announcer from "../announcer/announcer.ts";
-import { htmlElement } from "../dom/html-element.ts";
+import { htmlElementById } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
-import { isPlain } from "../keys/keys.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import * as Notice from "../notice/notice.ts";
 import * as Stack from "./stack.ts";
 import type { Payload, Tone } from "./stack.ts";
@@ -185,9 +185,6 @@ export const FocusSlip = Command.define("FocusSlip", {
     ),
 });
 
-const stackElement = (stackId: string): Option.Option<HTMLElement> =>
-  htmlElement(`#${CSS.escape(stackId)}`);
-
 /**
  * Says a raised slip exactly once. `@foldkit/ui`'s stack is always a polite live region, so a
  * slip added to a stack already on the page is read from there, and this says nothing more. A
@@ -201,9 +198,9 @@ export const AnnounceSlip = Command.define("AnnounceSlip", {
   messages: [Message.CompletedAnnounceSlip],
   execute: ({ stackId, text }) =>
     Effect.gen(function* () {
-      const maybeBefore = yield* Effect.sync(() => stackElement(stackId));
+      const maybeBefore = yield* Effect.sync(() => htmlElementById(stackId));
       yield* Render.afterCommit;
-      const maybeAfter = yield* Effect.sync(() => stackElement(stackId));
+      const maybeAfter = yield* Effect.sync(() => htmlElementById(stackId));
 
       const isHeardFromStack =
         Option.isSome(maybeBefore) &&
@@ -413,10 +410,7 @@ const elementId = (target: EventTarget | null): Option.Option<string> =>
     : Option.none();
 
 const isEscape = (event: KeyboardEvent): boolean =>
-  event.key === "Escape" &&
-  !event.isComposing &&
-  !event.defaultPrevented &&
-  isPlain(event);
+  event.key === "Escape" && isUnhandledPlainKey(event);
 
 export const stackFocusIn = (
   stack: Element,

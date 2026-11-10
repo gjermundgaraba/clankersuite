@@ -12,7 +12,7 @@ import * as Subscription from "foldkit/subscription";
 import * as Update from "foldkit/update";
 
 import * as Button from "../button/button.ts";
-import { htmlElement } from "../dom/html-element.ts";
+import { htmlElementById } from "../dom/html-element.ts";
 import {
   escapeKeys,
   markDragging,
@@ -125,9 +125,7 @@ const FOCUSABLE =
 const findRail = (
   railId: string
 ): Effect.Effect<HTMLElement, Cause.NoSuchElementError> =>
-  Effect.suspend(() =>
-    Effect.fromOption(htmlElement(`#${CSS.escape(railId)}`))
-  );
+  Effect.suspend(() => Effect.fromOption(htmlElementById(railId)));
 
 export const firstTabStop = (rail: Element): Option.Option<HTMLElement> =>
   Array.findFirst(

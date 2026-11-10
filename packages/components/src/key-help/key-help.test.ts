@@ -44,20 +44,13 @@ describe("KeyHelp listing", () => {
 });
 
 describe("KeyHelp update", () => {
-  it("opens on its key with an empty find field", () => {
-    Story.story(
-      KeyHelp.update,
-      Story.given(modifyFields(closedHelp, { query: () => "stale words" })),
-      Story.message(KeyHelp.Message.PressedHelpKey()),
-      Story.model((model) => {
-        expect(KeyHelp.isOpen(model)).toBe(true);
-        expect(model.query).toBe("");
-      }),
-      Story.Command.resolve(
-        UiDialog.ShowDialog,
-        UiDialog.Message.SucceededShowDialog()
-      )
+  it("opens with an empty find field", () => {
+    const { model } = KeyHelp.open(
+      modifyFields(closedHelp, { query: () => "stale words" })
     );
+
+    expect(KeyHelp.isOpen(model)).toBe(true);
+    expect(model.query).toBe("");
   });
 
   it("reports Closed when Escape or the veil asks to close", () => {

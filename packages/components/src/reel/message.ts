@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import { defineMessageUnion } from "foldkit/message";
 
+import { Lift } from "../drag/drag.ts";
 import { Splitter, Step, Target } from "./layout.ts";
 
 export const PointerAt = Schema.Struct({
@@ -18,6 +19,7 @@ export const Message = defineMessageUnion({
     pointerId: Schema.Finite,
     clientX: Schema.Finite,
     clientY: Schema.Finite,
+    lift: Lift,
   },
   PressedGripKey: { paneId: Schema.String },
   MovedPointer: PointerAt.fields,
@@ -45,7 +47,6 @@ export const Message = defineMessageUnion({
   CompletedFocusTab: {},
   CompletedRestoreFocus: {},
   CompletedScrollIntoView: {},
-  CompletedSizeLiftedPane: {},
 });
 
 export type Message = typeof Message.Type;

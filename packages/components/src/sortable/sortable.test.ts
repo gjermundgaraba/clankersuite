@@ -58,8 +58,7 @@ const pressItem = (itemId: string) =>
     pointerId: 1,
     screenX: 100,
     screenY: 100,
-    clientX: 100,
-    clientY: 100,
+    lift: { width: 240, offsetX: -12, offsetY: -8 },
     items: ITEMS,
   });
 
@@ -247,7 +246,7 @@ const listView =
     );
 
 const panelsView =
-  (items: readonly Sortable.Item[], isReadOnly = false) =>
+  (items: readonly Sortable.Item[]) =>
   (model: Sortable.Model, h: HtmlBuilder<Sortable.Message>) =>
     Sortable.view(
       model,
@@ -255,7 +254,6 @@ const panelsView =
         items,
         label: "Targets in order",
         layout: "Panels",
-        isReadOnly,
         toItemView: (item, render) => [
           Panel.view(
             {
@@ -272,11 +270,6 @@ const panelsView =
       },
       h
     );
-
-const sizeLifted = Scene.Mount.resolve(
-  Sortable.SizeLiftedItem,
-  Sortable.Message.CompletedSizeLiftedItem()
-);
 
 describe("Sortable view", () => {
   it("names the list, and gives each item a grip named for it that says how it moves", () => {
@@ -369,7 +362,10 @@ describe("Sortable view", () => {
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(overGamma),
-      sizeLifted,
+      Scene.expect(Scene.selector(".gg-sortable-lift")).toHaveStyle(
+        "--gg-lift-width",
+        "240px"
+      ),
       Scene.expect(Scene.selector(".gg-drop-before")).toContainText("Gamma"),
       Scene.expect(
         Scene.selector(".gg-sortable-lift .gg-lifted")
@@ -378,13 +374,11 @@ describe("Sortable view", () => {
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(pastTheEnd),
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-drop-after")).toContainText("Gamma")
     );
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(whereItWas),
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent(),
       Scene.expect(Scene.selector(".gg-drop-after")).toBeAbsent()
     );
@@ -403,10 +397,7 @@ describe("Sortable panels", () => {
       ).toHaveAttr("aria-label", "Move Beta"),
       Scene.expectAll(
         Scene.all.selector("[data-gg-sortable-grip]")
-      ).toHaveCount(3),
-      Scene.expect(Scene.selector(".gg-sortable-item")).toHaveClass(
-        "gg-movable"
-      )
+      ).toHaveCount(3)
     );
   });
 
@@ -426,26 +417,6 @@ describe("Sortable panels", () => {
         Scene.selector(".gg-sortable-slot [data-gg-sortable-grip]")
       ).toBeAbsent(),
       Scene.expectAll(Scene.all.selector("#panel-alpha")).toHaveCount(1)
-    );
-  });
-
-  it("holds every grip and lifts nothing for a reader who may not reorder", () => {
-    Scene.scene(
-      { update: Sortable.update, view: panelsView(ITEMS, true) },
-      Scene.given(fresh),
-      Scene.expect(Scene.role("button", { name: "Move Beta" })).toHaveAttr(
-        "aria-disabled",
-        "true"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Move Beta" })
-      ).not.toHaveHandler("keydown"),
-      Scene.expect(Scene.selector(".gg-sortable-item")).not.toHaveClass(
-        "gg-movable"
-      ),
-      Scene.expect(
-        Scene.role("button", { name: "Move Beta" })
-      ).not.toHaveHandler("pointerdown")
     );
   });
 });

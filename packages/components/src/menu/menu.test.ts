@@ -17,6 +17,8 @@ import { action, check, group, link, radio } from "./item.ts";
 import type { Item } from "./item.ts";
 import { toggleKey } from "./menu.ts";
 import * as Menu from "./menu.ts";
+import { Message } from "./message.ts";
+import { BindSlip } from "./slip.ts";
 
 const SETTINGS: readonly Item[] = [
   group("Appearance", [
@@ -43,31 +45,31 @@ const NEW: readonly Item[] = [
 ];
 
 const closedMenu = Menu.init({ id: "settings" });
-const openMenu = Menu.update(closedMenu, Menu.Message.ClickedToggle()).model;
+const openMenu = Menu.update(closedMenu, Message.ClickedToggle()).model;
 
 describe("Menu update", () => {
   it("opens on its first row from a click, on its last from ↑, and closes on a second click", () => {
     Story.story(
       Menu.update,
       Story.given(closedMenu),
-      Story.message(Menu.Message.ClickedToggle()),
+      Story.message(Message.ClickedToggle()),
       Story.model((model) => {
         expect(Menu.isOpen(model)).toBe(true);
         expect(model.edge).toBe("First");
       }),
-      Story.message(Menu.Message.ClickedToggle()),
+      Story.message(Message.ClickedToggle()),
       Story.model((model) => {
         expect(Menu.isOpen(model)).toBe(false);
       }),
-      Story.message(Menu.Message.PressedToggleArrow({ edge: "Last" })),
+      Story.message(Message.PressedToggleArrow({ edge: "Last" })),
       Story.model((model) => {
         expect(model.edge).toBe("Last");
       }),
-      Story.message(Menu.Message.PressedToggleArrow({ edge: "First" })),
+      Story.message(Message.PressedToggleArrow({ edge: "First" })),
       Story.Command.expectExact(
         Menu.FocusEdge({ slipId: "settings-slip", edge: "First" })
       ),
-      Story.Command.resolve(Menu.FocusEdge, Menu.Message.CompletedFocusEdge())
+      Story.Command.resolve(Menu.FocusEdge, Message.CompletedFocusEdge())
     );
   });
 
@@ -76,13 +78,13 @@ describe("Menu update", () => {
       Story.story(
         Menu.update,
         Story.given(openMenu),
-        Story.message(Menu.Message.SelectedItem({ id: "plum", kind })),
+        Story.message(Message.SelectedItem({ id: "plum", kind })),
         Story.expectOutMessage(Menu.OutMessage.Selected({ id: "plum" })),
         Story.model((model) => {
           expect(model.isOpen).toBe(false);
         }),
         Story.Command.expectExact(Focus({ id: "settings-toggle" })),
-        Story.Command.resolve(Focus, Menu.Message.CompletedFocus())
+        Story.Command.resolve(Focus, Message.CompletedFocus())
       );
     }
   });
@@ -91,7 +93,7 @@ describe("Menu update", () => {
     Story.story(
       Menu.update,
       Story.given(openMenu),
-      Story.message(Menu.Message.SelectedItem({ id: "dense", kind: "Check" })),
+      Story.message(Message.SelectedItem({ id: "dense", kind: "Check" })),
       Story.expectOutMessage(Menu.OutMessage.Toggled({ id: "dense" })),
       Story.model((model) => {
         expect(model.isOpen).toBe(true);
@@ -101,23 +103,20 @@ describe("Menu update", () => {
   });
 
   it("closes on Escape and Tab with focus back on the toggle, and leaves focus where a click put it", () => {
-    for (const message of [
-      Menu.Message.PressedEscape(),
-      Menu.Message.PressedTab(),
-    ]) {
+    for (const message of [Message.PressedEscape(), Message.PressedTab()]) {
       Story.story(
         Menu.update,
         Story.given(openMenu),
         Story.message(message),
         Story.Command.expectExact(Focus({ id: "settings-toggle" })),
-        Story.Command.resolve(Focus, Menu.Message.CompletedFocus())
+        Story.Command.resolve(Focus, Message.CompletedFocus())
       );
     }
 
     Story.story(
       Menu.update,
       Story.given(openMenu),
-      Story.message(Menu.Message.BlurredSlip()),
+      Story.message(Message.BlurredSlip()),
       Story.model((model) => {
         expect(model.isOpen).toBe(false);
       }),
@@ -129,12 +128,12 @@ describe("Menu update", () => {
     Story.story(
       Menu.update,
       Story.given(openMenu),
-      Story.message(Menu.Message.UnmountedSlip()),
+      Story.message(Message.UnmountedSlip()),
       Story.model((model) => {
         expect(Menu.isOpen(model)).toBe(false);
       }),
       Story.Command.expectNone(),
-      Story.message(Menu.Message.UnmountedSlip()),
+      Story.message(Message.UnmountedSlip()),
       Story.model((model) => {
         expect(Menu.isOpen(model)).toBe(false);
       }),
@@ -145,22 +144,19 @@ describe("Menu update", () => {
 
 const menuView =
   (items: readonly Item[], viewInputs: Partial<Menu.ViewInputs> = {}) =>
-  (model: Menu.Model, h: HtmlBuilder<Menu.Message>) =>
+  (model: Menu.Model, h: HtmlBuilder<Message>) =>
     Menu.view(model, { label: "Settings", items, ...viewInputs }, h);
 
 const resolveToggle = Scene.Mount.resolve(
   Menu.BindToggleKeys,
-  Menu.Message.PressedToggleArrow({ edge: "First" })
+  Message.PressedToggleArrow({ edge: "First" })
 );
 
-const resolveSlip = Scene.Mount.resolve(
-  Menu.BindSlip,
-  Menu.Message.CompletedPlaceSlip()
-);
+const resolveSlip = Scene.Mount.resolve(BindSlip, Message.CompletedPlaceSlip());
 
 const resolveFocusEdge = Scene.Command.resolve(
   Menu.FocusEdge,
-  Menu.Message.CompletedFocusEdge()
+  Message.CompletedFocusEdge()
 );
 
 const resolveOpen = [resolveToggle, resolveFocusEdge, resolveSlip] as const;
@@ -203,7 +199,7 @@ describe("Menu toggle", () => {
     Scene.scene(
       {
         update: Menu.update,
-        view: (model: Menu.Model, h: HtmlBuilder<Menu.Message>) =>
+        view: (model: Menu.Model, h: HtmlBuilder<Message>) =>
           Menu.view(
             model,
             {
@@ -253,8 +249,8 @@ describe("Menu slip", () => {
       ),
       Scene.click(Scene.role("menuitemradio", { name: "Plum" })),
       Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "plum" })),
-      Scene.Command.resolve(Focus, Menu.Message.CompletedFocus()),
-      Scene.Mount.expectEnded(Menu.BindSlip)
+      Scene.Command.resolve(Focus, Message.CompletedFocus()),
+      Scene.Mount.expectEnded(BindSlip)
     );
   });
 
@@ -325,8 +321,8 @@ describe("Menu slip", () => {
       ).toHaveText("n"),
       Scene.click(Scene.role("menuitem", { name: "Task" })),
       Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "task" })),
-      Scene.Command.resolve(Focus, Menu.Message.CompletedFocus()),
-      Scene.Mount.expectEnded(Menu.BindSlip)
+      Scene.Command.resolve(Focus, Message.CompletedFocus()),
+      Scene.Mount.expectEnded(BindSlip)
     );
   });
 });
@@ -385,7 +381,7 @@ describe("Menu keys", () => {
     const slip = element("#settings-slip", HTMLElement);
 
     const messages = await collect(
-      Menu.BindSlip({
+      BindSlip({
         toggleId: "settings-toggle",
         isEnd: false,
         edge: "First",
@@ -423,8 +419,8 @@ describe("Menu keys", () => {
     );
 
     expect(messages).toStrictEqual([
-      Menu.Message.CompletedPlaceSlip(),
-      Menu.Message.PressedEscape(),
+      Message.CompletedPlaceSlip(),
+      Message.PressedEscape(),
     ]);
   });
 
@@ -436,7 +432,7 @@ describe("Menu keys", () => {
     document.body.append(outside);
 
     const messages = await collect(
-      Menu.BindSlip({
+      BindSlip({
         toggleId: "settings-toggle",
         isEnd: false,
         edge: "First",
@@ -452,9 +448,9 @@ describe("Menu keys", () => {
     );
 
     expect(messages).toStrictEqual([
-      Menu.Message.CompletedPlaceSlip(),
-      Menu.Message.PressedTab(),
-      Menu.Message.BlurredSlip(),
+      Message.CompletedPlaceSlip(),
+      Message.PressedTab(),
+      Message.BlurredSlip(),
     ]);
   });
 });
@@ -479,10 +475,10 @@ const pressToggle = (
 describe("Menu toggle key filter", () => {
   it("opens on the first row for ↓ and the last for ↑", () => {
     expect(pressToggle("ArrowDown")).toStrictEqual(
-      Option.some(Menu.Message.PressedToggleArrow({ edge: "First" }))
+      Option.some(Message.PressedToggleArrow({ edge: "First" }))
     );
     expect(pressToggle("ArrowUp")).toStrictEqual(
-      Option.some(Menu.Message.PressedToggleArrow({ edge: "Last" }))
+      Option.some(Message.PressedToggleArrow({ edge: "Last" }))
     );
   });
 
@@ -510,7 +506,7 @@ const RowHarness = Schema.Struct({
 type RowHarness = typeof RowHarness.Type;
 
 const RowHarnessMessage = defineMessageUnion({
-  GotMenuMessage: { message: Menu.Message },
+  GotMenuMessage: { message: Message },
   ClickedRemoveRow: {},
 });
 
@@ -521,7 +517,7 @@ const foldRowMenu = Update.foldChild({
   read: (model: RowHarness) => Option.some(model.menu),
   write: (model: RowHarness, nextMenu: Menu.Model): RowHarness =>
     modifyFields(model, { menu: () => nextMenu }),
-  toParentMessage: (message: Menu.Message) =>
+  toParentMessage: (message: Message) =>
     RowHarnessMessage.GotMenuMessage({ message }),
   foldOutMessage: Menu.OutMessage.match<
     Update.Step<RowHarness, RowHarnessMessage>

@@ -4,7 +4,6 @@ import { Array, Effect, Match, Option, Schema, Stream, pipe } from "effect";
 import * as Command from "foldkit/command";
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
-import * as Mount from "foldkit/mount";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
@@ -14,14 +13,18 @@ import * as Announcer from "../announcer/announcer.ts";
 import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
+  Lift,
   activatedKeyboardDrag,
-  canLift,
   cancelledDrag,
+  draggableSelector,
   escapeSubscriptions,
   insertionIndex,
   isCarrying,
+  isCarriedItem,
+  isHolding,
+  liftAt,
+  liftStyle,
   markDragging,
-  measureLift,
   movedPointer,
   phaseOf,
   pointerMessages as dragMessages,
@@ -53,11 +56,7 @@ const COPY = {
   cancelled: "Move cancelled. {item} put back where it was.",
 };
 
-const Press = Schema.Struct({
-  pointerId: Schema.Finite,
-  clientX: Schema.Finite,
-  clientY: Schema.Finite,
-});
+const Press = Schema.Struct({ pointerId: Schema.Finite, lift: Lift });
 
 const Held = Schema.Struct({
   item: Item,
@@ -84,8 +83,7 @@ export const Message = defineMessageUnion({
     pointerId: Schema.Finite,
     screenX: Schema.Finite,
     screenY: Schema.Finite,
-    clientX: Schema.Finite,
-    clientY: Schema.Finite,
+    lift: Lift,
     items: Schema.Array(Item),
   },
   PressedGripKey: { itemId: Schema.String, items: Schema.Array(Item) },
@@ -106,7 +104,6 @@ export const Message = defineMessageUnion({
   CancelledPointer: {},
   PressedEscape: {},
   CompletedAnnounceReorder: {},
-  CompletedSizeLiftedItem: {},
 });
 
 export type Message = typeof Message.Type;
@@ -304,10 +301,10 @@ const liftable = (
       Array.findFirstWithIndex(items, (item) => item.id === itemId),
       ([item, index]) => ({ index, item })
     ),
-    () => canLift(model)
+    () => !isHolding(model)
   );
 
-const lift = (
+const holdItem = (
   model: Model,
   held: Held,
   liftMessage: UiDragAndDrop.Message
@@ -385,24 +382,16 @@ export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotDragAndDropMessage: ({ message: dragAndDropMessage }) =>
       updateDragAndDrop(model, dragAndDropMessage),
-    PressedItem: ({
-      itemId,
-      pointerId,
-      screenX,
-      screenY,
-      clientX,
-      clientY,
-      items,
-    }) =>
+    PressedItem: ({ itemId, pointerId, screenX, screenY, lift, items }) =>
       Option.match(liftable(model, items, itemId), {
         onNone: () => ({ model }),
         onSome: ({ index, item }) =>
-          lift(
+          holdItem(
             model,
             {
               item,
               items,
-              maybePress: Option.some({ pointerId, clientX, clientY }),
+              maybePress: Option.some({ pointerId, lift }),
             },
             pressedDraggable({
               itemId: itemHook(model, itemId),
@@ -417,7 +406,7 @@ export const update = (model: Model, message: Message) =>
       Option.match(liftable(model, items, itemId), {
         onNone: () => ({ model }),
         onSome: ({ index, item }) =>
-          lift(
+          holdItem(
             model,
             { item, items, maybePress: Option.none() },
             activatedKeyboardDrag({
@@ -434,7 +423,6 @@ export const update = (model: Model, message: Message) =>
       settle(model)(foldDragAndDrop(model, cancelledDrag())),
     PressedEscape: () => cancelDrag(model),
     CompletedAnnounceReorder: () => ({ model }),
-    CompletedSizeLiftedItem: () => ({ model }),
   });
 
 const pointerIndex = (
@@ -532,28 +520,6 @@ const sortableSubscriptions = Subscription.aggregate(
 export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
   prefixKeys(keyPrefix, sortableSubscriptions);
 
-/** Sizes the copy that follows the pointer to the item it lifts, and keeps the pointer where
- *  it pressed the item. Measures the item once, when the copy appears. */
-export const SizeLiftedItem = Mount.define("SizeLiftedItem", {
-  args: {
-    itemHook: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [Message.CompletedSizeLiftedItem],
-  execute: ({ element, itemHook: hook, pressX, pressY }) =>
-    Effect.sync(() => {
-      measureLift(
-        element,
-        `[data-sortable-id="${CSS.escape(hook)}"]`,
-        pressX,
-        pressY
-      );
-
-      return Message.CompletedSizeLiftedItem();
-    }),
-});
-
 /** How the items lay out: a column of rows, tiles that wrap, or the parent's own panels. */
 export type Layout = "List" | "Grid" | "Panels";
 
@@ -577,9 +543,6 @@ export type ViewInputs = Readonly<{
    *  wrap, 180px and up. `"Panels"`: each item is a Panel the parent prints, with `render.grip`
    *  in its `lead`, up to three across in the deck's gutter, 300px and up. */
   layout?: Layout;
-  /** The reader may look but not reorder, as a read-only sign-in: every grip prints held, as
-   *  while moves are held, and nothing lifts. */
-  isReadOnly?: boolean;
   /** One item's content, beside its grip. Also called for the held copy, with
    *  `render.isLifted`. */
   toItemView: (item: Item, render: ItemRender) => readonly Html[];
@@ -588,7 +551,6 @@ export type ViewInputs = Readonly<{
 type ListInfo = Readonly<{
   model: Model;
   layout: Layout;
-  isMovable: boolean;
   items: readonly Item[];
   maybeDropMark: Option.Option<DropMark>;
   toItemView: (item: Item, render: ItemRender) => readonly Html[];
@@ -597,11 +559,7 @@ type ListInfo = Readonly<{
 const helpId = (model: Model): string => `${id(model)}-grip-help`;
 
 const isHeldItem = (model: Model, itemId: string): boolean =>
-  UiDragAndDrop.isDragging(model.dragAndDrop) &&
-  Option.contains(
-    UiDragAndDrop.maybeDraggedItemId(model.dragAndDrop),
-    itemHook(model, itemId)
-  );
+  isCarriedItem(model.dragAndDrop, itemHook(model, itemId));
 
 const liftedGrip = <ParentMessage>(h: HtmlBuilder<ParentMessage>): Html =>
   h.span(
@@ -638,8 +596,8 @@ const gripView = (
   item: Item,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { model, isMovable, items } = info;
-  const isIdleNow = phaseOf(model.dragAndDrop) === "Idle";
+  const { model, items } = info;
+  const isIdleNow = !isHolding(model);
 
   const onGripKey: Attribute<Message> = h.OnKeyDownPreventDefault((key) =>
     Option.liftPredicate(
@@ -657,19 +615,28 @@ const gripView = (
       _time,
       clientX,
       clientY,
-      pointerId
+      pointerId,
+      target
     ) =>
-      Option.liftPredicate(
-        Message.PressedItem({
-          itemId: item.id,
-          pointerId,
-          screenX,
-          screenY,
-          clientX,
-          clientY,
-          items,
-        }),
-        () => isIdleNow && button === LEFT_BUTTON
+      Option.map(
+        Option.filter(
+          liftAt(
+            target,
+            draggableSelector(itemHook(model, item.id)),
+            clientX,
+            clientY
+          ),
+          () => isIdleNow && button === LEFT_BUTTON
+        ),
+        (lift) =>
+          Message.PressedItem({
+            itemId: item.id,
+            pointerId,
+            screenX,
+            screenY,
+            lift,
+            items,
+          })
       )
   );
 
@@ -678,14 +645,14 @@ const gripView = (
       glyph: "grip",
       label: fill(COPY.gripLabel, { item: item.label }),
       isQuiet: true,
-      isDisabled: !isMovable,
       attributes: [
         h.DataAttribute("draggable-id", itemHook(model, item.id)),
         h.DataAttribute(GRIP_ATTRIBUTE, ""),
         h.AriaRoleDescription("draggable"),
         h.AriaDescribedBy(helpId(model)),
         Button.pressedAttribute(isHeldItem(model, item.id), h),
-        ...(isMovable ? [onGripKey, onGripPress] : []),
+        onGripKey,
+        onGripPress,
       ],
     },
     h
@@ -737,7 +704,7 @@ const dropClass = (info: ListInfo, item: Item): string =>
   );
 
 const itemClass = (info: ListInfo, item: Item): string =>
-  `gg-sortable-item${info.isMovable ? " gg-movable" : ""}${isHeldItem(info.model, item.id) ? " gg-drag-dim" : ""}${dropClass(info, item)}`;
+  `gg-sortable-item${isHeldItem(info.model, item.id) ? " gg-drag-dim" : ""}${dropClass(info, item)}`;
 
 const itemView = (info: ListInfo, item: Item, h: HtmlBuilder<Message>): Html =>
   h.keyed("li")(
@@ -813,16 +780,9 @@ const liftedCopyView = (
       h.div(
         [
           h.Class("gg-sortable-lift"),
-          h.Style(style),
+          h.Style({ ...style, ...liftStyle(press.lift) }),
           h.AriaHidden(true),
           h.Inert(true),
-          h.OnMount(
-            SizeLiftedItem({
-              itemHook: itemHook(model, held.item.id),
-              pressX: press.clientX,
-              pressY: press.clientY,
-            })
-          ),
         ],
         [liftedView(info, held.item, h)]
       )
@@ -854,18 +814,11 @@ const layoutClass = (layout: Layout): string =>
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const {
-      items,
-      label,
-      layout = "List",
-      isReadOnly = false,
-      toItemView,
-    } = viewInputs;
+    const { items, label, layout = "List", toItemView } = viewInputs;
 
     const info: ListInfo = {
       model,
       layout,
-      isMovable: !isReadOnly,
       items,
       maybeDropMark: dropMarkOf(model),
       toItemView,

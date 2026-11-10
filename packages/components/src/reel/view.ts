@@ -1,21 +1,15 @@
 import { Glyph } from "@gjermundgaraba/icons";
-import {
-  Array,
-  Effect,
-  Equal,
-  Match,
-  Number,
-  Option,
-  Order,
-  Record,
-  Schema,
-} from "effect";
+import { Array, Equal, Match, Number, Option, Order, Record } from "effect";
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
-import * as Mount from "foldkit/mount";
 import { defineView } from "foldkit/submodel";
 
 import * as Button from "../button/button.ts";
-import { LEFT_BUTTON, measureLift, splitterAttributes } from "../drag/drag.ts";
+import {
+  LEFT_BUTTON,
+  liftAt,
+  liftStyle,
+  splitterAttributes,
+} from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
 import { fill } from "../locale/locale.ts";
@@ -33,23 +27,6 @@ import {
   partSelector,
   readingOrder,
 } from "./model.ts";
-
-/** Sizes the copy that follows the pointer to what it lifts, and keeps the pointer where it
- *  pressed. Measures the source once, when the copy appears. */
-export const SizeLiftedPane = Mount.define("SizeLiftedPane", {
-  args: {
-    sourceSelector: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [Message.CompletedSizeLiftedPane],
-  execute: ({ element, sourceSelector, pressX, pressY }) =>
-    Effect.sync(() => {
-      measureLift(element, sourceSelector, pressX, pressY);
-
-      return Message.CompletedSizeLiftedPane();
-    }),
-});
 
 /** What the reel hands `toPaneView` for each pane: put `lead` in the Window's `lead` and give
  *  it `id`. */
@@ -171,11 +148,27 @@ const gripView = (model: Model, pane: Pane, h: HtmlBuilder<Message>): Html => {
       _time,
       clientX,
       clientY,
-      pointerId
+      pointerId,
+      target
     ) =>
-      Option.liftPredicate(
-        Message.PressedGrip({ paneId: pane.id, pointerId, clientX, clientY }),
-        () => isIdle(model) && button === LEFT_BUTTON
+      Option.map(
+        Option.filter(
+          liftAt(
+            target,
+            partSelector(model.id, "pane", pane.id),
+            clientX,
+            clientY
+          ),
+          () => isIdle(model) && button === LEFT_BUTTON
+        ),
+        (lift) =>
+          Message.PressedGrip({
+            paneId: pane.id,
+            pointerId,
+            clientX,
+            clientY,
+            lift,
+          })
       )
   );
 
@@ -406,21 +399,17 @@ const liftedCopyView = (
     Option.flatMap(model.maybeHeld, (held) =>
       By.match(held.by, {
         Keyboard: () => Option.none(),
-        Pointer: ({ isCarrying, pressX, pressY, x, y }) =>
+        Pointer: ({ isCarrying, lift, x, y }) =>
           Option.liftPredicate(
             h.div(
               [
                 h.Class("gg-reel-lift"),
-                h.Style({ transform: `translate3d(${x}px, ${y}px, 0)` }),
+                h.Style({
+                  transform: `translate3d(${x}px, ${y}px, 0)`,
+                  ...liftStyle(lift),
+                }),
                 h.AriaHidden(true),
                 h.Inert(true),
-                h.OnMount(
-                  SizeLiftedPane({
-                    sourceSelector: partSelector(model.id, "pane", held.paneId),
-                    pressX,
-                    pressY,
-                  })
-                ),
               ],
               [
                 h.div(

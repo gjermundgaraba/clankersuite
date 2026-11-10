@@ -46,13 +46,12 @@ const helpBinding: Binding = {
 export const Message = defineMessageUnion({
   GotDialogMessage: { message: Dialog.Message },
   UpdatedQuery: { value: Schema.String },
-  PressedHelpKey: {},
 });
 
 export type Message = typeof Message.Type;
 
 /** Union of OutMessages the key help reports: the reader closed it (Escape, a click on the
- *  veil, a close button). Opening it, by `?` or `open`, reports nothing. */
+ *  veil, a close button). Opening it with `open` reports nothing. */
 export const OutMessage = defineMessageUnion({
   Closed: {},
 });
@@ -94,11 +93,11 @@ export const update = (model: Model, message: Message) =>
       UpdatedQuery: ({ value }) => ({
         model: modifyFields(model, { query: () => value }),
       }),
-      PressedHelpKey: () => dialogFold.open(clearQuery(model)),
     }
   );
 
-/** Opens the key help, as `?` does: for a button or a command palette entry. */
+/** Opens the key help. The application binds `?` (`HELP_KEYS`) to it, and a button or a command
+ *  palette entry calls it too. */
 export const open = (model: Model): Update.Return<Model, Message> =>
   dialogFold.open(clearQuery(model));
 

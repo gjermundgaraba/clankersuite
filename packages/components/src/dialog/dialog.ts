@@ -10,7 +10,7 @@ import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import type * as Update from "foldkit/update";
 
-import { isPlain } from "../keys/keys.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import { foldDialog } from "./fold.ts";
 
 /** Schema for a dialog: the `@foldkit/ui` Dialog it is built on. */
@@ -137,9 +137,6 @@ const ownedActions = (bar: Element): readonly HTMLElement[] =>
       isInBarsDialog(bar, action) &&
       isOutsidePopover(action)
   );
-
-const isUnhandledPlainKey = (event: KeyboardEvent): boolean =>
-  !event.isComposing && !event.defaultPrevented && isPlain(event);
 
 const actionBeside = (
   actions: readonly HTMLElement[],

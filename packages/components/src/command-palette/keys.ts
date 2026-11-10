@@ -2,7 +2,8 @@ import { Match, Option, Stream } from "effect";
 import * as Dom from "foldkit/dom";
 import * as Mount from "foldkit/mount";
 
-import { isPlain } from "../keys/keys.ts";
+import { htmlElementById } from "../dom/html-element.ts";
+import { isUnhandledPlainKey } from "../keys/keys.ts";
 import { Message } from "./message.ts";
 
 export const OPTION_SELECTOR = '[role="option"]';
@@ -19,9 +20,6 @@ const isEmptyFieldOnPage = (root: Element, field: Element): boolean =>
   field.value === "" &&
   Option.isSome(shownPageOf(root));
 
-const isComposingModifiedOrHandled = (event: KeyboardEvent): boolean =>
-  event.isComposing || !isPlain(event) || event.defaultPrevented;
-
 export const fieldKey = (
   root: Element,
   event: KeyboardEvent
@@ -32,7 +30,7 @@ export const fieldKey = (
     field === null ||
     event.target !== field ||
     event.key !== "Backspace" ||
-    isComposingModifiedOrHandled(event) ||
+    !isUnhandledPlainKey(event) ||
     !isEmptyFieldOnPage(root, field)
   ) {
     return Option.none();
@@ -100,7 +98,7 @@ type EarlyKeyMessage =
 
 const isInsidePalette = (paletteId: string, event: KeyboardEvent): boolean =>
   Option.exists(
-    Option.fromNullishOr(document.querySelector(`#${CSS.escape(paletteId)}`)),
+    htmlElementById(paletteId),
     (dialog) => event.target instanceof Node && dialog.contains(event.target)
   );
 
@@ -118,10 +116,7 @@ export const earlyKey = (
   paletteId: string,
   event: KeyboardEvent
 ): Option.Option<EarlyKeyMessage> => {
-  if (
-    isInsidePalette(paletteId, event) ||
-    isComposingModifiedOrHandled(event)
-  ) {
+  if (isInsidePalette(paletteId, event) || !isUnhandledPlainKey(event)) {
     return Option.none();
   }
 

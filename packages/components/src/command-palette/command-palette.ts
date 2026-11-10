@@ -6,6 +6,7 @@ import {
   Equal,
   HashSet,
   Match,
+  Number,
   Option,
   Schema,
   Stream,
@@ -30,6 +31,7 @@ import * as Update from "foldkit/update";
 
 import * as Dialog from "../dialog/dialog.ts";
 import { foldDialog } from "../dialog/fold.ts";
+import { htmlElement } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
@@ -48,31 +50,36 @@ import type { Choice, Command, Page } from "./match.ts";
 import { Message } from "./message.ts";
 import type { ArrowKey, RenderSnapshot, ShownRow } from "./message.ts";
 
-const OpenPage = Schema.Struct({
-  commandId: Schema.String,
+const List = Schema.Struct({
   query: Schema.String,
   maybeCursor: Schema.Option(Schema.String),
 });
 
+type List = typeof List.Type;
+
+const EMPTY_LIST: List = { query: "", maybeCursor: Option.none() };
+
+const OpenPage = Schema.Struct({ commandId: Schema.String, list: List });
+
 type OpenPage = typeof OpenPage.Type;
 
-/** Schema for a command palette: its Dialog, the commands' query and cursor (kept while a
- *  page is open, so Back restores them), the open page, and the choice being picked. A cursor
- *  is a row's id, so it holds to its row while the list changes. The rows are the view's
- *  (built from its `commands`), so ↑, ↓ and Enter carry what their render showed: its rows,
- *  the row it showed the cursor on, and the query and waiting arrows it was rendered with.
- *  When that query is the Model's and the render had applied the waiting arrows, those rows
- *  are the list, and update steps among them from the Model's cursor. A key pressed before the
- *  view caught up (as the palette opens, or just after typing, while the list still shows the
- *  last query's rows) cannot name a row yet: `cursorShift` counts the arrows, which the next
- *  render applies from the cursor's row, and `isEnterPending` an Enter. Such a key returns
- *  `ReportPendingKeys`, which reads the row the next render shows the cursor on: it becomes
- *  the cursor, and a waiting Enter acts on it. `renderGeneration` counts the changes to the
- *  page, the query and the waiting arrows, so a report from an older render is refused. */
+/** Schema for a command palette: its Dialog, the commands' list (their query and cursor,
+ *  kept while a page is open, so Back restores them), the open page with a list of its own,
+ *  and the choice being picked. A cursor is a row's id, so it holds to its row while the
+ *  list changes. The rows are the view's (built from its `commands`), so ↑, ↓ and Enter
+ *  carry what their render showed: its rows, the row it showed the cursor on, and the query
+ *  and waiting arrows it was rendered with. When that query is the Model's and the render
+ *  had applied the waiting arrows, those rows are the list, and update steps among them
+ *  from the Model's cursor. A key pressed before the view caught up (as the palette opens,
+ *  or just after typing, while the list still shows the last query's rows) cannot name a
+ *  row yet: `cursorShift` counts the arrows, which the next render applies from the
+ *  cursor's row, and `isEnterPending` an Enter. Such a key returns `ReportPendingKeys`,
+ *  which reads the row the next render shows the cursor on: it becomes the cursor, and a
+ *  waiting Enter acts on it. `renderGeneration` counts the changes to the page, the query
+ *  and the waiting arrows, so a report from an older render is refused. */
 export const Model = Schema.Struct({
   dialog: Dialog.Model,
-  query: Schema.String,
-  maybeCursor: Schema.Option(Schema.String),
+  commands: List,
   cursorShift: Schema.Finite,
   isEnterPending: Schema.Boolean,
   renderGeneration: Schema.Int,
@@ -106,8 +113,7 @@ const listIdOf = (paletteId: string): string => `${paletteId}-list`;
 /** Creates a closed command palette. */
 export const init = (config: InitConfig): Model => ({
   dialog: Dialog.init({ id: config.id }),
-  query: "",
-  maybeCursor: Option.none(),
+  commands: EMPTY_LIST,
   cursorShift: 0,
   isEnterPending: false,
   renderGeneration: 0,
@@ -121,13 +127,15 @@ export const id = (model: Model): string => Dialog.id(model.dialog);
 /** Whether the palette is open. */
 export const isOpen = (model: Model): boolean => Dialog.isOpen(model.dialog);
 
+const currentList = (model: Model): List =>
+  Option.match(model.maybePage, {
+    onNone: () => model.commands,
+    onSome: (page) => page.list,
+  });
+
 /** The words in the field: the open page's, or the commands'. A page whose choices are a
  *  function of what is typed reads it here. */
-export const query = (model: Model): string =>
-  Option.match(model.maybePage, {
-    onNone: () => model.query,
-    onSome: (page) => page.query,
-  });
+export const query = (model: Model): string => currentList(model).query;
 
 /** The command whose page is open. */
 export const maybePageId = (model: Model): Option.Option<string> =>
@@ -173,12 +181,9 @@ const shownRowOf = (row: Element): Option.Option<ShownRow> =>
     })
   );
 
-const find = (selector: string): Option.Option<Element> =>
-  Option.fromNullishOr(document.querySelector(selector));
-
 const shownCursorOf = (paletteId: string): Option.Option<ShownRow> =>
   Option.flatMap(
-    find(
+    htmlElement(
       `#${CSS.escape(listIdOf(paletteId))} ${OPTION_SELECTOR}[aria-selected="true"]`
     ),
     shownRowOf
@@ -231,24 +236,20 @@ const dialogFold = foldDialog(Dialog, {
 
 const freshPage = (commandId: string): OpenPage => ({
   commandId,
-  query: "",
-  maybeCursor: Option.none(),
+  list: EMPTY_LIST,
 });
-
-const nextGeneration = (generation: number): number => generation + 1;
 
 const clearPendingKeys = (model: Model): Model =>
   modifyFields(model, {
     cursorShift: () => 0,
     isEnterPending: () => false,
-    renderGeneration: nextGeneration,
+    renderGeneration: Number.increment,
   });
 
 const fresh = (model: Model, maybePage: Option.Option<OpenPage>): Model =>
   clearPendingKeys(
     modifyFields(model, {
-      query: () => "",
-      maybeCursor: () => Option.none(),
+      commands: () => EMPTY_LIST,
       maybePage: () => maybePage,
       maybePicking: () => Option.none(),
     })
@@ -267,10 +268,17 @@ const followShown = (
         })
       );
 
-const modifyPage = (
+const modifyCurrentList = (
   model: Model,
-  modifyOpenPage: (page: OpenPage) => OpenPage
-): Model => modifyFields(model, { maybePage: Option.map(modifyOpenPage) });
+  modifyList: (list: List) => List
+): Model =>
+  Option.match(model.maybePage, {
+    onNone: () => modifyFields(model, { commands: modifyList }),
+    onSome: (page) =>
+      modifyFields(model, {
+        maybePage: () => Option.some(modifyFields(page, { list: modifyList })),
+      }),
+  });
 
 const unlessPicking = (
   model: Model,
@@ -302,15 +310,10 @@ const selectCommand = (model: Model, commandId: string): UpdateReturn =>
 
 const moveCursor = (model: Model, cursorId: string): Model =>
   modifyFields(
-    Option.match(model.maybePage, {
-      onNone: () =>
-        modifyFields(model, { maybeCursor: () => Option.some(cursorId) }),
-      onSome: () =>
-        modifyPage(model, (page) =>
-          modifyFields(page, { maybeCursor: () => Option.some(cursorId) })
-        ),
-    }),
-    { cursorShift: () => 0, renderGeneration: nextGeneration }
+    modifyCurrentList(model, (list) =>
+      modifyFields(list, { maybeCursor: () => Option.some(cursorId) })
+    ),
+    { cursorShift: () => 0, renderGeneration: Number.increment }
   );
 
 const pick = (
@@ -338,12 +341,6 @@ const runRow = (model: Model, row: ShownRow): UpdateReturn => {
   });
 };
 
-const maybeCurrentCursor = (model: Model): Option.Option<string> =>
-  Option.match(model.maybePage, {
-    onNone: () => model.maybeCursor,
-    onSome: (page) => page.maybeCursor,
-  });
-
 const ARROW_STEP: Readonly<Record<ArrowKey, number>> = {
   ArrowUp: -1,
   ArrowDown: 1,
@@ -369,7 +366,7 @@ const cursorAsShown = (model: Model, shown: RenderSnapshot): CursorAsShown => {
 
   if (isTheList && hasNoWaitingArrows) {
     const maybeListedCursor = Option.filter(
-      maybeCurrentCursor(model),
+      currentList(model).maybeCursor,
       (rowId) => isListed(rows, rowId)
     );
 
@@ -424,7 +421,7 @@ const stepFrom = (
 const pendArrow = (model: Model, key: ArrowKey): UpdateReturn => {
   const pending = modifyFields(model, {
     cursorShift: (shift) => shift + ARROW_STEP[key],
-    renderGeneration: nextGeneration,
+    renderGeneration: Number.increment,
   });
 
   return {
@@ -497,20 +494,10 @@ const settlePending = (model: Model, report: PendingReport): UpdateReturn => {
 
 const updateQuery = (model: Model, value: string): Model =>
   clearPendingKeys(
-    Option.match(model.maybePage, {
-      onNone: () =>
-        modifyFields(model, {
-          query: () => value,
-          maybeCursor: () => Option.none(),
-        }),
-      onSome: () =>
-        modifyPage(model, (page) =>
-          modifyFields(page, {
-            query: () => value,
-            maybeCursor: () => Option.none(),
-          })
-        ),
-    })
+    modifyCurrentList(model, () => ({
+      query: value,
+      maybeCursor: Option.none(),
+    }))
   );
 
 /** Processes a command palette Message and returns the next Model, Commands and OutMessage. */
@@ -694,14 +681,14 @@ const unshiftedOf = (model: Model, commands: readonly Command[]): Shown => {
 
   return Option.match(maybePage, {
     onNone: () => {
-      const rows = findCommands(commands, model.query);
+      const rows = findCommands(commands, model.commands.query);
 
       return {
         maybePage,
         rows,
         contextIds: HashSet.empty(),
         maybeCursorId: cursorRowFallback({
-          maybeMovedTo: model.maybeCursor,
+          maybeMovedTo: model.commands.maybeCursor,
           rows,
           found: rows,
           pageDefaults: [],
@@ -709,14 +696,14 @@ const unshiftedOf = (model: Model, commands: readonly Command[]): Shown => {
       };
     },
     onSome: ({ page, state }) => {
-      const { rows, found, contextIds } = pageChoices(page, state.query);
+      const { rows, found, contextIds } = pageChoices(page, state.list.query);
 
       return {
         maybePage,
         rows,
         contextIds,
         maybeCursorId: cursorRowFallback({
-          maybeMovedTo: state.maybeCursor,
+          maybeMovedTo: state.list.maybeCursor,
           rows,
           found,
           pageDefaults: [
@@ -731,7 +718,7 @@ const unshiftedOf = (model: Model, commands: readonly Command[]): Shown => {
 
 const hasCursorRowLeft = (model: Model, unshifted: Shown): boolean =>
   Option.exists(
-    maybeCurrentCursor(model),
+    currentList(model).maybeCursor,
     (rowId) => !Option.contains(unshifted.maybeCursorId, rowId)
   );
 
@@ -773,8 +760,8 @@ const shownRowFor = (shown: Shown, row: Choice | Command): ShownRow => ({
 
 const shownQueryOf = (model: Model, shown: Shown): string =>
   Option.match(shown.maybePage, {
-    onNone: () => model.query,
-    onSome: ({ state }) => state.query,
+    onNone: () => model.commands.query,
+    onSome: ({ state }) => state.list.query,
   });
 
 const shownPageIdOf = (shown: Shown): Option.Option<string> =>
