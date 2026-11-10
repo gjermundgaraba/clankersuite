@@ -4,7 +4,6 @@ import { Array, Effect, Match, Option, Schema, Stream, pipe } from "effect";
 import * as Command from "foldkit/command";
 import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
-import * as Mount from "foldkit/mount";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
@@ -14,7 +13,7 @@ import * as Announcer from "../announcer/announcer.ts";
 import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
-  SizeLifted,
+  Lift,
   activatedKeyboardDrag,
   cancelledDrag,
   draggableSelector,
@@ -23,6 +22,8 @@ import {
   isCarrying,
   isCarriedItem,
   isHolding,
+  liftAt,
+  liftStyle,
   markDragging,
   movedPointer,
   phaseOf,
@@ -55,11 +56,7 @@ const COPY = {
   cancelled: "Move cancelled. {item} put back where it was.",
 };
 
-const Press = Schema.Struct({
-  pointerId: Schema.Finite,
-  clientX: Schema.Finite,
-  clientY: Schema.Finite,
-});
+const Press = Schema.Struct({ pointerId: Schema.Finite, lift: Lift });
 
 const Held = Schema.Struct({
   item: Item,
@@ -86,8 +83,7 @@ export const Message = defineMessageUnion({
     pointerId: Schema.Finite,
     screenX: Schema.Finite,
     screenY: Schema.Finite,
-    clientX: Schema.Finite,
-    clientY: Schema.Finite,
+    lift: Lift,
     items: Schema.Array(Item),
   },
   PressedGripKey: { itemId: Schema.String, items: Schema.Array(Item) },
@@ -108,7 +104,6 @@ export const Message = defineMessageUnion({
   CancelledPointer: {},
   PressedEscape: {},
   CompletedAnnounceReorder: {},
-  CompletedSizeLiftedItem: {},
 });
 
 export type Message = typeof Message.Type;
@@ -309,7 +304,7 @@ const liftable = (
     () => !isHolding(model)
   );
 
-const lift = (
+const holdItem = (
   model: Model,
   held: Held,
   liftMessage: UiDragAndDrop.Message
@@ -387,24 +382,16 @@ export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotDragAndDropMessage: ({ message: dragAndDropMessage }) =>
       updateDragAndDrop(model, dragAndDropMessage),
-    PressedItem: ({
-      itemId,
-      pointerId,
-      screenX,
-      screenY,
-      clientX,
-      clientY,
-      items,
-    }) =>
+    PressedItem: ({ itemId, pointerId, screenX, screenY, lift, items }) =>
       Option.match(liftable(model, items, itemId), {
         onNone: () => ({ model }),
         onSome: ({ index, item }) =>
-          lift(
+          holdItem(
             model,
             {
               item,
               items,
-              maybePress: Option.some({ pointerId, clientX, clientY }),
+              maybePress: Option.some({ pointerId, lift }),
             },
             pressedDraggable({
               itemId: itemHook(model, itemId),
@@ -419,7 +406,7 @@ export const update = (model: Model, message: Message) =>
       Option.match(liftable(model, items, itemId), {
         onNone: () => ({ model }),
         onSome: ({ index, item }) =>
-          lift(
+          holdItem(
             model,
             { item, items, maybePress: Option.none() },
             activatedKeyboardDrag({
@@ -436,7 +423,6 @@ export const update = (model: Model, message: Message) =>
       settle(model)(foldDragAndDrop(model, cancelledDrag())),
     PressedEscape: () => cancelDrag(model),
     CompletedAnnounceReorder: () => ({ model }),
-    CompletedSizeLiftedItem: () => ({ model }),
   });
 
 const pointerIndex = (
@@ -629,19 +615,28 @@ const gripView = (
       _time,
       clientX,
       clientY,
-      pointerId
+      pointerId,
+      target
     ) =>
-      Option.liftPredicate(
-        Message.PressedItem({
-          itemId: item.id,
-          pointerId,
-          screenX,
-          screenY,
-          clientX,
-          clientY,
-          items,
-        }),
-        () => isIdleNow && button === LEFT_BUTTON
+      Option.map(
+        Option.filter(
+          liftAt(
+            target,
+            draggableSelector(itemHook(model, item.id)),
+            clientX,
+            clientY
+          ),
+          () => isIdleNow && button === LEFT_BUTTON
+        ),
+        (lift) =>
+          Message.PressedItem({
+            itemId: item.id,
+            pointerId,
+            screenX,
+            screenY,
+            lift,
+            items,
+          })
       )
   );
 
@@ -785,21 +780,9 @@ const liftedCopyView = (
       h.div(
         [
           h.Class("gg-sortable-lift"),
-          h.Style(style),
+          h.Style({ ...style, ...liftStyle(press.lift) }),
           h.AriaHidden(true),
           h.Inert(true),
-          h.OnMount(
-            Mount.mapMessage(
-              SizeLifted({
-                sourceSelector: draggableSelector(
-                  itemHook(model, held.item.id)
-                ),
-                pressX: press.clientX,
-                pressY: press.clientY,
-              }),
-              () => Message.CompletedSizeLiftedItem()
-            )
-          ),
         ],
         [liftedView(info, held.item, h)]
       )

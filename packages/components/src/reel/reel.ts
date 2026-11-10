@@ -132,7 +132,7 @@ const letGo = (
 const cancel = (model: Model, layout: Layout, held: Held): UpdateReturn =>
   letGo(model, layout, { ...held, maybeTarget: Option.none() }, COPY.cancelled);
 
-const lift = (
+const holdPane = (
   model: Model,
   layout: Layout,
   paneId: string,
@@ -304,8 +304,8 @@ export const update = (
   const { layout } = context;
 
   return Message.match<UpdateReturn>(message, {
-    PressedGrip: ({ paneId, pointerId, clientX, clientY }) =>
-      lift(
+    PressedGrip: ({ paneId, pointerId, clientX, clientY, lift }) =>
+      holdPane(
         model,
         layout,
         paneId,
@@ -313,12 +313,14 @@ export const update = (
           pointerId,
           pressX: clientX,
           pressY: clientY,
+          lift,
           x: clientX,
           y: clientY,
           isCarrying: false,
         })
       ),
-    PressedGripKey: ({ paneId }) => lift(model, layout, paneId, By.Keyboard()),
+    PressedGripKey: ({ paneId }) =>
+      holdPane(model, layout, paneId, By.Keyboard()),
     MovedPointer: (pointer) =>
       whileHeldBy(model, "Pointer", (held) =>
         movePointer(model, layout, held, pointer)
@@ -401,7 +403,6 @@ export const update = (
     CompletedFocusTab: () => ({ model }),
     CompletedRestoreFocus: () => ({ model }),
     CompletedScrollIntoView: () => ({ model }),
-    CompletedSizeLiftedPane: () => ({ model }),
   });
 };
 

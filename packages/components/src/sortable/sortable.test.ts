@@ -4,7 +4,7 @@ import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
-import { SizeLifted, isHolding } from "../drag/drag.ts";
+import { isHolding } from "../drag/drag.ts";
 import * as Panel from "../panel/panel.ts";
 import * as Sortable from "./sortable.ts";
 
@@ -58,8 +58,7 @@ const pressItem = (itemId: string) =>
     pointerId: 1,
     screenX: 100,
     screenY: 100,
-    clientX: 100,
-    clientY: 100,
+    lift: { width: 240, offsetX: -12, offsetY: -8 },
     items: ITEMS,
   });
 
@@ -272,11 +271,6 @@ const panelsView =
       h
     );
 
-const sizeLifted = Scene.Mount.resolve(
-  { name: SizeLifted.name },
-  Sortable.Message.CompletedSizeLiftedItem()
-);
-
 describe("Sortable view", () => {
   it("names the list, and gives each item a grip named for it that says how it moves", () => {
     Scene.scene(
@@ -368,7 +362,10 @@ describe("Sortable view", () => {
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(overGamma),
-      sizeLifted,
+      Scene.expect(Scene.selector(".gg-sortable-lift")).toHaveStyle(
+        "--gg-lift-width",
+        "240px"
+      ),
       Scene.expect(Scene.selector(".gg-drop-before")).toContainText("Gamma"),
       Scene.expect(
         Scene.selector(".gg-sortable-lift .gg-lifted")
@@ -377,13 +374,11 @@ describe("Sortable view", () => {
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(pastTheEnd),
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-drop-after")).toContainText("Gamma")
     );
     Scene.scene(
       { update: Sortable.update, view: listView(ITEMS) },
       Scene.given(whereItWas),
-      sizeLifted,
       Scene.expect(Scene.selector(".gg-drop-before")).toBeAbsent(),
       Scene.expect(Scene.selector(".gg-drop-after")).toBeAbsent()
     );

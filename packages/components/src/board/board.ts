@@ -10,7 +10,6 @@ import type {
   HtmlBuilder,
 } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
-import * as Mount from "foldkit/mount";
 import { modifyFields } from "foldkit/struct";
 import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
@@ -21,7 +20,7 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as Button from "../button/button.ts";
 import {
   LEFT_BUTTON,
-  SizeLifted,
+  Lift,
   activatedKeyboardDrag,
   cancelledDrag,
   draggableSelector,
@@ -29,6 +28,8 @@ import {
   isCarrying,
   isCarriedItem,
   isHolding,
+  liftAt,
+  liftStyle,
   phaseOf,
   pressedDraggable,
   settle as settleDrag,
@@ -67,15 +68,10 @@ const COPY = {
   cancelled: "Move cancelled. {card} put back where it was.",
 };
 
-const PressPoint = Schema.Struct({
-  clientX: Schema.Finite,
-  clientY: Schema.Finite,
-});
-
 const Held = Schema.Struct({
   card: Card,
   columnsAtPress: Schema.Array(Column),
-  maybePressPoint: Schema.Option(PressPoint),
+  maybeLift: Schema.Option(Lift),
 });
 
 type Held = typeof Held.Type;
@@ -102,8 +98,7 @@ export const Message = defineMessageUnion({
     pointerType: Schema.String,
     screenX: Schema.Finite,
     screenY: Schema.Finite,
-    clientX: Schema.Finite,
-    clientY: Schema.Finite,
+    lift: Lift,
     columnsAtPress: Schema.Array(Column),
   },
   PressedGripKey: {
@@ -112,7 +107,6 @@ export const Message = defineMessageUnion({
   },
   PressedEscape: {},
   CompletedAnnounceMove: {},
-  CompletedSizeLiftedCard: {},
 });
 
 export type Message = typeof Message.Type;
@@ -227,7 +221,7 @@ const placementOf = (
     const to = yield* columnOfHook(model, held, toContainerId);
     const others = Array.filter(to.cards, (card) => card.id !== held.card.id);
     const isSameColumn = to.id === from.column.id;
-    const isKeyboard = Option.isNone(held.maybePressPoint);
+    const isKeyboard = Option.isNone(held.maybeLift);
 
     const pastItself =
       isSameColumn && rawIndex > from.index ? rawIndex - 1 : rawIndex;
@@ -365,7 +359,7 @@ const liftByKeyboard = (
   const pressed = holding(model, {
     card: place.card,
     columnsAtPress,
-    maybePressPoint: Option.none(),
+    maybeLift: Option.none(),
   });
 
   return settle(pressed)(
@@ -453,8 +447,7 @@ const pressCard =
     pointerType,
     screenX,
     screenY,
-    clientX,
-    clientY,
+    lift,
     columnsAtPress,
   }: typeof Message.PressedCard.Type): UpdateReturn => {
     const maybeSelected = Option.liftPredicate(
@@ -473,7 +466,7 @@ const pressCard =
           const pressed = holding(model, {
             card: place.card,
             columnsAtPress,
-            maybePressPoint: Option.some({ clientX, clientY }),
+            maybeLift: Option.some(lift),
           });
 
           return settle(pressed)(
@@ -521,7 +514,6 @@ export const update = (model: Model, message: Message) =>
       ),
     PressedEscape: () => cancel(model),
     CompletedAnnounceMove: () => ({ model }),
-    CompletedSizeLiftedCard: () => ({ model }),
   });
 
 const dragSubscriptions = Subscription.lift({
@@ -589,7 +581,7 @@ const isInside = (outer: Element, inner: Element | null): boolean =>
 
 const pressSpotOf = (target: EventTarget | null): Option.Option<PressSpot> => {
   if (!(target instanceof Element)) {
-    return Option.some("Body");
+    return Option.none();
   }
 
   const maybeCard = Option.fromNullishOr(
@@ -665,18 +657,25 @@ const cardRender = (
     ) =>
       Option.map(
         Option.filter(
-          pressSpotOf(target),
+          Option.all({
+            spot: pressSpotOf(target),
+            lift: liftAt(
+              target,
+              draggableSelector(cardHook(model, card.id)),
+              clientX,
+              clientY
+            ),
+          }),
           () => isIdleNow && button === LEFT_BUTTON
         ),
-        (spot) =>
+        ({ spot, lift }) =>
           Message.PressedCard({
             cardId: card.id,
             spot,
             pointerType,
             screenX,
             screenY,
-            clientX,
-            clientY,
+            lift,
             columnsAtPress: columns,
           })
       )
@@ -876,28 +875,16 @@ const liftedCopyView = (
   const maybeLifted = Option.all({
     style: UiDragAndDrop.ghostStyle(model.dragAndDrop),
     held: model.maybeHeld,
-    pressPoint: Option.flatMap(model.maybeHeld, (held) => held.maybePressPoint),
+    lift: Option.flatMap(model.maybeHeld, (held) => held.maybeLift),
   });
 
   return Array.fromOption(
-    Option.map(maybeLifted, ({ style, held, pressPoint }) =>
+    Option.map(maybeLifted, ({ style, held, lift }) =>
       h.div(
         [
           h.Class("gg-board-lift"),
-          h.Style(style),
+          h.Style({ ...style, ...liftStyle(lift) }),
           h.AriaHidden(true),
-          h.OnMount(
-            Mount.mapMessage(
-              SizeLifted({
-                sourceSelector: draggableSelector(
-                  cardHook(model, held.card.id)
-                ),
-                pressX: pressPoint.clientX,
-                pressY: pressPoint.clientY,
-              }),
-              () => Message.CompletedSizeLiftedCard()
-            )
-          ),
         ],
         [info.toCardView(held.card, liftedRender(h))]
       )

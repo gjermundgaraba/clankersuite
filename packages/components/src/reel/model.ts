@@ -2,6 +2,7 @@ import { Array, Number, Option, Schema } from "effect";
 import { defineTaggedUnion } from "foldkit/schema";
 
 import { htmlElement } from "../dom/html-element.ts";
+import { Lift } from "../drag/drag.ts";
 import {
   Resize,
   Splitter,
@@ -46,6 +47,7 @@ export const By = defineTaggedUnion({
     pointerId: Schema.Finite,
     pressX: Schema.Finite,
     pressY: Schema.Finite,
+    lift: Lift,
     x: Schema.Finite,
     y: Schema.Finite,
     isCarrying: Schema.Boolean,

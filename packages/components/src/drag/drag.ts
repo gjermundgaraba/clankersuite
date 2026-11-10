@@ -3,8 +3,6 @@ import { Array, Effect, Option, Order, Schema, Stream, pipe } from "effect";
 import type * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Attribute, HtmlBuilder } from "foldkit/html";
-import { defineMessageUnion } from "foldkit/message";
-import * as Mount from "foldkit/mount";
 import * as Subscription from "foldkit/subscription";
 import * as Update from "foldkit/update";
 
@@ -202,36 +200,45 @@ export const splitterAttributes = <Message>(
 export const draggableSelector = (hook: string): string =>
   `[data-sortable-id="${CSS.escape(hook)}"]`;
 
-/** What the lifted copy's Mount reports: the copy is sized. Nothing in a Model follows it. */
-export const LiftMessage = defineMessageUnion({ CompletedSizeLifted: {} });
+/** Where the copy that follows the pointer prints and how wide: the pressed item's width, and
+ *  its corner's offset from the pointer, so the pointer stays where it pressed. */
+export const Lift = Schema.Struct({
+  width: Schema.Finite,
+  offsetX: Schema.Finite,
+  offsetY: Schema.Finite,
+});
 
-export type LiftMessage = typeof LiftMessage.Type;
+export type Lift = typeof Lift.Type;
 
-/** Sizes the copy that follows the pointer to what it lifts (`sourceSelector`), and keeps the
- *  pointer where it pressed. Measures the source once, when the copy appears. A list maps its
- *  Message into its own with `Mount.mapMessage`. */
-export const SizeLifted = Mount.define("SizeLifted", {
-  args: {
-    sourceSelector: Schema.String,
-    pressX: Schema.Finite,
-    pressY: Schema.Finite,
-  },
-  messages: [LiftMessage.CompletedSizeLifted],
-  execute: ({ element, sourceSelector, pressX, pressY }) =>
-    Effect.sync(() => {
-      const maybeSource = Option.fromNullishOr(
-        document.querySelector(sourceSelector)
-      );
+/** The lift of the item a press lands in (the element around `target` matching
+ *  `sourceSelector`), read from its box as it is pressed at (`clientX`, `clientY`). None when
+ *  the press is not inside it. */
+export const liftAt = (
+  target: EventTarget | null,
+  sourceSelector: string,
+  clientX: number,
+  clientY: number
+): Option.Option<Lift> =>
+  pipe(
+    Option.liftPredicate(target, (node) => node instanceof Element),
+    Option.flatMapNullishOr((element) => element.closest(sourceSelector)),
+    Option.map((source) => {
+      const rect = source.getBoundingClientRect();
 
-      if (Option.isSome(maybeSource) && element instanceof HTMLElement) {
-        const rect = maybeSource.value.getBoundingClientRect();
-        element.style.setProperty("--gg-lift-width", `${rect.width}px`);
-        element.style.setProperty("--gg-lift-x", `${rect.left - pressX}px`);
-        element.style.setProperty("--gg-lift-y", `${rect.top - pressY}px`);
-      }
+      return {
+        width: rect.width,
+        offsetX: rect.left - clientX,
+        offsetY: rect.top - clientY,
+      };
+    })
+  );
 
-      return LiftMessage.CompletedSizeLifted();
-    }),
+/** The lifted copy's width and offset, as the custom properties its rule reads. Without them
+ *  (a copy with no press) the rule falls back to the token width at the pointer. */
+export const liftStyle = (lift: Lift) => ({
+  "--gg-lift-width": `${lift.width}px`,
+  "--gg-lift-x": `${lift.offsetX}px`,
+  "--gg-lift-y": `${lift.offsetY}px`,
 });
 
 const ROW_TOLERANCE = 1;
