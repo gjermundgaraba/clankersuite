@@ -96,7 +96,8 @@ export const update = (model: Model, message: Message) =>
     }
   );
 
-/** Opens the key help, as `?` does: for a button or a command palette entry. */
+/** Opens the key help. The application binds `?` (`HELP_KEYS`) to it, and a button or a command
+ *  palette entry calls it too. */
 export const open = (model: Model): Update.Return<Model, Message> =>
   dialogFold.open(clearQuery(model));
 
