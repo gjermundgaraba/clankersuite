@@ -3184,7 +3184,7 @@ dialog.gg-veil:focus {
   gap: var(--semantic-dimension-space-gap-small);
 }
 
-.gg-board-card.gg-movable {
+.gg-board-card {
   cursor: grab;
 }
 

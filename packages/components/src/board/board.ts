@@ -552,8 +552,6 @@ export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
 export type CardRender = Readonly<{
   /** For the card's root: the press that selects it, and lifts it under a mouse. */
   attributes: readonly ChildAttribute[];
-  /** Cards may move: the card prints the grab cursor (`movable`). False on the held copy. */
-  isMovable: boolean;
   /** The card is the one held: it dims in place (`drag-dim`). */
   isHeld: boolean;
   /** The grip, last in the meta row: a quiet glyph button named "Move <label>" that touch and
@@ -629,7 +627,6 @@ const liftedRender = <ParentMessage>(
   h: HtmlBuilder<ParentMessage>
 ): CardRender => ({
   attributes: childAttributes([h.AriaHidden(true), h.Inert(true)]),
-  isMovable: false,
   isHeld: false,
   grip: [
     h.span(
@@ -713,15 +710,14 @@ const cardRender = (
 
   return {
     attributes: childAttributes([h.DataAttribute(CARD_ATTRIBUTE, ""), onPress]),
-    isMovable: true,
     isHeld,
     grip,
     isLifted: false,
   };
 };
 
-const cardClass = ({ isMovable, isHeld, isLifted }: CardRender): string =>
-  `gg-board-card${isMovable ? " gg-movable" : ""}${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
+const cardClass = ({ isHeld, isLifted }: CardRender): string =>
+  `gg-board-card${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
 
 /** Configuration for rendering one card with `cardView`. */
 export type CardViewConfig<ParentMessage> = Readonly<{

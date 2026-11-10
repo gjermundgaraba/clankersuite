@@ -398,8 +398,7 @@ describe("Board view", () => {
       ),
       Scene.expect(
         Scene.selector('[data-droppable-id="work/todo"]')
-      ).toHaveClass("gg-board-col"),
-      Scene.expect(sinkCard).toHaveClass("gg-movable")
+      ).toHaveClass("gg-board-col")
     );
   });
 
