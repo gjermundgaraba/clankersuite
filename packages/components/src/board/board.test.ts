@@ -326,7 +326,6 @@ const itemCardView =
         meta: [
           h.span([h.Class("gg-age")], ["2d"]),
           h.button([h.Type("button"), h.Class("tool")], ["snooze"]),
-          h.span([h.DataAttribute("gg-no-lift", "")], ["note"]),
         ],
         attributes: [h.AriaCurrent(card.id === "sink" ? "true" : "false")],
       },
@@ -585,13 +584,6 @@ describe("Board view", () => {
       Scene.pointerDown(Scene.role("button", { name: "snooze" }), {
         pointerType: "mouse",
       }),
-      Scene.expectIgnored(),
-      Scene.pointerDown(
-        Scene.selector('li[data-sortable-id="work/sink"] [data-gg-no-lift]'),
-        {
-          pointerType: "mouse",
-        }
-      ),
       Scene.expectIgnored(),
       Scene.expect(Scene.selector(".gg-board-card.gg-drag-dim")).toBeAbsent()
     );

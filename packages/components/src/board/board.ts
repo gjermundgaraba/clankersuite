@@ -126,7 +126,7 @@ export type Message = typeof Message.Type;
  *   already was, over no column, or while cards may not move reports nothing. The parent
  *   moves the item (or decides not to): the data is its own.
  * - `SelectedCard`: a primary press on a card's body, not on a control inside it (an input,
- *   a link, a button other than the title, `[data-gg-no-lift]`) nor its grip.
+ *   a link, a button other than the title) nor its grip.
  */
 export const OutMessage = defineMessageUnion({
   Moved: {
@@ -587,7 +587,6 @@ const INNER_CONTROL = [
   "a[href]",
   '[contenteditable]:not([contenteditable="false"])',
   `button:not([data-${TITLE_ATTRIBUTE}], [data-${GRIP_ATTRIBUTE}])`,
-  "[data-gg-no-lift]",
 ].join(", ");
 
 const isInside = (outer: Element, inner: Element | null): boolean =>
