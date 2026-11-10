@@ -4,7 +4,7 @@ import { Scene, Story, Subscription } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
-import { SizeLifted, isHolding } from "../drag/drag.ts";
+import { SizeLifted, isHolding, phaseOf } from "../drag/drag.ts";
 import * as Board from "./board.ts";
 
 const COLUMNS: readonly Board.Column[] = [
@@ -105,7 +105,7 @@ describe("Board update", () => {
       Story.given(fresh),
       Story.message(pressGrip),
       Story.model((model) => {
-        expect(isHolding(model)).toBe(true);
+        expect(phaseOf(model.dragAndDrop)).toBe("KeyboardDragging");
         expect(
           Option.map(model.maybeHeld, ({ card }) => card.id)
         ).toStrictEqual(Option.some("sink"));

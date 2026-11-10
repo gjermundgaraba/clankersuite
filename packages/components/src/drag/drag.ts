@@ -43,7 +43,7 @@ export const isCarriedItem = (
   dragAndDrop: UiDragAndDrop.Model,
   hook: string
 ): boolean =>
-  UiDragAndDrop.isDragging(dragAndDrop) &&
+  isCarrying(phaseOf(dragAndDrop)) &&
   Option.contains(UiDragAndDrop.maybeDraggedItemId(dragAndDrop), hook);
 
 export const settle = <Model extends Holder, Message, OutMessage>(

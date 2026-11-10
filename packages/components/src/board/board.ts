@@ -158,9 +158,6 @@ export const init = (config: InitConfig): Model => ({
 /** The board's id, unique in the document. */
 export const id = (model: Model): string => model.dragAndDrop.id;
 
-const isDragging = (model: Model): boolean =>
-  UiDragAndDrop.isDragging(model.dragAndDrop);
-
 const hookId = (boardId: string, localId: string): string =>
   `${boardId}/${localId}`;
 
@@ -842,7 +839,7 @@ const columnView = (
   ];
 
   const isTarget =
-    isDragging(model) &&
+    isCarrying(phaseOf(model.dragAndDrop)) &&
     Equal.equals(
       Option.map(overColumn(model), ({ id: overId }) => overId),
       Option.some(column.id)
