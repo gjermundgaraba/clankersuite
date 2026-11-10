@@ -63,20 +63,20 @@ const OpenPage = Schema.Struct({ commandId: Schema.String, list: List });
 
 type OpenPage = typeof OpenPage.Type;
 
-/** Schema for a command palette: its Dialog, the commands' list (their query and cursor, kept
- *  while a page is open, so Back restores them), the open page with a list of its own, and
- *  the choice being picked. A cursor
- *  is a row's id, so it holds to its row while the list changes. The rows are the view's
- *  (built from its `commands`), so ↑, ↓ and Enter carry what their render showed: its rows,
- *  the row it showed the cursor on, and the query and waiting arrows it was rendered with.
- *  When that query is the Model's and the render had applied the waiting arrows, those rows
- *  are the list, and update steps among them from the Model's cursor. A key pressed before the
- *  view caught up (as the palette opens, or just after typing, while the list still shows the
- *  last query's rows) cannot name a row yet: `cursorShift` counts the arrows, which the next
- *  render applies from the cursor's row, and `isEnterPending` an Enter. Such a key returns
- *  `ReportPendingKeys`, which reads the row the next render shows the cursor on: it becomes
- *  the cursor, and a waiting Enter acts on it. `renderGeneration` counts the changes to the
- *  page, the query and the waiting arrows, so a report from an older render is refused. */
+/** Schema for a command palette: its Dialog, the commands' list (their query and cursor,
+ *  kept while a page is open, so Back restores them), the open page with a list of its own,
+ *  and the choice being picked. A cursor is a row's id, so it holds to its row while the
+ *  list changes. The rows are the view's (built from its `commands`), so ↑, ↓ and Enter
+ *  carry what their render showed: its rows, the row it showed the cursor on, and the query
+ *  and waiting arrows it was rendered with. When that query is the Model's and the render
+ *  had applied the waiting arrows, those rows are the list, and update steps among them
+ *  from the Model's cursor. A key pressed before the view caught up (as the palette opens,
+ *  or just after typing, while the list still shows the last query's rows) cannot name a
+ *  row yet: `cursorShift` counts the arrows, which the next render applies from the
+ *  cursor's row, and `isEnterPending` an Enter. Such a key returns `ReportPendingKeys`,
+ *  which reads the row the next render shows the cursor on: it becomes the cursor, and a
+ *  waiting Enter acts on it. `renderGeneration` counts the changes to the page, the query
+ *  and the waiting arrows, so a report from an older render is refused. */
 export const Model = Schema.Struct({
   dialog: Dialog.Model,
   commands: List,
@@ -274,11 +274,9 @@ const modifyCurrentList = (
 ): Model =>
   Option.match(model.maybePage, {
     onNone: () => modifyFields(model, { commands: modifyList }),
-    onSome: () =>
+    onSome: (page) =>
       modifyFields(model, {
-        maybePage: Option.map((page) =>
-          modifyFields(page, { list: modifyList })
-        ),
+        maybePage: () => Option.some(modifyFields(page, { list: modifyList })),
       }),
   });
 
@@ -343,9 +341,6 @@ const runRow = (model: Model, row: ShownRow): UpdateReturn => {
   });
 };
 
-const maybeCurrentCursor = (model: Model): Option.Option<string> =>
-  currentList(model).maybeCursor;
-
 const ARROW_STEP: Readonly<Record<ArrowKey, number>> = {
   ArrowUp: -1,
   ArrowDown: 1,
@@ -371,7 +366,7 @@ const cursorAsShown = (model: Model, shown: RenderSnapshot): CursorAsShown => {
 
   if (isTheList && hasNoWaitingArrows) {
     const maybeListedCursor = Option.filter(
-      maybeCurrentCursor(model),
+      currentList(model).maybeCursor,
       (rowId) => isListed(rows, rowId)
     );
 
@@ -723,7 +718,7 @@ const unshiftedOf = (model: Model, commands: readonly Command[]): Shown => {
 
 const hasCursorRowLeft = (model: Model, unshifted: Shown): boolean =>
   Option.exists(
-    maybeCurrentCursor(model),
+    currentList(model).maybeCursor,
     (rowId) => !Option.contains(unshifted.maybeCursorId, rowId)
   );
 
