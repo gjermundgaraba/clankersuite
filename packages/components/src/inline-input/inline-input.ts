@@ -34,7 +34,7 @@ type Phase = typeof Phase.Type;
  *  shows, and follows, the value it replaces. `replaced` is that value as the view had it at
  *  the last edit, so a draft that only restores it writes nothing. `maybeError` is why the
  *  last save was refused, until the draft changes or the next save goes out.
- *  `maybeLastSavedId` is the id of the item the edit saved last. */
+ *  `maybeLastSavedId` is the id of the last save that gave one. */
 export const Model = Schema.Struct({
   id: Schema.String,
   phase: Phase,
@@ -62,8 +62,8 @@ export type Message = typeof Message.Type;
 /** Union of OutMessages an inline field reports. `Committed`: save this text (new, non-empty,
  *  trimmed); the field holds until the caller reports back with `succeeded` or `failed`.
  *  `Ended`: the edit is over, with how it ended and the id of the item it saved last
- *  (`maybeLastSavedId`, none when it saved nothing). Move focus on `Enter` and `Escape` only:
- *  after `Blur` the reader chose where focus went. */
+ *  (`maybeLastSavedId`, none when nothing it saved gave an id). Move focus on `Enter` and
+ *  `Escape` only: after `Blur` the reader chose where focus went. */
 export const OutMessage = defineMessageUnion({
   Committed: { text: Schema.String },
   Ended: { how: InlineEnd, maybeLastSavedId: Schema.Option(Schema.String) },
@@ -185,14 +185,18 @@ export const update = (model: Model, message: Message) =>
     CompletedFocusField: () => ({ model }),
   });
 
-const savedAs = (model: Model, savedId: string): Model =>
-  modifyFields(model, { maybeLastSavedId: () => Option.some(savedId) });
+const savedAs = (model: Model, savedId?: string): Model =>
+  modifyFields(model, {
+    maybeLastSavedId: (maybeLast) =>
+      Option.orElse(Option.fromNullishOr(savedId), () => maybeLast),
+  });
 
-/** The caller's save went through, giving the saved item's id. A save from Enter in a
- *  repeating field empties the field and keeps it open, focused, for the next; any other
- *  save ends the edit (as `Blur` if focus left meanwhile). A result for an edit that is no
- *  longer saving changes nothing. */
-export const succeeded = (model: Model, savedId: string): UpdateReturn =>
+/** The caller's save went through, giving the saved item's id when it has one (a new item's; a
+ *  rename may have none). Without one, `maybeLastSavedId` keeps the id an earlier save gave. A
+ *  save from Enter in a repeating field empties the field and keeps it open, focused, for the
+ *  next; any other save ends the edit (as `Blur` if focus left meanwhile). A result for an
+ *  edit that is no longer saving changes nothing. */
+export const succeeded = (model: Model, savedId?: string): UpdateReturn =>
   Phase.match<UpdateReturn>(model.phase, {
     Saving: ({ trigger }) => {
       const saved = savedAs(model, savedId);

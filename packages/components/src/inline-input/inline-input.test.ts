@@ -122,6 +122,42 @@ describe("InlineInput update", () => {
     );
   });
 
+  it("ends with the id of the last save that gave one, none when no save gave an id", () => {
+    const renamed = InlineInput.update(
+      typed(fresh, "Renewed", "Renew"),
+      InlineInput.Message.PressedEnter()
+    );
+
+    expect(InlineInput.succeeded(renamed.model).outMessage).toStrictEqual(
+      InlineInput.OutMessage.Ended({
+        how: "Enter",
+        maybeLastSavedId: Option.none(),
+      })
+    );
+
+    const first = InlineInput.update(
+      typed(repeating, "Draft the brief"),
+      InlineInput.Message.PressedEnter()
+    );
+
+    const second = InlineInput.update(
+      typed(InlineInput.succeeded(first.model, "item-1").model, "Send it"),
+      InlineInput.Message.PressedEnter()
+    );
+
+    const escaped = InlineInput.update(
+      InlineInput.succeeded(second.model).model,
+      InlineInput.Message.PressedEscape()
+    );
+
+    expect(escaped.outMessage).toStrictEqual(
+      InlineInput.OutMessage.Ended({
+        how: "Escape",
+        maybeLastSavedId: Option.some("item-1"),
+      })
+    );
+  });
+
   it("ends as a blur when focus left while the save was out, and saves on blur without ending twice", () => {
     Story.story(
       InlineInput.update,
