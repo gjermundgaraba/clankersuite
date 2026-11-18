@@ -34,7 +34,7 @@ const crumbView =
       [stepView(crumb, index === lastIndex, h)]
     );
 
-/** The path to where you are, in the pixel face, split by muted slashes: a navigation
+/** The path to where you are, split by muted slashes: a navigation
  *  landmark named "Breadcrumb", its steps an ordered list, the last `aria-current="page"`. */
 export const view = <Message>(
   config: ViewConfig,

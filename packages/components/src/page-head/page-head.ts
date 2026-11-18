@@ -9,7 +9,7 @@ export type ViewConfig<Message = never> = Readonly<{
   /** On the `h1`, before its own: an id and `tabindex="-1"` make it where focus lands when
    *  the screen opens. */
   titleAttributes?: ReadonlyArray<Attribute<Message>>;
-  /** A count or state after the title, in the pixel face ("12 items"). */
+  /** A count or state after the title ("12 items"). */
   meta?: string;
   /** The screen's own Buttons at the right; under the title on a phone. */
   actions?: ReadonlyArray<Html | string>;

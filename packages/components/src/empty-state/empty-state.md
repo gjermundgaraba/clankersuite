@@ -4,7 +4,7 @@ category: status
 
 # Empty state
 
-What a panel says when it has nothing to show, centred where its content would be: what is missing, in pixel caps, one sentence on how it fills, and the button that fills it.
+What a panel says when it has nothing to show, centred where its content would be: what is missing, one sentence on how it fills, and the button that fills it.
 
 ::Example{name="empty"}
 

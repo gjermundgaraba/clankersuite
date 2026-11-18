@@ -4,7 +4,7 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as Notice from "../notice/notice.ts";
 
 export type ViewConfig<Message> = Readonly<{
-  /** Pixel caps: what happened, or what is asked (`"Session ended"`). */
+  /** What happened, or what is asked (`"Session ended"`). */
   title: string;
   /** One sans sentence: why, and what to do next. */
   body: ReadonlyArray<Html | string>;

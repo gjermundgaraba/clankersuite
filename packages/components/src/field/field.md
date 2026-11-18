@@ -4,7 +4,7 @@ category: forms
 
 # Field
 
-A labelled text input with its help line. The input is boxless, a dotted baseline that turns solid ink on focus. The label names it and the help line describes it.
+A labelled text input with its help line. The input is boxless, a dotted baseline that turns solid on focus. The label names it and the help line describes it.
 
 ::Example{name="help"}
 
@@ -22,6 +22,6 @@ Code and identifiers, such as a file's name, print in the system monospace.
 
 ## Boxed
 
-A 2px ink box for the field that is the whole job of its form. A date is always boxed.
+A box for the field that is the whole job of its form. A date is always boxed.
 
 ::Example{name="boxed"}

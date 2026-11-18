@@ -43,7 +43,7 @@ export const toneGlyphView = <Message>(
 
 export type ViewConfig<Message> = Readonly<{
   tone?: Tone;
-  /** Pixel caps, on its own line. */
+  /** A title, on its own line. */
   title?: string;
   body: ReadonlyArray<Html | string>;
   glyph?: GlyphName;

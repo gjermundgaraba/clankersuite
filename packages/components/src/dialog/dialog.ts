@@ -239,7 +239,7 @@ export type ViewInputs = Readonly<{
 }>;
 
 /**
- * A modal dialog on the ink veil with its checker grain, built on `@foldkit/ui`'s Dialog. It
+ * A modal dialog on a dimmed backdrop, built on `@foldkit/ui`'s Dialog. It
  * opens with `show()` in place, not in the top layer: Foldkit makes the page behind it inert
  * and hidden from screen readers, traps focus, closes it on Escape and on a click on the veil
  * (`.veil-backdrop`, under `.veil-pad`, which lets a click through everywhere but on the

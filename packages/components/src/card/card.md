@@ -4,11 +4,11 @@ category: layout
 
 # Card
 
-The raised surface: paper in a 2px ink box on the 8px print shadow, under an inverted title bar. A dialog holds one, and so does a screen that stops the reader, such as a sign-in.
+The floating surface: a rounded box on a soft shadow, under an inverted title bar. A dialog holds one, and so does a screen that stops the reader, such as a sign-in.
 
 ## A card
 
-The title bar takes a title and a meta line. The action bar under a 2px ink rule pushes its actions right, the default one ringed, and `lead` puts something before the push. `isNarrow` makes the card 440px instead of 680px, for confirms, settings and sign-in.
+The title bar takes a title and a meta line. The action bar under a 1px rule pushes its actions right, the default one ringed, and `lead` puts something before the push. `isNarrow` makes the card 440px instead of 680px, for confirms, settings and sign-in.
 
 ::Example{name="surface"}
 

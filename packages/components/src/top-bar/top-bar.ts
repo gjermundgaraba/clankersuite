@@ -18,7 +18,7 @@ export type ViewConfig<Message> = Readonly<{
   toParentMessage: (message: BarHeightMessage) => Message;
 }>;
 
-/** The sticky paper bar across the top of an interface, closed by a 2px ink rule: the page's
+/** The sticky bar across the top of an interface, closed by a 1px rule: the page's
  *  banner landmark (`<header>`), with the brand, the navigation and the tools. */
 export const view = <Message>(
   config: ViewConfig<Message>,

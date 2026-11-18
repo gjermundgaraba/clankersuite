@@ -9,7 +9,7 @@ import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
 export type ViewConfig<Message> = Readonly<{
-  /** Pixel caps in the inverted title bar. */
+  /** The title, in the inverted title bar. */
   title: string;
   /** Attributes for the title, such as a Dialog's `title` group, which names the dialog. */
   titleAttributes?: Attributes<Message>;
@@ -20,7 +20,7 @@ export type ViewConfig<Message> = Readonly<{
   closeAttributes?: Attributes<Message>;
   /** 440px instead of 680px: confirms, settings, sign-in. */
   isNarrow?: boolean;
-  /** The action bar: a 2px ink rule, then these pushed right. Give the default `isDefault`. */
+  /** The action bar: a 1px rule, then these pushed right. Give the default `isDefault`. */
   actions?: ReadonlyArray<Html | string>;
   /** In the action bar before the push: a flash word, a quiet button. */
   lead?: ReadonlyArray<Html | string>;
@@ -84,7 +84,7 @@ const childrenView = <Message>(
 const className = (isNarrow: boolean | undefined): string =>
   isNarrow === true ? "gg-card gg-narrow" : "gg-card";
 
-/** The raised surface: paper in a 2px ink box on the 8px print shadow, under a title bar. */
+/** The floating surface: a rounded box on a soft shadow, under a title bar. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

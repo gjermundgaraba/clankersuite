@@ -4,7 +4,7 @@ category: data
 
 # Identity
 
-Who or what something is: a person, a client, a provider. Its monogram, the letters in an ink square, stands beside its name, with a meta line under it. Screen readers hear the name once.
+Who or what something is: a person, a client, a provider. Its monogram, the letters in a bordered square, stands beside its name, with a meta line under it. Screen readers hear the name once.
 
 ::Example{name="name"}
 

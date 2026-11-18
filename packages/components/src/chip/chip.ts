@@ -24,7 +24,7 @@ const TONE_CLASS: Readonly<Record<Tone, string>> = {
   Done: " gg-done",
 };
 
-/** A state word in a 2px box. Its words are its meaning; the colour only repeats them. */
+/** A state word in a small rounded box. Its words are its meaning; the colour only repeats them. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
@@ -49,7 +49,7 @@ export type DotConfig = Readonly<{
   tone?: Tone;
 }>;
 
-/** A chip as a 10px cell in its tone, where a word would take the room a title needs (a task
+/** A chip as a small square in its tone, where a word would take the room a title needs (a task
  *  row's status, before its title). It is an image (`role="img"`) named by the word, which its
  *  tip shows, so the state never rests on its colour. */
 export const dotView = <Message>(

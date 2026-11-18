@@ -37,7 +37,7 @@ const linkView = <Message>(
     ...(count === undefined ? [] : countView(count, h)),
   ]);
 
-/** One ink-bordered strip of link segments, built on `@foldkit/ui`'s Nav: a navigation
+/** One bordered strip of link segments, built on `@foldkit/ui`'s Nav: a navigation
  *  landmark named by its label, the current page `aria-current="page"` and printed inverted.
  *  Its links route through the application as every link does. */
 export const view = <Message>(

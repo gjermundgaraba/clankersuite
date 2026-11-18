@@ -8,7 +8,7 @@ Three families: Inter for every control, label, title and body text, Departure M
 
 ## Families
 
-`ui` is Inter and `brand` is [Departure Mono](/fonts/departure-mono), both from `@gjermundgaraba/fonts`.
+`ui` is [Inter](/fonts/inter) and `brand` is [Departure Mono](/fonts/departure-mono), both from `@gjermundgaraba/fonts`.
 
 ::Tokens{prefix="--semantic-font-family"}
 

@@ -11,7 +11,7 @@ export type Variant = typeof Variant.Type;
 export type Entry = Readonly<{
   /** Stable across renders and pages: the entry's own id. */
   id: string;
-  /** The first column, in the pixel face: a version, a Time. */
+  /** The first column: a version, a Time. */
   at: ReadonlyArray<Html | string>;
   /** Who or what: an author, a meter, a client. */
   who?: ReadonlyArray<Html | string>;
