@@ -5,7 +5,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 
-const Palette = Schema.Literals(["System", "Paper", "Plum"]);
+const Palette = Schema.Literals(["System", "Light", "Dark"]);
 
 type Palette = typeof Palette.Type;
 

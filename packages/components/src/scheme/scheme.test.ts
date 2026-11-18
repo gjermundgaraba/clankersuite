@@ -17,11 +17,11 @@ const runSchemeScript = (): void => {
 };
 
 describe("Scheme", () => {
-  it("pins paper and plum, and lets the system choose otherwise", () => {
-    expect(toPinnedValue("Paper")).toStrictEqual(Option.some("light"));
-    expect(toPinnedValue("Plum")).toStrictEqual(Option.some("dark"));
+  it("pins light and dark, and lets the system choose otherwise", () => {
+    expect(toPinnedValue("Light")).toStrictEqual(Option.some("light"));
+    expect(toPinnedValue("Dark")).toStrictEqual(Option.some("dark"));
     expect(toPinnedValue("System")).toStrictEqual(Option.none());
-    expect(fromPinnedValue("dark")).toBe("Plum");
+    expect(fromPinnedValue("dark")).toBe("Dark");
     expect(fromPinnedValue("sepia")).toBe("System");
     expect(fromPinnedValue(null)).toBe("System");
   });

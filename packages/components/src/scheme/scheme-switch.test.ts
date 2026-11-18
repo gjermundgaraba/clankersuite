@@ -17,10 +17,10 @@ describe("SchemeSwitch init", () => {
       SchemeSwitch.update,
       Story.given(schemeSwitchInit.model),
       Story.message(
-        SchemeSwitch.Message.CompletedReadScheme({ scheme: "Plum" })
+        SchemeSwitch.Message.CompletedReadScheme({ scheme: "Dark" })
       ),
       Story.model((model) => {
-        expect(SchemeSwitch.scheme(model)).toBe("Plum");
+        expect(SchemeSwitch.scheme(model)).toBe("Dark");
       })
     );
   });
@@ -31,9 +31,9 @@ describe("SchemeSwitch update", () => {
     Story.story(
       SchemeSwitch.update,
       Story.given(schemeSwitchInit.model),
-      Story.message(SchemeSwitch.Message.SelectedScheme({ scheme: "Plum" })),
+      Story.message(SchemeSwitch.Message.SelectedScheme({ scheme: "Dark" })),
       Story.model((model) => {
-        expect(model.scheme).toBe("Plum");
+        expect(model.scheme).toBe("Dark");
       }),
       Story.Command.resolve(
         SchemeSwitch.PinScheme,
@@ -47,11 +47,11 @@ describe("SchemeSwitch update", () => {
       SchemeSwitch.update,
       Story.given(schemeSwitchInit.model),
       Story.message(
-        SchemeSwitch.Message.CompletedReadScheme({ scheme: "Paper" })
+        SchemeSwitch.Message.CompletedReadScheme({ scheme: "Light" })
       ),
       Story.Command.expectNone(),
       Story.model((model) => {
-        expect(model.scheme).toBe("Paper");
+        expect(model.scheme).toBe("Light");
       })
     );
   });
@@ -66,7 +66,7 @@ const refuse = () => {
 
 describe("SchemeSwitch commands", () => {
   it("pins a scheme on <html> and remembers it, and System removes both", () => {
-    Effect.runSync(SchemeSwitch.PinScheme({ scheme: "Plum" }).effect);
+    Effect.runSync(SchemeSwitch.PinScheme({ scheme: "Dark" }).effect);
     expect(document.documentElement.getAttribute(SCHEME_ATTRIBUTE)).toBe(
       "dark"
     );
@@ -81,7 +81,7 @@ describe("SchemeSwitch commands", () => {
     vi.stubGlobal("localStorage", { setItem: refuse, removeItem: refuse });
 
     expect(
-      Effect.runSync(SchemeSwitch.PinScheme({ scheme: "Plum" }).effect)
+      Effect.runSync(SchemeSwitch.PinScheme({ scheme: "Dark" }).effect)
     ).toStrictEqual(SchemeSwitch.Message.CompletedPinScheme());
     expect(document.documentElement.getAttribute(SCHEME_ATTRIBUTE)).toBe(
       "dark"
@@ -101,7 +101,7 @@ describe("SchemeSwitch commands", () => {
     document.documentElement.setAttribute(SCHEME_ATTRIBUTE, "dark");
 
     expect(readScheme()).toStrictEqual([
-      SchemeSwitch.Message.CompletedReadScheme({ scheme: "Plum" }),
+      SchemeSwitch.Message.CompletedReadScheme({ scheme: "Dark" }),
     ]);
   });
 });
@@ -119,16 +119,16 @@ describe("SchemeSwitch view", () => {
         "aria-pressed",
         "true"
       ),
-      Scene.expect(Scene.role("button", { name: "Plum" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Dark" })).toHaveAttr(
         "aria-pressed",
         "false"
       ),
-      Scene.click(Scene.role("button", { name: "Plum" })),
+      Scene.click(Scene.role("button", { name: "Dark" })),
       Scene.Command.resolve(
         SchemeSwitch.PinScheme,
         SchemeSwitch.Message.CompletedPinScheme()
       ),
-      Scene.expect(Scene.role("button", { name: "Plum" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Dark" })).toHaveAttr(
         "aria-pressed",
         "true"
       )

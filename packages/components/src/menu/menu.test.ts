@@ -23,8 +23,8 @@ import { BindSlip } from "./slip.ts";
 const SETTINGS: readonly Item[] = [
   group("Appearance", [
     radio({ id: "system", label: "System", isChecked: false }),
-    radio({ id: "paper", label: "Paper", isChecked: true }),
-    radio({ id: "plum", label: "Plum", isChecked: false }),
+    radio({ id: "light", label: "Light", isChecked: true }),
+    radio({ id: "dark", label: "Dark", isChecked: false }),
   ]),
   group("Layout", [
     check({ id: "dense", label: "Dense rows", isChecked: true }),
@@ -78,8 +78,8 @@ describe("Menu update", () => {
       Story.story(
         Menu.update,
         Story.given(openMenu),
-        Story.message(Message.SelectedItem({ id: "plum", kind })),
-        Story.expectOutMessage(Menu.OutMessage.Selected({ id: "plum" })),
+        Story.message(Message.SelectedItem({ id: "dark", kind })),
+        Story.expectOutMessage(Menu.OutMessage.Selected({ id: "dark" })),
         Story.model((model) => {
           expect(model.isOpen).toBe(false);
         }),
@@ -239,16 +239,16 @@ describe("Menu slip", () => {
       Scene.expect(Scene.role("menu", { name: "Settings" })).toExist(),
       Scene.expect(Scene.role("group", { name: "Appearance" })).toExist(),
       Scene.expectAll(Scene.all.role("menuitemradio")).toHaveCount(3),
-      Scene.expect(Scene.role("menuitemradio", { name: "Paper" })).toHaveAttr(
+      Scene.expect(Scene.role("menuitemradio", { name: "Light" })).toHaveAttr(
         "aria-checked",
         "true"
       ),
-      Scene.expect(Scene.role("menuitemradio", { name: "Plum" })).toHaveAttr(
+      Scene.expect(Scene.role("menuitemradio", { name: "Dark" })).toHaveAttr(
         "aria-checked",
         "false"
       ),
-      Scene.click(Scene.role("menuitemradio", { name: "Plum" })),
-      Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "plum" })),
+      Scene.click(Scene.role("menuitemradio", { name: "Dark" })),
+      Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "dark" })),
       Scene.Command.resolve(Focus, Message.CompletedFocus()),
       Scene.Mount.expectEnded(BindSlip)
     );
@@ -259,7 +259,7 @@ describe("Menu slip", () => {
       { update: Menu.update, view: menuView(SETTINGS) },
       Scene.given(openMenu),
       ...resolveOpen,
-      Scene.expect(Scene.role("menuitemradio", { name: "Paper" })).toHaveAttr(
+      Scene.expect(Scene.role("menuitemradio", { name: "Light" })).toHaveAttr(
         "tabIndex",
         "-1"
       ),
