@@ -10,11 +10,11 @@
           "$description": "Text that reads first: body copy, names, values."
         },
         "secondary": {
-          "$value": "{primitive.color.bone.500}",
+          "$value": "{primitive.color.bone.350}",
           "$description": "Text that reads second: meta, hints, labels."
         },
         "onHead": {
-          "$value": "{primitive.color.bone.500}",
+          "$value": "{primitive.color.bone.350}",
           "$description": "Secondary text on a head fill, where text.secondary misses AA in the dark scheme."
         },
         "negative": {
@@ -114,7 +114,7 @@
           "$description": "The keyboard-focus indicator."
         },
         "secondary": {
-          "$value": "{primitive.color.bone.500}",
+          "$value": "{primitive.color.bone.350}",
           "$description": "Keyboard focus on a row, and the border of a reel's focused pane: quieter than the default ring."
         },
         "negative": {
@@ -145,7 +145,7 @@
             "$description": "The inverted fill: the committing button, the selected item."
           },
           "secondary": {
-            "$value": "{primitive.color.bone.500}",
+            "$value": "{primitive.color.bone.350}",
             "$description": "A quiet fill: a finished or stale mark."
           },
           "negative": {

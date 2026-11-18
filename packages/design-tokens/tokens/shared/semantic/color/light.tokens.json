@@ -6,7 +6,7 @@
       "$type": "color",
       "text": {
         "primary": {
-          "$value": "{primitive.color.forest.950}",
+          "$value": "{primitive.color.forest.850}",
           "$description": "Text that reads first: body copy, names, values."
         },
         "secondary": {
@@ -88,15 +88,15 @@
       },
       "border": {
         "primary": {
-          "$value": "{primitive.color.bone.450}",
+          "$value": "{primitive.color.bone.500}",
           "$description": "Lines that contain: panels, cards, controls."
         },
         "secondary": {
-          "$value": "{primitive.color.bone.300}",
+          "$value": "{primitive.color.bone.250}",
           "$description": "The containing line of a held or quiet control."
         },
         "divider": {
-          "$value": "{primitive.color.bone.200}",
+          "$value": "{primitive.color.bone.150}",
           "$description": "Lines that divide: rows, sections. Decorative, never the only cue for a control."
         },
         "negative": {
@@ -136,7 +136,7 @@
           "$description": "Panels, cards, dialogs and controls."
         },
         "head": {
-          "$value": "{primitive.color.bone.125}",
+          "$value": "{primitive.color.bone.75}",
           "$description": "Title bars, table heads and code grounds."
         },
         "fill": {
@@ -162,11 +162,11 @@
           }
         },
         "backdrop": {
-          "$value": "{primitive.color.forest.950Alpha40}",
+          "$value": "{primitive.color.forest.850Alpha40}",
           "$description": "The veil behind a modal dialog."
         },
         "backdropGrain": {
-          "$value": "{primitive.color.forest.950Alpha40}",
+          "$value": "{primitive.color.forest.850Alpha40}",
           "$description": "The dots of the veil's grain."
         },
         "dither": {
@@ -182,11 +182,11 @@
       },
       "shadow": {
         "default": {
-          "$value": "{primitive.color.forest.950Alpha14}",
+          "$value": "{primitive.color.forest.850Alpha14}",
           "$description": "The colour of the soft shadow under what floats."
         },
         "negative": {
-          "$value": "{primitive.color.forest.950Alpha14}",
+          "$value": "{primitive.color.forest.850Alpha14}",
           "$description": "The shadow of a destructive control."
         }
       }
