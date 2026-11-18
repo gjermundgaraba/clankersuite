@@ -23,4 +23,12 @@
     outline: var(--semantic-dimension-border-width-default) solid Highlight;
     outline-offset: calc(-1 * var(--semantic-dimension-border-width-default));
   }
+
+  .gg-choice-box[aria-checked="true"]::before,
+  .gg-row-check > :is([aria-checked="true"], [aria-checked="mixed"])::before,
+  [aria-checked="true"] > .gg-menu-check::before,
+  .gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
 }

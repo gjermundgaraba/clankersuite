@@ -97,7 +97,7 @@
         },
         "accent": {
           "$value": "{primitive.dimension.2}",
-          "$description": "The accent bar beside a checked menu choice."
+          "$description": "The accent bar beside a checked menu choice, and a mixed check's bar."
         }
       },
       "size": {
@@ -293,8 +293,8 @@
             "$description": "A checkbox's or radio's box."
           },
           "mark": {
-            "$value": "{primitive.dimension.6}",
-            "$description": "The mark inside a checked box."
+            "$value": "{primitive.dimension.10}",
+            "$description": "The check drawn in a checked box, and the width of a mixed box's bar."
           }
         },
         "titleBar": {
@@ -333,7 +333,7 @@
         },
         "radio": {
           "mark": {
-            "$value": "{primitive.dimension.8}",
+            "$value": "{primitive.dimension.6}",
             "$description": "The dot inside a chosen radio."
           }
         },
@@ -685,7 +685,11 @@
       "radius": {
         "control": {
           "$value": "{primitive.dimension.6}",
-          "$description": "The corners of a control: a button, a chip, a field, a checkbox."
+          "$description": "The corners of a control: a button, a chip, a field."
+        },
+        "mark": {
+          "$value": "{primitive.dimension.3}",
+          "$description": "The corners of a checkbox, small enough that it never reads as a radio."
         },
         "surface": {
           "$value": "{primitive.dimension.10}",

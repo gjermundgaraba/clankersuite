@@ -210,9 +210,10 @@
   --semantic-dimension-letter-spacing-prose-heading: var(--primitive-dimension-letter-spacing-minus5);
   --semantic-dimension-letter-spacing-wordmark: var(--primitive-dimension-letter-spacing-minus20);
   --semantic-dimension-radius-control: var(--primitive-dimension-6);
+  --semantic-dimension-radius-mark: var(--primitive-dimension-3);
   --semantic-dimension-radius-surface: var(--primitive-dimension-10);
   --semantic-dimension-size-checkbox-box: var(--primitive-dimension-14);
-  --semantic-dimension-size-checkbox-mark: var(--primitive-dimension-6);
+  --semantic-dimension-size-checkbox-mark: var(--primitive-dimension-10);
   --semantic-dimension-size-chip: var(--primitive-dimension-22);
   --semantic-dimension-size-control: var(--primitive-dimension-30);
   --semantic-dimension-size-diff-line: var(--primitive-dimension-19);
@@ -267,7 +268,7 @@
   --semantic-dimension-size-min-width-sortable-panel: var(--primitive-dimension-300);
   --semantic-dimension-size-monogram-default: var(--primitive-dimension-22);
   --semantic-dimension-size-monogram-large: var(--primitive-dimension-34);
-  --semantic-dimension-size-radio-mark: var(--primitive-dimension-8);
+  --semantic-dimension-size-radio-mark: var(--primitive-dimension-6);
   --semantic-dimension-size-rail-default: var(--primitive-dimension-272);
   --semantic-dimension-size-rail-drawer: var(--primitive-dimension-320);
   --semantic-dimension-size-rail-folded: var(--primitive-dimension-64);

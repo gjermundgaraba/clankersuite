@@ -243,9 +243,15 @@ button.gg-glyph {
   background: var(--semantic-color-background-selected);
 }
 
-.gg-row-check > [aria-checked="mixed"]::before {
-  height: var(--semantic-dimension-border-width-default);
+.gg-row-check > [aria-checked="mixed"] {
+  border-color: var(--semantic-color-background-fill-accent);
   background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-row-check > [aria-checked="mixed"]::before {
+  height: var(--semantic-dimension-border-width-accent);
+  border-radius: var(--semantic-dimension-border-width-accent);
+  background: var(--semantic-color-text-on-accent-fill);
 }
 
 .gg-row .gg-grow input.gg-inline-input:focus-visible {

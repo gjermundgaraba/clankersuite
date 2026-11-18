@@ -32,14 +32,27 @@ button.gg-choice {
   margin-top: var(--semantic-dimension-space-gap-xxx-small);
 }
 
+.gg-choice[role="radio"] > .gg-choice-box {
+  border-radius: 50%;
+}
+
 .gg-choice[role="radio"] > .gg-choice-box::before {
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
   width: var(--semantic-dimension-size-radio-mark);
   height: var(--semantic-dimension-size-radio-mark);
+  border-radius: 50%;
+}
+
+.gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box {
+  border-color: var(--semantic-color-background-fill-accent);
 }
 
 .gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
   background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-choice[role="radio"][aria-disabled="true"][aria-checked="true"]
+  > .gg-choice-box::before {
+  background: var(--semantic-color-background-fill-secondary);
 }
 
 .gg-choice[role="radio"][aria-disabled="true"] > .gg-choice-box {

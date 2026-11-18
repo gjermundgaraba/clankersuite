@@ -41,16 +41,17 @@ fieldset {
   background: var(--semantic-color-background-selected);
 }
 
-/* the box of a Choice and of a selectable row */
+/* the checkbox of a Choice, a selectable row and a menu's check row */
 .gg-choice-box,
-.gg-row-check > [role="checkbox"] {
+.gg-row-check > [role="checkbox"],
+.gg-menu-check {
   appearance: none;
   width: var(--semantic-dimension-size-checkbox-box);
   height: var(--semantic-dimension-size-checkbox-box);
   padding: 0;
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-control);
+  border-radius: var(--semantic-dimension-radius-mark);
   background: var(--semantic-color-background-surface);
   cursor: pointer;
   flex: none;
@@ -59,21 +60,39 @@ fieldset {
 }
 
 .gg-choice-box::before,
-.gg-row-check > [role="checkbox"]::before {
+.gg-row-check > [role="checkbox"]::before,
+.gg-menu-check::before {
   content: "";
   width: var(--semantic-dimension-size-checkbox-mark);
   height: var(--semantic-dimension-size-checkbox-mark);
 }
 
-.gg-choice-box[aria-checked="true"]::before,
-.gg-row-check > [aria-checked="true"]::before {
+.gg-choice-box[aria-checked="true"],
+.gg-row-check > [aria-checked="true"],
+[aria-checked="true"] > .gg-menu-check {
+  border-color: var(--semantic-color-background-fill-accent);
   background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-choice-box[aria-checked="true"]::before,
+.gg-row-check > [aria-checked="true"]::before,
+[aria-checked="true"] > .gg-menu-check::before {
+  background: var(--semantic-color-text-on-accent-fill);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.3 4 7.7 8.6 2.6' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 
 .gg-choice-box[aria-disabled="true"],
 .gg-row-check > [aria-disabled="true"] {
   border-color: var(--semantic-color-border-secondary);
   cursor: default;
+}
+
+.gg-choice-box[aria-disabled="true"][aria-checked="true"],
+.gg-row-check
+  > [aria-disabled="true"]:is([aria-checked="true"], [aria-checked="mixed"]) {
+  border-color: var(--semantic-color-background-fill-secondary);
+  background: var(--semantic-color-background-fill-secondary);
 }
 
 ::placeholder {
