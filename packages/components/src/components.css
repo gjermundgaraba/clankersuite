@@ -476,7 +476,7 @@ a.gg-textbtn {
   padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
   font-size: var(--semantic-dimension-font-size-label);
   background: var(--semantic-color-background-head);
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
 }
 
 .gg-nav.gg-tabs button {
@@ -903,10 +903,6 @@ a.gg-textbtn {
     var(--semantic-color-border-divider);
 }
 
-.gg-panel-shelf :is(.gg-field > label:not(.gg-choice), .gg-field-label) {
-  color: var(--semantic-color-text-on-head);
-}
-
 .gg-panel-tb:has(> :is(.gg-panel-lead, .gg-panel-acts)) {
   align-items: center;
   padding-block: var(--semantic-dimension-space-control-padding-block-x-small);
@@ -1094,7 +1090,7 @@ button.gg-fchip:not([aria-pressed="true"]):hover {
 
 .gg-chip.gg-done {
   background: var(--semantic-color-background-head);
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
   border-color: var(--semantic-color-border-secondary);
 }
 
@@ -1984,7 +1980,7 @@ textarea::-webkit-resizer {
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-quiet {
   background: var(--semantic-color-background-head);
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
   border-color: var(--semantic-color-border-divider);
 }
 
@@ -2023,7 +2019,7 @@ select[aria-invalid="true"] {
 .gg-table th {
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
   background: var(--semantic-color-background-head);
   text-align: left;
   padding: var(--semantic-dimension-space-control-padding-block-large)
@@ -2457,7 +2453,7 @@ pre.gg-code-surface {
 }
 
 .gg-diff tr.gg-add td.gg-ln {
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
 }
 
 .gg-diff tr.gg-del td.gg-line {
@@ -2471,7 +2467,7 @@ pre.gg-code-surface {
 .gg-diff tr.gg-fold td {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-on-head);
+  color: var(--semantic-color-text-secondary);
   background: var(--semantic-color-background-head);
   border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);

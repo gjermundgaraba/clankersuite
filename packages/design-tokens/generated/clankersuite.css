@@ -174,14 +174,13 @@
   --semantic-color-focus-ring-on-inverse-fill: light-dark(var(--primitive-color-bone-25), var(--primitive-color-forest-900));
   --semantic-color-focus-ring-secondary: light-dark(var(--primitive-color-bone-700), var(--primitive-color-bone-350));
   --semantic-color-shadow-default: light-dark(var(--primitive-color-forest-850-alpha14), var(--primitive-color-black-alpha45));
-  --semantic-color-text-code-comment: var(--semantic-color-text-on-head);
+  --semantic-color-text-code-comment: var(--semantic-color-text-secondary);
   --semantic-color-text-code-function: var(--semantic-color-text-terminal-blue);
   --semantic-color-text-code-keyword: var(--semantic-color-text-terminal-magenta);
   --semantic-color-text-code-number: var(--semantic-color-text-terminal-yellow);
   --semantic-color-text-code-string: var(--semantic-color-text-terminal-cyan);
   --semantic-color-text-code-type: var(--semantic-color-text-terminal-green);
   --semantic-color-text-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
-  --semantic-color-text-on-head: light-dark(var(--primitive-color-bone-700), var(--primitive-color-bone-350));
   --semantic-color-text-on-inverse-fill: light-dark(var(--primitive-color-bone-25), var(--primitive-color-forest-900));
   --semantic-color-text-on-negative-fill: light-dark(var(--primitive-color-bone-25), var(--primitive-color-warm-gray-950));
   --semantic-color-text-on-status-fill: var(--primitive-color-warm-gray-950);

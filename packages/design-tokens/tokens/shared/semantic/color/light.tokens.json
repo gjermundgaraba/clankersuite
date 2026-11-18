@@ -13,10 +13,6 @@
           "$value": "{primitive.color.bone.700}",
           "$description": "Text that reads second: meta, hints, labels."
         },
-        "onHead": {
-          "$value": "{primitive.color.bone.700}",
-          "$description": "Secondary text on a head fill, where text.secondary misses AA in the dark scheme."
-        },
         "negative": {
           "$value": "{primitive.color.red.600}",
           "$description": "Errors and destructive outcomes."
@@ -81,7 +77,7 @@
             "$description": "Code type names."
           },
           "comment": {
-            "$value": "{semantic.color.text.onHead}",
+            "$value": "{semantic.color.text.secondary}",
             "$description": "Code comments."
           }
         }
