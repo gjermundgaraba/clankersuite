@@ -81,7 +81,7 @@
 
 .gg-sortable-lift,
 .gg-reel-lift {
-  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-list-item));
+  width: var(--gg-lift-width);
   translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
 }
 

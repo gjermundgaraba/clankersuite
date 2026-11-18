@@ -92,7 +92,7 @@
 }
 
 .gg-board-lift {
-  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-board-card));
+  width: var(--gg-lift-width);
   translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
 }
 
