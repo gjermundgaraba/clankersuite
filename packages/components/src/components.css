@@ -51,7 +51,7 @@ html {
 body {
   min-height: 100%;
   padding-bottom: var(--gg-statusbar-h);
-  font-family: var(--semantic-font-family-body);
+  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-body);
   line-height: var(--semantic-number-line-height-body);
   color: var(--semantic-color-text-primary);
@@ -75,7 +75,7 @@ fieldset {
 }
 
 :focus-visible {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
@@ -89,7 +89,7 @@ fieldset {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--semantic-color-background-fill-inverse);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-background-canvas);
 }
 
@@ -112,9 +112,9 @@ kbd {
 
 .sr-only {
   position: absolute;
-  width: var(--semantic-dimension-border-width-divider);
-  height: var(--semantic-dimension-border-width-divider);
-  margin: calc(-1 * var(--semantic-dimension-border-width-divider));
+  width: var(--semantic-dimension-border-width-default);
+  height: var(--semantic-dimension-border-width-default);
+  margin: calc(-1 * var(--semantic-dimension-border-width-default));
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
@@ -128,7 +128,6 @@ kbd {
   z-index: var(--semantic-number-layer-skip-link);
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-x-large);
@@ -195,21 +194,17 @@ button.gg-tag > span {
 }
 
 .gg-label {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
 
 .gg-meta {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
 .gg-age {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   flex: none;
 }
@@ -231,7 +226,7 @@ button.gg-tag > span {
   font: var(--semantic-dimension-font-size-control)/var(
       --semantic-number-line-height-body
     )
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
   color: var(--semantic-color-text-secondary);
   max-width: var(--semantic-dimension-size-measure-note);
 }
@@ -294,7 +289,6 @@ button.gg-tag > span {
 }
 
 .gg-page-title {
-  font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-page);
   font-weight: var(--semantic-font-weight-semi-bold);
   line-height: var(--semantic-number-line-height-title);
@@ -304,7 +298,7 @@ button.gg-tag > span {
 }
 
 .gg-page-head .gg-meta {
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-primary);
 }
 
@@ -334,7 +328,7 @@ button.gg-tag > span {
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-padding-xx-large);
   background: var(--semantic-color-background-surface);
-  border-bottom: var(--semantic-dimension-border-width-container) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   user-select: none;
 }
@@ -397,9 +391,7 @@ button.gg-tag > span {
 }
 
 .gg-link-state {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-head);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 .gg-link-state.gg-offline {
@@ -428,7 +420,7 @@ button.gg-tag > span {
   color: var(--semantic-color-text-primary);
   cursor: pointer;
   padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
-  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
     transparent;
 }
 
@@ -445,7 +437,7 @@ a.gg-textbtn {
   gap: 0;
   width: fit-content;
   max-width: 100%;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
 }
@@ -474,27 +466,27 @@ a.gg-textbtn {
 .gg-nav > :first-child {
   border-start-start-radius: calc(
     var(--semantic-dimension-radius-control) -
-      var(--semantic-dimension-border-width-container)
+      var(--semantic-dimension-border-width-default)
   );
   border-end-start-radius: calc(
     var(--semantic-dimension-radius-control) -
-      var(--semantic-dimension-border-width-container)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
 .gg-nav > :last-child {
   border-start-end-radius: calc(
     var(--semantic-dimension-radius-control) -
-      var(--semantic-dimension-border-width-container)
+      var(--semantic-dimension-border-width-default)
   );
   border-end-end-radius: calc(
     var(--semantic-dimension-radius-control) -
-      var(--semantic-dimension-border-width-container)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
 .gg-nav > :is(a, button) + :is(a, button) {
-  border-left: var(--semantic-dimension-border-width-container) solid
+  border-left: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
 }
 
@@ -509,7 +501,7 @@ a.gg-textbtn {
   display: inline-block;
   margin-left: var(--semantic-dimension-space-gap-small);
   padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   background: var(--semantic-color-background-head);
   color: var(--semantic-color-text-on-head);
 }
@@ -517,7 +509,7 @@ a.gg-textbtn {
 .gg-nav.gg-tabs button {
   padding: var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-control-padding-inline-large);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 @media (max-width: 600px) {
@@ -525,7 +517,7 @@ a.gg-textbtn {
   .gg-nav button {
     padding: var(--semantic-dimension-space-control-padding-block-medium)
       var(--semantic-dimension-space-control-padding-inline-small);
-    font-size: var(--semantic-dimension-font-size-state);
+    font-size: var(--semantic-dimension-font-size-label);
   }
 
   .gg-nav .gg-navnum {
@@ -564,7 +556,7 @@ a.gg-textbtn {
 .gg-places li {
   display: flex;
   align-items: center;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -628,38 +620,21 @@ a.gg-textbtn {
   gap: var(--semantic-dimension-space-gap-x-small);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   padding: var(--semantic-dimension-space-control-padding-block-medium)
     var(--semantic-dimension-space-control-padding-inline-x-large);
   cursor: pointer;
-  box-shadow: var(--semantic-shadow-button-default);
   text-decoration: none;
   white-space: nowrap;
-}
-
-/* aria-disabled is the held state (busy or unavailable): unavailable like :disabled,
-   but focusable, so a click can still match :active and must not depress a button that
-   ignores it */
-.gg-btn:not([aria-disabled="true"]):active {
-  transform: translate(
-    var(--semantic-dimension-travel-pressed-default),
-    var(--semantic-dimension-travel-pressed-default)
-  );
-  box-shadow: var(--semantic-shadow-pressed);
 }
 
 .gg-btn:disabled,
 .gg-btn[aria-disabled="true"] {
   color: var(--semantic-color-text-secondary);
   border-color: var(--semantic-color-border-secondary);
-  box-shadow: none;
   cursor: default;
-}
-
-.gg-btn:disabled:active {
-  transform: none;
 }
 
 .gg-btn.gg-primary {
@@ -675,45 +650,35 @@ a.gg-textbtn {
 
 .gg-btn.gg-default-ring {
   box-shadow:
-    0 0 0 var(--semantic-dimension-border-width-container)
+    0 0 0 var(--semantic-dimension-border-width-default)
       var(--semantic-color-border-on-inverse-fill),
-    0 0 0 calc(2 * var(--semantic-dimension-border-width-container))
+    0 0 0 calc(2 * var(--semantic-dimension-border-width-default))
       var(--semantic-color-border-primary);
   margin: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .gg-btn.gg-default-ring:not([aria-disabled="true"]):active {
-  transform: none;
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
 }
 
 .gg-card-actions:focus-within .gg-btn.gg-default-ring:not(:focus) {
-  box-shadow: var(--semantic-shadow-button-default);
+  box-shadow: none;
 }
 
-.gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus),
-.gg-card-actions:focus-within
-  .gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus) {
+.gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus) {
   box-shadow: none;
 }
 
 .gg-btn.gg-small {
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-medium);
-  box-shadow: var(--semantic-shadow-button-small);
-}
-
-.gg-btn.gg-small:disabled,
-.gg-btn.gg-small[aria-disabled="true"] {
-  box-shadow: none;
 }
 
 .gg-btn.gg-danger {
   color: var(--semantic-color-text-negative);
   border-color: var(--semantic-color-border-negative);
-  box-shadow: var(--semantic-shadow-negative);
 }
 
 .gg-btn.gg-danger:focus-visible {
@@ -745,7 +710,6 @@ a.gg-textbtn {
   margin-left: var(--semantic-dimension-space-gap-inline);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: 0;
   opacity: var(--semantic-number-opacity-key-hint);
 }
 
@@ -779,7 +743,7 @@ a.gg-textbtn {
   );
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
@@ -801,7 +765,7 @@ a.gg-textbtn {
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: 0;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   padding: var(--semantic-dimension-space-control-padding-block-x-large)
     var(--semantic-dimension-space-control-padding-inline-large);
@@ -837,7 +801,7 @@ a.gg-textbtn {
 
 .gg-menu .gg-key-hint {
   font-family: inherit;
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -849,7 +813,7 @@ a.gg-textbtn {
 .gg-menu .gg-menu-check {
   width: var(--semantic-dimension-size-checkbox-box);
   height: var(--semantic-dimension-size-checkbox-box);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   display: inline-grid;
@@ -871,14 +835,11 @@ a.gg-textbtn {
   display: block;
   padding: var(--semantic-dimension-space-control-padding-block-x-large)
     var(--semantic-dimension-space-control-padding-inline-large);
-  font: var(--semantic-dimension-font-size-control)/var(
-      --semantic-number-line-height-body
-    )
-    var(--semantic-font-family-body);
-  letter-spacing: normal;
+  font-size: var(--semantic-dimension-font-size-control);
+  line-height: var(--semantic-number-line-height-body);
   white-space: nowrap;
   color: var(--semantic-color-text-secondary);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -899,7 +860,7 @@ a.gg-textbtn {
 .gg-panel,
 .gg-sheet {
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   min-width: 0;
@@ -913,18 +874,16 @@ a.gg-textbtn {
   color: var(--semantic-color-text-on-inverse-fill);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-large);
-  font-family: var(--semantic-font-family-ui);
 }
 
 .gg-panel-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
   font-weight: var(--semantic-font-weight-regular);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
 .gg-panel-tb .gg-meta {
   margin-left: auto;
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: inherit;
   opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
@@ -942,7 +901,7 @@ a.gg-textbtn {
 .gg-panel-foot {
   padding: var(--semantic-dimension-space-padding-small)
     var(--semantic-dimension-space-padding-medium);
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   display: flex;
   align-items: center;
@@ -967,7 +926,7 @@ a.gg-textbtn {
     var(--semantic-dimension-space-padding-medium)
     var(--semantic-dimension-space-padding-medium);
   background: var(--semantic-color-background-head);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -1016,21 +975,11 @@ a.gg-textbtn {
   color: var(--semantic-color-text-on-inverse-fill);
   background: var(--semantic-color-background-fill-inverse);
   border-color: var(--semantic-color-border-on-inverse-fill);
-  box-shadow: none;
 }
 
 .gg-panel-acts .gg-btn.gg-primary {
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
-}
-
-.gg-panel-lead .gg-btn:not([aria-disabled="true"]):active,
-.gg-panel-acts .gg-btn:not([aria-disabled="true"]):active {
-  transform: translate(
-    var(--semantic-dimension-travel-pressed-small),
-    var(--semantic-dimension-travel-pressed-small)
-  );
-  box-shadow: none;
 }
 
 .gg-panel-acts .gg-btn:is(:disabled, [aria-disabled="true"]) {
@@ -1059,9 +1008,8 @@ a.gg-textbtn {
   gap: var(--semantic-dimension-space-gap-x-small);
   min-height: var(--semantic-dimension-size-chip);
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-state);
-  border: var(--semantic-dimension-border-width-container) solid
+  font-size: var(--semantic-dimension-font-size-label);
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
@@ -1078,13 +1026,6 @@ button.gg-fchip {
 
 button.gg-fchip:not([aria-pressed="true"]):hover {
   background: var(--semantic-color-background-head);
-}
-
-button.gg-fchip:active {
-  transform: translate(
-    var(--semantic-dimension-travel-pressed-small),
-    var(--semantic-dimension-travel-pressed-small)
-  );
 }
 
 .gg-fchip .gg-fchip-name {
@@ -1115,7 +1056,7 @@ button.gg-fchip:active {
   position: relative;
   z-index: var(--semantic-number-layer-raised);
   font: var(--semantic-dimension-font-size-control)
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
   color: var(--semantic-color-text-primary);
   background: none;
   border: 0;
@@ -1135,7 +1076,7 @@ button.gg-fchip:active {
 }
 
 .gg-fchip.gg-query:focus-within {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
@@ -1151,10 +1092,8 @@ button.gg-fchip:active {
 }
 
 .gg-chip {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-state);
-  border: var(--semantic-dimension-border-width-container) solid
+  font-size: var(--semantic-dimension-font-size-label);
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
@@ -1191,7 +1130,7 @@ button.gg-fchip:active {
   flex: none;
   width: var(--semantic-dimension-size-dot);
   height: var(--semantic-dimension-size-dot);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   background: transparent;
 }
@@ -1241,9 +1180,9 @@ button.gg-mark {
 
 .gg-tag {
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
-  border: var(--semantic-dimension-border-width-divider) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   border-radius: var(--semantic-dimension-radius-control);
   padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
@@ -1253,7 +1192,6 @@ button.gg-mark {
   text-overflow: ellipsis;
   white-space: nowrap;
   background: none;
-  letter-spacing: normal;
 }
 
 button.gg-tag {
@@ -1285,7 +1223,7 @@ button.gg-tag:hover {
   left: var(--semantic-dimension-space-tree-guide);
   top: 0;
   bottom: var(--semantic-dimension-space-padding-xx-small);
-  width: var(--semantic-dimension-border-width-divider);
+  width: var(--semantic-dimension-border-width-default);
   background: var(--semantic-color-border-divider);
 }
 
@@ -1420,7 +1358,7 @@ button.gg-glyph {
 }
 
 .gg-row.gg-linked:has(.gg-grow a:focus-visible) {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: calc(
     -1 * var(--semantic-dimension-space-focus-ring-offset-large)
@@ -1482,7 +1420,7 @@ button.gg-glyph {
 }
 
 .gg-row[aria-current="true"] {
-  outline: var(--semantic-dimension-border-width-divider) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-secondary);
   outline-offset: calc(
     -1 * var(--semantic-dimension-space-focus-ring-offset-large)
@@ -1491,7 +1429,7 @@ button.gg-glyph {
 }
 
 .gg-row:focus-visible {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-secondary);
   outline-offset: calc(
     -1 * var(--semantic-dimension-space-focus-ring-offset-large)
@@ -1543,7 +1481,7 @@ button.gg-glyph {
   width: var(--semantic-dimension-size-checkbox-box);
   height: var(--semantic-dimension-size-checkbox-box);
   padding: 0;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
@@ -1592,7 +1530,7 @@ button.gg-glyph {
 }
 
 .gg-row-check > [aria-checked="mixed"]::before {
-  height: var(--semantic-dimension-border-width-container);
+  height: var(--semantic-dimension-border-width-default);
   background: var(--semantic-color-background-fill-inverse);
 }
 
@@ -1601,11 +1539,11 @@ input.gg-inline-input {
   color: inherit;
   background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding: 0;
   width: 100%;
-  height: calc(1lh + var(--semantic-dimension-border-width-divider));
+  height: calc(1lh + var(--semantic-dimension-border-width-default));
 }
 
 input.gg-inline-input[aria-busy="true"] {
@@ -1619,19 +1557,17 @@ input.gg-inline-input[aria-invalid="true"] {
 
 .gg-row .gg-grow input.gg-inline-input:focus-visible {
   outline: none;
-  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-divider))
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
     0 var(--semantic-color-border-primary);
 }
 
 .gg-row .gg-grow input.gg-inline-input[aria-invalid="true"]:focus-visible {
-  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-divider))
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
     0 var(--semantic-color-border-negative);
 }
 
 .gg-flash-word {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-primary);
   min-width: var(--semantic-dimension-size-measure-x-small);
 }
@@ -1671,12 +1607,12 @@ select {
     calc(100% - 5px) 50%;
   background-repeat: no-repeat;
   background-size: 4px 4px;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   cursor: pointer;
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 select::picker-icon {
@@ -1687,7 +1623,7 @@ select::picker(select) {
   padding: 0;
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
@@ -1698,7 +1634,7 @@ select option {
     var(--semantic-dimension-space-control-padding-inline-small)
     var(--semantic-dimension-space-control-padding-block-x-large);
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   cursor: pointer;
 }
 
@@ -1746,9 +1682,7 @@ button.gg-choice {
 }
 
 .gg-choice .gg-choice-name {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-state);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 .gg-choice .gg-choice-note {
@@ -1757,7 +1691,7 @@ button.gg-choice {
   font: var(--semantic-dimension-font-size-control)/var(
       --semantic-number-line-height-body
     )
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
 }
 
 .gg-choices {
@@ -1771,7 +1705,7 @@ button.gg-choice {
   height: var(--semantic-dimension-size-checkbox-box);
   margin-top: var(--semantic-dimension-space-gap-xxx-small);
   padding: 0;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
@@ -1813,9 +1747,7 @@ button.gg-choice {
 .gg-field > label:not(.gg-choice),
 .gg-field-label {
   display: block;
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
   margin-bottom: var(--semantic-dimension-space-gap-xx-small);
 }
@@ -1827,7 +1759,7 @@ button.gg-choice {
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
     var(--semantic-color-border-primary);
   padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
   border-radius: var(--semantic-dimension-radius-control);
@@ -1840,7 +1772,7 @@ button.gg-choice {
   font: var(--semantic-dimension-font-size-body)/var(
       --semantic-number-line-height-textarea
     )
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
 }
 
 gg-markdown-editor {
@@ -1850,8 +1782,8 @@ gg-markdown-editor {
 
 gg-markdown-editor:has(.gg-markdown-surface) textarea {
   position: absolute;
-  width: var(--semantic-dimension-border-width-divider);
-  height: var(--semantic-dimension-border-width-divider);
+  width: var(--semantic-dimension-border-width-default);
+  height: var(--semantic-dimension-border-width-default);
   min-height: 0;
   padding: 0;
   border: 0;
@@ -1867,7 +1799,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 }
 
 .gg-markdown-surface {
-  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
     var(--semantic-color-border-primary);
   padding-bottom: var(
     --semantic-dimension-space-control-padding-block-xxx-small
@@ -1882,7 +1814,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 }
 
 .gg-markdown-surface:focus-within {
-  border-bottom: var(--semantic-dimension-border-width-container) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding-bottom: 0;
 }
@@ -1918,7 +1850,7 @@ textarea::-webkit-resizer {
 .gg-field input:focus-visible,
 .gg-field textarea:focus-visible {
   outline: none;
-  border-bottom: var(--semantic-dimension-border-width-container) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding-bottom: var(
     --semantic-dimension-space-control-padding-block-xxx-small
@@ -1940,7 +1872,7 @@ textarea::-webkit-resizer {
   font: var(--semantic-dimension-font-size-control)/var(
       --semantic-number-line-height-body
     )
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -1960,7 +1892,7 @@ textarea::-webkit-resizer {
 
 .gg-field.gg-boxed input,
 .gg-field.gg-boxed textarea {
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   padding: var(--semantic-dimension-space-control-padding-block-medium)
@@ -1969,10 +1901,10 @@ textarea::-webkit-resizer {
 
 .gg-field.gg-boxed input:focus-visible,
 .gg-field.gg-boxed textarea:focus-visible {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
-  border-bottom: var(--semantic-dimension-border-width-container) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
 }
@@ -2007,7 +1939,7 @@ textarea::-webkit-resizer {
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-small);
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 .gg-field.gg-mono input,
@@ -2024,14 +1956,14 @@ textarea::-webkit-resizer {
   gap: var(--semantic-dimension-space-gap-medium);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-medium);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
   font: var(--semantic-dimension-font-size-control)/var(
       --semantic-number-line-height-body
     )
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
 }
 
 .gg-notice > div {
@@ -2049,9 +1981,7 @@ textarea::-webkit-resizer {
 }
 
 .gg-notice strong {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-head);
+  font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
   display: block;
 }
@@ -2060,7 +1990,7 @@ textarea::-webkit-resizer {
   flex: none;
   width: var(--semantic-dimension-size-glyph-notice);
   height: var(--semantic-dimension-size-glyph-notice);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   display: grid;
   place-items: center;
@@ -2103,12 +2033,8 @@ select[aria-invalid="true"] {
 .gg-error-summary a {
   color: var(--semantic-color-text-primary);
   text-decoration: underline;
-  text-decoration-thickness: var(--semantic-dimension-border-width-divider);
+  text-decoration-thickness: var(--semantic-dimension-border-width-default);
   text-underline-offset: var(--semantic-dimension-space-underline-offset);
-}
-
-.gg-error-summary a:hover {
-  text-decoration-thickness: var(--semantic-dimension-border-width-container);
 }
 
 .gg-table-wrap {
@@ -2122,16 +2048,14 @@ select[aria-invalid="true"] {
 }
 
 .gg-table th {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-on-head);
   background: var(--semantic-color-background-head);
   text-align: left;
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-large);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   white-space: nowrap;
 }
@@ -2139,7 +2063,7 @@ select[aria-invalid="true"] {
 .gg-table td {
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-large);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   vertical-align: middle;
 }
@@ -2175,7 +2099,7 @@ select[aria-invalid="true"] {
 @media (max-width: 600px) {
   .gg-table td.gg-acts,
   .gg-table:has(td.gg-acts) th:last-child {
-    box-shadow: inset var(--semantic-dimension-border-width-container) 0 0
+    box-shadow: inset var(--semantic-dimension-border-width-default) 0 0
       var(--semantic-color-border-primary);
     padding-left: var(--semantic-dimension-space-control-padding-inline-medium);
   }
@@ -2201,7 +2125,7 @@ select[aria-invalid="true"] {
   .gg-table tr {
     padding: var(--semantic-dimension-space-padding-small)
       var(--semantic-dimension-space-padding-medium);
-    border-bottom: var(--semantic-dimension-border-width-divider) solid
+    border-bottom: var(--semantic-dimension-border-width-default) solid
       var(--semantic-color-border-divider);
   }
 
@@ -2224,9 +2148,7 @@ select[aria-invalid="true"] {
   .gg-table td[data-gg-label]::before {
     content: attr(data-gg-label);
     display: block;
-    font-family: var(--semantic-font-family-ui);
     font-size: var(--semantic-dimension-font-size-label);
-    letter-spacing: var(--semantic-dimension-letter-spacing-label);
     color: var(--semantic-color-text-secondary);
   }
 
@@ -2251,7 +2173,7 @@ select[aria-invalid="true"] {
 .gg-props dt,
 .gg-props dd {
   padding: var(--semantic-dimension-space-control-padding-block-x-large) 0;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   min-height: var(--semantic-dimension-size-row);
   display: flex;
@@ -2274,9 +2196,7 @@ select[aria-invalid="true"] {
 }
 
 .gg-props dt {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -2316,7 +2236,7 @@ select[aria-invalid="true"] {
     var(--semantic-font-family-code);
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-head);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   padding: var(--semantic-dimension-space-padding-small)
@@ -2417,7 +2337,7 @@ pre.gg-code-surface {
   display: flex;
   align-items: center;
   gap: var(--semantic-dimension-space-gap-medium);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-head);
@@ -2445,7 +2365,7 @@ pre.gg-code-surface {
 
 .gg-history-list {
   list-style: none;
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -2454,7 +2374,7 @@ pre.gg-code-surface {
   align-items: center;
   gap: var(--semantic-dimension-space-gap-large);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -2463,8 +2383,7 @@ pre.gg-code-surface {
 }
 
 .gg-history-list .gg-v {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   width: calc(
     var(--semantic-dimension-size-measure-xx-small) + 2 *
       var(--semantic-dimension-space-control-padding-inline-xx-small)
@@ -2474,7 +2393,6 @@ pre.gg-code-surface {
 }
 
 .gg-history-list .gg-who {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   flex: none;
@@ -2511,7 +2429,7 @@ pre.gg-code-surface {
 
 .gg-diff-wrap {
   overflow-x: auto;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
@@ -2544,7 +2462,7 @@ pre.gg-code-surface {
   font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-dimension-size-diff-line);
   color: var(--semantic-color-text-secondary);
-  border-right: var(--semantic-dimension-border-width-divider) solid
+  border-right: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   user-select: none;
 }
@@ -2580,12 +2498,11 @@ pre.gg-code-surface {
 .gg-diff tr.gg-fold td {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-on-head);
   background: var(--semantic-color-background-head);
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   padding: var(--semantic-dimension-space-control-padding-block-xx-small)
     var(--semantic-dimension-space-control-padding-inline-large);
@@ -2649,7 +2566,7 @@ dialog.gg-veil:focus {
 
 .gg-card {
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
@@ -2683,14 +2600,12 @@ dialog.gg-veil:focus {
     var(--semantic-dimension-space-control-padding-inline-small)
     var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-large);
-  font-family: var(--semantic-font-family-ui);
   flex: none;
 }
 
 .gg-card-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
   font-weight: var(--semantic-font-weight-regular);
-  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2698,7 +2613,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-card-tb .gg-meta {
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: inherit;
   opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
@@ -2733,7 +2648,7 @@ dialog.gg-veil:focus {
   gap: var(--semantic-dimension-space-gap-large);
   padding: var(--semantic-dimension-space-padding-medium)
     var(--semantic-dimension-space-padding-x-large);
-  border-top: var(--semantic-dimension-border-width-container) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   flex: none;
   flex-wrap: wrap;
@@ -2768,9 +2683,7 @@ dialog.gg-veil:focus {
 
 .gg-outcome-body > strong {
   overflow-wrap: anywhere;
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  letter-spacing: var(--semantic-dimension-letter-spacing-head);
   font-weight: var(--semantic-font-weight-regular);
 }
 
@@ -2789,10 +2702,8 @@ dialog.gg-veil:focus {
 }
 
 .gg-keymap h3 {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
   margin: 0 0 var(--semantic-dimension-space-gap-xx-small);
 }
@@ -2802,7 +2713,7 @@ dialog.gg-veil:focus {
   align-items: baseline;
   gap: var(--semantic-dimension-space-gap-xx-large);
   padding: var(--semantic-dimension-space-control-padding-block-small) 0;
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -2812,14 +2723,13 @@ dialog.gg-veil:focus {
 
 .gg-keymap-row kbd {
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   flex: none;
   width: var(--semantic-dimension-size-measure-large);
 }
 
 .gg-keymap-row span {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -2841,10 +2751,9 @@ dialog.gg-veil:focus {
 }
 
 .gg-palette-scope {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
-  border: var(--semantic-dimension-border-width-divider) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   border-radius: var(--semantic-dimension-radius-control);
   padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
@@ -2855,9 +2764,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-palette-title {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   flex: none;
 }
 
@@ -2872,9 +2779,7 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-xx-large)
     var(--semantic-dimension-space-control-padding-block-xx-small);
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -2923,7 +2828,7 @@ dialog.gg-veil:focus {
 
 .gg-palette-row .gg-hint {
   margin-left: auto;
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   flex: 0 1 auto;
   min-width: 0;
@@ -2950,9 +2855,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-palette-row.gg-authored {
-  font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-body);
-  letter-spacing: normal;
 }
 
 .gg-palette-row.gg-authored .gg-glyph {
@@ -2987,13 +2890,12 @@ dialog.gg-veil:focus {
 
 .gg-palette-more {
   flex: none;
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   padding: var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-control-padding-inline-xx-large)
     var(--semantic-dimension-space-control-padding-block-xx-large);
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3007,9 +2909,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-empty-title {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
   font-weight: var(--semantic-font-weight-regular);
 }
 
@@ -3046,7 +2946,7 @@ dialog.gg-veil:focus {
 .gg-wall-mark .gg-glyph {
   width: var(--semantic-dimension-size-glyph-wall);
   height: var(--semantic-dimension-size-glyph-wall);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   display: grid;
   place-items: center;
@@ -3056,7 +2956,7 @@ dialog.gg-veil:focus {
 
 .gg-card-body > .gg-rows {
   margin-inline: calc(-1 * var(--semantic-dimension-space-padding-panel));
-  border-block: var(--semantic-dimension-border-width-divider) solid
+  border-block: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -3086,8 +2986,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-due {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   white-space: nowrap;
 }
@@ -3133,7 +3032,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-board-col.gg-drop-target .gg-panel {
-  outline: var(--semantic-dimension-border-width-container) dashed
+  outline: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-large);
 }
@@ -3153,11 +3052,10 @@ dialog.gg-veil:focus {
 
 .gg-board-card {
   position: relative;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
-  box-shadow: var(--semantic-shadow-button-default);
   padding: var(--semantic-dimension-space-padding-small)
     var(--semantic-dimension-space-padding-medium);
   display: grid;
@@ -3201,7 +3099,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-board-card:focus-within {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
   background: var(--semantic-color-background-head);
@@ -3264,7 +3162,7 @@ dialog.gg-veil:focus {
     var(--semantic-dimension-space-control-padding-inline-medium);
   position: relative;
   background: var(--semantic-color-background-surface);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -3292,27 +3190,27 @@ dialog.gg-veil:focus {
   position: absolute;
   left: 0;
   right: 0;
-  border-top: var(--semantic-dimension-border-width-container) dashed
+  border-top: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
   pointer-events: none;
 }
 
 .gg-sortable-item.gg-drop-before::before {
-  top: calc(-1 * var(--semantic-dimension-border-width-divider));
+  top: calc(-1 * var(--semantic-dimension-border-width-default));
 }
 
 .gg-sortable-item.gg-drop-after::before {
-  bottom: calc(-1 * var(--semantic-dimension-border-width-divider));
+  bottom: calc(-1 * var(--semantic-dimension-border-width-default));
 }
 
 .gg-sortable:is(.gg-grid, .gg-panels)
   .gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before {
-  top: calc(-1 * var(--semantic-dimension-border-width-container));
-  bottom: calc(-1 * var(--semantic-dimension-border-width-container));
+  top: calc(-1 * var(--semantic-dimension-border-width-default));
+  bottom: calc(-1 * var(--semantic-dimension-border-width-default));
   left: auto;
   right: auto;
   border-top: 0;
-  border-left: var(--semantic-dimension-border-width-container) dashed
+  border-left: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
 }
 
@@ -3325,7 +3223,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-sortable-item.gg-lifted {
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-head);
@@ -3361,14 +3259,9 @@ dialog.gg-veil:focus {
     var(--semantic-dimension-space-padding-medium)
     var(--semantic-dimension-space-padding-small)
     var(--semantic-dimension-space-padding-x-small);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
-  box-shadow: var(--semantic-shadow-button-default);
-}
-
-.gg-sortable.gg-grid .gg-sortable-item.gg-lifted {
-  box-shadow: var(--semantic-shadow-card);
 }
 
 .gg-sortable.gg-grid .gg-sortable-slot {
@@ -3417,14 +3310,14 @@ dialog.gg-veil:focus {
 .gg-sortable.gg-panels .gg-sortable-item.gg-drop-before::before {
   left: calc(
     var(--semantic-dimension-space-gap-surface) / -2 -
-      var(--semantic-dimension-border-width-divider)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
 .gg-sortable.gg-panels .gg-sortable-item.gg-drop-after::before {
   right: calc(
     var(--semantic-dimension-space-gap-surface) / -2 -
-      var(--semantic-dimension-border-width-divider)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
@@ -3454,7 +3347,7 @@ dialog.gg-veil:focus {
   display: inline-flex;
   gap: var(--semantic-dimension-space-gap-xxx-small);
   padding: var(--semantic-dimension-space-control-padding-block-xx-small);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   background: var(--semantic-color-background-surface);
   flex: none;
@@ -3491,7 +3384,7 @@ dialog.gg-veil:focus {
     var(--semantic-dimension-space-gap-surface);
   padding: var(--semantic-dimension-space-padding-large)
     var(--semantic-dimension-space-padding-panel);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -3551,8 +3444,6 @@ dialog.gg-veil:focus {
 
 .gg-meter-name {
   overflow-wrap: anywhere;
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-name);
 }
 
 .gg-meter-line {
@@ -3575,21 +3466,18 @@ dialog.gg-veil:focus {
 }
 
 .gg-meter-line .gg-pct {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   min-width: var(--semantic-dimension-size-measure-xx-small);
 }
 
 .gg-mark.gg-reading {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
     var(--semantic-dimension-space-control-padding-inline-x-small);
 }
 
 .gg-meter-num {
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3597,8 +3485,7 @@ dialog.gg-veil:focus {
   display: flex;
   gap: var(--semantic-dimension-space-gap-xx-large);
   flex-wrap: wrap;
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3675,8 +3562,7 @@ dialog.gg-veil:focus {
   align-items: center;
   flex-wrap: wrap;
   gap: var(--semantic-dimension-space-gap-xxx-small) 0;
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
 }
 
 .gg-crumbs li + li::before {
@@ -3688,7 +3574,7 @@ dialog.gg-veil:focus {
 .gg-crumbs a {
   color: var(--semantic-color-text-secondary);
   text-decoration: none;
-  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
     transparent;
 }
 
@@ -3708,7 +3594,7 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-drop-zone-padding)
     var(--semantic-dimension-space-padding-panel);
   text-align: center;
-  border: var(--semantic-dimension-border-width-container) dashed
+  border: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
 }
@@ -3723,7 +3609,7 @@ dialog.gg-veil:focus {
   height: var(--semantic-dimension-size-glyph-large);
   display: grid;
   place-items: center;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   background: var(--semantic-color-background-surface);
 }
@@ -3736,15 +3622,13 @@ dialog.gg-veil:focus {
 .gg-drop-zone p strong {
   display: block;
   margin-bottom: var(--semantic-dimension-space-gap-xxx-small);
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   font-weight: var(--semantic-font-weight-regular);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-primary);
 }
 
 .gg-drop-zone .gg-btn:focus-within {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
@@ -3767,7 +3651,7 @@ dialog.gg-veil:focus {
   font: var(--semantic-font-weight-prose-heading)
     var(--semantic-dimension-font-size-prose-title) /
     var(--semantic-number-line-height-display-title)
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
   letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
   text-wrap: balance;
   max-width: var(--semantic-dimension-size-max-width-prose);
@@ -3787,9 +3671,8 @@ dialog.gg-veil:focus {
   margin: var(--semantic-dimension-space-gap-medium) 0
     var(--semantic-dimension-space-gap-surface);
   padding-bottom: var(--semantic-dimension-space-padding-large);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -3816,8 +3699,8 @@ dialog.gg-veil:focus {
 }
 
 .gg-prose {
-  font: var(--semantic-dimension-font-size-prose-body) /
-    var(--semantic-number-line-height-prose) var(--semantic-font-family-body);
+  font: var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-prose) var(--semantic-font-family-ui);
   color: var(--semantic-color-text-primary);
 }
 
@@ -3837,7 +3720,7 @@ dialog.gg-veil:focus {
 .gg-prose :is(h1, h2) {
   font: var(--semantic-font-weight-prose-heading)
     var(--semantic-dimension-font-size-prose-heading-2) /
-    var(--semantic-number-line-height-heading) var(--semantic-font-family-body);
+    var(--semantic-number-line-height-heading) var(--semantic-font-family-ui);
   letter-spacing: var(--semantic-dimension-letter-spacing-prose-heading);
   margin-top: 2em;
   text-wrap: balance;
@@ -3846,30 +3729,28 @@ dialog.gg-veil:focus {
 .gg-prose h3 {
   font: var(--semantic-font-weight-prose-heading)
     var(--semantic-dimension-font-size-prose-heading-3) /
-    var(--semantic-number-line-height-label) var(--semantic-font-family-body);
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
   margin-top: 1.6em;
 }
 
 .gg-prose :is(h4, h5, h6) {
-  margin-top: calc(1.6 * var(--semantic-dimension-font-size-prose-body));
+  margin-top: calc(1.6 * var(--semantic-dimension-font-size-body));
 }
 
 .gg-prose h4 {
   font: var(--semantic-dimension-font-size-control) /
     var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
 }
 
 .gg-prose h5 {
   font: var(--semantic-font-weight-prose-heading)
     var(--semantic-dimension-font-size-body) /
-    var(--semantic-number-line-height-body) var(--semantic-font-family-body);
+    var(--semantic-number-line-height-body) var(--semantic-font-family-ui);
 }
 
 .gg-prose h6 {
   font: var(--semantic-dimension-font-size-label) /
     var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3903,7 +3784,6 @@ dialog.gg-veil:focus {
 }
 
 .gg-prose ol li::marker {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
 }
 
@@ -3923,13 +3803,9 @@ dialog.gg-veil:focus {
 }
 
 .gg-prose .gg-table-wrap {
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
-}
-
-.gg-prose .gg-table {
-  font-size: var(--semantic-dimension-font-size-name);
 }
 
 .gg-prose .gg-table td {
@@ -3938,33 +3814,29 @@ dialog.gg-veil:focus {
 
 .gg-prose blockquote {
   padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
-  border-left: var(--semantic-dimension-border-width-divider) solid
+  border-left: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   color: var(--semantic-color-text-secondary);
 }
 
 .gg-prose hr {
   border: 0;
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   margin: 2em 0;
 }
 
 .gg-prose .gg-notice {
-  font: var(--semantic-dimension-font-size-name) /
+  font: var(--semantic-dimension-font-size-body) /
     var(--semantic-number-line-height-prose-notice)
-    var(--semantic-font-family-body);
+    var(--semantic-font-family-ui);
 }
 
 .gg-prose a {
   color: var(--semantic-color-text-primary);
   text-decoration: underline;
-  text-decoration-thickness: var(--semantic-dimension-border-width-divider);
+  text-decoration-thickness: var(--semantic-dimension-border-width-default);
   text-underline-offset: var(--semantic-dimension-space-underline-offset);
-}
-
-.gg-prose a:hover {
-  text-decoration-thickness: var(--semantic-dimension-border-width-container);
 }
 
 .gg-toc {
@@ -3979,7 +3851,7 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-control-padding-block-medium)
     var(--semantic-dimension-space-control-padding-inline-large);
   font: var(--semantic-dimension-font-size-body) /
-    var(--semantic-number-line-height-compact) var(--semantic-font-family-body);
+    var(--semantic-number-line-height-compact) var(--semantic-font-family-ui);
   color: var(--semantic-color-text-primary);
   text-decoration: none;
 }
@@ -4027,9 +3899,7 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-padding-xxx-large)
     var(--semantic-dimension-space-padding-x-large);
   text-align: center;
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -4046,12 +3916,11 @@ dialog.gg-veil:focus {
   flex: none;
   width: var(--semantic-dimension-size-monogram-default);
   height: var(--semantic-dimension-size-monogram-default);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-number-line-height-none);
   user-select: none;
 }
@@ -4059,7 +3928,7 @@ dialog.gg-veil:focus {
 .gg-monogram.gg-large {
   width: var(--semantic-dimension-size-monogram-large);
   height: var(--semantic-dimension-size-monogram-large);
-  font-size: var(--semantic-dimension-font-size-name);
+  font-size: var(--semantic-dimension-font-size-body);
 }
 
 .gg-monogram.gg-drawn {
@@ -4114,11 +3983,11 @@ dialog.gg-veil:focus {
   min-width: 0;
   padding: var(--semantic-dimension-space-padding-large)
     var(--semantic-dimension-space-padding-panel);
-  margin: 0 calc(-1 * var(--semantic-dimension-border-width-divider))
-    calc(-1 * var(--semantic-dimension-border-width-divider)) 0;
-  border-right: var(--semantic-dimension-border-width-divider) solid
+  margin: 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    calc(-1 * var(--semantic-dimension-border-width-default)) 0;
+  border-right: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  border-bottom: var(--semantic-dimension-border-width-divider) solid
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -4128,7 +3997,6 @@ dialog.gg-veil:focus {
 }
 
 .gg-stat-value {
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-figure);
   line-height: var(--semantic-number-line-height-figure);
   font-variant-numeric: tabular-nums;
@@ -4177,14 +4045,12 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-small);
   border: 0;
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-on-inverse-fill);
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-number-line-height-compact);
-  letter-spacing: var(--semantic-dimension-letter-spacing-state);
   overflow: visible;
 }
 
@@ -4192,7 +4058,6 @@ dialog.gg-veil:focus {
   margin-left: var(--semantic-dimension-space-gap-x-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: 0;
   opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
@@ -4229,7 +4094,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-disclosure-label {
-  border-bottom: var(--semantic-dimension-border-width-divider) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
     transparent;
 }
 
@@ -4259,7 +4124,7 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-control-padding-block-small) 0
     var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-control-padding-inline-x-large);
-  border-left: var(--semantic-dimension-border-width-divider) solid
+  border-left: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
 
@@ -4282,10 +4147,9 @@ dialog.gg-veil:focus {
   padding: var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-padding-xx-large);
   background: var(--semantic-color-background-surface);
-  border-top: var(--semantic-dimension-border-width-divider) solid
+  border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -4402,7 +4266,7 @@ dialog.gg-veil:focus {
   top: 0;
   bottom: 0;
   left: 0;
-  width: var(--semantic-dimension-border-width-container);
+  width: var(--semantic-dimension-border-width-default);
   background: var(--semantic-color-background-fill-inverse);
   opacity: 0;
   pointer-events: none;
@@ -4500,7 +4364,7 @@ dialog.gg-veil:focus {
       var(--semantic-dimension-space-gap-surface)
       var(--semantic-dimension-space-padding-medium);
     background: var(--gg-dither);
-    border-right: var(--semantic-dimension-border-width-container) solid
+    border-right: var(--semantic-dimension-border-width-default) solid
       var(--semantic-color-border-primary);
     box-shadow: var(--semantic-shadow-card);
     animation: gg-rail-in var(--semantic-duration-card) ease-out;
@@ -4612,7 +4476,7 @@ dialog.gg-veil:focus {
 
 .gg-stage-paused > .gg-notice {
   width: min(var(--semantic-dimension-size-max-width-stage-notice), 100%);
-  box-shadow: var(--semantic-shadow-button-default);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .gg-window {
@@ -4758,15 +4622,15 @@ dialog.gg-veil:focus {
 .gg-reel-resize::after {
   top: 0;
   bottom: 0;
-  left: calc(50% - var(--semantic-dimension-border-width-divider));
-  width: var(--semantic-dimension-border-width-container);
+  left: calc(50% - var(--semantic-dimension-border-width-default));
+  width: var(--semantic-dimension-border-width-default);
 }
 
 .gg-reel-split::after {
   left: 0;
   right: 0;
-  top: calc(50% - var(--semantic-dimension-border-width-divider));
-  height: var(--semantic-dimension-border-width-container);
+  top: calc(50% - var(--semantic-dimension-border-width-default));
+  height: var(--semantic-dimension-border-width-default);
 }
 
 .gg-reel-resize:is(:hover, :focus-visible)::after,
@@ -4786,8 +4650,8 @@ dialog.gg-veil:focus {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(50% - var(--semantic-dimension-border-width-divider));
-  border-left: var(--semantic-dimension-border-width-container) dashed
+  left: calc(50% - var(--semantic-dimension-border-width-default));
+  border-left: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
   pointer-events: none;
 }
@@ -4797,7 +4661,7 @@ dialog.gg-veil:focus {
   position: absolute;
   left: 0;
   right: 0;
-  border-top: var(--semantic-dimension-border-width-container) dashed
+  border-top: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-primary);
   pointer-events: none;
 }
@@ -4805,14 +4669,14 @@ dialog.gg-veil:focus {
 .gg-reel-slot.gg-drop-before::before {
   top: calc(
     var(--semantic-dimension-space-gap-reel) / -2 -
-      var(--semantic-dimension-border-width-divider)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
 .gg-reel-slot.gg-drop-after::before {
   bottom: calc(
     var(--semantic-dimension-space-gap-reel) / -2 -
-      var(--semantic-dimension-border-width-divider)
+      var(--semantic-dimension-border-width-default)
   );
 }
 
@@ -4844,7 +4708,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-reel-pane:focus-visible > .gg-window {
-  outline: var(--semantic-dimension-border-width-container) solid
+  outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }
@@ -4925,7 +4789,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-toast {
-  box-shadow: var(--semantic-shadow-button-default);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 .gg-toast.gg-quiet {
@@ -4985,7 +4849,7 @@ dialog.gg-veil:focus {
     [aria-current]:not([aria-current="false"]),
     [aria-selected="true"]
   ) {
-    outline: var(--semantic-dimension-border-width-container) solid Highlight;
-    outline-offset: calc(-1 * var(--semantic-dimension-border-width-container));
+    outline: var(--semantic-dimension-border-width-default) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-default));
   }
 }

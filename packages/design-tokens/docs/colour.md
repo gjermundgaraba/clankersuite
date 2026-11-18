@@ -34,7 +34,7 @@ The keyboard-focus indicator, whatever draws it.
 
 ## Shadow inks
 
-The colour of the print shadows on [Shadows and layers](/design-tokens/shadows).
+The colour of the shadows on [Shadows and layers](/design-tokens/shadows).
 
 ::Tokens{prefix="--semantic-color-shadow"}
 

@@ -8,7 +8,7 @@ Whole pixels throughout. A component picks a step; a brand that changes a step c
 
 ## Lines
 
-A container takes a 2px ink border, a divider a 1px rule, a ring 3px.
+Every line, a border or a divider, is 1px; a ring is 3px.
 
 ::Tokens{prefix="--semantic-dimension-border-width"}
 
@@ -32,6 +32,6 @@ The fixed sizes of things: controls, rows, glyphs, bars and rails, and the width
 
 ## Travel
 
-How far a thing moves: a pressed button into its shadow, an entering toast, a glyph nudged onto the baseline.
+How far a thing moves: an entering toast, a glyph nudged onto the baseline.
 
 ::Tokens{prefix="--semantic-dimension-travel"}

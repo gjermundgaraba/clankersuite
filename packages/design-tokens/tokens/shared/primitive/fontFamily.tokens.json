@@ -13,15 +13,6 @@
           "monospace"
         ]
       },
-      "systemSans": {
-        "$value": [
-          "system-ui",
-          "Helvetica Neue",
-          "Helvetica",
-          "Arial",
-          "sans-serif"
-        ]
-      },
       "systemMono": {
         "$value": ["ui-monospace", "Menlo", "Monaco", "monospace"]
       },

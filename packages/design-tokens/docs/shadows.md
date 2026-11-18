@@ -4,11 +4,11 @@ order: 5
 
 # Shadows and layers
 
-What is raised sits on a print shadow: solid, with no blur, offset down and to the right. A pressed control moves into its shadow by the [travel](/design-tokens/space) of a press.
+Only what floats over the page casts a shadow: soft, blurred and falling straight down. Controls sit flat.
 
 ## Shadows
 
-One for each raised thing.
+One, for everything that floats.
 
 ::Tokens{prefix="--semantic-shadow"}
 
