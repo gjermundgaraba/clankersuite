@@ -59,7 +59,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
 - `space.padding` and `space.gap` are T-shirt ladders (`xxxSmall` to `xxLarge`) on whole pixels. A component picks a step; a brand that changes a step changes every component on it.
 - `space.control.padding.block` and `.inline` are the inside of a control. A control's row height is its line plus its padding plus its border, so these steps are a pixel apart and some are odd: they keep a bordered control on the row height.
-- `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains.
+- `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains; `radius.mark` rounds a checkbox.
 - `travel` is how far a thing moves: an entering toast.
 - `layer` is a `z-index`, named by what sits on it.
 

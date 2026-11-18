@@ -8,13 +8,13 @@ Whole pixels throughout. A component picks a step; a brand that changes a step c
 
 ## Lines
 
-Every line, a border or a divider, is 1px; the accent bar beside a checked menu choice is 2px.
+Every line, a border or a divider, is 1px; the accent bar beside a checked menu choice and a mixed check's bar are 2px.
 
 ::Tokens{prefix="--semantic-dimension-border-width"}
 
 ## Corners
 
-`control` rounds what is pressed or typed into; `surface` rounds what contains.
+`control` rounds what is pressed or typed into; `surface` rounds what contains; `mark` rounds a checkbox.
 
 ::Tokens{prefix="--semantic-dimension-radius"}
 

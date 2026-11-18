@@ -79,27 +79,6 @@
   color: var(--semantic-color-text-secondary);
 }
 
-.gg-menu .gg-menu-check {
-  width: var(--semantic-dimension-size-checkbox-box);
-  height: var(--semantic-dimension-size-checkbox-box);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-control);
-  display: inline-grid;
-  place-content: center;
-  flex: none;
-}
-
-.gg-menu .gg-menu-check::before {
-  content: "";
-  width: var(--semantic-dimension-size-checkbox-mark);
-  height: var(--semantic-dimension-size-checkbox-mark);
-}
-
-.gg-menu [aria-checked="true"] .gg-menu-check::before {
-  background: var(--semantic-color-background-fill-accent);
-}
-
 .gg-menu .gg-menu-note {
   display: block;
   padding: var(--semantic-dimension-space-control-padding-block-x-large)
