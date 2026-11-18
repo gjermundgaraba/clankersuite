@@ -40,24 +40,6 @@
   color: var(--semantic-color-text-secondary);
 }
 
-.gg-btn.gg-default-ring {
-  box-shadow:
-    0 0 0 var(--semantic-dimension-border-width-default)
-      var(--semantic-color-background-surface),
-    0 0 0 calc(2 * var(--semantic-dimension-border-width-default))
-      var(--semantic-color-border-primary);
-  margin: var(--semantic-dimension-space-gap-xx-small);
-}
-
-.gg-btn.gg-default-ring:not([aria-disabled="true"]):active {
-  background: var(--semantic-color-background-fill-accent);
-  color: var(--semantic-color-text-on-accent-fill);
-}
-
-.gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus) {
-  box-shadow: none;
-}
-
 .gg-btn.gg-small {
   font-size: var(--semantic-dimension-font-size-label);
   padding: var(--semantic-dimension-space-control-padding-block-x-small)

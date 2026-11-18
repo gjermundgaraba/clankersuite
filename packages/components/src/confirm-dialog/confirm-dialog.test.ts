@@ -189,9 +189,6 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveClass(
-        "gg-default-ring"
-      ),
       Scene.expect(Scene.selector(".gg-outcome .why")).toHaveText(
         "The server kept it."
       )

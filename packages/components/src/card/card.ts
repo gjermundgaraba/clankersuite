@@ -20,7 +20,7 @@ export type ViewConfig<Message> = Readonly<{
   closeAttributes?: Attributes<Message>;
   /** 440px instead of 680px: confirms, settings, sign-in. */
   isNarrow?: boolean;
-  /** The action bar: a 1px rule, then these pushed right. Give the default `isDefault`. */
+  /** The action bar: a 1px rule, then these pushed right. The committing one is `Primary`. */
   actions?: ReadonlyArray<Html | string>;
   /** In the action bar before the push: a flash word, a quiet button. */
   lead?: ReadonlyArray<Html | string>;
@@ -171,7 +171,6 @@ export const formView = <Message>(
     {
       label: submit,
       variant: "Primary",
-      isDefault: true,
       isBusy,
       isDisabled: isSubmitDisabled,
       type: "submit",

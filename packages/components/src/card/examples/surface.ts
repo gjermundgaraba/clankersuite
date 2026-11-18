@@ -21,10 +21,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             lead: [Button.view({ label: "Choose files", isSmall: true }, h)],
             actions: [
               Button.view({ label: "Cancel" }, h),
-              Button.view(
-                { label: "Export", variant: "Primary", isDefault: true },
-                h
-              ),
+              Button.view({ label: "Export", variant: "Primary" }, h),
             ],
           },
           h
@@ -34,12 +31,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             title: "Signed out",
             isNarrow: true,
             body: [h.p([], ["Your session ended on this device."])],
-            actions: [
-              Button.view(
-                { label: "Sign in", variant: "Primary", isDefault: true },
-                h
-              ),
-            ],
+            actions: [Button.view({ label: "Sign in", variant: "Primary" }, h)],
           },
           h
         ),
