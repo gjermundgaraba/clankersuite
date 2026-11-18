@@ -8,7 +8,7 @@ Whole pixels throughout. A component picks a step; a brand that changes a step c
 
 ## Lines
 
-Every line, a border or a divider, is 1px; the accent bar beside a checked menu choice and a mixed check's bar are 2px.
+Every line, a border or a divider, is 1px; an accent line (a checked menu choice's bar, a drop marker, a focused field's baseline, a mixed check's bar) is 2px.
 
 ::Tokens{prefix="--semantic-dimension-border-width"}
 

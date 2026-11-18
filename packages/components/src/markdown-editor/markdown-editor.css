@@ -22,7 +22,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 }
 
 .gg-markdown-surface {
-  border-bottom: var(--semantic-dimension-border-width-default) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding-bottom: var(
     --semantic-dimension-space-control-padding-block-xxx-small
@@ -37,8 +37,8 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 }
 
 .gg-markdown-surface:focus-within {
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
+  border-bottom: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
   padding-bottom: 0;
 }
 

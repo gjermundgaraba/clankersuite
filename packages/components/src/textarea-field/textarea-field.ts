@@ -36,7 +36,7 @@ export type ViewConfig<Message> = Readonly<{
 /** A labelled textarea with its help line, built on `@foldkit/ui`'s `Textarea`: the label
  *  names the textarea, the help line describes it (`aria-describedby`), an `error` sets
  *  `aria-invalid` and describes it before the help, and `isRequired` sets `aria-required`.
- *  Boxless like a Field, on a dotted baseline, with an ink corner grip. */
+ *  Boxless like a Field, on a baseline, with the browser's resize grip. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

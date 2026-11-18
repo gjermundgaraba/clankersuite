@@ -73,15 +73,17 @@
 .gg-reel-resize::after {
   top: 0;
   bottom: 0;
-  left: calc(50% - var(--semantic-dimension-border-width-default));
-  width: var(--semantic-dimension-border-width-default);
+  left: calc(50% - var(--semantic-dimension-border-width-accent) / 2);
+  width: var(--semantic-dimension-border-width-accent);
+  border-radius: var(--semantic-dimension-border-width-accent);
 }
 
 .gg-reel-split::after {
   left: 0;
   right: 0;
-  top: calc(50% - var(--semantic-dimension-border-width-default));
-  height: var(--semantic-dimension-border-width-default);
+  top: calc(50% - var(--semantic-dimension-border-width-accent) / 2);
+  height: var(--semantic-dimension-border-width-accent);
+  border-radius: var(--semantic-dimension-border-width-accent);
 }
 
 .gg-reel-resize:is(:hover, :focus-visible)::after,
@@ -97,37 +99,35 @@
 }
 
 .gg-reel-gap.gg-drop-here::before {
-  content: "";
-  position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(50% - var(--semantic-dimension-border-width-default));
-  border-left: var(--semantic-dimension-border-width-default) dashed
-    var(--semantic-color-border-primary);
-  pointer-events: none;
+  left: calc(50% - var(--semantic-dimension-border-width-accent) / 2);
+  width: var(--semantic-dimension-border-width-accent);
 }
 
 .gg-reel-slot:is(.gg-drop-before, .gg-drop-after)::before {
-  content: "";
-  position: absolute;
   left: 0;
   right: 0;
-  border-top: var(--semantic-dimension-border-width-default) dashed
-    var(--semantic-color-border-primary);
-  pointer-events: none;
+  height: var(--semantic-dimension-border-width-accent);
 }
 
 .gg-reel-slot.gg-drop-before::before {
   top: calc(
-    var(--semantic-dimension-space-gap-reel) / -2 -
-      var(--semantic-dimension-border-width-default)
+    (
+        var(--semantic-dimension-space-gap-reel) +
+          var(--semantic-dimension-border-width-accent)
+      ) /
+      -2
   );
 }
 
 .gg-reel-slot.gg-drop-after::before {
   bottom: calc(
-    var(--semantic-dimension-space-gap-reel) / -2 -
-      var(--semantic-dimension-border-width-default)
+    (
+        var(--semantic-dimension-space-gap-reel) +
+          var(--semantic-dimension-border-width-accent)
+      ) /
+      -2
   );
 }
 

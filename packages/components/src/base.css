@@ -228,3 +228,15 @@ kbd {
     rotate: 1turn;
   }
 }
+
+/* a Sortable's and a Reel's drop marker, a line where the item lands; each places
+   and sizes its own */
+.gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before,
+.gg-reel-slot:is(.gg-drop-before, .gg-drop-after)::before,
+.gg-reel-gap.gg-drop-here::before {
+  content: "";
+  position: absolute;
+  border-radius: var(--semantic-dimension-border-width-accent);
+  background: var(--semantic-color-background-fill-accent);
+  pointer-events: none;
+}

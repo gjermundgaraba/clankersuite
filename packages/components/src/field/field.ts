@@ -85,7 +85,7 @@ export type ViewConfig<Message> = Readonly<{
 /** A labelled text input with its help line, built on `@foldkit/ui`'s `Input`: the label
  *  names the input, the help line describes it (`aria-describedby`), an `error` sets
  *  `aria-invalid` and describes it before the help, and `isRequired` sets `aria-required`.
- *  The input is boxless, a dotted baseline that turns solid on focus. */
+ *  The input is boxless, a baseline that thickens in the accent on focus. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

@@ -25,7 +25,7 @@ select:disabled {
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
   border: none;
-  border-bottom: var(--semantic-dimension-border-width-default) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
   border-radius: var(--semantic-dimension-radius-control);
@@ -44,8 +44,8 @@ select:disabled {
 .gg-field input:focus-visible,
 .gg-field textarea:focus-visible {
   outline: none;
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
+  border-bottom: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
   padding-bottom: var(
     --semantic-dimension-space-control-padding-block-xxx-small
   );
