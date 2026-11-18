@@ -65,7 +65,7 @@
 .gg-reel-split::after {
   content: "";
   position: absolute;
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
   opacity: 0;
   pointer-events: none;
 }

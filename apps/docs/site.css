@@ -44,8 +44,7 @@
 }
 
 .site-nav a[aria-current="page"] {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-selected);
 }
 
 .site-source > summary {
@@ -92,7 +91,7 @@
   display: block;
   max-width: 100%;
   height: var(--semantic-dimension-size-dot);
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
 }
 
 .site-token-name {

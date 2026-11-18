@@ -36,7 +36,7 @@ To add a brand, add `tokens/<brand>/` with only the values that differ, a resolv
 
 ## Naming
 
-A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onInverseFill` as `--semantic-color-text-on-inverse-fill`.
+A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onNegativeFill` as `--semantic-color-text-on-negative-fill`.
 
 Primitives hold literals and never alias. Colours are a family and a lightness step (`primitive.color.forest.850`), with an alpha as part of the step (`850Alpha40`); dimensions are named by their pixel value (`primitive.dimension.16`).
 
@@ -52,7 +52,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 | `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
 | `shadow`     | `card`, on everything that floats                                               |
 
-- `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a title bar or table head. `background.fill.*` fills a bounded shape: a button, a chip, a mark.
+- `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a title bar or table head. `background.fill.*` fills a bounded shape: a button, a chip, a mark. `background.selected` tints what is selected or current, under text that keeps its own colour.
 - `text.on<Fill>` and `border.on<Fill>` are what reads on that fill.
 - `border.primary` contains; `border.divider` divides and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.

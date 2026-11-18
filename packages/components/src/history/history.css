@@ -47,12 +47,7 @@
 }
 
 .gg-history-list li.gg-current .gg-v {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
-}
-
-.gg-history-list li.gg-current .gg-v .gg-age {
-  color: inherit;
+  background: var(--semantic-color-background-selected);
 }
 
 .gg-history-list.gg-checks {

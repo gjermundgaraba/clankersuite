@@ -15,7 +15,7 @@
 }
 
 .gg-cells .gg-cell.gg-on {
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
 }
 
 @media (max-width: 600px) {

@@ -10,7 +10,7 @@ export type ViewConfig<Message> = Readonly<{
   /** The chip written out, when its words alone do not say it ("Clear scope: Operations" for
    *  "Operations ×"): its name for screen readers and its tip for everyone else. */
   full?: string;
-  /** In force: printed inverted. */
+  /** In force: tinted. */
   isPressed?: boolean;
   /** Makes the chip a toggle button (`aria-pressed`); without it, a pinned label. */
   onToggle?: Message;
@@ -21,7 +21,7 @@ export type ViewConfig<Message> = Readonly<{
 }>;
 
 /** A filter as a chip. With `onToggle` it is a toggle button built on `@foldkit/ui`'s Button,
- *  `aria-pressed` while in force; without, a label, inverted while pinned. With `full`, screen
+ *  `aria-pressed` while in force; without, a label, tinted while pinned. With `full`, screen
  *  readers hear the full words and the eye gets them as a tip. */
 export const view = <Message>(
   config: ViewConfig<Message>,

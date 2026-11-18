@@ -169,55 +169,7 @@ button.gg-glyph {
 /* each selector is written out, not joined in :is(), so each keeps its own specificity */
 .gg-row.gg-linked:has(.gg-grow a[aria-current]),
 .gg-board-card[aria-current="true"] {
-  background-color: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
-}
-
-.gg-row.gg-linked:has(.gg-grow a[aria-current]) .gg-chip-dot {
-  border-color: var(--semantic-color-border-on-inverse-fill);
-}
-
-.gg-row.gg-linked:has(.gg-grow a[aria-current])
-  :is(
-    .gg-glyph,
-    .gg-age,
-    .gg-due,
-    .gg-tag,
-    .gg-done-title,
-    .gg-iconbtn.gg-quiet
-  ),
-.gg-board-card[aria-current="true"]
-  :is(
-    .gg-glyph,
-    .gg-age,
-    .gg-due,
-    .gg-tag,
-    .gg-done-title,
-    .gg-iconbtn.gg-quiet
-  ) {
-  color: inherit;
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
-}
-
-.gg-row.gg-linked:has(.gg-grow a[aria-current]) .gg-tag,
-.gg-board-card[aria-current="true"] .gg-tag {
-  border-color: currentColor;
-}
-
-.gg-row.gg-linked:has(.gg-grow a[aria-current])
-  :is(.gg-due.gg-late, .gg-age.gg-stale),
-.gg-board-card[aria-current="true"] :is(.gg-due.gg-late, .gg-age.gg-stale) {
-  opacity: 1;
-  background: var(--semantic-color-background-fill-negative);
-  color: var(--semantic-color-text-on-negative-fill);
-  box-shadow: 0 0 0 var(--semantic-dimension-border-width-ring)
-    var(--semantic-color-border-negative);
-}
-
-.gg-row.gg-linked:has(.gg-grow a[aria-current]) :focus-visible,
-.gg-row.gg-linked:has(.gg-grow a[aria-current]:focus-visible),
-.gg-board-card[aria-current="true"] :focus-visible {
-  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
+  background-color: var(--semantic-color-background-selected);
 }
 
 .gg-row[aria-current="true"] {
@@ -277,27 +229,6 @@ button.gg-glyph {
   padding: 0 var(--semantic-dimension-space-control-padding-inline-medium);
 }
 
-.gg-row-check > [role="checkbox"] {
-  appearance: none;
-  width: var(--semantic-dimension-size-checkbox-box);
-  height: var(--semantic-dimension-size-checkbox-box);
-  padding: 0;
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-control);
-  background: var(--semantic-color-background-surface);
-  cursor: pointer;
-  flex: none;
-  display: inline-grid;
-  place-content: center;
-}
-
-.gg-row-check > [role="checkbox"]::before {
-  content: "";
-  width: var(--semantic-dimension-size-checkbox-mark);
-  height: var(--semantic-dimension-size-checkbox-mark);
-}
-
 .gg-row-check > [role="checkbox"]::after {
   content: "";
   position: absolute;
@@ -308,31 +239,13 @@ button.gg-glyph {
   cursor: pointer;
 }
 
-.gg-row-check:has(> [aria-checked="true"]) {
-  background: var(--semantic-color-background-fill-inverse);
-}
-
-.gg-row-check > [aria-checked="true"] {
-  border-color: var(--semantic-color-border-on-inverse-fill);
-  background: var(--semantic-color-background-fill-inverse);
-}
-
-.gg-row-check > [aria-checked="true"]::before {
-  background: var(--semantic-color-background-surface);
-}
-
-.gg-row-check > [aria-checked="true"]:focus-visible {
-  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
-}
-
-.gg-row-check > [aria-disabled="true"] {
-  border-color: var(--semantic-color-border-secondary);
-  cursor: default;
+.gg-row:has(> .gg-row-check > [aria-checked="true"]) {
+  background: var(--semantic-color-background-selected);
 }
 
 .gg-row-check > [aria-checked="mixed"]::before {
   height: var(--semantic-dimension-border-width-default);
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
 }
 
 .gg-row .gg-grow input.gg-inline-input:focus-visible {

@@ -39,7 +39,7 @@ const linkView = <Message>(
   ]);
 
 /** One bordered strip of link segments, built on `@foldkit/ui`'s Nav: a navigation
- *  landmark named by its label, the current page `aria-current="page"` and printed inverted.
+ *  landmark named by its label, the current page `aria-current="page"` and tinted.
  *  Its links route through the application as every link does. */
 export const view = <Message>(
   config: ViewConfig,

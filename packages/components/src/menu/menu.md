@@ -8,7 +8,7 @@ A printed slip under its toggle. Its rows take focus: the first as it opens, or 
 
 ## Rows in groups
 
-Radio rows say which is checked and print it inverted; the parent moves the check. A check row toggles in place, so the slip stays open. A link row is a real link, so a new tab can open it. A row that cannot run prints muted, and the arrows still stop on it, so its name is read.
+Radio rows say which is checked and tint it; the parent moves the check. A check row toggles in place, so the slip stays open. A link row is a real link, so a new tab can open it. A row that cannot run prints muted, and the arrows still stop on it, so its name is read.
 
 ::Example{name="settings"}
 

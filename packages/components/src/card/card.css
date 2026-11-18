@@ -32,8 +32,8 @@
   display: flex;
   align-items: center;
   gap: var(--semantic-dimension-space-gap-medium);
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-small)
     var(--semantic-dimension-space-control-padding-block-large)

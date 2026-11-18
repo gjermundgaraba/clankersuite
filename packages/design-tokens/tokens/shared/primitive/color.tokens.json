@@ -290,11 +290,27 @@
             "hex": "#9fc7b8"
           }
         },
+        "300Alpha16": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.6235, 0.7804, 0.7216],
+            "hex": "#9fc7b8",
+            "alpha": 0.16
+          }
+        },
         "700": {
           "$value": {
             "colorSpace": "srgb",
             "components": [0.1843, 0.3804, 0.3255],
             "hex": "#2f6153"
+          }
+        },
+        "700Alpha12": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.1843, 0.3804, 0.3255],
+            "hex": "#2f6153",
+            "alpha": 0.12
           }
         }
       }

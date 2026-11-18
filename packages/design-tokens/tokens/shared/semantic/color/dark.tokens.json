@@ -17,9 +17,9 @@
           "$value": "{primitive.color.red.300}",
           "$description": "Errors and destructive outcomes."
         },
-        "onInverseFill": {
+        "onAccentFill": {
           "$value": "{primitive.color.forest.900}",
-          "$description": "Text on background.fill.inverse."
+          "$description": "Text on background.fill.accent."
         },
         "onStatusFill": {
           "$value": "{primitive.color.warmGray.950}",
@@ -101,7 +101,7 @@
         },
         "onInverseFill": {
           "$value": "{primitive.color.forest.900}",
-          "$description": "A line drawn on background.fill.inverse."
+          "$description": "A line drawn on a title bar in background.fill.accent."
         }
       },
       "focusRing": {
@@ -119,7 +119,7 @@
         },
         "onInverseFill": {
           "$value": "{primitive.color.forest.900}",
-          "$description": "Keyboard focus on background.fill.inverse."
+          "$description": "Keyboard focus on a title bar in background.fill.accent."
         }
       },
       "background": {
@@ -135,10 +135,14 @@
           "$value": "{primitive.color.forest.850}",
           "$description": "Title bars, table heads and code grounds."
         },
+        "selected": {
+          "$value": "{primitive.color.sage.300Alpha16}",
+          "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text stays text.primary or text.secondary."
+        },
         "fill": {
-          "inverse": {
+          "accent": {
             "$value": "{primitive.color.sage.300}",
-            "$description": "The inverted fill: the committing button, the selected item."
+            "$description": "Shapes filled with the accent colour, and the bar that marks the current item."
           },
           "secondary": {
             "$value": "{primitive.color.bone.350}",

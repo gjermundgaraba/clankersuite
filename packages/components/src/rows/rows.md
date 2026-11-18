@@ -20,6 +20,6 @@ A box at each row's left edge, its state in the application's Model. The row's t
 
 ## Rows that are links
 
-With `isLink`, the row's whole box is the target of the one link in its text, while its own controls stay their own. A status dot stands before each title, the row whose link is `aria-current` prints inverted, and its menu is its own.
+With `isLink`, the row's whole box is the target of the one link in its text, while its own controls stay their own. A status dot stands before each title, the row whose link is `aria-current` is tinted, and its menu is its own.
 
 ::Example{name="links"}

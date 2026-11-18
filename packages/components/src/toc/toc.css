@@ -6,31 +6,17 @@
 .gg-toc a {
   display: flex;
   align-items: baseline;
-  gap: var(--semantic-dimension-space-gap-small);
   padding: var(--semantic-dimension-space-control-padding-block-medium)
     var(--semantic-dimension-space-control-padding-inline-large);
   font: var(--semantic-dimension-font-size-body) /
     var(--semantic-number-line-height-compact) var(--semantic-font-family-ui);
-  color: var(--semantic-color-text-primary);
+  color: var(--semantic-color-text-secondary);
   text-decoration: none;
 }
 
 .gg-toc .gg-l3 a {
   padding-left: var(--semantic-dimension-space-indent-toc);
   font-size: var(--semantic-dimension-font-size-control);
-  color: var(--semantic-color-text-secondary);
-}
-
-.gg-toc a::before {
-  content: "";
-  flex: none;
-  width: var(--semantic-dimension-size-bullet);
-  height: var(--semantic-dimension-size-bullet);
-  transform: translateY(-0.125em);
-}
-
-.gg-toc a[aria-current="true"]::before {
-  background: var(--semantic-color-background-fill-inverse);
 }
 
 .gg-toc a[aria-current="true"] {

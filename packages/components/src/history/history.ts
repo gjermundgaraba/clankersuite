@@ -16,7 +16,7 @@ export type Entry = Readonly<{
   /** Who or what: an author, a meter, a client. */
   who?: ReadonlyArray<Html | string>;
   what: ReadonlyArray<Html | string>;
-  /** The version in force prints inverted. */
+  /** The version in force is tinted. */
   isCurrent?: boolean;
   /** Controls at the end of the entry: restore, view. */
   actions?: ReadonlyArray<Html | string>;

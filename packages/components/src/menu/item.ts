@@ -16,7 +16,7 @@ export type Item = Data.TaggedEnum<{
     readonly isDisabled?: boolean;
   };
   /** One choice among its siblings (`role="menuitemradio"`, `aria-checked`): a palette, an
-   *  area, a layout. The checked one prints inverted. Choosing it reports `Selected` and
+   *  area, a layout. The checked one is tinted. Choosing it reports `Selected` and
    *  closes the slip; the parent moves the check. Put a set of them in a `group`. */
   Radio: {
     readonly id: string;

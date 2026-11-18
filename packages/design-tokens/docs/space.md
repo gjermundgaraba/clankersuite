@@ -8,7 +8,7 @@ Whole pixels throughout. A component picks a step; a brand that changes a step c
 
 ## Lines
 
-Every line, a border or a divider, is 1px; a ring is 3px.
+Every line, a border or a divider, is 1px; the accent bar beside a checked menu choice is 2px.
 
 ::Tokens{prefix="--semantic-dimension-border-width"}
 

@@ -25,8 +25,13 @@
 }
 
 .gg-btn.gg-primary {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
+}
+
+.gg-btn.gg-primary .gg-tag {
+  color: inherit;
+  border-color: currentColor;
 }
 
 .gg-btn.gg-primary:disabled,
@@ -38,15 +43,15 @@
 .gg-btn.gg-default-ring {
   box-shadow:
     0 0 0 var(--semantic-dimension-border-width-default)
-      var(--semantic-color-border-on-inverse-fill),
+      var(--semantic-color-background-surface),
     0 0 0 calc(2 * var(--semantic-dimension-border-width-default))
       var(--semantic-color-border-primary);
   margin: var(--semantic-dimension-space-gap-xx-small);
 }
 
 .gg-btn.gg-default-ring:not([aria-disabled="true"]):active {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
 }
 
 .gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus) {
