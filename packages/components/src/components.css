@@ -7,33 +7,6 @@
 :root {
   --gg-topbar-h: var(--semantic-dimension-size-top-bar);
   --gg-statusbar-h: 0px;
-  --gg-veil-grain:
-    conic-gradient(
-        at 1px 1px,
-        transparent 75%,
-        var(--semantic-color-background-backdrop-grain) 0
-      )
-      0 0 / 4px 4px,
-    conic-gradient(
-        at 1px 1px,
-        transparent 75%,
-        var(--semantic-color-background-backdrop-grain) 0
-      )
-      2px 2px / 4px 4px;
-  --gg-dither:
-    conic-gradient(
-        at 1px 1px,
-        transparent 75%,
-        var(--semantic-color-background-dither-dot) 0
-      )
-      0 0 / 4px 4px,
-    conic-gradient(
-        at 1px 1px,
-        transparent 75%,
-        var(--semantic-color-background-dither-dot) 0
-      )
-      2px 2px / 4px 4px,
-    var(--semantic-color-background-dither-base);
 }
 
 html {
@@ -56,7 +29,7 @@ body {
   line-height: var(--semantic-number-line-height-body);
   color: var(--semantic-color-text-primary);
   caret-color: var(--semantic-color-text-primary);
-  background: var(--gg-dither);
+  background: var(--semantic-color-background-canvas);
 }
 
 fieldset {
@@ -2554,7 +2527,7 @@ dialog.gg-veil:focus {
 .gg-veil-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
+  background: var(--semantic-color-background-backdrop);
   animation: gg-veil-in var(--semantic-duration-veil) ease-out;
 }
 
@@ -4363,7 +4336,7 @@ dialog.gg-veil:focus {
       var(--semantic-dimension-space-padding-x-large)
       var(--semantic-dimension-space-gap-surface)
       var(--semantic-dimension-space-padding-medium);
-    background: var(--gg-dither);
+    background: var(--semantic-color-background-surface);
     border-right: var(--semantic-dimension-border-width-default) solid
       var(--semantic-color-border-primary);
     box-shadow: var(--semantic-shadow-card);
@@ -4371,7 +4344,7 @@ dialog.gg-veil:focus {
   }
 
   .gg-rail[popover]::backdrop {
-    background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
+    background: var(--semantic-color-background-backdrop);
   }
 
   .gg-rail-head {
@@ -4471,7 +4444,7 @@ dialog.gg-veil:focus {
   display: grid;
   place-items: center;
   padding: var(--semantic-dimension-space-padding-xxx-large);
-  background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
+  background: var(--semantic-color-background-backdrop);
 }
 
 .gg-stage-paused > .gg-notice {

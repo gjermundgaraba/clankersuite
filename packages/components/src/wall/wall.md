@@ -4,7 +4,7 @@ category: layout
 
 # Wall
 
-The whole viewport as dithered ground with one card centred on it, for a screen with nothing else on it: sign-in, consent, first-run setup.
+The whole viewport as bare ground with one card centred on it, for a screen with nothing else on it: sign-in, consent, first-run setup.
 
 ## Usage
 
