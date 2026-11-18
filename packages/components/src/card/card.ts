@@ -10,7 +10,7 @@ import * as Text from "../text/text.ts";
 
 /** Configuration for rendering a card with `view`. */
 export type ViewConfig<Message> = Readonly<{
-  /** The title, in the inverted title bar. */
+  /** The title, in the title bar. */
   title: string;
   /** Attributes for the title, such as a Dialog's `title` group, which names the dialog. */
   titleAttributes?: Attributes<Message>;

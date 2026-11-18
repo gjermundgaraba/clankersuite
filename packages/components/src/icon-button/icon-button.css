@@ -16,6 +16,12 @@
   color: var(--semantic-color-text-secondary);
 }
 
-.gg-iconbtn.gg-quiet:hover {
+.gg-iconbtn.gg-quiet:not(:disabled, [aria-disabled="true"]):hover {
   color: var(--semantic-color-text-primary);
+}
+
+.gg-iconbtn:disabled,
+.gg-iconbtn[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
 }

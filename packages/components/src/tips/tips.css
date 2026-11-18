@@ -15,11 +15,12 @@
   );
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-small);
-  border: 0;
-  outline: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-on-inverse-fill);
-  background: var(--semantic-color-background-fill-accent);
-  color: var(--semantic-color-text-on-accent-fill);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  box-shadow: var(--semantic-shadow-card);
   font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-number-line-height-compact);
   overflow: visible;
@@ -29,7 +30,7 @@
   margin-left: var(--semantic-dimension-space-gap-x-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
+  color: var(--semantic-color-text-secondary);
 }
 
 .gg-tip[popover][data-gg-side="right"] {

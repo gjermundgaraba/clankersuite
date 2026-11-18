@@ -30,14 +30,6 @@
   white-space: nowrap;
 }
 
-.gg-window > .gg-panel-tb .gg-chip {
-  border-color: var(--semantic-color-border-on-inverse-fill);
-}
-
-.gg-window > .gg-panel-tb .gg-iconbtn {
-  color: inherit;
-}
-
 .gg-window-tools {
   display: contents;
 }

@@ -5,14 +5,6 @@
     "number": {
       "$type": "number",
       "opacity": {
-        "mutedOnInverseFill": {
-          "$value": "{primitive.number.opacity.750}",
-          "$description": "What prints as text.secondary on a surface, printed in text.onAccentFill on a title bar."
-        },
-        "disabledOnInverseFill": {
-          "$value": "{primitive.number.opacity.600}",
-          "$description": "A held control on an inverse title bar."
-        },
         "dragged": {
           "$value": "{primitive.number.opacity.400}",
           "$description": "A held item, dimmed in place while its copy follows the pointer."

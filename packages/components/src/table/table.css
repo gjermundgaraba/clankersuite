@@ -10,8 +10,7 @@
 
 .gg-table th {
   font-size: var(--semantic-dimension-font-size-label);
-  font-weight: var(--semantic-font-weight-regular);
-  color: var(--semantic-color-text-secondary);
+  font-weight: var(--semantic-font-weight-semi-bold);
   background: var(--semantic-color-background-head);
   text-align: left;
   padding: var(--semantic-dimension-space-control-padding-block-large)

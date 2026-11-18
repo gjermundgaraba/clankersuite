@@ -98,10 +98,6 @@
         "negative": {
           "$value": "{primitive.color.red.300}",
           "$description": "The line of an invalid or destructive control."
-        },
-        "onInverseFill": {
-          "$value": "{primitive.color.forest.900}",
-          "$description": "A line drawn on a title bar in background.fill.accent."
         }
       },
       "focusRing": {
@@ -116,10 +112,6 @@
         "negative": {
           "$value": "{primitive.color.red.300}",
           "$description": "Keyboard focus on an invalid control."
-        },
-        "onInverseFill": {
-          "$value": "{primitive.color.forest.900}",
-          "$description": "Keyboard focus on a title bar in background.fill.accent."
         }
       },
       "background": {
@@ -133,7 +125,7 @@
         },
         "head": {
           "$value": "{primitive.color.forest.850}",
-          "$description": "Title bars, table heads and code grounds."
+          "$description": "A quiet band: table heads, shelves, code grounds, and the tint under a hovered row."
         },
         "selected": {
           "$value": "{primitive.color.sage.300Alpha16}",

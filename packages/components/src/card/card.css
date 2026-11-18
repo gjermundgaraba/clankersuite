@@ -32,8 +32,8 @@
   display: flex;
   align-items: center;
   gap: var(--semantic-dimension-space-gap-medium);
-  background: var(--semantic-color-background-fill-accent);
-  color: var(--semantic-color-text-on-accent-fill);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-small)
     var(--semantic-dimension-space-control-padding-block-large)
@@ -43,29 +43,11 @@
 
 .gg-card-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
-  font-weight: var(--semantic-font-weight-regular);
+  font-weight: var(--semantic-font-weight-semi-bold);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.gg-card-tb .gg-meta {
-  font-size: var(--semantic-dimension-font-size-label);
-  color: inherit;
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
-}
-
-:is(.gg-card-tb, .gg-panel-tb) .gg-iconbtn[aria-disabled="true"] {
-  opacity: var(--semantic-number-opacity-disabled-on-inverse-fill);
-  cursor: default;
-}
-
-:is(.gg-panel-tb, .gg-card-tb) :focus-visible {
-  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
-  outline-offset: calc(
-    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
-  );
 }
 
 .gg-card-body {

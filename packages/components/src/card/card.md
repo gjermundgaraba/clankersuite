@@ -4,7 +4,7 @@ category: layout
 
 # Card
 
-The floating surface: a rounded box on a soft shadow, under an inverted title bar. A dialog holds one, and so does a screen that stops the reader, such as a sign-in.
+The floating surface: a rounded box on a soft shadow, under a ruled title bar. A dialog holds one, and so does a screen that stops the reader, such as a sign-in.
 
 ## A card
 

@@ -52,8 +52,8 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 | `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
 | `shadow`     | `card`, on everything that floats                                               |
 
-- `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a title bar or table head. `background.fill.*` fills a bounded shape: a button, a chip, a mark. `background.selected` tints what is selected or current, under text that keeps its own colour.
-- `text.on<Fill>` and `border.on<Fill>` are what reads on that fill.
+- `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a table head, a shelf, a code ground or a hovered row. `background.fill.*` fills a bounded shape: a button, a chip, a mark. `background.selected` tints what is selected or current, under text that keeps its own colour.
+- `text.on<Fill>` is what reads on that fill.
 - `border.primary` contains; `border.divider` divides and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
