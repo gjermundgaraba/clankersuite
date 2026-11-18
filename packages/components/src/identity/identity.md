@@ -4,7 +4,7 @@ category: data
 
 # Identity
 
-Who or what something is: a person, a client, a provider. Its monogram, the letters in a bordered square, stands beside its name, with a meta line under it. Screen readers hear the name once.
+Who or what something is: a person, a client, a provider. Its monogram, the initials of its name in a bordered, rounded square, stands beside its name, with a meta line under it. Screen readers hear the name once.
 
 ::Example{name="name"}
 
@@ -13,9 +13,3 @@ Who or what something is: a person, a client, a provider. Its monogram, the lett
 Set large, as a card's subject.
 
 ::Example{name="large"}
-
-## A drawn mark
-
-A mark the product draws in cells, in place of the letters.
-
-::Example{name="drawing"}

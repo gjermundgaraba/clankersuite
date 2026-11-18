@@ -1,8 +1,7 @@
-import { Glyph } from "@gjermundgaraba/icons";
-import { Array, Number, String, pipe } from "effect";
+import { Array, String, pipe } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-const WORD_BREAK = /[\s._-]+/u;
+const WORD_BREAK = /[^\p{L}\p{N}]+/u;
 const LETTER_COUNT = 2;
 
 const initials = (name: string): string =>
@@ -22,63 +21,30 @@ const initials = (name: string): string =>
     })
   );
 
-const DRAWN_CELL = 1;
-const LARGE_DRAWN_CELL = 2;
-
-const drawingView = <Message>(
-  art: string,
-  isLarge: boolean,
-  h: HtmlBuilder<Message>
-): Html => {
-  const rows = Glyph.artRows(art);
-
-  const columns = Array.reduce(rows, 0, (widest, row) =>
-    Number.max(widest, row.length)
-  );
-
-  const cell = isLarge ? LARGE_DRAWN_CELL : DRAWN_CELL;
-
-  return h.svg(
-    [
-      h.ViewBox(`0 0 ${columns} ${rows.length}`),
-      h.Width(`${columns * cell}`),
-      h.Height(`${rows.length * cell}`),
-      h.AriaHidden(true),
-      h.Class("gg-icon"),
-    ],
-    Array.map(Glyph.toCells(art, columns), Glyph.cellView(h))
-  );
-};
-
 /** Configuration for rendering a monogram with `view`. */
 export type ViewConfig = Readonly<{
   /** Whose mark it is: it gives the letters. */
   label: string;
-  /** A mark the product draws in cells, in place of the letters: rows of `#` (ink) and `.`,
-   *  as a glyph is drawn, on a grid of up to 16 for a large monogram. It prints bare, in ink,
-   *  a pixel per cell (two when large): a provider's own mark redrawn in the system's
-   *  cells, never a picture or a brand colour. */
-  drawing?: string;
   /** 34px, beside a name set large (a card of readings, a wall). */
   isLarge?: boolean;
 }>;
 
-/** Letters in a bordered square, or a mark the product draws in cells: the identity of a person,
- *  a provider or a source. It sits beside the same name in words (as in Identity), so it is
- *  hidden from screen readers, which read the name once, from the words. */
+/** Letters in a bordered, rounded square: the identity of a person, a provider or a source.
+ *  They are the first letter or digit of each of the label's first two words, or the first two
+ *  of a single word; punctuation is no part of a word, so "Factory (Droid)" prints FD. It sits
+ *  beside the same name in words (as in Identity), so it is hidden from screen readers, which
+ *  read the name once, from the words. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, drawing, isLarge = false } = config;
+  const { label, isLarge = false } = config;
 
   return h.span(
     [
       h.AriaHidden(true),
-      h.Class(
-        `gg-monogram${drawing === undefined ? "" : " gg-drawn"}${isLarge ? " gg-large" : ""}`
-      ),
+      h.Class(isLarge ? "gg-monogram gg-large" : "gg-monogram"),
     ],
-    [drawing === undefined ? initials(label) : drawingView(drawing, isLarge, h)]
+    [initials(label)]
   );
 };
