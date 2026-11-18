@@ -14,11 +14,11 @@
       },
       "card": {
         "$value": "{primitive.duration.140}",
-        "$description": "A card or toast stepping in."
+        "$description": "A card or toast easing in."
       },
       "veil": {
         "$value": "{primitive.duration.120}",
-        "$description": "The veil stepping in behind a dialog."
+        "$description": "The veil easing in behind a dialog."
       }
     }
   }

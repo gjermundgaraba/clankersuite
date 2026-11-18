@@ -5,16 +5,20 @@
     "fontFamily": {
       "$type": "fontFamily",
       "ui": {
-        "$value": "{primitive.fontFamily.departureMono}",
-        "$description": "Controls, labels, chrome: the pixel face."
+        "$value": "{primitive.fontFamily.inter}",
+        "$description": "Controls, labels, chrome."
       },
       "body": {
-        "$value": "{primitive.fontFamily.systemSans}",
+        "$value": "{primitive.fontFamily.inter}",
         "$description": "Running text."
       },
       "code": {
         "$value": "{primitive.fontFamily.systemMono}",
         "$description": "Code and program output."
+      },
+      "brand": {
+        "$value": "{primitive.fontFamily.departureMono}",
+        "$description": "The wordmark's face."
       }
     }
   }

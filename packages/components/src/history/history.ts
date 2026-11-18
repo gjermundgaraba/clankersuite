@@ -28,7 +28,8 @@ export type ViewConfig = Readonly<{
   entries: readonly Entry[];
   variant?: Variant;
   /** Each entry in full on two lines: when and who, then what, wrapping as long as it runs.
-   *  For an activity log whose words matter more than a tidy column. */
+   *  Controls that don't fit beside when and who drop under them together. For an activity log
+   *  whose words matter more than a tidy column. */
   isWrapped?: boolean;
   /** Names the list for screen readers: `"Workspace activity, newest first"`. */
   label?: string;
@@ -48,7 +49,9 @@ const entryView =
           ? []
           : [h.span([h.Class("gg-who")], entry.who)]),
         h.span([h.Class("gg-what")], entry.what),
-        ...(entry.actions ?? []),
+        ...(entry.actions === undefined
+          ? []
+          : [h.span([h.Class("gg-acts")], entry.actions)]),
       ]
     );
 

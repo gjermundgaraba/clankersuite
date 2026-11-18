@@ -14,7 +14,7 @@ A container takes a 2px ink border, a divider a 1px rule, a ring 3px.
 
 ## Corners
 
-`control` rounds what is pressed or typed into; `surface` rounds what contains. Both are 0 in clankersuite: every corner is square.
+`control` rounds what is pressed or typed into; `surface` rounds what contains.
 
 ::Tokens{prefix="--semantic-dimension-radius"}
 

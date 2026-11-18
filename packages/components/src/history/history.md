@@ -14,7 +14,7 @@ A version log, with the version in force printed inverted and the controls that 
 
 ## Activity, a page at a time
 
-`isWrapped` prints each entry in full on two lines, when and who, then what, for a log whose words matter more than a tidy column. An endless log pages with a control under the list that asks for the next page, and ends on an empty state once nothing is left.
+`isWrapped` prints each entry in full on two lines, when and who, then what, for a log whose words matter more than a tidy column. Where an entry's controls don't fit beside when and who on a narrow window, they drop under them together, so who breaks only between words. An endless log pages with a control under the list that asks for the next page, and ends on an empty state once nothing is left.
 
 ::Example{name="activity"}
 

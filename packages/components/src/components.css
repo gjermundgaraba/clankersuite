@@ -130,7 +130,6 @@ kbd {
   color: var(--semantic-color-text-on-inverse-fill);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-x-large);
   text-decoration: none;
@@ -198,7 +197,6 @@ button.gg-tag > span {
 .gg-label {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -342,7 +340,7 @@ button.gg-tag > span {
 }
 
 .gg-wordmark {
-  font-family: var(--semantic-font-family-ui);
+  font-family: var(--semantic-font-family-brand);
   font-size: var(--semantic-dimension-font-size-wordmark);
   font-weight: var(--semantic-font-weight-regular);
   letter-spacing: var(--semantic-dimension-letter-spacing-wordmark);
@@ -402,7 +400,6 @@ button.gg-tag > span {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
-  text-transform: uppercase;
 }
 
 .gg-link-state.gg-offline {
@@ -426,8 +423,6 @@ button.gg-tag > span {
 .gg-textbtn {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   background: none;
   border: 0;
   color: var(--semantic-color-text-primary);
@@ -464,8 +459,6 @@ a.gg-textbtn {
 .gg-nav button {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: none;
@@ -474,6 +467,30 @@ a.gg-textbtn {
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* the end items round inside the strip's border, so their grounds keep its corners; clipping
+   the strip instead would clip their focus rings */
+.gg-nav > :first-child {
+  border-start-start-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-container)
+  );
+  border-end-start-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-container)
+  );
+}
+
+.gg-nav > :last-child {
+  border-start-end-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-container)
+  );
+  border-end-end-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-container)
+  );
 }
 
 .gg-nav > :is(a, button) + :is(a, button) {
@@ -606,8 +623,6 @@ a.gg-textbtn {
 .gg-btn {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   display: inline-flex;
   align-items: center;
   gap: var(--semantic-dimension-space-gap-x-small);
@@ -730,9 +745,12 @@ a.gg-textbtn {
   margin-left: var(--semantic-dimension-space-gap-inline);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: none;
   letter-spacing: 0;
   opacity: var(--semantic-number-opacity-key-hint);
+}
+
+.gg-btn.gg-primary .gg-key-hint {
+  opacity: 1;
 }
 
 .gg-btn {
@@ -779,8 +797,6 @@ a.gg-textbtn {
   gap: var(--semantic-dimension-space-gap-medium);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   text-align: left;
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
@@ -822,7 +838,6 @@ a.gg-textbtn {
 .gg-menu .gg-key-hint {
   font-family: inherit;
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: none;
   color: var(--semantic-color-text-secondary);
 }
 
@@ -860,7 +875,6 @@ a.gg-textbtn {
       --semantic-number-line-height-body
     )
     var(--semantic-font-family-body);
-  text-transform: none;
   letter-spacing: normal;
   white-space: nowrap;
   color: var(--semantic-color-text-secondary);
@@ -888,7 +902,6 @@ a.gg-textbtn {
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
-  box-shadow: var(--semantic-shadow-panel);
   min-width: 0;
 }
 
@@ -906,7 +919,6 @@ a.gg-textbtn {
 .gg-panel-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
   font-weight: var(--semantic-font-weight-regular);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
 }
 
@@ -1048,7 +1060,6 @@ a.gg-textbtn {
   min-height: var(--semantic-dimension-size-chip);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
@@ -1142,7 +1153,6 @@ button.gg-fchip:active {
 .gg-chip {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
@@ -1243,7 +1253,6 @@ button.gg-mark {
   text-overflow: ellipsis;
   white-space: nowrap;
   background: none;
-  text-transform: none;
   letter-spacing: normal;
 }
 
@@ -1622,7 +1631,6 @@ input.gg-inline-input[aria-invalid="true"] {
 .gg-flash-word {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-primary);
   min-width: var(--semantic-dimension-size-measure-x-small);
@@ -1669,7 +1677,6 @@ select {
   cursor: pointer;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: none;
 }
 
 select::picker-icon {
@@ -1683,7 +1690,7 @@ select::picker(select) {
   border: var(--semantic-dimension-border-width-container) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
-  box-shadow: var(--semantic-shadow-panel);
+  box-shadow: var(--semantic-shadow-card);
 }
 
 select option {
@@ -1741,7 +1748,6 @@ button.gg-choice {
 .gg-choice .gg-choice-name {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
 }
 
@@ -1809,7 +1815,6 @@ button.gg-choice {
   display: block;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
   margin-bottom: var(--semantic-dimension-space-gap-xx-small);
@@ -1823,7 +1828,7 @@ button.gg-choice {
   background: var(--semantic-color-background-surface);
   border: none;
   border-bottom: var(--semantic-dimension-border-width-divider) dotted
-    var(--semantic-color-border-secondary);
+    var(--semantic-color-border-primary);
   padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
   border-radius: var(--semantic-dimension-radius-control);
 }
@@ -1863,7 +1868,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 
 .gg-markdown-surface {
   border-bottom: var(--semantic-dimension-border-width-divider) dotted
-    var(--semantic-color-border-secondary);
+    var(--semantic-color-border-primary);
   padding-bottom: var(
     --semantic-dimension-space-control-padding-block-xxx-small
   );
@@ -2046,7 +2051,6 @@ textarea::-webkit-resizer {
 .gg-notice strong {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
   font-weight: var(--semantic-font-weight-regular);
   display: block;
@@ -2121,7 +2125,6 @@ select[aria-invalid="true"] {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-on-head);
   background: var(--semantic-color-background-head);
@@ -2223,7 +2226,6 @@ select[aria-invalid="true"] {
     display: block;
     font-family: var(--semantic-font-family-ui);
     font-size: var(--semantic-dimension-font-size-label);
-    text-transform: uppercase;
     letter-spacing: var(--semantic-dimension-letter-spacing-label);
     color: var(--semantic-color-text-secondary);
   }
@@ -2274,7 +2276,6 @@ select[aria-invalid="true"] {
 .gg-props dt {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -2492,6 +2493,13 @@ pre.gg-code-surface {
   white-space: nowrap;
 }
 
+.gg-history-list .gg-acts {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-large);
+}
+
 .gg-history-list li.gg-current .gg-v {
   background: var(--semantic-color-background-fill-inverse);
   color: var(--semantic-color-text-on-inverse-fill);
@@ -2572,7 +2580,6 @@ pre.gg-code-surface {
 .gg-diff tr.gg-fold td {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-on-head);
   background: var(--semantic-color-background-head);
@@ -2631,7 +2638,7 @@ dialog.gg-veil:focus {
   position: fixed;
   inset: 0;
   background: var(--gg-veil-grain), var(--semantic-color-background-backdrop);
-  animation: gg-veil-in var(--semantic-duration-veil) steps(3, end);
+  animation: gg-veil-in var(--semantic-duration-veil) ease-out;
 }
 
 @keyframes gg-veil-in {
@@ -2647,7 +2654,7 @@ dialog.gg-veil:focus {
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-card);
   width: min(var(--semantic-dimension-size-max-width-card), 100%);
-  animation: gg-card-in var(--semantic-duration-card) steps(3, end);
+  animation: gg-card-in var(--semantic-duration-card) ease-out;
   max-height: calc(
     100vh - var(--semantic-dimension-space-viewport-gutter-x-large)
   );
@@ -2683,7 +2690,6 @@ dialog.gg-veil:focus {
 .gg-card-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
   font-weight: var(--semantic-font-weight-regular);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
   flex: 1;
   overflow: hidden;
@@ -2764,7 +2770,6 @@ dialog.gg-veil:focus {
   overflow-wrap: anywhere;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-head);
   font-weight: var(--semantic-font-weight-regular);
 }
@@ -2787,7 +2792,6 @@ dialog.gg-veil:focus {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
   margin: 0 0 var(--semantic-dimension-space-gap-xx-small);
@@ -2853,7 +2857,6 @@ dialog.gg-veil:focus {
 .gg-palette-title {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   flex: none;
 }
@@ -2871,7 +2874,6 @@ dialog.gg-veil:focus {
     var(--semantic-dimension-space-control-padding-block-xx-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -2894,8 +2896,6 @@ dialog.gg-veil:focus {
     );
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   cursor: pointer;
   background: none;
   border: 0;
@@ -2924,7 +2924,6 @@ dialog.gg-veil:focus {
 .gg-palette-row .gg-hint {
   margin-left: auto;
   font-size: var(--semantic-dimension-font-size-state);
-  text-transform: none;
   color: var(--semantic-color-text-secondary);
   flex: 0 1 auto;
   min-width: 0;
@@ -2953,7 +2952,6 @@ dialog.gg-veil:focus {
 .gg-palette-row.gg-authored {
   font-family: var(--semantic-font-family-body);
   font-size: var(--semantic-dimension-font-size-body);
-  text-transform: none;
   letter-spacing: normal;
 }
 
@@ -3011,7 +3009,6 @@ dialog.gg-veil:focus {
 .gg-empty-title {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   font-weight: var(--semantic-font-weight-regular);
 }
@@ -3556,8 +3553,6 @@ dialog.gg-veil:focus {
   overflow-wrap: anywhere;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-name);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .gg-meter-line {
@@ -3650,15 +3645,18 @@ dialog.gg-veil:focus {
   padding: 0 var(--semantic-dimension-space-control-padding-inline-xx-small);
 }
 
+/* who sits beside when at its full width while there is room, the controls dropping under
+   them together where there is not, and breaks only between words, or inside one too wide
+   for the line */
 .gg-history-list.gg-wrapped .gg-who {
-  flex: 1;
+  flex: 1 1 auto;
   width: auto;
   max-width: none;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
-.gg-history-list.gg-wrapped li > :not(.gg-v, .gg-who, .gg-what) {
+.gg-history-list.gg-wrapped .gg-acts {
   margin-left: auto;
 }
 
@@ -3679,7 +3677,6 @@ dialog.gg-veil:focus {
   gap: var(--semantic-dimension-space-gap-xxx-small) 0;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .gg-crumbs li + li::before {
@@ -3742,7 +3739,6 @@ dialog.gg-veil:focus {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   font-weight: var(--semantic-font-weight-regular);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-primary);
 }
@@ -3795,7 +3791,6 @@ dialog.gg-veil:focus {
     var(--semantic-color-border-divider);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
   color: var(--semantic-color-text-secondary);
 }
 
@@ -3862,7 +3857,6 @@ dialog.gg-veil:focus {
 .gg-prose h4 {
   font: var(--semantic-dimension-font-size-control) /
     var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
 }
 
@@ -3875,7 +3869,6 @@ dialog.gg-veil:focus {
 .gg-prose h6 {
   font: var(--semantic-dimension-font-size-label) /
     var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -4036,7 +4029,6 @@ dialog.gg-veil:focus {
   text-align: center;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-title);
   color: var(--semantic-color-text-secondary);
 }
@@ -4061,7 +4053,6 @@ dialog.gg-veil:focus {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   line-height: var(--semantic-number-line-height-none);
-  text-transform: uppercase;
   user-select: none;
 }
 
@@ -4193,7 +4184,6 @@ dialog.gg-veil:focus {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-state);
   line-height: var(--semantic-number-line-height-compact);
-  text-transform: uppercase;
   letter-spacing: var(--semantic-dimension-letter-spacing-state);
   overflow: visible;
 }
@@ -4202,7 +4192,6 @@ dialog.gg-veil:focus {
   margin-left: var(--semantic-dimension-space-gap-x-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: none;
   letter-spacing: 0;
   opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
@@ -4228,8 +4217,6 @@ dialog.gg-veil:focus {
   user-select: none;
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
-  text-transform: uppercase;
-  letter-spacing: var(--semantic-dimension-letter-spacing-caps);
 }
 
 .gg-disclosure > summary::-webkit-details-marker {
@@ -4480,7 +4467,7 @@ dialog.gg-veil:focus {
 
   .gg-railed,
   .gg-railed > :is(.gg-rail, .gg-bench) {
-    transition: var(--semantic-duration-card) steps(3, end);
+    transition: var(--semantic-duration-card) ease-out;
     transition-property: padding-left, width, left;
   }
 
@@ -4516,7 +4503,7 @@ dialog.gg-veil:focus {
     border-right: var(--semantic-dimension-border-width-container) solid
       var(--semantic-color-border-primary);
     box-shadow: var(--semantic-shadow-card);
-    animation: gg-rail-in var(--semantic-duration-card) steps(3, end);
+    animation: gg-rail-in var(--semantic-duration-card) ease-out;
   }
 
   .gg-rail[popover]::backdrop {
@@ -4849,7 +4836,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-reel-pane.gg-focused > .gg-window {
-  box-shadow: var(--semantic-shadow-card);
+  border-color: var(--semantic-color-focus-ring-secondary);
 }
 
 .gg-reel-pane:focus-visible {
@@ -4960,7 +4947,7 @@ dialog.gg-veil:focus {
 }
 
 .gg-toasts .gg-toast {
-  animation: gg-toast-in var(--semantic-duration-card) steps(3, end);
+  animation: gg-toast-in var(--semantic-duration-card) ease-out;
 }
 
 @keyframes gg-toast-in {

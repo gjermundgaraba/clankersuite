@@ -16,7 +16,7 @@
       },
       "regular": {
         "$value": "{primitive.fontWeight.400}",
-        "$description": "Regular weight: what resets a heading in the pixel face."
+        "$description": "Regular weight, where a rule sets text back from a heavier default."
       },
       "bold": {
         "$value": "{primitive.fontWeight.700}",

@@ -19,7 +19,7 @@
         },
         "keyHint": {
           "$value": "{primitive.number.opacity.650}",
-          "$description": "A key hint printed after a button's words."
+          "$description": "A key hint printed after a button's words; a primary button's prints opaque."
         },
         "tools": {
           "$value": "{primitive.number.opacity.550}",
@@ -57,7 +57,7 @@
         },
         "label": {
           "$value": "{primitive.number.lineHeight.1400}",
-          "$description": "Pixel headings in long-form reading."
+          "$description": "The third, fourth and sixth heading levels in long-form reading."
         },
         "proseNotice": {
           "$value": "{primitive.number.lineHeight.1550}",
@@ -109,7 +109,7 @@
       "scale": {
         "card": {
           "$value": "{primitive.number.scale.970}",
-          "$description": "How small a card or toast starts as it steps in."
+          "$description": "How small a card or toast starts as it eases in."
         }
       },
       "fontScale": {

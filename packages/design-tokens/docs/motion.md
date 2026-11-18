@@ -12,7 +12,7 @@ Nothing eases. A committed change inverts the element for one beat; a card, a to
 
 ## Arriving cards
 
-A card steps up to full size from this scale.
+A card eases up to full size from this scale.
 
 ::Tokens{prefix="--semantic-number-scale"}
 
