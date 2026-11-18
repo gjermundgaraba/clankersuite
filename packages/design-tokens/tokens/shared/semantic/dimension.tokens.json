@@ -188,14 +188,6 @@
             "$value": "{primitive.dimension.120}",
             "$description": "The shortest a reel pane prints."
           },
-          "benchWork": {
-            "$value": "{primitive.dimension.152}",
-            "$description": "The least of its height a bench's work keeps: a reel pane and two gutters."
-          },
-          "benchHead": {
-            "$value": "{primitive.dimension.64}",
-            "$description": "The least of its head a short bench window keeps: its padding and a small button."
-          },
           "textarea": {
             "$value": "{primitive.dimension.96}",
             "$description": "The least height of a textarea."
@@ -326,10 +318,6 @@
           "$description": "The line height of a diff's line numbers."
         },
         "maxHeight": {
-          "palette": {
-            "$value": "{primitive.dimension.420}",
-            "$description": "The tallest a palette's list grows."
-          },
           "boardColumnRoom": {
             "$value": "{primitive.dimension.150}",
             "$description": "What a board column leaves of the viewport's height."
@@ -337,12 +325,6 @@
           "markdownImage": {
             "$value": "{primitive.dimension.480}",
             "$description": "The tallest an image grows in the Markdown editor."
-          }
-        },
-        "tree": {
-          "glyphRoom": {
-            "$value": "{primitive.dimension.30}",
-            "$description": "What a narrow tree row keeps beside its grower for the glyph."
           }
         },
         "meter": {
@@ -363,16 +345,6 @@
           "large": {
             "$value": "{primitive.dimension.34}",
             "$description": "A large monogram's height and least width."
-          }
-        },
-        "lift": {
-          "boardCard": {
-            "$value": "{primitive.dimension.240}",
-            "$description": "A lifted board card's width before the drag measures the card."
-          },
-          "listItem": {
-            "$value": "{primitive.dimension.320}",
-            "$description": "A lifted sortable or reel item's width before the drag measures the item."
           }
         },
         "controlSmall": {

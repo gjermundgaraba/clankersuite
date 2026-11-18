@@ -10,7 +10,8 @@ export type ViewConfig<Message> = Readonly<{
    *  class. */
   headAttributes?: Attributes<Message>;
   /** The work, taking the rest of the window's height and never less than
-   *  `--semantic-dimension-size-min-height-bench-work`: a Reel, which fills it, and the page's dialogs. */
+   *  a reel pane and the reel's room above and below it: a Reel, which fills it, and the
+   *  page's dialogs. */
   body: ReadonlyArray<Html | string>;
 }>;
 

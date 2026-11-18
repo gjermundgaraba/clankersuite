@@ -36,7 +36,7 @@
   overflow-y: auto;
   padding: var(--semantic-dimension-space-x-small) 0
     var(--semantic-dimension-space-small);
-  max-height: min(50vh, var(--semantic-dimension-size-max-height-palette));
+  max-height: min(50vh, 12 * var(--semantic-dimension-size-row));
 }
 
 .gg-palette-group {

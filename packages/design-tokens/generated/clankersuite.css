@@ -77,7 +77,6 @@
   --primitive-dimension-120: 120px;
   --primitive-dimension-148: 148px;
   --primitive-dimension-150: 150px;
-  --primitive-dimension-152: 152px;
   --primitive-dimension-160: 160px;
   --primitive-dimension-180: 180px;
   --primitive-dimension-220: 220px;
@@ -87,7 +86,6 @@
   --primitive-dimension-300: 300px;
   --primitive-dimension-320: 320px;
   --primitive-dimension-392: 392px;
-  --primitive-dimension-420: 420px;
   --primitive-dimension-440: 440px;
   --primitive-dimension-460: 460px;
   --primitive-dimension-480: 480px;
@@ -215,11 +213,8 @@
   --semantic-dimension-size-dot: var(--primitive-dimension-10);
   --semantic-dimension-size-glyph-large: var(--primitive-dimension-24);
   --semantic-dimension-size-glyph-row: var(--primitive-dimension-18);
-  --semantic-dimension-size-lift-board-card: var(--primitive-dimension-240);
-  --semantic-dimension-size-lift-list-item: var(--primitive-dimension-320);
   --semantic-dimension-size-max-height-board-column-room: var(--primitive-dimension-150);
   --semantic-dimension-size-max-height-markdown-image: var(--primitive-dimension-480);
-  --semantic-dimension-size-max-height-palette: var(--primitive-dimension-420);
   --semantic-dimension-size-max-width-card: var(--primitive-dimension-680);
   --semantic-dimension-size-max-width-card-narrow: var(--primitive-dimension-440);
   --semantic-dimension-size-max-width-deck: var(--primitive-dimension-1160);
@@ -243,8 +238,6 @@
   --semantic-dimension-size-measure-xx-small: var(--primitive-dimension-measure-4);
   --semantic-dimension-size-meter-height: var(--primitive-dimension-6);
   --semantic-dimension-size-meter-width: var(--primitive-dimension-160);
-  --semantic-dimension-size-min-height-bench-head: var(--primitive-dimension-64);
-  --semantic-dimension-size-min-height-bench-work: var(--primitive-dimension-152);
   --semantic-dimension-size-min-height-code-surface: var(--primitive-dimension-220);
   --semantic-dimension-size-min-height-meta-row: var(--primitive-dimension-14);
   --semantic-dimension-size-min-height-reel-pane: var(--primitive-dimension-120);
@@ -269,7 +262,6 @@
   --semantic-dimension-size-status-bar: var(--primitive-dimension-25);
   --semantic-dimension-size-target: var(--primitive-dimension-24);
   --semantic-dimension-size-top-bar: var(--primitive-dimension-48);
-  --semantic-dimension-size-tree-glyph-room: var(--primitive-dimension-30);
   --semantic-dimension-space-control-padding-inline-default: var(--semantic-dimension-space-medium);
   --semantic-dimension-space-control-padding-inline-small: var(--semantic-dimension-space-small);
   --semantic-dimension-space-focus-ring-offset-large: var(--semantic-dimension-space-x-small);

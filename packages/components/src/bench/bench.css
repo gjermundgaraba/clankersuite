@@ -5,10 +5,15 @@
   bottom: var(--gg-statusbar-h);
   left: 0;
   display: grid;
+  /* the work's floor mirrors .gg-reel (a pane and its block padding) and .gg-bench-head
+     (its top gutter, a small button and its bottom padding) */
   grid-template-rows: minmax(0, max-content) minmax(
       min(
-        var(--semantic-dimension-size-min-height-bench-work),
-        100% - var(--semantic-dimension-size-min-height-bench-head)
+        var(--semantic-dimension-size-min-height-reel-pane) + 2 *
+          var(--semantic-dimension-space-large),
+        100% - var(--semantic-dimension-space-gutter) -
+          var(--semantic-dimension-size-control-small) -
+          var(--semantic-dimension-space-small)
       ),
       1fr
     );

@@ -285,7 +285,11 @@ button.gg-glyph {
   }
 
   .gg-tree .gg-row .gg-grow {
-    flex: 1 1 calc(100% - var(--semantic-dimension-size-tree-glyph-room));
+    flex: 1 1
+      calc(
+        100% - var(--semantic-dimension-size-glyph-row) -
+          var(--semantic-dimension-space-medium)
+      );
   }
 
   .gg-tree .gg-row .gg-title {
