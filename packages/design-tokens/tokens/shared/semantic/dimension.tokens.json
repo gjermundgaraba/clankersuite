@@ -361,26 +361,14 @@
             "$description": "What a narrow tree row keeps beside its grower for the glyph."
           }
         },
-        "meterCell": {
+        "meter": {
           "width": {
-            "$value": "{primitive.dimension.10}",
-            "$description": "A meter cell's width."
+            "$value": "{primitive.dimension.160}",
+            "$description": "A meter bar's width; it shrinks in a narrow meter."
           },
           "height": {
-            "$value": "{primitive.dimension.14}",
-            "$description": "A meter cell's height."
-          },
-          "narrow": {
-            "$value": "{primitive.dimension.8}",
-            "$description": "A meter cell's width on a phone or in a narrow meter."
-          },
-          "narrower": {
             "$value": "{primitive.dimension.6}",
-            "$description": "A meter cell's width in a narrower meter."
-          },
-          "narrowest": {
-            "$value": "{primitive.dimension.4}",
-            "$description": "A meter cell's width in the narrowest meter."
+            "$description": "A meter bar's height."
           }
         },
         "monogram": {
