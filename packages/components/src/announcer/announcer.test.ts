@@ -7,7 +7,7 @@ import { byId } from "../test/fixture.ts";
 import { ANNOUNCER_ATTRIBUTE } from "./announcer.ts";
 import * as Announcer from "./announcer.ts";
 
-type Keyframes = Readonly<Record<string, readonly string[]>>;
+type Keyframes = Parameters<Element["animate"]>[0];
 
 type Animation = Readonly<{
   keyframes: Keyframes;
@@ -21,7 +21,7 @@ const recordAnimations = (element: Element): Animation[] => {
     animate: (keyframes: Keyframes, options: KeyframeAnimationOptions) => {
       recorded.push({ keyframes, options });
 
-      return { id: "gg-flash", cancel: () => {} };
+      return { id: "gg-flash", cancel: () => {}, addEventListener: () => {} };
     },
   });
 
@@ -88,7 +88,7 @@ describe("announce", () => {
 });
 
 describe("flash", () => {
-  it("inverts the element for the middle half of the stylesheet's beat", async () => {
+  it("lays the tint over the element and eases it out over the stylesheet's beat", async () => {
     document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0.7s"></button>`;
     const recorded = recordAnimations(byId("tile"));
 
@@ -96,8 +96,18 @@ describe("flash", () => {
 
     expect(recorded).toStrictEqual([
       {
-        keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 350, delay: 175, id: "gg-flash" },
+        keyframes: {
+          boxShadow: [
+            "inset 0 0 0 100vmax var(--semantic-color-background-selected)",
+            "inset 0 0 0 100vmax transparent",
+          ],
+        },
+        options: {
+          duration: 700,
+          easing: "ease-out",
+          composite: "add",
+          id: "gg-flash",
+        },
       },
     ]);
   });
@@ -128,8 +138,18 @@ describe("flash", () => {
 
     expect(recorded).toStrictEqual([
       {
-        keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 0, delay: 0, id: "gg-flash" },
+        keyframes: {
+          boxShadow: [
+            "inset 0 0 0 100vmax var(--semantic-color-background-selected)",
+            "inset 0 0 0 100vmax transparent",
+          ],
+        },
+        options: {
+          duration: 0,
+          easing: "ease-out",
+          composite: "add",
+          id: "gg-flash",
+        },
       },
     ]);
   });
@@ -142,9 +162,45 @@ describe("flash", () => {
 
     expect(recorded).toStrictEqual([
       {
-        keyframes: { filter: ["invert(1)", "invert(1)"] },
-        options: { duration: 350, delay: 175, id: "gg-flash" },
+        keyframes: {
+          boxShadow: [
+            "inset 0 0 0 100vmax var(--semantic-color-background-selected)",
+            "inset 0 0 0 100vmax transparent",
+          ],
+        },
+        options: {
+          duration: 700,
+          easing: "ease-out",
+          composite: "add",
+          id: "gg-flash",
+        },
       },
     ]);
+  });
+
+  it("marks the element while the flash runs", async () => {
+    document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0.7s"></button>`;
+    const finishers: Array<() => void> = [];
+
+    Object.assign(byId("tile"), {
+      getAnimations: () => [],
+      animate: () => ({
+        id: "gg-flash",
+        cancel: () => {},
+        addEventListener: (_type: string, finish: () => void) => {
+          finishers.push(finish);
+        },
+      }),
+    });
+
+    await Effect.runPromise(Announcer.flash("#tile"));
+
+    expect(byId("tile").dataset["ggFlash"]).toBe("");
+
+    for (const finish of finishers) {
+      finish();
+    }
+
+    expect(byId("tile").dataset["ggFlash"]).toBeUndefined();
   });
 });

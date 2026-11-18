@@ -190,7 +190,7 @@ const cardView = (
 };
 
 /**
- * The one question before an irreversible step: a glyph in a box, a headline, a sentence. With
+ * The one question before an irreversible step: a glyph, a headline, a sentence. With
  * `isDanger` it is the system's only destructive confirm. The thing that destroys (delete,
  * disable, reset) is a neutral Button at rest that opens this dialog; the red button is the
  * commit inside it, focus starts on cancel, and the dialog is an alert (`alertdialog`); without

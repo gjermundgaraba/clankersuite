@@ -41,7 +41,7 @@ describe("Notice", () => {
     );
   });
 
-  it("prints the tone's glyph box alone", () => {
+  it("prints the tone's glyph alone, marked with its tone", () => {
     Scene.scene(
       {
         update,
