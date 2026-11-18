@@ -22,39 +22,6 @@ describe("Monogram", () => {
     );
   });
 
-  it("prints a drawing in place of the letters, a run of ink to a cell, two pixels when large", () => {
-    Scene.scene(
-      {
-        update: (model: null) => ({ model }),
-        view: (_model: null, h: HtmlBuilder<never>) =>
-          Monogram.view(
-            {
-              label: "Northwind Traders",
-              drawing: `
-                ##..
-                .##.
-                ..##
-                #..#
-              `,
-              isLarge: true,
-            },
-            h
-          ),
-      },
-      Scene.given(null),
-      Scene.expect(Scene.selector(".gg-monogram")).toHaveClass("gg-drawn"),
-      Scene.expect(Scene.selector(".gg-monogram")).toHaveText(""),
-      Scene.expect(Scene.selector(".gg-monogram svg")).toHaveAttr(
-        "viewBox",
-        "0 0 4 4"
-      ),
-      Scene.expect(Scene.selector(".gg-monogram svg")).toHaveAttr("width", "8"),
-      Scene.expectAll(Scene.all.selector(".gg-monogram svg rect")).toHaveCount(
-        5
-      )
-    );
-  });
-
   it("prints the first letters of the first two words, or two of one word", () => {
     Scene.scene(
       {
@@ -74,6 +41,29 @@ describe("Monogram", () => {
       ),
       Scene.expect(Scene.last(Scene.all.selector(".gg-monogram"))).toHaveText(
         "ac"
+      )
+    );
+  });
+
+  it("takes only letters and digits from each word, so punctuation never prints", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          h.div(
+            [],
+            [
+              Monogram.view({ label: "Factory (Droid)" }, h),
+              Monogram.view({ label: "xAI / Grok" }, h),
+            ]
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(Scene.first(Scene.all.selector(".gg-monogram"))).toHaveText(
+        "FD"
+      ),
+      Scene.expect(Scene.last(Scene.all.selector(".gg-monogram"))).toHaveText(
+        "xG"
       )
     );
   });

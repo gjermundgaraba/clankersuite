@@ -365,12 +365,12 @@
         },
         "monogram": {
           "default": {
-            "$value": "{primitive.dimension.22}",
-            "$description": "A monogram."
+            "$value": "{primitive.dimension.26}",
+            "$description": "A monogram's height and least width: two letters at label size, with room."
           },
           "large": {
             "$value": "{primitive.dimension.34}",
-            "$description": "A large monogram."
+            "$description": "A large monogram's height and least width."
           }
         },
         "lift": {
