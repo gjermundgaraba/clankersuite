@@ -4,7 +4,7 @@ category: status
 
 # Chip
 
-A state word in a 2px box: draft, live, late. Its words are its meaning; the colour only repeats them.
+A state word in a small rounded box: draft, live, late. Its words are its meaning; the colour only repeats them.
 
 ## Tones
 
@@ -14,6 +14,6 @@ A state word in a 2px box: draft, live, late. Its words are its meaning; the col
 
 ## Dots
 
-`Chip.dotView` is the chip as a 10px cell in its tone, where a word would take the room a title needs, such as a task row's status before its title. It is an image named by its word, and the application's Tips shows the word as its tip, so the state never rests on its colour.
+`Chip.dotView` is the chip as a small square in its tone, where a word would take the room a title needs, such as a task row's status before its title. It is an image named by its word, and the application's Tips shows the word as its tip, so the state never rests on its colour.
 
 ::Example{name="dots"}

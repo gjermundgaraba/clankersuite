@@ -63,7 +63,7 @@ export const update = (model: Model, message: Message) =>
     }
   );
 
-/** One option: its value, its name in pixel caps, and an optional sans note under it. */
+/** One option: its value, its name, and an optional note under it. */
 export type RadioOption = Readonly<{
   value: string;
   label: string;

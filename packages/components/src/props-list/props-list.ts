@@ -3,7 +3,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** One property: its label, its value and its controls. */
 export type Prop = Readonly<{
-  /** Pixel caps; unique in the list. */
+  /** Unique in the list. */
   label: string;
   value: ReadonlyArray<Html | string>;
   /** Prints the value as code: a key, an id, a path. */
@@ -30,7 +30,7 @@ const propView =
       ]
     );
 
-/** A description list: a pixel-caps label, the value, and an action column, one 34px row
+/** A description list: a label, the value, and an action column, one 34px row
  *  each. */
 export const view = <Message>(
   config: ViewConfig,

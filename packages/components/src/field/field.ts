@@ -67,7 +67,7 @@ export type ViewConfig<Message> = Readonly<{
   error?: string | undefined;
   /** The form is not sent without it: screen readers hear "required" (`aria-required`). */
   isRequired?: boolean;
-  /** A 2px ink box: the field that is the whole job of its form. A date is always boxed. */
+  /** A box: the field that is the whole job of its form. A date is always boxed. */
   isBoxed?: boolean;
   /** Code and identifiers: the system monospace. */
   isMono?: boolean;
@@ -85,7 +85,7 @@ export type ViewConfig<Message> = Readonly<{
 /** A labelled text input with its help line, built on `@foldkit/ui`'s `Input`: the label
  *  names the input, the help line describes it (`aria-describedby`), an `error` sets
  *  `aria-invalid` and describes it before the help, and `isRequired` sets `aria-required`.
- *  The input is boxless, a dotted baseline that turns solid ink on focus. */
+ *  The input is boxless, a dotted baseline that turns solid on focus. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

@@ -63,7 +63,7 @@ export type ViewConfig = Readonly<{
   isLarge?: boolean;
 }>;
 
-/** Letters in an ink square, or a mark the product draws in cells: the identity of a person,
+/** Letters in a bordered square, or a mark the product draws in cells: the identity of a person,
  *  a provider or a source. It sits beside the same name in words (as in Identity), so it is
  *  hidden from screen readers, which read the name once, from the words. */
 export const view = <Message>(

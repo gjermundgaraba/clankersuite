@@ -4,7 +4,7 @@ category: navigation
 
 # Top bar
 
-The sticky paper bar across the top of an interface, closed by a 2px ink rule: the brand at the left, then a NavStrip, then the tools. This site's own top bar is one.
+The sticky bar across the top of an interface, closed by a 1px rule: the brand at the left, then a NavStrip, then the tools. This site's own top bar is one.
 
 ::Example{name="brand-nav-tools"}
 

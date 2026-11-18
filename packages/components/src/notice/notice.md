@@ -8,7 +8,7 @@ One line in the product's own words, beside a glyph in a box: a lost connection,
 
 ## Tones
 
-`Warn`, the default, is amber: a question or a stop. `Error` is red, refused or failed, and is an alert, so a screen reader says it when it appears; the others are quiet. `Ok` is a committed change, in ink. `Quiet` is tinted: nothing wrong. A title prints in pixel caps on its own line, and `glyph` replaces the tone's.
+`Warn`, the default, is amber: a question or a stop. `Error` is red, refused or failed, and is an alert, so a screen reader says it when it appears; the others are quiet. `Ok` is a committed change, in ink. `Quiet` is tinted: nothing wrong. A title prints on its own line, and `glyph` replaces the tone's.
 
 ::Example{name="tones"}
 

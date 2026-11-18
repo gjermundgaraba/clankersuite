@@ -6,7 +6,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document; the button's and the body's ids derive from it. */
   id: string;
-  /** What opens, in pixel caps (`"edit grants"`, `"danger zone"`): the button's name. */
+  /** What opens (`"Edit grants"`, `"Danger zone"`): the button's name. */
   label: string;
   /** Whether it is open, from the parent's Model. */
   isOpen: boolean;

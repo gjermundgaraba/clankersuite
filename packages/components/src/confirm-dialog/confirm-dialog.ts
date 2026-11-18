@@ -105,7 +105,7 @@ export const isOpen = (model: Model): boolean => Dialog.isOpen(model.dialog);
 export type ViewInputs = Readonly<{
   /** The title bar: the action's name (`"Delete"`). */
   title: string;
-  /** Pixel caps under the glyph: the question (`"Delete this file?"`), the Outcome's title. */
+  /** Under the glyph: the question (`"Delete this file?"`), the Outcome's title. */
   question: string;
   /** One sans sentence: what happens, and what cannot be undone. Markup that carries no
    *  handlers: it is built in the application's boundary and rendered in this Submodel's (put

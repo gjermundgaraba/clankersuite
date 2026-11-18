@@ -69,7 +69,7 @@ export const update = (model: Model, message: Message) =>
 
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
-  /** Pixel caps: `"Drop files here"`. */
+  /** `"Drop files here"`. */
   title: string;
   /** One sentence: what happens to what is dropped. Markup here carries no handlers: a
    *  Submodel's viewInputs may hold functions only at the top level. */

@@ -20,7 +20,7 @@ export type Variant = typeof Variant.Type;
 export type Look = Readonly<{
   variant?: Variant;
   isSmall?: boolean;
-  /** The action Enter takes in a card: a double ring instead of the print shadow. */
+  /** The action Enter takes in a card: a double ring. */
   isDefault?: boolean;
 }>;
 
@@ -70,8 +70,8 @@ export type ViewConfig<Message> = Look &
   }>;
 
 /**
- * The printed button: pixel caps in a 2px ink box on a 3px print shadow, built on
- * `@foldkit/ui`'s `Button`. It is held while busy or disabled: it prints unavailable
+ * A command the reader gives: a word in a rounded 1px box, built on `@foldkit/ui`'s `Button`.
+ * It is held while busy or disabled: it prints unavailable
  * (`aria-disabled`), has no click handler, keeps its place in the keyboard, and renders as
  * `type="button"` so a held submit button submits nothing, by click or by Enter on itself.
  * While busy it is `aria-busy` too.

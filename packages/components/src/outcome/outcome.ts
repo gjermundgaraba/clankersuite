@@ -5,7 +5,7 @@ import * as Notice from "../notice/notice.ts";
 
 /** Configuration for rendering an outcome with `view`. */
 export type ViewConfig<Message> = Readonly<{
-  /** Pixel caps: what happened, or what is asked (`"Session ended"`). */
+  /** What happened, or what is asked (`"Session ended"`). */
   title: string;
   /** One sans sentence: why, and what to do next. */
   body: ReadonlyArray<Html | string>;

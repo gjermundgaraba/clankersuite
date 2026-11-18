@@ -25,7 +25,7 @@ export type ViewConfig<Message> = Readonly<{
   attributes?: Attributes<Message>;
 }>;
 
-/** A column of components a gap apart; each takes the column's width. Space only: no paper,
+/** A column of components a gap apart; each takes the column's width. Space only: no surface,
  *  border or shadow. Put buttons and chips in a Group or a Wrap inside it, so they keep their
  *  own width. */
 export const view = <Message>(

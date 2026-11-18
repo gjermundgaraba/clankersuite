@@ -4,7 +4,7 @@ order: 7
 
 # Departure Mono
 
-The pixel font of clankersuite, set in every control, label and title: the `--semantic-font-family-ui` token names it. It is self-hosted, so a page needs no font service: the stylesheet declares its `@font-face` and loads one WOFF2 file from this package.
+The brand face of clankersuite, set in the wordmark: the `--semantic-font-family-brand` token names it. It is self-hosted, so a page needs no font service: the stylesheet declares its `@font-face` and loads one WOFF2 file from this package.
 
 ## Import
 

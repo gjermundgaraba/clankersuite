@@ -7,7 +7,7 @@ export type ViewConfig<Message> = Readonly<{
   onClick?: Message;
 }>;
 
-/** A button that reads as a word in the top bar: pixel caps, a dotted rule on hover. */
+/** A button that reads as a word in the top bar: no box, a dotted rule on hover. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

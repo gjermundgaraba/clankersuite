@@ -2239,7 +2239,7 @@ pre.gg-code-surface {
 }
 
 /* syntax: the tok-* classes a highlighter prints (Lezer's classHighlighter names them so),
-   coloured from the content inks. Anything unnamed stays ink. */
+   coloured from the code text tokens. Anything unnamed keeps the text's colour. */
 .tok-keyword {
   color: var(--semantic-color-text-code-keyword);
 }

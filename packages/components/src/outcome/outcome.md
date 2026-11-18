@@ -4,7 +4,7 @@ category: status
 
 # Outcome
 
-A state said in full: a 34px glyph box, a title in pixel caps, one sentence on why and what to do next. It is the body of a confirm, and of a wall that stops the reader: session ended, access refused, service away.
+A state said in full: a 34px glyph box, a title, one sentence on why and what to do next. It is the body of a confirm, and of a wall that stops the reader: session ended, access refused, service away.
 
 ## Tones
 

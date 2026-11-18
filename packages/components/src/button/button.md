@@ -4,7 +4,7 @@ category: actions
 
 # Button
 
-A command the reader gives: pixel caps in an ink box on a print shadow. `Primary` is the one action that commits; `Danger` is only the commit inside a confirm, never a button at rest.
+A command the reader gives: a word in a rounded box. `Primary` is the one action that commits; `Danger` is only the commit inside a confirm, never a button at rest.
 
 ::Example{name="variants"}
 
@@ -16,13 +16,13 @@ The small size for row tools, panel bars and anything set among text.
 
 ## Default
 
-The action Enter takes in a card wears a double ring instead of the print shadow.
+The action Enter takes in a card wears a double ring.
 
 ::Example{name="default-ring"}
 
 ## Danger
 
-Danger prints in red ink on a red shadow, and only as the commit inside the confirm that a destructive action opens. A destructive action at rest is a neutral button that opens a danger `ConfirmDialog`.
+Danger prints in red, and only as the commit inside the confirm that a destructive action opens. A destructive action at rest is a neutral button that opens a danger `ConfirmDialog`.
 
 ::Example{name="danger"}
 

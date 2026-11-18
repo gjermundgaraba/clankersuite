@@ -3,7 +3,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** Configuration for rendering an empty state with `view`. */
 export type ViewConfig = Readonly<{
-  /** Pixel caps: what is missing (`"Nothing queued"`). */
+  /** What is missing (`"Nothing queued"`). */
   title: string;
   /** The title's element, which looks the same either way. A heading at this level where the
    *  empty state is the page's or a section's main content: `3` inside a Panel, whose title is

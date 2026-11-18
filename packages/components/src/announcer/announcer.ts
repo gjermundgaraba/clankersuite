@@ -178,7 +178,7 @@ export const Announce = Command.define("Announce", {
 /**
  * Inverts the element `selector` finds for one beat (`--semantic-duration-flash`): the signal that a
  * change was committed. A second flash mid-beat restarts it. With `prefers-reduced-motion`
- * it holds a still 2px ink ring for the beat instead. Return it beside `Announce`, which says
+ * it holds a still ring for the beat instead. Return it beside `Announce`, which says
  * what the flash shows. Reports `CompletedFlash`.
  */
 export const Flash = Command.define("Flash", {
