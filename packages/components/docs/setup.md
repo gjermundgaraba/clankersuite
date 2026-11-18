@@ -8,7 +8,7 @@ What an application does once, so that every component works as its page shows.
 
 ## Stylesheets
 
-Import the brand's stylesheet once, from the client entry. It brings the brand's fonts, then its tokens, then the components' rules; the components take every value from the tokens, so the tokens load first.
+Import `clankersuite.css` once, from the client entry. It brings the fonts, then the tokens, then the components' rules; the components take every value from the tokens, so the tokens load first.
 
 ```ts
 import "@gjermundgaraba/components/clankersuite.css";

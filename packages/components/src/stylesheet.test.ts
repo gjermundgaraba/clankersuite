@@ -30,7 +30,7 @@ const STYLESHEET = [
   asCss(LIVE_MARKDOWN_STYLE),
 ].join("\n");
 
-describe("the brand stylesheet", () => {
+describe("clankersuite.css", () => {
   it("imports every other stylesheet in the package, once", () => {
     const imported = Array.from(
       STYLESHEETS["./clankersuite.css"]?.matchAll(
@@ -150,7 +150,7 @@ describe("the stylesheet's values", () => {
     ).toStrictEqual([]);
   });
 
-  it("uses only semantic tokens, each one the brand stylesheet defines", () => {
+  it("uses only semantic tokens, each one the token stylesheet defines", () => {
     const defined = new Set(
       Array.from(
         TOKENS.matchAll(/(?<name>--semantic-[-\w]+):/gu),
@@ -226,7 +226,7 @@ describe("the stylesheet's other names", () => {
     ).toStrictEqual([]);
   });
 
-  it("names its own custom properties and anchors --gg-, beside the brand's tokens", () => {
+  it("names its own custom properties and anchors --gg-, beside the tokens", () => {
     const names = namesIn(/(?<![\w-])(?<name>--[a-zA-Z][-\w]*)/gu);
 
     expect(names.length).toBeGreaterThan(100);

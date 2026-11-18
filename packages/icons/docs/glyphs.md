@@ -12,7 +12,7 @@ import { Glyph } from "@gjermundgaraba/icons";
 Glyph.view({ name: "caret-down" }, h);
 ```
 
-A component that shows a glyph takes its name, as `Button.view({ label: "Add", glyph: "plus" }, h)` does. `GlyphName` is every name in the set; the names are shared by every brand.
+A component that shows a glyph takes its name, as `Button.view({ label: "Add", glyph: "plus" }, h)` does. `GlyphName` is every name in the set.
 
 ## Every glyph
 

@@ -35,11 +35,11 @@ const directAlias = (
   return alias;
 };
 
-const lightDarkCss = (filename: string): Plugin => {
+const lightDarkCss = (): Plugin => {
   let darkTokens: Readonly<Record<string, TokenNormalized>> = {};
 
   const inner = css({
-    filename,
+    filename: "clankersuite.css",
     legacyHex: true,
     permutations: [
       {
@@ -88,23 +88,22 @@ const lightDarkCss = (filename: string): Plugin => {
 };
 
 /**
- * The Terrazzo build for one brand: `tokens/<brand>.resolver.json` to
- * `generated/<brand>.css`. Semantic colours print as `light-dark(light, dark)`, so they follow
- * the `color-scheme` of the element that uses them: the reader's preference by default,
- * `data-color-scheme` on `<html>` to pin one, or `color-scheme` on any element below it.
+ * The Terrazzo build: `tokens/resolver.json` to `generated/clankersuite.css`. Semantic colours
+ * print as `light-dark(light, dark)`, so they follow the `color-scheme` of the element that
+ * uses them: the reader's preference by default, `data-color-scheme` on `<html>` to pin one,
+ * or `color-scheme` on any element below it.
  */
-export const brandConfig = (brand: string) =>
-  defineConfig({
-    tokens: [path.join(import.meta.dirname, `tokens/${brand}.resolver.json`)],
-    outDir: "./generated/",
-    plugins: [lightDarkCss(`${brand}.css`)],
-    lint: {
-      rules: {
-        "core/consistent-naming": ["error", { format: "camelCase" }],
-        "core/valid-dimension": [
-          "error",
-          { allowedUnits: ["px", "em", "rem", "ch"] },
-        ],
-      },
+export default defineConfig({
+  tokens: [path.join(import.meta.dirname, "tokens/resolver.json")],
+  outDir: "./generated/",
+  plugins: [lightDarkCss()],
+  lint: {
+    rules: {
+      "core/consistent-naming": ["error", { format: "camelCase" }],
+      "core/valid-dimension": [
+        "error",
+        { allowedUnits: ["px", "em", "rem", "ch"] },
+      ],
     },
-  });
+  },
+});

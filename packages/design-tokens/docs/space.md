@@ -4,7 +4,7 @@ order: 4
 
 # Space and lines
 
-Whole pixels throughout, and spacing on a 4px rhythm. A component picks a step; a brand that changes a step changes every component on it.
+Whole pixels throughout, and spacing on a 4px rhythm. A component picks a step; changing a step changes every component on it.
 
 ## Lines
 
@@ -26,7 +26,7 @@ The fixed sizes of things: controls, rows, glyphs, bars and rails, and the width
 
 ## Space
 
-One scale on a 4px rhythm, from `xx-small` to `xx-large`. A gap, a padding or a margin takes a step. `inset` is the padding inside a surface's body and `gutter` the room between surfaces and at the page's edge; a brand can change either without moving the scale. `control-padding-inline-*` is the room beside a control's label (its height is a size, above); `focus-ring-offset-*` is how far a focus ring stands off its box; `underline-offset` how far an underline sits below text.
+One scale on a 4px rhythm, from `xx-small` to `xx-large`. A gap, a padding or a margin takes a step. `inset` is the padding inside a surface's body and `gutter` the room between surfaces and at the page's edge; either can change without moving the scale. `control-padding-inline-*` is the room beside a control's label (its height is a size, above); `focus-ring-offset-*` is how far a focus ring stands off its box; `underline-offset` how far an underline sits below text.
 
 ::Tokens{prefix="--semantic-dimension-space"}
 
