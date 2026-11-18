@@ -1,4 +1,5 @@
 /* The clankersuite brand: its font, its tokens, then the components' stylesheet. */
+@import "@gjermundgaraba/fonts/inter.css";
 @import "@gjermundgaraba/fonts/departure-mono.css";
 @import "@gjermundgaraba/design-tokens/clankersuite.css";
 @import "./components.css";

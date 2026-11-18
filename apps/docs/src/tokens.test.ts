@@ -62,8 +62,8 @@ describe("the token tables", () => {
     Scene.scene(
       { update: (model: unknown) => ({ model }), view: colourTableView },
       Scene.given({}),
-      Scene.expect(Scene.text("paper #16150f")).toExist(),
-      Scene.expect(Scene.text("plum #efecf3")).toExist()
+      Scene.expect(Scene.text("paper #1b211f")).toExist(),
+      Scene.expect(Scene.text("plum #e3e2da")).toExist()
     );
   });
 

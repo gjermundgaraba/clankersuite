@@ -6,23 +6,23 @@
       "$type": "dimension",
       "fontSize": {
         "label": {
-          "$value": "{primitive.dimension.10}",
+          "$value": "{primitive.dimension.13}",
           "$description": "Labels, field labels, table heads, meta."
         },
         "state": {
-          "$value": "{primitive.dimension.11}",
+          "$value": "{primitive.dimension.13}",
           "$description": "Chips, tabs, ages, counts, state words."
         },
         "control": {
-          "$value": "{primitive.dimension.12}",
+          "$value": "{primitive.dimension.14}",
           "$description": "Buttons, nav, menus, code, notices."
         },
         "body": {
-          "$value": "{primitive.dimension.13}",
+          "$value": "{primitive.dimension.15}",
           "$description": "Body text, title bars."
         },
         "name": {
-          "$value": "{primitive.dimension.14}",
+          "$value": "{primitive.dimension.15}",
           "$description": "A group's or a meter's name."
         },
         "title": {
@@ -30,11 +30,11 @@
           "$description": "An editable title in a card."
         },
         "page": {
-          "$value": "{primitive.dimension.22}",
+          "$value": "{primitive.dimension.26}",
           "$description": "A working screen's name (PageHead)."
         },
         "pageNarrow": {
-          "$value": "{primitive.dimension.18}",
+          "$value": "{primitive.dimension.22}",
           "$description": "A working screen's name on a phone."
         },
         "wordmark": {
@@ -84,24 +84,24 @@
       },
       "letterSpacing": {
         "caps": {
-          "$value": "{primitive.dimension.letterSpacing.40}",
-          "$description": "Uppercase pixel controls."
+          "$value": "{primitive.dimension.0}",
+          "$description": "Control labels: none, they are set in sentence case."
         },
         "state": {
-          "$value": "{primitive.dimension.letterSpacing.50}",
+          "$value": "{primitive.dimension.0}",
           "$description": "Chips, tabs, tips: words that report state."
         },
         "head": {
-          "$value": "{primitive.dimension.letterSpacing.60}",
+          "$value": "{primitive.dimension.0}",
           "$description": "A card's title bar, a notice's or outcome's headline."
         },
         "title": {
-          "$value": "{primitive.dimension.letterSpacing.80}",
+          "$value": "{primitive.dimension.0}",
           "$description": "A panel's title bar, an empty state's headline, the flash word."
         },
         "label": {
-          "$value": "{primitive.dimension.letterSpacing.100}",
-          "$description": "Uppercase pixel labels."
+          "$value": "{primitive.dimension.0}",
+          "$description": "Labels: none, they are set in sentence case."
         },
         "pageTitle": {
           "$value": "{primitive.dimension.letterSpacing.minus10}",
@@ -124,7 +124,7 @@
       },
       "borderWidth": {
         "container": {
-          "$value": "{primitive.dimension.2}",
+          "$value": "{primitive.dimension.1}",
           "$description": "Anything that contains: drawn in border.primary."
         },
         "divider": {
@@ -765,17 +765,17 @@
         },
         "toast": {
           "$value": "{primitive.dimension.8}",
-          "$description": "How far a toast rises as it steps in."
+          "$description": "How far a toast rises as it eases in."
         }
       },
       "radius": {
         "control": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "The corners of a control: a button, a chip, a field, a checkbox. Square in clankersuite."
+          "$value": "{primitive.dimension.6}",
+          "$description": "The corners of a control: a button, a chip, a field, a checkbox."
         },
         "surface": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "The corners of a surface: a panel, a card, a menu, a notice. Square in clankersuite."
+          "$value": "{primitive.dimension.10}",
+          "$description": "The corners of a surface: a panel, a card, a menu, a notice."
         }
       }
     }

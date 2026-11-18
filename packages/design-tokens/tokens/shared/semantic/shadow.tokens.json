@@ -1,70 +1,60 @@
 {
   "$schema": "https://designtokens.org/schemas/2025.10/format.json",
-  "$description": "Solid offset shadows: no blur, no spread.",
+  "$description": "Soft shadows on what floats over the page; controls sit flat.",
   "semantic": {
     "shadow": {
       "$type": "shadow",
       "card": {
         "$value": {
           "color": "{semantic.color.shadow.default}",
-          "offsetX": "{primitive.dimension.8}",
-          "offsetY": "{primitive.dimension.8}",
-          "blur": "{primitive.dimension.0}",
+          "offsetX": "{primitive.dimension.0}",
+          "offsetY": "{primitive.dimension.12}",
+          "blur": "{primitive.dimension.32}",
           "spread": "{primitive.dimension.0}"
         },
-        "$description": "A card's solid offset shadow."
-      },
-      "panel": {
-        "$value": {
-          "color": "{semantic.color.shadow.default}",
-          "offsetX": "{primitive.dimension.5}",
-          "offsetY": "{primitive.dimension.5}",
-          "blur": "{primitive.dimension.0}",
-          "spread": "{primitive.dimension.0}"
-        },
-        "$description": "A panel's solid offset shadow."
+        "$description": "Anything that floats over the page."
       },
       "button": {
         "default": {
           "$value": {
-            "color": "{semantic.color.shadow.default}",
-            "offsetX": "{primitive.dimension.3}",
-            "offsetY": "{primitive.dimension.3}",
+            "color": "{primitive.color.black.alpha0}",
+            "offsetX": "{primitive.dimension.0}",
+            "offsetY": "{primitive.dimension.0}",
             "blur": "{primitive.dimension.0}",
             "spread": "{primitive.dimension.0}"
           },
-          "$description": "A button's solid offset shadow."
+          "$description": "None: a button sits flat."
         },
         "small": {
           "$value": {
-            "color": "{semantic.color.shadow.default}",
-            "offsetX": "{primitive.dimension.2}",
-            "offsetY": "{primitive.dimension.2}",
+            "color": "{primitive.color.black.alpha0}",
+            "offsetX": "{primitive.dimension.0}",
+            "offsetY": "{primitive.dimension.0}",
             "blur": "{primitive.dimension.0}",
             "spread": "{primitive.dimension.0}"
           },
-          "$description": "A small button's solid offset shadow."
+          "$description": "None: a small button sits flat."
         }
       },
       "pressed": {
         "$value": {
-          "color": "{semantic.color.shadow.default}",
-          "offsetX": "{primitive.dimension.1}",
-          "offsetY": "{primitive.dimension.1}",
+          "color": "{primitive.color.black.alpha0}",
+          "offsetX": "{primitive.dimension.0}",
+          "offsetY": "{primitive.dimension.0}",
           "blur": "{primitive.dimension.0}",
           "spread": "{primitive.dimension.0}"
         },
-        "$description": "A pressed button's shadow."
+        "$description": "None: a pressed button sits flat."
       },
       "negative": {
         "$value": {
-          "color": "{semantic.color.shadow.negative}",
-          "offsetX": "{primitive.dimension.3}",
-          "offsetY": "{primitive.dimension.3}",
+          "color": "{primitive.color.black.alpha0}",
+          "offsetX": "{primitive.dimension.0}",
+          "offsetY": "{primitive.dimension.0}",
           "blur": "{primitive.dimension.0}",
           "spread": "{primitive.dimension.0}"
         },
-        "$description": "A destructive button's shadow."
+        "$description": "None: a destructive button sits flat."
       }
     }
   }

@@ -5,7 +5,7 @@ import { describe, it } from "vite-plus/test";
 import * as EmptyState from "./empty-state.ts";
 
 describe("EmptyState", () => {
-  it("says what is missing in caps, how it fills in a sentence, then its action", () => {
+  it("says what is missing, how it fills in a sentence, then its action", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),

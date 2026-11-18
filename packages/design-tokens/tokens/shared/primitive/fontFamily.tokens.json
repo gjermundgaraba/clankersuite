@@ -24,6 +24,16 @@
       },
       "systemMono": {
         "$value": ["ui-monospace", "Menlo", "Monaco", "monospace"]
+      },
+      "inter": {
+        "$value": [
+          "Inter",
+          "system-ui",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif"
+        ]
       }
     }
   }
