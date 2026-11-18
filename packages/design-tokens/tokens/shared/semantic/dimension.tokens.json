@@ -316,7 +316,7 @@
           },
           "large": {
             "$value": "{primitive.dimension.24}",
-            "$description": "A glyph drawn at twice its size: an outcome's, a drop zone's or a wall's."
+            "$description": "A large glyph: an outcome's, a drop zone's or a wall's."
           }
         },
         "control": {

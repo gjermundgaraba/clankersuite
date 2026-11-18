@@ -1,7 +1,7 @@
 import { Clipboard } from "@effect/platform-browser";
-import type { Cell, GlyphName } from "@gjermundgaraba/icons";
+import type { GlyphName } from "@gjermundgaraba/icons";
 import { Glyph } from "@gjermundgaraba/icons";
-import { Array, Effect, Option } from "effect";
+import { Effect } from "effect";
 import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { modifyFields } from "foldkit/struct";
@@ -138,23 +138,11 @@ describe("CopyButton CopyText", () => {
   });
 });
 
-const cellOnlyIn = (name: GlyphName, other: GlyphName): string => {
-  const [x, y, width, height] = Option.getOrThrow(
-    Array.findFirst(
-      Glyph.glyphs[name],
-      (cell: Cell) =>
-        !Array.some(
-          Glyph.glyphs[other],
-          (otherCell) => otherCell.join(",") === cell.join(",")
-        )
-    )
-  );
+const glyphPath = (name: GlyphName) =>
+  Scene.selector(`button path[d="${Glyph.glyphs[name].stroke ?? ""}"]`);
 
-  return `button rect[x="${x}"][y="${y}"][width="${width}"][height="${height}"]`;
-};
-
-const checkCell = Scene.selector(cellOnlyIn("check", "copy"));
-const copyCell = Scene.selector(cellOnlyIn("copy", "check"));
+const checkGlyph = glyphPath("check");
+const copyGlyph = glyphPath("copy");
 
 const copyView = (
   model: CopyButton.Model,
@@ -181,16 +169,16 @@ describe("CopyButton view", () => {
       Scene.expect(Scene.role("button", { name: "Copy link" })).toHaveId(
         "copy-link"
       ),
-      Scene.expect(copyCell).toExist(),
+      Scene.expect(copyGlyph).toExist(),
       Scene.click(Scene.role("button", { name: "Copy link" })),
-      Scene.expect(copyCell).toExist(),
-      Scene.expect(checkCell).toBeAbsent(),
+      Scene.expect(copyGlyph).toExist(),
+      Scene.expect(checkGlyph).toBeAbsent(),
       Scene.Command.resolve(
         CopyButton.CopyText,
         CopyButton.Message.SucceededCopyText()
       ),
-      Scene.expect(checkCell).toExist(),
-      Scene.expect(copyCell).toBeAbsent(),
+      Scene.expect(checkGlyph).toExist(),
+      Scene.expect(copyGlyph).toBeAbsent(),
       Scene.expect(Scene.role("button", { name: "Copy link" })).toExist(),
       Scene.Command.resolveAll(
         [CopyButton.AnnounceCopy, CopyButton.Message.CompletedAnnounceCopy()],
@@ -199,8 +187,8 @@ describe("CopyButton view", () => {
           CopyButton.Message.CompletedWaitBeforeResetWord(),
         ]
       ),
-      Scene.expect(copyCell).toExist(),
-      Scene.expect(checkCell).toBeAbsent()
+      Scene.expect(copyGlyph).toExist(),
+      Scene.expect(checkGlyph).toBeAbsent()
     );
   });
 });
