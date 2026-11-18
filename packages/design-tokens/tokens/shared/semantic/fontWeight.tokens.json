@@ -6,20 +6,20 @@
       "$type": "fontWeight",
       "prose": {
         "heading": {
-          "$value": "{primitive.fontWeight.650}",
+          "$value": 650,
           "$description": "Headings in long-form reading."
         }
       },
       "semiBold": {
-        "$value": "{primitive.fontWeight.600}",
+        "$value": 600,
         "$description": "A page's title, an identity's name."
       },
       "regular": {
-        "$value": "{primitive.fontWeight.400}",
+        "$value": 400,
         "$description": "Regular weight, where a rule sets text back from a heavier default."
       },
       "bold": {
-        "$value": "{primitive.fontWeight.700}",
+        "$value": 700,
         "$description": "Bold in code and Markdown."
       }
     }

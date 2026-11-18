@@ -7,10 +7,22 @@
       "card": {
         "$value": {
           "color": "{semantic.color.shadow.default}",
-          "offsetX": "{primitive.dimension.0}",
-          "offsetY": "{primitive.dimension.12}",
-          "blur": "{primitive.dimension.32}",
-          "spread": "{primitive.dimension.0}"
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 12,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 32,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
         },
         "$description": "Anything that floats over the page."
       }

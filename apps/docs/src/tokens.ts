@@ -22,7 +22,8 @@ export const semanticTokensUnder = (prefix: string): readonly Token[] =>
 export const computedValue = (token: Token): string | Schemes =>
   resolve(ALL_TOKENS, token.value);
 
-/** The semantic token a token aliases, when it aliases one rather than a primitive. */
+/** The semantic token a token aliases, when it aliases one rather than holding a value or a
+ *  palette colour. */
 export const semanticAlias = (token: Token): string | undefined => {
   const alias = /^var\((?<name>--semantic-[\w-]+)\)$/u.exec(token.value)
     ?.groups?.["name"];

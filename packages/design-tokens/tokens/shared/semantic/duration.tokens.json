@@ -5,19 +5,31 @@
     "duration": {
       "$type": "duration",
       "flash": {
-        "$value": "{primitive.duration.700}",
+        "$value": {
+          "value": 0.7,
+          "unit": "s"
+        },
         "$description": "The tint flash that signals a change."
       },
       "spin": {
-        "$value": "{primitive.duration.700}",
+        "$value": {
+          "value": 0.7,
+          "unit": "s"
+        },
         "$description": "One turn of the spinner a busy button, chip, loading line, link state or palette row prints."
       },
       "card": {
-        "$value": "{primitive.duration.140}",
+        "$value": {
+          "value": 0.14,
+          "unit": "s"
+        },
         "$description": "A card or toast easing in."
       },
       "veil": {
-        "$value": "{primitive.duration.120}",
+        "$value": {
+          "value": 0.12,
+          "unit": "s"
+        },
         "$description": "The veil easing in behind a dialog."
       }
     }

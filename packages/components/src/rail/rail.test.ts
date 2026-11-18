@@ -464,13 +464,8 @@ describe("Rail stylesheet", () => {
 
 describe("Rail's copies of the stylesheet", () => {
   it("starts at the rail width token, and folds above and turns into a drawer at the stylesheet's breakpoint", () => {
-    const railPrimitive =
-      /--semantic-dimension-size-rail-default: var\((?<primitive>--[a-z0-9-]+)\);/u.exec(
-        TOKENS
-      )?.groups?.["primitive"];
-
     expect(
-      new RegExp(`${railPrimitive}: (?<width>\\d+)px;`, "u").exec(TOKENS)
+      /--semantic-dimension-size-rail-default: (?<width>\d+)px;/u.exec(TOKENS)
         ?.groups?.["width"]
     ).toBe(`${Rail.WIDTH.start}`);
 
