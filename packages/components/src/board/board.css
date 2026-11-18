@@ -122,7 +122,7 @@
 }
 
 .gg-board-card[aria-current="true"]:is(:hover, :focus-within) {
-  background-color: var(--semantic-color-background-fill-inverse);
+  background-color: var(--semantic-color-background-selected);
 }
 
 .gg-board-card .gg-title {

@@ -1115,7 +1115,7 @@ const cardView = (
 };
 
 /**
- * Type to find a command or a title; one inverted cursor row, moved by ↑ and ↓ only
+ * Type to find a command or a title; one tinted cursor row, moved by ↑ and ↓ only
  * (stopping at the ends; the pointer shades a row but never moves the cursor); Enter or a
  * click selects it, and the palette closes first so what the command opens takes focus. A
  * command with a page opens that page in place: Back, or Backspace in an empty field, returns

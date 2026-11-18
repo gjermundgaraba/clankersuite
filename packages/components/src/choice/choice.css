@@ -29,25 +29,7 @@ button.gg-choice {
 }
 
 .gg-choice-box {
-  appearance: none;
-  width: var(--semantic-dimension-size-checkbox-box);
-  height: var(--semantic-dimension-size-checkbox-box);
   margin-top: var(--semantic-dimension-space-gap-xxx-small);
-  padding: 0;
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-control);
-  background: var(--semantic-color-background-surface);
-  cursor: pointer;
-  flex: none;
-  display: inline-grid;
-  place-content: center;
-}
-
-.gg-choice-box::before {
-  content: "";
-  width: var(--semantic-dimension-size-checkbox-mark);
-  height: var(--semantic-dimension-size-checkbox-mark);
 }
 
 .gg-choice[role="radio"] > .gg-choice-box::before {
@@ -56,12 +38,10 @@ button.gg-choice {
   height: var(--semantic-dimension-size-radio-mark);
 }
 
-.gg-choice-box[aria-checked="true"]::before,
 .gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
 }
 
-.gg-choice-box[aria-disabled="true"],
 .gg-choice[role="radio"][aria-disabled="true"] > .gg-choice-box {
   border-color: var(--semantic-color-border-secondary);
   cursor: default;

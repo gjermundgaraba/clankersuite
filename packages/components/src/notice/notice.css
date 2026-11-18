@@ -55,8 +55,8 @@
 }
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-ok {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
 }
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-quiet {

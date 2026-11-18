@@ -741,7 +741,7 @@ export type CardViewConfig<ParentMessage> = Readonly<{
  * One card on the board, from what the board handed `toCardView`: a rounded slip, its title
  * two lines (a button with `onOpen`, or the `editor` while the title is edited) over the
  * meta row, which ends in the grip. Spread
- * `aria-current="true"` through `attributes` for the board's cursor, which prints inverted.
+ * `aria-current="true"` through `attributes` for the board's cursor, which is tinted.
  */
 export const cardView = <ParentMessage>(
   config: CardViewConfig<ParentMessage>,

@@ -12,7 +12,7 @@ export type PlaceContent = Readonly<{
   id: string;
   /** The place's name, in sans: it is authored. It wraps rather than clipping. */
   label: string;
-  /** The place you are in, printed inverted: `aria-current="page"` on a link, `"true"` on a
+  /** The place you are in, tinted: `aria-current="page"` on a link, `"true"` on a
    *  button, which shows the place without leaving the page. */
   isCurrent?: boolean;
 }>;
@@ -67,7 +67,7 @@ const placeView =
 
 /** A column of places to go (areas, collections, saved filters), flush in a rail panel: a
  *  navigation landmark named by its label, one line each a link to the place or a button built
- *  on `@foldkit/ui`'s Button, the one you are in `aria-current="page"` and printed inverted. */
+ *  on `@foldkit/ui`'s Button, the one you are in `aria-current="page"` and tinted. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>

@@ -18,8 +18,8 @@
   border: 0;
   outline: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-on-inverse-fill);
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
   font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-number-line-height-compact);
   overflow: visible;

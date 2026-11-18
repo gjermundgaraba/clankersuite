@@ -48,15 +48,5 @@
 }
 
 .gg-places li:has(> [aria-current]) {
-  background-color: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
-}
-
-.gg-places li:has(> [aria-current]) .gg-iconbtn.gg-quiet {
-  color: inherit;
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
-}
-
-.gg-places li:has(> [aria-current]) :focus-visible {
-  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
+  background-color: var(--semantic-color-background-selected);
 }

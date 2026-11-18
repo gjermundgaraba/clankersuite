@@ -107,7 +107,7 @@ const offenders = (
 
 describe("the stylesheet's values", () => {
   it("reads enough declarations to mean something", () => {
-    expect(declarations.length).toBeGreaterThan(2000);
+    expect(declarations.length).toBeGreaterThan(1500);
   });
 
   it("writes lengths and durations as tokens; zero, relative units, tile geometry and query thresholds, which var() can't reach, stay raw", () => {

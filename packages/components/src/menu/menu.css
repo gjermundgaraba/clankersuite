@@ -43,7 +43,11 @@
   border-bottom: 0;
 }
 
-.gg-menu [role^="menuitem"]:not([aria-disabled="true"]):hover {
+.gg-menu
+  [role^="menuitem"]:not(
+    [aria-disabled="true"],
+    [role="menuitemradio"][aria-checked="true"]
+  ):hover {
   background: var(--semantic-color-background-head);
 }
 
@@ -53,8 +57,9 @@
 }
 
 .gg-menu [role="menuitemradio"][aria-checked="true"] {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-selected);
+  box-shadow: inset var(--semantic-dimension-border-width-accent) 0 0
+    var(--semantic-color-background-fill-accent);
 }
 
 .gg-menu .gg-menu-label {
@@ -67,11 +72,6 @@
   font-family: inherit;
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
-}
-
-.gg-menu [role="menuitemradio"][aria-checked="true"] .gg-key-hint {
-  color: inherit;
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
 }
 
 .gg-menu .gg-menu-check {
@@ -92,7 +92,7 @@
 }
 
 .gg-menu [aria-checked="true"] .gg-menu-check::before {
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
 }
 
 .gg-menu .gg-menu-note {

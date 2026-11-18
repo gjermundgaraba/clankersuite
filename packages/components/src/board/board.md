@@ -8,7 +8,7 @@ Columns of printed slips, one panel per column, for work that moves through stag
 
 ## Moving a card
 
-A mouse drags a slip; a press that moves less than 5px stays a click. Touch and the keyboard take its grip: Space picks the card up, each arrow jumps it a column, Space drops it at the top of that column and Escape puts it back. Every step is said through the live region, and the card flashes where it lands. A press on a card's body selects it, and the selected card prints inverted. A column with nothing in it shows an empty state.
+A mouse drags a slip; a press that moves less than 5px stays a click. Touch and the keyboard take its grip: Space picks the card up, each arrow jumps it a column, Space drops it at the top of that column and Escape puts it back. Every step is said through the live region, and the card flashes where it lands. A press on a card's body selects it, and the selected card is tinted. A column with nothing in it shows an empty state.
 
 ::Example{name="move"}
 

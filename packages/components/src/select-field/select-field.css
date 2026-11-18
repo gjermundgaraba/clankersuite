@@ -17,11 +17,11 @@ select {
     linear-gradient(
       45deg,
       transparent 50%,
-      var(--semantic-color-background-fill-inverse) 50%
+      var(--semantic-color-background-fill-accent) 50%
     ),
     linear-gradient(
       135deg,
-      var(--semantic-color-background-fill-inverse) 50%,
+      var(--semantic-color-background-fill-accent) 50%,
       transparent 50%
     );
   background-position:

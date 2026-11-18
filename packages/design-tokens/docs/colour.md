@@ -10,7 +10,7 @@ Use the `--semantic-*` tokens; each row says what its token is for. The `--primi
 
 ## Backgrounds
 
-A `fill-*` colour fills a bounded shape; the others are grounds.
+A `fill-*` colour fills a bounded shape, and `selected` tints what is selected or current; the others are grounds.
 
 ::Tokens{prefix="--semantic-color-background"}
 

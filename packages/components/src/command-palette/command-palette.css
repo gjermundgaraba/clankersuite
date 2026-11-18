@@ -79,15 +79,14 @@
 }
 
 .gg-palette-row[aria-selected="true"] {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-selected);
 }
 
 .gg-palette-row:hover:not([aria-selected="true"]) {
   background-color: var(--semantic-color-background-head);
 }
 
-.gg-palette-row.gg-context:not([aria-selected="true"]) {
+.gg-palette-row.gg-context {
   color: var(--semantic-color-text-secondary);
 }
 
@@ -109,16 +108,6 @@
   overflow-wrap: anywhere;
 }
 
-.gg-palette-row[aria-selected="true"] .gg-hint,
-.gg-palette-row[aria-selected="true"] .gg-tag {
-  color: inherit;
-  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
-}
-
-.gg-palette-row[aria-selected="true"] .gg-tag {
-  border-color: currentColor;
-}
-
 .gg-palette-row.gg-authored {
   font-size: var(--semantic-dimension-font-size-body);
 }
@@ -126,10 +115,6 @@
 .gg-palette-row.gg-authored .gg-glyph {
   color: var(--semantic-color-text-secondary);
   display: inline-flex;
-}
-
-.gg-palette-row[aria-selected="true"] .gg-glyph {
-  color: inherit;
 }
 
 .gg-palette-row .gg-glyph.gg-opens {

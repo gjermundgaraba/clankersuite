@@ -21,10 +21,6 @@ export const LIVE_MARKDOWN_STYLE = {
     padding: "var(--semantic-dimension-space-control-padding-block-xx-small) 0",
     caretColor: "var(--semantic-color-text-primary)",
   },
-  ".cm-content ::selection": {
-    background: "var(--semantic-color-background-fill-inverse)",
-    color: "var(--semantic-color-text-on-inverse-fill)",
-  },
   ".cm-cursor": { borderLeftColor: "var(--semantic-color-border-primary)" },
   ".cm-line": { padding: "0" },
 
@@ -96,7 +92,7 @@ export const LIVE_MARKDOWN_STYLE = {
     margin: "0 var(--semantic-dimension-space-gap-inline) 0 0",
     verticalAlign: "-0.125em",
     cursor: "pointer",
-    accentColor: "var(--semantic-color-background-fill-inverse)",
+    accentColor: "var(--semantic-color-background-fill-accent)",
   },
 
   ".gg-md-img": {

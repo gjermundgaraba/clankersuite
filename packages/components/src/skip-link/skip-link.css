@@ -3,8 +3,8 @@
   top: calc(-1 * var(--semantic-dimension-space-skip-link-offscreen));
   left: var(--semantic-dimension-space-padding-medium);
   z-index: var(--semantic-number-layer-skip-link);
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
   font-size: var(--semantic-dimension-font-size-control);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-x-large);

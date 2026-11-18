@@ -38,8 +38,42 @@ fieldset {
 }
 
 ::selection {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-selected);
+}
+
+/* the box of a Choice and of a selectable row */
+.gg-choice-box,
+.gg-row-check > [role="checkbox"] {
+  appearance: none;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  padding: 0;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  cursor: pointer;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+}
+
+.gg-choice-box::before,
+.gg-row-check > [role="checkbox"]::before {
+  content: "";
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
+}
+
+.gg-choice-box[aria-checked="true"]::before,
+.gg-row-check > [aria-checked="true"]::before {
+  background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-choice-box[aria-disabled="true"],
+.gg-row-check > [aria-disabled="true"] {
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
 }
 
 ::placeholder {
@@ -63,7 +97,7 @@ fieldset {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--semantic-color-background-fill-inverse);
+  background: var(--semantic-color-background-fill-accent);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-background-canvas);
 }

@@ -7,7 +7,7 @@
       "opacity": {
         "mutedOnInverseFill": {
           "$value": "{primitive.number.opacity.750}",
-          "$description": "What prints as text.secondary on a surface, printed in text.onInverseFill on an inverse fill."
+          "$description": "What prints as text.secondary on a surface, printed in text.onAccentFill on a title bar."
         },
         "disabledOnInverseFill": {
           "$value": "{primitive.number.opacity.600}",

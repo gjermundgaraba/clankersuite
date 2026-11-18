@@ -54,8 +54,7 @@
 .gg-nav [aria-current="page"],
 .gg-nav [aria-selected="true"],
 .gg-nav [aria-pressed="true"] {
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-selected);
 }
 
 .gg-nav .gg-navnum {

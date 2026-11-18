@@ -95,9 +95,9 @@
           "$value": "{primitive.dimension.1}",
           "$description": "Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text."
         },
-        "ring": {
-          "$value": "{primitive.dimension.3}",
-          "$description": "A ring drawn round a control with a box shadow."
+        "accent": {
+          "$value": "{primitive.dimension.2}",
+          "$description": "The accent bar beside a checked menu choice."
         }
       },
       "size": {
@@ -382,10 +382,6 @@
             "$value": "{primitive.dimension.4}",
             "$description": "A meter cell's width in the narrowest meter."
           }
-        },
-        "bullet": {
-          "$value": "{primitive.dimension.6}",
-          "$description": "A contents link's square bullet."
         },
         "monogram": {
           "default": {

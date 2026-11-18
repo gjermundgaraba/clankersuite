@@ -33,8 +33,8 @@ export const view = <Message>(
     config.rows
   );
 
-/** A selectable row's checkbox, held in the caller's Model. Its cell inverts while checked; the
- *  row's text is its label, so a click anywhere on the text toggles it. */
+/** A selectable row's checkbox, held in the caller's Model. Its row is tinted while checked;
+ *  the row's text is its label, so a click anywhere on the text toggles it. */
 export type RowSelect<Message> = Readonly<{
   /** Unique in the document: the id of the box's name is made from it. The box itself has no
    *  id. */
@@ -87,7 +87,7 @@ export type RowConfig<Message> = Readonly<{
    *  press anywhere on the row follows it, while the row's own controls (the box, a toggle,
    *  the actions and tools) and whatever has a tip stay their own targets. The row takes no
    *  Tab stop of its own, and the link's ring is drawn round the row. A link that is
-   *  `aria-current` inverts the row. For a list no keyboard drives: a treegrid's row (with
+   *  `aria-current` tints the row. For a list no keyboard drives: a treegrid's row (with
    *  `treegrid`) is already its own stop, and ignores it. */
   isLink?: boolean;
   /** Makes the row selectable: a box at its left edge. */

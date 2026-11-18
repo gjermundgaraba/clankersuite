@@ -16,8 +16,8 @@
   display: flex;
   align-items: baseline;
   gap: var(--semantic-dimension-space-gap-medium);
-  background: var(--semantic-color-background-fill-inverse);
-  color: var(--semantic-color-text-on-inverse-fill);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-large);
 }
@@ -114,8 +114,8 @@
 
 .gg-panel-lead .gg-btn,
 .gg-panel-acts .gg-btn {
-  color: var(--semantic-color-text-on-inverse-fill);
-  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-accent-fill);
+  background: var(--semantic-color-background-fill-accent);
   border-color: var(--semantic-color-border-on-inverse-fill);
 }
 
@@ -125,8 +125,8 @@
 }
 
 .gg-panel-acts .gg-btn:is(:disabled, [aria-disabled="true"]) {
-  color: var(--semantic-color-text-on-inverse-fill);
-  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-accent-fill);
+  background: var(--semantic-color-background-fill-accent);
   border-color: var(--semantic-color-border-on-inverse-fill);
   opacity: var(--semantic-number-opacity-disabled-on-inverse-fill);
 }
