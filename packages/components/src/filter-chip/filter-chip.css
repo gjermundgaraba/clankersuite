@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--semantic-dimension-space-small);
-  min-height: var(--semantic-dimension-size-chip);
+  min-height: var(--semantic-dimension-size-control-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   border: var(--semantic-dimension-border-width-default) solid
@@ -10,8 +10,7 @@
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
-    var(--semantic-dimension-space-control-padding-inline-small);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
   flex: none;
   cursor: default;
 }

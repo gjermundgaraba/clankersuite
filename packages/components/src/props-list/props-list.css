@@ -13,7 +13,7 @@
 
 .gg-props dt,
 .gg-props dd {
-  padding: var(--semantic-dimension-space-control-padding-block-x-large) 0;
+  padding: var(--semantic-dimension-space-small) 0;
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   min-height: var(--semantic-dimension-size-row);
@@ -22,13 +22,11 @@
 }
 
 .gg-props dt {
-  padding-right: var(
-    --semantic-dimension-space-control-padding-inline-xx-large
-  );
+  padding-right: var(--semantic-dimension-space-large);
 }
 
 .gg-props dd.gg-acts {
-  padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
+  padding-left: var(--semantic-dimension-space-large);
 }
 
 .gg-props > div:last-child dt,
@@ -54,7 +52,7 @@
   .gg-props dt {
     grid-column: 1 / -1;
     min-height: 0;
-    padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0 0;
+    padding: var(--semantic-dimension-space-small) 0 0;
     border-bottom: 0;
   }
 }
@@ -64,6 +62,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   background: var(--semantic-color-background-head);
-  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-x-small);
 }

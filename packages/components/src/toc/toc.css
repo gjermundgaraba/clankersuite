@@ -1,13 +1,13 @@
 .gg-toc {
   list-style: none;
-  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
+  padding: var(--semantic-dimension-space-small) 0;
 }
 
 .gg-toc a {
   display: flex;
   align-items: baseline;
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
   font: var(--semantic-dimension-font-size-body) /
     var(--semantic-number-line-height-compact) var(--semantic-font-family-ui);
   color: var(--semantic-color-text-secondary);

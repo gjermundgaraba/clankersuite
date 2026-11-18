@@ -4,8 +4,8 @@
   display: flex;
   align-items: flex-start;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-medium);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-medium);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);

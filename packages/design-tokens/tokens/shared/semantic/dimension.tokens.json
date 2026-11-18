@@ -102,8 +102,8 @@
       },
       "size": {
         "row": {
-          "$value": "{primitive.dimension.34}",
-          "$description": "The height of a row."
+          "$value": "{primitive.dimension.36}",
+          "$description": "The height of a row, a list item on a page or in a palette, a table row or a title bar: one control and room around it."
         },
         "maxWidth": {
           "deck": {
@@ -297,14 +297,6 @@
             "$description": "The check drawn in a checked box, and the width of a mixed box's bar."
           }
         },
-        "titleBar": {
-          "$value": "{primitive.dimension.31}",
-          "$description": "The least height of a title bar that holds buttons."
-        },
-        "chip": {
-          "$value": "{primitive.dimension.22}",
-          "$description": "The least height of a filter chip."
-        },
         "dot": {
           "$value": "{primitive.dimension.10}",
           "$description": "A chip's status dot."
@@ -320,8 +312,8 @@
           }
         },
         "control": {
-          "$value": "{primitive.dimension.30}",
-          "$description": "The least height of a select, a date field or a window's title bar."
+          "$value": "{primitive.dimension.32}",
+          "$description": "The height of a control: a button, a field, a select, a segmented strip, a menu item."
         },
         "radio": {
           "mark": {
@@ -382,6 +374,10 @@
             "$value": "{primitive.dimension.320}",
             "$description": "A lifted sortable or reel item's width before the drag measures the item."
           }
+        },
+        "controlSmall": {
+          "$value": "{primitive.dimension.24}",
+          "$description": "The height of a small control: a small button, a tab, a chip or filter chip."
         }
       },
       "space": {
@@ -435,80 +431,14 @@
         },
         "control": {
           "padding": {
-            "block": {
-              "large": {
-                "$value": "{primitive.dimension.6}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step large."
-              },
-              "xxLarge": {
-                "$value": "{primitive.dimension.8}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxLarge."
-              },
-              "medium": {
-                "$value": "{primitive.dimension.5}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step medium."
-              },
-              "xxSmall": {
-                "$value": "{primitive.dimension.2}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxSmall."
-              },
-              "small": {
-                "$value": "{primitive.dimension.4}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step small."
-              },
-              "xSmall": {
-                "$value": "{primitive.dimension.3}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xSmall."
-              },
-              "xLarge": {
-                "$value": "{primitive.dimension.7}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xLarge."
-              },
-              "xxxSmall": {
-                "$value": "{primitive.dimension.1}",
-                "$description": "Vertical padding of a control, row, bar or cell: one line of text at a row's height. Step xxxSmall."
-              }
-            },
             "inline": {
-              "xLarge": {
-                "$value": "{primitive.dimension.14}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step xLarge."
-              },
-              "medium": {
-                "$value": "{primitive.dimension.10}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step medium."
-              },
-              "xSmall": {
-                "$value": "{primitive.dimension.6}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step xSmall."
-              },
-              "large": {
-                "$value": "{primitive.dimension.12}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step large."
+              "default": {
+                "$value": "{semantic.dimension.space.medium}",
+                "$description": "Beside the label of a control: a button, a field, a select, a segment."
               },
               "small": {
-                "$value": "{primitive.dimension.8}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step small."
-              },
-              "xxSmall": {
-                "$value": "{primitive.dimension.4}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step xxSmall."
-              },
-              "xxxSmall": {
-                "$value": "{primitive.dimension.3}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step xxxSmall."
-              },
-              "selectArrow": {
-                "$value": "{primitive.dimension.28}",
-                "$description": "Room for a select's arrow."
-              },
-              "trailingButton": {
-                "$value": "{primitive.dimension.32}",
-                "$description": "Room for an icon button at the end of a field."
-              },
-              "xxLarge": {
-                "$value": "{primitive.dimension.16}",
-                "$description": "Horizontal padding of a control, row, bar or cell. Step xxLarge."
+                "$value": "{semantic.dimension.space.small}",
+                "$description": "Beside the label of a small control: a small button, a tab, a chip."
               }
             }
           }

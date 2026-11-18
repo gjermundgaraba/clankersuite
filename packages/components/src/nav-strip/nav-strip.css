@@ -2,6 +2,7 @@
   display: flex;
   gap: 0;
   width: fit-content;
+  min-height: var(--semantic-dimension-size-control);
   max-width: 100%;
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
@@ -15,8 +16,10 @@
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: none;
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-x-large);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -60,7 +63,7 @@
 .gg-nav .gg-navnum {
   display: inline-block;
   margin-left: var(--semantic-dimension-space-small);
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: 0 var(--semantic-dimension-space-x-small);
   font-size: var(--semantic-dimension-font-size-label);
   background: var(--semantic-color-background-head);
   color: var(--semantic-color-text-secondary);
@@ -69,8 +72,7 @@
 @media (max-width: 600px) {
   .gg-nav a,
   .gg-nav button {
-    padding: var(--semantic-dimension-space-control-padding-block-medium)
-      var(--semantic-dimension-space-control-padding-inline-small);
+    padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
     font-size: var(--semantic-dimension-font-size-label);
   }
 }

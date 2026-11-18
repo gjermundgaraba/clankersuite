@@ -4,7 +4,7 @@ category: data
 
 # Rows
 
-A list of 34px rows, each a glyph, its text, a slot on the right and its tools. The text takes the free width and ellipsises.
+A list of 36px rows, each a glyph, its text, a slot on the right and its tools. The text takes the free width and ellipsises.
 
 ## Selectable
 

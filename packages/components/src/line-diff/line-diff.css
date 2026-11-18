@@ -4,7 +4,7 @@
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
-  padding: var(--semantic-dimension-space-control-padding-block-small) 0;
+  padding: var(--semantic-dimension-space-x-small) 0;
 }
 
 .gg-diff {
@@ -17,7 +17,7 @@
 }
 
 .gg-diff td {
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
+  padding: 0 var(--semantic-dimension-space-small);
   vertical-align: top;
   white-space: nowrap;
 }
@@ -40,8 +40,8 @@
 
 .gg-diff td.gg-sign {
   width: 1%;
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-xx-small) 0
-    var(--semantic-dimension-space-control-padding-inline-small);
+  padding: 0 var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-small);
   font-family: var(--semantic-font-family-ui);
   user-select: none;
 }
@@ -75,8 +75,8 @@
     var(--semantic-color-border-divider);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-medium);
 }
 
 @media (max-width: 600px) {

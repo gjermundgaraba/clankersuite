@@ -4,8 +4,7 @@
   align-items: center;
   gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-medium)
-    var(--semantic-dimension-space-large)
-    var(--semantic-dimension-space-control-padding-block-xx-large);
+    var(--semantic-dimension-space-large) var(--semantic-dimension-space-small);
   flex: none;
 }
 
@@ -21,8 +20,8 @@
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   border-radius: var(--semantic-dimension-radius-control);
-  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
   flex: 0 1 auto;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -35,15 +34,15 @@
 
 .gg-palette-list {
   overflow-y: auto;
-  padding: var(--semantic-dimension-space-control-padding-block-small) 0
-    var(--semantic-dimension-space-control-padding-block-xx-large);
+  padding: var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-small);
   max-height: min(50vh, var(--semantic-dimension-size-max-height-palette));
 }
 
 .gg-palette-group {
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-xx-large)
-    var(--semantic-dimension-space-control-padding-block-xx-small);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-xx-small);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
@@ -53,9 +52,8 @@
   align-items: center;
   gap: var(--semantic-dimension-space-small);
   width: 100%;
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-xx-large)
-    var(--semantic-dimension-space-control-padding-block-xx-large)
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-large) 0
     calc(
       var(--semantic-dimension-space-large) +
         min(
@@ -133,18 +131,17 @@
 .gg-palette-detail {
   display: grid;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-small)
-    var(--semantic-dimension-space-control-padding-inline-xx-large)
-    var(--semantic-dimension-space-control-padding-block-small);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-x-small);
 }
 
 .gg-palette-more {
   flex: none;
   border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  padding: var(--semantic-dimension-space-control-padding-block-small)
-    var(--semantic-dimension-space-control-padding-inline-xx-large)
-    var(--semantic-dimension-space-control-padding-block-xx-large);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large) var(--semantic-dimension-space-small);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }

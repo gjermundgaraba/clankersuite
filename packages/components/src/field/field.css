@@ -27,7 +27,8 @@ select:disabled {
   border: none;
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-xx-small) 0;
   border-radius: var(--semantic-dimension-radius-control);
 }
 
@@ -46,8 +47,14 @@ select:disabled {
   outline: none;
   border-bottom: var(--semantic-dimension-border-width-accent) solid
     var(--semantic-color-focus-ring-default);
-  padding-bottom: var(
-    --semantic-dimension-space-control-padding-block-xxx-small
+}
+
+/* the accent line is a pixel thicker: a textarea, sized to its content, gives the pixel back */
+.gg-field:not(.gg-boxed) textarea:focus-visible {
+  padding-bottom: calc(
+    var(--semantic-dimension-space-xx-small) +
+      var(--semantic-dimension-border-width-default) -
+      var(--semantic-dimension-border-width-accent)
   );
 }
 
@@ -79,8 +86,13 @@ select:disabled {
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-small);
+  padding-inline: var(
+    --semantic-dimension-space-control-padding-inline-default
+  );
+}
+
+.gg-field.gg-boxed textarea {
+  padding-block: var(--semantic-dimension-space-small);
 }
 
 .gg-field.gg-boxed input:focus-visible,
@@ -90,24 +102,20 @@ select:disabled {
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
 }
 
 .gg-field.gg-boxed :is(input, textarea)[aria-invalid="true"] {
   border-color: var(--semantic-color-border-negative);
-  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
 }
 
 .gg-field.gg-boxed .gg-password > input {
-  padding-right: var(
-    --semantic-dimension-space-control-padding-inline-trailing-button
+  padding-right: calc(
+    var(--semantic-dimension-size-target) +
+      var(--semantic-dimension-space-small)
   );
 }
 
 .gg-field.gg-boxed input[type="date"] {
-  min-height: var(--semantic-dimension-size-control);
-  padding: var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
 }

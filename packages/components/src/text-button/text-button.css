@@ -5,7 +5,7 @@
   border: 0;
   color: var(--semantic-color-text-primary);
   cursor: pointer;
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  padding: var(--semantic-dimension-space-xx-small) 0;
   border-bottom: var(--semantic-dimension-border-width-default) solid
     transparent;
 }

@@ -5,12 +5,12 @@ select::picker(select) {
 }
 
 select {
+  display: flex;
+  align-items: center;
   width: 100%;
   min-height: var(--semantic-dimension-size-control);
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-select-arrow)
-    var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-small);
+  padding: 0 var(--semantic-dimension-space-x-large) 0
+    var(--semantic-dimension-space-control-padding-inline-default);
   color: var(--semantic-color-text-primary);
   background-color: var(--semantic-color-background-surface);
   background-image:
@@ -54,9 +54,10 @@ select::picker(select) {
 }
 
 select option {
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-small)
-    var(--semantic-dimension-space-control-padding-block-x-large);
+  display: flex;
+  align-items: center;
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   cursor: pointer;

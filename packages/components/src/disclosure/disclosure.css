@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--semantic-dimension-space-small);
   width: 100%;
-  padding: var(--semantic-dimension-space-control-padding-block-x-small) 0;
+  padding: var(--semantic-dimension-space-x-small) 0;
   border: 0;
   background: none;
   color: inherit;
@@ -52,9 +52,9 @@
   margin: var(--semantic-dimension-space-small) 0
     var(--semantic-dimension-space-xx-small)
     var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-small) 0
-    var(--semantic-dimension-space-control-padding-block-small)
-    var(--semantic-dimension-space-control-padding-inline-x-large);
+  padding: var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large);
   border-left: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }

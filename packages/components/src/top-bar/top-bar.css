@@ -8,7 +8,8 @@
   flex-wrap: wrap;
   gap: var(--semantic-dimension-space-small)
     var(--semantic-dimension-space-large);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+  min-height: var(--semantic-dimension-size-top-bar);
+  padding: var(--semantic-dimension-space-x-small)
     var(--semantic-dimension-space-gutter);
   background: var(--semantic-color-background-surface);
   border-bottom: var(--semantic-dimension-border-width-default) solid
@@ -34,15 +35,16 @@
   }
 
   .gg-topbar-tools .gg-btn {
-    padding: var(--semantic-dimension-space-control-padding-block-medium)
-      var(--semantic-dimension-space-control-padding-inline-medium);
+    padding-inline: var(
+      --semantic-dimension-space-control-padding-inline-small
+    );
   }
 
   .gg-topbar {
     gap: var(--semantic-dimension-space-small)
       var(--semantic-dimension-space-medium);
-    padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-      var(--semantic-dimension-space-control-padding-inline-large);
+    padding: var(--semantic-dimension-space-x-small)
+      var(--semantic-dimension-space-medium);
   }
 
   .gg-topbar > .gg-nav {

@@ -8,18 +8,14 @@
 .gg-window > .gg-panel-tb {
   align-items: center;
   gap: var(--semantic-dimension-space-small);
-  min-height: var(--semantic-dimension-size-control);
-  padding: var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-xxx-small)
-    var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-medium);
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-medium);
   user-select: none;
 }
 
 .gg-window > .gg-panel-tb:has(> .gg-panel-lead) {
-  padding-left: var(
-    --semantic-dimension-space-control-padding-inline-xxx-small
-  );
+  padding-left: var(--semantic-dimension-space-x-small);
 }
 
 .gg-window > .gg-panel-tb h2 {

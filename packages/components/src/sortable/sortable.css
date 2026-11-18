@@ -7,10 +7,9 @@
   align-items: center;
   gap: var(--semantic-dimension-space-small);
   min-width: 0;
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-inset)
-    var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-medium);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-inset) var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-medium);
   position: relative;
   background: var(--semantic-color-background-surface);
   border-bottom: var(--semantic-dimension-border-width-default) solid
@@ -77,7 +76,7 @@
 
 .gg-sortable-slot {
   list-style: none;
-  padding: var(--semantic-dimension-space-control-padding-block-large);
+  padding: var(--semantic-dimension-space-small);
 }
 
 .gg-sortable-lift,

@@ -51,8 +51,8 @@ export type ViewConfig<Message> = Look &
   Readonly<{
     label: string;
     onClick?: Message;
-    /** Working: a spinner turns in the right padding, so the label stays put
-     *  and the button keeps its width. The button is held and says so (`aria-busy`). */
+    /** Working: a spinner turns in place of the words, which keep their room unseen,
+     *  so the button keeps its width. The button is held and says so (`aria-busy`). */
     isBusy?: boolean;
     /** Unavailable: the button is held. As in `@foldkit/ui`, it stays focusable
      *  (`aria-disabled`), so focus never falls to the page and Tab still finds it. */

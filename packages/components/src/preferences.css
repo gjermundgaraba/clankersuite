@@ -59,4 +59,14 @@
     outline: var(--semantic-dimension-border-width-accent) solid Highlight;
     outline-offset: calc(-1 * var(--semantic-dimension-border-width-accent));
   }
+
+  .gg-btn[aria-disabled="true"][aria-busy="true"] {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: GrayText;
+  }
+
+  .gg-btn[aria-busy="true"] > .gg-spinner {
+    color: GrayText;
+  }
 }

@@ -80,9 +80,7 @@
 }
 
 .gg-board-card [data-gg-board-grip] {
-  margin-right: calc(
-    -1 * var(--semantic-dimension-space-control-padding-inline-x-small)
-  );
+  margin-right: calc(-1 * var(--semantic-dimension-space-small));
   cursor: grab;
   touch-action: none;
 }
