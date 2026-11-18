@@ -1,7 +1,7 @@
 .gg-fchip {
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   min-height: var(--semantic-dimension-size-chip);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);

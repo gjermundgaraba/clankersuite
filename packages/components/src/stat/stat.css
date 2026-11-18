@@ -8,10 +8,10 @@
   display: grid;
   align-content: start;
   justify-items: start;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   min-width: 0;
-  padding: var(--semantic-dimension-space-padding-large)
-    var(--semantic-dimension-space-padding-panel);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-inset);
   margin: 0 calc(-1 * var(--semantic-dimension-border-width-default))
     calc(-1 * var(--semantic-dimension-border-width-default)) 0;
   border-right: var(--semantic-dimension-border-width-default) solid
@@ -52,6 +52,6 @@
   }
 
   .gg-stat {
-    padding: var(--semantic-dimension-space-padding-medium);
+    padding: var(--semantic-dimension-space-medium);
   }
 }

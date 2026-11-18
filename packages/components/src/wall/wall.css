@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: var(--semantic-dimension-space-padding-xxx-large);
+  padding: var(--semantic-dimension-space-x-large);
 }
 
 .gg-wall .gg-card {
@@ -12,7 +12,7 @@
 .gg-wall-mark {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
 }
 
 .gg-wall-mark .gg-wordmark {

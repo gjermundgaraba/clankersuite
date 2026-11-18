@@ -23,10 +23,10 @@
       var(--semantic-dimension-size-min-width-meter-name),
       var(--semantic-dimension-size-max-width-meter-name)
     ) minmax(0, 1fr);
-  gap: var(--semantic-dimension-space-gap-x-small)
-    var(--semantic-dimension-space-gap-surface);
-  padding: var(--semantic-dimension-space-padding-large)
-    var(--semantic-dimension-space-padding-panel);
+  gap: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-gutter);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-inset);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
@@ -40,7 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--semantic-dimension-space-gap-xxx-small);
+  gap: var(--semantic-dimension-space-xx-small);
 }
 
 .gg-meter-row .gg-notice {
@@ -58,8 +58,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--semantic-dimension-space-gap-xxx-small)
-      var(--semantic-dimension-space-gap-large);
+    gap: var(--semantic-dimension-space-xx-small)
+      var(--semantic-dimension-space-medium);
   }
 
   .gg-meter-num {
@@ -74,7 +74,7 @@
 .gg-meter-line {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
   flex-wrap: wrap;
 }
 
@@ -102,7 +102,7 @@
 
 .gg-meter-foot {
   display: flex;
-  gap: var(--semantic-dimension-space-gap-xx-large);
+  gap: var(--semantic-dimension-space-large);
   flex-wrap: wrap;
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);

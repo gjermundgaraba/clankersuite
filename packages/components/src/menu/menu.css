@@ -2,9 +2,7 @@
   position: absolute;
   z-index: var(--semantic-number-layer-menu);
   min-width: var(--semantic-dimension-size-min-width-menu);
-  max-width: calc(
-    100vw - var(--semantic-dimension-space-viewport-gutter-small)
-  );
+  max-width: calc(100vw - 2 * var(--semantic-dimension-space-medium));
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-default) solid
@@ -22,7 +20,7 @@
   display: flex;
   width: 100%;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-control);
   text-align: left;

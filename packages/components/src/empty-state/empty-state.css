@@ -1,9 +1,9 @@
 .gg-empty {
-  padding: var(--semantic-dimension-space-padding-xxx-large)
-    var(--semantic-dimension-space-padding-x-large);
+  padding: var(--semantic-dimension-space-x-large)
+    var(--semantic-dimension-space-large);
   text-align: center;
   display: grid;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   justify-items: center;
 }
 
@@ -18,5 +18,5 @@
 }
 
 .gg-empty .gg-btn {
-  margin-top: var(--semantic-dimension-space-gap-x-small);
+  margin-top: var(--semantic-dimension-space-small);
 }

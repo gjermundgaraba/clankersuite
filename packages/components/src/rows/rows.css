@@ -5,7 +5,7 @@
 
 .gg-row > .gg-chip-dot,
 .gg-row > .gg-cell > .gg-chip-dot {
-  margin-inline: var(--semantic-dimension-space-gap-xx-small);
+  margin-inline: var(--semantic-dimension-space-x-small);
 }
 
 .gg-rows {
@@ -14,20 +14,27 @@
 
 .gg-tree {
   padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0
-    var(--semantic-dimension-space-padding-large);
+    var(--semantic-dimension-space-medium);
 }
 
 .gg-tree ul.gg-rows {
   position: relative;
-  padding-left: var(--semantic-dimension-space-indent-tree);
+  padding-left: var(--semantic-dimension-space-x-large);
 }
 
 .gg-tree ul.gg-rows::before {
   content: "";
   position: absolute;
-  left: var(--semantic-dimension-space-tree-guide);
+  left: calc(
+    var(--semantic-dimension-space-medium) +
+      (
+        var(--semantic-dimension-size-glyph-row) -
+          var(--semantic-dimension-border-width-default)
+      ) /
+      2
+  );
   top: 0;
-  bottom: var(--semantic-dimension-space-padding-xx-small);
+  bottom: var(--semantic-dimension-space-x-small);
   width: var(--semantic-dimension-border-width-default);
   background: var(--semantic-color-border-divider);
 }
@@ -36,7 +43,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-medium)
     var(--semantic-dimension-space-control-padding-inline-large);
   min-height: var(--semantic-dimension-size-row);
@@ -102,7 +109,7 @@ button.gg-glyph {
 .gg-row .gg-tools {
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   opacity: var(--semantic-number-opacity-tools);
 }
 
@@ -114,7 +121,7 @@ button.gg-glyph {
 .gg-row > .gg-cell {
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   flex: none;
 }
 
@@ -129,7 +136,7 @@ button.gg-glyph {
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
 }
 
 .gg-row.gg-linked .gg-grow a {
@@ -278,7 +285,7 @@ button.gg-glyph {
   .gg-tree .gg-row {
     flex-wrap: wrap;
     justify-content: flex-end;
-    row-gap: var(--semantic-dimension-space-gap-xx-small);
+    row-gap: var(--semantic-dimension-space-x-small);
   }
 
   .gg-tree .gg-row .gg-grow {

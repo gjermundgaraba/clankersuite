@@ -1,6 +1,6 @@
 .gg-panel > .gg-tabbed > .gg-nav.gg-tabs {
-  margin: var(--semantic-dimension-space-padding-panel)
-    var(--semantic-dimension-space-padding-panel) 0;
+  margin: var(--semantic-dimension-space-inset)
+    var(--semantic-dimension-space-inset) 0;
 }
 
 .gg-panel,
@@ -15,7 +15,7 @@
 .gg-panel-tb {
   display: flex;
   align-items: baseline;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-large)
     var(--semantic-dimension-space-control-padding-inline-large);
   border-bottom: var(--semantic-dimension-border-width-default) solid
@@ -32,9 +32,9 @@
 }
 
 .gg-panel-body {
-  padding: var(--semantic-dimension-space-padding-panel);
+  padding: var(--semantic-dimension-space-inset);
   display: grid;
-  gap: var(--semantic-dimension-space-gap-body);
+  gap: var(--semantic-dimension-space-large);
 }
 
 .gg-panel-body > * {
@@ -42,13 +42,13 @@
 }
 
 .gg-panel-foot {
-  padding: var(--semantic-dimension-space-padding-small)
-    var(--semantic-dimension-space-padding-medium);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium);
   border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
   flex-wrap: wrap;
 }
 
@@ -57,7 +57,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-inline);
+  gap: var(--semantic-dimension-space-small);
 }
 
 .gg-panel-foot > .gg-notice {
@@ -65,9 +65,9 @@
 }
 
 .gg-panel-shelf {
-  padding: var(--semantic-dimension-space-padding-small)
-    var(--semantic-dimension-space-padding-medium)
-    var(--semantic-dimension-space-padding-medium);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium);
   background: var(--semantic-color-background-head);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
@@ -101,7 +101,7 @@
 .gg-panel-acts {
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   flex: none;
 }
 

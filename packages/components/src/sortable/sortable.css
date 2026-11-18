@@ -5,10 +5,10 @@
 .gg-sortable-item {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   min-width: 0;
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-padding-panel)
+    var(--semantic-dimension-space-inset)
     var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-medium);
   position: relative;
@@ -59,11 +59,11 @@
 }
 
 .gg-sortable.gg-grid .gg-sortable-item.gg-drop-before::before {
-  left: calc(-1 * var(--semantic-dimension-space-gap-medium));
+  left: calc(-1 * var(--semantic-dimension-space-small));
 }
 
 .gg-sortable.gg-grid .gg-sortable-item.gg-drop-after::before {
-  right: calc(-1 * var(--semantic-dimension-space-gap-medium));
+  right: calc(-1 * var(--semantic-dimension-space-small));
 }
 
 .gg-sortable-item.gg-lifted {
@@ -92,17 +92,16 @@
     auto-fill,
     minmax(var(--semantic-dimension-size-min-width-sortable-grid), 1fr)
   );
-  gap: var(--semantic-dimension-space-gap-large);
-  padding: var(--semantic-dimension-space-padding-medium);
+  gap: var(--semantic-dimension-space-medium);
+  padding: var(--semantic-dimension-space-medium);
 }
 
 .gg-sortable.gg-grid .gg-sortable-item {
   align-items: flex-start;
   height: 100%;
-  padding: var(--semantic-dimension-space-padding-small)
-    var(--semantic-dimension-space-padding-medium)
-    var(--semantic-dimension-space-padding-small)
-    var(--semantic-dimension-space-padding-x-small);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium) var(--semantic-dimension-space-small);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
@@ -121,13 +120,13 @@
         100%,
         max(
           var(--semantic-dimension-size-min-width-sortable-panel),
-          (100% - 2 * var(--semantic-dimension-space-gap-surface)) / 3
+          (100% - 2 * var(--semantic-dimension-space-gutter)) / 3
         )
       ),
       1fr
     )
   );
-  gap: var(--semantic-dimension-space-gap-surface);
+  gap: var(--semantic-dimension-space-gutter);
 }
 
 .gg-sortable.gg-panels .gg-sortable-item {
@@ -154,7 +153,7 @@
 .gg-sortable.gg-panels .gg-sortable-item.gg-drop-before::before {
   left: calc(
     (
-        var(--semantic-dimension-space-gap-surface) +
+        var(--semantic-dimension-space-gutter) +
           var(--semantic-dimension-border-width-accent)
       ) /
       -2
@@ -164,7 +163,7 @@
 .gg-sortable.gg-panels .gg-sortable-item.gg-drop-after::before {
   right: calc(
     (
-        var(--semantic-dimension-space-gap-surface) +
+        var(--semantic-dimension-space-gutter) +
           var(--semantic-dimension-border-width-accent)
       ) /
       -2

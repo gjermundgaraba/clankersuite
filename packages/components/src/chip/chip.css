@@ -61,5 +61,5 @@
 }
 
 .gg-chip .gg-spinner {
-  margin-left: var(--semantic-dimension-space-gap-xx-small);
+  margin-left: var(--semantic-dimension-space-x-small);
 }

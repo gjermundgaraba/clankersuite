@@ -17,12 +17,12 @@
 .gg-bench-head {
   display: grid;
   align-content: start;
-  gap: var(--semantic-dimension-space-gap-surface);
+  gap: var(--semantic-dimension-space-gutter);
   margin-bottom: calc(
     -1 * var(--semantic-dimension-space-control-padding-block-large)
   );
-  padding: var(--semantic-dimension-space-gap-surface)
-    var(--semantic-dimension-space-gap-reel)
+  padding: var(--semantic-dimension-space-gutter)
+    var(--semantic-dimension-space-large)
     var(--semantic-dimension-space-control-padding-block-large);
   overflow-y: auto;
 }

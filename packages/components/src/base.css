@@ -12,7 +12,7 @@
 html {
   height: 100%;
   scroll-padding-top: calc(
-    var(--gg-topbar-h) + var(--semantic-dimension-space-gap-xx-large)
+    var(--gg-topbar-h) + var(--semantic-dimension-space-large)
   );
   scroll-padding-bottom: var(--gg-statusbar-h);
 }
@@ -199,15 +199,15 @@ kbd {
 }
 
 :is(.gg-stack, .gg-group, .gg-wrap).gg-gap-s {
-  gap: var(--semantic-dimension-space-gap-inline);
+  gap: var(--semantic-dimension-space-small);
 }
 
 :is(.gg-stack, .gg-group, .gg-wrap).gg-gap-m {
-  gap: var(--semantic-dimension-space-gap-body);
+  gap: var(--semantic-dimension-space-large);
 }
 
 :is(.gg-stack, .gg-group, .gg-wrap).gg-gap-l {
-  gap: var(--semantic-dimension-space-gap-surface);
+  gap: var(--semantic-dimension-space-gutter);
 }
 
 .gg-spinner {

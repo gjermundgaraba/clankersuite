@@ -5,7 +5,7 @@
   flex: none;
   min-width: var(--semantic-dimension-size-monogram-default);
   height: var(--semantic-dimension-size-monogram-default);
-  padding-inline: var(--semantic-dimension-space-gap-xxx-small);
+  padding-inline: var(--semantic-dimension-space-xx-small);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);

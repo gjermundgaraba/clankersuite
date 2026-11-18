@@ -1,8 +1,8 @@
 .gg-error-summary ul {
   list-style: none;
-  margin-top: var(--semantic-dimension-space-gap-xx-small);
+  margin-top: var(--semantic-dimension-space-x-small);
   display: grid;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
 }
 
 .gg-error-summary a {

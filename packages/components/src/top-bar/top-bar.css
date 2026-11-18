@@ -6,10 +6,10 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--semantic-dimension-space-gap-medium)
-    var(--semantic-dimension-space-gap-xx-large);
+  gap: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-large);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-padding-xx-large);
+    var(--semantic-dimension-space-gutter);
   background: var(--semantic-color-background-surface);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
@@ -21,16 +21,16 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small)
-    var(--semantic-dimension-space-gap-xx-large);
+  gap: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-large);
   min-width: 0;
   margin-left: auto;
 }
 
 @media (max-width: 600px) {
   .gg-topbar-tools {
-    gap: var(--semantic-dimension-space-gap-small)
-      var(--semantic-dimension-space-gap-large);
+    gap: var(--semantic-dimension-space-small)
+      var(--semantic-dimension-space-medium);
   }
 
   .gg-topbar-tools .gg-btn {
@@ -39,8 +39,8 @@
   }
 
   .gg-topbar {
-    gap: var(--semantic-dimension-space-gap-small)
-      var(--semantic-dimension-space-gap-large);
+    gap: var(--semantic-dimension-space-small)
+      var(--semantic-dimension-space-medium);
     padding: var(--semantic-dimension-space-control-padding-block-xx-large)
       var(--semantic-dimension-space-control-padding-inline-large);
   }

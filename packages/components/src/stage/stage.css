@@ -19,7 +19,7 @@
   z-index: var(--semantic-number-layer-paused);
   display: grid;
   place-items: center;
-  padding: var(--semantic-dimension-space-padding-xxx-large);
+  padding: var(--semantic-dimension-space-x-large);
   background: var(--semantic-color-background-backdrop);
 }
 

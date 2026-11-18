@@ -6,9 +6,7 @@
   box-shadow: var(--semantic-shadow-card);
   width: min(var(--semantic-dimension-size-max-width-card), 100%);
   animation: gg-card-in var(--semantic-duration-card) ease-out;
-  max-height: calc(
-    100vh - var(--semantic-dimension-space-viewport-gutter-x-large)
-  );
+  max-height: calc(100vh - 2 * var(--semantic-dimension-space-gutter));
   display: flex;
   flex-direction: column;
 }
@@ -27,7 +25,7 @@
 .gg-card-tb {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   padding: var(--semantic-dimension-space-control-padding-block-large)
@@ -48,9 +46,9 @@
 
 .gg-card-body {
   overflow-wrap: break-word;
-  padding: var(--semantic-dimension-space-padding-panel);
+  padding: var(--semantic-dimension-space-inset);
   display: grid;
-  gap: var(--semantic-dimension-space-gap-body);
+  gap: var(--semantic-dimension-space-large);
   overflow-y: auto;
 }
 
@@ -61,9 +59,9 @@
 .gg-card-actions {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
-  padding: var(--semantic-dimension-space-padding-medium)
-    var(--semantic-dimension-space-padding-x-large);
+  gap: var(--semantic-dimension-space-medium);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-large);
   border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   flex: none;
@@ -75,12 +73,12 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
   margin-left: auto;
 }
 
 .gg-card-body > .gg-rows {
-  margin-inline: calc(-1 * var(--semantic-dimension-space-padding-panel));
+  margin-inline: calc(-1 * var(--semantic-dimension-space-inset));
   border-block: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }

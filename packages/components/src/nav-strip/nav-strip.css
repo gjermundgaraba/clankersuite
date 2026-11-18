@@ -59,7 +59,7 @@
 
 .gg-nav .gg-navnum {
   display: inline-block;
-  margin-left: var(--semantic-dimension-space-gap-small);
+  margin-left: var(--semantic-dimension-space-small);
   padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
   font-size: var(--semantic-dimension-font-size-label);
   background: var(--semantic-color-background-head);
@@ -72,9 +72,5 @@
     padding: var(--semantic-dimension-space-control-padding-block-medium)
       var(--semantic-dimension-space-control-padding-inline-small);
     font-size: var(--semantic-dimension-font-size-label);
-  }
-
-  .gg-nav .gg-navnum {
-    margin-left: var(--semantic-dimension-space-gap-x-small);
   }
 }

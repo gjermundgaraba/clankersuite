@@ -8,10 +8,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--semantic-dimension-space-gap-xx-small)
-    var(--semantic-dimension-space-gap-xx-large);
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large);
   padding: var(--semantic-dimension-space-control-padding-block-small)
-    var(--semantic-dimension-space-padding-xx-large);
+    var(--semantic-dimension-space-gutter);
   background: var(--semantic-color-background-surface);
   border-top: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
@@ -23,16 +23,16 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-xx-small)
-    var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
   min-width: 0;
 }
 
 .gg-statusbar-keys {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--semantic-dimension-space-gap-xx-small)
-    var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
 }
 
 .gg-statusbar-keys .gg-key-hint {

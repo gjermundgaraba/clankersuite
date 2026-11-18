@@ -21,7 +21,7 @@ dialog.gg-veil:focus {
   min-height: 100%;
   display: grid;
   place-items: center;
-  padding: var(--semantic-dimension-space-padding-xxx-large);
+  padding: var(--semantic-dimension-space-x-large);
   pointer-events: none;
 }
 
