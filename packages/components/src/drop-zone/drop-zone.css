@@ -1,9 +1,9 @@
 .gg-drop-zone {
   display: grid;
   justify-items: center;
-  gap: var(--semantic-dimension-space-gap-medium);
-  padding: var(--semantic-dimension-space-drop-zone-padding)
-    var(--semantic-dimension-space-padding-panel);
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-xx-large)
+    var(--semantic-dimension-space-inset);
   text-align: center;
   border: var(--semantic-dimension-border-width-default) dashed
     var(--semantic-color-border-secondary);
@@ -33,7 +33,7 @@
 
 .gg-drop-zone p strong {
   display: block;
-  margin-bottom: var(--semantic-dimension-space-gap-xxx-small);
+  margin-bottom: var(--semantic-dimension-space-xx-small);
   font-size: var(--semantic-dimension-font-size-control);
   font-weight: var(--semantic-font-weight-regular);
   color: var(--semantic-color-text-primary);

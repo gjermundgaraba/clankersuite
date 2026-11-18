@@ -3,7 +3,7 @@
   overflow-wrap: anywhere;
   display: flex;
   align-items: flex-start;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-medium);
   border: var(--semantic-dimension-border-width-default) solid

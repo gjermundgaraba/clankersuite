@@ -3,13 +3,13 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--semantic-dimension-space-gap-xxx-small) 0;
+  gap: var(--semantic-dimension-space-xx-small) 0;
   font-size: var(--semantic-dimension-font-size-label);
 }
 
 .gg-crumbs li + li::before {
   content: "/";
-  margin: 0 var(--semantic-dimension-space-gap-small);
+  margin: 0 var(--semantic-dimension-space-small);
   color: var(--semantic-color-text-secondary);
 }
 

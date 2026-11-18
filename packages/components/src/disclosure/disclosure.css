@@ -1,7 +1,7 @@
 .gg-disclosure > :is(summary, .gg-disclosure-summary) {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   width: 100%;
   padding: var(--semantic-dimension-space-control-padding-block-x-small) 0;
   border: 0;
@@ -48,10 +48,10 @@
 
 .gg-disclosure-body {
   display: grid;
-  gap: var(--semantic-dimension-space-gap-body);
-  margin: var(--semantic-dimension-space-gap-x-small) 0
-    var(--semantic-dimension-space-gap-xxx-small)
-    var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-large);
+  margin: var(--semantic-dimension-space-small) 0
+    var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-small) 0
     var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-control-padding-inline-x-large);

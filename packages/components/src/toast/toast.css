@@ -4,7 +4,7 @@
    gap. A phone spans it across the bottom */
 .gg-toasts .gg-toast-stack {
   bottom: var(--gg-statusbar-h) !important;
-  gap: var(--semantic-dimension-space-gap-medium) !important;
+  gap: var(--semantic-dimension-space-small) !important;
   width: min(var(--semantic-dimension-size-max-width-toast), 100vw);
 }
 

@@ -15,7 +15,10 @@
 }
 
 .gg-toc .gg-l3 a {
-  padding-left: var(--semantic-dimension-space-indent-toc);
+  padding-left: calc(
+    var(--semantic-dimension-space-medium) +
+      var(--semantic-dimension-space-large)
+  );
   font-size: var(--semantic-dimension-font-size-control);
 }
 

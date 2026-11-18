@@ -2,9 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
-  padding: var(--semantic-dimension-space-padding-medium)
-    var(--semantic-dimension-space-padding-x-large)
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-large)
     var(--semantic-dimension-space-control-padding-block-xx-large);
   flex: none;
 }
@@ -51,16 +51,16 @@
 .gg-palette-row {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   width: 100%;
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-xx-large)
     var(--semantic-dimension-space-control-padding-block-xx-large)
     calc(
-      var(--semantic-dimension-space-padding-x-large) +
+      var(--semantic-dimension-space-large) +
         min(
           (var(--gg-palette-level, 1) - 1) *
-            var(--semantic-dimension-space-indent-palette),
+            var(--semantic-dimension-space-x-large),
           33%
         )
     );
@@ -123,7 +123,7 @@
 }
 
 .gg-palette-row:has(.gg-hint) .gg-glyph.gg-opens {
-  margin-left: calc(-1 * var(--semantic-dimension-space-gap-xx-small));
+  margin-left: calc(-1 * var(--semantic-dimension-space-x-small));
 }
 
 .gg-palette-row:not(:has(.gg-hint)) .gg-glyph.gg-opens {
@@ -132,7 +132,7 @@
 
 .gg-palette-detail {
   display: grid;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-small)
     var(--semantic-dimension-space-control-padding-inline-xx-large)
     var(--semantic-dimension-space-control-padding-block-small);

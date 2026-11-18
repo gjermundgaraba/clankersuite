@@ -1,7 +1,7 @@
 .gg-choice {
   display: flex;
   align-items: flex-start;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-large) 0;
   cursor: pointer;
 }
@@ -29,7 +29,7 @@ button.gg-choice {
 }
 
 .gg-choice-box {
-  margin-top: var(--semantic-dimension-space-gap-xxx-small);
+  margin-top: var(--semantic-dimension-space-xx-small);
 }
 
 .gg-choice[role="radio"] > .gg-choice-box {

@@ -57,7 +57,8 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 - `border.primary` contains; `border.divider` divides and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
-- `space.padding` and `space.gap` are T-shirt ladders (`xxxSmall` to `xxLarge`) on whole pixels. A component picks a step; a brand that changes a step changes every component on it.
+- `space` is one scale on a 4px rhythm, a T-shirt size per step from `xxSmall` to `xxLarge`. A gap, a padding and a margin that acts as a gap all take a step of it; a component picks the step, and a brand that changes a step changes every component on it. Steps are named, not numbered, so a brand can retune the rhythm without renaming.
+- Some roles stand over the scale, because they recur across many components and a brand may want them looser or tighter on their own: `space.inset`, the padding inside a surface's body (a panel, card or window); `space.gutter`, the room between whole surfaces and between them and the page's edge; `space.control.padding.*`, inside a control (below); `space.focusRing.offset.*`, how far a focus ring stands off its box; and `space.underline.offset`, how far an underline sits below text. Anything else uses the scale directly.
 - `space.control.padding.block` and `.inline` are the inside of a control. A control's row height is its line plus its padding plus its border, so these steps are a pixel apart and some are odd: they keep a bordered control on the row height.
 - `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains; `radius.mark` rounds a checkbox.
 - `travel` is how far a thing moves: an entering toast.

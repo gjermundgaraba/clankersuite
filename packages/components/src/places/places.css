@@ -23,7 +23,7 @@
   min-height: var(--semantic-dimension-size-row);
   display: flex;
   align-items: baseline;
-  gap: var(--semantic-dimension-space-gap-inline);
+  gap: var(--semantic-dimension-space-small);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large)
     var(--semantic-dimension-space-control-padding-inline-large);
   font: inherit;

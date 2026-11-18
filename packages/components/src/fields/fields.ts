@@ -9,7 +9,7 @@ export type ViewConfig = Readonly<{
   isBusy?: boolean;
 }>;
 
-/** A form's fields, a column 14px apart (a body's gap), in one unnamed `<fieldset>` that
+/** A form's fields, a column a body's gap apart, in one unnamed `<fieldset>` that
  *  `isBusy` disables. */
 export const view = <Message>(
   config: ViewConfig,

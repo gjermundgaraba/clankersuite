@@ -1,13 +1,11 @@
 .gg-sheet {
-  padding: var(--semantic-dimension-space-sheet-padding-top)
-    var(--semantic-dimension-space-sheet-padding-inline)
-    var(--semantic-dimension-space-sheet-padding-bottom);
+  padding: var(--semantic-dimension-space-xx-large);
 }
 
 .gg-sheet-head {
   display: flex;
   align-items: flex-start;
-  gap: var(--semantic-dimension-space-gap-xx-large);
+  gap: var(--semantic-dimension-space-large);
   flex-wrap: wrap;
 }
 
@@ -28,14 +26,14 @@
 
 .gg-sheet-acts {
   display: flex;
-  gap: var(--semantic-dimension-space-gap-medium);
+  gap: var(--semantic-dimension-space-small);
   padding-top: var(--semantic-dimension-space-control-padding-block-small);
 }
 
 .gg-byline {
-  margin: var(--semantic-dimension-space-gap-medium) 0
-    var(--semantic-dimension-space-gap-surface);
-  padding-bottom: var(--semantic-dimension-space-padding-large);
+  margin: var(--semantic-dimension-space-small) 0
+    var(--semantic-dimension-space-gutter);
+  padding-bottom: var(--semantic-dimension-space-medium);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   font-size: var(--semantic-dimension-font-size-label);
@@ -43,15 +41,15 @@
 }
 
 .gg-sheet > .gg-notice {
-  margin-bottom: var(--semantic-dimension-space-gap-xxx-large);
+  margin-bottom: var(--semantic-dimension-space-x-large);
   max-width: var(--semantic-dimension-size-max-width-prose);
 }
 
 @media (max-width: 600px) {
   .gg-sheet {
-    padding: var(--semantic-dimension-space-padding-xx-large)
-      var(--semantic-dimension-space-padding-panel)
-      var(--semantic-dimension-space-sheet-padding-narrow);
+    padding: var(--semantic-dimension-space-gutter)
+      var(--semantic-dimension-space-inset)
+      var(--semantic-dimension-space-x-large);
   }
 
   .gg-sheet-title {

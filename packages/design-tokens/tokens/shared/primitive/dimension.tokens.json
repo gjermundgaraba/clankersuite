@@ -165,18 +165,6 @@
           "unit": "px"
         }
       },
-      "36": {
-        "$value": {
-          "value": 36,
-          "unit": "px"
-        }
-      },
-      "40": {
-        "$value": {
-          "value": 40,
-          "unit": "px"
-        }
-      },
       "48": {
         "$value": {
           "value": 48,
@@ -195,21 +183,9 @@
           "unit": "px"
         }
       },
-      "80": {
-        "$value": {
-          "value": 80,
-          "unit": "px"
-        }
-      },
       "96": {
         "$value": {
           "value": 96,
-          "unit": "px"
-        }
-      },
-      "100": {
-        "$value": {
-          "value": 100,
           "unit": "px"
         }
       },

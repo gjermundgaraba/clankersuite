@@ -3,7 +3,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 
-/** `M`: the parts of one body (14px). `L`: whole surfaces, panel to panel (24px). */
+/** `M`: the parts of one body. `L`: whole surfaces, panel to panel, a gutter apart. */
 export const Space = Schema.Literals(["M", "L"]);
 
 export type Space = typeof Space.Type;

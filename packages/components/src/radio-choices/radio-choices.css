@@ -1,4 +1,4 @@
 .gg-choices {
   display: grid;
-  gap: var(--semantic-dimension-space-gap-xxx-small);
+  gap: var(--semantic-dimension-space-xx-small);
 }

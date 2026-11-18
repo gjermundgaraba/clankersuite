@@ -19,14 +19,14 @@
   width: max-content;
   min-width: 100%;
   min-height: 100%;
-  padding-block: var(--semantic-dimension-space-gap-reel);
+  padding-block: var(--semantic-dimension-space-large);
 }
 
 .gg-reel-gap {
   position: relative;
   flex: none;
   align-self: stretch;
-  width: var(--semantic-dimension-space-gap-reel);
+  width: var(--semantic-dimension-space-large);
 }
 
 .gg-reel-column {
@@ -35,10 +35,10 @@
   flex-direction: column;
   width: max(
     var(--semantic-dimension-size-min-width-reel-column),
-    var(--gg-reel-width) * (100cqw - var(--semantic-dimension-space-gap-reel)) -
-      var(--semantic-dimension-space-gap-reel)
+    var(--gg-reel-width) * (100cqw - var(--semantic-dimension-space-large)) -
+      var(--semantic-dimension-space-large)
   );
-  min-height: calc(100cqh - 2 * var(--semantic-dimension-space-gap-reel));
+  min-height: calc(100cqh - 2 * var(--semantic-dimension-space-large));
 }
 
 .gg-reel-slot {
@@ -51,7 +51,7 @@
 .gg-reel-split {
   position: relative;
   flex: none;
-  height: var(--semantic-dimension-space-gap-reel);
+  height: var(--semantic-dimension-space-large);
   cursor: row-resize;
   touch-action: none;
 }
@@ -114,7 +114,7 @@
 .gg-reel-slot.gg-drop-before::before {
   top: calc(
     (
-        var(--semantic-dimension-space-gap-reel) +
+        var(--semantic-dimension-space-large) +
           var(--semantic-dimension-border-width-accent)
       ) /
       -2
@@ -124,7 +124,7 @@
 .gg-reel-slot.gg-drop-after::before {
   bottom: calc(
     (
-        var(--semantic-dimension-space-gap-reel) +
+        var(--semantic-dimension-space-large) +
           var(--semantic-dimension-border-width-accent)
       ) /
       -2
@@ -137,7 +137,7 @@
 
 .gg-reel-pane,
 .gg-reel-column {
-  scroll-margin: var(--semantic-dimension-space-gap-reel);
+  scroll-margin: var(--semantic-dimension-space-large);
 }
 
 .gg-reel-pane {
@@ -181,15 +181,15 @@
 
 .gg-reel-tabs {
   flex: none;
-  max-width: calc(100% - 2 * var(--semantic-dimension-space-gap-reel));
-  margin: var(--semantic-dimension-space-gap-reel)
-    var(--semantic-dimension-space-gap-reel) 0;
+  max-width: calc(100% - 2 * var(--semantic-dimension-space-large));
+  margin: var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-large) 0;
 }
 
 .gg-reel-tabs button {
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   min-width: 0;
 }
 
@@ -201,9 +201,9 @@
 
 .gg-reel-stage {
   flex: 1 1 0;
-  height: calc(100cqh - 2 * var(--semantic-dimension-space-gap-reel));
+  height: calc(100cqh - 2 * var(--semantic-dimension-space-large));
   min-height: 0;
-  margin-inline: var(--semantic-dimension-space-gap-reel);
+  margin-inline: var(--semantic-dimension-space-large);
 }
 
 .gg-reel-pane.gg-behind {

@@ -385,124 +385,52 @@
         }
       },
       "space": {
-        "padding": {
-          "panel": {
-            "$value": "{primitive.dimension.16}",
-            "$description": "Inside a panel or card."
-          },
-          "medium": {
-            "$value": "{primitive.dimension.12}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step medium."
-          },
-          "xSmall": {
-            "$value": "{primitive.dimension.8}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xSmall."
-          },
-          "xxLarge": {
-            "$value": "{primitive.dimension.20}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxLarge."
-          },
-          "pageEnd": {
-            "narrow": {
-              "$value": "{primitive.dimension.64}",
-              "$description": "Room below the last panel of a deck on a phone."
-            },
-            "default": {
-              "$value": "{primitive.dimension.80}",
-              "$description": "Room below the last panel of a deck."
-            }
-          },
-          "small": {
-            "$value": "{primitive.dimension.10}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step small."
-          },
-          "large": {
-            "$value": "{primitive.dimension.14}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step large."
-          },
-          "xxSmall": {
-            "$value": "{primitive.dimension.4}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxSmall."
-          },
-          "xxxLarge": {
-            "$value": "{primitive.dimension.24}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xxxLarge."
-          },
-          "xLarge": {
-            "$value": "{primitive.dimension.16}",
-            "$description": "Padding of a surface: a panel's body, a sheet, an empty state, a wall. Step xLarge."
-          }
+        "xxSmall": {
+          "$value": "{primitive.dimension.2}",
+          "$description": "The least: a hairline apart, a label's meta from its value."
         },
-        "gap": {
-          "inline": {
-            "$value": "{primitive.dimension.8}",
-            "$description": "Between things in one line: buttons, chips, a glyph and its word."
-          },
-          "body": {
-            "$value": "{primitive.dimension.14}",
-            "$description": "Between the parts of one body: a panel's, a card's, a window's."
-          },
-          "surface": {
-            "$value": "{primitive.dimension.24}",
-            "$description": "Between whole surfaces: panels, a card and what stands beside it."
-          },
-          "reel": {
-            "$value": "{primitive.dimension.16}",
-            "$description": "Between reel columns, and between the panes of a column."
-          },
-          "xxLarge": {
-            "$value": "{primitive.dimension.16}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxLarge."
-          },
-          "xxSmall": {
-            "$value": "{primitive.dimension.4}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxSmall."
-          },
-          "large": {
-            "$value": "{primitive.dimension.12}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step large."
-          },
-          "medium": {
-            "$value": "{primitive.dimension.10}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step medium."
-          },
-          "small": {
-            "$value": "{primitive.dimension.8}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step small."
-          },
-          "xSmall": {
-            "$value": "{primitive.dimension.6}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xSmall."
-          },
-          "xxxSmall": {
-            "$value": "{primitive.dimension.2}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxxSmall."
-          },
-          "xLarge": {
-            "$value": "{primitive.dimension.14}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xLarge."
-          },
-          "xxxLarge": {
-            "$value": "{primitive.dimension.20}",
-            "$description": "Space between siblings: a gap, or a margin that acts as one. Step xxxLarge."
-          }
+        "xSmall": {
+          "$value": "{primitive.dimension.4}",
+          "$description": "Tight: a field's label above its input, a glyph in a dense line."
+        },
+        "small": {
+          "$value": "{primitive.dimension.8}",
+          "$description": "Between things in one line: buttons, chips, a glyph and its word."
+        },
+        "medium": {
+          "$value": "{primitive.dimension.12}",
+          "$description": "Between grouped lines, and the inline padding of a row, cell or bar."
+        },
+        "large": {
+          "$value": "{primitive.dimension.16}",
+          "$description": "Between the parts of one body: a panel's, a card's, a window's."
+        },
+        "xLarge": {
+          "$value": "{primitive.dimension.24}",
+          "$description": "Around an empty state, a wall or a dialog on its veil."
+        },
+        "xxLarge": {
+          "$value": "{primitive.dimension.32}",
+          "$description": "The most: beside a sheet's content."
+        },
+        "inset": {
+          "$value": "{semantic.dimension.space.large}",
+          "$description": "Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row."
+        },
+        "gutter": {
+          "$value": "{semantic.dimension.space.xLarge}",
+          "$description": "Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's."
         },
         "focusRing": {
           "offset": {
             "small": {
-              "$value": "{primitive.dimension.2}",
+              "$value": "{semantic.dimension.space.xxSmall}",
               "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step small."
             },
             "large": {
-              "$value": "{primitive.dimension.4}",
+              "$value": "{semantic.dimension.space.xSmall}",
               "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step large."
             }
-          }
-        },
-        "skipLink": {
-          "offscreen": {
-            "$value": "{primitive.dimension.100}",
-            "$description": "How far above the page a skip link waits until it is focused."
           }
         },
         "control": {
@@ -585,74 +513,10 @@
             }
           }
         },
-        "viewportGutter": {
-          "small": {
-            "$value": "{primitive.dimension.24}",
-            "$description": "Room a popup sized to the viewport leaves at its edges. Step small."
-          },
-          "xLarge": {
-            "$value": "{primitive.dimension.48}",
-            "$description": "Room a popup sized to the viewport leaves at its edges. Step xLarge."
-          },
-          "medium": {
-            "$value": "{primitive.dimension.32}",
-            "$description": "Room a popup sized to the viewport leaves at its edges. Step medium."
-          },
-          "large": {
-            "$value": "{primitive.dimension.40}",
-            "$description": "Room a popup sized to the viewport leaves at its edges. Step large."
-          }
-        },
-        "indent": {
-          "tree": {
-            "$value": "{primitive.dimension.26}",
-            "$description": "How far a tree's nested rows are indented."
-          },
-          "palette": {
-            "$value": "{primitive.dimension.20}",
-            "$description": "How far each level of a palette's nested choices is indented."
-          },
-          "toc": {
-            "$value": "{primitive.dimension.28}",
-            "$description": "How far a third-level contents link is indented."
-          }
-        },
-        "tree": {
-          "guide": {
-            "$value": "{primitive.dimension.20}",
-            "$description": "Where a tree's guide line runs, from the rows' left edge."
-          }
-        },
         "underline": {
           "offset": {
             "$value": "{primitive.dimension.3}",
             "$description": "How far an underline sits below the text."
-          }
-        },
-        "dropZone": {
-          "padding": {
-            "$value": "{primitive.dimension.28}",
-            "$description": "Above and below a drop zone's content."
-          }
-        },
-        "sheet": {
-          "padding": {
-            "top": {
-              "$value": "{primitive.dimension.28}",
-              "$description": "Above a sheet's head."
-            },
-            "inline": {
-              "$value": "{primitive.dimension.32}",
-              "$description": "Beside a sheet's content."
-            },
-            "bottom": {
-              "$value": "{primitive.dimension.36}",
-              "$description": "Below a sheet's body."
-            },
-            "narrow": {
-              "$value": "{primitive.dimension.28}",
-              "$description": "Below a sheet's body on a phone."
-            }
           }
         }
       },

@@ -10,7 +10,7 @@
 .gg-board {
   display: grid;
   grid-template-columns: repeat(var(--gg-cols, 3), minmax(0, 1fr));
-  gap: var(--semantic-dimension-space-gap-surface);
+  gap: var(--semantic-dimension-space-gutter);
   align-items: start;
 }
 
@@ -56,10 +56,10 @@
 
 .gg-board-cards {
   list-style: none;
-  padding: var(--semantic-dimension-space-padding-medium);
+  padding: var(--semantic-dimension-space-medium);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
 }
 
 .gg-board-card {
@@ -68,11 +68,11 @@
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-surface);
-  padding: var(--semantic-dimension-space-padding-small)
-    var(--semantic-dimension-space-padding-medium);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
 }
 
 .gg-board-card {
@@ -151,7 +151,7 @@
 .gg-board-card .gg-meta-row {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   min-height: var(--semantic-dimension-size-min-height-meta-row);
 }
 

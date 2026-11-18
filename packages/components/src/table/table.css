@@ -68,7 +68,7 @@
 }
 
 .gg-table td.gg-acts .gg-btn + .gg-btn {
-  margin-left: var(--semantic-dimension-space-gap-small);
+  margin-left: var(--semantic-dimension-space-small);
 }
 
 @media (max-width: 600px) {
@@ -85,8 +85,8 @@
   }
 
   .gg-table tr {
-    padding: var(--semantic-dimension-space-padding-small)
-      var(--semantic-dimension-space-padding-medium);
+    padding: var(--semantic-dimension-space-medium)
+      var(--semantic-dimension-space-medium);
     border-bottom: var(--semantic-dimension-border-width-default) solid
       var(--semantic-color-border-divider);
   }

@@ -3,16 +3,16 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--semantic-dimension-space-gap-body)
-    var(--semantic-dimension-space-gap-surface);
+  gap: var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-gutter);
 }
 
 .gg-page-name {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--semantic-dimension-space-gap-xx-small)
-    var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
   min-width: 0;
 }
 
@@ -34,7 +34,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-inline);
+  gap: var(--semantic-dimension-space-small);
 }
 
 @media (max-width: 600px) {

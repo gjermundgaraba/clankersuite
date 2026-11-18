@@ -69,13 +69,13 @@ export const LIVE_MARKDOWN_STYLE = {
   ".gg-md-codeblock": {
     ...CODE,
     background: "var(--semantic-color-background-head)",
-    padding: "0 var(--semantic-dimension-space-gap-inline) !important",
+    padding: "0 var(--semantic-dimension-space-small) !important",
   },
   ".gg-md-table": CODE,
   ".gg-md-quote": {
     borderLeft:
       "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
-    paddingLeft: "var(--semantic-dimension-space-gap-body) !important",
+    paddingLeft: "var(--semantic-dimension-space-large) !important",
     color: "var(--semantic-color-text-secondary)",
   },
   ".gg-md-hr": {
@@ -91,7 +91,7 @@ export const LIVE_MARKDOWN_STYLE = {
   },
   ".gg-md-check": {
     width: "auto",
-    margin: "0 var(--semantic-dimension-space-gap-inline) 0 0",
+    margin: "0 var(--semantic-dimension-space-small) 0 0",
     verticalAlign: "-0.125em",
     cursor: "pointer",
     accentColor: "var(--semantic-color-background-fill-accent)",
@@ -101,7 +101,7 @@ export const LIVE_MARKDOWN_STYLE = {
     display: "block",
     maxWidth: "100%",
     maxHeight: "var(--semantic-dimension-size-max-height-markdown-image)",
-    margin: "var(--semantic-dimension-space-gap-inline) 0",
+    margin: "var(--semantic-dimension-space-small) 0",
   },
   ".gg-md-img-note": {
     color: "var(--semantic-color-text-secondary)",
@@ -117,7 +117,7 @@ export const LIVE_MARKDOWN_STYLE = {
     border:
       "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-divider)",
     padding:
-      "var(--semantic-dimension-space-control-padding-block-x-small) var(--semantic-dimension-space-gap-inline)",
+      "var(--semantic-dimension-space-control-padding-block-x-small) var(--semantic-dimension-space-small)",
     textAlign: "left",
   },
 };

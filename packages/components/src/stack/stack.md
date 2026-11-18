@@ -8,7 +8,7 @@ A column of components a gap apart, each taking the column's width. It is space 
 
 ## Inside a body
 
-The gap is `M` by default, 14px: the parts of one panel's body.
+The gap is `M` by default: the parts of one panel's body.
 
 ::Example{name="body"}
 

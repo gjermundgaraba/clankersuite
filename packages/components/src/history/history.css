@@ -7,7 +7,7 @@
 .gg-history-list li {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-large);
+  gap: var(--semantic-dimension-space-medium);
   padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0;
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
@@ -71,7 +71,7 @@
 
 .gg-history-list.gg-wrapped li {
   flex-wrap: wrap;
-  row-gap: var(--semantic-dimension-space-gap-xxx-small);
+  row-gap: var(--semantic-dimension-space-xx-small);
   padding: var(--semantic-dimension-space-control-padding-block-large) 0;
 }
 

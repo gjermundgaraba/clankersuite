@@ -1,7 +1,7 @@
 .gg-tip[popover] {
   position-anchor: auto;
   inset: auto;
-  margin: 0 0 var(--semantic-dimension-space-gap-x-small);
+  margin: 0 0 var(--semantic-dimension-space-small);
   position-area: top;
   position-try-fallbacks:
     top span-left,
@@ -11,7 +11,7 @@
     bottom span-right;
   max-width: min(
     var(--semantic-dimension-size-measure-tip),
-    calc(100vw - var(--semantic-dimension-space-viewport-gutter-small))
+    calc(100vw - 2 * var(--semantic-dimension-space-medium))
   );
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-small);
@@ -27,14 +27,14 @@
 }
 
 .gg-tip .gg-key-hint {
-  margin-left: var(--semantic-dimension-space-gap-x-small);
+  margin-left: var(--semantic-dimension-space-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
 }
 
 .gg-tip[popover][data-gg-side="right"] {
-  margin: 0 0 0 var(--semantic-dimension-space-gap-x-small);
+  margin: 0 0 0 var(--semantic-dimension-space-small);
   position-area: right;
   position-try-fallbacks: flip-inline;
 }

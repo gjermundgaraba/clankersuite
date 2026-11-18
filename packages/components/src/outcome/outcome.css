@@ -1,6 +1,6 @@
 .gg-outcome {
   display: flex;
-  gap: var(--semantic-dimension-space-gap-x-large);
+  gap: var(--semantic-dimension-space-medium);
   align-items: flex-start;
 }
 
@@ -12,7 +12,7 @@
 .gg-outcome-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--semantic-dimension-space-gap-xx-small);
+  gap: var(--semantic-dimension-space-x-small);
   min-width: 0;
 }
 
@@ -28,5 +28,5 @@
 }
 
 .gg-outcome-body > p + * {
-  margin-top: var(--semantic-dimension-space-gap-small);
+  margin-top: var(--semantic-dimension-space-small);
 }

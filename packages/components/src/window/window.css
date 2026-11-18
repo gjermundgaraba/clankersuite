@@ -7,7 +7,7 @@
 
 .gg-window > .gg-panel-tb {
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-small);
+  gap: var(--semantic-dimension-space-small);
   min-height: var(--semantic-dimension-size-control);
   padding: var(--semantic-dimension-space-control-padding-block-x-small)
     var(--semantic-dimension-space-control-padding-inline-xxx-small)
@@ -40,8 +40,8 @@
   overflow: auto;
   display: grid;
   align-content: start;
-  gap: var(--semantic-dimension-space-gap-body);
-  padding: var(--semantic-dimension-space-padding-panel);
+  gap: var(--semantic-dimension-space-large);
+  padding: var(--semantic-dimension-space-inset);
 }
 
 .gg-window.gg-flush .gg-window-body {

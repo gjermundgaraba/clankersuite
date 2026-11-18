@@ -4,7 +4,7 @@
   font-size: var(--semantic-dimension-font-size-control);
   display: inline-flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-gap-x-small);
+  gap: var(--semantic-dimension-space-small);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   border: var(--semantic-dimension-border-width-default) solid
@@ -56,7 +56,7 @@
 }
 
 .gg-btn .gg-key-hint {
-  margin-left: var(--semantic-dimension-space-gap-inline);
+  margin-left: var(--semantic-dimension-space-small);
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   opacity: var(--semantic-number-opacity-key-hint);

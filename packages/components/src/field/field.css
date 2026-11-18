@@ -15,7 +15,7 @@ select:disabled {
   display: block;
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
-  margin-bottom: var(--semantic-dimension-space-gap-xx-small);
+  margin-bottom: var(--semantic-dimension-space-x-small);
 }
 
 .gg-field input,
@@ -62,7 +62,7 @@ select:disabled {
 
 .gg-field .gg-field-help,
 .gg-field .gg-field-error {
-  margin-top: var(--semantic-dimension-space-gap-xx-small);
+  margin-top: var(--semantic-dimension-space-x-small);
   font: var(--semantic-dimension-font-size-control)/var(
       --semantic-number-line-height-body
     )
