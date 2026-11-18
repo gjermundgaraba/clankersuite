@@ -30,8 +30,6 @@ interface Declaration {
 const TILE_GEOMETRY_PROPERTIES: ReadonlySet<string> = new Set([
   "background-position",
   "background-size",
-  "--gg-dither",
-  "--gg-veil-grain",
 ]);
 
 const TOKENED_UNITLESS_PROPERTIES: ReadonlySet<string> = new Set([

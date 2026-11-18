@@ -7,7 +7,7 @@ export type ViewConfig = Readonly<{
   body: ReadonlyArray<Html | string>;
 }>;
 
-/** The whole viewport as dithered ground with one card centred on it: the main landmark
+/** The whole viewport as bare ground with one card centred on it: the main landmark
  *  (`<main id="main">`). */
 export const view = <Message>(
   config: ViewConfig,

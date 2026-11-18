@@ -164,20 +164,6 @@
         "backdrop": {
           "$value": "{primitive.color.black.alpha55}",
           "$description": "The veil behind a modal dialog."
-        },
-        "backdropGrain": {
-          "$value": "{primitive.color.black.alpha55}",
-          "$description": "The dots of the veil's grain."
-        },
-        "dither": {
-          "base": {
-            "$value": "{primitive.color.forest.900}",
-            "$description": "The ground of the canvas dither."
-          },
-          "dot": {
-            "$value": "{primitive.color.forest.900}",
-            "$description": "The dots of the canvas dither."
-          }
         }
       },
       "shadow": {
