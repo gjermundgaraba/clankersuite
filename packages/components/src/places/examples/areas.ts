@@ -31,7 +31,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Panel.view(
     {
       id: "places-areas",
-      title: "areas",
+      title: "Areas",
       isFlush: true,
       body: [
         Places.view(

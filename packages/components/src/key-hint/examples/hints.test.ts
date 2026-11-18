@@ -26,14 +26,14 @@ describe("the hints example", () => {
     Scene.scene(
       { update, view },
       Scene.given(init().model),
-      Scene.expect(Scene.role("button", { name: "commands" })).toContainText(
+      Scene.expect(Scene.role("button", { name: "Commands" })).toContainText(
         "Ctrl+K"
       )
     );
     Scene.scene(
       { update, view },
       Scene.given({ platform: "Apple" as const }),
-      Scene.expect(Scene.role("button", { name: "commands" })).toContainText(
+      Scene.expect(Scene.role("button", { name: "Commands" })).toContainText(
         "⌘K"
       )
     );

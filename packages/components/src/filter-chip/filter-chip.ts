@@ -4,7 +4,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { pressedAttribute } from "../button/button.ts";
 
 export type ViewConfig<Message> = Readonly<{
-  /** The value, the chip's words: "open", "this week". */
+  /** The value, the chip's words: "Open", "This week". */
   label: string;
   /** The chip written out, when its words alone do not say it ("Clear scope: Operations" for
    *  "Operations ×"): its name for screen readers and its tip for everyone else. */

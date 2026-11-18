@@ -158,7 +158,7 @@ const cardView = (
 
   const cancel = Button.view(
     {
-      label: "cancel",
+      label: "Cancel",
       isDefault: isDanger,
       isDisabled: isBusy,
       onClick: Message.ClickedCancel(),

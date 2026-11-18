@@ -3,7 +3,7 @@ import { describe, it } from "vite-plus/test";
 
 import { Message, Reconnect, init, update, view } from "./retry.ts";
 
-const reconnect = Scene.role("button", { name: "reconnect" });
+const reconnect = Scene.role("button", { name: "Reconnect" });
 
 describe("the retry example", () => {
   it("holds the button while it reconnects, then says it is back", () => {

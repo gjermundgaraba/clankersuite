@@ -5,10 +5,10 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Wrap.view(
     {
       body: [
-        Button.view({ label: "keep" }, h),
-        Button.view({ label: "save", variant: "Primary" }, h),
-        Button.view({ label: "add", glyph: "plus" }, h),
-        Button.view({ label: "publish", isDisabled: true }, h),
+        Button.view({ label: "Keep" }, h),
+        Button.view({ label: "Save", variant: "Primary" }, h),
+        Button.view({ label: "Add", glyph: "plus" }, h),
+        Button.view({ label: "Publish", isDisabled: true }, h),
       ],
     },
     h

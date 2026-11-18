@@ -7,7 +7,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
       body: [
         LinkButton.view(
           {
-            label: "open the docs",
+            label: "Open the docs",
             href: "/components/button",
             glyph: "arrow-right",
           },
@@ -15,7 +15,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         ),
         LinkButton.view(
           {
-            label: "sign in",
+            label: "Sign in",
             href: "/components/password-field",
             variant: "Primary",
           },
@@ -23,7 +23,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         ),
         LinkButton.view(
           {
-            label: "icon buttons",
+            label: "Icon buttons",
             href: "/components/icon-button",
             isSmall: true,
           },

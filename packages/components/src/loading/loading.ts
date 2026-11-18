@@ -6,7 +6,7 @@ export type ViewConfig<Message> = Readonly<{
   /** Whether the content is on its way. Done, the line empties and leaves the flow, so it
    *  takes no room and no gap, but stays in place, so the next wait is heard. */
   isLoading: boolean;
-  /** What is on its way, in pixel caps (`"loading the items"`). `"loading"` by default. */
+  /** What is on its way (`"Loading the items"`). `"Loading"` by default. */
   label?: string;
   /** Attributes for the line, such as the id and `tabindex="-1"` that make it a place to
    *  send focus. */
@@ -22,7 +22,7 @@ export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { isLoading, label = "loading", attributes = [] } = config;
+  const { isLoading, label = "Loading", attributes = [] } = config;
 
   return h.div(
     [

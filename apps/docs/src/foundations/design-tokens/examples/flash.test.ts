@@ -9,7 +9,7 @@ describe("the flash example", () => {
     Scene.scene(
       { update, view },
       Scene.given({}),
-      Scene.click(Scene.role("button", { name: "commit" })),
+      Scene.click(Scene.role("button", { name: "Commit" })),
       Scene.Command.expectExact(
         Announcer.Flash({ selector: `#${DRAFT_PANEL_ID}` }),
         Announcer.Announce({ text: "Committed." })

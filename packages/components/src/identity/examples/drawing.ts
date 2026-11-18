@@ -25,7 +25,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
     {
       label: "Northwind Traders",
       drawing: NORTHWIND_MARK,
-      meta: ["provider"],
+      meta: ["Provider"],
       isLarge: true,
     },
     h

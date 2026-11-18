@@ -40,9 +40,9 @@ const PLANS: readonly Plan[] = [
     id: "archive",
     label:
       "The archive of every report the old reporting service ever sent out",
-    meta: "read only",
+    meta: "Read only",
   },
-  { id: "trial", label: "Trial", meta: "ends in 9 days" },
+  { id: "trial", label: "Trial", meta: "Ends in 9 days" },
 ];
 
 export const init = (): Update.Return<Model, Message> => ({

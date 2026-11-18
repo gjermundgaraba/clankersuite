@@ -10,10 +10,10 @@ describe("Loading", () => {
       {
         update: (model: null) => ({ model }),
         view: (_model: null, h: HtmlBuilder<never>) =>
-          Loading.view({ isLoading: true, label: "loading the items" }, h),
+          Loading.view({ isLoading: true, label: "Loading the items" }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("status")).toHaveText("loading the items"),
+      Scene.expect(Scene.role("status")).toHaveText("Loading the items"),
       Scene.expect(Scene.role("status")).toHaveClass("gg-loading")
     );
   });
@@ -26,7 +26,7 @@ describe("Loading", () => {
           Loading.view({ isLoading: true }, h),
       },
       Scene.given(null),
-      Scene.expect(Scene.role("status")).toHaveText("loading")
+      Scene.expect(Scene.role("status")).toHaveText("Loading")
     );
   });
 

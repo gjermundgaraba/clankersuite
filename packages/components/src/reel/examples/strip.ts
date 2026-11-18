@@ -267,7 +267,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             body: [
               Button.view(
                 {
-                  label: "reset the layout",
+                  label: "Reset the layout",
                   isSmall: true,
                   onClick: Message.ClickedReset(),
                 },

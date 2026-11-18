@@ -115,20 +115,20 @@ describe("SchemeSwitch view", () => {
       },
       Scene.given(schemeSwitchInit.model),
       Scene.expect(Scene.role("group", { name: "Palette" })).toExist(),
-      Scene.expect(Scene.role("button", { name: "system" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "System" })).toHaveAttr(
         "aria-pressed",
         "true"
       ),
-      Scene.expect(Scene.role("button", { name: "plum" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Plum" })).toHaveAttr(
         "aria-pressed",
         "false"
       ),
-      Scene.click(Scene.role("button", { name: "plum" })),
+      Scene.click(Scene.role("button", { name: "Plum" })),
       Scene.Command.resolve(
         SchemeSwitch.PinScheme,
         SchemeSwitch.Message.CompletedPinScheme()
       ),
-      Scene.expect(Scene.role("button", { name: "plum" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Plum" })).toHaveAttr(
         "aria-pressed",
         "true"
       )

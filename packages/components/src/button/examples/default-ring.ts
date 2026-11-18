@@ -5,9 +5,9 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Group.view(
     {
       body: [
-        Button.view({ label: "cancel" }, h),
+        Button.view({ label: "Cancel" }, h),
         Button.view(
-          { label: "register", variant: "Primary", isDefault: true },
+          { label: "Register", variant: "Primary", isDefault: true },
           h
         ),
       ],

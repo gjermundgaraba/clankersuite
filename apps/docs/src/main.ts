@@ -9,7 +9,7 @@ import {
   TopBar,
   Wordmark,
 } from "@gjermundgaraba/components";
-import { Array, Effect, Option, Schema } from "effect";
+import { Array, Effect, Option, Schema, String } from "effect";
 import type { Runtime } from "foldkit";
 import { Command, Update } from "foldkit";
 import * as Dom from "foldkit/dom";
@@ -121,7 +121,7 @@ const exampleView =
             h.details(
               [h.Class("site-source")],
               [
-                h.summary([], ["code"]),
+                h.summary([], ["Code"]),
                 CodeSurface.view(
                   { label: `examples/${name}.ts`, body: [source] },
                   h
@@ -177,7 +177,7 @@ const documentView = (
             CodeBlock: ({ maybeLanguage, value }) =>
               CodeSurface.view(
                 {
-                  label: Option.getOrElse(maybeLanguage, () => "code"),
+                  label: Option.getOrElse(maybeLanguage, () => "Code"),
                   body: [value],
                 },
                 h
@@ -209,7 +209,7 @@ const CATEGORY_HEADINGS: Readonly<Record<Category, string>> = {
 const packageGroups: readonly NavGroup[] = Array.map(
   Array.dedupe(Array.map(PACKAGE_PAGES, ({ packageName }) => packageName)),
   (packageName) => ({
-    heading: packageName,
+    heading: String.capitalize(packageName.replaceAll("-", " ")),
     pages: Array.filter(
       PACKAGE_PAGES,
       (page) => page.packageName === packageName

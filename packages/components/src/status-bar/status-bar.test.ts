@@ -49,9 +49,9 @@ describe("StatusBar", () => {
       measureBar,
       Scene.expect(Scene.role("contentinfo")).toHaveClass("gg-statusbar"),
       Scene.expect(Scene.selector(".gg-statusbar-state")).toHaveText(
-        "online3 waiting"
+        "Online3 waiting"
       ),
-      Scene.expect(Scene.role("status")).toHaveText("online"),
+      Scene.expect(Scene.role("status")).toHaveText("Online"),
       Scene.expect(Scene.selector(".gg-statusbar-keys")).toHaveText(
         "⌘K commands? keys"
       ),

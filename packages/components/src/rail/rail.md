@@ -40,7 +40,7 @@ h.submodel({
   model: model.rail,
   view: Rail.view,
   viewInputs: {
-    label: "collections",
+    label: "Collections",
     maybeWidth: model.maybeRailWidth,
     isHidden: model.isRailHidden,
     maybeToggleKeyHint: Option.none(),

@@ -9,7 +9,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Panel.view(
           {
             id: "stack-open",
-            title: "open",
+            title: "Open",
             meta: "4",
             body: [h.p([], ["Four items are open."])],
           },
@@ -18,7 +18,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Panel.view(
           {
             id: "stack-waiting",
-            title: "waiting",
+            title: "Waiting",
             meta: "2",
             body: [h.p([], ["Two items wait on someone."])],
           },

@@ -205,7 +205,7 @@ const cardView = (
       closeAttributes: render.closeButton,
       actionBarAttributes: render.actionBar,
       actions: [
-        Button.view({ label: "close", attributes: render.closeButton }, h),
+        Button.view({ label: "Close", attributes: render.closeButton }, h),
       ],
       body: [
         ...(viewInputs.toIntroView?.() ?? []),

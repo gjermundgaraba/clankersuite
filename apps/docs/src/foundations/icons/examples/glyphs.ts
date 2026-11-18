@@ -22,7 +22,7 @@ type Family = readonly [family: string, names: readonly GlyphName[]];
 
 export const FAMILIES: readonly Family[] = [
   [
-    "direction",
+    "Direction",
     [
       "caret-down",
       "caret-right",
@@ -49,7 +49,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "actions",
+    "Actions",
     [
       "plus",
       "minus",
@@ -81,7 +81,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "state",
+    "State",
     [
       "bang",
       "info",
@@ -113,7 +113,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "media",
+    "Media",
     [
       "play",
       "pause",
@@ -129,7 +129,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "layout",
+    "Layout",
     [
       "outline",
       "list",
@@ -152,7 +152,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "documents",
+    "Documents",
     [
       "page",
       "file-plus",
@@ -174,7 +174,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "people",
+    "People",
     [
       "user",
       "users",
@@ -192,7 +192,7 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "systems",
+    "Systems",
     [
       "terminal",
       "machine",
@@ -215,11 +215,11 @@ export const FAMILIES: readonly Family[] = [
     ],
   ],
   [
-    "versions",
+    "Versions",
     ["branch", "merge", "fork", "commit", "diff", "snapshot", "tag"],
   ],
   [
-    "readings",
+    "Readings",
     [
       "chart-bar",
       "trend-up",
@@ -339,10 +339,10 @@ const filterView = (model: Model, h: HtmlBuilder<Message>): Html =>
         QueryChip.view(
           {
             id: "glyph-query",
-            label: "find",
+            label: "Find",
             value: model.query,
             onInput: (value) => Message.UpdatedQuery({ value }),
-            placeholder: "a name",
+            placeholder: "A name",
           },
           h
         ),
@@ -403,7 +403,7 @@ const emptyView = (h: HtmlBuilder<Message>): Html =>
       actions: [
         Button.view(
           {
-            label: "clear the filter",
+            label: "Clear the filter",
             isSmall: true,
             onClick: Message.ClickedClearFilter(),
           },

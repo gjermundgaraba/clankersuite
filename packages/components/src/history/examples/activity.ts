@@ -62,13 +62,13 @@ const PAGES: ReadonlyArray<readonly Change[]> = [
     {
       id: "9",
       at: LATEST,
-      who: "sam · client 4f2a",
+      who: "Sam · client 4f2a",
       what: "Edited task #41: Book the room (title, due)",
     },
     {
       id: "8",
       at: LATEST - 7 * MINUTE,
-      who: "sam · client 4f2a",
+      who: "Sam · client 4f2a",
       what: "Moved task #40: Write the notes",
     },
     {
@@ -82,7 +82,7 @@ const PAGES: ReadonlyArray<readonly Change[]> = [
     {
       id: "6",
       at: LATEST - 120 * MINUTE,
-      who: "sam · client 4f2a",
+      who: "Sam · client 4f2a",
       what: "Undid change",
     },
     {
@@ -139,7 +139,7 @@ const pagingView = (model: Model, h: HtmlBuilder<Message>): Html =>
           ? [
               Button.view(
                 {
-                  label: "latest activity",
+                  label: "Latest activity",
                   isSmall: true,
                   onClick: Message.ClickedLatestActivity(),
                 },
@@ -151,7 +151,7 @@ const pagingView = (model: Model, h: HtmlBuilder<Message>): Html =>
           ? [
               Button.view(
                 {
-                  label: "older activity",
+                  label: "Older activity",
                   isSmall: true,
                   onClick: Message.ClickedOlderActivity(),
                 },

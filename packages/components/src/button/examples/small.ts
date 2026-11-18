@@ -5,9 +5,9 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Wrap.view(
     {
       body: [
-        Button.view({ label: "copy", isSmall: true }, h),
-        Button.view({ label: "save", variant: "Primary", isSmall: true }, h),
-        Button.view({ label: "add", glyph: "plus", isSmall: true }, h),
+        Button.view({ label: "Copy", isSmall: true }, h),
+        Button.view({ label: "Save", variant: "Primary", isSmall: true }, h),
+        Button.view({ label: "Add", glyph: "plus", isSmall: true }, h),
       ],
     },
     h

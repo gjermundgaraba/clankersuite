@@ -85,7 +85,7 @@ export const update = (model: Model, message: Message) =>
 const summary = (model: Model): string =>
   [
     `${model.palette} palette`,
-    ...(model.isDense ? ["dense rows"] : []),
+    ...(model.isDense ? ["Dense rows"] : []),
     ...Option.toArray(Option.map(model.maybeLastAction, (id) => `ran ${id}`)),
   ].join(", ");
 

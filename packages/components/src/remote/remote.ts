@@ -11,7 +11,7 @@ export type ViewConfig<Data, Error, Message> = Readonly<{
    *  says a first load and stays quiet over a refresh. */
   id: string;
   data: AsyncData.AsyncData<Data, Error>;
-  /** What loads, as a noun in the words around it: `"usage"` reads "loading usage", "Usage
+  /** What loads, as a noun in the words around it: `"usage"` reads "Loading usage", "Usage
    *  not loaded" and "Usage not refreshed". */
   label: string;
   /** Why a load failed, in a sentence, under the notice's title. */
@@ -50,7 +50,7 @@ export const view = <Data, Error, Message>(
         title,
         body: [toErrorText(error)],
         actions: [
-          Button.view({ label: "retry", isSmall: true, onClick: onRetry }, h),
+          Button.view({ label: "Retry", isSmall: true, onClick: onRetry }, h),
         ],
       },
       h
@@ -60,7 +60,7 @@ export const view = <Data, Error, Message>(
     Loading.view(
       {
         isLoading: AsyncData.isLoading(data),
-        label: `loading ${label}`,
+        label: `Loading ${label}`,
         attributes: [h.Id(id), h.Tabindex(-1)],
       },
       h

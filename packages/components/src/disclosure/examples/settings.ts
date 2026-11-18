@@ -40,7 +40,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       Disclosure.view(
         {
           id: "disclosure-grants",
-          label: "edit grants",
+          label: "Edit grants",
           isOpen: model.isGrantsOpen,
           onToggle: (isOpen) => Message.ToggledGrants({ isOpen }),
           body: [h.p([], ["Ada, Grace and Linus can edit this space."])],
@@ -50,12 +50,12 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       Disclosure.view(
         {
           id: "disclosure-danger",
-          label: "danger zone",
+          label: "Danger zone",
           isOpen: model.isDangerOpen,
           onToggle: (isOpen) => Message.ToggledDanger({ isOpen }),
           body: [
             h.p([], ["Deleting the space removes every item in it."]),
-            Button.view({ label: "delete space", glyph: "trash" }, h),
+            Button.view({ label: "Delete space", glyph: "trash" }, h),
           ],
         },
         h

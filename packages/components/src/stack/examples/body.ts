@@ -16,8 +16,8 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Group.view(
           {
             body: [
-              Button.view({ label: "sign off", variant: "Primary" }, h),
-              Button.view({ label: "ask a question" }, h),
+              Button.view({ label: "Sign off", variant: "Primary" }, h),
+              Button.view({ label: "Ask a question" }, h),
             ],
           },
           h

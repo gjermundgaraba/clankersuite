@@ -35,14 +35,14 @@ export type Message = typeof Message.Type;
 
 const FEEDS: readonly Feed[] = [
   { id: "inbox", label: "Inbox", summary: "3 unread since this morning" },
-  { id: "builds", label: "Builds", summary: "all green" },
+  { id: "builds", label: "Builds", summary: "All green" },
   {
     id: "alerts",
     label: "Alerts",
     summary:
-      "one paging alert, acknowledged, and two warnings that clear on their own",
+      "One paging alert, acknowledged, and two warnings that clear on their own",
   },
-  { id: "deploys", label: "Deploys", summary: "next at noon" },
+  { id: "deploys", label: "Deploys", summary: "Next at noon" },
 ];
 
 export const init = (): Update.Return<Model, Message> => ({

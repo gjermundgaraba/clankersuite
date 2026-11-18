@@ -186,10 +186,10 @@ describe("ConfirmDialog view", () => {
         "Delete this file?"
       ),
       Scene.expect(Scene.selector(".gg-btn.gg-danger")).toHaveText("delete"),
-      Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).toHaveClass(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveClass(
         "gg-default-ring"
       ),
       Scene.expect(Scene.selector(".gg-outcome .why")).toHaveText(
@@ -244,7 +244,7 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "delete" })).not.toHaveAttr(
         "aria-busy"
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).toHaveHandler(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveHandler(
         "click"
       )
     );
@@ -274,20 +274,20 @@ describe("ConfirmDialog view", () => {
       },
       Scene.given(openModel),
       acquireResources,
-      Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveAttr(
         "aria-disabled",
         "true"
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).not.toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).not.toHaveAttr(
         "disabled"
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).not.toHaveHandler(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).not.toHaveHandler(
         "click"
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(Scene.role("button", { name: "cancel" })).not.toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Cancel" })).not.toHaveAttr(
         "aria-busy"
       ),
       Scene.click(Scene.selector(".gg-veil-backdrop")),

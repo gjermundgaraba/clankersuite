@@ -1,4 +1,4 @@
-import { Effect, Option, Schema } from "effect";
+import { Array, Effect, Option, Schema } from "effect";
 import * as Command from "foldkit/command";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -87,11 +87,10 @@ export const update = (model: Model, message: Message) =>
 export const select = (model: Model, chosen: Scheme): UpdateReturn =>
   update(model, Message.SelectedScheme({ scheme: chosen }));
 
-const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = [
-  { value: "System", label: "system" },
-  { value: "Paper", label: "paper" },
-  { value: "Plum", label: "plum" },
-];
+const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = Array.map(
+  Scheme.literals,
+  (name) => ({ value: name, label: name })
+);
 
 /** System, paper, plum: two palettes of one system, or whatever the reader's system prefers.
  *  Put `schemeScript` in the page's `<head>` so a remembered choice applies before first

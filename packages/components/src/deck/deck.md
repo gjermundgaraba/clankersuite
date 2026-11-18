@@ -18,7 +18,7 @@ body: [
     {
       body: [
         PageHead.view({ title: "Field notes", meta: "12 items" }, h),
-        Panel.view({ id: "queue", title: "queue", body: [...] }, h),
+        Panel.view({ id: "queue", title: "Queue", body: [...] }, h),
       ],
     },
     h

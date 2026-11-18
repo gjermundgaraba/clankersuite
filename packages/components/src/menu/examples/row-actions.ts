@@ -111,7 +111,7 @@ const fileRowView = (
       glyph: Rows.glyphView({ name: "page" }, h),
       body: [file.name],
       slot: Array.contains(model.pinnedIds, file.id)
-        ? [Tag.view({ label: "pinned" }, h)]
+        ? [Tag.view({ label: "Pinned" }, h)]
         : [],
       tools: Option.toArray(
         Option.map(maybeRowActions(model, file.id), (menu) =>

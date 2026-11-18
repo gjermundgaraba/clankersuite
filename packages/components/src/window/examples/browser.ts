@@ -40,7 +40,7 @@ const browserView = (model: Model, h: HtmlBuilder<Message>): Html =>
   Window.view(
     {
       id: "window-browser",
-      title: "browser",
+      title: "Browser",
       glyph: "globe",
       tools: [
         IconButton.view(

@@ -72,19 +72,19 @@ describe("the glyphs example", () => {
     Story.story(
       update,
       Story.given(EMPTY),
-      Story.message(Message.ToggledFamily({ family: "direction" })),
+      Story.message(Message.ToggledFamily({ family: "Direction" })),
       Story.model((model) => {
-        expect(model.maybeFamily).toStrictEqual(Option.some("direction"));
+        expect(model.maybeFamily).toStrictEqual(Option.some("Direction"));
       }),
-      Story.message(Message.ToggledFamily({ family: "documents" })),
+      Story.message(Message.ToggledFamily({ family: "Documents" })),
       Story.model((model) => {
-        expect(model.maybeFamily).toStrictEqual(Option.some("documents"));
+        expect(model.maybeFamily).toStrictEqual(Option.some("Documents"));
       }),
-      Story.message(Message.ToggledFamily({ family: "documents" })),
+      Story.message(Message.ToggledFamily({ family: "Documents" })),
       Story.model((model) => {
         expect(model.maybeFamily).toStrictEqual(Option.none());
       }),
-      Story.message(Message.ToggledFamily({ family: "direction" })),
+      Story.message(Message.ToggledFamily({ family: "Direction" })),
       Story.message(Message.UpdatedQuery({ value: "up" })),
       Story.message(Message.ClickedClearFilter()),
       Story.model((model) => {
@@ -100,7 +100,7 @@ describe("the glyphs example", () => {
       Scene.expect(
         Scene.role("heading", { name: "No glyph by that name" })
       ).toExist(),
-      Scene.click(Scene.role("button", { name: "clear the filter" })),
+      Scene.click(Scene.role("button", { name: "Clear the filter" })),
       Scene.expect(Scene.role("button", { name: "Copy box" })).toExist()
     );
   });

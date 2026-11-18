@@ -26,10 +26,10 @@ const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
 export const VOICES = new Map<string, readonly Voice[]>(
   Object.entries({
     "--semantic-dimension-font-size-label": [
-      { words: "Owner name · active · 2d" },
+      { words: "Owner name · Active · 2d" },
     ],
     "--semantic-dimension-font-size-control": [
-      { words: "save · sign out · sort by due" },
+      { words: "Save · Sign out · Sort by due" },
     ],
     "--semantic-dimension-font-size-body": [
       { words: "Renew the signing certificate" },

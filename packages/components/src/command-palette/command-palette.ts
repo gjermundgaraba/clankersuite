@@ -593,9 +593,9 @@ export type ViewInputs = Readonly<{
    *  that leaves while its page is open sends the reader back to the commands. */
   commands: readonly Command[];
   /** What the commands act on, kept on every page (the selected item's name). Defaults to
-   *  `"commands"`. */
+   *  `"Commands"`. */
   scope?: string;
-  /** What else can be typed, for the placeholder (`"type a command or a title"`). */
+  /** What else can be typed, for the placeholder (`"Type a command or a title"`). */
   noun?: string;
   /** Above the list, on the commands and on every page: the application's own content (a
    *  sync notice and its retry, why a pick was refused). A function, so its controls send the
@@ -785,7 +785,7 @@ const rowKeysWithRenderedList =
 const optionId = (paletteId: string, index: number): string =>
   `${paletteId}-option-${index}`;
 
-const NOTHING_FOUND = "nothing matches · try fewer letters";
+const NOTHING_FOUND = "Nothing matches · try fewer letters";
 const COMMANDS_FOOT = "↑ ↓ move · enter runs · esc closes";
 const PAGE_FOOT = "↑ ↓ move · enter picks · ⌫ back · esc closes";
 
@@ -827,7 +827,7 @@ const rowPartsView = (
       ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
       : []),
     ...(isCurrentRow(shown, row)
-      ? [h.span([h.Class("gg-tag")], ["current"])]
+      ? [h.span([h.Class("gg-tag")], ["Current"])]
       : []),
     ...(hint === undefined ? [] : [h.span([h.Class("gg-hint")], [hint])]),
     ...(shownRowFor(shown, row).hasPage ? [opens] : []),
@@ -977,8 +977,8 @@ const fieldView = (
       onInput: (value) => Message.UpdatedQuery({ value, maybeShownPage }),
       isReadOnly: isPicking(model),
       placeholder: Option.match(shown.maybePage, {
-        onNone: () => `type a command or a ${noun}`,
-        onSome: ({ page }) => page.find ?? "type to narrow",
+        onNone: () => `Type a command or a ${noun}`,
+        onSome: ({ page }) => page.find ?? "Type to narrow",
       }),
       toView: (groups) =>
         h.input([
@@ -1073,7 +1073,7 @@ const cardView = (
 ): Html => {
   const {
     commands,
-    scope = "commands",
+    scope = "Commands",
     noun = "title",
     toDetailView = () => [],
   } = viewInputs;

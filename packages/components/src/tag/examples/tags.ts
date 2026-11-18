@@ -5,7 +5,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Wrap.view(
     {
       body: [
-        Tag.view({ label: "ops" }, h),
+        Tag.view({ label: "Ops" }, h),
         Tag.view({ label: "3", full: "3 in Operations" }, h),
       ],
     },
