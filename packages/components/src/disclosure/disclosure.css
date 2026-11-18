@@ -25,7 +25,7 @@
 }
 
 .gg-disclosure-label {
-  border-bottom: var(--semantic-dimension-border-width-default) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     transparent;
 }
 

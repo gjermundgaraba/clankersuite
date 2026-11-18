@@ -4,7 +4,7 @@ category: forms
 
 # Textarea field
 
-A labelled textarea with its help line, boxless like a `Field`, on a dotted baseline with an ink corner grip. It opens at `rows` lines and grows with its text from there.
+A labelled textarea with its help line, boxless like a `Field`, on a baseline, with the browser's resize grip. It opens at `rows` lines and grows with its text from there.
 
 ::Example{name="notes"}
 

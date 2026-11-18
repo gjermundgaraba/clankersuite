@@ -16,19 +16,21 @@ select {
   background-image:
     linear-gradient(
       45deg,
-      transparent 50%,
-      var(--semantic-color-background-fill-accent) 50%
+      transparent 40%,
+      var(--semantic-color-text-secondary) 40% 60%,
+      transparent 60%
     ),
     linear-gradient(
-      135deg,
-      var(--semantic-color-background-fill-accent) 50%,
-      transparent 50%
+      -45deg,
+      transparent 40%,
+      var(--semantic-color-text-secondary) 40% 60%,
+      transparent 60%
     );
   background-position:
     calc(100% - 9px) 50%,
     calc(100% - 5px) 50%;
   background-repeat: no-repeat;
-  background-size: 4px 4px;
+  background-size: 5px 5px;
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
@@ -58,20 +60,6 @@ select option {
   font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
   cursor: pointer;
-}
-
-select:disabled {
-  background-image:
-    linear-gradient(
-      45deg,
-      transparent 50%,
-      var(--semantic-color-background-fill-secondary) 50%
-    ),
-    linear-gradient(
-      135deg,
-      var(--semantic-color-background-fill-secondary) 50%,
-      transparent 50%
-    );
 }
 
 select[aria-invalid="true"] {

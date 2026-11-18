@@ -16,7 +16,7 @@
 .gg-crumbs a {
   color: var(--semantic-color-text-secondary);
   text-decoration: none;
-  border-bottom: var(--semantic-dimension-border-width-default) dotted
+  border-bottom: var(--semantic-dimension-border-width-default) solid
     transparent;
 }
 

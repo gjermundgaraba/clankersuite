@@ -97,7 +97,7 @@
         },
         "accent": {
           "$value": "{primitive.dimension.2}",
-          "$description": "The accent bar beside a checked menu choice, and a mixed check's bar."
+          "$description": "The accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar."
         }
       },
       "size": {

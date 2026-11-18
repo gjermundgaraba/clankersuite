@@ -6,12 +6,13 @@
     var(--semantic-dimension-space-padding-panel);
   text-align: center;
   border: var(--semantic-dimension-border-width-default) dashed
-    var(--semantic-color-border-primary);
+    var(--semantic-color-border-secondary);
   border-radius: var(--semantic-dimension-radius-surface);
 }
 
 .gg-drop-zone[data-drag-over] {
   border-style: solid;
+  border-color: var(--semantic-color-background-fill-accent);
   background: var(--semantic-color-background-head);
 }
 

@@ -31,4 +31,17 @@
     forced-color-adjust: none;
     background: CanvasText;
   }
+
+  .gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before,
+  .gg-reel-slot:is(.gg-drop-before, .gg-drop-after)::before,
+  .gg-reel-gap.gg-drop-here::before {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .gg-reel-resize::after,
+  .gg-reel-split::after {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
 }
