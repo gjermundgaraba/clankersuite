@@ -18,12 +18,9 @@
   display: grid;
   align-content: start;
   gap: var(--semantic-dimension-space-gutter);
-  margin-bottom: calc(
-    -1 * var(--semantic-dimension-space-control-padding-block-large)
-  );
+  margin-bottom: calc(-1 * var(--semantic-dimension-space-small));
   padding: var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-large)
-    var(--semantic-dimension-space-control-padding-block-large);
+    var(--semantic-dimension-space-large) var(--semantic-dimension-space-small);
   overflow-y: auto;
 }
 

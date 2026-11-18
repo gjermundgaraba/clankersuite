@@ -24,8 +24,8 @@
   display: flex;
   align-items: baseline;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  padding: calc((var(--semantic-dimension-size-row) - 1lh) / 2)
+    var(--semantic-dimension-space-medium);
   font: inherit;
   color: inherit;
   text-align: left;

@@ -24,9 +24,7 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
 .gg-markdown-surface {
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  padding-bottom: var(
-    --semantic-dimension-space-control-padding-block-xxx-small
-  );
+  padding-bottom: var(--semantic-dimension-space-xx-small);
 }
 
 .gg-markdown-surface .cm-scroller {

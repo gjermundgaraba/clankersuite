@@ -28,10 +28,9 @@
   gap: var(--semantic-dimension-space-small);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  padding: var(--semantic-dimension-space-control-padding-block-large)
-    var(--semantic-dimension-space-control-padding-inline-small)
-    var(--semantic-dimension-space-control-padding-block-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-small) 0
+    var(--semantic-dimension-space-medium);
   flex: none;
 }
 

@@ -29,8 +29,8 @@ const propView =
       ]
     );
 
-/** A description list: a label, the value, and an action column, one 34px row
- *  each. */
+/** A description list: a label, the value, and an action column, one row
+ *  each, as tall as a Rows row. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>

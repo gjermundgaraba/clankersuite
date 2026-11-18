@@ -27,7 +27,7 @@
 .gg-sheet-acts {
   display: flex;
   gap: var(--semantic-dimension-space-small);
-  padding-top: var(--semantic-dimension-space-control-padding-block-small);
+  padding-top: var(--semantic-dimension-space-x-small);
 }
 
 .gg-byline {

@@ -93,8 +93,8 @@
 
 .gg-prose :not(pre) > code {
   background: var(--semantic-color-background-head);
-  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-x-small);
   font-size: calc(var(--semantic-number-font-scale-inline-code) * 1em);
 }
 
@@ -113,7 +113,7 @@
 }
 
 .gg-prose blockquote {
-  padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
+  padding-left: var(--semantic-dimension-space-large);
   border-left: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   color: var(--semantic-color-text-secondary);

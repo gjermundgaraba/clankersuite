@@ -19,7 +19,7 @@ export type ViewConfig = Readonly<{
   isTreegrid?: boolean;
 }>;
 
-/** A list of 34px rows. */
+/** A list of rows. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
@@ -219,7 +219,7 @@ const selectableLineView = <Message>(
     h
   );
 
-/** One 34px row: box, glyph, text, slot, actions, tools, and the rows nested under it. Hover
+/** One row: box, glyph, text, slot, actions, tools, and the rows nested under it. Hover
  *  and focus tint it head. The box of a selectable row is built on `@foldkit/ui`'s Checkbox:
  *  a `role="checkbox"` button (`aria-checked`) whose whole cell is its target. In a treegrid
  *  the line is the `role="row"` and each part a `role="gridcell"`. */

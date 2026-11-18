@@ -20,13 +20,13 @@ Every line, a border or a divider, is 1px; an accent line (a checked menu choice
 
 ## Sizes
 
-The fixed sizes of things: controls, rows, glyphs, bars and rails, and the widths and measures that hold text.
+The fixed sizes of things: controls, rows, glyphs, bars and rails, and the widths and measures that hold text. `control` and `control-small` are a control's `min-height`, with its label centred; `row` is a row's or a title bar's: a control and room around it.
 
 ::Tokens{prefix="--semantic-dimension-size"}
 
 ## Space
 
-One scale on a 4px rhythm, from `xx-small` to `xx-large`. A gap, a padding or a margin takes a step. `inset` is the padding inside a surface's body and `gutter` the room between surfaces and at the page's edge; a brand can change either without moving the scale. `control-padding-*` is the inside of a control, `focus-ring-offset-*` how far a focus ring stands off its box, and `underline-offset` how far an underline sits below text.
+One scale on a 4px rhythm, from `xx-small` to `xx-large`. A gap, a padding or a margin takes a step. `inset` is the padding inside a surface's body and `gutter` the room between surfaces and at the page's edge; a brand can change either without moving the scale. `control-padding-inline-*` is the room beside a control's label (its height is a size, above); `focus-ring-offset-*` is how far a focus ring stands off its box; `underline-offset` how far an underline sits below text.
 
 ::Tokens{prefix="--semantic-dimension-space"}
 

@@ -16,8 +16,15 @@
   display: flex;
   align-items: baseline;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  min-height: var(--semantic-dimension-size-row);
+  padding: calc(
+      (
+          var(--semantic-dimension-size-row) - 1lh -
+            var(--semantic-dimension-border-width-default)
+        ) /
+        2
+    )
+    var(--semantic-dimension-space-medium);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
 }
@@ -75,20 +82,15 @@
 
 .gg-panel-tb:has(> :is(.gg-panel-lead, .gg-panel-acts)) {
   align-items: center;
-  padding-block: var(--semantic-dimension-space-control-padding-block-x-small);
-  min-height: var(--semantic-dimension-size-title-bar);
+  padding-block: 0;
 }
 
 .gg-panel-tb:has(> .gg-panel-lead) {
-  padding-left: var(
-    --semantic-dimension-space-control-padding-inline-xxx-small
-  );
+  padding-left: var(--semantic-dimension-space-x-small);
 }
 
 .gg-panel-tb:has(> .gg-panel-acts) {
-  padding-right: var(
-    --semantic-dimension-space-control-padding-inline-xxx-small
-  );
+  padding-right: var(--semantic-dimension-space-x-small);
 }
 
 .gg-panel-tb:has(> :is(.gg-panel-lead, .gg-panel-acts)) h2 {

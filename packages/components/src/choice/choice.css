@@ -2,7 +2,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
+  padding: var(--semantic-dimension-space-small) 0;
   cursor: pointer;
 }
 

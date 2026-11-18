@@ -3,8 +3,8 @@
 }
 
 .gg-link-state.gg-offline {
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
   color: var(--semantic-color-text-on-negative-fill);
   background: var(--semantic-color-background-fill-negative);
 }
@@ -14,8 +14,8 @@
 }
 
 .gg-link-state.gg-reconnecting {
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
   color: var(--semantic-color-text-on-status-fill);
   background: var(--semantic-color-background-fill-warning);
 }

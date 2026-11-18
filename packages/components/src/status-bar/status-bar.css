@@ -10,7 +10,7 @@
   justify-content: space-between;
   gap: var(--semantic-dimension-space-x-small)
     var(--semantic-dimension-space-large);
-  padding: var(--semantic-dimension-space-control-padding-block-small)
+  padding: var(--semantic-dimension-space-x-small)
     var(--semantic-dimension-space-gutter);
   background: var(--semantic-color-background-surface);
   border-top: var(--semantic-dimension-border-width-default) solid

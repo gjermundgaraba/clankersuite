@@ -26,7 +26,7 @@
   width: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
   height: auto;
   padding: var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-control-padding-inline-medium)
+    var(--semantic-dimension-space-medium)
     var(--semantic-dimension-space-gutter)
     var(--semantic-dimension-space-gutter);
   border: 0;
@@ -137,10 +137,9 @@
 
   .gg-railed.gg-folded > .gg-rail > .gg-rail-head + .gg-panel > .gg-panel-tb {
     writing-mode: vertical-rl;
-    min-width: var(--semantic-dimension-size-title-bar);
+    min-width: var(--semantic-dimension-size-row);
     min-height: 0;
-    padding: var(--semantic-dimension-space-control-padding-block-x-small)
-      var(--semantic-dimension-space-control-padding-inline-xxx-small)
+    padding: 0 var(--semantic-dimension-space-x-small)
       var(--semantic-dimension-space-medium);
   }
 
@@ -215,7 +214,7 @@
   }
 
   .gg-panel-tb:has(> .gg-panel-lead > .gg-rail-toggle) {
-    padding-left: var(--semantic-dimension-space-control-padding-inline-large);
+    padding-left: var(--semantic-dimension-space-medium);
   }
 }
 

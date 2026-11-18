@@ -28,7 +28,7 @@ The key that does the same prints small after the button's words, in the reader'
 
 ## Busy
 
-While its work runs, a button is held and prints a spinner in its padding, so it keeps its width. It stays focusable and says it is busy.
+While its work runs, a button is held and a spinner turns in place of its words, which keep their room unseen, so it keeps its width. It stays focusable, its name is still read, and it says it is busy.
 
 ::Example{name="busy"}
 

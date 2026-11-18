@@ -5,8 +5,10 @@
   border-radius: var(--semantic-dimension-radius-control);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
-  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
-    var(--semantic-dimension-space-control-padding-inline-x-small);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--semantic-dimension-size-control-small);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
   flex: none;
   white-space: nowrap;
 }

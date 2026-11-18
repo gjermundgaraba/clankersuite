@@ -13,16 +13,17 @@
   font-weight: var(--semantic-font-weight-semi-bold);
   background: var(--semantic-color-background-head);
   text-align: left;
-  padding: var(--semantic-dimension-space-control-padding-block-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-medium);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   white-space: nowrap;
 }
 
 .gg-table td {
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  height: var(--semantic-dimension-size-row);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-medium);
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   vertical-align: middle;
@@ -61,7 +62,7 @@
   .gg-table:has(td.gg-acts) th:last-child {
     box-shadow: inset var(--semantic-dimension-border-width-default) 0 0
       var(--semantic-color-border-primary);
-    padding-left: var(--semantic-dimension-space-control-padding-inline-medium);
+    padding-left: var(--semantic-dimension-space-medium);
   }
 }
 
@@ -99,7 +100,8 @@
     box-shadow: none;
     background: none;
     border: 0;
-    padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+    height: auto;
+    padding: var(--semantic-dimension-space-xx-small) 0;
     text-align: left;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -113,6 +115,6 @@
   }
 
   .gg-table td.gg-acts {
-    padding-top: var(--semantic-dimension-space-control-padding-block-xx-large);
+    padding-top: var(--semantic-dimension-space-small);
   }
 }

@@ -15,7 +15,7 @@ button.gg-tag > span {
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
   border-radius: var(--semantic-dimension-radius-control);
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-x-small);
+  padding: 0 var(--semantic-dimension-space-small);
   flex: none;
   max-width: var(--semantic-dimension-size-measure-tag);
   overflow: hidden;

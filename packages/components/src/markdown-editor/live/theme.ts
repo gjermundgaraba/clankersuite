@@ -18,7 +18,7 @@ export const LIVE_MARKDOWN_STYLE = {
     overflow: "auto",
   },
   ".cm-content": {
-    padding: "var(--semantic-dimension-space-control-padding-block-xx-small) 0",
+    padding: "var(--semantic-dimension-space-xx-small) 0",
     caretColor: "var(--semantic-color-text-primary)",
   },
   ".cm-cursor": { borderLeftColor: "var(--semantic-color-border-primary)" },
@@ -55,7 +55,7 @@ export const LIVE_MARKDOWN_STYLE = {
     ...CODE,
     background: "var(--semantic-color-background-head)",
     padding:
-      "var(--semantic-dimension-space-control-padding-block-xxx-small) var(--semantic-dimension-space-control-padding-inline-x-small)",
+      "var(--semantic-dimension-space-xx-small) var(--semantic-dimension-space-x-small)",
   },
   ".gg-md-link": {
     color: "var(--semantic-color-text-primary)",
@@ -108,14 +108,14 @@ export const LIVE_MARKDOWN_STYLE = {
 
   ".gg-md-table-widget": {
     cursor: "text",
-    padding: "var(--semantic-dimension-space-control-padding-block-xx-small) 0",
+    padding: "var(--semantic-dimension-space-xx-small) 0",
   },
   ".gg-md-table-view": { borderCollapse: "collapse" },
   ".gg-md-table-view th, .gg-md-table-view td": {
     border:
       "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-divider)",
     padding:
-      "var(--semantic-dimension-space-control-padding-block-x-small) var(--semantic-dimension-space-small)",
+      "var(--semantic-dimension-space-x-small) var(--semantic-dimension-space-small)",
     textAlign: "left",
   },
 };

@@ -13,7 +13,7 @@
 }
 
 .gg-tree {
-  padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0
+  padding: var(--semantic-dimension-space-small) 0
     var(--semantic-dimension-space-medium);
 }
 
@@ -44,8 +44,8 @@
   display: flex;
   align-items: center;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-medium);
   min-height: var(--semantic-dimension-size-row);
 }
 
@@ -81,10 +81,8 @@ button.gg-glyph {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: var(--semantic-dimension-space-control-padding-block-small);
-  margin: calc(
-    -1 * var(--semantic-dimension-space-control-padding-block-small)
-  );
+  padding: var(--semantic-dimension-space-x-small);
+  margin: calc(-1 * var(--semantic-dimension-space-x-small));
 }
 
 .gg-row .gg-title {
@@ -228,12 +226,10 @@ button.gg-glyph {
   display: flex;
   align-items: center;
   flex: none;
-  margin: calc(
-      -1 * var(--semantic-dimension-space-control-padding-block-medium)
-    )
-    0 calc(-1 * var(--semantic-dimension-space-control-padding-block-medium))
-    calc(-1 * var(--semantic-dimension-space-control-padding-inline-large));
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-medium);
+  margin: calc(-1 * var(--semantic-dimension-space-xx-small)) 0
+    calc(-1 * var(--semantic-dimension-space-xx-small))
+    calc(-1 * var(--semantic-dimension-space-medium));
+  padding: 0 var(--semantic-dimension-space-medium);
 }
 
 .gg-row-check > [role="checkbox"]::after {

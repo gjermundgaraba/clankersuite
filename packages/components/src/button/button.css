@@ -10,8 +10,8 @@
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);
-  padding: var(--semantic-dimension-space-control-padding-block-medium)
-    var(--semantic-dimension-space-control-padding-inline-x-large);
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -42,8 +42,8 @@
 
 .gg-btn.gg-small {
   font-size: var(--semantic-dimension-font-size-label);
-  padding: var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-medium);
+  min-height: var(--semantic-dimension-size-control-small);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
 }
 
 .gg-btn.gg-danger {
@@ -66,15 +66,15 @@
   opacity: 1;
 }
 
-.gg-btn > .gg-spinner {
-  position: absolute;
-  top: 50%;
-  right: var(--semantic-dimension-space-control-padding-inline-xxx-small);
-  translate: 0 -50%;
+/* busy, the words keep their room unseen, so the button keeps its width, and the spinner
+   turns in their place */
+.gg-btn[aria-disabled="true"][aria-busy="true"] {
+  color: transparent;
 }
 
-/* a small button's padding is narrower: the ring shrinks to stay clear of the label */
-.gg-btn.gg-small > .gg-spinner {
-  width: calc(0.75 * var(--semantic-dimension-size-spinner));
-  height: calc(0.75 * var(--semantic-dimension-size-spinner));
+.gg-btn > .gg-spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  color: var(--semantic-color-text-secondary);
 }

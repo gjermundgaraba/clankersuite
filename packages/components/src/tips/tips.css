@@ -13,8 +13,8 @@
     var(--semantic-dimension-size-measure-tip),
     calc(100vw - 2 * var(--semantic-dimension-space-medium))
   );
-  padding: var(--semantic-dimension-space-control-padding-block-x-small)
-    var(--semantic-dimension-space-control-padding-inline-small);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-small);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-control);

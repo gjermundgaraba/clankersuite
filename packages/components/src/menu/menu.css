@@ -29,8 +29,8 @@
   border: 0;
   border-bottom: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-divider);
-  padding: var(--semantic-dimension-space-control-padding-block-x-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
@@ -74,8 +74,8 @@
 
 .gg-menu .gg-menu-note {
   display: block;
-  padding: var(--semantic-dimension-space-control-padding-block-x-large)
-    var(--semantic-dimension-space-control-padding-inline-large);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-medium);
   font-size: var(--semantic-dimension-font-size-control);
   line-height: var(--semantic-number-line-height-body);
   white-space: nowrap;

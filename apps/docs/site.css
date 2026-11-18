@@ -66,7 +66,7 @@
 
 .site-token-swatch {
   width: var(--semantic-dimension-size-row);
-  height: var(--semantic-dimension-size-chip);
+  height: var(--semantic-dimension-size-control-small);
 }
 
 .site-palette-light {

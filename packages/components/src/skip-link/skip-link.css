@@ -7,8 +7,10 @@
   background: var(--semantic-color-background-fill-accent);
   color: var(--semantic-color-text-on-accent-fill);
   font-size: var(--semantic-dimension-font-size-control);
-  padding: var(--semantic-dimension-space-control-padding-block-large)
-    var(--semantic-dimension-space-control-padding-inline-x-large);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
   text-decoration: none;
 }
 
