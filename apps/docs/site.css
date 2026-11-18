@@ -18,17 +18,14 @@
 
 .site-example-stage {
   padding: var(--semantic-dimension-space-padding-panel);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
 }
 
 .site-nav h2 {
   margin: var(--semantic-dimension-space-gap-medium) 0
     var(--semantic-dimension-space-gap-x-small);
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  letter-spacing: var(--semantic-dimension-letter-spacing-label);
-  text-transform: uppercase;
   color: var(--semantic-color-text-secondary);
 }
 
@@ -53,9 +50,7 @@
 
 .site-source > summary {
   cursor: pointer;
-  font-family: var(--semantic-font-family-ui);
   font-size: var(--semantic-dimension-font-size-label);
-  text-transform: uppercase;
 }
 
 .site-token-voices {
@@ -66,7 +61,7 @@
 
 .site-token-swatches {
   display: inline-flex;
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
 }
 
@@ -89,7 +84,7 @@
   height: var(--semantic-dimension-size-control);
   margin-block-end: var(--semantic-dimension-space-gap-x-small);
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-container) solid
+  border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
 }
 
@@ -114,7 +109,7 @@
   display: grid;
   gap: var(--semantic-dimension-space-gap-xxx-small);
   font-family: var(--semantic-font-family-code);
-  font-size: var(--semantic-dimension-font-size-state);
+  font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);
   overflow-wrap: anywhere;
 }

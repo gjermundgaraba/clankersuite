@@ -13,48 +13,6 @@
           "spread": "{primitive.dimension.0}"
         },
         "$description": "Anything that floats over the page."
-      },
-      "button": {
-        "default": {
-          "$value": {
-            "color": "{primitive.color.black.alpha0}",
-            "offsetX": "{primitive.dimension.0}",
-            "offsetY": "{primitive.dimension.0}",
-            "blur": "{primitive.dimension.0}",
-            "spread": "{primitive.dimension.0}"
-          },
-          "$description": "None: a button sits flat."
-        },
-        "small": {
-          "$value": {
-            "color": "{primitive.color.black.alpha0}",
-            "offsetX": "{primitive.dimension.0}",
-            "offsetY": "{primitive.dimension.0}",
-            "blur": "{primitive.dimension.0}",
-            "spread": "{primitive.dimension.0}"
-          },
-          "$description": "None: a small button sits flat."
-        }
-      },
-      "pressed": {
-        "$value": {
-          "color": "{primitive.color.black.alpha0}",
-          "offsetX": "{primitive.dimension.0}",
-          "offsetY": "{primitive.dimension.0}",
-          "blur": "{primitive.dimension.0}",
-          "spread": "{primitive.dimension.0}"
-        },
-        "$description": "None: a pressed button sits flat."
-      },
-      "negative": {
-        "$value": {
-          "color": "{primitive.color.black.alpha0}",
-          "offsetX": "{primitive.dimension.0}",
-          "offsetY": "{primitive.dimension.0}",
-          "blur": "{primitive.dimension.0}",
-          "spread": "{primitive.dimension.0}"
-        },
-        "$description": "None: a destructive button sits flat."
       }
     }
   }

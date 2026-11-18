@@ -38,7 +38,7 @@ To add a brand, add `tokens/<brand>/` with only the values that differ, a resolv
 
 A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onInverseFill` as `--semantic-color-text-on-inverse-fill`.
 
-Primitives hold literals and never alias. Colours are a family and a lightness step (`primitive.color.warmGray.950`), with an alpha as part of the step (`950Alpha85`); dimensions are named by their pixel value (`primitive.dimension.16`).
+Primitives hold literals and never alias. Colours are a family and a lightness step (`primitive.color.forest.850`), with an alpha as part of the step (`850Alpha40`); dimensions are named by their pixel value (`primitive.dimension.16`).
 
 Semantic tokens name a role and always alias, so a brand changes a value without changing a component. A semantic colour aliases a token in both colour schemes, never a literal; the build fails otherwise.
 
@@ -48,7 +48,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 | `dimension`  | `fontSize`, `letterSpacing`, `borderWidth`, `radius`, `size`, `space`, `travel` |
 | `duration`   | one per motion: `blink`, `card`, `flash`, `veil`                                |
 | `number`     | `opacity`, `lineHeight`, `layer`, `scale`, `fontScale`                          |
-| `fontFamily` | `ui`, `body`, `code`, `brand`                                                   |
+| `fontFamily` | `ui`, `code`, `brand`                                                           |
 | `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
 | `shadow`     | `card`, on everything that floats                                               |
 
@@ -60,7 +60,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 - `space.padding` and `space.gap` are T-shirt ladders (`xxxSmall` to `xxLarge`) on whole pixels. A component picks a step; a brand that changes a step changes every component on it.
 - `space.control.padding.block` and `.inline` are the inside of a control. A control's row height is its line plus its padding plus its border, so these steps are a pixel apart and some are odd: they keep a bordered control on the row height.
 - `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains.
-- `travel` is how far a thing moves: a pressed button, an entering toast, a glyph nudged onto the baseline.
+- `travel` is how far a thing moves: an entering toast, a glyph nudged onto the baseline.
 - `layer` is a `z-index`, named by what sits on it.
 
 The component stylesheet and the Markdown editor's theme write no raw value a token covers; a test fails on one. Raw are: zero; relative units (`em`, `lh`, `%`, viewport units); counts; angles; the geometry of a drawn tile (`background-size` and `background-position`); and `@media` and `@container` thresholds, where `var()` does not work.

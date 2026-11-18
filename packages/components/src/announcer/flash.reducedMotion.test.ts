@@ -30,8 +30,8 @@ describe("flash with reduced motion", () => {
       {
         keyframes: {
           outline: [
-            "var(--semantic-dimension-border-width-container) solid var(--semantic-color-border-primary)",
-            "var(--semantic-dimension-border-width-container) solid var(--semantic-color-border-primary)",
+            "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
+            "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
           ],
           outlineOffset: ["-2px", "-2px"],
         },

@@ -7,11 +7,7 @@
       "fontSize": {
         "label": {
           "$value": "{primitive.dimension.13}",
-          "$description": "Labels, field labels, table heads, meta."
-        },
-        "state": {
-          "$value": "{primitive.dimension.13}",
-          "$description": "Chips, tabs, ages, counts, state words."
+          "$description": "Labels, field labels, table heads, meta; chips, tabs, ages, counts, state words."
         },
         "control": {
           "$value": "{primitive.dimension.14}",
@@ -19,11 +15,7 @@
         },
         "body": {
           "$value": "{primitive.dimension.15}",
-          "$description": "Body text, title bars."
-        },
-        "name": {
-          "$value": "{primitive.dimension.15}",
-          "$description": "A group's or a meter's name."
+          "$description": "Body text, long-form reading, title bars, and the names in rows, groups and meters."
         },
         "title": {
           "$value": "{primitive.dimension.16}",
@@ -54,10 +46,6 @@
           "$description": "A stat's value at 900px and under."
         },
         "prose": {
-          "body": {
-            "$value": "{primitive.dimension.15}",
-            "$description": "Long-form reading text."
-          },
           "heading": {
             "2": {
               "$value": "{primitive.dimension.20}",
@@ -83,26 +71,6 @@
         }
       },
       "letterSpacing": {
-        "caps": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "Control labels: none, they are set in sentence case."
-        },
-        "state": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "Chips, tabs, tips: words that report state."
-        },
-        "head": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "A card's title bar, a notice's or outcome's headline."
-        },
-        "title": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "A panel's title bar, an empty state's headline, the flash word."
-        },
-        "label": {
-          "$value": "{primitive.dimension.0}",
-          "$description": "Labels: none, they are set in sentence case."
-        },
         "pageTitle": {
           "$value": "{primitive.dimension.letterSpacing.minus10}",
           "$description": "A page's or sheet's title."
@@ -123,13 +91,9 @@
         }
       },
       "borderWidth": {
-        "container": {
+        "default": {
           "$value": "{primitive.dimension.1}",
-          "$description": "Anything that contains: drawn in border.primary."
-        },
-        "divider": {
-          "$value": "{primitive.dimension.1}",
-          "$description": "Anything that divides: drawn in border.divider."
+          "$description": "Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text."
         },
         "ring": {
           "$value": "{primitive.dimension.3}",
@@ -751,16 +715,6 @@
           "large": {
             "$value": "{primitive.dimension.2}",
             "$description": "The wordmark cursor's nudge onto the baseline."
-          }
-        },
-        "pressed": {
-          "default": {
-            "$value": "{primitive.dimension.2}",
-            "$description": "How far a pressed button moves into its shadow."
-          },
-          "small": {
-            "$value": "{primitive.dimension.1}",
-            "$description": "How far a pressed small button or chip moves into its shadow."
           }
         },
         "toast": {

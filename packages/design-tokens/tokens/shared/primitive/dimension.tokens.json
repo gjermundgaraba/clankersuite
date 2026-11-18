@@ -353,36 +353,6 @@
             "unit": "em"
           }
         },
-        "40": {
-          "$value": {
-            "value": 0.04,
-            "unit": "em"
-          }
-        },
-        "50": {
-          "$value": {
-            "value": 0.05,
-            "unit": "em"
-          }
-        },
-        "60": {
-          "$value": {
-            "value": 0.06,
-            "unit": "em"
-          }
-        },
-        "80": {
-          "$value": {
-            "value": 0.08,
-            "unit": "em"
-          }
-        },
-        "100": {
-          "$value": {
-            "value": 0.1,
-            "unit": "em"
-          }
-        },
         "minus10": {
           "$value": {
             "value": -0.01,

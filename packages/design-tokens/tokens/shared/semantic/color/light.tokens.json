@@ -184,10 +184,6 @@
         "default": {
           "$value": "{primitive.color.forest.850Alpha14}",
           "$description": "The colour of the soft shadow under what floats."
-        },
-        "negative": {
-          "$value": "{primitive.color.forest.850Alpha14}",
-          "$description": "The shadow of a destructive control."
         }
       }
     }

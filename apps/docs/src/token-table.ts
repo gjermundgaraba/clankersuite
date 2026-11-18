@@ -13,21 +13,13 @@ import {
 } from "./tokens.ts";
 import type { Kind } from "./tokens.ts";
 
-const UI_FONT = "var(--semantic-font-family-ui)";
-
 type Voice = Readonly<{
   words: string;
   family?: string;
-  tracking?: string;
   weight?: string;
 }>;
 
-const pixel = (words: string): Voice => ({ words, family: UI_FONT });
-
-const pixelCaps = (
-  words: string,
-  tracking = "var(--semantic-dimension-letter-spacing-caps)"
-): Voice => ({ words, family: UI_FONT, tracking });
+const BRAND_FONT = "var(--semantic-font-family-brand)";
 
 const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
 
@@ -35,35 +27,27 @@ const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
 export const VOICES = new Map<string, readonly Voice[]>(
   Object.entries({
     "--semantic-dimension-font-size-label": [
-      pixelCaps(
-        "Owner name · Last seen · Grants",
-        "var(--semantic-dimension-letter-spacing-label)"
-      ),
-    ],
-    "--semantic-dimension-font-size-state": [
-      pixelCaps("active · retrying · 2d · v4"),
+      { words: "Owner name · active · 2d" },
     ],
     "--semantic-dimension-font-size-control": [
-      pixelCaps("save · sign out · sort by due"),
-      { words: "A note under a field." },
+      { words: "save · sign out · sort by due" },
     ],
     "--semantic-dimension-font-size-body": [
-      pixelCaps("Sources · Keys"),
       { words: "Renew the signing certificate" },
     ],
-    "--semantic-dimension-font-size-name": [pixelCaps("Operations · Requests")],
     "--semantic-dimension-font-size-title": [
       { words: "Renew the signing certificate", weight: "600" },
     ],
-    "--semantic-dimension-font-size-page": [pixelCaps("Queue")],
-    "--semantic-dimension-font-size-page-narrow": [pixelCaps("Queue")],
-    "--semantic-dimension-font-size-wordmark": [pixel("clankersuite")],
-    "--semantic-dimension-font-size-wordmark-wall": [pixel("clankersuite")],
-    "--semantic-dimension-font-size-figure": [pixel("41,200")],
-    "--semantic-dimension-font-size-figure-narrow": [pixel("41,200")],
-    "--semantic-dimension-font-size-prose-body": [
-      { words: "Every release goes out in two steps." },
+    "--semantic-dimension-font-size-page": [{ words: "Queue" }],
+    "--semantic-dimension-font-size-page-narrow": [{ words: "Queue" }],
+    "--semantic-dimension-font-size-wordmark": [
+      { words: "clankersuite", family: BRAND_FONT },
     ],
+    "--semantic-dimension-font-size-wordmark-wall": [
+      { words: "clankersuite", family: BRAND_FONT },
+    ],
+    "--semantic-dimension-font-size-figure": [{ words: "41,200" }],
+    "--semantic-dimension-font-size-figure-narrow": [{ words: "41,200" }],
     "--semantic-dimension-font-size-prose-code": [
       { words: "vp run ready", family: "var(--semantic-font-family-code)" },
     ],
@@ -87,9 +71,6 @@ const SPECIMEN = "Printed paper, 0123456789";
 const voiceStyle = (token: Token, voice: Voice) => ({
   fontSize: `var(${token.name})`,
   ...(voice.family === undefined ? {} : { fontFamily: voice.family }),
-  ...(voice.tracking === undefined
-    ? {}
-    : { letterSpacing: voice.tracking, textTransform: "uppercase" }),
   ...(voice.weight === undefined ? {} : { fontWeight: voice.weight }),
 });
 
@@ -137,9 +118,7 @@ const SAMPLES: Readonly<Record<Kind, SampleView>> = {
     h.span(
       [
         h.Style({
-          fontFamily: UI_FONT,
           letterSpacing: `var(${token.name})`,
-          textTransform: "uppercase",
         }),
       ],
       ["Printed paper"]

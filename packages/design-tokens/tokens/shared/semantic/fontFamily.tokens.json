@@ -6,11 +6,7 @@
       "$type": "fontFamily",
       "ui": {
         "$value": "{primitive.fontFamily.inter}",
-        "$description": "Controls, labels, chrome."
-      },
-      "body": {
-        "$value": "{primitive.fontFamily.inter}",
-        "$description": "Running text."
+        "$description": "Everything but code and the wordmark: controls, labels, chrome and running text."
       },
       "code": {
         "$value": "{primitive.fontFamily.systemMono}",

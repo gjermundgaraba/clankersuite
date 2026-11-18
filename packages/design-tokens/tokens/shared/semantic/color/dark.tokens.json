@@ -184,10 +184,6 @@
         "default": {
           "$value": "{primitive.color.black.alpha45}",
           "$description": "The colour of the soft shadow under what floats."
-        },
-        "negative": {
-          "$value": "{primitive.color.black.alpha45}",
-          "$description": "The shadow of a destructive control."
         }
       }
     }

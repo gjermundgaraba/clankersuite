@@ -4,11 +4,11 @@ order: 3
 
 # Type
 
-Three families: the pixel font for every control, label and title, the system sans for body text, and the system mono for code. Two scales: the working scale for the chrome, and the reading scale, `prose-*`, for documents.
+Three families: Inter for every control, label, title and body text, Departure Mono for the wordmark, and the system mono for code. Two scales: the working scale for the chrome, and the reading scale, `prose-*`, for documents.
 
 ## Families
 
-`ui` is Departure Mono, from [`@gjermundgaraba/fonts`](/fonts/departure-mono).
+`ui` is Inter and `brand` is [Departure Mono](/fonts/departure-mono), both from `@gjermundgaraba/fonts`.
 
 ::Tokens{prefix="--semantic-font-family"}
 
@@ -20,7 +20,7 @@ Each size is shown in the voice it is used in.
 
 ## The reading scale at work
 
-Prose is the one place the system slows down: the reading sizes, the system sans, and the reading measure.
+Prose sets body text on a looser line, held to the reading measure, with its own heading sizes.
 
 ::Example{name="reading-scale"}
 
@@ -30,7 +30,7 @@ Prose is the one place the system slows down: the reading sizes, the system sans
 
 ## Tracking
 
-Pixel caps are tracked out; large titles are tracked in.
+Labels are set as written, untracked. Large titles and headings are tracked in, the wordmark most; a secret's characters are tracked out, so each reads apart.
 
 ::Tokens{prefix="--semantic-dimension-letter-spacing"}
 
