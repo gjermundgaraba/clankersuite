@@ -91,7 +91,6 @@ const settingsCardView = (
           {
             label: "Save",
             variant: "Primary",
-            isDefault: true,
             onClick: Message.ClickedSaveSettings(),
             attributes: render.initialFocus,
           },

@@ -149,7 +149,6 @@ const cardView = (
     {
       label: viewInputs.label,
       variant: isDanger ? "Danger" : "Primary",
-      isDefault: !isDanger,
       isBusy,
       isDisabled,
       onClick: Message.ClickedConfirm(),
@@ -161,7 +160,6 @@ const cardView = (
   const cancel = Button.view(
     {
       label: "Cancel",
-      isDefault: isDanger,
       isDisabled: isBusy,
       onClick: Message.ClickedCancel(),
       attributes: isDanger ? render.initialFocus : [],

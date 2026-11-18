@@ -14,12 +14,6 @@ The small size for row tools, panel bars and anything set among text.
 
 ::Example{name="small"}
 
-## Default
-
-The action Enter takes in a card wears a double ring.
-
-::Example{name="default-ring"}
-
 ## Danger
 
 Danger prints in red, and only as the commit inside the confirm that a destructive action opens. A destructive action at rest is a neutral button that opens a danger `ConfirmDialog`.

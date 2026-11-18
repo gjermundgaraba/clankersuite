@@ -16,12 +16,10 @@ export const Variant = Schema.Literals(["Default", "Primary", "Danger"]);
 
 export type Variant = typeof Variant.Type;
 
-/** What `Button` and `LinkButton` share: the variant, the size, and the default ring. */
+/** What `Button` and `LinkButton` share: the variant and the size. */
 export type Look = Readonly<{
   variant?: Variant;
   isSmall?: boolean;
-  /** The action Enter takes in a card: a double ring. */
-  isDefault?: boolean;
 }>;
 
 const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
@@ -33,9 +31,7 @@ const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
 export const lookClassName = ({
   variant = "Default",
   isSmall = false,
-  isDefault = false,
-}: Look): string =>
-  `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}${isDefault ? " gg-default-ring" : ""}`;
+}: Look): string => `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}`;
 
 /** The key that does the same as the button, printed small after its words. */
 export type KeyHintConfig = Readonly<{

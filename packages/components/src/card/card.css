@@ -1,7 +1,3 @@
-.gg-card-actions:focus-within .gg-btn.gg-default-ring:not(:focus) {
-  box-shadow: none;
-}
-
 .gg-card {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-default) solid

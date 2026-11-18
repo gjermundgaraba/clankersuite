@@ -8,7 +8,7 @@ The floating surface: a rounded box on a soft shadow, under a ruled title bar. A
 
 ## A card
 
-The title bar takes a title and a meta line. The action bar under a 1px rule pushes its actions right, the default one ringed, and `lead` puts something before the push. `isNarrow` makes the card 440px instead of 680px, for confirms, settings and sign-in.
+The title bar takes a title and a meta line. The action bar under a 1px rule pushes its actions right, the committing one `Primary`, and `lead` puts something before the push. `isNarrow` makes the card 440px instead of 680px, for confirms, settings and sign-in.
 
 ::Example{name="surface"}
 
