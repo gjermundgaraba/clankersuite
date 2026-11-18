@@ -45,105 +45,6 @@
   --primitive-color-warm-gray-950: #16150f;
   --primitive-color-yellow-300: #e6c86e;
   --primitive-color-yellow-700: #735600;
-  --primitive-dimension-0: 0px;
-  --primitive-dimension-1: 1px;
-  --primitive-dimension-2: 2px;
-  --primitive-dimension-3: 3px;
-  --primitive-dimension-4: 4px;
-  --primitive-dimension-6: 6px;
-  --primitive-dimension-8: 8px;
-  --primitive-dimension-10: 10px;
-  --primitive-dimension-12: 12px;
-  --primitive-dimension-12point5: 12.5px;
-  --primitive-dimension-13: 13px;
-  --primitive-dimension-14: 14px;
-  --primitive-dimension-15: 15px;
-  --primitive-dimension-16: 16px;
-  --primitive-dimension-18: 18px;
-  --primitive-dimension-19: 19px;
-  --primitive-dimension-20: 20px;
-  --primitive-dimension-22: 22px;
-  --primitive-dimension-24: 24px;
-  --primitive-dimension-25: 25px;
-  --primitive-dimension-26: 26px;
-  --primitive-dimension-30: 30px;
-  --primitive-dimension-32: 32px;
-  --primitive-dimension-34: 34px;
-  --primitive-dimension-36: 36px;
-  --primitive-dimension-48: 48px;
-  --primitive-dimension-58: 58px;
-  --primitive-dimension-64: 64px;
-  --primitive-dimension-96: 96px;
-  --primitive-dimension-120: 120px;
-  --primitive-dimension-148: 148px;
-  --primitive-dimension-150: 150px;
-  --primitive-dimension-160: 160px;
-  --primitive-dimension-180: 180px;
-  --primitive-dimension-220: 220px;
-  --primitive-dimension-240: 240px;
-  --primitive-dimension-272: 272px;
-  --primitive-dimension-280: 280px;
-  --primitive-dimension-300: 300px;
-  --primitive-dimension-320: 320px;
-  --primitive-dimension-392: 392px;
-  --primitive-dimension-440: 440px;
-  --primitive-dimension-460: 460px;
-  --primitive-dimension-480: 480px;
-  --primitive-dimension-680: 680px;
-  --primitive-dimension-1160: 1160px;
-  --primitive-dimension-letter-spacing-20: 0.02em;
-  --primitive-dimension-letter-spacing-minus5: -0.005em;
-  --primitive-dimension-letter-spacing-minus10: -0.01em;
-  --primitive-dimension-letter-spacing-minus20: -0.02em;
-  --primitive-dimension-measure-4: 4ch;
-  --primitive-dimension-measure-6: 6ch;
-  --primitive-dimension-measure-8: 8ch;
-  --primitive-dimension-measure-10: 10ch;
-  --primitive-dimension-measure-12: 12ch;
-  --primitive-dimension-measure-14: 14ch;
-  --primitive-dimension-measure-16: 16ch;
-  --primitive-dimension-measure-18: 18ch;
-  --primitive-dimension-measure-20: 20ch;
-  --primitive-dimension-measure-32: 32ch;
-  --primitive-dimension-measure-36: 36ch;
-  --primitive-dimension-measure-44: 44ch;
-  --primitive-dimension-measure-46: 46ch;
-  --primitive-dimension-measure-52: 52ch;
-  --primitive-dimension-measure-68: 68ch;
-  --primitive-duration-120: 0.12s;
-  --primitive-duration-140: 0.14s;
-  --primitive-duration-700: 0.7s;
-  --primitive-font-family-departure-mono: "Departure Mono", ui-monospace, "Menlo", "Monaco", monospace;
-  --primitive-font-family-inter: "Inter", system-ui, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  --primitive-font-family-system-mono: ui-monospace, "Menlo", "Monaco", monospace;
-  --primitive-font-weight-400: 400;
-  --primitive-font-weight-600: 600;
-  --primitive-font-weight-650: 650;
-  --primitive-font-weight-700: 700;
-  --primitive-number-font-scale-850: 0.85;
-  --primitive-number-layer-1000: 1;
-  --primitive-number-layer-20000: 20;
-  --primitive-number-layer-40000: 40;
-  --primitive-number-layer-200000: 200;
-  --primitive-number-layer-250000: 250;
-  --primitive-number-layer-300000: 300;
-  --primitive-number-layer-9999000: 9999;
-  --primitive-number-line-height-1000: 1;
-  --primitive-number-line-height-1100: 1.1;
-  --primitive-number-line-height-1150: 1.15;
-  --primitive-number-line-height-1200: 1.2;
-  --primitive-number-line-height-1300: 1.3;
-  --primitive-number-line-height-1350: 1.35;
-  --primitive-number-line-height-1400: 1.4;
-  --primitive-number-line-height-1450: 1.45;
-  --primitive-number-line-height-1500: 1.5;
-  --primitive-number-line-height-1550: 1.55;
-  --primitive-number-line-height-1600: 1.6;
-  --primitive-number-line-height-1650: 1.65;
-  --primitive-number-opacity-400: 0.4;
-  --primitive-number-opacity-550: 0.55;
-  --primitive-number-opacity-650: 0.65;
-  --primitive-number-scale-970: 0.97;
   --semantic-color-background-backdrop: light-dark(var(--primitive-color-forest-850-alpha40), var(--primitive-color-black-alpha55));
   --semantic-color-background-canvas: light-dark(var(--primitive-color-bone-50), var(--primitive-color-forest-900));
   --semantic-color-background-fill-accent: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
@@ -181,138 +82,269 @@
   --semantic-color-text-terminal-red: light-dark(var(--primitive-color-red-650), var(--primitive-color-red-250));
   --semantic-color-text-terminal-yellow: light-dark(var(--primitive-color-yellow-700), var(--primitive-color-yellow-300));
   --semantic-color-text-warning: light-dark(var(--primitive-color-amber-700), var(--primitive-color-amber-400));
-  --semantic-dimension-border-width-accent: var(--primitive-dimension-2);
-  --semantic-dimension-border-width-default: var(--primitive-dimension-1);
-  --semantic-dimension-font-size-body: var(--primitive-dimension-15);
-  --semantic-dimension-font-size-control: var(--primitive-dimension-14);
-  --semantic-dimension-font-size-figure: var(--primitive-dimension-30);
-  --semantic-dimension-font-size-figure-narrow: var(--primitive-dimension-22);
-  --semantic-dimension-font-size-label: var(--primitive-dimension-13);
-  --semantic-dimension-font-size-page: var(--primitive-dimension-26);
-  --semantic-dimension-font-size-page-narrow: var(--primitive-dimension-22);
-  --semantic-dimension-font-size-prose-code: var(--primitive-dimension-12point5);
-  --semantic-dimension-font-size-prose-heading-2: var(--primitive-dimension-20);
-  --semantic-dimension-font-size-prose-heading-3: var(--primitive-dimension-15);
-  --semantic-dimension-font-size-prose-title: var(--primitive-dimension-30);
-  --semantic-dimension-font-size-prose-title-narrow: var(--primitive-dimension-25);
-  --semantic-dimension-font-size-title: var(--primitive-dimension-16);
-  --semantic-dimension-font-size-wordmark: var(--primitive-dimension-18);
-  --semantic-dimension-font-size-wordmark-wall: var(--primitive-dimension-22);
-  --semantic-dimension-letter-spacing-code: var(--primitive-dimension-letter-spacing-20);
-  --semantic-dimension-letter-spacing-page-title: var(--primitive-dimension-letter-spacing-minus10);
-  --semantic-dimension-letter-spacing-prose-heading: var(--primitive-dimension-letter-spacing-minus5);
-  --semantic-dimension-letter-spacing-wordmark: var(--primitive-dimension-letter-spacing-minus20);
-  --semantic-dimension-radius-control: var(--primitive-dimension-6);
-  --semantic-dimension-radius-mark: var(--primitive-dimension-3);
-  --semantic-dimension-radius-surface: var(--primitive-dimension-10);
-  --semantic-dimension-size-checkbox-box: var(--primitive-dimension-14);
-  --semantic-dimension-size-checkbox-mark: var(--primitive-dimension-10);
-  --semantic-dimension-size-control: var(--primitive-dimension-32);
-  --semantic-dimension-size-control-small: var(--primitive-dimension-24);
-  --semantic-dimension-size-diff-line: var(--primitive-dimension-19);
-  --semantic-dimension-size-dot: var(--primitive-dimension-10);
-  --semantic-dimension-size-glyph-large: var(--primitive-dimension-24);
-  --semantic-dimension-size-glyph-row: var(--primitive-dimension-18);
-  --semantic-dimension-size-max-height-board-column-room: var(--primitive-dimension-150);
-  --semantic-dimension-size-max-height-markdown-image: var(--primitive-dimension-480);
-  --semantic-dimension-size-max-width-card: var(--primitive-dimension-680);
-  --semantic-dimension-size-max-width-card-narrow: var(--primitive-dimension-440);
-  --semantic-dimension-size-max-width-deck: var(--primitive-dimension-1160);
-  --semantic-dimension-size-max-width-meter-name: var(--primitive-dimension-240);
-  --semantic-dimension-size-max-width-prose: var(--primitive-dimension-measure-68);
-  --semantic-dimension-size-max-width-stage-notice: var(--primitive-dimension-460);
-  --semantic-dimension-size-max-width-toast: var(--primitive-dimension-392);
-  --semantic-dimension-size-measure-drop-zone: var(--primitive-dimension-measure-44);
-  --semantic-dimension-size-measure-large: var(--primitive-dimension-measure-12);
-  --semantic-dimension-size-measure-medium: var(--primitive-dimension-measure-10);
-  --semantic-dimension-size-measure-note: var(--primitive-dimension-measure-46);
-  --semantic-dimension-size-measure-outcome: var(--primitive-dimension-measure-52);
-  --semantic-dimension-size-measure-query: var(--primitive-dimension-measure-32);
-  --semantic-dimension-size-measure-small: var(--primitive-dimension-measure-8);
-  --semantic-dimension-size-measure-tag: var(--primitive-dimension-measure-18);
-  --semantic-dimension-size-measure-tip: var(--primitive-dimension-measure-36);
-  --semantic-dimension-size-measure-title: var(--primitive-dimension-measure-20);
-  --semantic-dimension-size-measure-x-large: var(--primitive-dimension-measure-14);
-  --semantic-dimension-size-measure-x-small: var(--primitive-dimension-measure-6);
-  --semantic-dimension-size-measure-xx-large: var(--primitive-dimension-measure-16);
-  --semantic-dimension-size-measure-xx-small: var(--primitive-dimension-measure-4);
-  --semantic-dimension-size-meter-height: var(--primitive-dimension-6);
-  --semantic-dimension-size-meter-width: var(--primitive-dimension-160);
-  --semantic-dimension-size-min-height-code-surface: var(--primitive-dimension-220);
-  --semantic-dimension-size-min-height-meta-row: var(--primitive-dimension-14);
-  --semantic-dimension-size-min-height-reel-pane: var(--primitive-dimension-120);
-  --semantic-dimension-size-min-height-textarea: var(--primitive-dimension-96);
-  --semantic-dimension-size-min-width-field-grid: var(--primitive-dimension-160);
-  --semantic-dimension-size-min-width-menu: var(--primitive-dimension-148);
-  --semantic-dimension-size-min-width-meter-name: var(--primitive-dimension-180);
-  --semantic-dimension-size-min-width-reel-column: var(--primitive-dimension-280);
-  --semantic-dimension-size-min-width-slot: var(--primitive-dimension-58);
-  --semantic-dimension-size-min-width-sortable-grid: var(--primitive-dimension-180);
-  --semantic-dimension-size-min-width-sortable-panel: var(--primitive-dimension-300);
-  --semantic-dimension-size-monogram-default: var(--primitive-dimension-26);
-  --semantic-dimension-size-monogram-large: var(--primitive-dimension-34);
-  --semantic-dimension-size-radio-mark: var(--primitive-dimension-6);
-  --semantic-dimension-size-rail-default: var(--primitive-dimension-272);
-  --semantic-dimension-size-rail-drawer: var(--primitive-dimension-320);
-  --semantic-dimension-size-rail-folded: var(--primitive-dimension-64);
-  --semantic-dimension-size-rail-resize: var(--primitive-dimension-12);
-  --semantic-dimension-size-row: var(--primitive-dimension-36);
-  --semantic-dimension-size-scrollbar: var(--primitive-dimension-10);
-  --semantic-dimension-size-spinner: var(--primitive-dimension-8);
-  --semantic-dimension-size-status-bar: var(--primitive-dimension-25);
-  --semantic-dimension-size-target: var(--primitive-dimension-24);
-  --semantic-dimension-size-top-bar: var(--primitive-dimension-48);
+  /* The accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar. */
+  --semantic-dimension-border-width-accent: 2px;
+  /* Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text. */
+  --semantic-dimension-border-width-default: 1px;
+  /* Body text, long-form reading, title bars, and the names in rows, groups and meters. */
+  --semantic-dimension-font-size-body: 15px;
+  /* Buttons, nav, menus, code, notices. */
+  --semantic-dimension-font-size-control: 14px;
+  /* A stat's value. */
+  --semantic-dimension-font-size-figure: 30px;
+  /* A stat's value at 900px and under. */
+  --semantic-dimension-font-size-figure-narrow: 22px;
+  /* Labels, field labels, table heads, meta; chips, tabs, ages, counts, state words. */
+  --semantic-dimension-font-size-label: 13px;
+  /* A working screen's name (PageHead). */
+  --semantic-dimension-font-size-page: 26px;
+  /* A working screen's name on a phone. */
+  --semantic-dimension-font-size-page-narrow: 22px;
+  /* A code block in long-form reading. */
+  --semantic-dimension-font-size-prose-code: 12.5px;
+  /* A second-level heading in long-form reading. */
+  --semantic-dimension-font-size-prose-heading-2: 20px;
+  /* A third-level heading in long-form reading. */
+  --semantic-dimension-font-size-prose-heading-3: 15px;
+  /* A document's title. */
+  --semantic-dimension-font-size-prose-title: 30px;
+  /* A document's title on a phone. */
+  --semantic-dimension-font-size-prose-title-narrow: 25px;
+  /* An editable title in a card. */
+  --semantic-dimension-font-size-title: 16px;
+  /* The wordmark. */
+  --semantic-dimension-font-size-wordmark: 18px;
+  /* The wordmark on a wall. */
+  --semantic-dimension-font-size-wordmark-wall: 22px;
+  /* A secret's characters, so each reads apart. */
+  --semantic-dimension-letter-spacing-code: 0.02em;
+  /* A page's or sheet's title. */
+  --semantic-dimension-letter-spacing-page-title: -0.01em;
+  /* First- and second-level headings in long-form reading. */
+  --semantic-dimension-letter-spacing-prose-heading: -0.005em;
+  /* The wordmark. */
+  --semantic-dimension-letter-spacing-wordmark: -0.02em;
+  /* The corners of a control: a button, a chip, a field. */
+  --semantic-dimension-radius-control: 6px;
+  /* The corners of a checkbox, small enough that it never reads as a radio. */
+  --semantic-dimension-radius-mark: 3px;
+  /* The corners of a surface: a panel, a card, a menu, a notice. */
+  --semantic-dimension-radius-surface: 10px;
+  /* A checkbox's or radio's box. */
+  --semantic-dimension-size-checkbox-box: 14px;
+  /* The check drawn in a checked box, and the width of a mixed box's bar. */
+  --semantic-dimension-size-checkbox-mark: 10px;
+  /* The height of a control: a button, a field, a select, a segmented strip, a menu item. */
+  --semantic-dimension-size-control: 32px;
+  /* The height of a small control: a small button, a tab, a chip or filter chip. */
+  --semantic-dimension-size-control-small: 24px;
+  /* The line height of a diff's line numbers. */
+  --semantic-dimension-size-diff-line: 19px;
+  /* A chip's status dot. */
+  --semantic-dimension-size-dot: 10px;
+  /* A large glyph: an outcome's, a drop zone's or a wall's. */
+  --semantic-dimension-size-glyph-large: 24px;
+  /* A row's glyph. */
+  --semantic-dimension-size-glyph-row: 18px;
+  /* What a board column leaves of the viewport's height. */
+  --semantic-dimension-size-max-height-board-column-room: 150px;
+  /* The tallest an image grows in the Markdown editor. */
+  --semantic-dimension-size-max-height-markdown-image: 480px;
+  /* A card's width. */
+  --semantic-dimension-size-max-width-card: 680px;
+  /* A narrow card's width. */
+  --semantic-dimension-size-max-width-card-narrow: 440px;
+  /* The widest a deck of panels runs. */
+  --semantic-dimension-size-max-width-deck: 1160px;
+  /* The widest a meter's name column prints. */
+  --semantic-dimension-size-max-width-meter-name: 240px;
+  /* The measure of long-form reading. */
+  --semantic-dimension-size-max-width-prose: 68ch;
+  /* The widest a paused stage's notice prints. */
+  --semantic-dimension-size-max-width-stage-notice: 460px;
+  /* A toast stack's width. */
+  --semantic-dimension-size-max-width-toast: 392px;
+  /* A drop zone's text. */
+  --semantic-dimension-size-measure-drop-zone: 44ch;
+  /* A query field, a key, a check's author on a phone. */
+  --semantic-dimension-size-measure-large: 12ch;
+  /* A history entry's author. */
+  --semantic-dimension-size-measure-medium: 10ch;
+  /* A note line or an empty state's text. */
+  --semantic-dimension-size-measure-note: 46ch;
+  /* An outcome's text. */
+  --semantic-dimension-size-measure-outcome: 52ch;
+  /* The widest a query field prints. */
+  --semantic-dimension-size-measure-query: 32ch;
+  /* The narrowest a query field prints. */
+  --semantic-dimension-size-measure-small: 8ch;
+  /* The widest a tag prints. */
+  --semantic-dimension-size-measure-tag: 18ch;
+  /* The widest a tip prints. */
+  --semantic-dimension-size-measure-tip: 36ch;
+  /* A sheet title's basis, a check's author. */
+  --semantic-dimension-size-measure-title: 20ch;
+  /* A palette's query field. */
+  --semantic-dimension-size-measure-x-large: 14ch;
+  /* A flashed word. */
+  --semantic-dimension-size-measure-x-small: 6ch;
+  /* The widest a history entry's author prints. */
+  --semantic-dimension-size-measure-xx-large: 16ch;
+  /* A percentage or version. */
+  --semantic-dimension-size-measure-xx-small: 4ch;
+  /* A meter bar's height. */
+  --semantic-dimension-size-meter-height: 6px;
+  /* A meter bar's width; it shrinks in a narrow meter. */
+  --semantic-dimension-size-meter-width: 160px;
+  /* The least height of a code surface. */
+  --semantic-dimension-size-min-height-code-surface: 220px;
+  /* The least height of a board card's meta row. */
+  --semantic-dimension-size-min-height-meta-row: 14px;
+  /* The shortest a reel pane prints. */
+  --semantic-dimension-size-min-height-reel-pane: 120px;
+  /* The least height of a textarea. */
+  --semantic-dimension-size-min-height-textarea: 96px;
+  /* The narrowest a field grid's column prints. */
+  --semantic-dimension-size-min-width-field-grid: 160px;
+  /* The narrowest a menu prints. */
+  --semantic-dimension-size-min-width-menu: 148px;
+  /* The narrowest a meter's name column prints. */
+  --semantic-dimension-size-min-width-meter-name: 180px;
+  /* The narrowest a reel column prints, whatever its width. */
+  --semantic-dimension-size-min-width-reel-column: 280px;
+  /* The narrowest a row's slot prints. */
+  --semantic-dimension-size-min-width-slot: 58px;
+  /* The narrowest a sortable grid's item prints. */
+  --semantic-dimension-size-min-width-sortable-grid: 180px;
+  /* The narrowest a sortable panel prints. */
+  --semantic-dimension-size-min-width-sortable-panel: 300px;
+  /* A monogram's height and least width: two letters at label size, with room. */
+  --semantic-dimension-size-monogram-default: 26px;
+  /* A large monogram's height and least width. */
+  --semantic-dimension-size-monogram-large: 34px;
+  /* The dot inside a chosen radio. */
+  --semantic-dimension-size-radio-mark: 6px;
+  /* The column of panels beside a deck, until the reader sizes it. */
+  --semantic-dimension-size-rail-default: 272px;
+  /* The rail as a drawer, whatever width the reader gave it. */
+  --semantic-dimension-size-rail-drawer: 320px;
+  /* The rail folded to its first panel's bar, stood on end. */
+  --semantic-dimension-size-rail-folded: 64px;
+  /* The width of a rail's resize handle. */
+  --semantic-dimension-size-rail-resize: 12px;
+  /* The height of a row, a list item on a page or in a palette, a table row or a title bar: one control and room around it. */
+  --semantic-dimension-size-row: 36px;
+  /* The width of a scrollbar. */
+  --semantic-dimension-size-scrollbar: 10px;
+  /* The width and height of the spinner a busy button, chip, loading line, link state or palette row prints. */
+  --semantic-dimension-size-spinner: 8px;
+  /* The status bar's height. */
+  --semantic-dimension-size-status-bar: 25px;
+  /* The least size of a pointer target, and an icon button's size. */
+  --semantic-dimension-size-target: 24px;
+  /* The top bar's height. */
+  --semantic-dimension-size-top-bar: 48px;
+  /* Beside the label of a control: a button, a field, a select, a segment. */
   --semantic-dimension-space-control-padding-inline-default: var(--semantic-dimension-space-medium);
+  /* Beside the label of a small control: a small button, a tab, a chip. */
   --semantic-dimension-space-control-padding-inline-small: var(--semantic-dimension-space-small);
+  /* How far a focus ring sits outside its box; inside, it is drawn at the negative. Step large. */
   --semantic-dimension-space-focus-ring-offset-large: var(--semantic-dimension-space-x-small);
+  /* How far a focus ring sits outside its box; inside, it is drawn at the negative. Step small. */
   --semantic-dimension-space-focus-ring-offset-small: var(--semantic-dimension-space-xx-small);
+  /* Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's. */
   --semantic-dimension-space-gutter: var(--semantic-dimension-space-x-large);
+  /* Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row. */
   --semantic-dimension-space-inset: var(--semantic-dimension-space-large);
-  --semantic-dimension-space-large: var(--primitive-dimension-16);
-  --semantic-dimension-space-medium: var(--primitive-dimension-12);
-  --semantic-dimension-space-small: var(--primitive-dimension-8);
-  --semantic-dimension-space-underline-offset: var(--primitive-dimension-3);
-  --semantic-dimension-space-x-large: var(--primitive-dimension-24);
-  --semantic-dimension-space-x-small: var(--primitive-dimension-4);
-  --semantic-dimension-space-xx-large: var(--primitive-dimension-32);
-  --semantic-dimension-space-xx-small: var(--primitive-dimension-2);
-  --semantic-dimension-travel-toast: var(--primitive-dimension-8);
-  --semantic-duration-card: var(--primitive-duration-140);
-  --semantic-duration-flash: var(--primitive-duration-700);
-  --semantic-duration-spin: var(--primitive-duration-700);
-  --semantic-duration-veil: var(--primitive-duration-120);
-  --semantic-font-family-brand: var(--primitive-font-family-departure-mono);
-  --semantic-font-family-code: var(--primitive-font-family-system-mono);
-  --semantic-font-family-ui: var(--primitive-font-family-inter);
-  --semantic-font-weight-bold: var(--primitive-font-weight-700);
-  --semantic-font-weight-prose-heading: var(--primitive-font-weight-650);
-  --semantic-font-weight-regular: var(--primitive-font-weight-400);
-  --semantic-font-weight-semi-bold: var(--primitive-font-weight-600);
-  --semantic-number-font-scale-inline-code: var(--primitive-number-font-scale-850);
-  --semantic-number-layer-dialog: var(--primitive-number-layer-250000);
-  --semantic-number-layer-lift: var(--primitive-number-layer-9999000);
-  --semantic-number-layer-menu: var(--primitive-number-layer-200000);
-  --semantic-number-layer-paused: var(--primitive-number-layer-20000);
-  --semantic-number-layer-raised: var(--primitive-number-layer-1000);
-  --semantic-number-layer-skip-link: var(--primitive-number-layer-300000);
-  --semantic-number-layer-sticky: var(--primitive-number-layer-40000);
-  --semantic-number-line-height-body: var(--primitive-number-line-height-1450);
-  --semantic-number-line-height-code: var(--primitive-number-line-height-1600);
-  --semantic-number-line-height-compact: var(--primitive-number-line-height-1350);
-  --semantic-number-line-height-display-title: var(--primitive-number-line-height-1150);
-  --semantic-number-line-height-figure: var(--primitive-number-line-height-1100);
-  --semantic-number-line-height-heading: var(--primitive-number-line-height-1300);
-  --semantic-number-line-height-label: var(--primitive-number-line-height-1400);
-  --semantic-number-line-height-none: var(--primitive-number-line-height-1000);
-  --semantic-number-line-height-prose: var(--primitive-number-line-height-1650);
-  --semantic-number-line-height-prose-notice: var(--primitive-number-line-height-1550);
-  --semantic-number-line-height-textarea: var(--primitive-number-line-height-1500);
-  --semantic-number-line-height-title: var(--primitive-number-line-height-1200);
-  --semantic-number-opacity-dragged: var(--primitive-number-opacity-400);
-  --semantic-number-opacity-key-hint: var(--primitive-number-opacity-650);
-  --semantic-number-opacity-tools: var(--primitive-number-opacity-550);
-  --semantic-number-scale-card: var(--primitive-number-scale-970);
-  --semantic-shadow-card: var(--primitive-dimension-0) var(--primitive-dimension-12) var(--primitive-dimension-32) var(--primitive-dimension-0) var(--semantic-color-shadow-default);
+  /* Between the parts of one body: a panel's, a card's, a window's. */
+  --semantic-dimension-space-large: 16px;
+  /* Between grouped lines, and the inline padding of a row, cell or bar. */
+  --semantic-dimension-space-medium: 12px;
+  /* Between things in one line: buttons, chips, a glyph and its word. */
+  --semantic-dimension-space-small: 8px;
+  /* How far an underline sits below the text. */
+  --semantic-dimension-space-underline-offset: 3px;
+  /* Around an empty state, a wall or a dialog on its veil. */
+  --semantic-dimension-space-x-large: 24px;
+  /* Tight: a field's label above its input, a glyph in a dense line. */
+  --semantic-dimension-space-x-small: 4px;
+  /* The most: beside a sheet's content. */
+  --semantic-dimension-space-xx-large: 32px;
+  /* The least: a hairline apart, a label's meta from its value. */
+  --semantic-dimension-space-xx-small: 2px;
+  /* How far a toast rises as it eases in. */
+  --semantic-dimension-travel-toast: 8px;
+  /* A card or toast easing in. */
+  --semantic-duration-card: 0.14s;
+  /* The tint flash that signals a change. */
+  --semantic-duration-flash: 0.7s;
+  /* One turn of the spinner a busy button, chip, loading line, link state or palette row prints. */
+  --semantic-duration-spin: 0.7s;
+  /* The veil easing in behind a dialog. */
+  --semantic-duration-veil: 0.12s;
+  /* The wordmark's face. */
+  --semantic-font-family-brand: "Departure Mono", ui-monospace, "Menlo", "Monaco", monospace;
+  /* Code and program output. */
+  --semantic-font-family-code: ui-monospace, "Menlo", "Monaco", monospace;
+  /* Everything but code and the wordmark: controls, labels, chrome and running text. */
+  --semantic-font-family-ui: "Inter", system-ui, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  /* Bold in code and Markdown. */
+  --semantic-font-weight-bold: 700;
+  /* Headings in long-form reading. */
+  --semantic-font-weight-prose-heading: 650;
+  /* Regular weight, where a rule sets text back from a heavier default. */
+  --semantic-font-weight-regular: 400;
+  /* A page's title, an identity's name. */
+  --semantic-font-weight-semi-bold: 600;
+  /* Inline code in long-form reading, relative to its text. */
+  --semantic-number-font-scale-inline-code: 0.85;
+  /* A bench or stage holding an open dialog. */
+  --semantic-number-layer-dialog: 250;
+  /* An item being dragged. */
+  --semantic-number-layer-lift: 9999;
+  /* A menu. */
+  --semantic-number-layer-menu: 200;
+  /* A paused stage's notice. */
+  --semantic-number-layer-paused: 20;
+  /* Above its siblings. */
+  --semantic-number-layer-raised: 1;
+  /* The skip link. */
+  --semantic-number-layer-skip-link: 300;
+  /* The top bar and status bar. */
+  --semantic-number-layer-sticky: 40;
+  /* Body text, notes and notices. */
+  --semantic-number-line-height-body: 1.45;
+  /* Code. */
+  --semantic-number-line-height-code: 1.6;
+  /* A tip, a contents link. */
+  --semantic-number-line-height-compact: 1.35;
+  /* A sheet's title. */
+  --semantic-number-line-height-display-title: 1.15;
+  /* A stat's value. */
+  --semantic-number-line-height-figure: 1.1;
+  /* First- and second-level headings in long-form reading. */
+  --semantic-number-line-height-heading: 1.3;
+  /* The third, fourth and sixth heading levels in long-form reading. */
+  --semantic-number-line-height-label: 1.4;
+  /* Text set solid: a monogram's letter. */
+  --semantic-number-line-height-none: 1;
+  /* Long-form reading. */
+  --semantic-number-line-height-prose: 1.65;
+  /* A notice in long-form reading. */
+  --semantic-number-line-height-prose-notice: 1.55;
+  /* A textarea. */
+  --semantic-number-line-height-textarea: 1.5;
+  /* A page's title. */
+  --semantic-number-line-height-title: 1.2;
+  /* A held item, dimmed in place while its copy follows the pointer. */
+  --semantic-number-opacity-dragged: 0.4;
+  /* A key hint printed after a button's words; a primary button's prints opaque. */
+  --semantic-number-opacity-key-hint: 0.65;
+  /* A row's tools until the row is hovered, focused or current. */
+  --semantic-number-opacity-tools: 0.55;
+  /* How small a card or toast starts as it eases in. */
+  --semantic-number-scale-card: 0.97;
+  --semantic-shadow-card: 0px 12px 32px var(--semantic-color-shadow-default);
 }
 
 :root[data-color-scheme="light"] {

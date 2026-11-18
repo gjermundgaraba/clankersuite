@@ -5,15 +5,8 @@
   "description": "The clankersuite brand: the shared baseline, with no overrides yet.",
   "sets": {
     "shared-primitive": {
-      "description": "Shared primitive tokens grouped by DTCG type.",
-      "sources": [
-        { "$ref": "./shared/primitive/color.tokens.json" },
-        { "$ref": "./shared/primitive/dimension.tokens.json" },
-        { "$ref": "./shared/primitive/duration.tokens.json" },
-        { "$ref": "./shared/primitive/number.tokens.json" },
-        { "$ref": "./shared/primitive/fontWeight.tokens.json" },
-        { "$ref": "./shared/primitive/fontFamily.tokens.json" }
-      ]
+      "description": "The colour palette the semantic colours alias.",
+      "sources": [{ "$ref": "./shared/primitive/color.tokens.json" }]
     },
     "shared-semantic": {
       "description": "Shared semantic tokens that do not depend on the colour scheme.",

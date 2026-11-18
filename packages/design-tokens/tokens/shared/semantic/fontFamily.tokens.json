@@ -5,15 +5,28 @@
     "fontFamily": {
       "$type": "fontFamily",
       "ui": {
-        "$value": "{primitive.fontFamily.inter}",
+        "$value": [
+          "Inter",
+          "system-ui",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif"
+        ],
         "$description": "Everything but code and the wordmark: controls, labels, chrome and running text."
       },
       "code": {
-        "$value": "{primitive.fontFamily.systemMono}",
+        "$value": ["ui-monospace", "Menlo", "Monaco", "monospace"],
         "$description": "Code and program output."
       },
       "brand": {
-        "$value": "{primitive.fontFamily.departureMono}",
+        "$value": [
+          "Departure Mono",
+          "ui-monospace",
+          "Menlo",
+          "Monaco",
+          "monospace"
+        ],
         "$description": "The wordmark's face."
       }
     }

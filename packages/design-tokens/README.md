@@ -14,14 +14,14 @@ Brands: `clankersuite`.
 
 Semantic colours are `light-dark()` pairs, so they follow the `color-scheme` of the element that uses them. The page follows the reader's preference; `data-color-scheme="light"` or `data-color-scheme="dark"` on `<html>` pins one, and `color-scheme` on any element switches what is inside it.
 
-Use the `--semantic-*` tokens. The `--primitive-*` tokens are the raw values the semantic ones point at, and may change or disappear in any release.
+Use the `--semantic-*` tokens. The `--primitive-*` tokens are the colour palette the semantic colours point at, and may change or disappear in any release.
 
 ## Layout
 
 ```text
 tokens/
 ├── shared/
-│   ├── primitive/           raw values, one file per DTCG type
+│   ├── primitive/           the colour palette
 │   └── semantic/            roles, one file per DTCG type
 │       └── color/           light.tokens.json and dark.tokens.json
 ├── clankersuite/            the brand's overrides of shared tokens (none yet)
@@ -30,17 +30,17 @@ generated/
 └── clankersuite.css         built from the resolver, committed
 ```
 
-Each `tokens/<brand>.resolver.json` loads the shared primitives, the shared semantics, the colour scheme's colours, then the brand's overrides; a later definition of a token wins. clankersuite is the shared baseline: its values are the shared ones.
+Each `tokens/<brand>.resolver.json` loads the shared palette, the shared semantics, the colour scheme's colours, then the brand's overrides; a later definition of a token wins. clankersuite is the shared baseline: its values are the shared ones.
 
 To add a brand, add `tokens/<brand>/` with only the values that differ, a resolver that loads them after their shared equivalents, a `terrazzo.<brand>.config.ts` that calls `brandConfig("<brand>")`, its build in `package.json`, and its stylesheet in `exports`. Do not copy shared values into a brand; copies drift.
 
 ## Naming
 
-A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onNegativeFill` as `--semantic-color-text-on-negative-fill`.
+A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` (colours only) or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onNegativeFill` as `--semantic-color-text-on-negative-fill`.
 
-Primitives hold literals and never alias. Colours are a family and a lightness step (`primitive.color.forest.850`), with an alpha as part of the step (`850Alpha40`); dimensions are named by their pixel value (`primitive.dimension.16`).
+Primitives are the colour palette: literals that never alias, each a family and a lightness step (`primitive.color.forest.850`), with an alpha as part of the step (`850Alpha40`).
 
-Semantic tokens name a role and always alias, so a brand changes a value without changing a component. A semantic colour aliases a token in both colour schemes, never a literal; the build fails otherwise.
+Semantic tokens name a role. A semantic colour aliases a palette colour in both colour schemes, never a literal, so the two schemes draw from one palette; the build fails otherwise. Every other semantic token holds its value, or aliases another semantic token where one role is defined by another (`space.inset` is `space.large`).
 
 | Category     | Types                                                                           |
 | ------------ | ------------------------------------------------------------------------------- |
