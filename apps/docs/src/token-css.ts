@@ -7,7 +7,7 @@ export type Token = Readonly<{
 
 const DECLARATION = /^\s*(?<name>--[\w-]+):\s*(?<value>.*?);\s*$/u;
 
-/** Every custom property the brand stylesheet declares, once, in source order, with the
+/** Every custom property the token stylesheet declares, once, in source order, with the
  *  value of its first declaration. Terrazzo writes one declaration a line; a line that
  *  starts a custom property any other way throws, so a change in its output can't drop a
  *  token unseen. */

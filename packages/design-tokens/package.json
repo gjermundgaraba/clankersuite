@@ -1,7 +1,7 @@
 {
   "name": "@gjermundgaraba/design-tokens",
   "version": "0.8.0",
-  "description": "Design tokens for the gjermundgaraba design system: W3C DTCG sources built by Terrazzo into one stylesheet per brand.",
+  "description": "Design tokens for the gjermundgaraba design system: W3C DTCG sources built by Terrazzo into one stylesheet.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,8 +22,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tz build -c terrazzo.clankersuite.config.ts",
-    "check": "tz check tokens/clankersuite.resolver.json"
+    "build": "tz build",
+    "check": "tz check tokens/resolver.json"
   },
   "devDependencies": {
     "@terrazzo/cli": "catalog:",

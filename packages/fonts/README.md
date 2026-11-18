@@ -4,17 +4,17 @@ The fonts of the gjermundgaraba design system, self-hosted: each stylesheet decl
 
 ## Use
 
-Import the stylesheet of each font the brand's tokens name, once, from the client entry:
+Import the stylesheet of each font the tokens name, once, from the client entry:
 
 ```ts
 import "@gjermundgaraba/fonts/inter.css";
 import "@gjermundgaraba/fonts/departure-mono.css";
 ```
 
-| Stylesheet           | `font-family`    | Brands       |
-| -------------------- | ---------------- | ------------ |
-| `inter.css`          | `Inter`          | clankersuite |
-| `departure-mono.css` | `Departure Mono` | clankersuite |
+| Stylesheet           | `font-family`    |
+| -------------------- | ---------------- |
+| `inter.css`          | `Inter`          |
+| `departure-mono.css` | `Departure Mono` |
 
 ## Licences
 

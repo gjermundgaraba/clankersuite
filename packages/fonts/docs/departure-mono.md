@@ -8,15 +8,15 @@ The brand face of clankersuite, set in the wordmark: the `--semantic-font-family
 
 ## Import
 
-The clankersuite brand's stylesheet imports it, before the brand's tokens and the components' stylesheet, so an application imports that once, from the client entry:
+`clankersuite.css` imports it, before the tokens and the components' stylesheet, so an application imports that once, from the client entry:
 
 ```ts
 import "@gjermundgaraba/components/clankersuite.css";
 ```
 
-| Stylesheet           | `font-family`    | Weight | Brands       |
-| -------------------- | ---------------- | ------ | ------------ |
-| `departure-mono.css` | `Departure Mono` | 400    | clankersuite |
+| Stylesheet           | `font-family`    | Weight |
+| -------------------- | ---------------- | ------ |
+| `departure-mono.css` | `Departure Mono` | 400    |
 
 It has one weight and no italic. It swaps in when it loads (`font-display: swap`); until then the token falls back to the system's monospace.
 

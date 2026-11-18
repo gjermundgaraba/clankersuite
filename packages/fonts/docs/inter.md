@@ -8,15 +8,15 @@ The text face of clankersuite, set in every control, label, title and body text:
 
 ## Import
 
-The clankersuite brand's stylesheet imports it, before the brand's tokens and the components' stylesheet, so an application imports that once, from the client entry:
+`clankersuite.css` imports it, before the tokens and the components' stylesheet, so an application imports that once, from the client entry:
 
 ```ts
 import "@gjermundgaraba/components/clankersuite.css";
 ```
 
-| Stylesheet  | `font-family` | Weight  | Brands       |
-| ----------- | ------------- | ------- | ------------ |
-| `inter.css` | `Inter`       | 100–900 | clankersuite |
+| Stylesheet  | `font-family` | Weight  |
+| ----------- | ------------- | ------- |
+| `inter.css` | `Inter`       | 100–900 |
 
 It is a variable font: one file carries every weight, and a second carries the italic. It swaps in when it loads (`font-display: swap`); until then the token falls back to the system's sans.
 

@@ -1,16 +1,14 @@
 # @gjermundgaraba/design-tokens
 
-The design tokens of the gjermundgaraba design system: W3C DTCG sources, built by [Terrazzo](https://terrazzo.app) into one stylesheet per brand.
+The design tokens of the gjermundgaraba design system: W3C DTCG sources, built by [Terrazzo](https://terrazzo.app) into one stylesheet, `clankersuite.css`.
 
 ## Use
 
-Import exactly one brand stylesheet, once, before the component stylesheet:
+Import the stylesheet once, before the component stylesheet:
 
 ```ts
 import "@gjermundgaraba/design-tokens/clankersuite.css";
 ```
-
-Brands: `clankersuite`.
 
 Semantic colours are `light-dark()` pairs, so they follow the `color-scheme` of the element that uses them. The page follows the reader's preference; `data-color-scheme="light"` or `data-color-scheme="dark"` on `<html>` pins one, and `color-scheme` on any element switches what is inside it.
 
@@ -20,19 +18,16 @@ Use the `--semantic-*` tokens. The `--primitive-*` tokens are the colour palette
 
 ```text
 tokens/
-├── shared/
-│   ├── primitive/           the colour palette
-│   └── semantic/            roles, one file per DTCG type
-│       └── color/           light.tokens.json and dark.tokens.json
-├── clankersuite/            the brand's overrides of shared tokens (none yet)
-└── clankersuite.resolver.json
+├── primitive/               the colour palette
+├── semantic/                roles, one file per DTCG type
+│   └── color/               light.tokens.json and dark.tokens.json
+└── resolver.json
 generated/
 └── clankersuite.css         built from the resolver, committed
+terrazzo.config.ts           the build
 ```
 
-Each `tokens/<brand>.resolver.json` loads the shared palette, the shared semantics, the colour scheme's colours, then the brand's overrides; a later definition of a token wins. clankersuite is the shared baseline: its values are the shared ones.
-
-To add a brand, add `tokens/<brand>/` with only the values that differ, a resolver that loads them after their shared equivalents, a `terrazzo.<brand>.config.ts` that calls `brandConfig("<brand>")`, its build in `package.json`, and its stylesheet in `exports`. Do not copy shared values into a brand; copies drift.
+`tokens/resolver.json` loads the palette, the semantic tokens, then the colour scheme's colours: its `colorScheme` modifier picks `light` or `dark`, and the build writes each semantic colour as the `light-dark()` pair of the two.
 
 ## Naming
 
@@ -57,9 +52,9 @@ Semantic tokens name a role. A semantic colour aliases a palette colour in both 
 - `border.primary` contains; `border.divider` divides and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
-- `space` is one scale on a 4px rhythm, a T-shirt size per step from `xxSmall` to `xxLarge`. A gap, a padding and a margin that acts as a gap all take a step of it; a component picks the step, and a brand that changes a step changes every component on it. Steps are named, not numbered, so a brand can retune the rhythm without renaming.
-- Some roles stand over the scale, because they recur across many components and a brand may want them looser or tighter on their own: `space.inset`, the padding inside a surface's body (a panel, card or window); `space.gutter`, the room between whole surfaces and between them and the page's edge; `space.control.padding.*`, inside a control (below); `space.focusRing.offset.*`, how far a focus ring stands off its box; and `space.underline.offset`, how far an underline sits below text. Anything else uses the scale directly.
-- A control is sized by its height, not its padding: `size.control` for a button, field, select, segment or menu item and `size.controlSmall` for a small button, tab or chip are each a `min-height`, and the label is centred in it. `size.row` is a row, a list item or a title bar: a control and room around it. `space.control.padding.inline.default` and `.small` are the room beside a control's label; a brand that wants roomier controls changes them and the heights, and no line has to add up.
+- `space` is one scale on a 4px rhythm, a T-shirt size per step from `xxSmall` to `xxLarge`. A gap, a padding and a margin that acts as a gap all take a step of it; a component picks the step, and changing a step changes every component on it. Steps are named, not numbered, so the rhythm can be retuned without renaming.
+- Some roles stand over the scale, because they recur across many components and may need to be looser or tighter on their own: `space.inset`, the padding inside a surface's body (a panel, card or window); `space.gutter`, the room between whole surfaces and between them and the page's edge; `space.control.padding.*`, inside a control (below); `space.focusRing.offset.*`, how far a focus ring stands off its box; and `space.underline.offset`, how far an underline sits below text. Anything else uses the scale directly.
+- A control is sized by its height, not its padding: `size.control` for a button, field, select, segment or menu item and `size.controlSmall` for a small button, tab or chip are each a `min-height`, and the label is centred in it. `size.row` is a row, a list item or a title bar: a control and room around it. `space.control.padding.inline.default` and `.small` are the room beside a control's label; roomier controls change them and the heights, and no line has to add up.
 - `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains; `radius.mark` rounds a checkbox.
 - `travel` is how far a thing moves: an entering toast.
 - `layer` is a `z-index`, named by what sits on it.

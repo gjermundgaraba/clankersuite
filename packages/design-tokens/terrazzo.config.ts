@@ -35,11 +35,11 @@ const directAlias = (
   return alias;
 };
 
-const lightDarkCss = (filename: string): Plugin => {
+const lightDarkCss = (): Plugin => {
   let darkTokens: Readonly<Record<string, TokenNormalized>> = {};
 
   const inner = css({
-    filename,
+    filename: "clankersuite.css",
     legacyHex: true,
     permutations: [
       {
@@ -87,18 +87,17 @@ const lightDarkCss = (filename: string): Plugin => {
   };
 };
 
-export const brandConfig = (brand: string) =>
-  defineConfig({
-    tokens: [path.join(import.meta.dirname, `tokens/${brand}.resolver.json`)],
-    outDir: "./generated/",
-    plugins: [lightDarkCss(`${brand}.css`)],
-    lint: {
-      rules: {
-        "core/consistent-naming": ["error", { format: "camelCase" }],
-        "core/valid-dimension": [
-          "error",
-          { allowedUnits: ["px", "em", "rem", "ch"] },
-        ],
-      },
+export default defineConfig({
+  tokens: [path.join(import.meta.dirname, "tokens/resolver.json")],
+  outDir: "./generated/",
+  plugins: [lightDarkCss()],
+  lint: {
+    rules: {
+      "core/consistent-naming": ["error", { format: "camelCase" }],
+      "core/valid-dimension": [
+        "error",
+        { allowedUnits: ["px", "em", "rem", "ch"] },
+      ],
     },
-  });
+  },
+});
