@@ -17,6 +17,10 @@
           "$value": "{primitive.color.red.300}",
           "$description": "Errors and destructive outcomes."
         },
+        "warning": {
+          "$value": "{primitive.color.amber.400}",
+          "$description": "The glyph of a Warn notice or outcome."
+        },
         "onAccentFill": {
           "$value": "{primitive.color.forest.900}",
           "$description": "Text on background.fill.accent."
@@ -134,7 +138,7 @@
         "fill": {
           "accent": {
             "$value": "{primitive.color.sage.300}",
-            "$description": "Shapes filled with the accent colour, and the bar that marks the current item."
+            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph, and the bar that marks the current item."
           },
           "secondary": {
             "$value": "{primitive.color.bone.350}",

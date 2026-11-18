@@ -6,7 +6,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import type { Attributes } from "../attributes/attributes.ts";
 
 /** `Warn`: amber, a question or a stop. `Error`: red, refused or failed. `Ok`: a committed
- *  change, in ink. `Quiet`: tinted, nothing wrong. */
+ *  change, in the accent. `Quiet`: grey, nothing wrong. */
 export const Tone = Schema.Literals(["Warn", "Error", "Ok", "Quiet"]);
 
 export type Tone = typeof Tone.Type;
@@ -54,7 +54,7 @@ export type ViewConfig<Message> = Readonly<{
   attributes?: Attributes<Message>;
 }>;
 
-/** One line in the product's own words, beside a glyph in a box. An `Error` notice is an
+/** One line in the product's own words, beside a glyph in its tone's colour. An `Error` notice is an
  *  alert (`role="alert"`), so a screen reader says it when it appears; the others are quiet. */
 export const view = <Message>(
   config: ViewConfig<Message>,

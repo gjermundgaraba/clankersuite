@@ -24,7 +24,7 @@ export type MarkConfig = Readonly<{
   brand: ReadonlyArray<Html | string>;
 }>;
 
-/** The wordmark at wall size beside the lock in a box: the top of a wall's card. */
+/** The wordmark at wall size beside the lock: the top of a wall's card. */
 export const markView = <Message>(
   config: MarkConfig,
   h: HtmlBuilder<Message>

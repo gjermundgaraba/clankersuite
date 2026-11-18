@@ -19,6 +19,6 @@ body: [
 
 ## Its mark
 
-`Wall.markView` prints the wordmark at wall size beside the lock in a box: the top of a wall's card.
+`Wall.markView` prints the wordmark at wall size beside the lock: the top of a wall's card.
 
 ::Example{name="mark"}

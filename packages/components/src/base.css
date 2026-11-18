@@ -135,7 +135,6 @@ kbd {
   display: inline-block;
   vertical-align: -0.125em;
   flex: none;
-  shape-rendering: crispedges;
 }
 
 .sr-only {

@@ -314,17 +314,9 @@
             "$value": "{primitive.dimension.18}",
             "$description": "A row's glyph."
           },
-          "notice": {
-            "$value": "{primitive.dimension.20}",
-            "$description": "A notice's or outcome's glyph."
-          },
           "large": {
-            "$value": "{primitive.dimension.34}",
-            "$description": "An outcome's or drop zone's glyph."
-          },
-          "wall": {
-            "$value": "{primitive.dimension.30}",
-            "$description": "A wall's glyph."
+            "$value": "{primitive.dimension.24}",
+            "$description": "A glyph drawn at twice its size: an outcome's, a drop zone's or a wall's."
           }
         },
         "control": {

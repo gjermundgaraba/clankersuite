@@ -6,7 +6,7 @@ import { byId } from "../test/fixture.ts";
 import * as Announcer from "./announcer.ts";
 
 describe("flash with reduced motion", () => {
-  it("holds a still ink ring for the beat instead of inverting", async () => {
+  it("holds the tint still for the beat instead of easing it", async () => {
     document.body.innerHTML = `<button id="tile" style="--semantic-duration-flash: 0.7s"></button>`;
     const recorded: unknown[] = [];
     Object.assign(byId("tile"), {
@@ -17,7 +17,11 @@ describe("flash with reduced motion", () => {
       ) => {
         recorded.push({ keyframes, options });
 
-        return { id: "gg-flash", cancel: () => {} };
+        return {
+          id: "gg-flash",
+          cancel: () => {},
+          addEventListener: () => {},
+        };
       },
     });
 
@@ -29,13 +33,12 @@ describe("flash with reduced motion", () => {
     expect(recorded).toStrictEqual([
       {
         keyframes: {
-          outline: [
-            "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
-            "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
+          boxShadow: [
+            "inset 0 0 0 100vmax var(--semantic-color-background-selected)",
+            "inset 0 0 0 100vmax var(--semantic-color-background-selected)",
           ],
-          outlineOffset: ["-2px", "-2px"],
         },
-        options: { duration: 700, id: "gg-flash" },
+        options: { duration: 700, composite: "add", id: "gg-flash" },
       },
     ]);
   });

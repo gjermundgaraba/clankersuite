@@ -68,6 +68,13 @@
             "components": [0.9608, 0.651, 0.1373],
             "hex": "#f5a623"
           }
+        },
+        "700": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.5608, 0.3569, 0],
+            "hex": "#8f5b00"
+          }
         }
       },
       "green": {

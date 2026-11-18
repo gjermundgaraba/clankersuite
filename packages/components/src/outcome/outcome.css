@@ -4,7 +4,7 @@
   align-items: flex-start;
 }
 
-.gg-outcome > .gg-glyph {
+.gg-outcome > .gg-glyph .gg-icon {
   width: var(--semantic-dimension-size-glyph-large);
   height: var(--semantic-dimension-size-glyph-large);
 }

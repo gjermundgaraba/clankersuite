@@ -17,13 +17,13 @@
 }
 
 .gg-drop-zone-glyph {
+  display: flex;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-drop-zone-glyph .gg-icon {
   width: var(--semantic-dimension-size-glyph-large);
   height: var(--semantic-dimension-size-glyph-large);
-  display: grid;
-  place-items: center;
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  background: var(--semantic-color-background-surface);
 }
 
 .gg-drop-zone p {

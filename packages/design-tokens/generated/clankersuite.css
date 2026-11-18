@@ -5,6 +5,7 @@
 :root {
   color-scheme: light dark;
   --primitive-color-amber-400: #f5a623;
+  --primitive-color-amber-700: #8f5b00;
   --primitive-color-black-alpha45: #00000073;
   --primitive-color-black-alpha55: #0000008c;
   --primitive-color-blue-300: #a9c1fb;
@@ -188,6 +189,7 @@
   --semantic-color-text-terminal-magenta: light-dark(var(--primitive-color-magenta-700), var(--primitive-color-magenta-300));
   --semantic-color-text-terminal-red: light-dark(var(--primitive-color-red-650), var(--primitive-color-red-250));
   --semantic-color-text-terminal-yellow: light-dark(var(--primitive-color-yellow-700), var(--primitive-color-yellow-300));
+  --semantic-color-text-warning: light-dark(var(--primitive-color-amber-700), var(--primitive-color-amber-400));
   --semantic-dimension-border-width-accent: var(--primitive-dimension-2);
   --semantic-dimension-border-width-default: var(--primitive-dimension-1);
   --semantic-dimension-font-size-body: var(--primitive-dimension-15);
@@ -218,10 +220,8 @@
   --semantic-dimension-size-control: var(--primitive-dimension-30);
   --semantic-dimension-size-diff-line: var(--primitive-dimension-19);
   --semantic-dimension-size-dot: var(--primitive-dimension-10);
-  --semantic-dimension-size-glyph-large: var(--primitive-dimension-34);
-  --semantic-dimension-size-glyph-notice: var(--primitive-dimension-20);
+  --semantic-dimension-size-glyph-large: var(--primitive-dimension-24);
   --semantic-dimension-size-glyph-row: var(--primitive-dimension-18);
-  --semantic-dimension-size-glyph-wall: var(--primitive-dimension-30);
   --semantic-dimension-size-lift-board-card: var(--primitive-dimension-240);
   --semantic-dimension-size-lift-list-item: var(--primitive-dimension-320);
   --semantic-dimension-size-max-height-board-column-room: var(--primitive-dimension-150);

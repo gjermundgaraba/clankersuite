@@ -20,12 +20,11 @@
 }
 
 .gg-wall-mark .gg-glyph {
-  width: var(--semantic-dimension-size-glyph-wall);
-  height: var(--semantic-dimension-size-glyph-wall);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  display: grid;
-  place-items: center;
-  background: var(--semantic-color-background-surface);
-  color: var(--semantic-color-text-primary);
+  display: flex;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-wall-mark .gg-glyph .gg-icon {
+  width: var(--semantic-dimension-size-glyph-large);
+  height: var(--semantic-dimension-size-glyph-large);
 }

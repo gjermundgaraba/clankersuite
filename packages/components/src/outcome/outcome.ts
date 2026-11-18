@@ -17,7 +17,7 @@ export type ViewConfig<Message> = Readonly<{
   bodyAttributes?: Attributes<Message>;
 }>;
 
-/** A state said in full: a 34px glyph box, a title, a sentence. The body of a confirm, and of
+/** A state said in full: a large glyph in its tone's colour, a title, a sentence. The body of a confirm, and of
  *  a wall that stops the reader (session ended, access refused, service away). */
 export const view = <Message>(
   config: ViewConfig<Message>,

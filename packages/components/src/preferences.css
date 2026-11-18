@@ -54,4 +54,9 @@
     forced-color-adjust: none;
     background: CanvasText !important;
   }
+
+  [data-gg-flash] {
+    outline: var(--semantic-dimension-border-width-accent) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-accent));
+  }
 }

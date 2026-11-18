@@ -6,7 +6,7 @@
       "$type": "duration",
       "flash": {
         "$value": "{primitive.duration.700}",
-        "$description": "The invert flash that signals a change."
+        "$description": "The tint flash that signals a change."
       },
       "spin": {
         "$value": "{primitive.duration.700}",

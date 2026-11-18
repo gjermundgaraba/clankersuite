@@ -4,7 +4,7 @@ category: overlays
 
 # Confirm dialog
 
-The one question before an irreversible step: a glyph in a box, a headline, a sentence. The thing that destroys (delete, disable, reset) is a neutral button at rest that opens it; the red button is only the commit inside it.
+The one question before an irreversible step: a glyph, a headline, a sentence. The thing that destroys (delete, disable, reset) is a neutral button at rest that opens it; the red button is only the commit inside it.
 
 ## Destructive
 

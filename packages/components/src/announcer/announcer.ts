@@ -103,6 +103,11 @@ export const announce = (text: string): Effect.Effect<void> =>
 
 const FLASH_ID = "gg-flash";
 
+const FLASH_ATTRIBUTE = "data-gg-flash";
+
+const tintShadow = (color: string): string => `inset 0 0 0 100vmax ${color}`;
+const FLASH_TINT = tintShadow("var(--semantic-color-background-selected)");
+
 const TIME = /^(?<amount>(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)(?<unit>m?s)?$/iu;
 
 const beatOf = (element: Element): Option.Option<number> => {
@@ -134,20 +139,20 @@ const runFlash = (element: Element, beat: number): void => {
     animation.cancel();
   }
 
-  if (prefersReducedMotion()) {
-    const ring =
-      "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)";
+  const animation = prefersReducedMotion()
+    ? element.animate(
+        { boxShadow: [FLASH_TINT, FLASH_TINT] },
+        { duration: beat, composite: "add", id: FLASH_ID }
+      )
+    : element.animate(
+        { boxShadow: [FLASH_TINT, tintShadow("transparent")] },
+        { duration: beat, easing: "ease-out", composite: "add", id: FLASH_ID }
+      );
 
-    element.animate(
-      { outline: [ring, ring], outlineOffset: ["-2px", "-2px"] },
-      { duration: beat, id: FLASH_ID }
-    );
-  } else {
-    element.animate(
-      { filter: ["invert(1)", "invert(1)"] },
-      { duration: beat / 2, delay: beat / 4, id: FLASH_ID }
-    );
-  }
+  element.setAttribute(FLASH_ATTRIBUTE, "");
+  animation.addEventListener("finish", () => {
+    element.removeAttribute(FLASH_ATTRIBUTE);
+  });
 };
 
 export const flash = (selector: string): Effect.Effect<void> =>
@@ -176,10 +181,12 @@ export const Announce = Command.define("Announce", {
 });
 
 /**
- * Inverts the element `selector` finds for one beat (`--semantic-duration-flash`): the signal that a
- * change was committed. A second flash mid-beat restarts it. With `prefers-reduced-motion`
- * it holds a still ring for the beat instead. Return it beside `Announce`, which says
- * what the flash shows. Reports `CompletedFlash`.
+ * Lays the selection tint over the element `selector` finds and eases it out over one beat
+ * (`--semantic-duration-flash`): the signal that a change was committed. A second flash
+ * mid-beat restarts it. With `prefers-reduced-motion` it holds the tint still for the beat
+ * instead. In forced colours, where the tint cannot show, the element carries `data-gg-flash`
+ * for the beat and is outlined in the system's highlight. Return it beside `Announce`, which
+ * says what the flash shows. Reports `CompletedFlash`.
  */
 export const Flash = Command.define("Flash", {
   args: { selector: Schema.String },

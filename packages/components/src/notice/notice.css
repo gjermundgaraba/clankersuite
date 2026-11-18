@@ -38,29 +38,20 @@
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph {
   flex: none;
-  width: var(--semantic-dimension-size-glyph-notice);
-  height: var(--semantic-dimension-size-glyph-notice);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  display: grid;
-  place-items: center;
-  background: var(--semantic-color-background-fill-warning);
-  color: var(--semantic-color-text-on-status-fill);
+  display: flex;
+  align-items: center;
+  height: 1lh;
+  color: var(--semantic-color-text-warning);
 }
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-error {
-  background: var(--semantic-color-background-fill-negative);
-  color: var(--semantic-color-text-on-negative-fill);
-  border-color: var(--semantic-color-border-negative);
+  color: var(--semantic-color-text-negative);
 }
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-ok {
-  background: var(--semantic-color-background-fill-accent);
-  color: var(--semantic-color-text-on-accent-fill);
+  color: var(--semantic-color-background-fill-accent);
 }
 
 :is(.gg-notice, .gg-outcome) > .gg-glyph.gg-quiet {
-  background: var(--semantic-color-background-head);
   color: var(--semantic-color-text-secondary);
-  border-color: var(--semantic-color-border-divider);
 }

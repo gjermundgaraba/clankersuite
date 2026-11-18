@@ -1,7 +1,7 @@
 import { Toast as UiToast } from "@foldkit/ui";
 import { Array, Option, Schema } from "effect";
 
-/** `Ok`: a committed change, in ink, gone after the hold. `Error`: red, and it stays until it
+/** `Ok`: a committed change, in the accent, gone after the hold. `Error`: red, and it stays until it
  *  is dismissed or taken back; like every tone it is said politely. `Quiet`: news, nothing
  *  wrong, on the head tint, gone after the hold. */
 export const Tone = Schema.Literals(["Ok", "Error", "Quiet"]);
