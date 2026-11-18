@@ -19,11 +19,11 @@ describe("the settings menu example", () => {
       update,
       Story.given(init().model),
       Story.message(
-        selected(Menu.Message.SelectedItem({ id: "Plum", kind: "Radio" }))
+        selected(Menu.Message.SelectedItem({ id: "Dark", kind: "Radio" }))
       ),
       resolveFocus,
       Story.model((model) => {
-        expect(model.palette).toBe("Plum");
+        expect(model.palette).toBe("Dark");
         expect(model.maybeLastAction).toStrictEqual(Option.none());
       }),
       Story.message(
@@ -31,7 +31,7 @@ describe("the settings menu example", () => {
       ),
       resolveFocus,
       Story.model((model) => {
-        expect(model.palette).toBe("Plum");
+        expect(model.palette).toBe("Dark");
         expect(model.maybeLastAction).toStrictEqual(Option.some("sign-out"));
       })
     );

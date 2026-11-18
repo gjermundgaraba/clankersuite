@@ -154,7 +154,7 @@ try {
 
   await page
     .locator(".gg-topbar")
-    .getByRole("button", { name: "Plum" })
+    .getByRole("button", { name: "Dark" })
     .click();
   await page.waitForTimeout(RENDER);
 
@@ -163,7 +163,7 @@ try {
       () => document.documentElement.dataset["colorScheme"]
     )) !== "dark"
   ) {
-    problems.push("the scheme switch does not pin plum");
+    problems.push("the scheme switch does not pin dark");
   }
 
   if ((await send.getAttribute("aria-busy")) !== "true") {

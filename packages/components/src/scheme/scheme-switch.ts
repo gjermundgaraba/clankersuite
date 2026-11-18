@@ -58,7 +58,7 @@ const ReadScheme = Command.define("ReadScheme", {
   ),
 });
 
-/** Creates the switch on `System` in the paper palette, as the server renders it, with a
+/** Creates the switch on `System` in the light palette, as the server renders it, with a
  *  Command that reads `<html data-color-scheme>` once the client runs it after hydration: the scheme
  *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. A change made in another tab is seen on the next load, not live. */
 export const init = (): Update.Return<Model, Message> => ({
@@ -92,7 +92,7 @@ const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = Array.map(
   (name) => ({ value: name, label: name })
 );
 
-/** System, paper, plum: two palettes of one system, or whatever the reader's system prefers.
+/** System, light, dark: two palettes of one system, or whatever the reader's system prefers.
  *  Put `schemeScript` in the page's `<head>` so a remembered choice applies before first
  *  paint. */
 export const view = defineView<Model, Message>((model, h): Html =>

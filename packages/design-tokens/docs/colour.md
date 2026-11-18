@@ -4,7 +4,7 @@ order: 2
 
 # Colour
 
-Two palettes of one token set: paper, the light one, and plum, the dark one. Every semantic colour is a `light-dark()` pair, so it follows the `color-scheme` of the element that uses it; each row shows it in both palettes. The page follows the reader's system, and `data-color-scheme="light"` or `"dark"` on `<html>` pins one.
+Two palettes of one token set: light and dark. Every semantic colour is a `light-dark()` pair, so it follows the `color-scheme` of the element that uses it; each row shows it in both palettes. The page follows the reader's system, and `data-color-scheme="light"` or `"dark"` on `<html>` pins one.
 
 Use the `--semantic-*` tokens; each row says what its token is for. The `--primitive-*` tokens they point at may change or disappear in any release.
 

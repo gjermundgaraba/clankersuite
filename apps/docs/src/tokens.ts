@@ -64,8 +64,8 @@ export const kindOf = (token: Token): Kind => {
 type Palette = Readonly<{ name: string; scheme: keyof Schemes }>;
 
 export const PALETTES: readonly Palette[] = [
-  { name: "paper", scheme: "light" },
-  { name: "plum", scheme: "dark" },
+  { name: "Light", scheme: "light" },
+  { name: "Dark", scheme: "dark" },
 ];
 
 const SOURCES = import.meta.glob<unknown>(
