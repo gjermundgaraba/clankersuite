@@ -1,0 +1,31 @@
+.gg-wall {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--semantic-dimension-space-padding-xxx-large);
+}
+
+.gg-wall .gg-card {
+  animation: none;
+}
+
+.gg-wall-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-large);
+}
+
+.gg-wall-mark .gg-wordmark {
+  font-size: var(--semantic-dimension-font-size-wordmark-wall);
+}
+
+.gg-wall-mark .gg-glyph {
+  width: var(--semantic-dimension-size-glyph-wall);
+  height: var(--semantic-dimension-size-glyph-wall);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  display: grid;
+  place-items: center;
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+}

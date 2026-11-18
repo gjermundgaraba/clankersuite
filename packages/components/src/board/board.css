@@ -1,0 +1,160 @@
+.gg-board-card .gg-meta-row .gg-tag {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.gg-board-card .gg-title[aria-disabled="true"] {
+  cursor: default;
+}
+
+.gg-board {
+  display: grid;
+  grid-template-columns: repeat(var(--gg-cols, 3), minmax(0, 1fr));
+  gap: var(--semantic-dimension-space-gap-surface);
+  align-items: start;
+}
+
+.gg-board-col {
+  min-width: 0;
+}
+
+@media (min-width: 901px) {
+  .gg-board {
+    align-items: stretch;
+  }
+
+  .gg-board-col .gg-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: calc(
+      100vh - var(--semantic-dimension-size-max-height-board-column-room)
+    );
+  }
+
+  .gg-board-col .gg-board-cards {
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .gg-board {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gg-board-col.gg-drop-target .gg-panel {
+  outline: var(--semantic-dimension-border-width-default) dashed
+    var(--semantic-color-border-primary);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-large);
+}
+
+.gg-board-col.gg-drop-target .gg-board-cards,
+.gg-board-col.gg-drop-target .gg-empty {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-board-cards {
+  list-style: none;
+  padding: var(--semantic-dimension-space-padding-medium);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--semantic-dimension-space-gap-large);
+}
+
+.gg-board-card {
+  position: relative;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  background: var(--semantic-color-background-surface);
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--semantic-dimension-space-gap-small);
+}
+
+.gg-board-card {
+  cursor: grab;
+}
+
+.gg-board-card [data-gg-board-grip] {
+  margin-right: calc(
+    -1 * var(--semantic-dimension-space-control-padding-inline-x-small)
+  );
+  cursor: grab;
+  touch-action: none;
+}
+
+.gg-board-card.gg-lifted {
+  cursor: grabbing;
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
+}
+
+.gg-board-lift {
+  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-board-card));
+  translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
+}
+
+.gg-board-lift-slot {
+  list-style: none;
+}
+
+.gg-board-card:hover {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-board-card.gg-drag-dim {
+  opacity: var(--semantic-number-opacity-dragged);
+}
+
+.gg-board-card:focus-within {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+  background: var(--semantic-color-background-head);
+}
+
+.gg-board-card .gg-title:focus-visible {
+  outline: none;
+}
+
+.gg-board-card[aria-current="true"]:is(:hover, :focus-within) {
+  background-color: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-board-card .gg-title {
+  font: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.gg-board-card input.gg-inline-input {
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-board-card input.gg-inline-input:focus-visible {
+  outline: none;
+}
+
+.gg-board-card .gg-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-small);
+  min-height: var(--semantic-dimension-size-min-height-meta-row);
+}
+
+.gg-board-card .gg-meta-row .gg-gap {
+  flex: 1;
+}

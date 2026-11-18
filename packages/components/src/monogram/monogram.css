@@ -1,0 +1,25 @@
+.gg-monogram {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--semantic-dimension-size-monogram-default);
+  height: var(--semantic-dimension-size-monogram-default);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  font-size: var(--semantic-dimension-font-size-label);
+  line-height: var(--semantic-number-line-height-none);
+  user-select: none;
+}
+
+.gg-monogram.gg-large {
+  width: var(--semantic-dimension-size-monogram-large);
+  height: var(--semantic-dimension-size-monogram-large);
+  font-size: var(--semantic-dimension-font-size-body);
+}
+
+.gg-monogram.gg-drawn {
+  border: 0;
+  background: none;
+}

@@ -1,0 +1,13 @@
+.gg-error-summary ul {
+  list-style: none;
+  margin-top: var(--semantic-dimension-space-gap-xx-small);
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-small);
+}
+
+.gg-error-summary a {
+  color: var(--semantic-color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--semantic-dimension-border-width-default);
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}

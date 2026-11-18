@@ -1,0 +1,22 @@
+.gg-empty {
+  padding: var(--semantic-dimension-space-padding-xxx-large)
+    var(--semantic-dimension-space-padding-x-large);
+  text-align: center;
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  justify-items: center;
+}
+
+.gg-empty-title {
+  font-size: var(--semantic-dimension-font-size-control);
+  font-weight: var(--semantic-font-weight-regular);
+}
+
+.gg-empty p {
+  color: var(--semantic-color-text-secondary);
+  max-width: var(--semantic-dimension-size-measure-note);
+}
+
+.gg-empty .gg-btn {
+  margin-top: var(--semantic-dimension-space-gap-x-small);
+}

@@ -1,0 +1,7 @@
+textarea::-webkit-resizer {
+  background: linear-gradient(
+    135deg,
+    transparent 0 50%,
+    var(--semantic-color-background-fill-inverse) 50% 100%
+  );
+}

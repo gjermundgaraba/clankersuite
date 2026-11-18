@@ -1,0 +1,187 @@
+.gg-sortable-items {
+  list-style: none;
+}
+
+.gg-sortable-item {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-medium);
+  min-width: 0;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-padding-panel)
+    var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-medium);
+  position: relative;
+  background: var(--semantic-color-background-surface);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-sortable-items > .gg-sortable-item:last-child {
+  border-bottom: 0;
+}
+
+.gg-sortable-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.gg-sortable-item [data-gg-sortable-grip] {
+  flex: none;
+  cursor: grab;
+  touch-action: none;
+}
+
+.gg-sortable-item.gg-drag-dim {
+  opacity: var(--semantic-number-opacity-dragged);
+}
+
+.gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: var(--semantic-dimension-border-width-default) dashed
+    var(--semantic-color-border-primary);
+  pointer-events: none;
+}
+
+.gg-sortable-item.gg-drop-before::before {
+  top: calc(-1 * var(--semantic-dimension-border-width-default));
+}
+
+.gg-sortable-item.gg-drop-after::before {
+  bottom: calc(-1 * var(--semantic-dimension-border-width-default));
+}
+
+.gg-sortable:is(.gg-grid, .gg-panels)
+  .gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before {
+  top: calc(-1 * var(--semantic-dimension-border-width-default));
+  bottom: calc(-1 * var(--semantic-dimension-border-width-default));
+  left: auto;
+  right: auto;
+  border-top: 0;
+  border-left: var(--semantic-dimension-border-width-default) dashed
+    var(--semantic-color-border-primary);
+}
+
+.gg-sortable.gg-grid .gg-sortable-item.gg-drop-before::before {
+  left: calc(-1 * var(--semantic-dimension-space-gap-medium));
+}
+
+.gg-sortable.gg-grid .gg-sortable-item.gg-drop-after::before {
+  right: calc(-1 * var(--semantic-dimension-space-gap-medium));
+}
+
+.gg-sortable-item.gg-lifted {
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
+  cursor: grabbing;
+}
+
+.gg-sortable-slot {
+  list-style: none;
+  padding: var(--semantic-dimension-space-control-padding-block-large);
+}
+
+.gg-sortable-lift,
+.gg-reel-lift {
+  width: var(--gg-lift-width, var(--semantic-dimension-size-lift-list-item));
+  translate: var(--gg-lift-x, 0) var(--gg-lift-y, 0);
+}
+
+.gg-sortable.gg-grid .gg-sortable-items {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--semantic-dimension-size-min-width-sortable-grid), 1fr)
+  );
+  gap: var(--semantic-dimension-space-gap-large);
+  padding: var(--semantic-dimension-space-padding-medium);
+}
+
+.gg-sortable.gg-grid .gg-sortable-item {
+  align-items: flex-start;
+  height: 100%;
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-x-small);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+}
+
+.gg-sortable.gg-grid .gg-sortable-slot {
+  padding: 0;
+}
+
+.gg-sortable.gg-panels .gg-sortable-items {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      min(
+        100%,
+        max(
+          var(--semantic-dimension-size-min-width-sortable-panel),
+          (100% - 2 * var(--semantic-dimension-space-gap-surface)) / 3
+        )
+      ),
+      1fr
+    )
+  );
+  gap: var(--semantic-dimension-space-gap-surface);
+}
+
+.gg-sortable.gg-panels .gg-sortable-item {
+  display: block;
+  padding: 0;
+  border-bottom: 0;
+  background: none;
+}
+
+.gg-sortable.gg-panels .gg-sortable-body {
+  height: 100%;
+}
+
+.gg-sortable.gg-panels .gg-sortable-body > .gg-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gg-sortable.gg-panels .gg-sortable-body > .gg-panel > .gg-panel-foot {
+  margin-top: auto;
+}
+
+.gg-sortable.gg-panels .gg-sortable-item.gg-drop-before::before {
+  left: calc(
+    var(--semantic-dimension-space-gap-surface) / -2 -
+      var(--semantic-dimension-border-width-default)
+  );
+}
+
+.gg-sortable.gg-panels .gg-sortable-item.gg-drop-after::before {
+  right: calc(
+    var(--semantic-dimension-space-gap-surface) / -2 -
+      var(--semantic-dimension-border-width-default)
+  );
+}
+
+.gg-sortable.gg-panels .gg-sortable-item.gg-lifted {
+  border: 0;
+  box-shadow: none;
+}
+
+.gg-sortable.gg-panels .gg-lifted .gg-panel {
+  background: var(--semantic-color-background-head);
+  box-shadow: var(--semantic-shadow-card);
+}
+
+.gg-sortable.gg-panels .gg-sortable-slot {
+  padding: 0;
+}

@@ -1,0 +1,236 @@
+@property --gg-railed-width {
+  syntax: "*";
+  inherits: false;
+}
+
+.gg-railed {
+  padding-left: var(
+    --gg-railed-width,
+    var(--semantic-dimension-size-rail-default)
+  );
+}
+
+.gg-railed > :is(.gg-rail, .gg-rail-resize, .gg-bench) {
+  --gg-railed-width: inherit;
+}
+
+.gg-rail[popover] {
+  position: fixed;
+  inset: auto;
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: var(--gg-statusbar-h);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--semantic-dimension-space-gap-surface);
+  width: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
+  height: auto;
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-control-padding-inline-medium)
+    var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-padding-xx-large);
+  border: 0;
+  background: none;
+  color: inherit;
+  overflow-y: auto;
+}
+
+.gg-rail > * {
+  flex: none;
+  min-width: 0;
+}
+
+.gg-rail > .gg-panel:last-child {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.gg-rail
+  > .gg-panel:last-child
+  > :is(.gg-panel-tb, .gg-panel-shelf, .gg-panel-foot) {
+  flex: none;
+}
+
+.gg-rail
+  > .gg-panel:last-child
+  > :not(.gg-panel-tb, .gg-panel-shelf, .gg-panel-foot) {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.gg-rail .gg-panel-tb h2 {
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gg-rail-toggle {
+  display: contents;
+}
+
+.gg-rail-resize {
+  position: fixed;
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: var(--gg-statusbar-h);
+  left: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
+  z-index: var(--semantic-number-layer-raised);
+  width: var(--semantic-dimension-size-rail-resize);
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.gg-rail-resize::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--semantic-dimension-border-width-default);
+  background: var(--semantic-color-background-fill-inverse);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gg-rail-resize:is(:hover, :focus-visible)::after {
+  opacity: 1;
+}
+
+.gg-rail-resize:focus-visible {
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
+  );
+}
+
+.gg-rail-head,
+.gg-rail-open {
+  display: none;
+}
+
+@media not (max-width: 900px) {
+  .gg-railed.gg-folded {
+    --gg-railed-width: var(--semantic-dimension-size-rail-folded);
+  }
+
+  .gg-railed.gg-folded > .gg-rail > :not(.gg-rail-head + .gg-panel),
+  .gg-railed.gg-folded
+    > .gg-rail
+    > .gg-rail-head
+    + .gg-panel
+    > :not(.gg-panel-tb),
+  .gg-railed.gg-folded
+    > .gg-rail
+    > .gg-rail-head
+    + .gg-panel
+    > .gg-panel-tb
+    > .gg-panel-acts {
+    display: none;
+  }
+
+  .gg-railed.gg-folded > .gg-rail > .gg-rail-head + .gg-panel {
+    align-self: flex-start;
+  }
+
+  .gg-railed.gg-folded > .gg-rail > .gg-rail-head + .gg-panel > .gg-panel-tb {
+    writing-mode: vertical-rl;
+    min-width: var(--semantic-dimension-size-title-bar);
+    min-height: 0;
+    padding: var(--semantic-dimension-space-control-padding-block-x-small)
+      var(--semantic-dimension-space-control-padding-inline-xxx-small)
+      var(--semantic-dimension-space-padding-medium);
+  }
+
+  .gg-railed.gg-folded
+    > .gg-rail
+    > .gg-rail-head
+    + .gg-panel
+    > .gg-panel-tb
+    > .gg-meta {
+    margin: 0;
+  }
+
+  .gg-railed,
+  .gg-railed > :is(.gg-rail, .gg-bench) {
+    transition: var(--semantic-duration-card) ease-out;
+    transition-property: padding-left, width, left;
+  }
+
+  :root[data-gg-dragging]
+    :is(.gg-railed, .gg-railed > .gg-rail, .gg-railed > .gg-bench) {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .gg-railed {
+    padding-left: 0;
+  }
+
+  .gg-rail[popover]:not(:popover-open),
+  .gg-rail-resize {
+    display: none;
+  }
+
+  .gg-rail[popover]:popover-open {
+    inset: 0 auto 0 0;
+    width: min(
+      var(--semantic-dimension-size-rail-drawer),
+      calc(100vw - var(--semantic-dimension-space-viewport-gutter-large))
+    );
+    height: 100dvh;
+    max-height: none;
+    padding: var(--semantic-dimension-space-padding-medium)
+      var(--semantic-dimension-space-padding-x-large)
+      var(--semantic-dimension-space-gap-surface)
+      var(--semantic-dimension-space-padding-medium);
+    background: var(--semantic-color-background-surface);
+    border-right: var(--semantic-dimension-border-width-default) solid
+      var(--semantic-color-border-primary);
+    box-shadow: var(--semantic-shadow-card);
+    animation: gg-rail-in var(--semantic-duration-card) ease-out;
+  }
+
+  .gg-rail[popover]::backdrop {
+    background: var(--semantic-color-background-backdrop);
+  }
+
+  .gg-rail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--semantic-dimension-space-gap-large);
+  }
+
+  .gg-rail-open {
+    display: inline-flex;
+    justify-self: start;
+  }
+
+  .gg-panel-lead:has(> .gg-rail-toggle) {
+    display: none;
+  }
+
+  .gg-panel-tb:has(> .gg-panel-lead > .gg-rail-toggle) {
+    padding-left: var(--semantic-dimension-space-control-padding-inline-large);
+  }
+}
+
+@keyframes gg-rail-in {
+  from {
+    translate: -100% 0;
+  }
+}
+
+.gg-railed > .gg-bench {
+  left: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
+}
+
+@media (max-width: 900px) {
+  .gg-railed > .gg-bench {
+    left: 0;
+  }
+}

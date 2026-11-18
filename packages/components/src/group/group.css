@@ -1,0 +1,6 @@
+.gg-group {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-inline);
+  min-width: 0;
+}

@@ -1,0 +1,65 @@
+.gg-chip {
+  font-size: var(--semantic-dimension-font-size-label);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+  flex: none;
+  white-space: nowrap;
+}
+
+.gg-chip.gg-go {
+  background: var(--semantic-color-background-fill-positive);
+  color: var(--semantic-color-text-on-status-fill);
+}
+
+.gg-chip.gg-warn {
+  background: var(--semantic-color-background-fill-warning);
+  color: var(--semantic-color-text-on-status-fill);
+}
+
+.gg-chip.gg-blocked {
+  color: var(--semantic-color-text-negative);
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-chip.gg-done {
+  background: var(--semantic-color-background-head);
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
+}
+
+.gg-chip-dot {
+  display: inline-block;
+  flex: none;
+  width: var(--semantic-dimension-size-dot);
+  height: var(--semantic-dimension-size-dot);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  background: transparent;
+}
+
+.gg-chip-dot.gg-go {
+  background: var(--semantic-color-background-fill-positive);
+}
+
+.gg-chip-dot.gg-warn {
+  background: var(--semantic-color-background-fill-warning);
+}
+
+.gg-chip-dot.gg-blocked {
+  background: var(--semantic-color-background-fill-negative);
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-chip-dot.gg-done {
+  background: var(--semantic-color-background-fill-secondary);
+  border-color: var(--semantic-color-border-secondary);
+}
+
+.gg-chip .gg-spinner {
+  margin-left: var(--semantic-dimension-space-gap-xx-small);
+}

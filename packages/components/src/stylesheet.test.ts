@@ -2,7 +2,6 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { LIVE_MARKDOWN_STYLE } from "./markdown-editor/live/theme.ts";
 
-import COMPONENTS_CSS from "./components.css?raw";
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const kebabCase = (property: string) =>
@@ -20,7 +19,33 @@ const asCss = (
     )
     .join("\n");
 
-const STYLESHEET = `${COMPONENTS_CSS}\n${asCss(LIVE_MARKDOWN_STYLE)}`;
+const STYLESHEETS = import.meta.glob<string>("./**/*.css", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+const STYLESHEET = [
+  ...Object.values(STYLESHEETS),
+  asCss(LIVE_MARKDOWN_STYLE),
+].join("\n");
+
+describe("the brand stylesheet", () => {
+  it("imports every other stylesheet in the package, once", () => {
+    const imported = Array.from(
+      STYLESHEETS["./clankersuite.css"]?.matchAll(
+        /@import "(?<path>\.\/[^"]+)";/gu
+      ) ?? [],
+      ({ groups }) => groups?.["path"] ?? ""
+    );
+
+    expect(imported.toSorted()).toStrictEqual(
+      Object.keys(STYLESHEETS)
+        .filter((path) => path !== "./clankersuite.css")
+        .toSorted()
+    );
+  });
+});
 
 interface Declaration {
   readonly property: string;

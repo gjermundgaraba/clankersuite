@@ -1,0 +1,119 @@
+.gg-table-wrap {
+  overflow-x: auto;
+}
+
+.gg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--semantic-dimension-font-size-body);
+}
+
+.gg-table th {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-secondary);
+  background: var(--semantic-color-background-head);
+  text-align: left;
+  padding: var(--semantic-dimension-space-control-padding-block-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  white-space: nowrap;
+}
+
+.gg-table td {
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  vertical-align: middle;
+}
+
+.gg-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.gg-table tbody tr:hover {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-table td.gg-acts {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.gg-table td.gg-acts,
+.gg-table:has(td.gg-acts) th:last-child {
+  position: sticky;
+  right: 0;
+  background: var(--semantic-color-background-surface);
+}
+
+.gg-table:has(td.gg-acts) th:last-child {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-table tbody tr:hover td.gg-acts {
+  background: var(--semantic-color-background-head);
+}
+
+@media (max-width: 600px) {
+  .gg-table td.gg-acts,
+  .gg-table:has(td.gg-acts) th:last-child {
+    box-shadow: inset var(--semantic-dimension-border-width-default) 0 0
+      var(--semantic-color-border-primary);
+    padding-left: var(--semantic-dimension-space-control-padding-inline-medium);
+  }
+}
+
+.gg-table td.gg-acts .gg-btn + .gg-btn {
+  margin-left: var(--semantic-dimension-space-gap-small);
+}
+
+@media (max-width: 600px) {
+  .gg-table thead {
+    display: none;
+  }
+
+  .gg-table,
+  .gg-table tbody,
+  .gg-table tr,
+  .gg-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .gg-table tr {
+    padding: var(--semantic-dimension-space-padding-small)
+      var(--semantic-dimension-space-padding-medium);
+    border-bottom: var(--semantic-dimension-border-width-default) solid
+      var(--semantic-color-border-divider);
+  }
+
+  .gg-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .gg-table td,
+  .gg-table td.gg-acts {
+    position: static;
+    box-shadow: none;
+    background: none;
+    border: 0;
+    padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .gg-table td[data-gg-label]::before {
+    content: attr(data-gg-label);
+    display: block;
+    font-size: var(--semantic-dimension-font-size-label);
+    color: var(--semantic-color-text-secondary);
+  }
+
+  .gg-table td.gg-acts {
+    padding-top: var(--semantic-dimension-space-control-padding-block-xx-large);
+  }
+}

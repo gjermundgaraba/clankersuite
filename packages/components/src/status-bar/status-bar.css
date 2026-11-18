@@ -1,0 +1,41 @@
+.gg-statusbar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--semantic-number-layer-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-xx-large);
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-padding-xx-large);
+  background: var(--semantic-color-background-surface);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-statusbar-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
+  min-width: 0;
+}
+
+.gg-statusbar-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
+}
+
+.gg-statusbar-keys .gg-key-hint {
+  font: inherit;
+  color: var(--semantic-color-text-primary);
+}

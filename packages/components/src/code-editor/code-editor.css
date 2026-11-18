@@ -1,0 +1,11 @@
+textarea.gg-code-surface {
+  field-sizing: content;
+  max-height: 60vh;
+}
+
+@media (max-width: 600px) {
+  textarea.gg-code-surface {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}

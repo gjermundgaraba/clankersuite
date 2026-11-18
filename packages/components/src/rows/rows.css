@@ -1,0 +1,372 @@
+.gg-done-title {
+  color: var(--semantic-color-text-secondary);
+  text-decoration: line-through;
+}
+
+.gg-row > .gg-chip-dot,
+.gg-row > .gg-cell > .gg-chip-dot {
+  margin-inline: var(--semantic-dimension-space-gap-xx-small);
+}
+
+.gg-rows {
+  list-style: none;
+}
+
+.gg-tree {
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0
+    var(--semantic-dimension-space-padding-large);
+}
+
+.gg-tree ul.gg-rows {
+  position: relative;
+  padding-left: var(--semantic-dimension-space-indent-tree);
+}
+
+.gg-tree ul.gg-rows::before {
+  content: "";
+  position: absolute;
+  left: var(--semantic-dimension-space-tree-guide);
+  top: 0;
+  bottom: var(--semantic-dimension-space-padding-xx-small);
+  width: var(--semantic-dimension-border-width-default);
+  background: var(--semantic-color-border-divider);
+}
+
+.gg-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  min-height: var(--semantic-dimension-size-row);
+}
+
+.gg-row:hover,
+.gg-row:focus-within {
+  background-color: var(--semantic-color-background-head);
+}
+
+.gg-row .gg-glyph {
+  width: var(--semantic-dimension-size-glyph-row);
+  height: var(--semantic-dimension-size-glyph-row);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--semantic-color-text-secondary);
+  padding: 0;
+  flex: none;
+}
+
+button.gg-glyph {
+  cursor: pointer;
+}
+
+.gg-row:hover button.gg-glyph {
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-row .gg-grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: var(--semantic-dimension-space-control-padding-block-small);
+  margin: calc(
+    -1 * var(--semantic-dimension-space-control-padding-block-small)
+  );
+}
+
+.gg-row .gg-title {
+  font: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-row .gg-title:hover {
+  text-decoration: underline;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}
+
+.gg-row .gg-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  opacity: var(--semantic-number-opacity-tools);
+}
+
+.gg-row:hover .gg-tools,
+.gg-row:focus-within .gg-tools {
+  opacity: 1;
+}
+
+.gg-row > .gg-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-small);
+  flex: none;
+}
+
+.gg-row > .gg-grow-cell {
+  flex: 1;
+  min-width: 0;
+}
+
+.gg-row .gg-slot {
+  min-width: var(--semantic-dimension-size-min-width-slot);
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--semantic-dimension-space-gap-x-small);
+}
+
+.gg-row.gg-linked .gg-grow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.gg-row.gg-linked .gg-grow a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.gg-row.gg-linked
+  :is(button, input, select, textarea, [data-gg-tip], .gg-row-check) {
+  position: relative;
+  z-index: var(--semantic-number-layer-raised);
+}
+
+.gg-row.gg-linked:not(:has(.gg-grow a[aria-current])):hover .gg-grow a {
+  text-decoration: underline;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}
+
+.gg-row.gg-linked .gg-grow a:focus-visible {
+  outline: 0;
+}
+
+.gg-row.gg-linked:has(.gg-grow a:focus-visible) {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+}
+
+/* each selector is written out, not joined in :is(), so each keeps its own specificity */
+.gg-row.gg-linked:has(.gg-grow a[aria-current]),
+.gg-board-card[aria-current="true"] {
+  background-color: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-row.gg-linked:has(.gg-grow a[aria-current]) .gg-chip-dot {
+  border-color: var(--semantic-color-border-on-inverse-fill);
+}
+
+.gg-row.gg-linked:has(.gg-grow a[aria-current])
+  :is(
+    .gg-glyph,
+    .gg-age,
+    .gg-due,
+    .gg-tag,
+    .gg-done-title,
+    .gg-iconbtn.gg-quiet
+  ),
+.gg-board-card[aria-current="true"]
+  :is(
+    .gg-glyph,
+    .gg-age,
+    .gg-due,
+    .gg-tag,
+    .gg-done-title,
+    .gg-iconbtn.gg-quiet
+  ) {
+  color: inherit;
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
+}
+
+.gg-row.gg-linked:has(.gg-grow a[aria-current]) .gg-tag,
+.gg-board-card[aria-current="true"] .gg-tag {
+  border-color: currentColor;
+}
+
+.gg-row.gg-linked:has(.gg-grow a[aria-current])
+  :is(.gg-due.gg-late, .gg-age.gg-stale),
+.gg-board-card[aria-current="true"] :is(.gg-due.gg-late, .gg-age.gg-stale) {
+  opacity: 1;
+  background: var(--semantic-color-background-fill-negative);
+  color: var(--semantic-color-text-on-negative-fill);
+  box-shadow: 0 0 0 var(--semantic-dimension-border-width-ring)
+    var(--semantic-color-border-negative);
+}
+
+.gg-row.gg-linked:has(.gg-grow a[aria-current]) :focus-visible,
+.gg-row.gg-linked:has(.gg-grow a[aria-current]:focus-visible),
+.gg-board-card[aria-current="true"] :focus-visible {
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
+}
+
+.gg-row[aria-current="true"] {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-secondary);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+  background-color: transparent;
+}
+
+.gg-row:focus-visible {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-secondary);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+}
+
+.gg-row[aria-current="true"] .gg-tools {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .gg-row .gg-tools {
+    display: none;
+  }
+
+  .gg-row .gg-grow,
+  .gg-row .gg-title {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .gg-row .gg-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .gg-row .gg-slot {
+    min-width: 0;
+  }
+}
+
+.gg-row-check {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  flex: none;
+  margin: calc(
+      -1 * var(--semantic-dimension-space-control-padding-block-medium)
+    )
+    0 calc(-1 * var(--semantic-dimension-space-control-padding-block-medium))
+    calc(-1 * var(--semantic-dimension-space-control-padding-inline-large));
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-medium);
+}
+
+.gg-row-check > [role="checkbox"] {
+  appearance: none;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  padding: 0;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  cursor: pointer;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+}
+
+.gg-row-check > [role="checkbox"]::before {
+  content: "";
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
+}
+
+.gg-row-check > [role="checkbox"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.gg-row label.gg-grow {
+  cursor: pointer;
+}
+
+.gg-row-check:has(> [aria-checked="true"]) {
+  background: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-row-check > [aria-checked="true"] {
+  border-color: var(--semantic-color-border-on-inverse-fill);
+  background: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-row-check > [aria-checked="true"]::before {
+  background: var(--semantic-color-background-surface);
+}
+
+.gg-row-check > [aria-checked="true"]:focus-visible {
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
+}
+
+.gg-row-check > [aria-disabled="true"] {
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-row-check > [aria-checked="mixed"]::before {
+  height: var(--semantic-dimension-border-width-default);
+  background: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-row .gg-grow input.gg-inline-input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    0 var(--semantic-color-border-primary);
+}
+
+.gg-row .gg-grow input.gg-inline-input[aria-invalid="true"]:focus-visible {
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    0 var(--semantic-color-border-negative);
+}
+
+.gg-row .gg-grow > .gg-identity {
+  white-space: normal;
+}
+
+.gg-row.gg-context .gg-title,
+.gg-row.gg-context:hover button.gg-glyph {
+  color: var(--semantic-color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .gg-tree .gg-row {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: var(--semantic-dimension-space-gap-xx-small);
+  }
+
+  .gg-tree .gg-row .gg-grow {
+    flex: 1 1 calc(100% - var(--semantic-dimension-size-tree-glyph-room));
+  }
+
+  .gg-tree .gg-row .gg-title {
+    -webkit-line-clamp: 3;
+  }
+}

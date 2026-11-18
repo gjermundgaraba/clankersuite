@@ -1,0 +1,37 @@
+.gg-bench {
+  position: fixed;
+  top: anchor(--gg-topbar bottom, 0px);
+  right: 0;
+  bottom: var(--gg-statusbar-h);
+  left: 0;
+  display: grid;
+  grid-template-rows: minmax(0, max-content) minmax(
+      min(
+        var(--semantic-dimension-size-min-height-bench-work),
+        100% - var(--semantic-dimension-size-min-height-bench-head)
+      ),
+      1fr
+    );
+}
+
+.gg-bench-head {
+  display: grid;
+  align-content: start;
+  gap: var(--semantic-dimension-space-gap-surface);
+  margin-bottom: calc(
+    -1 * var(--semantic-dimension-space-control-padding-block-large)
+  );
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-gap-reel)
+    var(--semantic-dimension-space-control-padding-block-large);
+  overflow-y: auto;
+}
+
+.gg-bench-head > *,
+.gg-bench-work {
+  min-width: 0;
+}
+
+.gg-bench-work {
+  min-height: 0;
+}

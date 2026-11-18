@@ -1,0 +1,9 @@
+.gg-flash-word {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-primary);
+  min-width: var(--semantic-dimension-size-measure-x-small);
+}
+
+.gg-flash-word:empty {
+  display: none;
+}

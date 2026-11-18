@@ -1,0 +1,25 @@
+@media (prefers-reduced-motion: reduce) {
+  .gg-spinner,
+  .gg-veil-backdrop,
+  .gg-card,
+  .gg-rail[popover]:popover-open,
+  .gg-toasts .gg-toast {
+    animation: none;
+  }
+
+  .gg-railed,
+  .gg-railed > :is(.gg-rail, .gg-bench) {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :is(
+    [aria-pressed="true"],
+    [aria-current]:not([aria-current="false"]),
+    [aria-selected="true"]
+  ) {
+    outline: var(--semantic-dimension-border-width-default) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-default));
+  }
+}

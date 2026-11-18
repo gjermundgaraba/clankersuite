@@ -1,0 +1,62 @@
+.gg-places ul {
+  list-style: none;
+}
+
+.gg-places li {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-places li:last-child {
+  border-bottom: 0;
+}
+
+.gg-places li:not(:has(> [aria-current])):hover {
+  background-color: var(--semantic-color-background-head);
+}
+
+.gg-places li > :is(a, button) {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--semantic-dimension-size-row);
+  display: flex;
+  align-items: baseline;
+  gap: var(--semantic-dimension-space-gap-inline);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.gg-places li > :is(a, button):focus-visible {
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+}
+
+.gg-place-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gg-places li:has(> [aria-current]) {
+  background-color: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-places li:has(> [aria-current]) .gg-iconbtn.gg-quiet {
+  color: inherit;
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
+}
+
+.gg-places li:has(> [aria-current]) :focus-visible {
+  outline-color: var(--semantic-color-focus-ring-on-inverse-fill);
+}

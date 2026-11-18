@@ -1,0 +1,93 @@
+.gg-code-surface {
+  display: block;
+  width: 100%;
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-code
+    )
+    var(--semantic-font-family-code);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-head);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  padding: var(--semantic-dimension-space-padding-small)
+    var(--semantic-dimension-space-padding-medium);
+  resize: vertical;
+  min-height: var(--semantic-dimension-size-min-height-code-surface);
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+}
+
+pre.gg-code-surface {
+  min-height: 0;
+  margin: 0;
+  resize: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* syntax: the tok-* classes a highlighter prints (Lezer's classHighlighter names them so),
+   coloured from the code text tokens. Anything unnamed keeps the text's colour. */
+.tok-keyword {
+  color: var(--semantic-color-text-code-keyword);
+}
+
+.tok-string,
+.tok-string2,
+.tok-url {
+  color: var(--semantic-color-text-code-string);
+}
+
+.tok-number,
+.tok-bool,
+.tok-atom,
+.tok-literal {
+  color: var(--semantic-color-text-code-number);
+}
+
+.tok-definition,
+.tok-variableName2,
+.tok-macroName,
+.tok-link {
+  color: var(--semantic-color-text-code-function);
+}
+
+.tok-typeName,
+.tok-className,
+.tok-namespace {
+  color: var(--semantic-color-text-code-type);
+}
+
+.tok-comment,
+.tok-meta,
+.tok-punctuation {
+  color: var(--semantic-color-text-code-comment);
+}
+
+.tok-heading,
+.tok-strong {
+  font-weight: var(--semantic-font-weight-bold);
+}
+
+.tok-emphasis {
+  font-style: italic;
+}
+
+.tok-link {
+  text-decoration: underline;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}
+
+.tok-inserted {
+  color: var(--semantic-color-text-terminal-green);
+}
+
+.tok-deleted,
+.tok-invalid {
+  color: var(--semantic-color-text-terminal-red);
+}
+
+.tok-invalid {
+  text-decoration: underline dotted;
+}

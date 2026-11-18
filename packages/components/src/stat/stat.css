@@ -1,0 +1,57 @@
+.gg-stats {
+  display: grid;
+  grid-template-columns: repeat(var(--gg-cols, 4), minmax(0, 1fr));
+  overflow: clip;
+}
+
+.gg-stat {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  min-width: 0;
+  padding: var(--semantic-dimension-space-padding-large)
+    var(--semantic-dimension-space-padding-panel);
+  margin: 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    calc(-1 * var(--semantic-dimension-border-width-default)) 0;
+  border-right: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-stat > * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.gg-stat-value {
+  font-size: var(--semantic-dimension-font-size-figure);
+  line-height: var(--semantic-number-line-height-figure);
+  font-variant-numeric: tabular-nums;
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-stat-value.gg-unknown {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-stat:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 900px) {
+  .gg-stat-value {
+    font-size: var(--semantic-dimension-font-size-figure-narrow);
+  }
+}
+
+@media (max-width: 600px) {
+  .gg-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gg-stat {
+    padding: var(--semantic-dimension-space-padding-medium);
+  }
+}

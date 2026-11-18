@@ -1,0 +1,25 @@
+.gg-link-state {
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-link-state.gg-offline {
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+  color: var(--semantic-color-text-on-negative-fill);
+  background: var(--semantic-color-background-fill-negative);
+}
+
+.gg-link-state.gg-connecting {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-link-state.gg-reconnecting {
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+  color: var(--semantic-color-text-on-status-fill);
+  background: var(--semantic-color-background-fill-warning);
+}
+
+.gg-link-state .gg-spinner {
+  margin-left: var(--semantic-dimension-space-gap-xx-small);
+}

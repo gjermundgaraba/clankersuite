@@ -1,0 +1,29 @@
+.gg-stage {
+  position: fixed;
+  top: anchor(--gg-topbar bottom, 0px);
+  right: 0;
+  bottom: var(--gg-statusbar-h);
+  left: 0;
+  overflow: hidden;
+}
+
+.gg-stage-work,
+.gg-stage-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.gg-stage-paused {
+  position: absolute;
+  inset: 0;
+  z-index: var(--semantic-number-layer-paused);
+  display: grid;
+  place-items: center;
+  padding: var(--semantic-dimension-space-padding-xxx-large);
+  background: var(--semantic-color-background-backdrop);
+}
+
+.gg-stage-paused > .gg-notice {
+  width: min(var(--semantic-dimension-size-max-width-stage-notice), 100%);
+  box-shadow: var(--semantic-shadow-card);
+}
