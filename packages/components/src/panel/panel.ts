@@ -26,7 +26,7 @@ export type ViewConfig = Readonly<{
    *  bar they print in paper, flat, and ring in their own colour inside their edge. */
   actions?: ReadonlyArray<Html | string>;
   /** A strip on the head tint between the title bar and the body, for a field that picks what
-   *  the body shows (an area over its tasks). Its labels print in on-head. */
+   *  the body shows (an area over its tasks). Its labels print in secondary text. */
   shelf?: ReadonlyArray<Html | string>;
   body: ReadonlyArray<Html | string>;
   /** A ruled foot under the body: a note line, a time. */
