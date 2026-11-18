@@ -4,11 +4,11 @@ category: layout
 
 # Panel
 
-The unit of the system: a rounded surface with a 1px border, under an inverted title bar. It is a region landmark named by its `h2` title, or by `name` where its title repeats among its siblings.
+The unit of the system: a rounded surface with a 1px border, under a ruled title bar. It is a region landmark named by its `h2` title, or by `name` where its title repeats among its siblings.
 
 ## Title, meta, actions, body and foot
 
-A count or state sits at the title bar's right, then small Buttons and IconButtons, which print in the inverse colours on the bar. The foot is a ruled line under the body: a note in `foot`, then the buttons in `footActions`, pushed right.
+A count or state sits at the title bar's right, then small Buttons and IconButtons. The foot is a ruled line under the body: a note in `foot`, then the buttons in `footActions`, pushed right.
 
 ::Example{name="parts"}
 

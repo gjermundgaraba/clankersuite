@@ -9,7 +9,7 @@ import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
 export type ViewConfig<Message> = Readonly<{
-  /** The title, in the inverted title bar. */
+  /** The title, in the title bar. */
   title: string;
   /** Attributes for the title, such as a Dialog's `title` group, which names the dialog. */
   titleAttributes?: Attributes<Message>;
