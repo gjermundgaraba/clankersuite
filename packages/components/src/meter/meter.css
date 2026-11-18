@@ -1,27 +1,15 @@
-.gg-cells {
-  display: inline-flex;
-  gap: var(--semantic-dimension-space-gap-xxx-small);
-  padding: var(--semantic-dimension-space-control-padding-block-xx-small);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
-  background: var(--semantic-color-background-surface);
-  flex: none;
+.gg-meter-bar {
+  flex: 0 1 var(--semantic-dimension-size-meter-width);
+  height: var(--semantic-dimension-size-meter-height);
+  border-radius: var(--semantic-dimension-size-meter-height);
+  background: var(--semantic-color-border-divider);
+  overflow: hidden;
 }
 
-.gg-cells .gg-cell {
-  width: var(--semantic-dimension-size-meter-cell-width);
-  height: var(--semantic-dimension-size-meter-cell-height);
-  background: var(--semantic-color-background-head);
-}
-
-.gg-cells .gg-cell.gg-on {
+.gg-meter-fill {
+  display: block;
+  height: 100%;
   background: var(--semantic-color-background-fill-accent);
-}
-
-@media (max-width: 600px) {
-  .gg-cells:not(.gg-meters *) .gg-cell {
-    width: var(--semantic-dimension-size-meter-cell-narrow);
-  }
 }
 
 .gg-meters {
@@ -79,24 +67,6 @@
   }
 }
 
-@container meters (width < 280px) {
-  .gg-meters .gg-cells .gg-cell {
-    width: var(--semantic-dimension-size-meter-cell-narrow);
-  }
-}
-
-@container meters (width < 240px) {
-  .gg-meters .gg-cells .gg-cell {
-    width: var(--semantic-dimension-size-meter-cell-narrower);
-  }
-}
-
-@container meters (width < 200px) {
-  .gg-meters .gg-cells .gg-cell {
-    width: var(--semantic-dimension-size-meter-cell-narrowest);
-  }
-}
-
 .gg-meter-name {
   overflow-wrap: anywhere;
 }
@@ -108,15 +78,15 @@
   flex-wrap: wrap;
 }
 
-.gg-meter-row.gg-toned.gg-high:not(.gg-stale) .gg-cells .gg-cell.gg-on {
+.gg-meter-row.gg-toned.gg-high:not(.gg-stale) .gg-meter-fill {
   background: var(--semantic-color-background-fill-warning);
 }
 
-.gg-meter-row.gg-toned.gg-full:not(.gg-stale) .gg-cells .gg-cell.gg-on {
+.gg-meter-row.gg-toned.gg-full:not(.gg-stale) .gg-meter-fill {
   background: var(--semantic-color-background-fill-negative);
 }
 
-.gg-meter-row.gg-stale .gg-cells .gg-cell.gg-on {
+.gg-meter-row.gg-stale .gg-meter-fill {
   background: var(--semantic-color-background-fill-secondary);
 }
 

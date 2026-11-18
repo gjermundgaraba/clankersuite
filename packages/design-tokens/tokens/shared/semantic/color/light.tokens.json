@@ -93,7 +93,7 @@
         },
         "divider": {
           "$value": "{primitive.color.bone.150}",
-          "$description": "Lines that divide: rows, sections. Decorative, never the only cue for a control."
+          "$description": "Lines that divide: rows, sections; also a meter's empty track. Decorative, never the only cue for a control."
         },
         "negative": {
           "$value": "{primitive.color.red.600}",

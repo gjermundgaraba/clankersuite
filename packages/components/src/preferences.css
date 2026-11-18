@@ -44,4 +44,14 @@
     forced-color-adjust: none;
     background: Highlight;
   }
+
+  .gg-meter-bar {
+    outline: var(--semantic-dimension-border-width-default) solid CanvasText;
+  }
+
+  /* important, to win over the toned and stale fills too */
+  .gg-meter-fill {
+    forced-color-adjust: none;
+    background: CanvasText !important;
+  }
 }

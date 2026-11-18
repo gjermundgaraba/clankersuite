@@ -248,11 +248,8 @@
   --semantic-dimension-size-measure-x-small: var(--primitive-dimension-measure-6);
   --semantic-dimension-size-measure-xx-large: var(--primitive-dimension-measure-16);
   --semantic-dimension-size-measure-xx-small: var(--primitive-dimension-measure-4);
-  --semantic-dimension-size-meter-cell-height: var(--primitive-dimension-14);
-  --semantic-dimension-size-meter-cell-narrow: var(--primitive-dimension-8);
-  --semantic-dimension-size-meter-cell-narrower: var(--primitive-dimension-6);
-  --semantic-dimension-size-meter-cell-narrowest: var(--primitive-dimension-4);
-  --semantic-dimension-size-meter-cell-width: var(--primitive-dimension-10);
+  --semantic-dimension-size-meter-height: var(--primitive-dimension-6);
+  --semantic-dimension-size-meter-width: var(--primitive-dimension-160);
   --semantic-dimension-size-min-height-bench-head: var(--primitive-dimension-64);
   --semantic-dimension-size-min-height-bench-work: var(--primitive-dimension-152);
   --semantic-dimension-size-min-height-code-surface: var(--primitive-dimension-220);
