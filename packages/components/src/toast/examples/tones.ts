@@ -81,18 +81,18 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
           body: [
             Button.view(
               {
-                label: "archive",
+                label: "Archive",
                 glyph: "box",
                 onClick: Message.ClickedArchive(),
               },
               h
             ),
             Button.view(
-              { label: "sync", glyph: "sync", onClick: Message.ClickedSync() },
+              { label: "Sync", glyph: "sync", onClick: Message.ClickedSync() },
               h
             ),
             Button.view(
-              { label: "save", glyph: "save", onClick: Message.ClickedSave() },
+              { label: "Save", glyph: "save", onClick: Message.ClickedSave() },
               h
             ),
           ],

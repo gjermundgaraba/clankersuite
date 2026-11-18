@@ -15,7 +15,7 @@ describe("LinkState", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: stateView("Reconnecting") },
       Scene.given(null),
-      Scene.expect(status).toHaveText("reconnecting"),
+      Scene.expect(status).toHaveText("Reconnecting"),
       Scene.expect(status).toHaveClass("gg-reconnecting")
     );
   });
@@ -24,7 +24,7 @@ describe("LinkState", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: stateView("Online") },
       Scene.given(null),
-      Scene.expect(status).toHaveText("online"),
+      Scene.expect(status).toHaveText("Online"),
       Scene.expect(status).not.toHaveClass("gg-offline")
     );
     Scene.scene(

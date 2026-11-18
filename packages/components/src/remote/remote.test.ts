@@ -53,7 +53,7 @@ describe("Remote", () => {
     Scene.scene(
       { update, view },
       given(AsyncData.Loading()),
-      Scene.expect(Scene.role("status")).toHaveText("loading usage"),
+      Scene.expect(Scene.role("status")).toHaveText("Loading usage"),
       Scene.expect(Scene.selector(".gg-notice")).toBeAbsent(),
       Scene.expect(Scene.selector(".data")).toBeAbsent()
     );
@@ -87,10 +87,10 @@ describe("Remote", () => {
         "The server did not answer."
       ),
       Scene.expect(Scene.selector(".data")).toBeAbsent(),
-      Scene.click(Scene.role("button", { name: "retry" })),
+      Scene.click(Scene.role("button", { name: "Retry" })),
       Scene.expect(Scene.selector(".retries")).toHaveText("1"),
       Scene.expect(Scene.role("alert")).toBeAbsent(),
-      Scene.expect(Scene.selector("#usage")).toHaveText("loading usage")
+      Scene.expect(Scene.selector("#usage")).toHaveText("Loading usage")
     );
   });
 
@@ -103,7 +103,7 @@ describe("Remote", () => {
       ),
       Scene.expect(Scene.role("alert")).toBeAbsent(),
       Scene.expect(Scene.selector(".data")).toHaveText("300 requests"),
-      Scene.click(Scene.role("button", { name: "retry" })),
+      Scene.click(Scene.role("button", { name: "Retry" })),
       Scene.expect(Scene.selector(".retries")).toHaveText("1")
     );
   });

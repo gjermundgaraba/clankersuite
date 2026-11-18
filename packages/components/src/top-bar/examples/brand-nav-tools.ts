@@ -35,8 +35,8 @@ export const view = (_model: Model, h: HtmlBuilder<Message>): Html =>
           {
             label: "Sections",
             items: [
-              { href: "#queue", label: "queue", count: 3, isCurrent: true },
-              { href: "#done", label: "done" },
+              { href: "#queue", label: "Queue", count: 3, isCurrent: true },
+              { href: "#done", label: "Done" },
             ],
           },
           h

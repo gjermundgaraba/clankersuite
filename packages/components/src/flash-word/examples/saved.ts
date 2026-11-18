@@ -43,7 +43,7 @@ export const update = (model: Model, message: Message) =>
 
       return {
         model: modifyFields(model, {
-          maybeSavedWord: () => Option.some("saved"),
+          maybeSavedWord: () => Option.some("Saved"),
           savedCount: () => nextSavedCount,
         }),
         commands: [WaitBeforeClearFlashWord({ count: nextSavedCount })],
@@ -62,7 +62,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
     {
       body: [
         Button.view(
-          { label: "save", isSmall: true, onClick: Message.ClickedSave() },
+          { label: "Save", isSmall: true, onClick: Message.ClickedSave() },
           h
         ),
         FlashWord.view({ maybeWord: model.maybeSavedWord }, h),

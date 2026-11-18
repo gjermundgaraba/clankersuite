@@ -9,7 +9,7 @@ describe("the reveal example", () => {
     Scene.scene(
       { update, view },
       Scene.given(init().model),
-      Scene.click(Scene.role("button", { name: "add a note" })),
+      Scene.click(Scene.role("button", { name: "Add a note" })),
       Scene.Command.expectExact(Focus.Focus({ id: NOTE_ID })),
       Scene.Command.resolve(Focus.Focus, Message.CompletedFocus()),
       Scene.expect(Scene.label("Note")).toExist()

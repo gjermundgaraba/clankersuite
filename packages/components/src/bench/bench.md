@@ -15,7 +15,7 @@ Bench.view(
   {
     head: [
       openButton,
-      PageHead.view({ title: "Write the brief", meta: "in progress" }, h),
+      PageHead.view({ title: "Write the brief", meta: "In progress" }, h),
       Notice.view({ title: "Behind main", body: ["Two commits landed on main."] }, h),
     ],
     body: [

@@ -17,7 +17,7 @@ describe("the saved example", () => {
       Story.given(init().model),
       Story.message(Message.ClickedSave()),
       Story.Command.expectExact(WaitBeforeClearFlashWord({ count: 1 })),
-      wordIs(Option.some("saved")),
+      wordIs(Option.some("Saved")),
       Story.Command.resolve(
         WaitBeforeClearFlashWord,
         Message.CompletedWaitBeforeClearFlashWord({ count: 1 })
@@ -36,7 +36,7 @@ describe("the saved example", () => {
       update,
       Story.given(savedTwice.model),
       Story.message(Message.CompletedWaitBeforeClearFlashWord({ count: 1 })),
-      wordIs(Option.some("saved"))
+      wordIs(Option.some("Saved"))
     );
   });
 });

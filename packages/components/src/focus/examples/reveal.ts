@@ -54,7 +54,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           body: [
             Button.view(
               {
-                label: "add a note",
+                label: "Add a note",
                 glyph: "plus",
                 onClick: Message.ClickedAddNote(),
               },

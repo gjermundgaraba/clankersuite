@@ -66,7 +66,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             body: [
               Button.view(
                 {
-                  label: "commands",
+                  label: "Commands",
                   keyHint: { keys: "Mod+K", platform: model.platform },
                 },
                 h

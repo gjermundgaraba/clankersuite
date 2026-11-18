@@ -77,7 +77,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       isBusy: model.isSending,
       isSubmitDisabled: String.isEmpty(String.trim(model.email)),
       onSubmit: Message.SubmittedInvite(),
-      submit: "send invite",
+      submit: "Send invite",
       notices: Option.match(model.maybeSentTo, {
         onNone: () => [],
         onSome: (email) => [

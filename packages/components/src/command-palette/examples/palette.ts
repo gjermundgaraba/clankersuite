@@ -78,7 +78,7 @@ const statusPage = (current: string): CommandPalette.Page => ({
 const movePage = (current: string): CommandPalette.Page => ({
   title: "Move to",
   current,
-  find: "type a place",
+  find: "Type a place",
   choices: [
     { id: "projects", label: "Projects", glyph: "folder", level: 1 },
     {
@@ -319,8 +319,8 @@ const refusalView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
 
 const summary = (model: Model): string =>
   Option.match(model.maybeLastRun, {
-    onNone: () => `status ${model.status}, in ${model.place}`,
-    onSome: (id) => `ran ${id}; status ${model.status}, in ${model.place}`,
+    onNone: () => `Status ${model.status}, in ${model.place}`,
+    onSome: (id) => `Ran ${id}; status ${model.status}, in ${model.place}`,
   });
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
@@ -351,7 +351,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
                 body: [
                   Button.view(
                     {
-                      label: "commands",
+                      label: "Commands",
                       glyph: "search",
                       keyHint: { keys: PALETTE_KEYS, platform: model.platform },
                       onClick: Message.ClickedOpen(),
@@ -359,7 +359,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
                     h
                   ),
                   Button.view(
-                    { label: "status", onClick: Message.ClickedOpenStatus() },
+                    { label: "Status", onClick: Message.ClickedOpenStatus() },
                     h
                   ),
                 ],

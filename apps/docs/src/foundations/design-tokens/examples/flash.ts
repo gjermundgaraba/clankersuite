@@ -49,7 +49,7 @@ export const view = (_model: Model, h: HtmlBuilder<Message>): Html =>
           actions: [
             Button.view(
               {
-                label: "commit",
+                label: "Commit",
                 isSmall: true,
                 onClick: Message.ClickedCommit(),
               },

@@ -5,11 +5,11 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Wrap.view(
     {
       body: [
-        Chip.dotView({ label: "draft" }, h),
-        Chip.dotView({ label: "live", tone: "Go" }, h),
-        Chip.dotView({ label: "late", tone: "Warn" }, h),
-        Chip.dotView({ label: "blocked", tone: "Blocked" }, h),
-        Chip.dotView({ label: "done", tone: "Done" }, h),
+        Chip.dotView({ label: "Draft" }, h),
+        Chip.dotView({ label: "Live", tone: "Go" }, h),
+        Chip.dotView({ label: "Late", tone: "Warn" }, h),
+        Chip.dotView({ label: "Blocked", tone: "Blocked" }, h),
+        Chip.dotView({ label: "Done", tone: "Done" }, h),
       ],
     },
     h

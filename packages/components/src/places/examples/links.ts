@@ -5,7 +5,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Panel.view(
     {
       id: "places-collections",
-      title: "collections",
+      title: "Collections",
       isFlush: true,
       body: [
         Places.view(

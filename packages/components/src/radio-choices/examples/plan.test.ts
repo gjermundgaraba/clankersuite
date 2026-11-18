@@ -4,8 +4,8 @@ import { describe, it } from "vite-plus/test";
 
 import { init, update, view } from "./plan.ts";
 
-const monthly = Scene.role("radio", { name: "monthly" });
-const yearly = Scene.role("radio", { name: "yearly" });
+const monthly = Scene.role("radio", { name: "Monthly" });
+const yearly = Scene.role("radio", { name: "Yearly" });
 
 const focusOption = Scene.Command.resolve(
   UiRadioGroup.FocusOption,

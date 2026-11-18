@@ -195,7 +195,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         areaToggleView(model, h),
         ...Option.toArray(
           Option.map(model.maybeLastMade, (id) =>
-            h.span([], [`new ${id} in ${model.area.title}`])
+            h.span([], [`New ${id} in ${model.area.title}`])
           )
         ),
       ],

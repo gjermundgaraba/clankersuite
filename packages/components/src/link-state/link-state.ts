@@ -1,4 +1,4 @@
-import { Match, Schema } from "effect";
+import { Schema } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** `Connecting`: the first reach, muted and working. `Reconnecting`: the link dropped and is
@@ -11,16 +11,6 @@ export const State = Schema.Literals([
 ]);
 
 export type State = typeof State.Type;
-
-const stateWord = (state: State): string =>
-  Match.value(state).pipe(
-    Match.withReturnType<string>(),
-    Match.when("Online", () => "online"),
-    Match.when("Connecting", () => "connecting"),
-    Match.when("Reconnecting", () => "reconnecting"),
-    Match.when("Offline", () => "offline"),
-    Match.exhaustive
-  );
 
 /** Configuration for rendering a connection word with `view`. */
 export type ViewConfig = Readonly<{
@@ -35,14 +25,14 @@ export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { state, label = stateWord(state) } = config;
+  const { state, label = state } = config;
   const isWorking = state === "Connecting" || state === "Reconnecting";
 
   return h.span(
     [
       h.Role("status"),
       h.Class(
-        `gg-link-state${state === "Online" ? "" : ` gg-${stateWord(state)}`}`
+        `gg-link-state${state === "Online" ? "" : ` gg-${state.toLowerCase()}`}`
       ),
     ],
     [

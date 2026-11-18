@@ -27,10 +27,10 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   QueryChip.view(
     {
       id: "query-chip-find",
-      label: "find",
+      label: "Find",
       value: model.query,
       onInput: (value) => Message.UpdatedQuery({ value }),
-      placeholder: "words in a title",
+      placeholder: "Words in a title",
     },
     h
   );

@@ -18,11 +18,11 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                 ]
               ),
             ],
-            lead: [Button.view({ label: "choose files", isSmall: true }, h)],
+            lead: [Button.view({ label: "Choose files", isSmall: true }, h)],
             actions: [
-              Button.view({ label: "cancel" }, h),
+              Button.view({ label: "Cancel" }, h),
               Button.view(
-                { label: "export", variant: "Primary", isDefault: true },
+                { label: "Export", variant: "Primary", isDefault: true },
                 h
               ),
             ],
@@ -36,7 +36,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             body: [h.p([], ["Your session ended on this device."])],
             actions: [
               Button.view(
-                { label: "sign in", variant: "Primary", isDefault: true },
+                { label: "Sign in", variant: "Primary", isDefault: true },
                 h
               ),
             ],

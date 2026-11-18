@@ -19,8 +19,8 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Stack.view(
     {
       body: [
-        atRestThenBusy({ label: "save", variant: "Primary" }, h),
-        atRestThenBusy({ label: "retry", isSmall: true }, h),
+        atRestThenBusy({ label: "Save", variant: "Primary" }, h),
+        atRestThenBusy({ label: "Retry", isSmall: true }, h),
       ],
     },
     h

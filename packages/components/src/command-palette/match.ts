@@ -30,7 +30,7 @@ export type Page = Readonly<{
   /** The page's name, in the head after Back (`"Status"`, `"Move to"`). */
   title: string;
   choices: readonly Choice[];
-  /** The field's placeholder; `"type to narrow"` when not given. */
+  /** The field's placeholder; `"Type to narrow"` when not given. */
   find?: string;
   /** The choice in force now: tagged current, and not picked again. */
   current?: string;

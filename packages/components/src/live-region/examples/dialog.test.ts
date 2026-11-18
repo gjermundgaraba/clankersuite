@@ -25,7 +25,7 @@ describe("the dialog example", () => {
       { update, view },
       Scene.given(init().model),
       Scene.Mount.resolveAll(...Toast.sceneMounts),
-      Scene.click(Scene.role("button", { name: "settings" })),
+      Scene.click(Scene.role("button", { name: "Settings" })),
       Scene.Command.resolve(
         UiDialog.ShowDialog,
         UiDialog.Message.SucceededShowDialog()
@@ -34,7 +34,7 @@ describe("the dialog example", () => {
       Scene.expectAll(regions).toHaveCount(1),
       Scene.expect(Scene.selector("dialog [data-gg-announcer]")).toExist(),
       Scene.expect(Scene.selector("dialog .gg-toasts")).toExist(),
-      Scene.click(Scene.role("button", { name: "close" })),
+      Scene.click(Scene.role("button", { name: "Close" })),
       Scene.Command.resolve(
         UiDialog.CloseDialog,
         UiDialog.Message.CompletedCloseDialog()

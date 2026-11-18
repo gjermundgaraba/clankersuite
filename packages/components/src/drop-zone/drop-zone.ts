@@ -102,7 +102,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ...toStatusView(),
           h.label(
             [h.Class("gg-btn gg-small")],
-            ["choose files", h.input(groups.input)]
+            ["Choose files", h.input(groups.input)]
           ),
         ]
       );

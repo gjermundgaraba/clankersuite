@@ -27,12 +27,12 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Window.view(
     {
       id: "window-machine",
-      title: "build machine",
+      title: "Build machine",
       glyph: "machine",
       status: [
         model.isRunning
-          ? Chip.view({ label: "running", tone: "Go" }, h)
-          : Chip.view({ label: "starting", isBusy: true }, h),
+          ? Chip.view({ label: "Running", tone: "Go" }, h)
+          : Chip.view({ label: "Starting", isBusy: true }, h),
       ],
       tools: [
         IconButton.view(

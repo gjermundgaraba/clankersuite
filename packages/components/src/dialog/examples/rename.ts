@@ -172,8 +172,8 @@ const renameCardView = (
       isSubmitDisabled: Option.isNone(maybeNewName(model)),
       onSubmit: Message.SubmittedRename(),
       actionBarAttributes: render.actionBar,
-      cancel: "cancel",
-      submit: "save",
+      cancel: "Cancel",
+      submit: "Save",
       body: [
         Field.view(
           {
@@ -208,7 +208,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
             h.span([], [model.fileName]),
             Button.view(
               {
-                label: "rename",
+                label: "Rename",
                 glyph: "pencil",
                 onClick: Message.ClickedRename(),
               },

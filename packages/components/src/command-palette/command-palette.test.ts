@@ -1668,12 +1668,12 @@ describe("CommandPalette view", () => {
       Scene.expect(Scene.role("button", { name: "Back" })).toExist(),
       Scene.expect(Scene.selector(".gg-palette-title")).toHaveText("Status"),
       Scene.expect(field).toHaveAttr("aria-label", "Status"),
-      Scene.expect(field).toHaveAttr("placeholder", "type to narrow"),
+      Scene.expect(field).toHaveAttr("placeholder", "Type to narrow"),
       Scene.expect(rowOf("In progress")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("To do")).toHaveAttr("aria-disabled", "true"),
       Scene.expect(
         Scene.selector('[data-gg-palette-value="todo"] .gg-tag')
-      ).toHaveText("current"),
+      ).toHaveText("Current"),
       Scene.click(rowOf("Done")),
       Scene.expectOutMessage(
         CommandPalette.OutMessage.SelectedChoice({
@@ -1766,7 +1766,7 @@ describe("CommandPalette view", () => {
       Scene.given(nothingFound),
       ...mountPalette,
       Scene.expect(Scene.selector(".gg-palette-list")).toContainText(
-        "nothing matches"
+        "Nothing matches"
       ),
       Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText(
         "Nothing matches."

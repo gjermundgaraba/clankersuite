@@ -144,7 +144,7 @@ try {
 
   await page.goto(`${base}/components/button`);
   await page.waitForTimeout(MOUNT);
-  const send = page.getByRole("button", { name: "send" });
+  const send = page.getByRole("button", { name: "Send" });
   await send.click();
   await page.waitForTimeout(RENDER);
 
