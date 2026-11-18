@@ -21,12 +21,6 @@
           "unit": "s"
         }
       },
-      "1200": {
-        "$value": {
-          "value": 1.2,
-          "unit": "s"
-        }
-      },
       "$type": "duration"
     }
   }

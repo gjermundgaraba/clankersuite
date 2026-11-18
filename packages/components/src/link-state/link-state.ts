@@ -30,7 +30,7 @@ export type ViewConfig = Readonly<{
 }>;
 
 /** The connection word, in a top bar or a status bar. It is a status (`role="status"`), so a
- *  change of state is read out; while it connects it prints the working cursor. */
+ *  change of state is read out; while it connects it prints a spinner. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
@@ -48,7 +48,7 @@ export const view = <Message>(
     [
       label,
       ...(isWorking
-        ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
+        ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
         : []),
     ]
   );

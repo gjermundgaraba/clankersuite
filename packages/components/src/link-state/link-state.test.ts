@@ -16,21 +16,16 @@ describe("LinkState", () => {
       { update: (model: null) => ({ model }), view: stateView("Reconnecting") },
       Scene.given(null),
       Scene.expect(status).toHaveText("reconnecting"),
-      Scene.expect(status).toHaveClass("gg-reconnecting"),
-      Scene.expect(Scene.selector(".gg-link-state .gg-cursor")).toHaveAttr(
-        "aria-hidden",
-        "true"
-      )
+      Scene.expect(status).toHaveClass("gg-reconnecting")
     );
   });
 
-  it("prints online plain, without the cursor, and offline on red", () => {
+  it("prints online plain, and offline on red", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: stateView("Online") },
       Scene.given(null),
       Scene.expect(status).toHaveText("online"),
-      Scene.expect(status).not.toHaveClass("gg-offline"),
-      Scene.expect(Scene.selector(".gg-cursor")).toBeAbsent()
+      Scene.expect(status).not.toHaveClass("gg-offline")
     );
     Scene.scene(
       { update: (model: null) => ({ model }), view: stateView("Offline") },

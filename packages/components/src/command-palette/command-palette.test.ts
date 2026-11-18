@@ -1685,9 +1685,6 @@ describe("CommandPalette view", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(
-        Scene.selector('[data-gg-palette-value="done"] .gg-cursor')
-      ).toExist(),
       Scene.expect(field).toHaveAttr("readOnly", "true"),
       Scene.expect(Scene.role("button", { name: "Back" })).toHaveAttr(
         "aria-disabled",

@@ -226,7 +226,7 @@ describe("ConfirmDialog view", () => {
     );
   });
 
-  it("holds a blocked action without the working cursor, in the keyboard, cancel live", () => {
+  it("holds a blocked action without saying it is busy, in the keyboard, cancel live", () => {
     Scene.scene(
       { update, view: view(true, { isDisabled: true }) },
       Scene.given(openModel),
@@ -241,7 +241,9 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "delete" })).not.toHaveHandler(
         "click"
       ),
-      Scene.expect(Scene.selector(".gg-btn.gg-danger .gg-cursor")).toBeAbsent(),
+      Scene.expect(Scene.role("button", { name: "delete" })).not.toHaveAttr(
+        "aria-busy"
+      ),
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveHandler(
         "click"
       )
@@ -285,16 +287,16 @@ describe("ConfirmDialog view", () => {
       Scene.expect(Scene.role("button", { name: "cancel" })).toHaveAttr(
         INITIAL_FOCUS_ATTRIBUTE
       ),
-      Scene.expect(
-        Scene.selector(".gg-btn:not(.gg-danger) .gg-cursor")
-      ).toBeAbsent(),
+      Scene.expect(Scene.role("button", { name: "cancel" })).not.toHaveAttr(
+        "aria-busy"
+      ),
       Scene.click(Scene.selector(".gg-veil-backdrop")),
       Scene.expect(events).toHaveText(""),
       Scene.expect(Scene.selector(".gg-veil-backdrop")).toExist()
     );
   });
 
-  it("prints the working cursor while busy", () => {
+  it("says the confirming button is busy while its work runs", () => {
     Scene.scene(
       { update, view: view(true, { isBusy: true }) },
       Scene.given(openModel),
@@ -303,7 +305,10 @@ describe("ConfirmDialog view", () => {
         "aria-disabled",
         "true"
       ),
-      Scene.expect(Scene.selector(".gg-btn.gg-danger .gg-cursor")).toExist()
+      Scene.expect(Scene.role("button", { name: "delete" })).toHaveAttr(
+        "aria-busy",
+        "true"
+      )
     );
   });
 

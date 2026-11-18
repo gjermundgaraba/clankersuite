@@ -91,7 +91,7 @@ export type Model = typeof Model.Type;
 
 /** Union of OutMessages a command palette reports. `SelectedCommand`: run this command; the
  *  palette has closed first, so what it opens takes focus. `SelectedChoice`: apply this choice
- *  of that command's page; the page holds, the row printing the working cursor, until the
+ *  of that command's page; the page holds, the row printing a spinner, until the
  *  caller reports back with `pickSucceeded` or `pickFailed`. `Closed`: the reader dismissed
  *  the palette (Escape, a press on the veil), even while a pick was out; a write already
  *  running keeps running, and its answer no longer changes the palette. */
@@ -836,7 +836,7 @@ const rowPartsView = (
       ]
     ),
     ...(Option.contains(model.maybePicking, row.id)
-      ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
+      ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
       : []),
     ...(isCurrentRow(shown, row)
       ? [h.span([h.Class("gg-tag")], ["current"])]

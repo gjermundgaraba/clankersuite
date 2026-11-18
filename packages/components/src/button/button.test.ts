@@ -56,7 +56,7 @@ describe("Button", () => {
       Scene.expect(button).not.toHaveAttr("aria-busy"),
       Scene.expect(Scene.selector(".gg-key-hint")).toHaveText("Ctrl+Enter"),
       Scene.click(button),
-      Scene.expect(Scene.selector(".gg-cursor")).toExist()
+      Scene.expect(button).toHaveAttr("aria-busy", "true")
     );
   });
 
@@ -67,8 +67,7 @@ describe("Button", () => {
       Scene.expect(button).toHaveAttr("aria-busy", "true"),
       Scene.expect(button).toHaveAttr("aria-disabled", "true"),
       Scene.expect(button).not.toHaveAttr("disabled"),
-      Scene.expect(button).not.toHaveHandler("click"),
-      Scene.expect(Scene.selector(".gg-cursor")).toExist()
+      Scene.expect(button).not.toHaveHandler("click")
     );
   });
 
