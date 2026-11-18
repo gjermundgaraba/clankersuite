@@ -1,0 +1,21 @@
+@media (max-width: 600px) {
+  .gg-deck {
+    padding: var(--semantic-dimension-space-padding-xx-large)
+      var(--semantic-dimension-space-padding-medium)
+      var(--semantic-dimension-space-padding-page-end-narrow);
+  }
+}
+
+.gg-deck {
+  max-width: var(--semantic-dimension-size-max-width-deck);
+  margin: 0 auto;
+  padding: var(--semantic-dimension-space-gap-surface)
+    var(--semantic-dimension-space-padding-xx-large)
+    var(--semantic-dimension-space-padding-page-end-default);
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-surface);
+}
+
+.gg-deck > * {
+  min-width: 0;
+}

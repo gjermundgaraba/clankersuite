@@ -1,0 +1,6 @@
+.gg-stack {
+  display: grid;
+  align-content: start;
+  gap: var(--semantic-dimension-space-gap-body);
+  min-width: 0;
+}

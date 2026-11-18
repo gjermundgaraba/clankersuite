@@ -1,0 +1,9 @@
+.gg-field-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--semantic-dimension-size-min-width-field-grid), 1fr)
+  );
+  gap: var(--semantic-dimension-space-gap-large)
+    var(--semantic-dimension-space-gap-xx-large);
+}

@@ -1,0 +1,119 @@
+.gg-field :is(input, textarea):disabled,
+.gg-field.gg-boxed :is(input, textarea):disabled,
+select:disabled {
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-field:not(.gg-boxed) :is(input, textarea):disabled {
+  border-bottom-color: transparent;
+}
+
+.gg-field > label:not(.gg-choice),
+.gg-field-label {
+  display: block;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  margin-bottom: var(--semantic-dimension-space-gap-xx-small);
+}
+
+.gg-field input,
+.gg-field textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  border: none;
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
+    var(--semantic-color-border-primary);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  border-radius: var(--semantic-dimension-radius-control);
+}
+
+.gg-field textarea {
+  resize: vertical;
+  field-sizing: content;
+  min-height: var(--semantic-dimension-size-min-height-textarea);
+  font: var(--semantic-dimension-font-size-body)/var(
+      --semantic-number-line-height-textarea
+    )
+    var(--semantic-font-family-ui);
+}
+
+.gg-field input:focus-visible,
+.gg-field textarea:focus-visible {
+  outline: none;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  padding-bottom: var(
+    --semantic-dimension-space-control-padding-block-xxx-small
+  );
+}
+
+.gg-field input[aria-invalid="true"],
+.gg-field textarea[aria-invalid="true"] {
+  border-bottom-color: var(--semantic-color-border-negative);
+}
+
+.gg-field:has([aria-invalid="true"]) > label {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-field .gg-field-help,
+.gg-field .gg-field-error {
+  margin-top: var(--semantic-dimension-space-gap-xx-small);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
+    var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-field .gg-field-error {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-field.gg-boxed input,
+.gg-field.gg-boxed textarea {
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-small);
+}
+
+.gg-field.gg-boxed input:focus-visible,
+.gg-field.gg-boxed textarea:focus-visible {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
+}
+
+.gg-field.gg-boxed :is(input, textarea)[aria-invalid="true"] {
+  border-color: var(--semantic-color-border-negative);
+  padding-bottom: var(--semantic-dimension-space-control-padding-block-medium);
+}
+
+.gg-field.gg-boxed .gg-password > input {
+  padding-right: var(
+    --semantic-dimension-space-control-padding-inline-trailing-button
+  );
+}
+
+.gg-field.gg-boxed input[type="date"] {
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-field.gg-mono input,
+.gg-field.gg-mono textarea {
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
+}

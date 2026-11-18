@@ -6,7 +6,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { byId } from "../test/fixture.ts";
 import * as Rail from "./rail.ts";
 
-import STYLESHEET from "../components.css?raw";
+import STYLESHEET from "./rail.css?raw";
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const fresh = Rail.init({ id: "collections" });

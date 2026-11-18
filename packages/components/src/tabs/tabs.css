@@ -1,0 +1,5 @@
+.gg-nav.gg-tabs button {
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  font-size: var(--semantic-dimension-font-size-label);
+}

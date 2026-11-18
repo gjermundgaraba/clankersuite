@@ -1,0 +1,74 @@
+.gg-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--semantic-dimension-space-gap-medium);
+  padding: var(--semantic-dimension-space-control-padding-block-large) 0;
+  cursor: pointer;
+}
+
+button.gg-choice {
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+}
+
+.gg-choice .gg-choice-name {
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-choice .gg-choice-note {
+  display: block;
+  color: var(--semantic-color-text-secondary);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
+    var(--semantic-font-family-ui);
+}
+
+.gg-choice-box {
+  appearance: none;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  margin-top: var(--semantic-dimension-space-gap-xxx-small);
+  padding: 0;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  cursor: pointer;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+}
+
+.gg-choice-box::before {
+  content: "";
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
+}
+
+.gg-choice[role="radio"] > .gg-choice-box::before {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  width: var(--semantic-dimension-size-radio-mark);
+  height: var(--semantic-dimension-size-radio-mark);
+}
+
+.gg-choice-box[aria-checked="true"]::before,
+.gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
+  background: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-choice-box[aria-disabled="true"],
+.gg-choice[role="radio"][aria-disabled="true"] > .gg-choice-box {
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-choice:has(> .gg-choice-box[aria-disabled="true"]),
+.gg-choice[role="radio"][aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}

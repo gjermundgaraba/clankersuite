@@ -1,0 +1,37 @@
+.gg-fchip.gg-query {
+  cursor: text;
+  isolation: isolate;
+}
+
+.gg-fchip.gg-query.gg-live {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-fchip.gg-query input {
+  position: relative;
+  z-index: var(--semantic-number-layer-raised);
+  font: var(--semantic-dimension-font-size-control)
+    var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-primary);
+  background: none;
+  border: 0;
+  padding: 0;
+  width: var(--semantic-dimension-size-measure-large);
+  field-sizing: content;
+  min-width: var(--semantic-dimension-size-measure-small);
+  max-width: var(--semantic-dimension-size-measure-query);
+}
+
+.gg-fchip.gg-query input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.gg-fchip.gg-query input:focus-visible {
+  outline: none;
+}
+
+.gg-fchip.gg-query:focus-within {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}

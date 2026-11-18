@@ -1,0 +1,13 @@
+.gg-meta {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-note-line {
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
+    var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-secondary);
+  max-width: var(--semantic-dimension-size-measure-note);
+}

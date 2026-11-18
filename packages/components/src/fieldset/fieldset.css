@@ -1,0 +1,3 @@
+.gg-field:has([aria-invalid="true"]) > legend {
+  color: var(--semantic-color-text-negative);
+}

@@ -1,0 +1,30 @@
+.gg-crumbs ol {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--semantic-dimension-space-gap-xxx-small) 0;
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-crumbs li + li::before {
+  content: "/";
+  margin: 0 var(--semantic-dimension-space-gap-small);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-crumbs a {
+  color: var(--semantic-color-text-secondary);
+  text-decoration: none;
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
+    transparent;
+}
+
+.gg-crumbs a:hover {
+  color: var(--semantic-color-text-primary);
+  border-bottom-color: var(--semantic-color-border-primary);
+}
+
+.gg-crumbs [aria-current="page"] {
+  color: var(--semantic-color-text-primary);
+}

@@ -1,0 +1,69 @@
+.gg-props {
+  display: grid;
+  grid-template-columns: max-content minmax(0, max-content) minmax(
+      max-content,
+      1fr
+    );
+  align-items: stretch;
+}
+
+.gg-props > div {
+  display: contents;
+}
+
+.gg-props dt,
+.gg-props dd {
+  padding: var(--semantic-dimension-space-control-padding-block-x-large) 0;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  min-height: var(--semantic-dimension-size-row);
+  display: flex;
+  align-items: center;
+}
+
+.gg-props dt {
+  padding-right: var(
+    --semantic-dimension-space-control-padding-inline-xx-large
+  );
+}
+
+.gg-props dd.gg-acts {
+  padding-left: var(--semantic-dimension-space-control-padding-inline-xx-large);
+}
+
+.gg-props > div:last-child dt,
+.gg-props > div:last-child dd {
+  border-bottom: 0;
+}
+
+.gg-props dt {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-props dd {
+  min-width: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .gg-props {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .gg-props dt {
+    grid-column: 1 / -1;
+    min-height: 0;
+    padding: var(--semantic-dimension-space-control-padding-block-xx-large) 0 0;
+    border-bottom: 0;
+  }
+}
+
+.gg-props dd code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--semantic-color-background-head);
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+}

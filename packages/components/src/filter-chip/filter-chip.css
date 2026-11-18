@@ -1,0 +1,50 @@
+.gg-fchip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  min-height: var(--semantic-dimension-size-chip);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small)
+    var(--semantic-dimension-space-control-padding-inline-small);
+  flex: none;
+  cursor: default;
+}
+
+button.gg-fchip {
+  cursor: pointer;
+}
+
+button.gg-fchip:not([aria-pressed="true"]):hover {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-fchip .gg-fchip-name {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-fchip.gg-pinned,
+.gg-fchip[aria-pressed="true"] {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-fchip.gg-pinned .gg-fchip-name,
+.gg-fchip[aria-pressed="true"] .gg-fchip-name {
+  color: inherit;
+}
+
+.gg-fchip.gg-reset {
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
+}
+
+.gg-fchip.gg-reset:hover {
+  color: var(--semantic-color-text-primary);
+  border-color: var(--semantic-color-border-primary);
+}

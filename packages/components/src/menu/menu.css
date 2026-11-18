@@ -1,0 +1,113 @@
+/* hung under its toggle by @foldkit/ui's Anchor, which positions it and flips it near the
+   window edge, in the page's top layer (inside the open dialog when there is one). Anchor
+   writes left and top for an absolute box (fixed it sets itself, under a fixed toggle), so
+   the slip is absolute: in the page's flow it would ignore them. It paints over the sticky
+   bars (40), under the skip link (300) */
+.gg-menu {
+  position: absolute;
+  z-index: var(--semantic-number-layer-menu);
+  min-width: var(--semantic-dimension-size-min-width-menu);
+  max-width: calc(
+    100vw - var(--semantic-dimension-space-viewport-gutter-small)
+  );
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  box-shadow: var(--semantic-shadow-card);
+}
+
+.gg-menu-wrap {
+  display: inline-flex;
+  position: relative;
+}
+
+.gg-menu [role^="menuitem"] {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-medium);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  text-align: left;
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  border: 0;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  padding: var(--semantic-dimension-space-control-padding-block-x-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gg-menu > [role^="menuitem"]:last-child,
+.gg-menu > [role="group"]:last-child > [role^="menuitem"]:last-child {
+  border-bottom: 0;
+}
+
+.gg-menu [role^="menuitem"]:not([aria-disabled="true"]):hover {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-menu [role^="menuitem"][aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}
+
+.gg-menu [role="menuitemradio"][aria-checked="true"] {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-menu .gg-menu-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gg-menu .gg-key-hint {
+  font-family: inherit;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-menu [role="menuitemradio"][aria-checked="true"] .gg-key-hint {
+  color: inherit;
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
+}
+
+.gg-menu .gg-menu-check {
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+}
+
+.gg-menu .gg-menu-check::before {
+  content: "";
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
+}
+
+.gg-menu [aria-checked="true"] .gg-menu-check::before {
+  background: var(--semantic-color-background-fill-inverse);
+}
+
+.gg-menu .gg-menu-note {
+  display: block;
+  padding: var(--semantic-dimension-space-control-padding-block-x-large)
+    var(--semantic-dimension-space-control-padding-inline-large);
+  font-size: var(--semantic-dimension-font-size-control);
+  line-height: var(--semantic-number-line-height-body);
+  white-space: nowrap;
+  color: var(--semantic-color-text-secondary);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}

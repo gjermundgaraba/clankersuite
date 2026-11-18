@@ -1,0 +1,19 @@
+.gg-textbtn {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  background: none;
+  border: 0;
+  color: var(--semantic-color-text-primary);
+  cursor: pointer;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-small) 0;
+  border-bottom: var(--semantic-dimension-border-width-default) dotted
+    transparent;
+}
+
+a.gg-textbtn {
+  text-decoration: none;
+}
+
+.gg-textbtn:hover {
+  border-bottom-color: var(--semantic-color-border-primary);
+}

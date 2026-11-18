@@ -1,0 +1,21 @@
+.gg-iconbtn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--semantic-dimension-size-target);
+  height: var(--semantic-dimension-size-target);
+  background: transparent;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.gg-iconbtn.gg-quiet {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-iconbtn.gg-quiet:hover {
+  color: var(--semantic-color-text-primary);
+}

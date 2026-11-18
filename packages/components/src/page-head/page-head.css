@@ -1,0 +1,44 @@
+.gg-page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--semantic-dimension-space-gap-body)
+    var(--semantic-dimension-space-gap-surface);
+}
+
+.gg-page-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--semantic-dimension-space-gap-xx-small)
+    var(--semantic-dimension-space-gap-large);
+  min-width: 0;
+}
+
+.gg-page-title {
+  font-size: var(--semantic-dimension-font-size-page);
+  font-weight: var(--semantic-font-weight-semi-bold);
+  line-height: var(--semantic-number-line-height-title);
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.gg-page-head .gg-meta {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-page-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-inline);
+}
+
+@media (max-width: 600px) {
+  .gg-page-title {
+    font-size: var(--semantic-dimension-font-size-page-narrow);
+  }
+}

@@ -1,0 +1,7 @@
+:root[data-gg-dragging] {
+  user-select: none;
+}
+
+:root[data-gg-dragging] * {
+  cursor: grabbing !important;
+}

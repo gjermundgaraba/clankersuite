@@ -1,0 +1,177 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gg-topbar-h: var(--semantic-dimension-size-top-bar);
+  --gg-statusbar-h: 0px;
+}
+
+html {
+  height: 100%;
+  scroll-padding-top: calc(
+    var(--gg-topbar-h) + var(--semantic-dimension-space-gap-xx-large)
+  );
+  scroll-padding-bottom: var(--gg-statusbar-h);
+}
+
+:root:has(footer.gg-statusbar) {
+  --gg-statusbar-h: var(--semantic-dimension-size-status-bar);
+}
+
+body {
+  min-height: 100%;
+  padding-bottom: var(--gg-statusbar-h);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-body);
+  line-height: var(--semantic-number-line-height-body);
+  color: var(--semantic-color-text-primary);
+  caret-color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-canvas);
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+::selection {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+::placeholder {
+  color: var(--semantic-color-text-secondary);
+  opacity: 1;
+}
+
+:focus-visible {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}
+
+::-webkit-scrollbar {
+  width: var(--semantic-dimension-size-scrollbar);
+  height: var(--semantic-dimension-size-scrollbar);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--semantic-color-background-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--semantic-color-background-fill-inverse);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-background-canvas);
+}
+
+a {
+  color: var(--semantic-color-text-primary);
+}
+
+code,
+kbd {
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+.gg-icon {
+  display: inline-block;
+  vertical-align: -0.125em;
+  flex: none;
+  shape-rendering: crispedges;
+}
+
+.sr-only {
+  position: absolute;
+  width: var(--semantic-dimension-border-width-default);
+  height: var(--semantic-dimension-border-width-default);
+  margin: calc(-1 * var(--semantic-dimension-border-width-default));
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:is(
+  .gg-nav.gg-tabs button,
+  :is(button, label).gg-fchip,
+  button.gg-glyph,
+  button.gg-mark,
+  button.gg-tag:has(> span),
+  .gg-textbtn,
+  .gg-crumbs a,
+  .gg-error-summary a
+) {
+  position: relative;
+}
+
+:is(
+  .gg-nav.gg-tabs button,
+  :is(button, label).gg-fchip,
+  button.gg-glyph,
+  button.gg-mark,
+  button.gg-tag:has(> span),
+  .gg-textbtn,
+  .gg-crumbs a,
+  .gg-error-summary a
+)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--semantic-dimension-size-target));
+  height: max(100%, var(--semantic-dimension-size-target));
+  translate: -50% -50%;
+}
+
+.gg-label {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.gg-stack > *,
+.gg-group > * {
+  min-width: 0;
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-s {
+  gap: var(--semantic-dimension-space-gap-inline);
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-m {
+  gap: var(--semantic-dimension-space-gap-body);
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-l {
+  gap: var(--semantic-dimension-space-gap-surface);
+}
+
+.gg-spinner {
+  display: inline-block;
+  width: var(--semantic-dimension-size-spinner);
+  height: var(--semantic-dimension-size-spinner);
+  vertical-align: middle;
+  border: calc(1.5 * var(--semantic-dimension-border-width-default)) solid
+    currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: gg-spin var(--semantic-duration-spin) linear infinite;
+}
+
+@keyframes gg-spin {
+  to {
+    rotate: 1turn;
+  }
+}

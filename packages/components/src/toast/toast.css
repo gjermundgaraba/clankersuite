@@ -1,0 +1,49 @@
+/* the page's stack: @foldkit/ui's Toast container, fixed at the bottom right above the page
+   and inside the open dialog when Toaster is rendered there. Its placement is inline (16px
+   padding from the corner), so the stylesheet raises it clear of a status bar and sets the
+   gap. A phone spans it across the bottom */
+.gg-toasts .gg-toast-stack {
+  bottom: var(--gg-statusbar-h) !important;
+  gap: var(--semantic-dimension-space-gap-medium) !important;
+  width: min(var(--semantic-dimension-size-max-width-toast), 100vw);
+}
+
+.gg-toast {
+  box-shadow: var(--semantic-shadow-card);
+}
+
+.gg-toast.gg-quiet {
+  border-color: var(--semantic-color-border-primary);
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-toast > div {
+  overflow-wrap: anywhere;
+}
+
+.gg-toast > .gg-iconbtn {
+  flex: none;
+  margin: calc(
+      -1 * var(--semantic-dimension-space-control-padding-block-xx-small)
+    )
+    calc(-1 * var(--semantic-dimension-space-control-padding-inline-xx-small))
+    calc(-1 * var(--semantic-dimension-space-control-padding-block-xx-small)) 0;
+}
+
+.gg-toasts .gg-toast {
+  animation: gg-toast-in var(--semantic-duration-card) ease-out;
+}
+
+@keyframes gg-toast-in {
+  from {
+    transform: translateY(var(--semantic-dimension-travel-toast));
+    opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .gg-toasts .gg-toast-stack {
+    left: 0 !important;
+    width: auto;
+  }
+}

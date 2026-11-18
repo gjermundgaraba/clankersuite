@@ -1,0 +1,165 @@
+.gg-palette-q {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-padding-medium)
+    var(--semantic-dimension-space-padding-x-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large);
+  flex: none;
+}
+
+.gg-palette-q input {
+  flex: 1 1 var(--semantic-dimension-size-measure-x-large);
+  width: auto;
+  min-width: 0;
+}
+
+.gg-palette-scope {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-xxx-small)
+    var(--semantic-dimension-space-control-padding-inline-x-small);
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-title {
+  font-size: var(--semantic-dimension-font-size-label);
+  flex: none;
+}
+
+.gg-palette-list {
+  overflow-y: auto;
+  padding: var(--semantic-dimension-space-control-padding-block-small) 0
+    var(--semantic-dimension-space-control-padding-block-xx-large);
+  max-height: min(50vh, var(--semantic-dimension-size-max-height-palette));
+}
+
+.gg-palette-group {
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-palette-row {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-medium);
+  width: 100%;
+  padding: var(--semantic-dimension-space-control-padding-block-xx-large)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large)
+    calc(
+      var(--semantic-dimension-space-padding-x-large) +
+        min(
+          (var(--gg-palette-level, 1) - 1) *
+            var(--semantic-dimension-space-indent-palette),
+          33%
+        )
+    );
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  cursor: pointer;
+  background: none;
+  border: 0;
+  color: inherit;
+  text-align: left;
+}
+
+.gg-palette-row[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}
+
+.gg-palette-row[aria-selected="true"] {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-palette-row:hover:not([aria-selected="true"]) {
+  background-color: var(--semantic-color-background-head);
+}
+
+.gg-palette-row.gg-context:not([aria-selected="true"]) {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-palette-row .gg-hint {
+  margin-left: auto;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 50%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-label {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-row[aria-selected="true"] .gg-hint,
+.gg-palette-row[aria-selected="true"] .gg-tag {
+  color: inherit;
+  opacity: var(--semantic-number-opacity-muted-on-inverse-fill);
+}
+
+.gg-palette-row[aria-selected="true"] .gg-tag {
+  border-color: currentColor;
+}
+
+.gg-palette-row.gg-authored {
+  font-size: var(--semantic-dimension-font-size-body);
+}
+
+.gg-palette-row.gg-authored .gg-glyph {
+  color: var(--semantic-color-text-secondary);
+  display: inline-flex;
+}
+
+.gg-palette-row[aria-selected="true"] .gg-glyph {
+  color: inherit;
+}
+
+.gg-palette-row .gg-glyph.gg-opens {
+  display: inline-flex;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-palette-row:has(.gg-hint) .gg-glyph.gg-opens {
+  margin-left: calc(-1 * var(--semantic-dimension-space-gap-xx-small));
+}
+
+.gg-palette-row:not(:has(.gg-hint)) .gg-glyph.gg-opens {
+  margin-left: auto;
+}
+
+.gg-palette-detail {
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-small);
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-small);
+}
+
+.gg-palette-more {
+  flex: none;
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  padding: var(--semantic-dimension-space-control-padding-block-small)
+    var(--semantic-dimension-space-control-padding-inline-xx-large)
+    var(--semantic-dimension-space-control-padding-block-xx-large);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}

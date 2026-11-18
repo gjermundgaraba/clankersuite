@@ -1,0 +1,32 @@
+.gg-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-medium);
+  min-width: 0;
+}
+
+.gg-identity-text {
+  display: grid;
+  gap: var(--semantic-dimension-space-gap-xxx-small);
+  min-width: 0;
+}
+
+.gg-identity-text strong {
+  font-weight: var(--semantic-font-weight-semi-bold);
+  overflow-wrap: anywhere;
+}
+
+.gg-identity-text .gg-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-small);
+  flex-wrap: wrap;
+}
+
+.gg-identity.gg-large {
+  gap: var(--semantic-dimension-space-gap-large);
+}
+
+.gg-identity.gg-large strong {
+  font-size: var(--semantic-dimension-font-size-title);
+}

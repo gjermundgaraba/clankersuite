@@ -1,0 +1,93 @@
+.gg-btn {
+  position: relative;
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-gap-x-small);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-control-padding-block-medium)
+    var(--semantic-dimension-space-control-padding-inline-x-large);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gg-btn:disabled,
+.gg-btn[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-btn.gg-primary {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-btn.gg-primary:disabled,
+.gg-btn.gg-primary[aria-disabled="true"] {
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-btn.gg-default-ring {
+  box-shadow:
+    0 0 0 var(--semantic-dimension-border-width-default)
+      var(--semantic-color-border-on-inverse-fill),
+    0 0 0 calc(2 * var(--semantic-dimension-border-width-default))
+      var(--semantic-color-border-primary);
+  margin: var(--semantic-dimension-space-gap-xx-small);
+}
+
+.gg-btn.gg-default-ring:not([aria-disabled="true"]):active {
+  background: var(--semantic-color-background-fill-inverse);
+  color: var(--semantic-color-text-on-inverse-fill);
+}
+
+.gg-btn.gg-default-ring[aria-disabled="true"]:not(:focus) {
+  box-shadow: none;
+}
+
+.gg-btn.gg-small {
+  font-size: var(--semantic-dimension-font-size-label);
+  padding: var(--semantic-dimension-space-control-padding-block-x-small)
+    var(--semantic-dimension-space-control-padding-inline-medium);
+}
+
+.gg-btn.gg-danger {
+  color: var(--semantic-color-text-negative);
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-btn.gg-danger:focus-visible {
+  outline-color: var(--semantic-color-focus-ring-negative);
+}
+
+.gg-btn .gg-key-hint {
+  margin-left: var(--semantic-dimension-space-gap-inline);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  opacity: var(--semantic-number-opacity-key-hint);
+}
+
+.gg-btn.gg-primary .gg-key-hint {
+  opacity: 1;
+}
+
+.gg-btn > .gg-spinner {
+  position: absolute;
+  top: 50%;
+  right: var(--semantic-dimension-space-control-padding-inline-xxx-small);
+  translate: 0 -50%;
+}
+
+/* a small button's padding is narrower: the ring shrinks to stay clear of the label */
+.gg-btn.gg-small > .gg-spinner {
+  width: calc(0.75 * var(--semantic-dimension-size-spinner));
+  height: calc(0.75 * var(--semantic-dimension-size-spinner));
+}

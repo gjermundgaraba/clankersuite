@@ -1,0 +1,18 @@
+.gg-loading .gg-spinner {
+  margin-left: var(--semantic-dimension-space-gap-x-small);
+}
+
+.gg-loading {
+  padding: var(--semantic-dimension-space-padding-xxx-large)
+    var(--semantic-dimension-space-padding-x-large);
+  text-align: center;
+  font-size: var(--semantic-dimension-font-size-control);
+  color: var(--semantic-color-text-secondary);
+}
+
+/* done: the status stays in the page, empty, for the next wait, but out of the flow, so it
+   takes no room and no gap in a panel's or a card's grid, a stack or a row. Not
+   display: none, which would take the live region out of the accessibility tree */
+.gg-loading-idle {
+  position: absolute;
+}
