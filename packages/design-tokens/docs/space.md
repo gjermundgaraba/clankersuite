@@ -32,6 +32,6 @@ The fixed sizes of things: controls, rows, glyphs, bars and rails, and the width
 
 ## Travel
 
-How far a thing moves: an entering toast, a glyph nudged onto the baseline.
+How far a thing moves: an entering toast.
 
 ::Tokens{prefix="--semantic-dimension-travel"}

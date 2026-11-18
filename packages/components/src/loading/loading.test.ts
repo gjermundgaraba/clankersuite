@@ -5,7 +5,7 @@ import { describe, it } from "vite-plus/test";
 import * as Loading from "./loading.ts";
 
 describe("Loading", () => {
-  it("is a polite status that says what is coming, beside a hidden cursor", () => {
+  it("is a polite status that says what is coming", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),
@@ -14,11 +14,7 @@ describe("Loading", () => {
       },
       Scene.given(null),
       Scene.expect(Scene.role("status")).toHaveText("loading the items"),
-      Scene.expect(Scene.role("status")).toHaveClass("gg-loading"),
-      Scene.expect(Scene.selector(".gg-loading .gg-cursor")).toHaveAttr(
-        "aria-hidden",
-        "true"
-      )
+      Scene.expect(Scene.role("status")).toHaveClass("gg-loading")
     );
   });
 

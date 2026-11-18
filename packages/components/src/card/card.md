@@ -14,6 +14,6 @@ The title bar takes a title and a meta line. The action bar under a 2px ink rule
 
 ## A form card
 
-`Card.formView` is a card that is a form, named by its title: its fields in one group, then cancel and the primary submit in the action bar. The submit is held while there is nothing to send. While it sends, the submit prints the working cursor and the fields are held, so nothing changes under the send and nothing sends twice; the update moves focus to the submit button, `Card.submitId`, as it sends. `notices` go above the fields and stay live.
+`Card.formView` is a card that is a form, named by its title: its fields in one group, then cancel and the primary submit in the action bar. The submit is held while there is nothing to send. While it sends, the submit prints a spinner and the fields are held, so nothing changes under the send and nothing sends twice; the update moves focus to the submit button, `Card.submitId`, as it sends. `notices` go above the fields and stay live.
 
 ::Example{name="form"}

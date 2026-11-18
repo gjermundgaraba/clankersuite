@@ -283,35 +283,9 @@
             "$description": "The widest a tip prints."
           }
         },
-        "cursor": {
-          "width": {
-            "$value": "{primitive.dimension.6}",
-            "$description": "The working cursor's width."
-          },
-          "height": {
-            "$value": "{primitive.dimension.11}",
-            "$description": "The working cursor's height."
-          },
-          "wordmark": {
-            "width": {
-              "$value": "{primitive.dimension.8}",
-              "$description": "The wordmark's cursor's width."
-            },
-            "height": {
-              "$value": "{primitive.dimension.15}",
-              "$description": "The wordmark's cursor's height."
-            }
-          },
-          "small": {
-            "width": {
-              "$value": "{primitive.dimension.5}",
-              "$description": "The working cursor's width in a small button or chip."
-            },
-            "height": {
-              "$value": "{primitive.dimension.9}",
-              "$description": "The working cursor's height in a small button or chip."
-            }
-          }
+        "spinner": {
+          "$value": "{primitive.dimension.8}",
+          "$description": "The width and height of the spinner a busy button, chip, loading line, link state or palette row prints."
         },
         "checkbox": {
           "box": {
@@ -707,16 +681,6 @@
         }
       },
       "travel": {
-        "nudge": {
-          "small": {
-            "$value": "{primitive.dimension.1}",
-            "$description": "An optical nudge: a bullet or glyph set onto the text's middle."
-          },
-          "large": {
-            "$value": "{primitive.dimension.2}",
-            "$description": "The wordmark cursor's nudge onto the baseline."
-          }
-        },
         "toast": {
           "$value": "{primitive.dimension.8}",
           "$description": "How far a toast rises as it eases in."

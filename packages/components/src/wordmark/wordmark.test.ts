@@ -5,7 +5,7 @@ import { describe, it } from "vite-plus/test";
 import * as Wordmark from "./wordmark.ts";
 
 describe("Wordmark", () => {
-  it("links home when given a link, with its cursor hidden", () => {
+  it("links home when given a link", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),
@@ -16,10 +16,6 @@ describe("Wordmark", () => {
       Scene.expect(Scene.role("link", { name: "clankerusage" })).toHaveAttr(
         "href",
         "/"
-      ),
-      Scene.expect(Scene.selector(".gg-wordmark .gg-cursor")).toHaveAttr(
-        "aria-hidden",
-        "true"
       )
     );
   });

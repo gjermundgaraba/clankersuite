@@ -14,7 +14,7 @@ export type ViewConfig<Message> = Readonly<{
 }>;
 
 /** What a panel says while its content is on the way, centred where the content will be, with
- *  the working cursor. A polite status that stays in place with its words swapped, as a live
+ *  a spinner. A polite status that stays in place with its words swapped, as a live
  *  region must be for a screen reader to hear it: render it before the content, from before
  *  the wait starts, and set `isLoading`. It is not the page's live region (the Announcer's,
  *  marked `data-gg-announcer`), so a test that counts live regions counts that. */
@@ -30,6 +30,8 @@ export const view = <Message>(
       h.Role("status"),
       h.Class(isLoading ? "gg-loading" : "gg-loading-idle"),
     ],
-    isLoading ? [label, h.span([h.Class("gg-cursor"), h.AriaHidden(true)])] : []
+    isLoading
+      ? [label, h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
+      : []
   );
 };

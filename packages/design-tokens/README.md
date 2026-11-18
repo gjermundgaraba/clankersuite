@@ -46,7 +46,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 | ------------ | ------------------------------------------------------------------------------- |
 | `color`      | `text`, `border`, `focusRing`, `background`, `shadow`                           |
 | `dimension`  | `fontSize`, `letterSpacing`, `borderWidth`, `radius`, `size`, `space`, `travel` |
-| `duration`   | one per motion: `blink`, `card`, `flash`, `veil`                                |
+| `duration`   | one per motion: `card`, `flash`, `spin`, `veil`                                 |
 | `number`     | `opacity`, `lineHeight`, `layer`, `scale`, `fontScale`                          |
 | `fontFamily` | `ui`, `code`, `brand`                                                           |
 | `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
@@ -60,7 +60,7 @@ Semantic tokens name a role and always alias, so a brand changes a value without
 - `space.padding` and `space.gap` are T-shirt ladders (`xxxSmall` to `xxLarge`) on whole pixels. A component picks a step; a brand that changes a step changes every component on it.
 - `space.control.padding.block` and `.inline` are the inside of a control. A control's row height is its line plus its padding plus its border, so these steps are a pixel apart and some are odd: they keep a bordered control on the row height.
 - `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains.
-- `travel` is how far a thing moves: an entering toast, a glyph nudged onto the baseline.
+- `travel` is how far a thing moves: an entering toast.
 - `layer` is a `z-index`, named by what sits on it.
 
 The component stylesheet and the Markdown editor's theme write no raw value a token covers; a test fails on one. Raw are: zero; relative units (`em`, `lh`, `%`, viewport units); counts; angles; the geometry of a drawn tile (`background-size` and `background-position`); and `@media` and `@container` thresholds, where `var()` does not work.

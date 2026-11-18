@@ -94,7 +94,7 @@ export const LIVE_MARKDOWN_STYLE = {
   ".gg-md-check": {
     width: "auto",
     margin: "0 var(--semantic-dimension-space-gap-inline) 0 0",
-    verticalAlign: "calc(-1 * var(--semantic-dimension-travel-nudge-large))",
+    verticalAlign: "-0.125em",
     cursor: "pointer",
     accentColor: "var(--semantic-color-background-fill-inverse)",
   },

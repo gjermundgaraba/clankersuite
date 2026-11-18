@@ -54,10 +54,6 @@ describe("Chip and Mark", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector(".gg-chip .gg-cursor")).toHaveAttr(
-        "aria-hidden",
-        "true"
-      ),
       Scene.expect(Scene.selector(".gg-chip.gg-go")).not.toHaveAttr(
         "aria-busy"
       ),

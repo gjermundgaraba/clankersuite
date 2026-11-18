@@ -78,7 +78,7 @@ kbd {
 
 .gg-icon {
   display: inline-block;
-  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-small));
+  vertical-align: -0.125em;
   flex: none;
   shape-rendering: crispedges;
 }
@@ -316,28 +316,22 @@ button.gg-tag > span {
   white-space: nowrap;
 }
 
-.gg-cursor {
+.gg-spinner {
   display: inline-block;
-  width: var(--semantic-dimension-size-cursor-width);
-  height: var(--semantic-dimension-size-cursor-height);
-  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-small));
-  background: currentColor;
-  animation: gg-blink var(--semantic-duration-blink) steps(1) infinite;
+  width: var(--semantic-dimension-size-spinner);
+  height: var(--semantic-dimension-size-spinner);
+  vertical-align: middle;
+  border: calc(1.5 * var(--semantic-dimension-border-width-default)) solid
+    currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: gg-spin var(--semantic-duration-spin) linear infinite;
 }
 
-@keyframes gg-blink {
-  50% {
-    opacity: 0;
+@keyframes gg-spin {
+  to {
+    rotate: 1turn;
   }
-}
-
-.gg-wordmark .gg-cursor {
-  width: var(--semantic-dimension-size-cursor-wordmark-width);
-  height: var(--semantic-dimension-size-cursor-wordmark-height);
-  margin-left: var(--semantic-dimension-space-gap-xx-small);
-  vertical-align: calc(-1 * var(--semantic-dimension-travel-nudge-large));
-  background: var(--semantic-color-background-fill-inverse);
-  animation-iteration-count: 4;
 }
 
 .gg-topbar-tools {
@@ -694,17 +688,17 @@ a.gg-textbtn {
   position: relative;
 }
 
-.gg-btn > .gg-cursor {
+.gg-btn > .gg-spinner {
   position: absolute;
   top: 50%;
-  right: var(--semantic-dimension-space-control-padding-inline-xx-small);
+  right: var(--semantic-dimension-space-control-padding-inline-xxx-small);
   translate: 0 -50%;
 }
 
-.gg-btn.gg-small > .gg-cursor {
-  right: var(--semantic-dimension-space-control-padding-inline-xxx-small);
-  width: var(--semantic-dimension-size-cursor-small-width);
-  height: var(--semantic-dimension-size-cursor-small-height);
+/* a small button's padding is narrower: the ring shrinks to stay clear of the label */
+.gg-btn.gg-small > .gg-spinner {
+  width: calc(0.75 * var(--semantic-dimension-size-spinner));
+  height: calc(0.75 * var(--semantic-dimension-size-spinner));
 }
 
 .gg-menu {
@@ -3836,9 +3830,7 @@ dialog.gg-veil:focus {
   flex: none;
   width: var(--semantic-dimension-size-bullet);
   height: var(--semantic-dimension-size-bullet);
-  transform: translateY(
-    calc(-1 * var(--semantic-dimension-travel-nudge-small))
-  );
+  transform: translateY(-0.125em);
 }
 
 .gg-toc a[aria-current="true"]::before {
@@ -3853,14 +3845,12 @@ dialog.gg-veil:focus {
   background: var(--semantic-color-background-head);
 }
 
-.gg-chip .gg-cursor,
-.gg-link-state .gg-cursor {
-  width: var(--semantic-dimension-size-cursor-small-width);
-  height: var(--semantic-dimension-size-cursor-small-height);
+.gg-chip .gg-spinner,
+.gg-link-state .gg-spinner {
   margin-left: var(--semantic-dimension-space-gap-xx-small);
 }
 
-.gg-loading .gg-cursor {
+.gg-loading .gg-spinner {
   margin-left: var(--semantic-dimension-space-gap-x-small);
 }
 
@@ -4798,7 +4788,7 @@ dialog.gg-veil:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gg-cursor,
+  .gg-spinner,
   .gg-veil-backdrop,
   .gg-card,
   .gg-rail[popover]:popover-open,

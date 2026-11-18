@@ -51,9 +51,7 @@
   --primitive-dimension-6: 6px;
   --primitive-dimension-7: 7px;
   --primitive-dimension-8: 8px;
-  --primitive-dimension-9: 9px;
   --primitive-dimension-10: 10px;
-  --primitive-dimension-11: 11px;
   --primitive-dimension-12: 12px;
   --primitive-dimension-12point5: 12.5px;
   --primitive-dimension-13: 13px;
@@ -121,7 +119,6 @@
   --primitive-duration-120: 0.12s;
   --primitive-duration-140: 0.14s;
   --primitive-duration-700: 0.7s;
-  --primitive-duration-1200: 1.2s;
   --primitive-font-family-departure-mono: "Departure Mono", ui-monospace, "Menlo", "Monaco", monospace;
   --primitive-font-family-inter: "Inter", system-ui, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   --primitive-font-family-system-mono: ui-monospace, "Menlo", "Monaco", monospace;
@@ -220,12 +217,6 @@
   --semantic-dimension-size-checkbox-mark: var(--primitive-dimension-6);
   --semantic-dimension-size-chip: var(--primitive-dimension-22);
   --semantic-dimension-size-control: var(--primitive-dimension-30);
-  --semantic-dimension-size-cursor-height: var(--primitive-dimension-11);
-  --semantic-dimension-size-cursor-small-height: var(--primitive-dimension-9);
-  --semantic-dimension-size-cursor-small-width: var(--primitive-dimension-5);
-  --semantic-dimension-size-cursor-width: var(--primitive-dimension-6);
-  --semantic-dimension-size-cursor-wordmark-height: var(--primitive-dimension-15);
-  --semantic-dimension-size-cursor-wordmark-width: var(--primitive-dimension-8);
   --semantic-dimension-size-diff-line: var(--primitive-dimension-19);
   --semantic-dimension-size-dot: var(--primitive-dimension-10);
   --semantic-dimension-size-glyph-large: var(--primitive-dimension-34);
@@ -285,6 +276,7 @@
   --semantic-dimension-size-rail-resize: var(--primitive-dimension-12);
   --semantic-dimension-size-row: var(--primitive-dimension-34);
   --semantic-dimension-size-scrollbar: var(--primitive-dimension-10);
+  --semantic-dimension-size-spinner: var(--primitive-dimension-8);
   --semantic-dimension-size-status-bar: var(--primitive-dimension-25);
   --semantic-dimension-size-target: var(--primitive-dimension-24);
   --semantic-dimension-size-title-bar: var(--primitive-dimension-31);
@@ -349,12 +341,10 @@
   --semantic-dimension-space-viewport-gutter-medium: var(--primitive-dimension-32);
   --semantic-dimension-space-viewport-gutter-small: var(--primitive-dimension-24);
   --semantic-dimension-space-viewport-gutter-x-large: var(--primitive-dimension-48);
-  --semantic-dimension-travel-nudge-large: var(--primitive-dimension-2);
-  --semantic-dimension-travel-nudge-small: var(--primitive-dimension-1);
   --semantic-dimension-travel-toast: var(--primitive-dimension-8);
-  --semantic-duration-blink: var(--primitive-duration-1200);
   --semantic-duration-card: var(--primitive-duration-140);
   --semantic-duration-flash: var(--primitive-duration-700);
+  --semantic-duration-spin: var(--primitive-duration-700);
   --semantic-duration-veil: var(--primitive-duration-120);
   --semantic-font-family-brand: var(--primitive-font-family-departure-mono);
   --semantic-font-family-code: var(--primitive-font-family-system-mono);

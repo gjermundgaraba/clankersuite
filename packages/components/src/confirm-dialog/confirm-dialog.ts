@@ -118,12 +118,12 @@ export type ViewInputs = Readonly<{
   /** Destructive: the confirming button turns red and cancel becomes the default. */
   isDanger?: boolean;
   /** The confirmed work is running: the confirming button is held (its word stays, the
-   *  working cursor prints, a second press does nothing) and keeps focus, and cancel is held
+   *  spinner turns, a second press does nothing) and keeps focus, and cancel is held
    *  with it. Pair it with `isCloseHeld` in `update`'s context, from the same state, so
    *  Escape and the veil change nothing either. */
   isBusy?: boolean;
   /** The action cannot run now (nothing is running; it is blocked): the confirming button is
-   *  held, `aria-disabled` without the working cursor, and stays in the keyboard, so focus
+   *  held, `aria-disabled` without the spinner, and stays in the keyboard, so focus
    *  does not fall to the page. Cancel stays live. */
   isDisabled?: boolean;
   /** The page's live region and toasts while this is the topmost open dialog, `undefined`

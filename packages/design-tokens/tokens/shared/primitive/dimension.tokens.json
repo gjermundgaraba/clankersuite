@@ -57,21 +57,9 @@
           "unit": "px"
         }
       },
-      "9": {
-        "$value": {
-          "value": 9,
-          "unit": "px"
-        }
-      },
       "10": {
         "$value": {
           "value": 10,
-          "unit": "px"
-        }
-      },
-      "11": {
-        "$value": {
-          "value": 11,
           "unit": "px"
         }
       },

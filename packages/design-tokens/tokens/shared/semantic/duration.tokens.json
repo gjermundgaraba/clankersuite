@@ -8,9 +8,9 @@
         "$value": "{primitive.duration.700}",
         "$description": "The invert flash that signals a change."
       },
-      "blink": {
-        "$value": "{primitive.duration.1200}",
-        "$description": "One blink of the working cursor."
+      "spin": {
+        "$value": "{primitive.duration.700}",
+        "$description": "One turn of the spinner a busy button, chip, loading line, link state or palette row prints."
       },
       "card": {
         "$value": "{primitive.duration.140}",

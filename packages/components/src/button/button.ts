@@ -54,7 +54,7 @@ export type ViewConfig<Message> = Look &
   Readonly<{
     label: string;
     onClick?: Message;
-    /** Working: a blinking block cursor prints in the right padding, so the label stays put
+    /** Working: a spinner turns in the right padding, so the label stays put
      *  and the button keeps its width. The button is held and says so (`aria-busy`). */
     isBusy?: boolean;
     /** Unavailable: the button is held. As in `@foldkit/ui`, it stays focusable
@@ -113,7 +113,7 @@ export const view = <Message>(
             label,
             ...(keyHint === undefined ? [] : [KeyHint.view(keyHint, h)]),
             ...(isBusy
-              ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
+              ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
               : []),
           ]
         ),

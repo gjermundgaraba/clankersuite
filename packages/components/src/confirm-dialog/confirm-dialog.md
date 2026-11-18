@@ -8,7 +8,7 @@ The one question before an irreversible step: a glyph in a box, a headline, a se
 
 ## Destructive
 
-With `isDanger`, focus starts on cancel, the dialog is an alert, and h and l, or ← and →, move between the actions. The confirm stays open while its work runs: the red button prints the working cursor, and cancel, Escape and the veil are held. It closes when the work lands; a failure keeps it open, with the reason under the sentence.
+With `isDanger`, focus starts on cancel, the dialog is an alert, and h and l, or ← and →, move between the actions. The confirm stays open while its work runs: the red button prints a spinner, and cancel, Escape and the veil are held. It closes when the work lands; a failure keeps it open, with the reason under the sentence.
 
 ::Example{name="delete"}
 

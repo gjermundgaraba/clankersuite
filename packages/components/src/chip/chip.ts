@@ -11,7 +11,7 @@ export type ViewConfig = Readonly<{
   /** The state word. */
   label: string;
   tone?: Tone;
-  /** Working on it (polling, building, starting): the word gains the blinking block cursor,
+  /** Working on it (polling, building, starting): the word gains a spinner,
    *  and the chip says so (`aria-busy`). */
   isBusy?: boolean;
 }>;
@@ -38,7 +38,7 @@ export const view = <Message>(
     ],
     [
       label,
-      ...(isBusy ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])] : []),
+      ...(isBusy ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])] : []),
     ]
   );
 };
