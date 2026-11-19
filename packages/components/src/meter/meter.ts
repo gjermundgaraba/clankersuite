@@ -131,10 +131,10 @@ const meterView = <Message>(
               [h.Class("gg-meter-line")],
               [
                 h.span(
-                  [...groups.meter, h.Class("gg-meter-bar")],
+                  [...groups.meter, h.Class("gg-bar gg-meter-bar")],
                   [
                     h.span([
-                      h.Class("gg-meter-fill"),
+                      h.Class("gg-bar-fill gg-meter-fill"),
                       h.Style({ width: `${percent}%` }),
                     ]),
                   ]

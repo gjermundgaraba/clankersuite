@@ -159,10 +159,14 @@ export type ViewInputs = Readonly<{
    *  carries no handlers: it is built in the application's boundary and rendered inside the
    *  toggle, in this Submodel's. */
   toggleContent?: ReadonlyArray<Html | string>;
-  /** The toggle's look when it is a button (`Primary` for a page's main action). */
-  variant?: Exclude<Variant, "Danger">;
+  /** The toggle's look when it is a button (`Primary` for a page's main action). `Chip`
+   *  prints a chip with a caret after its words or its content: an item's area or goal. */
+  variant?: ToggleVariant;
   align?: Align;
 }>;
+
+/** How a menu's toggle prints: a button's variant, or a chip. */
+export type ToggleVariant = Exclude<Variant, "Danger"> | "Chip";
 
 const isNamedByLabel = (viewInputs: ViewInputs): boolean =>
   viewInputs.glyph !== undefined || viewInputs.toggleContent !== undefined;
@@ -174,6 +178,10 @@ const toggleClass = (viewInputs: ViewInputs): string => {
     toggleContent,
     variant = "Default",
   } = viewInputs;
+
+  if (variant === "Chip") {
+    return "gg-chip";
+  }
 
   if (glyph === undefined || toggleContent !== undefined) {
     return lookClassName({ variant, isSmall: true });
@@ -187,7 +195,11 @@ const toggleView = (
   viewInputs: ViewInputs,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, glyph, toggleContent } = viewInputs;
+  const { label, glyph, toggleContent, variant } = viewInputs;
+
+  const content =
+    toggleContent ??
+    (glyph === undefined ? [label] : [Glyph.view({ name: glyph }, h)]);
 
   return UiButton.view(
     {
@@ -206,8 +218,9 @@ const toggleView = (
             h.OnMount(BindToggleKeys()),
             h.Class(toggleClass(viewInputs)),
           ],
-          toggleContent ??
-            (glyph === undefined ? [label] : [Glyph.view({ name: glyph }, h)])
+          variant === "Chip"
+            ? [...content, Glyph.view({ name: "caret-down" }, h)]
+            : content
         ),
     },
     h

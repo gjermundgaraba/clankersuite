@@ -44,7 +44,7 @@
           "value": 0.12,
           "unit": "s"
         },
-        "$description": "A button shrinking as it is pressed."
+        "$description": "A button or a decision tile shrinking as it is pressed."
       }
     }
   }

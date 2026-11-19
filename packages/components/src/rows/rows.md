@@ -24,7 +24,7 @@ A box at each row's left edge, its state in the application's Model. The row's t
 
 ## Outline
 
-`isOutline` indents nested rows 28px, and a row's `fold`, a `toggleView` chevron, hangs outside its left edge. With `isTreegrid` the list is a keyboard treegrid whose cursor the application moves: ↑ and ↓ move the cursor, → and ← unfold and fold, Home and End go to the first and last row. A row printed only to keep a match on its chain, here File the minutes, is muted as context.
+`isDimmed` mutes rows that wait behind the one being worked on, such as an inbox's up next, their titles in secondary text. `isOutline` indents nested rows 28px, and a row's `fold`, a `toggleView` chevron, hangs outside its left edge. With `isTreegrid` the list is a keyboard treegrid whose cursor the application moves: ↑ and ↓ move the cursor, → and ← unfold and fold, Home and End go to the first and last row. A row printed only to keep a match on its chain, here File the minutes, is muted as context.
 
 ::Example{name="outline"}
 

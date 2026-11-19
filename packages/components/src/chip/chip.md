@@ -14,7 +14,7 @@ A plain chip is quiet words on a sunken pill with a hairline ring. `Go` is on tr
 
 ## Flat, large and counted
 
-`isFlat` drops the pill, for a date or a count in a row's meta that need not stand out. `isLarge` is taller, for a strip of goals under a page's head: each leads with its goal's dot (`marker`), ends in a quiet `count`, and with `href` is a link to the goal. A linked chip is named with its count after a pause: "Ship the beta, 2".
+`isFlat` drops the pill, for a date or a count in a row's meta that need not stand out. `isLarge` is taller, for a strip of goals under a page's head: each leads with its goal's Marker (`marker`, a dot for a goal, a square for an area), ends in a quiet `count`, and with `href` is a link to the goal. A linked chip is named with its count after a pause: "Ship the beta, 2".
 
 ::Example{name="goals"}
 

@@ -8,11 +8,13 @@
     animation: none;
   }
 
-  .gg-btn {
+  .gg-btn,
+  .gg-decision {
     transition: none;
   }
 
-  .gg-btn:not(:disabled, [aria-disabled="true"]):active {
+  .gg-btn:not(:disabled, [aria-disabled="true"]):active,
+  .gg-decision:active {
     transform: none;
   }
 }
@@ -56,12 +58,12 @@
     background: Highlight;
   }
 
-  .gg-meter-bar {
+  .gg-bar {
     outline: var(--semantic-dimension-border-width-default) solid CanvasText;
   }
 
   /* important, to win over the toned and stale fills too */
-  .gg-meter-fill {
+  .gg-bar-fill {
     forced-color-adjust: none;
     background: CanvasText !important;
   }

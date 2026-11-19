@@ -1,15 +1,5 @@
 .gg-meter-bar {
   flex: 0 1 var(--semantic-dimension-size-meter-width);
-  height: var(--semantic-dimension-size-meter-height);
-  border-radius: var(--semantic-dimension-size-meter-height);
-  background: var(--semantic-color-border-divider);
-  overflow: hidden;
-}
-
-.gg-meter-fill {
-  display: block;
-  height: 100%;
-  background: var(--semantic-color-background-fill-accent);
 }
 
 .gg-meters {

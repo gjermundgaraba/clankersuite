@@ -98,13 +98,17 @@ describe("Chip and Mark", () => {
             [],
             [
               Chip.view(
-                { label: "Ship the beta", marker: "Amber", count: 2 },
+                {
+                  label: "Ship the beta",
+                  marker: { colour: "Amber", kind: "Goal" },
+                  count: 2,
+                },
                 h
               ),
               Chip.view(
                 {
                   label: "Calmer home admin",
-                  marker: "Sky",
+                  marker: { colour: "Sky", kind: "Goal" },
                   count: 1200,
                   href: "#calmer",
                 },

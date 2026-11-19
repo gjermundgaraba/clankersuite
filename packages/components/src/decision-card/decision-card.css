@@ -1,0 +1,124 @@
+.gg-decision-card {
+  padding: var(--semantic-dimension-space-x-large)
+    calc(
+      var(--semantic-dimension-space-x-large) +
+        var(--semantic-dimension-space-x-small)
+    );
+}
+
+.gg-decision-source {
+  display: flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-bottom: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-decision-source > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}
+
+.gg-decision-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-top: var(--semantic-dimension-space-medium);
+}
+
+.gg-decisions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--semantic-dimension-space-small);
+  margin-top: calc(
+    var(--semantic-dimension-space-x-large) -
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+/* a tile: its glyph and keycap on top, its words below */
+.gg-decision {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--semantic-dimension-space-small);
+  padding: calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-medium);
+  font: inherit;
+  color: var(--semantic-color-text-primary);
+  text-align: left;
+  background: none;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-row);
+  cursor: pointer;
+  transition: transform var(--semantic-duration-press)
+    var(--semantic-cubic-bezier-standard);
+}
+
+.gg-decision:active {
+  transform: scale(var(--semantic-number-scale-press));
+}
+
+@media (hover: hover) {
+  .gg-decision:hover {
+    background: var(--semantic-color-background-hover);
+    border-color: var(--semantic-color-border-secondary);
+  }
+}
+
+.gg-decision-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-decision-label {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+}
+
+.gg-decision-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  margin-top: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+/* how far through the items: its words either side of a thin bar */
+.gg-decision-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-inline);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-decision-bar {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .gg-decisions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

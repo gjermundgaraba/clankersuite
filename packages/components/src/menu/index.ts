@@ -9,7 +9,7 @@ export {
   view,
 } from "./menu.ts";
 
-export type { Align, InitConfig, ViewInputs } from "./menu.ts";
+export type { Align, InitConfig, ToggleVariant, ViewInputs } from "./menu.ts";
 
 export { Message } from "./message.ts";
 

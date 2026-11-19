@@ -199,6 +199,29 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 
+/* a surface in the page's flow, such as a decision card or a goal card: on the surface in a
+   hairline ring. The transparent outline is the edge forced colours paint, and takes no room */
+.gg-surface {
+  background: var(--semantic-color-background-surface);
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
+  border-radius: var(--semantic-dimension-radius-surface);
+  box-shadow: var(--semantic-shadow-hairline);
+}
+
+/* a thin bar of how much: a Meter's and a decision card's; each sizes its own width */
+.gg-bar {
+  height: var(--semantic-dimension-size-meter-height);
+  overflow: hidden;
+  background: var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-pill);
+}
+
+.gg-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--semantic-color-background-fill-accent);
+}
+
 .gg-count {
   font-size: var(--semantic-dimension-font-size-label);
   font-weight: var(--semantic-font-weight-regular);

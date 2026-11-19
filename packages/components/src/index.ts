@@ -24,6 +24,8 @@ export * as CopyButton from "./copy-button/index.ts";
 
 export * as Crumbs from "./crumbs/index.ts";
 
+export * as DecisionCard from "./decision-card/index.ts";
+
 export * as Deck from "./deck/index.ts";
 
 export * as Dialog from "./dialog/index.ts";
