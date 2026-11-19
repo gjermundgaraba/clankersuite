@@ -92,6 +92,7 @@
   --semantic-color-focus-ring-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
   --semantic-color-shadow-default: light-dark(var(--primitive-color-warm-gray-950-alpha18), var(--primitive-color-black-alpha60));
   --semantic-color-shadow-ring: light-dark(var(--primitive-color-warm-gray-950-alpha8), var(--primitive-color-bone-100-alpha10));
+  --semantic-color-text-accent: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
   --semantic-color-text-code-comment: var(--semantic-color-text-secondary);
   --semantic-color-text-code-function: var(--semantic-color-text-terminal-blue);
   --semantic-color-text-code-keyword: var(--semantic-color-text-terminal-magenta);
@@ -115,7 +116,7 @@
   --semantic-color-text-warning: light-dark(var(--primitive-color-amber-700), var(--primitive-color-amber-300));
   /* How everything eases: a card rising, a veil fading, a check popping, a drawer sliding. */
   --semantic-cubic-bezier-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
-  /* A focus ring, the accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar. */
+  /* A focus ring, a drop marker, a focused field's baseline or a mixed check's bar. */
   --semantic-dimension-border-width-accent: 2px;
   /* Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text. */
   --semantic-dimension-border-width-default: 1px;
@@ -199,6 +200,8 @@
   --semantic-dimension-size-glyph-large: 24px;
   /* A glyph set in a line of small text: a button's, a group's heading, a row's fold, the done line. */
   --semantic-dimension-size-glyph-medium: 14px;
+  /* The glyph before a menu item's label. */
+  --semantic-dimension-size-glyph-menu: 15px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;
   /* A small glyph: in a chip, in a row's check. */

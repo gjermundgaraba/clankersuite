@@ -174,7 +174,7 @@
             "value": 2,
             "unit": "px"
           },
-          "$description": "A focus ring, the accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar."
+          "$description": "A focus ring, a drop marker, a focused field's baseline or a mixed check's bar."
         }
       },
       "size": {
@@ -526,6 +526,13 @@
               "unit": "px"
             },
             "$description": "The glyph in an IconButton."
+          },
+          "menu": {
+            "$value": {
+              "value": 15,
+              "unit": "px"
+            },
+            "$description": "The glyph before a menu item's label."
           },
           "large": {
             "$value": {

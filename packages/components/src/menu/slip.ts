@@ -1,4 +1,6 @@
 import { Anchor, Button as UiButton } from "@foldkit/ui";
+import { Glyph } from "@gjermundgaraba/icons";
+import type { GlyphName } from "@gjermundgaraba/icons";
 import {
   Array,
   Effect,
@@ -31,8 +33,16 @@ export const edgeSelector = (edge: Edge): string =>
 
 const isGroup = Item.$is("Group");
 
+const isSeparator = Item.$is("Separator");
+
 const entriesOf = (items: readonly Item[]): readonly Entry[] =>
-  Array.flatMap(items, (item) => (isGroup(item) ? item.items : [item]));
+  Array.flatMap(items, (item) => {
+    if (isGroup(item)) {
+      return item.items;
+    }
+
+    return isSeparator(item) ? [] : [item];
+  });
 
 const entryIds = (items: readonly Item[]): readonly string[] =>
   Array.map(entriesOf(items), (entry) => entry.id);
@@ -55,16 +65,48 @@ const edgeAttributes = (
     : []),
 ];
 
+const endView = (
+  entry: Readonly<{
+    hint?: string;
+    keyHint?: KeyHintConfig;
+    isChecked?: boolean;
+  }>,
+  h: HtmlBuilder<Message>
+): readonly Html[] => {
+  if (entry.isChecked === true) {
+    return [Glyph.view({ name: "check" }, h)];
+  }
+
+  return [
+    ...(entry.hint === undefined
+      ? []
+      : [h.span([h.Class("gg-menu-hint")], [entry.hint])]),
+    ...(entry.keyHint === undefined ? [] : [KeyHint.view(entry.keyHint, h)]),
+  ];
+};
+
 const wordsView = (
   entry: Readonly<{
     label: string;
+    glyph?: GlyphName;
+    hint?: string;
     keyHint?: KeyHintConfig;
+    isChecked?: boolean;
   }>,
   h: HtmlBuilder<Message>
 ): readonly Html[] => [
+  ...(entry.glyph === undefined ? [] : [Glyph.view({ name: entry.glyph }, h)]),
   h.span([h.Class("gg-menu-label")], [entry.label]),
-  ...(entry.keyHint === undefined ? [] : [KeyHint.view(entry.keyHint, h)]),
+  ...endView(entry, h),
 ];
+
+const hintedName = (
+  entry: Readonly<{ label: string; hint?: string; isChecked?: boolean }>,
+  h: HtmlBuilder<Message>
+) =>
+  entry.hint === undefined || entry.isChecked === true
+    ? []
+    : [h.AriaLabel(`${entry.label}, ${entry.hint}`)];
 
 const buttonRowView = (
   config: Readonly<{
@@ -109,7 +151,7 @@ const entryView = (
         {
           entry: action,
           isDisabled: action.isDisabled === true,
-          attributes: [h.Role("menuitem")],
+          attributes: [h.Role("menuitem"), ...hintedName(action, h)],
           children: wordsView(action, h),
         },
         context,
@@ -120,7 +162,11 @@ const entryView = (
         {
           entry: radio,
           isDisabled: false,
-          attributes: [h.Role("menuitemradio"), h.AriaChecked(radio.isChecked)],
+          attributes: [
+            h.Role("menuitemradio"),
+            h.AriaChecked(radio.isChecked),
+            ...hintedName(radio, h),
+          ],
           children: wordsView(radio, h),
         },
         context,
@@ -148,6 +194,7 @@ const entryView = (
         link.id,
         [
           h.Role("menuitem"),
+          ...hintedName(link, h),
           h.Href(link.href),
           h.Tabindex(-1),
           h.OnClick(Message.SelectedItem({ id: link.id, kind: link._tag })),
@@ -169,6 +216,13 @@ export const rowsView = (
   };
 
   return Array.map(config.items, (item, index) => {
+    if (isSeparator(item)) {
+      return h.keyed("div")(`separator:${item.id}`, [
+        h.Role("separator"),
+        h.Class("gg-menu-sep"),
+      ]);
+    }
+
     if (!isGroup(item)) {
       return entryView(item, context, h);
     }

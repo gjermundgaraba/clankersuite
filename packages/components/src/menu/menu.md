@@ -8,7 +8,7 @@ A printed slip under its toggle. Its rows take focus: the first as it opens, or 
 
 ## Rows in groups
 
-Radio rows say which is checked and tint it; the parent moves the check. A check row toggles in place, so the slip stays open. A link row is a real link, so a new tab can open it. A row that cannot run prints muted, and the arrows still stop on it, so its name is read.
+Radio rows say which is checked, and the checked one prints in the accent with a check at its end; the parent moves the check. A group's heading is a quiet label row. A check row toggles in place, so the slip stays open. A link row is a real link, so a new tab can open it. A row that cannot run prints muted, and the arrows still stop on it, so its name is read.
 
 ::Example{name="settings"}
 
@@ -17,6 +17,12 @@ Radio rows say which is checked and tint it; the parent moves the check. A check
 An action row can print the key that does the same; here n makes a task, except while a slip is open. A toggle can carry its own content in place of its words: a glyph, the current choice, a count and a caret, here on the page's primary button.
 
 ::Example{name="create"}
+
+## Glyphs, hints and separators
+
+An item can lead with a glyph and end in a quiet hint, such as the date a choice means. The checked choice prints in the accent with a check in place of its hint. A separator is a rule the arrows pass over.
+
+::Example{name="when"}
 
 ## A menu per row
 

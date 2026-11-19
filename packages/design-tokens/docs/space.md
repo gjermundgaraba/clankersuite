@@ -8,7 +8,7 @@ Whole pixels throughout, and spacing on a 4px rhythm. A component picks a step; 
 
 ## Lines
 
-Every line, a border or a divider, is 1px; a focus ring and an accent line (a checked menu choice's bar, a drop marker, a focused field's baseline, a mixed check's bar) are 2px.
+Every line, a border or a divider, is 1px; a focus ring and an accent line (a drop marker, a focused field's baseline, a mixed check's bar) are 2px.
 
 ::Tokens{prefix="--semantic-dimension-border-width"}
 

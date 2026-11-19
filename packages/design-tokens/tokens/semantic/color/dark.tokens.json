@@ -29,6 +29,10 @@
           "$value": "{primitive.color.sage.300}",
           "$description": "The Go tone: a Go chip's words."
         },
+        "accent": {
+          "$value": "{primitive.color.sage.300}",
+          "$description": "Words and glyphs in the accent: the current item of a menu. It repeats background.fill.accent as a text role, since words read text.* and fills read background.fill.*; text.positive is the Go tone's words, which share its value here."
+        },
         "onAccentFill": {
           "$value": "{primitive.color.forest.900}",
           "$description": "Text on background.fill.accent."
@@ -168,7 +172,7 @@
         "fill": {
           "accent": {
             "$value": "{primitive.color.sage.300}",
-            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph, a Go dot and the bar that marks the current item."
+            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph and a Go dot."
           },
           "secondary": {
             "$value": "{primitive.color.bone.350}",
