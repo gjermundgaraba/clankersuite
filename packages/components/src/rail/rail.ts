@@ -1,5 +1,5 @@
 import type { Cause } from "effect";
-import { Array, Effect, Number, Option, Schema, Stream, pipe } from "effect";
+import { Array, Effect, Number, Option, Schema, Stream } from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html } from "foldkit/html";
@@ -30,8 +30,8 @@ const Resizing = Schema.Struct({
 });
 
 /** Schema for a rail: whether it is open as a drawer (at 900px and under; wider, it is always
- *  in the page and this stays false), and its splitter while a pointer drags it. Its width,
- *  and whether the reader hid it, are the parent's. */
+ *  in the page and this stays false), and its splitter while a pointer drags it. Its width is
+ *  the parent's. */
 export const Model = Schema.Struct({
   id: Schema.String,
   isOpen: Schema.Boolean,
@@ -45,7 +45,6 @@ export type Model = typeof Model.Type;
  *  the window growing past 900px while it is open, where the rail is back in the page. */
 export const Message = defineMessageUnion({
   ClickedOpen: {},
-  ClickedToggle: {},
   PressedSplitter: {
     pointerId: Schema.Finite,
     clientX: Schema.Finite,
@@ -62,19 +61,15 @@ export const Message = defineMessageUnion({
   WidenedPastDrawer: {},
   CompletedShowRailDrawer: {},
   CompletedHideRailDrawer: {},
-  CompletedFocusRailToggle: {},
 });
 
 export type Message = typeof Message.Type;
 
 /** What a rail asks of its parent. `ResizedRail`: its splitter was let go, or stepped by a
  *  key, at `width` pixels, within the rail's bounds; the parent keeps it (per client) and
- *  passes it back as the view's `maybeWidth`. `ToggledRail`: its toggle was pressed; the
- *  parent flips whether it keeps the rail hidden (per client) and passes it back as the view's
- *  `isHidden`. */
+ *  passes it back as the view's `maybeWidth`. */
 export const OutMessage = defineMessageUnion({
   ResizedRail: { width: Schema.Finite },
-  ToggledRail: {},
 });
 
 export type OutMessage = typeof OutMessage.Type;
@@ -95,8 +90,8 @@ const NARROWEST_RAILED_WINDOW = WIDEST_DRAWER_WINDOW + 1;
 const LEAST_DECK_WIDTH = 421;
 
 export const WIDTH = {
-  start: 272,
-  leastFittingPanels: 220,
+  start: 232,
+  least: 220,
   mostLeavingLeastDeck: NARROWEST_RAILED_WINDOW - LEAST_DECK_WIDTH,
   arrowStep: 16,
 };
@@ -104,7 +99,7 @@ export const WIDTH = {
 const bounded = (width: number): number =>
   Math.round(
     Number.clamp(width, {
-      minimum: WIDTH.leastFittingPanels,
+      minimum: WIDTH.least,
       maximum: WIDTH.mostLeavingLeastDeck,
     })
   );
@@ -116,8 +111,6 @@ export const id = (model: Model): string => model.id;
 export const isOpen = (model: Model): boolean => model.isOpen;
 
 const openButtonId = (model: Model): string => `${model.id}-open`;
-
-const toggleId = (model: Model): string => `${model.id}-toggle`;
 
 const FOCUSABLE =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]";
@@ -133,8 +126,7 @@ export const firstTabStop = (rail: Element): Option.Option<HTMLElement> =>
       rail.querySelectorAll<HTMLElement>(`.gg-rail-head ~ * :is(${FOCUSABLE})`)
     ),
     (control) =>
-      control.tabIndex >= 0 &&
-      control.closest("[inert], [hidden], .gg-rail-toggle") === null
+      control.tabIndex >= 0 && control.closest("[inert], [hidden]") === null
   );
 
 /** Opens the rail as a drawer over the page and puts focus on its first control past its
@@ -187,28 +179,6 @@ export const HideRailDrawer = Command.define("HideRailDrawer", {
     ),
 });
 
-/** Puts focus on the rail's toggle once the rail has folded or unfolded, if focus was in the
- *  rail or on its splitter: folding takes away every control in it but the toggle, which
- *  brings it back, and the splitter with them. Focus anywhere else stays where it is. */
-export const FocusRailToggle = Command.define("FocusRailToggle", {
-  args: { railId: Schema.String, toggleId: Schema.String },
-  messages: [Message.CompletedFocusRailToggle],
-  execute: ({ railId, toggleId: buttonId }) =>
-    Effect.gen(function* () {
-      const rail = yield* findRail(railId);
-      const active = document.activeElement;
-
-      const isOnSplitter =
-        active?.matches(
-          `.gg-rail-resize[aria-controls="${CSS.escape(railId)}"]`
-        ) ?? false;
-
-      if (rail.contains(active) || isOnSplitter) {
-        yield* Dom.focus(`#${CSS.escape(buttonId)}`);
-      }
-    }).pipe(Effect.ignore, Effect.as(Message.CompletedFocusRailToggle())),
-});
-
 type UpdateReturn = Update.Return<Model, Message>;
 
 const closeDrawer = (model: Model, isReturningFocus: boolean): UpdateReturn =>
@@ -233,14 +203,6 @@ const open = (model: Model): UpdateReturn => ({
 /** Closes the rail's drawer, focus back on its button. */
 export const close = (model: Model): UpdateReturn => closeDrawer(model, true);
 
-/** Folds or unfolds the rail from a key of the parent's: the parent flips whether it keeps the
- *  rail hidden, as it does for `ToggledRail`, and folds this in, which moves focus in the rail
- *  onto the toggle. */
-export const toggle = (model: Model): UpdateReturn => ({
-  model,
-  commands: [FocusRailToggle({ railId: model.id, toggleId: toggleId(model) })],
-});
-
 const withResizing = (
   model: Model,
   maybeResizing: Option.Option<typeof Resizing.Type>
@@ -256,15 +218,12 @@ const dragTo = (model: Model, clientX: number): Model =>
   );
 
 /** Processes a rail Message and returns the next Model, Commands and OutMessage: a splitter let
- *  go where it changes the width, or stepped by a key, asks for the width, and the toggle asks
- *  to fold or unfold the rail. */
+ *  go where it changes the width, or stepped by a key, asks for the width. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
     {
       ClickedOpen: () => open(model),
-      ClickedToggle: () =>
-        pipe(toggle(model), Update.withOutMessage(OutMessage.ToggledRail())),
       PressedSplitter: ({ pointerId, clientX, width }) =>
         Option.isSome(model.maybeResizing)
           ? { model }
@@ -303,7 +262,6 @@ export const update = (model: Model, message: Message) =>
       WidenedPastDrawer: () => closeDrawer(model, false),
       CompletedShowRailDrawer: () => ({ model }),
       CompletedHideRailDrawer: () => ({ model }),
-      CompletedFocusRailToggle: () => ({ model }),
     }
   );
 
@@ -429,26 +387,28 @@ const railSubscriptions = Subscription.make<Model, Message>()((entry) => ({
 export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
   prefixKeys(keyPrefix, railSubscriptions);
 
+/** What a rail holds, top to bottom. */
+export type Aside = Readonly<{
+  /** Along its top: the wordmark, and a search or command button at its right. */
+  head?: readonly Html[];
+  /** Its places: Places, section by section. It scrolls when they are taller than the window. */
+  body: readonly Html[];
+  /** Along its bottom: the connection's state, a LinkState. */
+  foot?: readonly Html[];
+}>;
+
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
-  /** Names the rail for screen readers, and its button, drawer head and splitter
-   *  (`"collections"`). */
+  /** Names the rail for screen readers, and its open button and splitter (`"Places"`). */
   label: string;
   /** The width the reader gave the rail, in pixels, as the parent keeps it from `ResizedRail`
    *  (for this client: another reader's window is not this one's); none for the stylesheet's.
    *  A width out of the rail's bounds prints at the nearer bound. */
   maybeWidth: Option.Option<number>;
-  /** Whether the reader folded the rail to its first panel's title bar, as the parent keeps it
-   *  from `ToggledRail` (for this client, as it keeps the width). The drawer ignores it. */
-  isHidden: boolean;
-  /** The parent's key for the toggle, which its tip prints after its label; the parent binds
-   *  it to `toggle`. */
-  maybeToggleKeyHint: Option.Option<Button.KeyHintConfig>;
-  /** The rail's panels: a tree, places, filters, given the toggle that folds the rail to put in
-   *  its first panel's `lead`. A function because a Submodel's viewInputs may hold functions
-   *  only at the top level, and Foldkit runs this one in the parent's boundary, so the
-   *  handlers in what it returns dispatch the parent's Messages. */
-  toAsideView: (toggle: Html) => readonly Html[];
+  /** What the rail holds. A function because a Submodel's viewInputs may hold functions only
+   *  at the top level, and Foldkit runs this one in the parent's boundary, so the handlers in
+   *  what it returns dispatch the parent's Messages. */
+  toAsideView: () => Aside;
   /** The page beside the rail, a `Deck` or a `Bench`, given the button that
    *  opens the drawer to print first in it. A function because it receives that button, and
    *  runs in the parent's boundary like `toAsideView`. */
@@ -460,27 +420,22 @@ export type ViewInputs = Readonly<{
 }>;
 
 /**
- * A column of panels beside the deck, fixed under the top bar: a labelled `aside` with a
- * splitter on its right edge. What comes before its last panel keeps its height, and the last panel
- * shrinks to the room left, its bar and foot staying while its body scrolls. One element
- * serves both layouts, so nothing in it renders twice or loses its state. At 900px and under it leaves the page, and
- * a small button at the top of the deck opens the same element as a drawer
- * over a veil, its head (the name and a close glyph) showing. Opening focuses its first
- * control; Escape, a press on the veil, the close glyph, focus leaving or the window growing
- * past 900px closes it, and the first three put focus back on the button.
+ * The page's sidebar: a labelled `aside` at the window's left, from under the top bar (or the
+ * window's top, where there is none) to its bottom, flat on the sidebar's ground with a
+ * hairline at its right. Its head holds the wordmark and a search button, its body the places,
+ * scrolling on its own, and its foot the connection's state. One element serves both layouts,
+ * so nothing in it renders twice or loses its state. At 900px and under it leaves the page,
+ * and a small button at the top of the deck opens the same element as a drawer over a veil,
+ * a close glyph at the end of its head. Opening focuses its first control past the head;
+ * Escape, a press on the veil, the close glyph, focus leaving or the window growing past 900px
+ * closes it, and the first three put focus back on the button.
  *
- * Its splitter sizes it, by a pointer (previewed as it moves) or the side arrows, within its
- * bounds, and reports the width as `ResizedRail` for the parent to keep and pass back as
- * `maybeWidth`, which the view sets as `--gg-railed-width`, so the page's padding
- * and the rail's width follow it (without one, `--semantic-dimension-size-rail-default`). The drawer keeps its own width. Lift
- * `subscriptions(keyPrefix)` into the application's, or a dragged splitter follows nothing.
- *
- * Its toggle, a quiet glyph button ("Hide <label>"), comes
- * to `toAsideView` to print as the first panel's `lead`. Pressed, it reports `ToggledRail` for
- * the parent to keep and pass back as `isHidden`: the rail then stands the first
- * panel's title bar on end on the ground (the toggle at its top, "Show <label>"), the rest of
- * the rail and its splitter gone, and the deck takes the width. Focus in the rail lands on the
- * toggle. The drawer, at 900px and under, prints neither the toggle nor the fold.
+ * A splitter on its right edge sizes it, by a pointer (previewed as it moves) or the side
+ * arrows, within its bounds, and reports the width as `ResizedRail` for the parent to keep and
+ * pass back as `maybeWidth`, which the view sets as `--gg-railed-width`, so the page's padding
+ * and the rail's width follow it (without one, `--semantic-dimension-size-rail-default`). The
+ * drawer keeps its own width. Lift `subscriptions(keyPrefix)` into the application's, or a
+ * dragged splitter follows nothing.
  *
  * Its state is its own, not `@foldkit/ui`'s Popover: that panel is placed by Floating UI and
  * rendered only while open, and this one is always in the page, placed by the stylesheet, and
@@ -488,14 +443,8 @@ export type ViewInputs = Readonly<{
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const {
-      label,
-      isHidden,
-      maybeToggleKeyHint,
-      toAsideView,
-      toDeckView,
-      toPaneView,
-    } = viewInputs;
+    const { label, toAsideView, toDeckView, toPaneView } = viewInputs;
+    const { head = [], body, foot = [] } = toAsideView();
 
     const maybeWidth = Option.orElse(
       Option.map(model.maybeResizing, ({ width }) => width),
@@ -524,36 +473,12 @@ export const view = defineView<Model, Message, ViewInputs>(
       ]
     );
 
-    const toggleButton = h.span(
-      [h.Class("gg-rail-toggle")],
-      [
-        IconButton.view(
-          {
-            glyph: "sidebar",
-            label: `${isHidden ? "Show" : "Hide"} ${label}`,
-            isQuiet: true,
-            onClick: Message.ClickedToggle(),
-            ...Option.match(maybeToggleKeyHint, {
-              onNone: () => ({}),
-              onSome: (keyHint) => ({ keyHint }),
-            }),
-            attributes: [
-              h.Id(toggleId(model)),
-              h.AriaExpanded(!isHidden),
-              h.AriaControls(model.id),
-            ],
-          },
-          h
-        ),
-      ]
-    );
-
     const splitter = h.div([
       h.Class("gg-rail-resize"),
       h.Role("separator"),
       h.AriaLabel(`Width of ${label}`),
       h.AriaControls(model.id),
-      h.AriaValuemin(WIDTH.leastFittingPanels),
+      h.AriaValuemin(WIDTH.least),
       h.AriaValuemax(WIDTH.mostLeavingLeastDeck),
       h.AriaValuenow(width),
       h.AriaValuetext(`${width} pixels`),
@@ -575,14 +500,12 @@ export const view = defineView<Model, Message, ViewInputs>(
 
     return h.div(
       [
-        h.Class(isHidden ? "gg-railed gg-folded" : "gg-railed"),
-        ...(isHidden
-          ? []
-          : Array.fromOption(
-              Option.map(maybeWidth, (shown) =>
-                h.Style({ "--gg-railed-width": `${shown}px` })
-              )
-            )),
+        h.Class("gg-railed"),
+        ...Array.fromOption(
+          Option.map(maybeWidth, (shown) =>
+            h.Style({ "--gg-railed-width": `${shown}px` })
+          )
+        ),
       ],
       [
         toDeckView(openButton),
@@ -598,21 +521,29 @@ export const view = defineView<Model, Message, ViewInputs>(
             h.div(
               [h.Class("gg-rail-head")],
               [
-                h.span([h.Class("gg-label")], [label]),
-                IconButton.view(
-                  {
-                    glyph: "cross",
-                    label: "Close",
-                    onClick: Message.ClickedClose(),
-                  },
-                  h
+                ...head,
+                h.span(
+                  [h.Class("gg-rail-close")],
+                  [
+                    IconButton.view(
+                      {
+                        glyph: "cross",
+                        label: "Close",
+                        onClick: Message.ClickedClose(),
+                      },
+                      h
+                    ),
+                  ]
                 ),
               ]
             ),
-            ...toAsideView(toggleButton),
+            h.div([h.Class("gg-rail-body")], body),
+            ...(foot.length === 0
+              ? []
+              : [h.div([h.Class("gg-rail-foot")], foot)]),
           ]
         ),
-        ...(isHidden ? [] : [splitter]),
+        splitter,
         ...(toPaneView === undefined ? [] : [toPaneView()]),
       ]
     );

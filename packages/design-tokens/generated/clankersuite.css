@@ -121,6 +121,8 @@
   --semantic-dimension-font-size-figure: 30px;
   /* A stat's value at 900px and under. */
   --semantic-dimension-font-size-figure-narrow: 22px;
+  /* A key hint in a ringed box: in the key bar. */
+  --semantic-dimension-font-size-key-hint: 11.5px;
   /* Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels. */
   --semantic-dimension-font-size-label: 13px;
   /* A working screen's name (PageHead). */
@@ -177,6 +179,8 @@
   --semantic-dimension-size-glyph-large: 24px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;
+  /* The square that marks a place's colour in a sidebar. */
+  --semantic-dimension-size-marker: 8px;
   /* What a board column leaves of the viewport's height. */
   --semantic-dimension-size-max-height-board-column-room: 150px;
   /* The tallest an image grows in the Markdown editor. */
@@ -255,12 +259,10 @@
   --semantic-dimension-size-monogram-large: 34px;
   /* The dot inside a chosen radio. */
   --semantic-dimension-size-radio-mark: 6px;
-  /* The column of panels beside a deck, until the reader sizes it. */
-  --semantic-dimension-size-rail-default: 272px;
+  /* The sidebar at the page's left, until the reader sizes it. */
+  --semantic-dimension-size-rail-default: 232px;
   /* The rail as a drawer, whatever width the reader gave it. */
   --semantic-dimension-size-rail-drawer: 320px;
-  /* The rail folded to its first panel's bar, stood on end. */
-  --semantic-dimension-size-rail-folded: 64px;
   /* The width of a rail's resize handle. */
   --semantic-dimension-size-rail-resize: 12px;
   /* The height of a row, a list item on a page or in a palette, a table row or a title bar: one control and room around it. */
@@ -268,7 +270,7 @@
   /* The width of a scrollbar. */
   --semantic-dimension-size-scrollbar: 10px;
   /* The width of the side pane at the page's right. */
-  --semantic-dimension-size-side-pane: 360px;
+  --semantic-dimension-size-side-pane: 400px;
   /* The width and height of the spinner a busy button, chip, loading line, link state or palette row prints. */
   --semantic-dimension-size-spinner: 8px;
   /* The status bar's height. */

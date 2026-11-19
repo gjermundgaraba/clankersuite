@@ -174,4 +174,51 @@ describe("Places", () => {
       Scene.expect(Scene.selector(".gg-places button")).not.toExist()
     );
   });
+
+  it("heads its section with its label when asked, leads with a glyph or a marker, and lists sub-places under their place", () => {
+    const areas = (_model: Area, h: HtmlBuilder<Message>) =>
+      Places.view(
+        {
+          label: "Areas",
+          isLabelShown: true,
+          places: [
+            {
+              id: "inbox",
+              label: "Inbox",
+              glyph: "inbox",
+              onSelect: Message.SelectedArea({ area: "Inbox" }),
+            },
+            {
+              id: "later",
+              label: "Later",
+              marker: "Amber",
+              count: 2,
+              onSelect: Message.SelectedArea({ area: "Later" }),
+              subPlaces: [
+                {
+                  id: "archive",
+                  label: "Archive",
+                  onSelect: Message.SelectedArea({ area: "Archive" }),
+                },
+              ],
+            },
+          ],
+        },
+        h
+      );
+
+    Scene.scene(
+      { update, view: areas },
+      Scene.given<Area>("Inbox"),
+      Scene.expect(Scene.role("navigation", { name: "Areas" })).toExist(),
+      Scene.expect(Scene.role("heading", { name: "Areas" })).toExist(),
+      Scene.expect(Scene.role("button", { name: "Inbox" })).toExist(),
+      Scene.expect(Scene.role("button", { name: "Later, 2" })).toExist(),
+      Scene.expect(Scene.selector(".gg-place-marker.gg-amber")).toHaveAttr(
+        "aria-hidden",
+        "true"
+      ),
+      Scene.expect(Scene.selector("li li button")).toHaveText("Archive")
+    );
+  });
 });

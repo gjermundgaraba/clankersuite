@@ -398,7 +398,7 @@ export const glyphFamilies = {
       stroke:
         "M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2",
     },
-    /** The rail, shown or folded away. */
+    /** A sidebar, or the button that opens it as a drawer. */
     sidebar: {
       stroke:
         "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2zM9 3v18",

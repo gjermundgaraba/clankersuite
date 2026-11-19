@@ -28,6 +28,16 @@ const barView =
       h
     );
 
+const keysOnly = (_model: null, h: HtmlBuilder<Message>) =>
+  StatusBar.view(
+    {
+      keys: [{ keys: "X", does: "complete" }],
+      platform: "Apple",
+      toParentMessage: (message) => Message.GotStatusBarMessage({ message }),
+    },
+    h
+  );
+
 const measureBar = Scene.Mount.resolve(
   { name: BarHeight.MeasureHeight.name },
   Message.GotStatusBarMessage({
@@ -67,6 +77,16 @@ describe("StatusBar", () => {
       Scene.given(null),
       measureBar,
       Scene.expect(Scene.selector(".gg-statusbar-keys")).toBeAbsent()
+    );
+  });
+
+  it("holds only its keys when the state is elsewhere, in a rail's foot", () => {
+    Scene.scene(
+      { update, view: keysOnly },
+      Scene.given(null),
+      measureBar,
+      Scene.expect(Scene.role("contentinfo")).toHaveText("x complete"),
+      Scene.expect(Scene.selector(".gg-statusbar-state")).toBeAbsent()
     );
   });
 });

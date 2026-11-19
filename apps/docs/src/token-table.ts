@@ -29,6 +29,7 @@ export const VOICES = new Map<string, readonly Voice[]>(
     "--semantic-dimension-font-size-label": [
       { words: "Owner name · Active · 2d" },
     ],
+    "--semantic-dimension-font-size-key-hint": [{ words: "J · X · ⌘K" }],
     "--semantic-dimension-font-size-control": [
       { words: "Save · Sign out · Sort by due" },
     ],

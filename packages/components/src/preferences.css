@@ -6,11 +6,6 @@
   .gg-toasts .gg-toast {
     animation: none;
   }
-
-  .gg-railed,
-  .gg-railed > :is(.gg-rail, .gg-bench) {
-    transition: none;
-  }
 }
 
 @media (forced-colors: active) {

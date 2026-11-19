@@ -5,7 +5,7 @@
 }
 
 :root {
-  --gg-topbar-h: var(--semantic-dimension-size-top-bar);
+  --gg-topbar-h: 0px;
   --gg-statusbar-h: 0px;
   --gg-side-pane-w: 0px;
 }
@@ -16,6 +16,10 @@ html {
     var(--gg-topbar-h) + var(--semantic-dimension-space-large)
   );
   scroll-padding-bottom: var(--gg-statusbar-h);
+}
+
+:root:has(header.gg-topbar) {
+  --gg-topbar-h: var(--semantic-dimension-size-top-bar);
 }
 
 :root:has(footer.gg-statusbar) {
@@ -243,8 +247,9 @@ kbd {
   pointer-events: none;
 }
 
-/* what sits between the bars: a Rail and its splitter, a SidePane, a Bench, a Stage. Each sets
-   its own sides */
+/* what is fixed under the top bar, or from the window's top where there is none: a Rail and
+   its splitter and a SidePane run to the window's bottom, the key bar between them; a Bench
+   and a Stage stop at the key bar. Each sets its own sides */
 .gg-rail[popover],
 .gg-rail-resize,
 .gg-side-pane,
@@ -252,5 +257,10 @@ kbd {
 .gg-stage {
   position: fixed;
   top: anchor(--gg-topbar bottom, 0px);
+  bottom: 0;
+}
+
+.gg-bench,
+.gg-stage {
   bottom: var(--gg-statusbar-h);
 }
