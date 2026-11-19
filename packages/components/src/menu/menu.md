@@ -14,7 +14,7 @@ Radio rows say which is checked, and the checked one prints in the accent with a
 
 ## Actions and a composed toggle
 
-An action row can print the key that does the same; here n makes a task, except while a slip is open. A toggle can carry its own content in place of its words: a glyph, the current choice, a count and a caret, here on the page's primary button.
+An action row can print the key that does the same; here n makes a task, except while a slip is open. A toggle can carry its own content in place of its words: a glyph, the current choice, a count and a caret, here on the page's primary button. Its `variant` is a button's (`Primary`, `Ghost`, `Quiet` for a side pane's property), or `Chip`, which prints a chip with a caret, as an Inbox card's area and goal do.
 
 ::Example{name="create"}
 

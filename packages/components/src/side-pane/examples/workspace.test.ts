@@ -1,3 +1,4 @@
+import { Menu } from "@gjermundgaraba/components";
 import { Option } from "effect";
 import { Story } from "foldkit";
 import { describe, expect, it } from "vite-plus/test";
@@ -16,6 +17,31 @@ describe("the workspace example", () => {
       Story.message(Message.SelectedTask({ task: "Call mom" })),
       Story.model((model) => {
         expect(model.maybeTask).toStrictEqual(Option.some("Call mom"));
+      })
+    );
+  });
+
+  it("edits the picked task's title in the pane, and moves it from the When menu", () => {
+    Story.story(
+      update,
+      Story.given(init().model),
+      Story.message(Message.SelectedTask({ task: "Call mom" })),
+      Story.model((model) => {
+        expect(model.paneTitle).toBe("Call mom");
+      }),
+      Story.message(Message.UpdatedPaneTitle({ value: "Call mom tonight" })),
+      Story.message(
+        Message.GotWhenMessage({
+          message: Menu.Message.SelectedItem({
+            id: "This evening",
+            kind: "Radio",
+          }),
+        })
+      ),
+      Story.Command.resolve(Menu.Focus, Menu.Message.CompletedFocus()),
+      Story.model((model) => {
+        expect(model.paneTitle).toBe("Call mom tonight");
+        expect(model.when).toBe("This evening");
       })
     );
   });

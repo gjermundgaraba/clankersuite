@@ -489,6 +489,13 @@
               "unit": "px"
             },
             "$description": "The check drawn in a checked box, and the width of a mixed box's bar."
+          },
+          "compact": {
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "A compact row's round check."
           }
         },
         "dot": {
@@ -772,6 +779,13 @@
               "unit": "px"
             },
             "$description": "Between the small parts of a row's meta and context line, and the done line's glyph and words."
+          },
+          "compact": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Beside a compact row's content; a compact list draws back by it, so its checks line up with the text beside it."
           }
         },
         "group": {

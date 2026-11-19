@@ -50,3 +50,69 @@
     visibility: visible;
   }
 }
+
+.gg-side-pane-top {
+  display: flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-bottom: calc(-1 * var(--semantic-dimension-space-xx-small));
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-side-pane-context {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  min-width: 0;
+}
+
+/* the check sits level with the title's first line */
+.gg-side-pane-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+.gg-side-pane-title > .gg-check-cell {
+  margin-top: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+.gg-side-pane-notes {
+  padding-top: calc(
+    var(--semantic-dimension-space-medium) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  line-height: var(--semantic-number-line-height-prose);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-side-pane-placeholder {
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* a list in the pane sits flush with the properties: its heading, the checks and the add
+   row's plus all start at the labels' edge */
+.gg-side-pane .gg-rows-head {
+  padding-inline: 0;
+}
+
+.gg-side-pane .gg-add-row {
+  min-height: var(--semantic-dimension-size-control);
+  padding-inline: 0;
+}

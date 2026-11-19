@@ -16,6 +16,26 @@
   color: var(--semantic-color-text-secondary);
 }
 
+.gg-rows.gg-compact {
+  --gg-check: var(--semantic-dimension-size-checkbox-compact);
+  margin-inline: calc(-1 * var(--semantic-dimension-space-row-compact));
+}
+
+.gg-rows.gg-compact .gg-row {
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-row-compact);
+}
+
+.gg-rows.gg-compact .gg-check-cell {
+  width: calc(var(--gg-check) + var(--semantic-dimension-space-x-small));
+}
+
+.gg-rows.gg-compact .gg-check {
+  width: var(--gg-check);
+  height: var(--gg-check);
+}
+
 .gg-page-head + .gg-rows-section,
 .gg-rows-section + .gg-rows-section {
   margin-top: var(--semantic-dimension-space-group);

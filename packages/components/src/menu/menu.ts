@@ -155,15 +155,15 @@ export type ViewInputs = Readonly<{
   items: readonly Item[];
   /** A glyph toggle (`iconbtn`): the glyph alone, `label` its name and tip. */
   glyph?: GlyphName;
-  /** A glyph toggle muted until hovered: a row's `more` menu. */
-  isQuiet?: boolean;
   /** The toggle's own content in place of `label`'s words: a glyph, the current choice's
    *  title, a count, a caret. A small button with the menu's classes still. Markup that
    *  carries no handlers: it is built in the application's boundary and rendered inside the
    *  toggle, in this Submodel's. */
   toggleContent?: ReadonlyArray<Html | string>;
-  /** The toggle's look when it is a button (`Primary` for a page's main action). `Chip`
-   *  prints a chip with a caret after its words or its content: an item's area or goal. */
+  /** The toggle's look. A button prints small: `Primary` for a page's main action, `Quiet`
+   *  for a side pane's property, at body size. A glyph toggle that is `Quiet` is muted until
+   *  hovered: a row's `more` menu. `Chip` prints a chip with a caret after its words or its
+   *  content: an item's area or goal. */
   variant?: ToggleVariant;
   align?: Align;
 }>;
@@ -175,12 +175,7 @@ const isNamedByLabel = (viewInputs: ViewInputs): boolean =>
   viewInputs.glyph !== undefined || viewInputs.toggleContent !== undefined;
 
 const toggleClass = (viewInputs: ViewInputs): string => {
-  const {
-    glyph,
-    isQuiet = false,
-    toggleContent,
-    variant = "Default",
-  } = viewInputs;
+  const { glyph, toggleContent, variant = "Default" } = viewInputs;
 
   if (variant === "Chip") {
     return "gg-chip";
@@ -190,7 +185,7 @@ const toggleClass = (viewInputs: ViewInputs): string => {
     return lookClassName({ variant, isSmall: true });
   }
 
-  return isQuiet ? "gg-iconbtn gg-quiet" : "gg-iconbtn";
+  return variant === "Quiet" ? "gg-iconbtn gg-quiet" : "gg-iconbtn";
 };
 
 const toggleView = (

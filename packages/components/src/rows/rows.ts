@@ -23,6 +23,9 @@ export type ViewConfig = Readonly<{
   /** Rows that wait behind the one being worked on, such as an inbox's up next: their titles
    *  in secondary text. */
   isDimmed?: boolean;
+  /** A short list beside other details, such as a side pane's subtasks: rows a control's
+   *  height, with a smaller check. */
+  isCompact?: boolean;
 }>;
 
 /** A list of rows. */
@@ -35,7 +38,7 @@ export const view = <Message>(
       ...(config.isTreegrid === true ? [h.Role("treegrid")] : []),
       ...(config.label === undefined ? [] : [h.AriaLabel(config.label)]),
       h.Class(
-        `gg-rows${config.isOutline === true ? " gg-tree" : ""}${config.isDimmed === true ? " gg-dimmed" : ""}`
+        `gg-rows${config.isOutline === true ? " gg-tree" : ""}${config.isDimmed === true ? " gg-dimmed" : ""}${config.isCompact === true ? " gg-compact" : ""}`
       ),
     ],
     config.rows

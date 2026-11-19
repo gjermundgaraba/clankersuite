@@ -122,7 +122,7 @@ const fileRowView = (
             viewInputs: {
               label: `Actions: ${file.name}`,
               glyph: "more",
-              isQuiet: true,
+              variant: "Quiet",
               align: "End",
               items: rowItems(model, file.id),
             },

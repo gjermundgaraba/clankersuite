@@ -4,7 +4,7 @@ category: actions
 
 # Button
 
-A command the reader gives: a word in a rounded box that shrinks a little while it is pressed. `Primary` is the one action that commits; `Ghost` has no box until it is hovered, for an action beside a page's title; `Danger` is only the commit inside a confirm, never a button at rest.
+A command the reader gives: a word in a rounded box that shrinks a little while it is pressed. `Primary` is the one action that commits; `Ghost` has no box until it is hovered, for an action beside a page's title; `Quiet` is a value that opens a menu, at body size with its glyph quiet, as a side pane's properties print; `Danger` is only the commit inside a confirm, never a button at rest.
 
 ::Example{name="variants"}
 
