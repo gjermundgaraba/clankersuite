@@ -4,10 +4,10 @@
     var(--semantic-dimension-size-max-width-deck) + var(--gg-side-pane-w)
   );
   margin: 0 auto;
-  padding: var(--semantic-dimension-space-gutter)
-    calc(var(--semantic-dimension-space-gutter) + var(--gg-side-pane-w))
+  padding: var(--semantic-dimension-space-page-block)
+    calc(var(--semantic-dimension-space-page-inline) + var(--gg-side-pane-w))
     calc(2 * var(--semantic-dimension-space-xx-large))
-    var(--semantic-dimension-space-gutter);
+    var(--semantic-dimension-space-page-inline);
   display: grid;
   gap: var(--semantic-dimension-space-gutter);
 }

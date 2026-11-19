@@ -4,7 +4,7 @@ category: layout
 
 # Deck
 
-The body of a page: a centred column of panels, 24px apart, a PageHead first. This page sits in one.
+The body of a page: a centred column no wider than `size.maxWidth.deck`, with `space.page.*` above and beside its content, holding a PageHead and then the page's groups and panels, `space.gutter` apart. This page sits in one.
 
 ## Usage
 

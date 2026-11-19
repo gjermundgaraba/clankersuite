@@ -181,10 +181,10 @@
         "maxWidth": {
           "deck": {
             "$value": {
-              "value": 1160,
+              "value": 760,
               "unit": "px"
             },
-            "$description": "The widest a deck of panels runs."
+            "$description": "The page's column: a Deck's content, centred between the sidebar and the side pane."
           },
           "prose": {
             "$value": {
@@ -678,6 +678,22 @@
         "gutter": {
           "$value": "{semantic.dimension.space.xLarge}",
           "$description": "Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's."
+        },
+        "page": {
+          "block": {
+            "$value": {
+              "value": 44,
+              "unit": "px"
+            },
+            "$description": "The room above a Deck's content, between the window's top and the page's head."
+          },
+          "inline": {
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            },
+            "$description": "The room either side of a Deck's content, inside its column."
+          }
         },
         "focusRing": {
           "offset": {

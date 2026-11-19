@@ -20,7 +20,7 @@
           "$description": "Body text, notes and notices."
         },
         "title": {
-          "$value": 1.2,
+          "$value": 1.1,
           "$description": "A page's title."
         },
         "textarea": {
