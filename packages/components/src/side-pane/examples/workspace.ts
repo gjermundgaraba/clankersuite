@@ -1,11 +1,16 @@
 import {
   Button,
   Chip,
+  ConfirmDialog,
   Deck,
+  Focus,
+  Format,
   IconButton,
+  InlineInput,
   KeyHint,
   LinkState,
   Marker,
+  MarkdownEditor,
   Menu,
   PageHead,
   Places,
@@ -81,8 +86,16 @@ export const Model = Schema.Struct({
   maybeTask: Schema.Option(Task),
   doneTasks: Schema.Array(Task),
   paneTitle: Schema.String,
+  paneNotes: Schema.String,
   whenMenu: Menu.Model,
   when: When,
+  whenDay: Schema.String,
+  deadline: Schema.String,
+  owedTo: Schema.String,
+  maybeOwedTo: Schema.Option(InlineInput.Model),
+  moreMenu: Menu.Model,
+  deleteConfirm: ConfirmDialog.Model,
+  deletedTasks: Schema.Array(Task),
 });
 
 export type Model = typeof Model.Type;
@@ -94,12 +107,21 @@ export const Message = defineMessageUnion({
   ToggledDone: { task: Task, isDone: Schema.Boolean },
   ClickedClosePane: {},
   UpdatedPaneTitle: { value: Schema.String },
+  UpdatedPaneNotes: { value: Schema.String },
   PressedPaneEnter: {},
   ClickedProperty: {},
+  ChangedDeadline: { value: Schema.String },
+  ClickedOwedTo: {},
+  CompletedFocus: {},
   GotWhenMessage: { message: Menu.Message },
+  GotMoreMessage: { message: Menu.Message },
+  GotOwedToMessage: { message: InlineInput.Message },
+  GotPropsListMessage: { message: PropsList.Message },
   GotRailMessage: { message: Rail.Message },
   GotStatusBarMessage: { message: StatusBar.Message },
+  GotSidePaneMessage: { message: SidePane.Message },
   GotTitleFieldMessage: { message: TitleField.Message },
+  GotDeleteConfirmMessage: { message: ConfirmDialog.Message },
 });
 
 export type Message = typeof Message.Type;
@@ -117,11 +139,19 @@ export const init = (): Update.Return<Model, Message> => ({
     rail: Rail.init({ id: "workspace-rail" }),
     maybeRailWidth: Option.none(),
     place: "Focus",
-    maybeTask: Option.some("Review budget"),
+    maybeTask: Option.some("Call mom"),
     doneTasks: ["Answer Lars about the offsite"],
-    paneTitle: "Review budget",
+    paneTitle: "Call mom",
+    paneNotes: "",
     whenMenu: Menu.init({ id: "workspace-when" }),
     when: "Focus",
+    whenDay: "",
+    deadline: "",
+    owedTo: "",
+    maybeOwedTo: Option.none(),
+    moreMenu: Menu.init({ id: "workspace-more" }),
+    deleteConfirm: ConfirmDialog.init({ id: "workspace-delete" }),
+    deletedTasks: [],
   },
   commands: [DetectKeyPlatform()],
 });
@@ -154,6 +184,124 @@ const foldRailClose = Update.foldChildStep({ update: Rail.close, ...railFold });
 
 const isWhen = Schema.is(When);
 
+const OWED_TO_ID = "workspace-owed-to";
+const OWED_TO_BUTTON_ID = "workspace-owed-to-button";
+
+const owedToFold = {
+  read: (model: Model) => model.maybeOwedTo,
+  write: (model: Model, owedTo: InlineInput.Model): Model =>
+    modifyFields(model, { maybeOwedTo: () => Option.some(owedTo) }),
+  toParentMessage: (message: InlineInput.Message) =>
+    Message.GotOwedToMessage({ message }),
+};
+
+const endOwedTo =
+  ({ how }: typeof InlineInput.OutMessage.Ended.Type) =>
+  (model: Model): Update.Return<Model, Message> => {
+    const ended = modifyFields(model, { maybeOwedTo: () => Option.none() });
+
+    return how === "Blur"
+      ? { model: ended }
+      : { model: ended, commands: [Focus.Focus({ id: OWED_TO_BUTTON_ID })] };
+  };
+
+const foldOwedToSaved = Update.foldChild({
+  update: InlineInput.succeeded,
+  ...owedToFold,
+  foldOutMessage: InlineInput.OutMessage.match<Update.Step<Model, Message>>({
+    Committed: () => (model) => ({ model }),
+    Ended: endOwedTo,
+  }),
+});
+
+const foldOwedTo = Update.foldChild({
+  update: InlineInput.update,
+  ...owedToFold,
+  foldOutMessage: InlineInput.OutMessage.match<Update.Step<Model, Message>>({
+    Committed:
+      ({ text }) =>
+      (model) =>
+        foldOwedToSaved(
+          modifyFields(model, { owedTo: () => text }),
+          OWED_TO_ID
+        ),
+    Ended: endOwedTo,
+  }),
+});
+
+const startOwedTo = (model: Model): Update.Return<Model, Message> =>
+  Update.foldChildInit(InlineInput.init({ id: OWED_TO_ID }), {
+    toParentModel: (owedTo) =>
+      modifyFields(model, { maybeOwedTo: () => Option.some(owedTo) }),
+    toParentMessage: (message) => Message.GotOwedToMessage({ message }),
+  });
+
+const deleteConfirmFold = {
+  read: (model: Model) => Option.some(model.deleteConfirm),
+  write: (model: Model, deleteConfirm: ConfirmDialog.Model): Model =>
+    modifyFields(model, { deleteConfirm: () => deleteConfirm }),
+  toParentMessage: (message: ConfirmDialog.Message) =>
+    Message.GotDeleteConfirmMessage({ message }),
+};
+
+const openDeleteConfirm = Update.foldChildStep({
+  update: ConfirmDialog.open,
+  ...deleteConfirmFold,
+});
+
+const closeDeleteConfirm = Update.foldChildStep({
+  update: ConfirmDialog.close,
+  ...deleteConfirmFold,
+});
+
+const deleteTask = (model: Model): Model =>
+  Option.match(model.maybeTask, {
+    onNone: () => model,
+    onSome: (task) =>
+      modifyFields(model, {
+        deletedTasks: (tasks) => Array.union(tasks, [task]),
+        maybeTask: () => Option.none(),
+      }),
+  });
+
+const foldDeleteConfirm = Update.foldChild({
+  update: ConfirmDialog.update,
+  ...deleteConfirmFold,
+  foldOutMessage: ConfirmDialog.OutMessage.match<Update.Step<Model, Message>>({
+    Confirmed: () => (model) => closeDeleteConfirm(deleteTask(model)),
+    Cancelled: () => (model) => ({ model }),
+  }),
+});
+
+const foldMore = Update.foldChild({
+  update: Menu.update,
+  read: (model: Model) => Option.some(model.moreMenu),
+  write: (model: Model, moreMenu: Menu.Model): Model =>
+    modifyFields(model, { moreMenu: () => moreMenu }),
+  toParentMessage: (message: Menu.Message) =>
+    Message.GotMoreMessage({ message }),
+  foldOutMessage: Menu.OutMessage.match<Update.Step<Model, Message>>({
+    Selected:
+      ({ id }) =>
+      (model) =>
+        id === "delete"
+          ? openDeleteConfirm(model)
+          : {
+              model: Option.match(model.maybeTask, {
+                onNone: () => model,
+                onSome: (task) =>
+                  id === "done"
+                    ? modifyFields(model, {
+                        doneTasks: (tasks) => Array.union(tasks, [task]),
+                      })
+                    : model,
+              }),
+            },
+    Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
+  }),
+});
+
 const foldWhen = Update.foldChild({
   update: Menu.update,
   read: (model: Model) => Option.some(model.whenMenu),
@@ -165,10 +313,16 @@ const foldWhen = Update.foldChild({
     Selected:
       ({ id }) =>
       (model) => ({
-        model: isWhen(id) ? modifyFields(model, { when: () => id }) : model,
+        model: isWhen(id)
+          ? modifyFields(model, { when: () => id, whenDay: () => "" })
+          : model,
       }),
     Toggled: () => (model) => ({ model }),
-    PickedDay: () => (model) => ({ model }),
+    PickedDay:
+      ({ value }) =>
+      (model) => ({
+        model: modifyFields(model, { whenDay: () => value }),
+      }),
   }),
 });
 
@@ -183,7 +337,12 @@ export const update = (model: Model, message: Message) =>
       model: modifyFields(model, {
         maybeTask: () => Option.some(task),
         paneTitle: () => task,
+        paneNotes: () => DETAILS[task] ?? "",
         when: () => "Focus",
+        whenDay: () => "",
+        deadline: () => "",
+        owedTo: () => "",
+        maybeOwedTo: () => Option.none(),
       }),
     }),
     ToggledDone: ({ task, isDone }) => ({
@@ -200,12 +359,28 @@ export const update = (model: Model, message: Message) =>
     UpdatedPaneTitle: ({ value }) => ({
       model: modifyFields(model, { paneTitle: () => value }),
     }),
+    UpdatedPaneNotes: ({ value }) => ({
+      model: modifyFields(model, { paneNotes: () => value }),
+    }),
     PressedPaneEnter: () => ({ model }),
     ClickedProperty: () => ({ model }),
+    ChangedDeadline: ({ value }) => ({
+      model: modifyFields(model, { deadline: () => value }),
+      commands: [Focus.Focus({ id: "workspace-pane-deadline-button" })],
+    }),
+    ClickedOwedTo: () => startOwedTo(model),
+    CompletedFocus: () => ({ model }),
     GotWhenMessage: ({ message: menuMessage }) => foldWhen(model, menuMessage),
+    GotMoreMessage: ({ message: menuMessage }) => foldMore(model, menuMessage),
+    GotOwedToMessage: ({ message: owedToMessage }) =>
+      foldOwedTo(model, owedToMessage),
+    GotPropsListMessage: () => ({ model }),
     GotRailMessage: ({ message: railMessage }) => foldRail(model, railMessage),
     GotStatusBarMessage: () => ({ model }),
+    GotSidePaneMessage: () => ({ model }),
     GotTitleFieldMessage: () => ({ model }),
+    GotDeleteConfirmMessage: ({ message: confirmMessage }) =>
+      foldDeleteConfirm(model, confirmMessage),
   });
 
 export const subscriptions = Subscription.lift(Rail.subscriptions("rail"))<
@@ -344,6 +519,18 @@ const EVENING_ROWS: readonly Row[] = [
   { task: "Plan christmas trip", context: { area: HOME } },
 ];
 
+const isDeleted = (model: Model, task: string): boolean =>
+  Array.some(model.deletedTasks, (deleted) => deleted === task);
+
+const shownRows = (model: Model, rows: readonly Row[]): readonly Row[] =>
+  Array.filter(
+    rows,
+    (row) =>
+      !isDeleted(model, row.task) &&
+      (row.context.parent === undefined ||
+        !isDeleted(model, row.context.parent))
+  );
+
 const rowView = (
   model: Model,
   where: "deck" | "pane",
@@ -441,7 +628,9 @@ const focusView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] => [
         Rows.view(
           {
             label: "Focus",
-            rows: Array.map(DAY_ROWS, (row) => rowView(model, "deck", row, h)),
+            rows: Array.map(shownRows(model, DAY_ROWS), (row) =>
+              rowView(model, "deck", row, h)
+            ),
           },
           h
         ),
@@ -458,7 +647,7 @@ const focusView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] => [
         Rows.view(
           {
             label: "This evening",
-            rows: Array.map(EVENING_ROWS, (row) =>
+            rows: Array.map(shownRows(model, EVENING_ROWS), (row) =>
               rowView(model, "deck", row, h)
             ),
           },
@@ -491,30 +680,6 @@ const subtasksOf = (task: Task): readonly Task[] =>
     (row) => row.task
   );
 
-const whenView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  h.submodel({
-    slotId: Menu.id(model.whenMenu),
-    model: model.whenMenu,
-    view: Menu.view,
-    viewInputs: {
-      label: `When, ${model.when}`,
-      variant: "Quiet",
-      toggleContent: [
-        Glyph.view({ name: WHEN_GLYPHS[model.when] }, h),
-        model.when,
-      ],
-      items: Array.map(When.literals, (when) =>
-        Menu.radio({
-          id: when,
-          label: when,
-          glyph: WHEN_GLYPHS[when],
-          isChecked: model.when === when,
-        })
-      ),
-    },
-    toParentMessage: (message) => Message.GotWhenMessage({ message }),
-  });
-
 const propertyButton = (
   label: string,
   glyph: GlyphName,
@@ -525,6 +690,117 @@ const propertyButton = (
     h
   );
 
+const THIS_YEAR = 2026;
+
+const dayOf = (withYear: boolean) =>
+  new Intl.DateTimeFormat(Format.LOCALE, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    ...(withYear && { year: "numeric" }),
+    timeZone: "UTC",
+  });
+
+const deadlineShown = (deadline: string): string => {
+  if (deadline === "") {
+    return "None";
+  }
+
+  const day = new Date(`${deadline}T00:00:00Z`);
+
+  return dayOf(day.getUTCFullYear() !== THIS_YEAR).format(day);
+};
+
+const whenShown = (model: Model): string =>
+  model.whenDay === "" ? model.when : deadlineShown(model.whenDay);
+
+const whenView = (model: Model, h: HtmlBuilder<Message>): Html =>
+  h.submodel({
+    slotId: Menu.id(model.whenMenu),
+    model: model.whenMenu,
+    view: Menu.view,
+    viewInputs: {
+      label: `When, ${whenShown(model)}`,
+      variant: "Quiet",
+      toggleContent: [
+        Glyph.view(
+          { name: model.whenDay === "" ? WHEN_GLYPHS[model.when] : "calendar" },
+          h
+        ),
+        whenShown(model),
+      ],
+      items: [
+        ...Array.map(When.literals, (when) =>
+          Menu.radio({
+            id: when,
+            label: when,
+            glyph: WHEN_GLYPHS[when],
+            isChecked: model.whenDay === "" && model.when === when,
+          })
+        ),
+        Menu.separator("day"),
+        Menu.day({
+          id: "pick-day",
+          label: "Pick a day…",
+          glyph: "calendar",
+          value: model.whenDay,
+        }),
+      ],
+    },
+    toParentMessage: (message) => Message.GotWhenMessage({ message }),
+  });
+
+const owedToView = (model: Model, h: HtmlBuilder<Message>): Html =>
+  Option.match(model.maybeOwedTo, {
+    onNone: () =>
+      Button.view(
+        {
+          label: model.owedTo === "" ? "Nobody" : model.owedTo,
+          glyph: "user",
+          variant: "Quiet",
+          onClick: Message.ClickedOwedTo(),
+          attributes: [h.Id(OWED_TO_BUTTON_ID)],
+        },
+        h
+      ),
+    onSome: (owedTo) =>
+      h.submodel({
+        slotId: OWED_TO_ID,
+        model: owedTo,
+        view: InlineInput.view,
+        viewInputs: {
+          value: model.owedTo,
+          label: "Owed to",
+          placeholder: "Who it is owed to",
+        },
+        toParentMessage: (message) => Message.GotOwedToMessage({ message }),
+      }),
+  });
+
+const moreView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html =>
+  h.submodel({
+    slotId: Menu.id(model.moreMenu),
+    model: model.moreMenu,
+    view: Menu.view,
+    viewInputs: {
+      label: `More for ${task}`,
+      glyph: "more",
+      variant: "Quiet",
+      align: "End",
+      items: [
+        Menu.action({ id: "done", label: "Mark done", glyph: "check" }),
+        Menu.action({ id: "archive", label: "Archive", glyph: "archive" }),
+        Menu.separator("danger"),
+        Menu.action({
+          id: "delete",
+          label: "Delete with its subtasks",
+          glyph: "trash",
+        }),
+      ],
+    },
+    toParentMessage: (message) => Message.GotMoreMessage({ message }),
+  });
+
 const paneView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html => {
   const context: Rows.ContextConfig = Option.match(rowOf(task), {
     onNone: () => ({}),
@@ -533,18 +809,25 @@ const paneView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html => {
 
   const area = context.area ?? HOME;
 
-  const subtasks = subtasksOf(task);
+  const subtasks = Array.filter(
+    subtasksOf(task),
+    (subtask) => !isDeleted(model, subtask)
+  );
+
   const isDone = Array.contains(model.doneTasks, task);
 
   return SidePane.view(
     {
       label: "Task details",
+      onEscape: Message.ClickedClosePane(),
+      toParentMessage: (message) => Message.GotSidePaneMessage({ message }),
       top: {
         context: [
           Marker.view({ colour: area.colour }, h),
           area.label,
           ...(context.parent === undefined ? [] : [`› ${context.parent}`]),
         ],
+        menu: moreView(model, task, h),
         closeLabel: "Close the details",
         onClose: Message.ClickedClosePane(),
       },
@@ -580,7 +863,24 @@ const paneView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html => {
             isFlat: true,
             items: [
               { label: "When", value: [whenView(model, h)] },
-              { label: "Deadline", value: [propertyButton("None", "flag", h)] },
+              {
+                label: "Deadline",
+                value: [
+                  PropsList.dateView(
+                    {
+                      id: "workspace-pane-deadline",
+                      label: "Deadline",
+                      value: model.deadline,
+                      shown: deadlineShown(model.deadline),
+                      glyph: "flag",
+                      onChange: (value) => Message.ChangedDeadline({ value }),
+                      toParentMessage: (message) =>
+                        Message.GotPropsListMessage({ message }),
+                    },
+                    h
+                  ),
+                ],
+              },
               {
                 label: "Goal",
                 value: [
@@ -594,21 +894,27 @@ const paneView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html => {
                   ),
                 ],
               },
-              {
-                label: "Owed to",
-                value: [propertyButton("Nobody", "user", h)],
-              },
+              { label: "Owed to", value: [owedToView(model, h)] },
             ],
           },
           h
         ),
         SidePane.notesView(
           {
-            body: Option.match(Option.fromUndefinedOr(DETAILS[task]), {
-              onNone: () => [],
-              onSome: (details) => [h.p([], [details])],
-            }),
-            placeholder: "Notes, in Markdown…",
+            body: [
+              MarkdownEditor.view(
+                {
+                  id: "workspace-pane-notes",
+                  label: "Notes",
+                  isLabelHidden: true,
+                  value: model.paneNotes,
+                  onInput: (value) => Message.UpdatedPaneNotes({ value }),
+                  rows: 1,
+                  placeholder: "Notes, in Markdown…",
+                },
+                h
+              ),
+            ],
           },
           h
         ),
@@ -637,6 +943,21 @@ const paneView = (model: Model, task: Task, h: HtmlBuilder<Message>): Html => {
   );
 };
 
+const deleteConfirmView = (model: Model, h: HtmlBuilder<Message>): Html =>
+  h.submodel({
+    slotId: ConfirmDialog.id(model.deleteConfirm),
+    model: model.deleteConfirm,
+    view: ConfirmDialog.view,
+    viewInputs: {
+      title: "Delete",
+      question: `Delete ${Option.getOrElse(model.maybeTask, () => "this task")}?`,
+      body: ["Its subtasks go with it, and it cannot be undone."],
+      label: "Delete",
+      isDanger: true,
+    },
+    toParentMessage: (message) => Message.GotDeleteConfirmMessage({ message }),
+  });
+
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   h.div(
     [],
@@ -650,7 +971,16 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           maybeWidth: model.maybeRailWidth,
           toAsideView: () => sidebarView(model, h),
           toDeckView: (openButton) =>
-            Deck.view({ body: [openButton, ...focusView(model, h)] }, h),
+            Deck.view(
+              {
+                body: [
+                  openButton,
+                  ...focusView(model, h),
+                  deleteConfirmView(model, h),
+                ],
+              },
+              h
+            ),
           toPaneView: () =>
             Option.match(model.maybeTask, {
               onNone: () => h.empty,

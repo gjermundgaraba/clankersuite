@@ -103,10 +103,6 @@
     var(--semantic-color-border-divider);
 }
 
-.gg-side-pane-placeholder {
-  color: var(--semantic-color-text-tertiary);
-}
-
 /* a list in the pane sits flush with the properties: its heading, the checks and the add
    row's plus all start at the labels' edge */
 .gg-side-pane .gg-rows-head {
