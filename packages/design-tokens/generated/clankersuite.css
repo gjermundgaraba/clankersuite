@@ -157,6 +157,8 @@
   --semantic-dimension-radius-control: 6px;
   /* The corners of a checkbox, small enough that it never reads as a radio. */
   --semantic-dimension-radius-mark: 3px;
+  /* The corners of a Marker's square: an area's colour. */
+  --semantic-dimension-radius-marker: 2px;
   /* Fully rounded ends: a chip, a count, a dot. */
   --semantic-dimension-radius-pill: 999px;
   /* The corners of a menu and the select picker. */

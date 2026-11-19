@@ -76,6 +76,8 @@ export * as Loading from "./loading/index.ts";
 
 export * as Mark from "./mark/index.ts";
 
+export * as Marker from "./marker/index.ts";
+
 export * as MarkdownEditor from "./markdown-editor/index.ts";
 
 export * as Menu from "./menu/index.ts";

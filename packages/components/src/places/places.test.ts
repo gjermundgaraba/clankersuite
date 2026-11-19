@@ -214,7 +214,7 @@ describe("Places", () => {
       Scene.expect(Scene.role("heading", { name: "Areas" })).toExist(),
       Scene.expect(Scene.role("button", { name: "Inbox" })).toExist(),
       Scene.expect(Scene.role("button", { name: "Later, 2" })).toExist(),
-      Scene.expect(Scene.selector(".gg-place-marker.gg-amber")).toHaveAttr(
+      Scene.expect(Scene.selector(".gg-marker.gg-amber")).toHaveAttr(
         "aria-hidden",
         "true"
       ),

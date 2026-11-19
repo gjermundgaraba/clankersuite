@@ -732,6 +732,13 @@
           },
           "$description": "The corners of a checkbox, small enough that it never reads as a radio."
         },
+        "marker": {
+          "$value": {
+            "value": 2,
+            "unit": "px"
+          },
+          "$description": "The corners of a Marker's square: an area's colour."
+        },
         "pill": {
           "$value": {
             "value": 999,
