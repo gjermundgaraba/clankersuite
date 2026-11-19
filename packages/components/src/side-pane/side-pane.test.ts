@@ -1,7 +1,16 @@
+import { Option, Schema } from "effect";
 import { Scene } from "foldkit";
-import type { HtmlBuilder } from "foldkit/html";
-import { describe, expect, it } from "vite-plus/test";
+import type { Html, HtmlBuilder } from "foldkit/html";
+import { defineMessageUnion } from "foldkit/message";
+import { modifyFields } from "foldkit/struct";
+import * as Update from "foldkit/update";
+import { afterEach, describe, expect, it } from "vite-plus/test";
 
+import * as InlineInput from "../inline-input/inline-input.ts";
+import { disposeEmbedded, embed } from "../test/embed.ts";
+import { keydown } from "../test/events.ts";
+import { byId } from "../test/fixture.ts";
+import { settleUntil } from "../test/settle.ts";
 import * as SidePane from "./side-pane.ts";
 
 import RAIL from "../rail/rail.css?raw";
@@ -70,39 +79,144 @@ describe("SidePane top line", () => {
   });
 });
 
-const notesPane = (model: string, h: HtmlBuilder<never>) =>
+describe("SidePane top line's menu", () => {
+  it("sets the item's menu before the close glyph", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<string>) =>
+          SidePane.view(
+            {
+              label: "Task details",
+              top: {
+                context: ["Work"],
+                menu: h.button([], ["More"]),
+                closeLabel: "Close the details",
+                onClose: "Closed",
+              },
+              body: [],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(Scene.first(Scene.all.role("button"))).toHaveText("More"),
+      Scene.expect(Scene.last(Scene.all.role("button"))).toHaveAccessibleName(
+        "Close the details"
+      )
+    );
+  });
+});
+
+const EscapeHarness = Schema.Struct({
+  escapes: Schema.Finite,
+  owedTo: Schema.String,
+  maybeOwedTo: Schema.Option(InlineInput.Model),
+});
+
+type EscapeHarness = typeof EscapeHarness.Type;
+
+const EscapeMessage = defineMessageUnion({
+  PressedPaneEscape: {},
+  GotSidePaneMessage: { message: SidePane.Message },
+  GotOwedToMessage: { message: InlineInput.Message },
+});
+
+type EscapeMessage = typeof EscapeMessage.Type;
+
+const foldOwedTo = Update.foldChild({
+  update: InlineInput.update,
+  read: (model: EscapeHarness) => model.maybeOwedTo,
+  write: (model: EscapeHarness, owedTo: InlineInput.Model): EscapeHarness =>
+    modifyFields(model, { maybeOwedTo: () => Option.some(owedTo) }),
+  toParentMessage: (message: InlineInput.Message) =>
+    EscapeMessage.GotOwedToMessage({ message }),
+  foldOutMessage: InlineInput.OutMessage.match<
+    Update.Step<EscapeHarness, EscapeMessage>
+  >({
+    Committed:
+      ({ text }) =>
+      (model) => ({ model: modifyFields(model, { owedTo: () => text }) }),
+    Ended: () => (model) => ({
+      model: modifyFields(model, { maybeOwedTo: () => Option.none() }),
+    }),
+  }),
+});
+
+const escapeHarnessUpdate = (model: EscapeHarness, message: EscapeMessage) =>
+  EscapeMessage.match<Update.Return<EscapeHarness, EscapeMessage>>(message, {
+    PressedPaneEscape: () => ({
+      model: modifyFields(model, { escapes: (escapes) => escapes + 1 }),
+    }),
+    GotSidePaneMessage: () => ({ model }),
+    GotOwedToMessage: ({ message: owedToMessage }) =>
+      foldOwedTo(model, owedToMessage),
+  });
+
+const escapeHarnessView = (
+  model: EscapeHarness,
+  h: HtmlBuilder<EscapeMessage>
+): Html =>
   SidePane.view(
     {
       label: "Task details",
+      onEscape: EscapeMessage.PressedPaneEscape(),
+      toParentMessage: (message) =>
+        EscapeMessage.GotSidePaneMessage({ message }),
       body: [
-        SidePane.notesView(
-          {
-            body: model === "" ? [] : [model],
-            placeholder: "Notes, in Markdown…",
-          },
-          h
-        ),
+        h.p([h.Id("pane-body"), h.Tabindex(-1)], [`Escapes: ${model.escapes}`]),
+        ...Option.match(model.maybeOwedTo, {
+          onNone: () => [],
+          onSome: (owedTo) => [
+            h.submodel({
+              slotId: "owed-to",
+              model: owedTo,
+              view: InlineInput.view,
+              viewInputs: { value: model.owedTo, label: "Owed to" },
+              toParentMessage: (message) =>
+                EscapeMessage.GotOwedToMessage({ message }),
+            }),
+          ],
+        }),
       ],
     },
     h
   );
 
-describe("SidePane notes", () => {
-  it("prints the placeholder only while there are no notes", () => {
-    Scene.scene(
-      { update: (model: string) => ({ model }), view: notesPane },
-      Scene.given(""),
-      Scene.expect(
-        Scene.role("complementary", { name: "Task details" })
-      ).toHaveText("Notes, in Markdown…")
-    );
-    Scene.scene(
-      { update: (model: string) => ({ model }), view: notesPane },
-      Scene.given("Before the weekend."),
-      Scene.expect(
-        Scene.role("complementary", { name: "Task details" })
-      ).toHaveText("Before the weekend.")
-    );
+describe("SidePane Escape", () => {
+  afterEach(disposeEmbedded);
+
+  it("leaves an Escape a field inside took to the field, and closes on one nothing took", async () => {
+    embed({
+      Model: EscapeHarness,
+      init: () => ({
+        model: {
+          escapes: 0,
+          owedTo: "",
+          maybeOwedTo: Option.some(InlineInput.init({ id: "owed-to" }).model),
+        },
+      }),
+      update: escapeHarnessUpdate,
+      view: escapeHarnessView,
+    });
+    await settleUntil(() => document.querySelector("#owed-to") !== null);
+
+    const field = byId("owed-to");
+    field.focus();
+    Object.assign(field, { value: "Lars" });
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    const fieldEscape = keydown("Escape");
+    field.dispatchEvent(fieldEscape);
+    await settleUntil(() => document.querySelector("#owed-to") === null);
+
+    expect(fieldEscape.defaultPrevented).toBe(true);
+    expect(byId("pane-body").textContent).toBe("Escapes: 0");
+
+    const paneEscape = keydown("Escape");
+    byId("pane-body").dispatchEvent(paneEscape);
+    await settleUntil(() => byId("pane-body").textContent === "Escapes: 1");
+
+    expect(paneEscape.defaultPrevented).toBe(true);
   });
 });
 

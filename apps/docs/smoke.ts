@@ -193,6 +193,25 @@ try {
     problems.push("/components/side-pane: a frame does not follow the scheme");
   }
 
+  await page.setViewportSize({ width: 820, height: 900 });
+  await page.goto(`${base}/frame/components/side-pane/workspace`);
+  await page.waitForTimeout(MOUNT);
+  await page.getByRole("button", { name: /^More for /u }).click();
+  await page.getByRole("menuitem", { name: /^Delete/u }).click();
+  await page.waitForTimeout(RENDER);
+
+  const isCancelShown = await page
+    .getByRole("button", { name: "Cancel" })
+    .click({ timeout: 2000 })
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isCancelShown) {
+    problems.push(
+      "/frame/components/side-pane/workspace: a dialog over the covering pane cannot be reached"
+    );
+  }
+
   await browser.close();
 } finally {
   if (server.pid !== undefined) {
