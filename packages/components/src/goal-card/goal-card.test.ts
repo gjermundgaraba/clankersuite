@@ -10,7 +10,8 @@ const card = (_model: null, h: HtmlBuilder<never>) =>
       id: "goal-beta",
       title: "Ship the beta",
       colour: "Amber",
-      description: "Get real users on it.",
+      description: ["Get real users on it."],
+      actions: [h.button([], ["Edit"])],
       steps: [
         { label: "Ten users", isDone: false },
         { label: "Docs published", isDone: true },
@@ -43,6 +44,22 @@ describe("GoalCard", () => {
     );
   });
 
+  it("prints its description and its actions in the article", () => {
+    Scene.scene(
+      { update: (model: null) => ({ model }), view: card },
+      Scene.given(null),
+      Scene.expect(
+        Scene.role("article", { name: "Ship the beta" })
+      ).toContainText("Get real users on it."),
+      Scene.expect(
+        Scene.within(
+          Scene.role("article", { name: "Ship the beta" }),
+          Scene.role("button", { name: "Edit" })
+        )
+      ).toExist()
+    );
+  });
+
   it("fills the step of each done outcome, in its order, and hides the steps and the ring", () => {
     Scene.scene(
       { update: (model: null) => ({ model }), view: card },
@@ -61,6 +78,27 @@ describe("GoalCard", () => {
         "aria-hidden",
         "true"
       )
+    );
+  });
+});
+
+describe("GoalCard values", () => {
+  it("sets its label over what the body holds, a field included", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          GoalCard.valuesView(
+            {
+              label: "Values",
+              body: [h.textarea([h.AriaLabel("Values")])],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(Scene.text("Values")).toExist(),
+      Scene.expect(Scene.role("textbox", { name: "Values" })).toExist()
     );
   });
 });
