@@ -49,8 +49,8 @@ select::picker(select) {
   background: var(--semantic-color-background-surface);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-surface);
-  box-shadow: var(--semantic-shadow-card);
+  border-radius: var(--semantic-dimension-radius-row);
+  box-shadow: var(--semantic-shadow-float);
 }
 
 select option {

@@ -153,7 +153,8 @@
 
   .gg-railed,
   .gg-railed > :is(.gg-rail, .gg-bench) {
-    transition: var(--semantic-duration-card) ease-out;
+    transition: var(--semantic-duration-card)
+      var(--semantic-cubic-bezier-standard);
     transition-property: padding-left, width, left;
   }
 
@@ -188,8 +189,9 @@
     background: var(--semantic-color-background-surface);
     border-right: var(--semantic-dimension-border-width-default) solid
       var(--semantic-color-border-primary);
-    box-shadow: var(--semantic-shadow-card);
-    animation: gg-rail-in var(--semantic-duration-card) ease-out;
+    box-shadow: var(--semantic-shadow-float);
+    animation: gg-rail-in var(--semantic-duration-card)
+      var(--semantic-cubic-bezier-standard);
   }
 
   .gg-rail[popover]::backdrop {

@@ -10,7 +10,7 @@
 
 .gg-table th {
   font-size: var(--semantic-dimension-font-size-label);
-  font-weight: var(--semantic-font-weight-semi-bold);
+  font-weight: var(--semantic-font-weight-medium);
   background: var(--semantic-color-background-head);
   text-align: left;
   height: var(--semantic-dimension-size-control);
@@ -34,7 +34,7 @@
 }
 
 .gg-table tbody tr:hover {
-  background: var(--semantic-color-background-head);
+  background: var(--semantic-color-background-hover);
 }
 
 .gg-table td.gg-acts {
@@ -53,8 +53,13 @@
   background: var(--semantic-color-background-head);
 }
 
+/* the sticky actions cell lays the hover tint over its opaque surface, so what scrolls
+   under it stays hidden */
 .gg-table tbody tr:hover td.gg-acts {
-  background: var(--semantic-color-background-head);
+  background-image: linear-gradient(
+    var(--semantic-color-background-hover),
+    var(--semantic-color-background-hover)
+  );
 }
 
 @media (max-width: 600px) {

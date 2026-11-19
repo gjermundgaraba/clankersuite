@@ -22,5 +22,5 @@
 
 .gg-stage-paused > .gg-notice {
   width: min(var(--semantic-dimension-size-max-width-stage-notice), 100%);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
 }

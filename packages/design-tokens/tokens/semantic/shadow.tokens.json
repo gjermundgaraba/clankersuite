@@ -1,30 +1,73 @@
 {
   "$schema": "https://designtokens.org/schemas/2025.10/format.json",
-  "$description": "Soft shadows on what floats over the page; controls sit flat.",
+  "$description": "A hairline ring on what stands off the ground in place; a soft drop under what floats.",
   "semantic": {
     "shadow": {
       "$type": "shadow",
-      "card": {
+      "hairline": {
         "$value": {
-          "color": "{semantic.color.shadow.default}",
+          "color": "{semantic.color.border.divider}",
           "offsetX": {
             "value": 0,
             "unit": "px"
           },
           "offsetY": {
-            "value": 12,
+            "value": 0,
             "unit": "px"
           },
           "blur": {
-            "value": 32,
+            "value": 0,
             "unit": "px"
           },
           "spread": {
-            "value": 0,
+            "value": 1,
             "unit": "px"
           }
         },
-        "$description": "Anything that floats over the page."
+        "$description": "A hairline ring in place of a border, for an in-flow surface that stands off the ground without lifting: the current place in a sidebar."
+      },
+      "float": {
+        "$value": [
+          {
+            "color": "{semantic.color.shadow.ring}",
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 0,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 1,
+              "unit": "px"
+            }
+          },
+          {
+            "color": "{semantic.color.shadow.default}",
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 16,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 40,
+              "unit": "px"
+            },
+            "spread": {
+              "value": -8,
+              "unit": "px"
+            }
+          }
+        ],
+        "$description": "Anything that floats over the page: a menu, a picker, a palette, a sheet, a dialog, a toast, a drawer."
       }
     }
   }

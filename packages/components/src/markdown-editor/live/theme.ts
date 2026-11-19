@@ -27,7 +27,7 @@ export const LIVE_MARKDOWN_STYLE = {
   ".cm-line": { padding: "0" },
 
   ".gg-md-h": {
-    fontWeight: "var(--semantic-font-weight-prose-heading)",
+    fontWeight: "var(--semantic-font-weight-bold)",
     lineHeight: "var(--semantic-number-line-height-heading)",
   },
   ".gg-md-h1, .gg-md-h2": {
@@ -47,7 +47,7 @@ export const LIVE_MARKDOWN_STYLE = {
     color: "var(--semantic-color-text-secondary)",
   },
 
-  ".gg-md-strong": { fontWeight: "var(--semantic-font-weight-prose-heading)" },
+  ".gg-md-strong": { fontWeight: "var(--semantic-font-weight-bold)" },
   ".gg-md-em": { fontStyle: "italic" },
   ".gg-md-strike, .gg-md-done": {
     textDecoration: "line-through",

@@ -4,65 +4,89 @@
 
 :root {
   color-scheme: light dark;
+  --primitive-color-amber-300: #e3b56e;
   --primitive-color-amber-400: #f5a623;
+  --primitive-color-amber-600: #a8690a;
   --primitive-color-amber-700: #8f5b00;
-  --primitive-color-black-alpha45: #00000073;
   --primitive-color-black-alpha55: #0000008c;
+  --primitive-color-black-alpha60: #0009;
   --primitive-color-blue-300: #a9c1fb;
   --primitive-color-blue-700: #274b8c;
-  --primitive-color-bone-25: #fcfcfa;
-  --primitive-color-bone-50: #f3f2ec;
-  --primitive-color-bone-75: #ebeae3;
   --primitive-color-bone-100: #e3e2da;
-  --primitive-color-bone-150: #dddcd4;
-  --primitive-color-bone-250: #c9cbc3;
+  --primitive-color-bone-100-alpha5: #e3e2da0d;
+  --primitive-color-bone-100-alpha9: #e3e2da17;
+  --primitive-color-bone-100-alpha10: #e3e2da1a;
+  --primitive-color-bone-100-alpha18: #e3e2da2e;
   --primitive-color-bone-350: #b7b9b1;
-  --primitive-color-bone-500: #838a85;
-  --primitive-color-bone-700: #59625e;
+  --primitive-color-bone-400: #9fa49e;
+  --primitive-color-bone-500: #808782;
   --primitive-color-cyan-300: #8fd3cb;
   --primitive-color-cyan-700: #23605c;
-  --primitive-color-forest-500: #6a7671;
-  --primitive-color-forest-600: #3d4844;
-  --primitive-color-forest-700: #2c3532;
+  --primitive-color-forest-500: #7a8581;
   --primitive-color-forest-800: #1f2725;
   --primitive-color-forest-850: #1a211f;
-  --primitive-color-forest-850-alpha14: #1a211f24;
-  --primitive-color-forest-850-alpha40: #1a211f66;
   --primitive-color-forest-900: #161c1a;
+  --primitive-color-forest-950: #121715;
   --primitive-color-green-300: #8fd49a;
   --primitive-color-green-500: #2fbf71;
   --primitive-color-green-700: #2b6a2e;
   --primitive-color-magenta-300: #f2a7d4;
   --primitive-color-magenta-700: #7a2a5c;
   --primitive-color-red-250: #ff9589;
-  --primitive-color-red-300: #ff8074;
+  --primitive-color-red-300: #ef8f7a;
+  --primitive-color-red-550: #c24a3a;
   --primitive-color-red-600: #b3251e;
   --primitive-color-red-650: #a3271f;
   --primitive-color-sage-300: #9fc7b8;
-  --primitive-color-sage-300-alpha16: #9fc7b829;
+  --primitive-color-sage-300-alpha13: #9fc7b821;
   --primitive-color-sage-700: #2f6153;
+  --primitive-color-sage-700-alpha10: #2f61531a;
   --primitive-color-sage-700-alpha12: #2f61531f;
+  --primitive-color-sand-300: #c9c3a8;
+  --primitive-color-sand-600: #8a7f5c;
+  --primitive-color-sky-300: #a9c4e8;
+  --primitive-color-sky-600: #3f6fb0;
+  --primitive-color-warm-gray-0: #fff;
+  --primitive-color-warm-gray-25: #fbfaf7;
+  --primitive-color-warm-gray-50: #f6f5f1;
+  --primitive-color-warm-gray-75: #f3f2ed;
+  --primitive-color-warm-gray-600: #6a6960;
+  --primitive-color-warm-gray-700: #66655b;
+  --primitive-color-warm-gray-900: #1c1b16;
   --primitive-color-warm-gray-950: #16150f;
+  --primitive-color-warm-gray-950-alpha5: #16150f0d;
+  --primitive-color-warm-gray-950-alpha8: #16150f14;
+  --primitive-color-warm-gray-950-alpha9: #16150f17;
+  --primitive-color-warm-gray-950-alpha16: #16150f29;
+  --primitive-color-warm-gray-950-alpha18: #16150f2e;
+  --primitive-color-warm-gray-950-alpha28: #16150f47;
   --primitive-color-yellow-300: #e6c86e;
   --primitive-color-yellow-700: #735600;
-  --semantic-color-background-backdrop: light-dark(var(--primitive-color-forest-850-alpha40), var(--primitive-color-black-alpha55));
-  --semantic-color-background-canvas: light-dark(var(--primitive-color-bone-50), var(--primitive-color-forest-900));
+  --semantic-color-background-backdrop: light-dark(var(--primitive-color-warm-gray-950-alpha28), var(--primitive-color-black-alpha55));
+  --semantic-color-background-canvas: light-dark(var(--primitive-color-warm-gray-25), var(--primitive-color-forest-900));
   --semantic-color-background-fill-accent: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
   --semantic-color-background-fill-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
-  --semantic-color-background-fill-positive: var(--primitive-color-green-500);
-  --semantic-color-background-fill-secondary: light-dark(var(--primitive-color-bone-700), var(--primitive-color-bone-350));
-  --semantic-color-background-fill-warning: var(--primitive-color-amber-400);
-  --semantic-color-background-head: light-dark(var(--primitive-color-bone-75), var(--primitive-color-forest-850));
-  --semantic-color-background-selected: light-dark(var(--primitive-color-sage-700-alpha12), var(--primitive-color-sage-300-alpha16));
-  --semantic-color-background-surface: light-dark(var(--primitive-color-bone-25), var(--primitive-color-forest-800));
-  --semantic-color-border-divider: light-dark(var(--primitive-color-bone-150), var(--primitive-color-forest-700));
+  --semantic-color-background-fill-positive: light-dark(var(--primitive-color-green-500), var(--primitive-color-sage-300));
+  --semantic-color-background-fill-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
+  --semantic-color-background-fill-warning: light-dark(var(--primitive-color-amber-400), var(--primitive-color-amber-300));
+  --semantic-color-background-head: light-dark(var(--primitive-color-warm-gray-50), var(--primitive-color-forest-850));
+  --semantic-color-background-hover: light-dark(var(--primitive-color-warm-gray-950-alpha5), var(--primitive-color-bone-100-alpha5));
+  --semantic-color-background-marker-amber: light-dark(var(--primitive-color-amber-600), var(--primitive-color-amber-300));
+  --semantic-color-background-marker-coral: light-dark(var(--primitive-color-red-550), var(--primitive-color-red-300));
+  --semantic-color-background-marker-sand: light-dark(var(--primitive-color-sand-600), var(--primitive-color-sand-300));
+  --semantic-color-background-marker-sky: light-dark(var(--primitive-color-sky-600), var(--primitive-color-sky-300));
+  --semantic-color-background-selected: light-dark(var(--primitive-color-sage-700-alpha10), var(--primitive-color-sage-300-alpha13));
+  --semantic-color-background-sidebar: light-dark(var(--primitive-color-warm-gray-75), var(--primitive-color-forest-950));
+  --semantic-color-background-surface: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-forest-800));
+  --semantic-color-border-divider: light-dark(var(--primitive-color-warm-gray-950-alpha9), var(--primitive-color-bone-100-alpha9));
   --semantic-color-border-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
   --semantic-color-border-primary: light-dark(var(--primitive-color-bone-500), var(--primitive-color-forest-500));
-  --semantic-color-border-secondary: light-dark(var(--primitive-color-bone-250), var(--primitive-color-forest-600));
+  --semantic-color-border-secondary: light-dark(var(--primitive-color-warm-gray-950-alpha16), var(--primitive-color-bone-100-alpha18));
   --semantic-color-focus-ring-default: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
   --semantic-color-focus-ring-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
-  --semantic-color-focus-ring-secondary: light-dark(var(--primitive-color-bone-700), var(--primitive-color-bone-350));
-  --semantic-color-shadow-default: light-dark(var(--primitive-color-forest-850-alpha14), var(--primitive-color-black-alpha45));
+  --semantic-color-focus-ring-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
+  --semantic-color-shadow-default: light-dark(var(--primitive-color-warm-gray-950-alpha18), var(--primitive-color-black-alpha60));
+  --semantic-color-shadow-ring: light-dark(var(--primitive-color-warm-gray-950-alpha8), var(--primitive-color-bone-100-alpha10));
   --semantic-color-text-code-comment: var(--semantic-color-text-secondary);
   --semantic-color-text-code-function: var(--semantic-color-text-terminal-blue);
   --semantic-color-text-code-keyword: var(--semantic-color-text-terminal-magenta);
@@ -70,34 +94,37 @@
   --semantic-color-text-code-string: var(--semantic-color-text-terminal-cyan);
   --semantic-color-text-code-type: var(--semantic-color-text-terminal-green);
   --semantic-color-text-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
-  --semantic-color-text-on-accent-fill: light-dark(var(--primitive-color-bone-25), var(--primitive-color-forest-900));
-  --semantic-color-text-on-negative-fill: light-dark(var(--primitive-color-bone-25), var(--primitive-color-warm-gray-950));
+  --semantic-color-text-on-accent-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-forest-900));
+  --semantic-color-text-on-negative-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-warm-gray-950));
   --semantic-color-text-on-status-fill: var(--primitive-color-warm-gray-950);
-  --semantic-color-text-primary: light-dark(var(--primitive-color-forest-850), var(--primitive-color-bone-100));
-  --semantic-color-text-secondary: light-dark(var(--primitive-color-bone-700), var(--primitive-color-bone-350));
+  --semantic-color-text-primary: light-dark(var(--primitive-color-warm-gray-900), var(--primitive-color-bone-100));
+  --semantic-color-text-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
   --semantic-color-text-terminal-blue: light-dark(var(--primitive-color-blue-700), var(--primitive-color-blue-300));
   --semantic-color-text-terminal-cyan: light-dark(var(--primitive-color-cyan-700), var(--primitive-color-cyan-300));
   --semantic-color-text-terminal-green: light-dark(var(--primitive-color-green-700), var(--primitive-color-green-300));
   --semantic-color-text-terminal-magenta: light-dark(var(--primitive-color-magenta-700), var(--primitive-color-magenta-300));
   --semantic-color-text-terminal-red: light-dark(var(--primitive-color-red-650), var(--primitive-color-red-250));
   --semantic-color-text-terminal-yellow: light-dark(var(--primitive-color-yellow-700), var(--primitive-color-yellow-300));
-  --semantic-color-text-warning: light-dark(var(--primitive-color-amber-700), var(--primitive-color-amber-400));
-  /* The accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar. */
+  --semantic-color-text-tertiary: light-dark(var(--primitive-color-warm-gray-600), var(--primitive-color-bone-400));
+  --semantic-color-text-warning: light-dark(var(--primitive-color-amber-700), var(--primitive-color-amber-300));
+  /* How everything eases: a card rising, a veil fading, a check popping, a drawer sliding. */
+  --semantic-cubic-bezier-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* A focus ring, the accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar. */
   --semantic-dimension-border-width-accent: 2px;
   /* Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text. */
   --semantic-dimension-border-width-default: 1px;
-  /* Body text, long-form reading, title bars, and the names in rows, groups and meters. */
-  --semantic-dimension-font-size-body: 15px;
-  /* Buttons, nav, menus, code, notices. */
-  --semantic-dimension-font-size-control: 14px;
+  /* Body text, a sidebar's places, title bars, and the names in rows, groups and meters. */
+  --semantic-dimension-font-size-body: 14.5px;
+  /* Buttons, chips, menus, code, notices. */
+  --semantic-dimension-font-size-control: 13px;
   /* A stat's value. */
   --semantic-dimension-font-size-figure: 30px;
   /* A stat's value at 900px and under. */
   --semantic-dimension-font-size-figure-narrow: 22px;
-  /* Labels, field labels, table heads, meta; chips, tabs, ages, counts, state words. */
+  /* Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels. */
   --semantic-dimension-font-size-label: 13px;
   /* A working screen's name (PageHead). */
-  --semantic-dimension-font-size-page: 26px;
+  --semantic-dimension-font-size-page: 28px;
   /* A working screen's name on a phone. */
   --semantic-dimension-font-size-page-narrow: 22px;
   /* A code block in long-form reading. */
@@ -113,31 +140,35 @@
   /* An editable title in a card. */
   --semantic-dimension-font-size-title: 16px;
   /* The wordmark. */
-  --semantic-dimension-font-size-wordmark: 18px;
+  --semantic-dimension-font-size-wordmark: 17px;
   /* The wordmark on a wall. */
   --semantic-dimension-font-size-wordmark-wall: 22px;
   /* A secret's characters, so each reads apart. */
   --semantic-dimension-letter-spacing-code: 0.02em;
   /* A page's or sheet's title. */
-  --semantic-dimension-letter-spacing-page-title: -0.01em;
+  --semantic-dimension-letter-spacing-page-title: -0.015em;
   /* First- and second-level headings in long-form reading. */
   --semantic-dimension-letter-spacing-prose-heading: -0.005em;
   /* The wordmark. */
   --semantic-dimension-letter-spacing-wordmark: -0.02em;
-  /* The corners of a control: a button, a chip, a field. */
+  /* The corners of a control: a button, a field, a place in a sidebar. */
   --semantic-dimension-radius-control: 6px;
   /* The corners of a checkbox, small enough that it never reads as a radio. */
   --semantic-dimension-radius-mark: 3px;
-  /* The corners of a surface: a panel, a card, a menu, a notice. */
-  --semantic-dimension-radius-surface: 10px;
+  /* Fully rounded ends: a chip, a count, a dot. */
+  --semantic-dimension-radius-pill: 999px;
+  /* The corners of a menu and the select picker. */
+  --semantic-dimension-radius-row: 8px;
+  /* The corners of a surface: a panel, a card, a sheet, a notice. */
+  --semantic-dimension-radius-surface: 12px;
   /* A checkbox's or radio's box. */
   --semantic-dimension-size-checkbox-box: 14px;
   /* The check drawn in a checked box, and the width of a mixed box's bar. */
   --semantic-dimension-size-checkbox-mark: 10px;
   /* The height of a control: a button, a field, a select, a segmented strip, a menu item. */
-  --semantic-dimension-size-control: 32px;
-  /* The height of a small control: a small button, a tab, a chip or filter chip. */
-  --semantic-dimension-size-control-small: 24px;
+  --semantic-dimension-size-control: 30px;
+  /* The height of a small control: a small button, an icon button, a tab, a chip or filter chip, a sub-place. */
+  --semantic-dimension-size-control-small: 26px;
   /* The line height of a diff's line numbers. */
   --semantic-dimension-size-diff-line: 19px;
   /* A chip's status dot. */
@@ -290,14 +321,12 @@
   --semantic-font-family-code: ui-monospace, "Menlo", "Monaco", monospace;
   /* Everything but code and the wordmark: controls, labels, chrome and running text. */
   --semantic-font-family-ui: "Inter", system-ui, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  /* Bold in code and Markdown. */
-  --semantic-font-weight-bold: 700;
-  /* Headings in long-form reading. */
-  --semantic-font-weight-prose-heading: 650;
-  /* Regular weight, where a rule sets text back from a heavier default. */
-  --semantic-font-weight-regular: 400;
-  /* A page's title, an identity's name. */
-  --semantic-font-weight-semi-bold: 600;
+  /* Titles: a page's, a card's, a sheet's; headings in long-form reading; bold in code and Markdown. */
+  --semantic-font-weight-bold: 650;
+  /* Buttons, places, labels, group and table heads, names. */
+  --semantic-font-weight-medium: 540;
+  /* Body text, and where a rule sets text back from a heavier default. */
+  --semantic-font-weight-regular: 420;
   /* Inline code in long-form reading, relative to its text. */
   --semantic-number-font-scale-inline-code: 0.85;
   /* A bench or stage holding an open dialog. */
@@ -346,7 +375,8 @@
   --semantic-number-opacity-tools: 0.55;
   /* How small a card or toast starts as it eases in. */
   --semantic-number-scale-card: 0.97;
-  --semantic-shadow-card: 0px 12px 32px var(--semantic-color-shadow-default);
+  --semantic-shadow-float: 0px 0px 0px 1px var(--semantic-color-shadow-ring), 0px 16px 40px -8px var(--semantic-color-shadow-default);
+  --semantic-shadow-hairline: 0px 0px 0px 1px var(--semantic-color-border-divider);
 }
 
 :root[data-color-scheme="light"] {

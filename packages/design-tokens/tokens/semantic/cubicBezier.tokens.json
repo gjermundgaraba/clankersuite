@@ -1,0 +1,13 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic easing curves.",
+  "semantic": {
+    "cubicBezier": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [0.2, 0.8, 0.2, 1],
+        "$description": "How everything eases: a card rising, a veil fading, a check popping, a drawer sliding."
+      }
+    }
+  }
+}

@@ -31,31 +31,33 @@ terrazzo.config.ts           the build
 
 ## Naming
 
-A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` (colours only) or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onNegativeFill` as `--semantic-color-text-on-negative-fill`.
+A name is `<layer>.<category>.<type>[.<item>][.<variant>][.<state>]`. The layer is `primitive` (colours only) or `semantic`; the category is the DTCG type (`color`, `dimension`, `duration`, `cubicBezier`, `number`, `fontFamily`, `fontWeight`, `shadow`). Names are camelCase; the CSS custom property is the name in kebab case, `semantic.color.text.onNegativeFill` as `--semantic-color-text-on-negative-fill`.
 
 Primitives are the colour palette: literals that never alias, each a family and a lightness step (`primitive.color.forest.850`), with an alpha as part of the step (`850Alpha40`).
 
 Semantic tokens name a role. A semantic colour aliases a palette colour in both colour schemes, never a literal, so the two schemes draw from one palette; the build fails otherwise. Every other semantic token holds its value, or aliases another semantic token where one role is defined by another (`space.inset` is `space.large`).
 
-| Category     | Types                                                                           |
-| ------------ | ------------------------------------------------------------------------------- |
-| `color`      | `text`, `border`, `focusRing`, `background`, `shadow`                           |
-| `dimension`  | `fontSize`, `letterSpacing`, `borderWidth`, `radius`, `size`, `space`, `travel` |
-| `duration`   | one per motion: `card`, `flash`, `spin`, `veil`                                 |
-| `number`     | `opacity`, `lineHeight`, `layer`, `scale`, `fontScale`                          |
-| `fontFamily` | `ui`, `code`, `brand`                                                           |
-| `fontWeight` | `regular`, `semiBold`, `bold`, `prose`                                          |
-| `shadow`     | `card`, on everything that floats                                               |
+| Category      | Types                                                                           |
+| ------------- | ------------------------------------------------------------------------------- |
+| `color`       | `text`, `border`, `focusRing`, `background`, `shadow`                           |
+| `dimension`   | `fontSize`, `letterSpacing`, `borderWidth`, `radius`, `size`, `space`, `travel` |
+| `duration`    | one per motion: `card`, `flash`, `spin`, `veil`                                 |
+| `cubicBezier` | `standard`, the one easing every motion uses                                    |
+| `number`      | `opacity`, `lineHeight`, `layer`, `scale`, `fontScale`                          |
+| `fontFamily`  | `ui`, `code`, `brand`                                                           |
+| `fontWeight`  | `regular`, `medium`, `bold`                                                     |
+| `shadow`      | `hairline`, a ring in place of a border; `float`, on everything that floats     |
 
-- `background.canvas` is the page; `background.surface` is a panel, card, dialog or control; `background.head` is a table head, a shelf, a code ground or a hovered row. `background.fill.*` fills a bounded shape: a button, a chip, a mark. `background.selected` tints what is selected or current, under text that keeps its own colour.
+- `background.canvas` is the page; `background.sidebar` is the full-height sidebar beside it; `background.surface` is a panel, card, dialog or control; `background.head` is the sunken ground: a table head, a shelf, code, a count's box, and what is lifted or a drop lands on; it never tints a hover. `background.hover` tints what the pointer is over and `background.selected` what is selected or current, under text that keeps its own colour. `background.fill.*` fills a bounded shape: a button, a chip, a mark. `background.marker.*` are the colours an application gives its areas and goals.
+- `text.primary`, `.secondary` and `.tertiary` read first, second and third; each holds 4.5:1 on every ground.
 - `text.on<Fill>` is what reads on that fill.
-- `border.primary` contains; `border.divider` divides and is never the only cue for a control.
+- `border.primary` is a control's edge, at 3:1 on every ground; `border.secondary` is the softer ring of a button or key hint; `border.divider` divides and draws the hairline ring, and is never the only cue for a control.
 - `focusRing.*` is the keyboard-focus indicator, whatever draws it.
 - Status variants are `negative`, `warning` and `positive`, and say what something means, not how loud it is.
 - `space` is one scale on a 4px rhythm, a T-shirt size per step from `xxSmall` to `xxLarge`. A gap, a padding and a margin that acts as a gap all take a step of it; a component picks the step, and changing a step changes every component on it. Steps are named, not numbered, so the rhythm can be retuned without renaming.
 - Some roles stand over the scale, because they recur across many components and may need to be looser or tighter on their own: `space.inset`, the padding inside a surface's body (a panel, card or window); `space.gutter`, the room between whole surfaces and between them and the page's edge; `space.control.padding.*`, inside a control (below); `space.focusRing.offset.*`, how far a focus ring stands off its box; and `space.underline.offset`, how far an underline sits below text. Anything else uses the scale directly.
 - A control is sized by its height, not its padding: `size.control` for a button, field, select, segment or menu item and `size.controlSmall` for a small button, tab or chip are each a `min-height`, and the label is centred in it. `size.row` is a row, a list item or a title bar: a control and room around it. `space.control.padding.inline.default` and `.small` are the room beside a control's label; roomier controls change them and the heights, and no line has to add up.
-- `radius.control` rounds what is pressed or typed into; `radius.surface` rounds what contains; `radius.mark` rounds a checkbox.
+- `radius.control` rounds what is pressed or typed into; `radius.row` rounds a menu and the select picker; `radius.surface` rounds what contains; `radius.pill` rounds a chip or a count to its ends; `radius.mark` rounds a checkbox.
 - `travel` is how far a thing moves: an entering toast.
 - `layer` is a `z-index`, named by what sits on it.
 

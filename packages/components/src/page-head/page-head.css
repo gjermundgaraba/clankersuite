@@ -18,7 +18,7 @@
 
 .gg-page-title {
   font-size: var(--semantic-dimension-font-size-page);
-  font-weight: var(--semantic-font-weight-semi-bold);
+  font-weight: var(--semantic-font-weight-bold);
   line-height: var(--semantic-number-line-height-title);
   letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
   text-wrap: balance;

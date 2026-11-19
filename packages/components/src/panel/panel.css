@@ -31,7 +31,7 @@
 
 .gg-panel-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
-  font-weight: var(--semantic-font-weight-semi-bold);
+  font-weight: var(--semantic-font-weight-medium);
 }
 
 .gg-panel-tb .gg-meta {

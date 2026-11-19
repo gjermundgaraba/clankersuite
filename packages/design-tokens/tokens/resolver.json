@@ -16,7 +16,8 @@
         { "$ref": "./semantic/number.tokens.json" },
         { "$ref": "./semantic/fontWeight.tokens.json" },
         { "$ref": "./semantic/fontFamily.tokens.json" },
-        { "$ref": "./semantic/shadow.tokens.json" }
+        { "$ref": "./semantic/shadow.tokens.json" },
+        { "$ref": "./semantic/cubicBezier.tokens.json" }
       ]
     }
   },

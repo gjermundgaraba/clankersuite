@@ -4,23 +4,17 @@
   "semantic": {
     "fontWeight": {
       "$type": "fontWeight",
-      "prose": {
-        "heading": {
-          "$value": 650,
-          "$description": "Headings in long-form reading."
-        }
-      },
-      "semiBold": {
-        "$value": 600,
-        "$description": "A page's title, an identity's name."
-      },
       "regular": {
-        "$value": 400,
-        "$description": "Regular weight, where a rule sets text back from a heavier default."
+        "$value": 420,
+        "$description": "Body text, and where a rule sets text back from a heavier default."
+      },
+      "medium": {
+        "$value": 540,
+        "$description": "Buttons, places, labels, group and table heads, names."
       },
       "bold": {
-        "$value": 700,
-        "$description": "Bold in code and Markdown."
+        "$value": 650,
+        "$description": "Titles: a page's, a card's, a sheet's; headings in long-form reading; bold in code and Markdown."
       }
     }
   }
