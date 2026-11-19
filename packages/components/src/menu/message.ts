@@ -2,7 +2,13 @@ import { Schema } from "effect";
 import { defineMessageUnion } from "foldkit/message";
 
 /** What a chosen row is: which role it plays, so the menu knows whether it closes. */
-export const ChoiceKind = Schema.Literals(["Action", "Radio", "Check", "Link"]);
+export const ChoiceKind = Schema.Literals([
+  "Action",
+  "Radio",
+  "Check",
+  "Link",
+  "Day",
+]);
 
 export type ChoiceKind = typeof ChoiceKind.Type;
 
@@ -27,6 +33,8 @@ export const Message = defineMessageUnion({
   CompletedPlaceSlip: {},
   CompletedFocus: {},
   CompletedFocusEdge: {},
+  PickedDay: { id: Schema.String, value: Schema.String },
+  CompletedBindDayInput: {},
 });
 
 export type Message = typeof Message.Type;

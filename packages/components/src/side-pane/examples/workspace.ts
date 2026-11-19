@@ -167,6 +167,7 @@ const foldWhen = Update.foldChild({
         model: isWhen(id) ? modifyFields(model, { when: () => id }) : model,
       }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 

@@ -93,6 +93,7 @@ const foldCreate = Update.foldChild({
         model: modifyFields(model, { maybeLastMade: () => Option.some(id) }),
       }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -117,6 +118,7 @@ const foldAreaPicker = Update.foldChild({
           }
         ),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 

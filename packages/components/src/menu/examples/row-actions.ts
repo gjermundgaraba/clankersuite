@@ -91,6 +91,7 @@ const foldRowActions = Update.foldChildAt({
     Menu.OutMessage.match<Update.Step<Model, Message>>({
       Selected: ({ id }) => recordAction(`${id} ${nameOf(rowId)}`),
       Toggled: () => togglePin(rowId),
+      PickedDay: () => (model) => ({ model }),
     }),
 });
 

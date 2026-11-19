@@ -3,9 +3,9 @@ import { Data } from "effect";
 
 import type { KeyHintConfig } from "../button/button.ts";
 
-/** One entry in a menu. Build them with `action`, `radio`, `check`, `link`, `group` and
- *  `separator`. An action, radio or link item can lead with a `glyph` and end in a quiet
- *  `hint`, such as the date a choice means. */
+/** One entry in a menu. Build them with `action`, `radio`, `check`, `link`, `day`, `group`
+ *  and `separator`. An action, radio, link or day item can lead with a `glyph` and end in a
+ *  quiet `hint`, such as the date a choice means. */
 export type Item = Data.TaggedEnum<{
   /** An action (`role="menuitem"`): choosing it reports `Selected` with its id and closes the
    *  slip. */
@@ -47,6 +47,21 @@ export type Item = Data.TaggedEnum<{
     readonly glyph?: GlyphName;
     readonly hint?: string;
   };
+  /** A day to pick (`role="menuitem"`, `aria-haspopup="dialog"`): choosing it closes the slip,
+   *  puts focus back on the toggle and opens the browser's date picker over a hidden date input
+   *  beside the toggle, which is on the page while the slip is open and stays after it closes
+   *  until a day is picked or the menu opens again. The day picked comes back as `PickedDay` with
+   *  the item's id, focus on the toggle again; a picker dismissed reports nothing. When the
+   *  update that takes the day removes the toggle (the row it sat on moves away), the
+   *  application places focus. */
+  Day: {
+    readonly id: string;
+    readonly label: string;
+    /** The day the picker opens on, as `YYYY-MM-DD`, or `""` for none. */
+    readonly value: string;
+    readonly glyph?: GlyphName;
+    readonly hint?: string;
+  };
   /** Items under a heading (`role="group"`, named by the heading): `"Appearance"` over the
    *  palettes, `"Account"` over sign out. A set of radio items belongs in one. The label is
    *  the group's identity in its slip: two groups there do not share one. The heading prints
@@ -78,6 +93,10 @@ export const check = (config: Data.TaggedEnum.Args<Item, "Check">): Entry =>
 /** A link item; see `Item`'s `Link`. */
 export const link = (config: Data.TaggedEnum.Args<Item, "Link">): Entry =>
   Item.Link(config);
+
+/** A day item; see `Item`'s `Day`. */
+export const day = (config: Data.TaggedEnum.Args<Item, "Day">): Entry =>
+  Item.Day(config);
 
 /** A group of items under a heading; see `Item`'s `Group`. */
 export const group = (label: string, items: readonly Entry[]): Item =>

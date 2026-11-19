@@ -20,4 +20,32 @@ describe("the when menu example", () => {
       })
     );
   });
+
+  it("moves the task to the day picked, until a time is chosen again", () => {
+    Story.story(
+      update,
+      Story.given(init().model),
+      Story.message(
+        Message.GotMenuMessage({
+          message: Menu.Message.PickedDay({
+            id: "pick-day",
+            value: "2026-11-27",
+          }),
+        })
+      ),
+      Story.model((model) => {
+        expect(model.day).toBe("2026-11-27");
+      }),
+      Story.message(
+        Message.GotMenuMessage({
+          message: Menu.Message.SelectedItem({ id: "Someday", kind: "Radio" }),
+        })
+      ),
+      Story.Command.resolve(Menu.Focus, Menu.Message.CompletedFocus()),
+      Story.model((model) => {
+        expect(model.when).toBe("Someday");
+        expect(model.day).toBe("");
+      })
+    );
+  });
 });

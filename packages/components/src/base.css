@@ -155,6 +155,12 @@ kbd {
   border: 0;
 }
 
+/* Chromium names a date input's picker button "Show date picker" and adds that to the name
+   of a cell around a hidden one, aria-hidden or not */
+.sr-only::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 [hidden] {
   display: none !important;
 }

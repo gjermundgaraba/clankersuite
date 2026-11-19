@@ -18,6 +18,7 @@ import * as Mount from "foldkit/mount";
 
 import type { Attributes } from "../attributes/attributes.ts";
 import type { KeyHintConfig } from "../button/button.ts";
+import * as DatePicker from "../date-picker/date-picker.ts";
 import * as KeyHint from "../key-hint/key-hint.ts";
 import { isPlain } from "../keys/keys.ts";
 import { Item } from "./item.ts";
@@ -35,7 +36,7 @@ const isGroup = Item.$is("Group");
 
 const isSeparator = Item.$is("Separator");
 
-const entriesOf = (items: readonly Item[]): readonly Entry[] =>
+export const entriesOf = (items: readonly Item[]): readonly Entry[] =>
   Array.flatMap(items, (item) => {
     if (isGroup(item)) {
       return item.items;
@@ -47,7 +48,12 @@ const entriesOf = (items: readonly Item[]): readonly Entry[] =>
 const entryIds = (items: readonly Item[]): readonly string[] =>
   Array.map(entriesOf(items), (entry) => entry.id);
 
+/** The id of a day item's hidden date input, which sits beside the toggle. */
+export const dayInputId = (slipId: string, itemId: string): string =>
+  `${slipId}-day-${itemId}`;
+
 type RowContext = Readonly<{
+  slipId: string;
   maybeFirstId: Option.Option<string>;
   maybeLastId: Option.Option<string>;
 }>;
@@ -189,6 +195,24 @@ const entryView = (
         context,
         h
       ),
+    Day: (day) =>
+      buttonRowView(
+        {
+          entry: day,
+          isDisabled: false,
+          attributes: [
+            h.Role("menuitem"),
+            ...DatePicker.openerAttributes(
+              dayInputId(context.slipId, day.id),
+              h
+            ),
+            ...hintedName(day, h),
+          ],
+          children: wordsView(day, h),
+        },
+        context,
+        h
+      ),
     Link: (link) =>
       h.keyed("a")(
         link.id,
@@ -211,6 +235,7 @@ export const rowsView = (
   const ids = entryIds(config.items);
 
   const context: RowContext = {
+    slipId: config.slipId,
     maybeFirstId: Array.head(ids),
     maybeLastId: Array.last(ids),
   };

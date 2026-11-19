@@ -20,7 +20,7 @@ An action row can print the key that does the same; here n makes a task, except 
 
 ## Glyphs, hints and separators
 
-An item can lead with a glyph and end in a quiet hint, such as the date a choice means. The checked choice prints in the accent with a check in place of its hint. A separator is a rule the arrows pass over.
+An item can lead with a glyph and end in a quiet hint, such as the date a choice means. The checked choice prints in the accent with a check in place of its hint. A separator is a rule the arrows pass over. A day row (`Menu.day`) opens the browser's date picker as the slip closes, over a hidden date input beside the toggle, and the day picked comes back as `PickedDay`, with focus on the toggle. The input mounts `Menu.BindDayInput`, a name of its own rather than a PropsList date's `BindDatePicker`, since a Scene tells Mounts apart by name and order: resolve it by name with `Menu.Message.CompletedBindDayInput`.
 
 ::Example{name="when"}
 

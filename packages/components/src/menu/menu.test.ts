@@ -1,19 +1,28 @@
-import { Effect, Fiber, Option, Schema, Stream } from "effect";
+import { Array, Effect, Fiber, Option, Schema, Stream } from "effect";
 import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import * as Mount from "foldkit/mount";
+import type { SceneSimulation } from "foldkit/scene";
 import { modifyFields } from "foldkit/struct";
 import * as Update from "foldkit/update";
-import { afterEach, assert, describe, expect, it } from "vite-plus/test";
+import {
+  afterEach,
+  assert,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "vite-plus/test";
 
 import { htmlElement } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
+import * as PropsList from "../props-list/props-list.ts";
 import { disposeEmbedded, embed } from "../test/embed.ts";
 import { keydown, readDuringDispatch } from "../test/events.ts";
 import { byId, renderOnPage } from "../test/fixture.ts";
 import { settleUntil } from "../test/settle.ts";
-import { action, check, group, link, radio, separator } from "./item.ts";
+import { action, check, day, group, link, radio, separator } from "./item.ts";
 import type { Item } from "./item.ts";
 import { toggleKey } from "./menu.ts";
 import * as Menu from "./menu.ts";
@@ -399,6 +408,153 @@ const collect = async <A>(
 const focusedLabel = (): string =>
   document.activeElement?.textContent?.trim() ?? "";
 
+const PICK_A_DAY: readonly Item[] = [
+  radio({ id: "today", label: "Today", isChecked: true }),
+  separator("day"),
+  day({ id: "pick-day", label: "Pick a day…", value: "" }),
+];
+
+const expectNoPendingMounts = <M, Msg, O>(
+  simulation: SceneSimulation<M, Msg, O>
+): SceneSimulation<M, Msg, O> => {
+  expect(simulation.mounts).toStrictEqual([]);
+
+  return simulation;
+};
+
+describe("Menu day item", () => {
+  it("says it opens a picker, closes with focus back on the toggle, and reports the day picked", () => {
+    Scene.scene(
+      { update: Menu.update, view: menuView(PICK_A_DAY) },
+      Scene.given(openMenu),
+      ...resolveOpen,
+      Scene.Mount.resolve(
+        Menu.BindDayInput({ returnFocusId: "settings-toggle" }),
+        Message.CompletedBindDayInput()
+      ),
+      Scene.expect(Scene.role("menuitem", { name: "Pick a day…" })).toHaveAttr(
+        "aria-haspopup",
+        "dialog"
+      ),
+      Scene.click(Scene.role("menuitem", { name: "Pick a day…" })),
+      Scene.Command.resolve(Focus, Message.CompletedFocus()),
+      Scene.Mount.expectEnded(BindSlip),
+      Scene.expect(toggle("Settings")).toHaveAttr("aria-expanded", "false"),
+      Scene.change(Scene.selector(".gg-menu-wrap input"), "2026-11-21"),
+      Scene.expectOutMessage(
+        Menu.OutMessage.PickedDay({ id: "pick-day", value: "2026-11-21" })
+      ),
+      Scene.Mount.expectEnded(Menu.BindDayInput),
+      Scene.expect(Scene.selector(".gg-menu-wrap input")).not.toExist()
+    );
+  });
+});
+
+const TaskPane = Schema.Struct({
+  menu: Menu.Model,
+  bound: Schema.Array(Schema.String),
+});
+
+type TaskPane = typeof TaskPane.Type;
+
+const TaskPaneMessage = defineMessageUnion({
+  GotMenuMessage: { message: Message },
+  PickedDeadline: {},
+  CompletedBindDeadline: {},
+});
+
+type TaskPaneMessage = typeof TaskPaneMessage.Type;
+
+const bound = (model: TaskPane, name: string): TaskPane =>
+  modifyFields(model, { bound: (names) => [...names, name] });
+
+const foldWhenMenu = Update.foldChild({
+  update: Menu.update,
+  read: (model: TaskPane) => Option.some(model.menu),
+  write: (model: TaskPane, nextMenu: Menu.Model): TaskPane =>
+    modifyFields(model, { menu: () => nextMenu }),
+  toParentMessage: (message: Message) =>
+    TaskPaneMessage.GotMenuMessage({ message }),
+  foldOutMessage: Menu.OutMessage.match<Update.Step<TaskPane, TaskPaneMessage>>(
+    {
+      Selected: () => (model) => ({ model }),
+      Toggled: () => (model) => ({ model }),
+      PickedDay: () => (model) => ({ model }),
+    }
+  ),
+});
+
+const taskPaneUpdate = (model: TaskPane, message: TaskPaneMessage) =>
+  TaskPaneMessage.match<Update.Return<TaskPane, TaskPaneMessage>>(message, {
+    GotMenuMessage: ({ message: menuMessage }) =>
+      foldWhenMenu(
+        menuMessage._tag === "CompletedBindDayInput"
+          ? bound(model, "When")
+          : model,
+        menuMessage
+      ),
+    PickedDeadline: () => ({ model }),
+    CompletedBindDeadline: () => ({ model: bound(model, "Deadline") }),
+  });
+
+const taskPaneView = (model: TaskPane, h: HtmlBuilder<TaskPaneMessage>) =>
+  h.div(
+    [],
+    [
+      h.submodel({
+        slotId: Menu.id(model.menu),
+        model: model.menu,
+        view: Menu.view,
+        viewInputs: { label: "When", items: PICK_A_DAY },
+        toParentMessage: (message) =>
+          TaskPaneMessage.GotMenuMessage({ message }),
+      }),
+      PropsList.dateView(
+        {
+          id: "deadline",
+          label: "Deadline",
+          value: "",
+          shown: "None",
+          onChange: () => TaskPaneMessage.PickedDeadline(),
+          toParentMessage: () => TaskPaneMessage.CompletedBindDeadline(),
+        },
+        h
+      ),
+      h.p([h.Role("status")], [Array.join(model.bound, ", ")]),
+    ]
+  );
+
+const resolveWhen = Scene.Mount.resolve(
+  Menu.BindDayInput({ returnFocusId: "when-toggle" }),
+  Message.CompletedBindDayInput()
+);
+
+const resolveDeadline = Scene.Mount.resolve(
+  PropsList.BindDatePicker({ returnFocusId: "deadline-button" }),
+  TaskPaneMessage.CompletedBindDeadline()
+);
+
+const openWhen = Scene.Mount.resolve(
+  Menu.BindToggleKeys,
+  Message.PressedToggleArrow({ edge: "First" })
+);
+
+describe("Menu day input beside a props list date", () => {
+  it("keeps each its own Mount when the date, later in the page, is bound before the menu opens", () => {
+    Scene.scene(
+      { update: taskPaneUpdate, view: taskPaneView },
+      Scene.given({ menu: Menu.init({ id: "when" }), bound: [] }),
+      Scene.expect(Scene.selector(".gg-menu-wrap input")).not.toExist(),
+      resolveDeadline,
+      openWhen,
+      resolveSlip,
+      resolveWhen,
+      expectNoPendingMounts,
+      Scene.expect(Scene.role("status")).toHaveText("Deadline, When")
+    );
+  });
+});
+
 describe("Menu keys", () => {
   it("moves real focus with the arrows, wrapping and stopping on an unavailable row", async () => {
     await renderOnPage(
@@ -554,6 +710,7 @@ const foldRowMenu = Update.foldChild({
   >({
     Selected: () => (model) => ({ model }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -623,5 +780,54 @@ describe("Menu slip leaving the page", () => {
 
     expect(document.querySelector("#settings-toggle")).toBeNull();
     expect(isMenuOpen()).toBe("false");
+  });
+});
+
+const UUID_MENU = "task:7c9e6679-7425-40de-944b-e07fc1f90ae7";
+
+describe("Menu day item's picker", () => {
+  const opened: string[] = [];
+
+  beforeEach(() => {
+    Object.defineProperty(HTMLInputElement.prototype, "showPicker", {
+      configurable: true,
+      value(this: HTMLInputElement) {
+        opened.push(this.id);
+      },
+    });
+  });
+
+  afterEach(() => {
+    opened.splice(0);
+    Reflect.deleteProperty(HTMLInputElement.prototype, "showPicker");
+  });
+
+  it("opens the picker from the row in the press, and puts focus back on the toggle once a day is picked, whatever the menu's id", async () => {
+    const menu = Menu.update(
+      Menu.init({ id: UUID_MENU }),
+      Message.ClickedToggle()
+    ).model;
+
+    await renderOnPage(menu, menuView(PICK_A_DAY));
+    const inputId = `${UUID_MENU}-slip-day-pick-day`;
+    const input = byId(inputId);
+    const focused: string[] = [];
+
+    await collect(
+      Menu.BindDayInput({ returnFocusId: `${UUID_MENU}-toggle` }).f(
+        input,
+        Mount.liveViewStateChanges
+      ),
+      1,
+      () => {
+        element('[aria-haspopup="dialog"]', HTMLElement).click();
+        Object.assign(input, { value: "2026-11-21" });
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+        focused.push(document.activeElement?.id ?? "");
+      }
+    );
+
+    expect(opened).toStrictEqual([inputId]);
+    expect(focused).toStrictEqual([`${UUID_MENU}-toggle`]);
   });
 });
