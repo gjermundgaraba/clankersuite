@@ -33,6 +33,13 @@
           },
           "$description": "An editable title in a card."
         },
+        "headline": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          },
+          "$description": "An empty state's title."
+        },
         "page": {
           "$value": {
             "value": 28,
@@ -526,6 +533,13 @@
               "unit": "px"
             },
             "$description": "A large glyph: an outcome's, a drop zone's or a wall's."
+          },
+          "hero": {
+            "$value": {
+              "value": 44,
+              "unit": "px"
+            },
+            "$description": "The glyph over an empty state's title."
           }
         },
         "control": {
@@ -752,6 +766,13 @@
             "unit": "px"
           },
           "$description": "Above the done line under a list."
+        },
+        "hero": {
+          "$value": {
+            "value": 60,
+            "unit": "px"
+          },
+          "$description": "Above and below an empty page's large glyph and title."
         },
         "focusRing": {
           "offset": {
