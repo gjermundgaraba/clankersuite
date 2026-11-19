@@ -167,7 +167,7 @@
   --semantic-dimension-radius-marker: 2px;
   /* Fully rounded ends: a chip, a count, a dot. */
   --semantic-dimension-radius-pill: 999px;
-  /* The corners of a menu and the select picker. */
+  /* The corners of a row, the add row, a menu and the select picker. */
   --semantic-dimension-radius-row: 8px;
   /* The corners of a surface: a panel, a card, a sheet, a notice. */
   --semantic-dimension-radius-surface: 12px;
@@ -191,12 +191,16 @@
   --semantic-dimension-size-glyph-icon-button: 15px;
   /* A large glyph: an outcome's, a drop zone's or a wall's. */
   --semantic-dimension-size-glyph-large: 24px;
+  /* A glyph set in a line of small text: a group's heading, a row's fold, the done line. */
+  --semantic-dimension-size-glyph-medium: 14px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;
   /* A small glyph: in a chip, in a row's check. */
   --semantic-dimension-size-glyph-small: 12px;
   /* The square or dot a Marker prints in an area's or a goal's colour. */
   --semantic-dimension-size-marker: 8px;
+  /* A Marker in a line of small text: a row's context line. */
+  --semantic-dimension-size-marker-small: 7px;
   /* What a board column leaves of the viewport's height. */
   --semantic-dimension-size-max-height-board-column-room: 150px;
   /* The tallest an image grows in the Markdown editor. */
@@ -263,8 +267,6 @@
   --semantic-dimension-size-min-width-meter-name: 180px;
   /* The narrowest a reel column prints, whatever its width. */
   --semantic-dimension-size-min-width-reel-column: 280px;
-  /* The narrowest a row's slot prints. */
-  --semantic-dimension-size-min-width-slot: 58px;
   /* The narrowest a sortable grid's item prints. */
   --semantic-dimension-size-min-width-sortable-grid: 180px;
   /* The narrowest a sortable panel prints. */
@@ -299,10 +301,14 @@
   --semantic-dimension-space-control-padding-inline-default: var(--semantic-dimension-space-medium);
   /* Beside the label of a small control: a small button, a tab, a chip. */
   --semantic-dimension-space-control-padding-inline-small: var(--semantic-dimension-space-small);
+  /* Above the done line under a list. */
+  --semantic-dimension-space-done-line: 18px;
   /* How far a focus ring sits outside its box; inside, it is drawn at the negative. Step large. */
   --semantic-dimension-space-focus-ring-offset-large: var(--semantic-dimension-space-x-small);
   /* How far a focus ring sits outside its box; inside, it is drawn at the negative. Step small. */
   --semantic-dimension-space-focus-ring-offset-small: var(--semantic-dimension-space-xx-small);
+  /* Between groups of rows on a page. */
+  --semantic-dimension-space-group: 26px;
   /* Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's. */
   --semantic-dimension-space-gutter: var(--semantic-dimension-space-x-large);
   /* Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row. */
@@ -315,6 +321,14 @@
   --semantic-dimension-space-page-block: 44px;
   /* The room either side of a Deck's content, inside its column. */
   --semantic-dimension-space-page-inline: 40px;
+  /* Above and below a row's content. */
+  --semantic-dimension-space-row-block: 6px;
+  /* Between a row's title and its context line; a row with a context line adds it above and below as well. */
+  --semantic-dimension-space-row-context: 1px;
+  /* Between the small parts of a row's meta and context line, and the done line's glyph and words. */
+  --semantic-dimension-space-row-gap: 6px;
+  /* Beside a row's content and between its check, title and meta; the add row, a group's heading and the done line keep to it so they line up with the rows. */
+  --semantic-dimension-space-row-inline: 10px;
   /* Between things in one line: buttons, chips, a glyph and its word. */
   --semantic-dimension-space-small: 8px;
   /* How far an underline sits below the text. */
@@ -333,6 +347,8 @@
   --semantic-duration-card: 0.14s;
   /* The tint flash that signals a change. */
   --semantic-duration-flash: 0.7s;
+  /* A row's check popping as it is checked. */
+  --semantic-duration-pop: 0.22s;
   /* One turn of the spinner a busy button, chip, loading line, link state or palette row prints. */
   --semantic-duration-spin: 0.7s;
   /* The veil easing in behind a dialog. */
@@ -391,10 +407,14 @@
   --semantic-number-line-height-title: 1.1;
   /* A held item, dimmed in place while its copy follows the pointer. */
   --semantic-number-opacity-dragged: 0.4;
-  /* A row's tools until the row is hovered, focused or current. */
-  --semantic-number-opacity-tools: 0.55;
+  /* The `›` and `·` between the parts of a row's context line. */
+  --semantic-number-opacity-separator: 0.6;
   /* How small a card or toast starts as it eases in. */
   --semantic-number-scale-card: 0.97;
+  /* Where a row's check starts its pop as it is checked. */
+  --semantic-number-scale-check-from: 0.8;
+  /* How far a row's check swells in its pop before it settles. */
+  --semantic-number-scale-check-peak: 1.12;
   --semantic-shadow-float: 0px 0px 0px 1px var(--semantic-color-shadow-ring), 0px 16px 40px -8px var(--semantic-color-shadow-default);
   --semantic-shadow-hairline: 0px 0px 0px 1px var(--semantic-color-border-divider);
 }

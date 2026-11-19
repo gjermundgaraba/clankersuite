@@ -91,7 +91,6 @@ export const FAMILIES: readonly Family[] = [
       "dot",
       "mark",
       "ring",
-      "ring-closed",
       "box",
       "box-done",
       "circle",

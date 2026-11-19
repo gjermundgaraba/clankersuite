@@ -1,4 +1,4 @@
-import { Rows } from "@gjermundgaraba/components";
+import { Chip, Rows } from "@gjermundgaraba/components";
 import { Array, Option, Record, Schema } from "effect";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -17,6 +17,7 @@ export type OutlineId = typeof OutlineId.Type;
 export const Model = Schema.Struct({
   isNotesOpen: Schema.Boolean,
   cursorId: OutlineId,
+  doneIds: Schema.Array(OutlineId),
 });
 
 export type Model = typeof Model.Type;
@@ -24,12 +25,14 @@ export type Model = typeof Model.Type;
 export const Message = defineMessageUnion({
   ToggledNotes: {},
   FocusedRow: { id: OutlineId },
+  ToggledDone: { id: OutlineId, isDone: Schema.Boolean },
+  ClickedAdd: {},
 });
 
 export type Message = typeof Message.Type;
 
 export const init = (): Update.Return<Model, Message> => ({
-  model: { isNotesOpen: true, cursorId: "notes" },
+  model: { isNotesOpen: true, cursorId: "notes", doneIds: ["agenda"] },
 });
 
 const NOTES_CHILDREN: readonly OutlineId[] = ["agenda", "minutes"];
@@ -108,21 +111,63 @@ export const update = (model: Model, message: Message) =>
     FocusedRow: ({ id }) => ({
       model: modifyFields(model, { cursorId: () => id }),
     }),
+    ToggledDone: ({ id, isDone }) => ({
+      model: modifyFields(model, {
+        doneIds: (ids) =>
+          isDone
+            ? Array.union(ids, [id])
+            : Array.filter(ids, (kept) => kept !== id),
+      }),
+    }),
+    ClickedAdd: () => ({ model }),
   });
 
 const OUTLINE_ROW = "outline-row";
 
+const TITLES: Readonly<Record<OutlineId, string>> = {
+  notes: "Write the notes",
+  agenda: "Send the agenda",
+  minutes: "File the minutes",
+  later: "Book the room",
+};
+
+type RowParts = Omit<
+  Rows.RowConfig<Message>,
+  "key" | "treegrid" | "attributes" | "glyph" | "body"
+>;
+
 const outlineRow = (
   model: Model,
   id: OutlineId,
-  config: Omit<Rows.RowConfig<Message>, "key" | "treegrid" | "attributes">,
+  config: RowParts,
   place: NonNullable<Rows.RowConfig<Message>["treegrid"]>,
   h: HtmlBuilder<Message>
-): Html =>
-  Rows.rowView(
+): Html => {
+  const isDone = Array.contains(model.doneIds, id);
+
+  return Rows.rowView(
     {
       ...config,
       key: id,
+      glyph: Rows.checkView(
+        {
+          id: `outline-check-${id}`,
+          label: TITLES[id],
+          isDone,
+          onToggle: (next) => Message.ToggledDone({ id, isDone: next }),
+        },
+        h
+      ),
+      body: [
+        Rows.titleView(
+          {
+            label: TITLES[id],
+            isDone,
+            onOpen: Message.FocusedRow({ id }),
+          },
+          h
+        ),
+      ],
       treegrid: place,
       attributes: [
         h.DataAttribute(OUTLINE_ROW, id),
@@ -139,60 +184,91 @@ const outlineRow = (
     },
     h
   );
+};
 
 const notesRows = (model: Model, h: HtmlBuilder<Message>): readonly Html[] => [
   outlineRow(
     model,
     "agenda",
-    { glyph: Rows.glyphView({ name: "ring" }, h), body: ["Agenda"] },
+    {
+      slot: [
+        Chip.view({ label: "Tomorrow", glyph: "calendar", isFlat: true }, h),
+      ],
+    },
     { level: 2, position: 1, setSize: 2 },
     h
   ),
   outlineRow(
     model,
     "minutes",
-    {
-      glyph: Rows.glyphView({ name: "ring" }, h),
-      body: ["Minutes"],
-      isContext: true,
-    },
+    { isContext: true },
     { level: 2, position: 2, setSize: 2 },
     h
   ),
 ];
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Rows.view(
+  Rows.sectionView(
     {
-      label: "Outline",
-      isOutline: true,
-      isTreegrid: true,
-      rows: [
-        outlineRow(
-          model,
-          "notes",
+      id: "outline-work",
+      title: "Work",
+      marker: "Amber",
+      count: 2,
+      body: [
+        Rows.view(
           {
-            glyph: Rows.toggleView(
-              {
-                isExpanded: model.isNotesOpen,
-                label: "Notes",
-                onToggle: Message.ToggledNotes(),
-              },
-              h
-            ),
-            body: ["Notes"],
-            nested: model.isNotesOpen ? notesRows(model, h) : [],
+            label: "Work",
+            isOutline: true,
+            isTreegrid: true,
+            rows: [
+              outlineRow(
+                model,
+                "notes",
+                {
+                  fold: Rows.toggleView(
+                    {
+                      isExpanded: model.isNotesOpen,
+                      label: TITLES.notes,
+                      onToggle: Message.ToggledNotes(),
+                    },
+                    h
+                  ),
+                  slot: [
+                    Chip.view(
+                      { label: "Due today", tone: "Warn", glyph: "flag" },
+                      h
+                    ),
+                    Chip.view({ label: "1/2", isFlat: true }, h),
+                  ],
+                  nested: model.isNotesOpen ? notesRows(model, h) : [],
+                },
+                {
+                  level: 1,
+                  position: 1,
+                  setSize: 2,
+                  isExpanded: model.isNotesOpen,
+                },
+                h
+              ),
+              outlineRow(
+                model,
+                "later",
+                {
+                  slot: [
+                    Chip.view(
+                      { label: "Fri 20 Nov", glyph: "flag", isFlat: true },
+                      h
+                    ),
+                  ],
+                },
+                { level: 1, position: 2, setSize: 2 },
+                h
+              ),
+            ],
           },
-          { level: 1, position: 1, setSize: 2, isExpanded: model.isNotesOpen },
           h
         ),
-        outlineRow(
-          model,
-          "later",
-          { glyph: Rows.glyphView({ name: "plus" }, h), body: ["Add a row"] },
-          { level: 1, position: 2, setSize: 2 },
-          h
-        ),
+        Rows.addView({ label: "Add to Work", onAdd: Message.ClickedAdd() }, h),
       ],
     },
     h

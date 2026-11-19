@@ -31,6 +31,13 @@
           "unit": "s"
         },
         "$description": "The veil easing in behind a dialog."
+      },
+      "pop": {
+        "$value": {
+          "value": 0.22,
+          "unit": "s"
+        },
+        "$description": "A row's check popping as it is checked."
       }
     }
   }
