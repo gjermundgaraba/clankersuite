@@ -13,7 +13,7 @@ import { disposeEmbedded, embed } from "../test/embed.ts";
 import { keydown, readDuringDispatch } from "../test/events.ts";
 import { byId, renderOnPage } from "../test/fixture.ts";
 import { settleUntil } from "../test/settle.ts";
-import { action, check, group, link, radio } from "./item.ts";
+import { action, check, group, link, radio, separator } from "./item.ts";
 import type { Item } from "./item.ts";
 import { toggleKey } from "./menu.ts";
 import * as Menu from "./menu.ts";
@@ -225,7 +225,37 @@ describe("Menu toggle", () => {
   });
 });
 
+const WHEN: readonly Item[] = [
+  radio({ id: "focus", label: "Focus", glyph: "star", isChecked: true }),
+  radio({
+    id: "tomorrow",
+    label: "Tomorrow",
+    glyph: "sun",
+    hint: "Thu 19 Nov",
+    isChecked: false,
+  }),
+  separator("later"),
+  radio({ id: "someday", label: "Someday", isChecked: false }),
+];
+
 describe("Menu slip", () => {
+  it("names a row with its hint, and prints a rule between rows that is no row", () => {
+    Scene.scene(
+      { update: Menu.update, view: menuView(WHEN) },
+      Scene.given(openMenu),
+      ...resolveOpen,
+      Scene.expect(
+        Scene.role("menuitemradio", { name: "Tomorrow, Thu 19 Nov" })
+      ).toExist(),
+      Scene.expect(Scene.role("menuitemradio", { name: "Focus" })).toHaveAttr(
+        "aria-checked",
+        "true"
+      ),
+      Scene.expect(Scene.role("separator")).toExist(),
+      Scene.expectAll(Scene.all.role("menuitemradio")).toHaveCount(3)
+    );
+  });
+
   it("is a menu named by its toggle, its radio rows checked one at a time", () => {
     Scene.scene(
       { update: Menu.update, view: menuView(SETTINGS) },

@@ -3,10 +3,12 @@
   z-index: var(--semantic-number-layer-menu);
   min-width: var(--semantic-dimension-size-min-width-menu);
   max-width: calc(100vw - 2 * var(--semantic-dimension-space-medium));
+  padding: var(--semantic-dimension-space-x-small);
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
+  /* the float's ring draws the edge; the transparent outline is the edge forced colours
+     paint, and takes no room */
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
   border-radius: var(--semantic-dimension-radius-row);
   box-shadow: var(--semantic-shadow-float);
 }
@@ -20,33 +22,38 @@
   display: flex;
   width: 100%;
   align-items: center;
-  gap: var(--semantic-dimension-space-small);
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-control);
+  font-size: var(--semantic-dimension-font-size-body);
   text-align: left;
-  background: var(--semantic-color-background-surface);
+  background: none;
   color: var(--semantic-color-text-primary);
   border: 0;
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-control);
   min-height: var(--semantic-dimension-size-control);
-  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
+  padding: 0
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
 }
 
-.gg-menu > [role^="menuitem"]:last-child,
-.gg-menu > [role="group"]:last-child > [role^="menuitem"]:last-child {
-  border-bottom: 0;
+.gg-menu [role^="menuitem"] > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-menu);
+  height: var(--semantic-dimension-size-glyph-menu);
+  color: var(--semantic-color-text-tertiary);
 }
 
-.gg-menu
-  [role^="menuitem"]:not(
-    [aria-disabled="true"],
-    [role="menuitemradio"][aria-checked="true"]
-  ):hover {
-  background: var(--semantic-color-background-hover);
+@media (hover: hover) {
+  .gg-menu [role^="menuitem"]:not([aria-disabled="true"]):hover {
+    background: var(--semantic-color-background-hover);
+  }
 }
 
 .gg-menu [role^="menuitem"][aria-disabled="true"] {
@@ -54,10 +61,9 @@
   cursor: default;
 }
 
-.gg-menu [role="menuitemradio"][aria-checked="true"] {
-  background: var(--semantic-color-background-selected);
-  box-shadow: inset var(--semantic-dimension-border-width-accent) 0 0
-    var(--semantic-color-background-fill-accent);
+.gg-menu [role="menuitemradio"][aria-checked="true"],
+.gg-menu [role="menuitemradio"][aria-checked="true"] > .gg-icon {
+  color: var(--semantic-color-text-accent);
 }
 
 .gg-menu .gg-menu-label {
@@ -66,14 +72,30 @@
   text-overflow: ellipsis;
 }
 
+.gg-menu .gg-menu-hint {
+  color: var(--semantic-color-text-tertiary);
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
 .gg-menu .gg-menu-note {
   display: block;
-  padding: var(--semantic-dimension-space-small)
-    var(--semantic-dimension-space-medium);
-  font-size: var(--semantic-dimension-font-size-control);
+  padding: calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
   line-height: var(--semantic-number-line-height-body);
   white-space: nowrap;
-  color: var(--semantic-color-text-secondary);
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-divider);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-menu .gg-menu-sep {
+  height: var(--semantic-dimension-border-width-default);
+  margin: var(--semantic-dimension-space-x-small) 0;
+  background: var(--semantic-color-border-divider);
 }

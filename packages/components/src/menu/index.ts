@@ -15,7 +15,7 @@ export { Message } from "./message.ts";
 
 export { BindSlip } from "./slip.ts";
 
-export { action, check, group, link, radio } from "./item.ts";
+export { action, check, group, link, radio, separator } from "./item.ts";
 
 export type { Item } from "./item.ts";
 
