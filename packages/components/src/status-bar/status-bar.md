@@ -14,7 +14,7 @@ Render one per page, after the rail, the deck and the side pane and outside `<ma
 StatusBar.view(
   {
     keys: [
-      { keys: "J", does: "next" },
+      { keys: "J", otherKeys: ["K"], does: "move" },
       { keys: "X", does: "complete" },
       { keys: "Mod+K", does: "commands" },
     ],
@@ -25,7 +25,7 @@ StatusBar.view(
 )
 ```
 
-Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewhere, so the key platform comes from the application's Model: detect it once with `KeyHint.detectKeyPlatform` in a Command from `init`. The keys are content, so a screen reader reads each one.
+Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewhere, so the key platform comes from the application's Model: detect it once with `KeyHint.detectKeyPlatform` in a Command from `init`. The keys are content, so a screen reader reads each one. Keys that do the same share one note, each in its own box: `otherKeys: ["K"]` beside `J` prints J and K before "move".
 
 ## Its height
 

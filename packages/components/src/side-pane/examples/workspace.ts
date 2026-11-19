@@ -306,8 +306,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       StatusBar.view(
         {
           keys: [
-            { keys: "J", does: "next" },
-            { keys: "K", does: "previous" },
+            { keys: "J", otherKeys: ["K"], does: "move" },
             { keys: "X", does: "complete" },
             { keys: "Enter", does: "open" },
             { keys: "Q", does: "capture" },

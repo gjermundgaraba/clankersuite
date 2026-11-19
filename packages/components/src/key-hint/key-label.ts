@@ -61,6 +61,10 @@ const KEY_NAMES: Record.ReadonlyRecord<string, string> = {
   space: "Space",
 };
 
+const APPLE_KEY_NAMES: Record.ReadonlyRecord<string, string> = {
+  enter: "↵",
+};
+
 const toModifier =
   (platform: KeyPlatform) =>
   (token: string): Option.Option<Modifier> =>
@@ -88,30 +92,35 @@ const parsePress = (press: string, platform: KeyPlatform): Press => {
 
 const isCharacter = (key: string): boolean => key.length === 1;
 
-const keyName = (key: string, hasModifier: boolean): string =>
-  Option.match(Record.get(KEY_NAMES, String.toLowerCase(key)), {
-    onSome: (name) => name,
-    onNone: () => {
-      if (!isCharacter(key)) {
-        return key;
-      } else if (hasModifier) {
-        return String.toUpperCase(key);
-      }
+const LETTER_PATTERN = /^\p{L}$/u;
 
-      return String.toLowerCase(key);
-    },
-  });
+const isLetter = (key: string): boolean => LETTER_PATTERN.test(key);
+
+const keyName = (key: string, platform: KeyPlatform): string =>
+  Option.match(
+    Option.orElse(
+      platform === "Apple"
+        ? Record.get(APPLE_KEY_NAMES, String.toLowerCase(key))
+        : Option.none(),
+      () => Record.get(KEY_NAMES, String.toLowerCase(key))
+    ),
+    {
+      onSome: (name) => name,
+      onNone: () => (isCharacter(key) ? String.toUpperCase(key) : key),
+    }
+  );
 
 const pressLabel = (press: string, platform: KeyPlatform): string => {
   const { modifiers, key } = parsePress(press, platform);
 
-  const isShiftedCharacter =
+  const isShiftedSymbol =
     isCharacter(key) &&
+    !isLetter(key) &&
     Array.contains(modifiers, "Shift") &&
     Array.length(modifiers) === 1;
 
-  if (isShiftedCharacter) {
-    return String.toUpperCase(key);
+  if (isShiftedSymbol) {
+    return key;
   }
 
   const orderedModifiers = Array.filter(MODIFIER_ORDER, (modifier) =>
@@ -125,26 +134,22 @@ const pressLabel = (press: string, platform: KeyPlatform): string => {
     ""
   );
 
-  return `${prefix}${keyName(key, Array.isReadonlyArrayNonEmpty(orderedModifiers))}`;
+  return `${prefix}${keyName(key, platform)}`;
 };
 
 export const pressesOf = (keys: KeySequence): readonly string[] =>
   Predicate.isString(keys) ? [keys] : keys;
 
 /**
- * A key binding as the help and the key hints print it. Takes the same strings
- * `Dom.streamFromKeyBindings` matches: `"Mod+K"` prints `⌘K` on Apple and `Ctrl+K` elsewhere,
- * arrows print as arrows, a plain letter prints in lower case (`"G"` is `g`), and Shift with a
- * lone character prints the character it types (`"Shift+G"` is `G`, `"Shift+?"` is `?`). A
- * sequence of characters reads as Vim writes it (`["G", "G"]` is `gg`); a sequence with a
- * named key keeps its spaces.
+ * A key binding as the help and the key hints print it, as a keycap reads. Takes the same
+ * strings `Dom.streamFromKeyBindings` matches: `"Mod+K"` prints `⌘K` on Apple and `Ctrl+K`
+ * elsewhere, arrows print as arrows, Enter prints `↵` on Apple, a letter prints in upper case (`"G"` is `G`), Shift is
+ * spelled out before a letter (`"Shift+G"` is `⇧G` on Apple and `Shift+G` elsewhere), and Shift
+ * with a lone symbol prints the symbol it types (`"Shift+?"` is `?`). The presses of a sequence
+ * print one after another, a space apart (`["G", "I"]` is `G I`).
  */
-export const keyLabel = (keys: KeySequence, platform: KeyPlatform): string => {
-  const labels = Array.map(pressesOf(keys), (press) =>
-    pressLabel(press, platform)
+export const keyLabel = (keys: KeySequence, platform: KeyPlatform): string =>
+  Array.join(
+    Array.map(pressesOf(keys), (press) => pressLabel(press, platform)),
+    " "
   );
-
-  return Array.every(labels, isCharacter)
-    ? Array.join(labels, "")
-    : Array.join(labels, " ");
-};

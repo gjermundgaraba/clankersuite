@@ -9,7 +9,12 @@ import { measureAttributes } from "../top-bar/bar-height.ts";
 import type { Message as BarHeightMessage } from "../top-bar/bar-height.ts";
 
 /** A key worth knowing and what it does, as the key help prints it. */
-export type KeyNote = Readonly<{ keys: KeySequence; does: string }>;
+export type KeyNote = Readonly<{
+  keys: KeySequence;
+  /** Further keys that do the same, each in its own box after the first: `J` and `K` move. */
+  otherKeys?: readonly KeySequence[];
+  does: string;
+}>;
 
 /** Configuration for rendering a status bar with `view`. */
 export type ViewConfig<Message> = Readonly<{
@@ -34,11 +39,16 @@ const bindingKey = (keys: KeySequence): string =>
 
 const keyNoteView =
   <Message>(platform: KeyPlatform, h: HtmlBuilder<Message>) =>
-  ({ keys, does }: KeyNote): Html =>
+  ({ keys, otherKeys = [], does }: KeyNote): Html =>
     h.keyed("span")(
       bindingKey(keys),
       [],
-      [h.kbd([h.Class("gg-key-hint")], [keyLabel(keys, platform)]), ` ${does}`]
+      [
+        ...Array.map([keys, ...otherKeys], (each) =>
+          h.kbd([h.Class("gg-key-hint")], [keyLabel(each, platform)])
+        ),
+        ` ${does}`,
+      ]
     );
 
 /** The key bar along the bottom of an interface: the keys to know, each in a ringed box, and
