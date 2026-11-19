@@ -127,6 +127,8 @@
   --semantic-dimension-font-size-figure: 30px;
   /* A stat's value at 900px and under. */
   --semantic-dimension-font-size-figure-narrow: 22px;
+  /* An empty state's title. */
+  --semantic-dimension-font-size-headline: 22px;
   /* A key printed as its keycap, in a ringed box: in a button, a menu row, a tip and the key bar. */
   --semantic-dimension-font-size-key-hint: 11.5px;
   /* Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels. */
@@ -187,6 +189,8 @@
   --semantic-dimension-size-diff-line: 19px;
   /* A chip's status dot: Chip.dotView. */
   --semantic-dimension-size-dot: 8px;
+  /* The glyph over an empty state's title. */
+  --semantic-dimension-size-glyph-hero: 44px;
   /* The glyph in an IconButton. */
   --semantic-dimension-size-glyph-icon-button: 15px;
   /* A large glyph: an outcome's, a drop zone's or a wall's. */
@@ -311,6 +315,8 @@
   --semantic-dimension-space-group: 26px;
   /* Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's. */
   --semantic-dimension-space-gutter: var(--semantic-dimension-space-x-large);
+  /* Above and below an empty page's large glyph and title. */
+  --semantic-dimension-space-hero: 60px;
   /* Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row. */
   --semantic-dimension-space-inset: var(--semantic-dimension-space-large);
   /* Between the parts of one body: a panel's, a card's, a window's. */

@@ -12,6 +12,23 @@
   font-weight: var(--semantic-font-weight-regular);
 }
 
+.gg-empty.gg-hero {
+  padding: var(--semantic-dimension-space-hero) 0;
+}
+
+.gg-empty.gg-hero > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-hero);
+  height: var(--semantic-dimension-size-glyph-hero);
+  margin-bottom: var(--semantic-dimension-space-x-small);
+  color: var(--semantic-color-background-fill-accent);
+}
+
+.gg-empty.gg-hero .gg-empty-title {
+  font-size: var(--semantic-dimension-font-size-headline);
+  font-weight: var(--semantic-font-weight-bold);
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
+}
+
 .gg-empty p {
   color: var(--semantic-color-text-secondary);
   max-width: var(--semantic-dimension-size-measure-note);

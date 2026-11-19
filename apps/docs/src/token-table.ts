@@ -38,6 +38,9 @@ export const VOICES = new Map<string, readonly Voice[]>(
     "--semantic-dimension-font-size-title": [
       { words: "Renew the signing certificate", weight: BOLD },
     ],
+    "--semantic-dimension-font-size-headline": [
+      { words: "Inbox zero", weight: BOLD },
+    ],
     "--semantic-dimension-font-size-page": [{ words: "Queue" }],
     "--semantic-dimension-font-size-page-narrow": [{ words: "Queue" }],
     "--semantic-dimension-font-size-wordmark": [
