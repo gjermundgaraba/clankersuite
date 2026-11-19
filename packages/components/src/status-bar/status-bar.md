@@ -29,4 +29,4 @@ Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewh
 
 ## Its height
 
-While the bar is on the page, the page keeps `--gg-statusbar-h` at the bar's exact height, border to border, however it wraps or an application pads it, so the page, a Bench, a Stage and the toasts stop at its top edge. A Mount does this and reports a Message the parent lifts with `toParentMessage` and changes nothing for. In a Scene, resolve it by name: `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`.
+While the bar is on the page, the page keeps `--gg-statusbar-h` at the bar's exact height, border to border, however it wraps or an application pads it, so the page, a Bench, a Stage, a SidePane that covers the page and the toasts stop at its top edge. A Mount does this and reports a Message the parent lifts with `toParentMessage` and changes nothing for. In a Scene, resolve it by name: `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`.
