@@ -28,9 +28,6 @@
 
 .gg-tip .gg-key-hint {
   margin-left: var(--semantic-dimension-space-small);
-  font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
 }
 
 .gg-tip[popover][data-gg-side="right"] {

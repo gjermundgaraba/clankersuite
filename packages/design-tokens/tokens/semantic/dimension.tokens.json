@@ -119,7 +119,7 @@
             "value": 11.5,
             "unit": "px"
           },
-          "$description": "A key hint in a ringed box: in the key bar."
+          "$description": "A key printed as its keycap, in a ringed box: in a button, a menu row, a tip and the key bar."
         }
       },
       "letterSpacing": {
