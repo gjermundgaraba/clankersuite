@@ -203,8 +203,8 @@
   --semantic-dimension-size-max-width-card: 680px;
   /* A narrow card's width. */
   --semantic-dimension-size-max-width-card-narrow: 440px;
-  /* The widest a deck of panels runs. */
-  --semantic-dimension-size-max-width-deck: 1160px;
+  /* The page's column: a Deck's content, centred between the sidebar and the side pane. */
+  --semantic-dimension-size-max-width-deck: 760px;
   /* The widest a meter's name column prints. */
   --semantic-dimension-size-max-width-meter-name: 240px;
   /* The measure of long-form reading. */
@@ -309,6 +309,10 @@
   --semantic-dimension-space-large: 16px;
   /* Between grouped lines, and the inline padding of a row, cell or bar. */
   --semantic-dimension-space-medium: 12px;
+  /* The room above a Deck's content, between the window's top and the page's head. */
+  --semantic-dimension-space-page-block: 44px;
+  /* The room either side of a Deck's content, inside its column. */
+  --semantic-dimension-space-page-inline: 40px;
   /* Between things in one line: buttons, chips, a glyph and its word. */
   --semantic-dimension-space-small: 8px;
   /* How far an underline sits below the text. */
@@ -382,7 +386,7 @@
   /* A textarea. */
   --semantic-number-line-height-textarea: 1.5;
   /* A page's title. */
-  --semantic-number-line-height-title: 1.2;
+  --semantic-number-line-height-title: 1.1;
   /* A held item, dimmed in place while its copy follows the pointer. */
   --semantic-number-opacity-dragged: 0.4;
   /* A row's tools until the row is hovered, focused or current. */
