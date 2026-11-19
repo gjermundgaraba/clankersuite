@@ -122,6 +122,8 @@ export * as SelectField from "./select-field/index.ts";
 
 export * as Sheet from "./sheet/index.ts";
 
+export * as SidePane from "./side-pane/index.ts";
+
 export * as SkipLink from "./skip-link/index.ts";
 
 export * as Sortable from "./sortable/index.ts";

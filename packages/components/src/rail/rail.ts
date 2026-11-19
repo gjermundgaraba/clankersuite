@@ -453,6 +453,10 @@ export type ViewInputs = Readonly<{
    *  opens the drawer to print first in it. A function because it receives that button, and
    *  runs in the parent's boundary like `toAsideView`. */
   toDeckView: (openButton: Html) => Html;
+  /** The SidePane beside the page, or `h.empty` while it has nothing to show. It sits in the
+   *  rail's page, where the stylesheet measures the room right of the rail to choose whether
+   *  it covers the page. A function that runs in the parent's boundary like `toAsideView`. */
+  toPaneView?: () => Html;
 }>;
 
 /**
@@ -484,8 +488,14 @@ export type ViewInputs = Readonly<{
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
-    const { label, isHidden, maybeToggleKeyHint, toAsideView, toDeckView } =
-      viewInputs;
+    const {
+      label,
+      isHidden,
+      maybeToggleKeyHint,
+      toAsideView,
+      toDeckView,
+      toPaneView,
+    } = viewInputs;
 
     const maybeWidth = Option.orElse(
       Option.map(model.maybeResizing, ({ width }) => width),
@@ -603,6 +613,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ]
         ),
         ...(isHidden ? [] : [splitter]),
+        ...(toPaneView === undefined ? [] : [toPaneView()]),
       ]
     );
   }

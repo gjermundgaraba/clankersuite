@@ -3,7 +3,10 @@
   inherits: false;
 }
 
+/* the room right of the rail, the page's and a side pane's, which the pane measures to choose
+   whether it covers the page */
 .gg-railed {
+  container: gg-railed / inline-size;
   padding-left: var(
     --gg-railed-width,
     var(--semantic-dimension-size-rail-default)
@@ -14,11 +17,10 @@
   --gg-railed-width: inherit;
 }
 
+/* a side pane, where it covers the page, starts at its right edge */
 .gg-rail[popover] {
-  position: fixed;
-  inset: auto;
-  top: anchor(--gg-topbar bottom, 0px);
-  bottom: var(--gg-statusbar-h);
+  anchor-name: --gg-rail;
+  right: auto;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -74,9 +76,6 @@
 }
 
 .gg-rail-resize {
-  position: fixed;
-  top: anchor(--gg-topbar bottom, 0px);
-  bottom: var(--gg-statusbar-h);
   left: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
   z-index: var(--semantic-number-layer-raised);
   width: var(--semantic-dimension-size-rail-resize);

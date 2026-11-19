@@ -8,7 +8,7 @@ The quiet line along the bottom of an interface: what state it is in at the left
 
 ## Usage
 
-Render one per page, after the rail and the deck and outside `<main>`, where its `<footer>` is the page's contentinfo landmark. It is fixed to the bottom of the window, so it has no example here: one would sit along the bottom of this page rather than in a frame.
+Render one per page, after the rail and the deck and outside `<main>`, where its `<footer>` is the page's contentinfo landmark. It is fixed to the bottom of the window, so it shows in a page of its own: the [side pane's example](/frame/components/side-pane/workspace) ends in one.
 
 ```ts
 StatusBar.view(
@@ -29,4 +29,4 @@ Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewh
 
 ## Its height
 
-While the bar is on the page, the page keeps `--gg-statusbar-h` at the bar's height however it wraps, so the page, the rail and the toasts stop above it. A Mount does this and reports a Message the parent lifts with `toParentMessage` and changes nothing for. In a Scene, resolve it by name: `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`.
+While the bar is on the page, the page keeps `--gg-statusbar-h` at the bar's exact height, border to border, however it wraps or an application pads it, so the page, the rail, a side pane and the toasts stop at its top edge. A Mount does this and reports a Message the parent lifts with `toParentMessage` and changes nothing for. In a Scene, resolve it by name: `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`.

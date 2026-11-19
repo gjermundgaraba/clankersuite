@@ -7,6 +7,7 @@
 :root {
   --gg-topbar-h: var(--semantic-dimension-size-top-bar);
   --gg-statusbar-h: 0px;
+  --gg-side-pane-w: 0px;
 }
 
 html {
@@ -238,4 +239,16 @@ kbd {
   border-radius: var(--semantic-dimension-border-width-accent);
   background: var(--semantic-color-background-fill-accent);
   pointer-events: none;
+}
+
+/* what sits between the bars: a Rail and its splitter, a SidePane, a Bench, a Stage. Each sets
+   its own sides */
+.gg-rail[popover],
+.gg-rail-resize,
+.gg-side-pane,
+.gg-bench,
+.gg-stage {
+  position: fixed;
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: var(--gg-statusbar-h);
 }

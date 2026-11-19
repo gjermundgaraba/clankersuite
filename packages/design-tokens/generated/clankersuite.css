@@ -236,6 +236,8 @@
   --semantic-dimension-size-row: 36px;
   /* The width of a scrollbar. */
   --semantic-dimension-size-scrollbar: 10px;
+  /* The width of the side pane at the page's right. */
+  --semantic-dimension-size-side-pane: 360px;
   /* The width and height of the spinner a busy button, chip, loading line, link state or palette row prints. */
   --semantic-dimension-size-spinner: 8px;
   /* The status bar's height. */

@@ -14,7 +14,9 @@ const islandsIn = (
 
 const examplesOnPages = Array.flatMap(PAGES, ({ directory, document }) =>
   Array.flatMap(islandsIn(document.blocks), ({ name, attributes }) =>
-    name === "Example" ? [examplePath(directory, attributes["name"] ?? "")] : []
+    name === "Example" || name === "Page"
+      ? [examplePath(directory, attributes["name"] ?? "")]
+      : []
   )
 );
 

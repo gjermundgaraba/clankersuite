@@ -8,7 +8,9 @@ A page whose work is the window: its head at its own height, then the work in al
 
 ## Usage
 
-A bench is the page's main landmark, `<main id="main">`, the skip link's target, so it has no example here: this page already has its own.
+A bench is the page's main landmark, `<main id="main">`, the skip link's target, and fixed to the window, so its example runs as a page of its own, in a frame.
+
+::Page{name="workbench"}
 
 ```ts
 Bench.view(

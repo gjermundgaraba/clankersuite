@@ -196,6 +196,38 @@ describe("Rail view", () => {
     );
   });
 
+  it("holds the side pane it is given in the page beside it", () => {
+    Scene.scene(
+      {
+        update: Rail.update,
+        view: (model: Rail.Model, h: HtmlBuilder<Rail.Message>) =>
+          Rail.view(
+            model,
+            {
+              label: "collections",
+              maybeWidth: Option.none(),
+              isHidden: false,
+              maybeToggleKeyHint: Option.none(),
+              toAsideView: () => [],
+              toDeckView: (button) => h.div([h.Class("gg-deck")], [button]),
+              toPaneView: () =>
+                h.aside(
+                  [h.Class("gg-side-pane"), h.AriaLabel("Task details")],
+                  []
+                ),
+            },
+            h
+          ),
+      },
+      Scene.given(fresh),
+      Scene.expect(
+        Scene.role("complementary", { name: "Task details" })
+      ).toExist(),
+      Scene.expect(Scene.selector(".gg-railed .gg-side-pane")).toExist(),
+      Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer())
+    );
+  });
+
   it("shuts when the browser closes it, and opens and shuts from its button and glyph", () => {
     Scene.scene(
       { update: Rail.update, view: railView },

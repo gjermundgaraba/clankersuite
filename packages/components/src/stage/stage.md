@@ -8,7 +8,9 @@ The ground itself, from under the top bar to the window's edges, for a canvas of
 
 ## Usage
 
-A stage is the page's main landmark, `<main id="main">`, the skip link's target, so it has no example here: this page already has its own.
+A stage is the page's main landmark, `<main id="main">`, the skip link's target, and fixed to the window, so its example runs as a page of its own, in a frame.
+
+::Page{name="canvas"}
 
 ```ts
 Stage.view(

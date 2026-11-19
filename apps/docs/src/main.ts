@@ -26,7 +26,14 @@ import { Message } from "./message.ts";
 import type { Model } from "./model.ts";
 import { COMPONENT_PAGES, PACKAGE_PAGES, findPage } from "./pages.ts";
 import type { Page } from "./pages.ts";
-import { AppRoute, homeRouter, hrefOf, urlToAppRoute } from "./route.ts";
+import {
+  AppRoute,
+  frameRouter,
+  homeRouter,
+  hrefOf,
+  pageRouter,
+  urlToAppRoute,
+} from "./route.ts";
 import { tokensView } from "./token-table.ts";
 
 const BRAND = "gjermundgaraba";
@@ -105,33 +112,70 @@ export const update = (model: Model, message: Message) =>
     GotTopBarMessage: () => ({ model }),
   });
 
-const exampleView =
-  (directory: string, h: HtmlBuilder<Message>) =>
-  ({ name }: Readonly<{ name: string }>): Html =>
-    h.figure(
-      [h.Class("site-example")],
-      [
-        h.keyed("div")(`${directory}/${name}`, [
-          h.Class("site-example-stage"),
-          h.OnMount(MountExample({ directory, name })),
-        ]),
-        ...Option.match(sourceOf(directory, name), {
-          onNone: () => [],
-          onSome: (source) => [
-            h.details(
-              [h.Class("site-source")],
-              [
-                h.summary([], ["Code"]),
-                CodeSurface.view(
-                  { label: `examples/${name}.ts`, body: [source] },
-                  h
-                ),
-              ]
-            ),
-          ],
-        }),
-      ]
-    );
+const sourceView = (
+  directory: string,
+  name: string,
+  h: HtmlBuilder<Message>
+): readonly Html[] =>
+  Option.match(sourceOf(directory, name), {
+    onNone: () => [],
+    onSome: (source) => [
+      h.details(
+        [h.Class("site-source")],
+        [
+          h.summary([], ["Code"]),
+          CodeSurface.view({ label: `examples/${name}.ts`, body: [source] }, h),
+        ]
+      ),
+    ],
+  });
+
+const exampleView = (
+  directory: string,
+  name: string,
+  h: HtmlBuilder<Message>
+): Html =>
+  h.figure(
+    [h.Class("site-example")],
+    [
+      h.keyed("div")(`${directory}/${name}`, [
+        h.Class("site-example-stage"),
+        h.OnMount(MountExample({ directory, name })),
+      ]),
+      ...sourceView(directory, name, h),
+    ]
+  );
+
+type ExampleSource = Readonly<{
+  route: typeof AppRoute.Page.Type;
+  directory: string;
+}>;
+
+const pageExampleView = (
+  { route, directory }: ExampleSource,
+  name: string,
+  h: HtmlBuilder<Message>
+): Html => {
+  const href = frameRouter({ section: route.section, slug: route.slug, name });
+
+  return h.figure(
+    [h.Class("site-example")],
+    [
+      h.div(
+        [h.Class("site-example-stage")],
+        [
+          h.keyed("iframe")(href, [
+            h.Class("site-frame"),
+            h.Src(href),
+            h.Title(`examples/${name}.ts, as a page`),
+          ]),
+        ]
+      ),
+      h.p([], [h.a([h.Href(href)], ["Open it as a whole page"])]),
+      ...sourceView(directory, name, h),
+    ]
+  );
+};
 
 type Segment = Readonly<{ isProse: boolean; blocks: readonly Html[] }>;
 
@@ -160,7 +204,7 @@ const segmentsOf = (
 
 const documentView = (
   document: Markdown.MarkdownDocument,
-  directory: string,
+  maybeSource: Option.Option<ExampleSource>,
   h: HtmlBuilder<Message>
 ): Html =>
   h.article(
@@ -170,7 +214,16 @@ const documentView = (
         document.blocks,
         Markdown.viewBlocks(document, {
           islands: Markdown.islandsFor(islandAttributes, {
-            Example: exampleView(directory, h),
+            Example: ({ name }) =>
+              Option.match(maybeSource, {
+                onNone: () => null,
+                onSome: ({ directory }) => exampleView(directory, name, h),
+              }),
+            Page: ({ name }) =>
+              Option.match(maybeSource, {
+                onNone: () => null,
+                onSome: (source) => pageExampleView(source, name, h),
+              }),
             Tokens: tokensView(h),
           }),
           views: {
@@ -275,18 +328,46 @@ const contentOf = (
 ): Readonly<{ title: string; body: Html }> =>
   AppRoute.matchOrElse(
     model.route,
-    { Home: () => ({ title: BRAND, body: documentView(HOME, "", h) }) },
-    (route) =>
-      Option.match(findPage(hrefOf(route)), {
-        onNone: () => ({ title: NOT_FOUND_TITLE, body: notFoundView(h) }),
-        onSome: (page) => ({
-          title: `${page.title} · ${BRAND}`,
-          body: documentView(page.document, page.directory, h),
+    {
+      Home: () => ({
+        title: BRAND,
+        body: documentView(HOME, Option.none(), h),
+      }),
+      Page: (route) =>
+        Option.match(findPage(hrefOf(route)), {
+          onNone: () => ({ title: NOT_FOUND_TITLE, body: notFoundView(h) }),
+          onSome: (page) => ({
+            title: `${page.title} · ${BRAND}`,
+            body: documentView(
+              page.document,
+              Option.some({ route, directory: page.directory }),
+              h
+            ),
+          }),
         }),
-      })
+    },
+    () => ({ title: NOT_FOUND_TITLE, body: notFoundView(h) })
   );
 
+const frameView = (
+  { section, slug, name }: typeof AppRoute.Frame.Type,
+  h: HtmlBuilder<Message>
+): Document =>
+  Option.match(findPage(pageRouter({ section, slug })), {
+    onNone: () => ({ title: NOT_FOUND_TITLE, body: notFoundView(h) }),
+    onSome: ({ title, directory }) => ({
+      title: `${title} · ${BRAND}`,
+      body: h.keyed("div")(`${directory}/${name}`, [
+        h.OnMount(MountExample({ directory, name })),
+      ]),
+    }),
+  });
+
 export const view = (model: Model, h: HtmlBuilder<Message>): Document => {
+  if (model.route._tag === "Frame") {
+    return frameView(model.route, h);
+  }
+
   const { title, body } = contentOf(model, h);
 
   return {
