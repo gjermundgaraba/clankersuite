@@ -62,6 +62,21 @@
     outline: var(--semantic-dimension-border-width-default) solid CanvasText;
   }
 
+  .gg-goal-steps > .gg-on {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .gg-goal-ring > .gg-off {
+    forced-color-adjust: none;
+    stroke: GrayText;
+  }
+
+  .gg-goal-ring > .gg-on {
+    forced-color-adjust: none;
+    stroke: CanvasText;
+  }
+
   /* important, to win over the toned and stale fills too */
   .gg-bar-fill {
     forced-color-adjust: none;

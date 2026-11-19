@@ -1,0 +1,155 @@
+.gg-goal-card {
+  padding: calc(
+      var(--semantic-dimension-space-large) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    calc(
+      var(--semantic-dimension-space-large) +
+        var(--semantic-dimension-space-x-small)
+    );
+}
+
+.gg-goal-head {
+  display: flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+/* the ring fills in the goal's colour by the share of its outcomes done */
+.gg-goal-ring {
+  flex: none;
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}
+
+.gg-goal-ring > .gg-off {
+  stroke: var(--semantic-color-border-secondary);
+}
+
+.gg-goal-ring > .gg-on {
+  stroke: var(--gg-marker);
+}
+
+.gg-goal-head h2 {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--semantic-dimension-font-size-title);
+  font-weight: var(--semantic-font-weight-bold);
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
+}
+
+.gg-goal-description {
+  margin-top: var(--semantic-dimension-space-x-small);
+  color: var(--semantic-color-text-secondary);
+}
+
+/* the outcomes as steps: one pill each, a done one's in the goal's colour */
+.gg-goal-steps {
+  display: flex;
+  gap: var(--semantic-dimension-space-x-small);
+  margin: calc(
+      var(--semantic-dimension-space-medium) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    0
+    calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+}
+
+.gg-goal-steps > span {
+  flex: 1;
+  height: var(--semantic-dimension-size-meter-height);
+  background: var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-pill);
+}
+
+.gg-goal-steps > .gg-on {
+  background: var(--gg-marker);
+}
+
+.gg-goal-meta {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-goal-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14em), 1fr));
+  gap: var(--semantic-dimension-space-x-large);
+  margin-top: calc(
+    var(--semantic-dimension-space-medium) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+.gg-goal-column {
+  min-width: 0;
+}
+
+.gg-goal-column h3 {
+  margin-bottom: var(--semantic-dimension-space-x-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* an outcome: its check a little larger than a form's, struck through once done */
+.gg-goal-column .gg-choice {
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-inline);
+  padding-block: var(--semantic-dimension-space-x-small);
+}
+
+.gg-goal-column .gg-choice-box {
+  width: var(--semantic-dimension-size-checkbox-compact);
+  height: var(--semantic-dimension-size-checkbox-compact);
+  margin-top: 0;
+}
+
+.gg-goal-column .gg-choice-name {
+  font-size: inherit;
+}
+
+.gg-goal-column .gg-choice:has(> [aria-checked="true"]) .gg-choice-name {
+  color: var(--semantic-color-text-tertiary);
+  text-decoration: line-through;
+}
+
+/* outcomes kept in Rows, for their tools, sit as bare Choices do: flush with the column, one
+   Choice tall */
+.gg-goal-column .gg-rows:not(.gg-compact) {
+  margin-inline: calc(-1 * var(--semantic-dimension-space-row-inline));
+}
+
+.gg-goal-column .gg-rows:not(.gg-compact) .gg-row {
+  min-height: 0;
+  padding-block: 0;
+}
+
+/* a goal's tasks are compact Rows, in small text, their checks a box's size */
+.gg-goal-column .gg-rows.gg-compact {
+  --gg-check: var(--semantic-dimension-size-checkbox-box);
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-values {
+  padding: var(--semantic-dimension-space-large)
+    calc(
+      var(--semantic-dimension-space-large) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-head);
+  border-radius: var(--semantic-dimension-radius-surface);
+}
+
+.gg-values-label {
+  margin-bottom: var(--semantic-dimension-space-x-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
