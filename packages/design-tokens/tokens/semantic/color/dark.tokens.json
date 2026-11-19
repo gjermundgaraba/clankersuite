@@ -45,6 +45,10 @@
           "$value": "{primitive.color.warmGray.950}",
           "$description": "Text on background.fill.negative."
         },
+        "onInverse": {
+          "$value": "{primitive.color.forest.900}",
+          "$description": "Words and glyphs on background.inverse: a toast's."
+        },
         "terminal": {
           "red": {
             "$value": "{primitive.color.red.250}",
@@ -154,6 +158,10 @@
         "selected": {
           "$value": "{primitive.color.sage.300Alpha13}",
           "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text keeps its colour: every text tone and border.primary hold their floors on it."
+        },
+        "inverse": {
+          "$value": "{primitive.color.bone.100}",
+          "$description": "The ground of what prints inverted, the page's text colour as its ground: a toast."
         },
         "tint": {
           "positive": {

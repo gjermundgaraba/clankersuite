@@ -73,6 +73,7 @@
   --semantic-color-background-fill-warning: light-dark(var(--primitive-color-amber-400), var(--primitive-color-amber-300));
   --semantic-color-background-head: light-dark(var(--primitive-color-warm-gray-50), var(--primitive-color-forest-850));
   --semantic-color-background-hover: light-dark(var(--primitive-color-warm-gray-950-alpha5), var(--primitive-color-bone-100-alpha5));
+  --semantic-color-background-inverse: light-dark(var(--primitive-color-warm-gray-900), var(--primitive-color-bone-100));
   --semantic-color-background-marker-amber: light-dark(var(--primitive-color-amber-600), var(--primitive-color-amber-300));
   --semantic-color-background-marker-coral: light-dark(var(--primitive-color-red-550), var(--primitive-color-red-300));
   --semantic-color-background-marker-sand: light-dark(var(--primitive-color-sand-600), var(--primitive-color-sand-300));
@@ -101,6 +102,7 @@
   --semantic-color-text-code-type: var(--semantic-color-text-terminal-green);
   --semantic-color-text-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
   --semantic-color-text-on-accent-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-forest-900));
+  --semantic-color-text-on-inverse: light-dark(var(--primitive-color-warm-gray-25), var(--primitive-color-forest-900));
   --semantic-color-text-on-negative-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-warm-gray-950));
   --semantic-color-text-on-status-fill: var(--primitive-color-warm-gray-950);
   --semantic-color-text-positive: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));

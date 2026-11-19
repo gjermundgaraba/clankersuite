@@ -11,7 +11,7 @@ export const Tone = Schema.Literals(["Warn", "Error", "Ok", "Quiet"]);
 
 export type Tone = typeof Tone.Type;
 
-const toneGlyph = (tone: Tone): GlyphName =>
+export const toneGlyph = (tone: Tone): GlyphName =>
   Match.value(tone).pipe(
     Match.withReturnType<GlyphName>(),
     Match.whenOr("Warn", "Error", () => "bang"),
