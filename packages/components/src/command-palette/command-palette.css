@@ -6,38 +6,6 @@
   );
 }
 
-/* the query line across the sheet's top, ruled under */
-.gg-palette-q {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--semantic-dimension-space-small);
-  min-height: calc(
-    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
-  );
-  padding: 0 var(--semantic-dimension-space-sheet);
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-divider);
-  flex: none;
-}
-
-.gg-palette-q input,
-.gg-palette-q input:focus-visible {
-  flex: 1 1 var(--semantic-dimension-size-measure-x-large);
-  width: auto;
-  min-width: 0;
-  min-height: calc(
-    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
-  );
-  font-size: var(--semantic-dimension-font-size-title);
-  background: none;
-  border: 0;
-}
-
-.gg-palette-q input::placeholder {
-  color: var(--semantic-color-text-tertiary);
-}
-
 .gg-palette-scope {
   font-size: var(--semantic-dimension-font-size-label);
   color: var(--semantic-color-text-secondary);

@@ -66,6 +66,15 @@
     background: CanvasText !important;
   }
 
+  /* the mirror's text stays unseen over the input's; its marks underline in Highlight */
+  .gg-field-mirror {
+    forced-color-adjust: none;
+  }
+
+  .gg-field-mirror mark {
+    border-bottom-color: Highlight !important;
+  }
+
   [data-gg-flash] {
     outline: var(--semantic-dimension-border-width-accent) solid Highlight;
     outline-offset: calc(-1 * var(--semantic-dimension-border-width-accent));

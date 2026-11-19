@@ -532,7 +532,7 @@
               "value": 15,
               "unit": "px"
             },
-            "$description": "The glyph before a menu item's label."
+            "$description": "The glyph before a menu item's or a suggestion's label."
           },
           "large": {
             "$value": {

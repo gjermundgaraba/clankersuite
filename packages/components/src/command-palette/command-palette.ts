@@ -1,4 +1,3 @@
-import { Input as UiInput } from "@foldkit/ui";
 import { Glyph } from "@gjermundgaraba/icons";
 import {
   Array,
@@ -33,6 +32,7 @@ import * as Card from "../card/card.ts";
 import * as Dialog from "../dialog/dialog.ts";
 import { foldDialog } from "../dialog/fold.ts";
 import { htmlElement } from "../dom/html-element.ts";
+import * as Field from "../field/field.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import * as KeyHint from "../key-hint/key-hint.ts";
@@ -960,7 +960,6 @@ const groupedRows = (
 const comboboxAttributes = (
   model: Model,
   shown: Shown,
-  noun: string,
   h: HtmlBuilder<Message>
 ): ReadonlyArray<Attribute<Message>> => {
   const paletteId = id(model);
@@ -980,82 +979,71 @@ const comboboxAttributes = (
         h.AriaActiveDescendant(optionId(paletteId, index))
       )
     ),
-    h.AriaLabel(
-      Option.match(shown.maybePage, {
-        onNone: () => `Command or ${noun}`,
-        onSome: ({ page }) => page.title,
-      })
-    ),
     h.Autocomplete("off"),
     h.DataAttribute(FIELD_ATTRIBUTE, ""),
   ];
-};
-
-const fieldView = (
-  model: Model,
-  shown: Shown,
-  words: Readonly<{ noun: string; placeholder: string }>,
-  render: Dialog.RenderInfo,
-  h: HtmlBuilder<Message>
-): Html => {
-  const maybeShownPage = shownPageIdOf(shown);
-
-  return UiInput.view(
-    {
-      id: fieldId(id(model)),
-      value: shownQueryOf(model, shown),
-      onInput: (value) => Message.UpdatedQuery({ value, maybeShownPage }),
-      isReadOnly: isPicking(model),
-      placeholder: Option.match(shown.maybePage, {
-        onNone: () => words.placeholder,
-        onSome: ({ page }) => page.find ?? "Type to narrow",
-      }),
-      toView: (groups) =>
-        h.input([
-          ...render.initialFocus,
-          ...groups.input,
-          ...comboboxAttributes(model, shown, words.noun, h),
-        ]),
-    },
-    h
-  );
 };
 
 const headView = (
   model: Model,
   shown: Shown,
   scope: string | undefined,
-  field: Html,
+  words: Readonly<{ noun: string; placeholder: string }>,
+  render: Dialog.RenderInfo,
   h: HtmlBuilder<Message>
-): Html =>
-  h.div(
-    [h.Class("gg-palette-q gg-field")],
-    [
-      ...Option.toArray(
-        Option.map(shown.maybePage, () =>
-          IconButton.view(
-            {
-              glyph: "arrow-left",
-              label: "Back",
-              isQuiet: true,
-              isDisabled: isPicking(model),
-              onClick: Message.ClickedBack(),
-            },
-            h
+): Html => {
+  const maybeShownPage = shownPageIdOf(shown);
+
+  return Field.view(
+    {
+      id: fieldId(id(model)),
+      label: Option.match(shown.maybePage, {
+        onNone: () => `Command or ${words.noun}`,
+        onSome: ({ page }) => page.title,
+      }),
+      isLabelHidden: true,
+      look: "Sheet",
+      value: shownQueryOf(model, shown),
+      onInput: (value) => Message.UpdatedQuery({ value, maybeShownPage }),
+      lead: [
+        ...Option.toArray(
+          Option.map(shown.maybePage, () =>
+            IconButton.view(
+              {
+                glyph: "arrow-left",
+                label: "Back",
+                isQuiet: true,
+                isDisabled: isPicking(model),
+                onClick: Message.ClickedBack(),
+              },
+              h
+            )
           )
-        )
-      ),
-      ...(scope === undefined
-        ? []
-        : [h.span([h.Class("gg-palette-scope")], [scope])]),
-      ...Option.toArray(
-        Option.map(shown.maybePage, ({ page }) =>
-          h.span([h.Class("gg-palette-title")], [page.title])
-        )
-      ),
-      field,
-    ]
+        ),
+        ...(scope === undefined
+          ? []
+          : [h.span([h.Class("gg-palette-scope")], [scope])]),
+        ...Option.toArray(
+          Option.map(shown.maybePage, ({ page }) =>
+            h.span([h.Class("gg-palette-title")], [page.title])
+          )
+        ),
+      ],
+      inputAttributes: [
+        ...render.initialFocus,
+        h.Placeholder(
+          Option.match(shown.maybePage, {
+            onNone: () => words.placeholder,
+            onSome: ({ page }) => page.find ?? "Type to narrow",
+          })
+        ),
+        ...(isPicking(model) ? [h.Readonly(true)] : []),
+        ...comboboxAttributes(model, shown, h),
+      ],
+    },
+    h
   );
+};
 
 const listView = (model: Model, shown: Shown, h: HtmlBuilder<Message>): Html =>
   h.div(
@@ -1125,13 +1113,7 @@ const cardView = (
       h.Class("gg-card gg-palette"),
     ],
     [
-      headView(
-        model,
-        shown,
-        scope,
-        fieldView(model, shown, { noun, placeholder }, render, h),
-        h
-      ),
+      headView(model, shown, scope, { noun, placeholder }, render, h),
       ...slotView("div", "gg-palette-detail", toDetailView(), h),
       listView(model, shown, h),
       countView(model, shown, h),
