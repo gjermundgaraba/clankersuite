@@ -3,21 +3,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--semantic-dimension-size-target);
-  height: var(--semantic-dimension-size-target);
+  width: var(--semantic-dimension-size-control-small);
+  height: var(--semantic-dimension-size-control-small);
   background: transparent;
   color: inherit;
   border: none;
+  border-radius: var(--semantic-dimension-radius-control);
   cursor: pointer;
   padding: 0;
 }
 
-.gg-iconbtn.gg-quiet {
-  color: var(--semantic-color-text-secondary);
+.gg-iconbtn > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-icon-button);
+  height: var(--semantic-dimension-size-glyph-icon-button);
 }
 
-.gg-iconbtn.gg-quiet:not(:disabled, [aria-disabled="true"]):hover {
-  color: var(--semantic-color-text-primary);
+.gg-iconbtn.gg-quiet {
+  color: var(--semantic-color-text-tertiary);
+}
+
+@media (hover: hover) {
+  .gg-iconbtn:not(:disabled, [aria-disabled="true"]):hover {
+    color: var(--semantic-color-text-primary);
+    background: var(--semantic-color-background-hover);
+  }
 }
 
 .gg-iconbtn:disabled,

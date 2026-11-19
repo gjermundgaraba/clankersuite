@@ -513,6 +513,13 @@
             },
             "$description": "A small glyph: in a chip, in a row's check."
           },
+          "iconButton": {
+            "$value": {
+              "value": 15,
+              "unit": "px"
+            },
+            "$description": "The glyph in an IconButton."
+          },
           "large": {
             "$value": {
               "value": 24,

@@ -187,6 +187,8 @@
   --semantic-dimension-size-diff-line: 19px;
   /* A chip's status dot: Chip.dotView. */
   --semantic-dimension-size-dot: 8px;
+  /* The glyph in an IconButton. */
+  --semantic-dimension-size-glyph-icon-button: 15px;
   /* A large glyph: an outcome's, a drop zone's or a wall's. */
   --semantic-dimension-size-glyph-large: 24px;
   /* A row's glyph. */
