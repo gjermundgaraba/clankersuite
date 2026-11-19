@@ -7,6 +7,14 @@
   .gg-check[aria-checked="true"] {
     animation: none;
   }
+
+  .gg-btn {
+    transition: none;
+  }
+
+  .gg-btn:not(:disabled, [aria-disabled="true"]):active {
+    transform: none;
+  }
 }
 
 @media (forced-colors: active) {

@@ -38,6 +38,13 @@
           "unit": "s"
         },
         "$description": "A row's check popping as it is checked."
+      },
+      "press": {
+        "$value": {
+          "value": 0.12,
+          "unit": "s"
+        },
+        "$description": "A button shrinking as it is pressed."
       }
     }
   }

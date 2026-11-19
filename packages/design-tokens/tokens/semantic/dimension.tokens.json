@@ -518,7 +518,7 @@
               "value": 14,
               "unit": "px"
             },
-            "$description": "A glyph set in a line of small text: a group's heading, a row's fold, the done line."
+            "$description": "A glyph set in a line of small text: a button's, a group's heading, a row's fold, the done line."
           },
           "iconButton": {
             "$value": {
@@ -619,6 +619,13 @@
             "unit": "px"
           },
           "$description": "The height of a small control: a small button, an icon button, a tab, a filter chip, a sub-place."
+        },
+        "controlLarge": {
+          "$value": {
+            "value": 36,
+            "unit": "px"
+          },
+          "$description": "The height of a large button, for the one action that ends a flow."
         },
         "chip": {
           "$value": {

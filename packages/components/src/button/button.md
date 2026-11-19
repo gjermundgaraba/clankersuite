@@ -4,7 +4,7 @@ category: actions
 
 # Button
 
-A command the reader gives: a word in a rounded box. `Primary` is the one action that commits; `Ghost` has no box until it is hovered, for an action beside a page's title; `Danger` is only the commit inside a confirm, never a button at rest.
+A command the reader gives: a word in a rounded box that shrinks a little while it is pressed. `Primary` is the one action that commits; `Ghost` has no box until it is hovered, for an action beside a page's title; `Danger` is only the commit inside a confirm, never a button at rest.
 
 ::Example{name="variants"}
 
@@ -13,6 +13,12 @@ A command the reader gives: a word in a rounded box. `Primary` is the one action
 The small size for row tools, panel bars and anything set among text.
 
 ::Example{name="small"}
+
+## Large
+
+The large size, taller and in body text, for the one action that ends a flow, such as a sheet's commit.
+
+::Example{name="large"}
 
 ## Danger
 
