@@ -246,6 +246,11 @@ export const glyphFamilies = {
       stroke:
         "M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z",
     },
+    /** An aim: a goal and what it is for. */
+    target: {
+      stroke:
+        "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0M6 12a6 6 0 1 0 12 0a6 6 0 1 0 -12 0M10 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0",
+    },
     /** Flagged; a milestone. */
     flag: {
       stroke:

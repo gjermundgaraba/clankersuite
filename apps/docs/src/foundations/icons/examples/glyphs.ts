@@ -98,6 +98,7 @@ export const FAMILIES: readonly Family[] = [
       "star",
       "bookmark",
       "flag",
+      "target",
       "bell",
       "bell-off",
       "eye",
