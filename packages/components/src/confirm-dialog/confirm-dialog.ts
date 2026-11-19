@@ -105,9 +105,10 @@ export type ViewInputs = Readonly<{
   title: string;
   /** Under the glyph: the question (`"Delete this file?"`), the Outcome's title. */
   question: string;
-  /** One sans sentence: what happens, and what cannot be undone. Markup that carries no
-   *  handlers: it is built in the application's boundary and rendered in this Submodel's (put
-   *  controls in `toDetailView`). */
+  /** One sans sentence: what happens, and what cannot be undone. One string, or markup that
+   *  carries no handlers: strings side by side print with nothing between them. Markup is
+   *  built in the application's boundary and rendered in this Submodel's (put controls in
+   *  `toDetailView`). */
   body: ReadonlyArray<Html | string>;
   /** Under the sentence: what the work said back (an error Notice, what to do about it, a
    *  notice with its own retry). A slot that may carry the application's handlers, so a
