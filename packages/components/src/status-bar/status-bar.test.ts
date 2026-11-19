@@ -31,7 +31,10 @@ const barView =
 const keysOnly = (_model: null, h: HtmlBuilder<Message>) =>
   StatusBar.view(
     {
-      keys: [{ keys: "X", does: "complete" }],
+      keys: [
+        { keys: "J", otherKeys: ["K"], does: "move" },
+        { keys: "X", does: "complete" },
+      ],
       platform: "Apple",
       toParentMessage: (message) => Message.GotStatusBarMessage({ message }),
     },
@@ -85,7 +88,8 @@ describe("StatusBar", () => {
       { update, view: keysOnly },
       Scene.given(null),
       measureBar,
-      Scene.expect(Scene.role("contentinfo")).toHaveText("x complete"),
+      Scene.expect(Scene.role("contentinfo")).toHaveText("JK moveX complete"),
+      Scene.expect(Scene.text("K")).toHaveClass("gg-key-hint"),
       Scene.expect(Scene.selector(".gg-statusbar-state")).toBeAbsent()
     );
   });

@@ -318,7 +318,7 @@ describe("Menu slip", () => {
       ).not.toHaveHandler("click"),
       Scene.expect(
         Scene.selector('[role="menuitem"] kbd.gg-key-hint')
-      ).toHaveText("n"),
+      ).toHaveText("N"),
       Scene.click(Scene.role("menuitem", { name: "Task" })),
       Scene.expectOutMessage(Menu.OutMessage.Selected({ id: "task" })),
       Scene.Command.resolve(Focus, Message.CompletedFocus()),
@@ -407,9 +407,9 @@ describe("Menu keys", () => {
         expect(moves).toStrictEqual([
           "Area",
           "Export",
-          "Taskn",
+          "TaskN",
           "Export",
-          "Taskn",
+          "TaskN",
           "Area",
           "Area",
         ]);
