@@ -172,7 +172,11 @@ const chipsView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] => [
     Array.filter(GOALS, (goal) =>
       Array.contains(model.value.split(/\s+/u), goal.tag)
     ),
-    (goal) => Chip.view({ label: goal.title, marker: "Coral" }, h)
+    (goal) =>
+      Chip.view(
+        { label: goal.title, marker: { colour: "Coral", kind: "Goal" } },
+        h
+      )
   ),
   ...Option.toArray(
     Option.map(parentOf(model.value), (task) =>

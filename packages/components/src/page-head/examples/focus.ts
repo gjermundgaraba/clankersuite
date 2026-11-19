@@ -14,7 +14,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Chip.view(
           {
             label: "Calmer home admin",
-            marker: "Sky",
+            marker: { colour: "Sky", kind: "Goal" },
             count: 1,
             isLarge: true,
             href: "#calmer-home-admin",
@@ -24,7 +24,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         Chip.view(
           {
             label: "Ship the beta",
-            marker: "Amber",
+            marker: { colour: "Amber", kind: "Goal" },
             count: 2,
             isLarge: true,
             href: "#ship-the-beta",

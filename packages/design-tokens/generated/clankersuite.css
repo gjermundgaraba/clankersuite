@@ -362,7 +362,7 @@
   --semantic-duration-flash: 0.7s;
   /* A row's check popping as it is checked. */
   --semantic-duration-pop: 0.22s;
-  /* A button shrinking as it is pressed. */
+  /* A button or a decision tile shrinking as it is pressed. */
   --semantic-duration-press: 0.12s;
   /* One turn of the spinner a busy button, chip, loading line, link state or palette row prints. */
   --semantic-duration-spin: 0.7s;
@@ -430,7 +430,7 @@
   --semantic-number-scale-check-from: 0.8;
   /* How far a row's check swells in its pop before it settles. */
   --semantic-number-scale-check-peak: 1.12;
-  /* How small a button goes while it is pressed. */
+  /* How small a button or a decision tile goes while it is pressed. */
   --semantic-number-scale-press: 0.97;
   --semantic-shadow-float: 0px 0px 0px 1px var(--semantic-color-shadow-ring), 0px 16px 40px -8px var(--semantic-color-shadow-default);
   --semantic-shadow-hairline: 0px 0px 0px 1px var(--semantic-color-border-divider);

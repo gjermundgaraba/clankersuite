@@ -341,7 +341,7 @@ const goalChipView = (
   Chip.view(
     {
       label,
-      marker,
+      marker: { colour: marker, kind: "Goal" },
       count,
       isLarge: true,
       href: `#${label.toLowerCase().replaceAll(" ", "-")}`,

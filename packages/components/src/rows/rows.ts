@@ -20,6 +20,9 @@ export type ViewConfig = Readonly<{
    *  `role="treegrid"`, so a screen reader hands it the arrow and letter keys. Give every row
    *  its `treegrid` place. */
   isTreegrid?: boolean;
+  /** Rows that wait behind the one being worked on, such as an inbox's up next: their titles
+   *  in secondary text. */
+  isDimmed?: boolean;
 }>;
 
 /** A list of rows. */
@@ -31,7 +34,9 @@ export const view = <Message>(
     [
       ...(config.isTreegrid === true ? [h.Role("treegrid")] : []),
       ...(config.label === undefined ? [] : [h.AriaLabel(config.label)]),
-      h.Class(config.isOutline === true ? "gg-rows gg-tree" : "gg-rows"),
+      h.Class(
+        `gg-rows${config.isOutline === true ? " gg-tree" : ""}${config.isDimmed === true ? " gg-dimmed" : ""}`
+      ),
     ],
     config.rows
   );

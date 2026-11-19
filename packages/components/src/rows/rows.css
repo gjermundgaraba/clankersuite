@@ -12,6 +12,10 @@
   list-style: none;
 }
 
+.gg-rows.gg-dimmed .gg-row {
+  color: var(--semantic-color-text-secondary);
+}
+
 .gg-page-head + .gg-rows-section,
 .gg-rows-section + .gg-rows-section {
   margin-top: var(--semantic-dimension-space-group);

@@ -60,7 +60,7 @@
 }
 
 @media (hover: hover) {
-  a.gg-chip:hover {
+  :is(a, button).gg-chip:hover {
     color: var(--semantic-color-text-primary);
     background: var(--semantic-color-background-hover);
   }
@@ -95,6 +95,12 @@
 .gg-chip-dot.gg-done {
   background: var(--semantic-color-background-fill-secondary);
   border-color: var(--semantic-color-background-fill-secondary);
+}
+
+/* a menu's toggle printed as a chip, its caret after its words */
+button.gg-chip {
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .gg-chip .gg-spinner {

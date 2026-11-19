@@ -24,7 +24,7 @@
             "unit": "px"
           }
         },
-        "$description": "A hairline ring in place of a border, for an in-flow surface that stands off the ground without lifting: the current place in a sidebar."
+        "$description": "A hairline ring in place of a border, for an in-flow surface that stands off the ground without lifting, such as the current place in a sidebar or a card in the page's flow."
       },
       "float": {
         "$value": [

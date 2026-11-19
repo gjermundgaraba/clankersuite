@@ -21,8 +21,8 @@ export type ViewConfig = Readonly<{
   tone?: Tone;
   /** A 12px glyph before the words: a flag on a due date, a calendar on a day. */
   glyph?: GlyphName;
-  /** A goal's dot before the words, in the goal's colour. */
-  marker?: Marker.Colour;
+  /** A Marker before the words: an area's square, or a goal's dot (`kind: "Goal"`). */
+  marker?: Marker.ViewConfig;
   /** A count after the words, quiet: how many of the page's tasks serve the goal. A linked
    *  chip's name reads it after a pause. */
   count?: number;
@@ -67,9 +67,7 @@ export const view = <Message>(
 
   const content = [
     ...(glyph === undefined ? [] : [Glyph.view({ name: glyph }, h)]),
-    ...(marker === undefined
-      ? []
-      : [Marker.view({ colour: marker, kind: "Goal" }, h)]),
+    ...(marker === undefined ? [] : [Marker.view(marker, h)]),
     label,
     ...pause,
     ...counted.view,

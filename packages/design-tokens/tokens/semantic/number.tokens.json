@@ -101,7 +101,7 @@
         },
         "press": {
           "$value": 0.97,
-          "$description": "How small a button goes while it is pressed."
+          "$description": "How small a button or a decision tile goes while it is pressed."
         },
         "checkFrom": {
           "$value": 0.8,
