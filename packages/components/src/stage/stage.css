@@ -1,8 +1,5 @@
 .gg-stage {
-  position: fixed;
-  top: anchor(--gg-topbar bottom, 0px);
-  right: 0;
-  bottom: var(--gg-statusbar-h);
+  right: var(--gg-side-pane-w);
   left: 0;
   overflow: hidden;
 }

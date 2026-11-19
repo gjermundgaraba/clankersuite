@@ -1,0 +1,51 @@
+/* toasts end at its left edge */
+.gg-side-pane {
+  anchor-name: --gg-side-pane;
+  right: 0;
+  z-index: var(--semantic-number-layer-raised);
+  display: flex;
+  flex-direction: column;
+  gap: var(--semantic-dimension-space-gutter);
+  width: var(--semantic-dimension-size-side-pane);
+  padding: var(--semantic-dimension-space-gutter)
+    var(--semantic-dimension-space-gutter)
+    var(--semantic-dimension-space-gutter)
+    var(--semantic-dimension-space-medium);
+  background: var(--semantic-color-background-canvas);
+  overflow-y: auto;
+}
+
+.gg-side-pane > * {
+  flex: none;
+  min-width: 0;
+}
+
+/* the page beside the pane keeps its width clear where the room right of the rail holds the
+   pane and the narrowest deck (Rail's 421px): 781px is size.sidePane and that, since a
+   container's condition reads no custom property */
+@container gg-railed (width >= 781px) {
+  .gg-railed:has(.gg-side-pane) > * {
+    --gg-side-pane-w: var(--semantic-dimension-size-side-pane);
+  }
+}
+
+/* where it does not, the pane covers the page, and toasts, finding no anchor,
+   run to the window's right edge */
+@container gg-railed (width < 781px) {
+  .gg-side-pane {
+    anchor-name: none;
+    left: anchor(--gg-rail right, 0px);
+    width: auto;
+    padding-left: var(--semantic-dimension-space-gutter);
+  }
+
+  /* hide what it covers from the keyboard and screen readers too */
+  .gg-railed:has(.gg-side-pane) :is(.gg-deck, .gg-bench, .gg-stage) {
+    visibility: hidden;
+  }
+
+  /* but not a dialog opened in place in it, over the pane and everything else */
+  .gg-railed:has(.gg-side-pane) .gg-veil {
+    visibility: visible;
+  }
+}

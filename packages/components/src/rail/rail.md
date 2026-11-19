@@ -6,7 +6,7 @@ category: layout
 
 A column of panels beside the deck, fixed under the top bar: a tree, places, filters. What comes before its last panel keeps its height, and the last panel shrinks to the room left, its bar and foot staying while its body scrolls.
 
-The rail is fixed to the window's left edge and wraps the page's `<main>`, so it has no example here: one would cover this site's navigation.
+The rail is fixed to the window's left edge and wraps the page's `<main>`, so it shows in a page of its own: the [side pane's example](/frame/components/side-pane/workspace) has a rail of lists beside its deck, with its toggle, splitter and, on a narrow window, its drawer.
 
 ## Usage
 
@@ -48,10 +48,13 @@ h.submodel({
       Panel.view({ id: "collections", title: "Home", lead: [toggle], isFlush: true, body: [placesView] }, h),
     ],
     toDeckView: (openButton) => Deck.view({ body: [openButton, ...panels] }, h),
+    toPaneView: () => paneView,
   },
   toParentMessage: (message) => Message.GotRailMessage({ message }),
 })
 ```
+
+`toPaneView` holds the page's [SidePane](/components/side-pane), or `h.empty` while it has none: the pane sits in the rail's page, so it can tell whether the room right of the rail holds it beside the page.
 
 ## Folding
 

@@ -1,8 +1,5 @@
 .gg-bench {
-  position: fixed;
-  top: anchor(--gg-topbar bottom, 0px);
-  right: 0;
-  bottom: var(--gg-statusbar-h);
+  right: var(--gg-side-pane-w);
   left: 0;
   display: grid;
   /* the work's floor mirrors .gg-reel (a pane and its block padding) and .gg-bench-head

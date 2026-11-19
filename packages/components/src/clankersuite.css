@@ -75,6 +75,7 @@
 @import "./rail/rail.css";
 @import "./bench/bench.css";
 @import "./stage/stage.css";
+@import "./side-pane/side-pane.css";
 @import "./window/window.css";
 @import "./reel/reel.css";
 @import "./toast/toast.css";

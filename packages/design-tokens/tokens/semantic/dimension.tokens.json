@@ -252,6 +252,13 @@
             "$description": "The width of a rail's resize handle."
           }
         },
+        "sidePane": {
+          "$value": {
+            "value": 360,
+            "unit": "px"
+          },
+          "$description": "The width of the side pane at the page's right."
+        },
         "minWidth": {
           "reelColumn": {
             "$value": {

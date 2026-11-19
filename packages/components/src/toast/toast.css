@@ -1,8 +1,9 @@
 /* the page's stack: @foldkit/ui's Toast container, fixed at the bottom right above the page
    and inside the open dialog when Toaster is rendered there. Its placement is inline (16px
-   padding from the corner), so the stylesheet raises it clear of a status bar and sets the
-   gap. A phone spans it across the bottom */
+   padding from the corner), so the stylesheet raises it clear of a status bar, moves it left
+   of a side pane and sets the gap. A phone spans it across the bottom */
 .gg-toasts .gg-toast-stack {
+  right: anchor(--gg-side-pane left, 0px) !important;
   bottom: var(--gg-statusbar-h) !important;
   gap: var(--semantic-dimension-space-small) !important;
   width: min(var(--semantic-dimension-size-max-width-toast), 100vw);

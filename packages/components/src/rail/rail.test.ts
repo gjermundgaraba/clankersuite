@@ -3,6 +3,7 @@ import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
 
+import * as SidePane from "../side-pane/side-pane.ts";
 import { byId } from "../test/fixture.ts";
 import * as Rail from "./rail.ts";
 
@@ -193,6 +194,35 @@ describe("Rail view", () => {
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
       Scene.Command.expectNone(),
       Scene.expect(openButton).toHaveAttr("aria-expanded", "false")
+    );
+  });
+
+  it("holds the side pane it is given in the page beside it", () => {
+    Scene.scene(
+      {
+        update: Rail.update,
+        view: (model: Rail.Model, h: HtmlBuilder<Rail.Message>) =>
+          Rail.view(
+            model,
+            {
+              label: "collections",
+              maybeWidth: Option.none(),
+              isHidden: false,
+              maybeToggleKeyHint: Option.none(),
+              toAsideView: () => [],
+              toDeckView: (button) => h.div([h.Class("gg-deck")], [button]),
+              toPaneView: () =>
+                SidePane.view({ label: "Task details", body: [] }, h),
+            },
+            h
+          ),
+      },
+      Scene.given(fresh),
+      Scene.expect(
+        Scene.role("complementary", { name: "Task details" })
+      ).toExist(),
+      Scene.expect(Scene.selector(".gg-railed .gg-side-pane")).toExist(),
+      Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer())
     );
   });
 

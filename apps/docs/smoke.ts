@@ -50,7 +50,7 @@ const waitFor = async (url: string, timeout = 20_000): Promise<void> => {
   throw new Error(`vp preview did not answer at ${url}`);
 };
 
-type StageSize = readonly [children: number, height: number];
+type StageSize = readonly [content: number, height: number];
 
 const port = await freePort();
 const server = preview(port);
@@ -92,14 +92,20 @@ try {
     const stages: readonly StageSize[] = await page.$$eval(
       ".site-example-stage",
       (elements) =>
-        elements.map((element): StageSize => [
-          element.children.length,
-          element.getBoundingClientRect().height,
-        ])
+        elements.map((element): StageSize => {
+          const frame = element.querySelector("iframe");
+
+          const shown =
+            frame === null
+              ? element.children.length
+              : (frame.contentDocument?.body.textContent.trim().length ?? 0);
+
+          return [shown, element.getBoundingClientRect().height];
+        })
     );
 
     const empty = stages.filter(
-      ([children, height]) => children === 0 || height < 30
+      ([content, height]) => content === 0 || height < 30
     ).length;
 
     const mains = await page.locator("main").count();
@@ -168,6 +174,23 @@ try {
 
   if ((await send.getAttribute("aria-busy")) !== "true") {
     problems.push("/components/button: a scheme switch reset the example");
+  }
+
+  await page.goto(`${base}/components/side-pane`);
+  await page.waitForTimeout(MOUNT);
+  await page
+    .locator(".gg-topbar")
+    .getByRole("button", { name: "Light" })
+    .click();
+  await page.waitForTimeout(RENDER);
+
+  if (
+    (await page
+      .frameLocator(".site-frame")
+      .locator("html")
+      .getAttribute("data-color-scheme")) !== "light"
+  ) {
+    problems.push("/components/side-pane: a frame does not follow the scheme");
   }
 
   await browser.close();
