@@ -260,10 +260,13 @@ describe("Toast view", () => {
       Scene.expectAll(Scene.all.role("status")).toHaveCount(2),
       Scene.expectAll(Scene.all.role("alert")).toHaveCount(0),
       Scene.expect(Scene.selector("div.gg-toasts")).toExist(),
-      Scene.expect(Scene.selector(".gg-toast.gg-error")).toContainText(
-        "The server did not answer."
-      ),
-      Scene.expect(Scene.selector(".gg-toast.gg-ok")).toContainText("Saved")
+      Scene.expectAll(Scene.all.selector(".gg-toast")).toHaveCount(2),
+      Scene.expect(
+        Scene.role("region", { name: "Notifications" })
+      ).toContainText("The server did not answer."),
+      Scene.expect(
+        Scene.role("region", { name: "Notifications" })
+      ).toContainText("Saved")
     );
   });
 

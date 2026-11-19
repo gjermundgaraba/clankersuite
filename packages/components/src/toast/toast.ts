@@ -1,3 +1,4 @@
+import { Glyph } from "@gjermundgaraba/icons";
 import {
   Array,
   Duration,
@@ -376,9 +377,12 @@ const slipView = (entry: Stack.Entry, h: HtmlBuilder<Message>): Html => {
   const { tone, title, maybeBody } = entry.payload;
 
   return h.div(
-    [h.Class(`gg-notice gg-toast${Notice.TONE_CLASS[tone]}`)],
+    [h.Class("gg-toast")],
     [
-      Notice.toneGlyphView({ tone }, h),
+      h.span(
+        [h.Class("gg-glyph")],
+        [Glyph.view({ name: Notice.toneGlyph(tone) }, h)]
+      ),
       h.div([], [h.strong([], [title]), ...Option.toArray(maybeBody)]),
       IconButton.view(
         {
