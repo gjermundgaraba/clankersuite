@@ -6,10 +6,7 @@ const CODE = {
 };
 
 export const LIVE_MARKDOWN_STYLE = {
-  "&": {
-    color: "var(--semantic-color-text-primary)",
-    background: "var(--semantic-color-background-surface)",
-  },
+  "&": { color: "inherit", background: "none" },
   "&.cm-focused": { outline: "none" },
   ".cm-scroller": {
     fontFamily: "var(--semantic-font-family-ui)",

@@ -34,6 +34,20 @@ gg-markdown-editor:has(.gg-markdown-surface) textarea {
   );
 }
 
+.gg-markdown-surface .cm-placeholder {
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* an editor whose label is hidden sits where its place names it, a side pane's notes or the
+   values quote: as tall as its rows, its rule showing only while it has focus */
+.gg-field:has(> label.sr-only) .gg-markdown-surface .cm-scroller {
+  min-height: calc(var(--gg-rows) * 1lh);
+}
+
+.gg-field:has(> label.sr-only) .gg-markdown-surface:not(:focus-within) {
+  border-bottom-color: transparent;
+}
+
 .gg-markdown-surface:focus-within {
   border-bottom: var(--semantic-dimension-border-width-accent) solid
     var(--semantic-color-focus-ring-default);
