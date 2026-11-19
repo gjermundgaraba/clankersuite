@@ -40,7 +40,7 @@ toPaneView: () =>
 
 ## Narrow windows
 
-Where the room right of the rail is narrower than the pane and the narrowest deck together (821px), whatever the rail's width, the pane covers the page from the rail's right edge (the window's left, where the rail is a drawer), and the page under it (a Deck, a Bench or a Stage) is hidden until the pane goes, but a dialog opened in place in it still shows. The pane measures that room from inside the Rail's page, which is why it goes in `toPaneView`, and the application needs no breakpoint of its own for it.
+Where the room right of the rail is narrower than the pane and the narrowest deck together (821px), whatever the rail's width, the pane covers the page from the rail's right edge (the window's left, where the rail is a drawer) down to the key bar's top edge, so the rail and the key bar stay in sight and nothing in the pane sits under the key bar. The page under it (a Deck, a Bench or a Stage) is hidden until the pane goes, but a dialog opened in place in it still shows. The pane measures that room from inside the Rail's page, which is why it goes in `toPaneView`, and the application needs no breakpoint of its own for it.
 
 ## A page with a rail and a side pane
 

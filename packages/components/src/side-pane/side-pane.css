@@ -36,6 +36,7 @@
   .gg-side-pane {
     anchor-name: none;
     left: anchor(--gg-rail right, 0px);
+    bottom: var(--gg-statusbar-h);
     width: auto;
     border-left: 0;
   }

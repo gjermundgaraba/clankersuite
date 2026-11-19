@@ -17,9 +17,9 @@ export type ViewConfig<Message> = Readonly<{
   platform: KeyPlatform;
   /** Lifts the bar's lifecycle Message (`MeasureHeight` started: the page keeps
    *  `--gg-statusbar-h` at the bar's exact height however it wraps, so the page, a Bench, a
-   *  Stage and the toasts stop at its top edge) into the parent's Message, which the
-   *  parent's update takes and changes nothing for. In a Scene, resolve the Mount by name with
-   *  the lifted Message:
+   *  Stage, a SidePane that covers the page and the toasts stop at its top edge) into the
+   *  parent's Message, which the parent's update takes and changes nothing for. In a Scene,
+   *  resolve the Mount by name with the lifted Message:
    *  `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`. */
   toParentMessage: (message: BarHeightMessage) => Message;
 }>;

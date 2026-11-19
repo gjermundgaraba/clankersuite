@@ -287,7 +287,8 @@ kbd {
 
 /* what is fixed under the top bar, or from the window's top where there is none: a Rail and
    its splitter and a SidePane run to the window's bottom, the key bar between them; a Bench
-   and a Stage stop at the key bar. Each sets its own sides */
+   and a Stage stop at the key bar, as a SidePane does where it covers the page. Each sets its
+   own sides */
 .gg-rail[popover],
 .gg-rail-resize,
 .gg-side-pane,
