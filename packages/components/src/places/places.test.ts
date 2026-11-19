@@ -109,6 +109,36 @@ describe("Places", () => {
     );
   });
 
+  it("prints a count after a place's name, heard after a pause, and none where none is given", () => {
+    const counted = (_model: Area, h: HtmlBuilder<Message>) =>
+      Places.view(
+        {
+          label: "Areas",
+          places: [
+            {
+              id: "inbox",
+              label: "Inbox",
+              count: 1200,
+              onSelect: Message.SelectedArea({ area: "Inbox" }),
+            },
+            {
+              id: "later",
+              label: "Later",
+              onSelect: Message.SelectedArea({ area: "Later" }),
+            },
+          ],
+        },
+        h
+      );
+
+    Scene.scene(
+      { update, view: counted },
+      Scene.given<Area>("Inbox"),
+      Scene.expect(Scene.role("button", { name: "Inbox, 1,200" })).toExist(),
+      Scene.expect(Scene.role("button", { name: "Later" })).toExist()
+    );
+  });
+
   it("prints a place with an address as a link", () => {
     const links = (_model: Area, h: HtmlBuilder<Message>) =>
       Places.view(

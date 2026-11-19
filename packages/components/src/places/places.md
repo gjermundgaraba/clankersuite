@@ -17,3 +17,9 @@ A place with `onSelect` is a button: it shows the place without leaving the page
 A place with `href` is a link, so a new tab can open it and it reads as one.
 
 ::Example{name="links"}
+
+## Counts
+
+A place can carry a `count` of what waits there. It sits right-aligned after the name, quiet in the secondary colour with tabular figures, and screen readers hear it after a pause: "Inbox, 3".
+
+::Example{name="counts"}

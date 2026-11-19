@@ -47,6 +47,11 @@
   overflow-wrap: anywhere;
 }
 
+.gg-place-count {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
 .gg-places li:has(> [aria-current]) {
   background-color: var(--semantic-color-background-selected);
 }
