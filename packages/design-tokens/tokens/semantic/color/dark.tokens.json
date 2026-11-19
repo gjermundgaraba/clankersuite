@@ -11,14 +11,18 @@
         },
         "secondary": {
           "$value": "{primitive.color.bone.350}",
-          "$description": "Text that reads second: meta, hints, labels."
+          "$description": "Text that reads second: meta, hints, labels, a place that is not current."
+        },
+        "tertiary": {
+          "$value": "{primitive.color.bone.400}",
+          "$description": "Text that reads third: counts, context lines, section labels, the key bar."
         },
         "negative": {
           "$value": "{primitive.color.red.300}",
           "$description": "Errors and destructive outcomes."
         },
         "warning": {
-          "$value": "{primitive.color.amber.400}",
+          "$value": "{primitive.color.amber.300}",
           "$description": "The glyph of a Warn notice or outcome."
         },
         "onAccentFill": {
@@ -89,15 +93,15 @@
       "border": {
         "primary": {
           "$value": "{primitive.color.forest.500}",
-          "$description": "Lines that contain: panels, cards, controls."
+          "$description": "The edge of a control at 3:1 on any ground: a field, an unchecked box; and the lines that contain panels and cards."
         },
         "secondary": {
-          "$value": "{primitive.color.forest.600}",
-          "$description": "The containing line of a held or quiet control."
+          "$value": "{primitive.color.bone.100Alpha18}",
+          "$description": "The ring of a button or key hint, and the containing line of a held or quiet control."
         },
         "divider": {
-          "$value": "{primitive.color.forest.700}",
-          "$description": "Lines that divide: rows, sections; also a meter's empty track. Decorative, never the only cue for a control."
+          "$value": "{primitive.color.bone.100Alpha9}",
+          "$description": "Lines that divide: rows, sections, a sidebar's edge; also a meter's empty track. Decorative, never the only cue for a control."
         },
         "negative": {
           "$value": "{primitive.color.red.300}",
@@ -123,17 +127,25 @@
           "$value": "{primitive.color.forest.900}",
           "$description": "The page behind every surface."
         },
+        "sidebar": {
+          "$value": "{primitive.color.forest.950}",
+          "$description": "The full-height sidebar at the page's left."
+        },
         "surface": {
           "$value": "{primitive.color.forest.800}",
-          "$description": "Panels, cards, dialogs and controls."
+          "$description": "Panels, cards, dialogs and controls; the current place in a sidebar."
         },
         "head": {
           "$value": "{primitive.color.forest.850}",
-          "$description": "A quiet band: table heads, shelves, code grounds, and the tint under a hovered row."
+          "$description": "The sunken ground: a table head, a shelf, code and its marks, a count's box, and what is lifted or a drop lands on. Never a hover tint; that is background.hover."
+        },
+        "hover": {
+          "$value": "{primitive.color.bone.100Alpha5}",
+          "$description": "The tint under a hovered row, place or quiet button."
         },
         "selected": {
-          "$value": "{primitive.color.sage.300Alpha16}",
-          "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text stays text.primary or text.secondary."
+          "$value": "{primitive.color.sage.300Alpha13}",
+          "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text keeps its colour: every text tone and border.primary hold their floors on it."
         },
         "fill": {
           "accent": {
@@ -149,23 +161,45 @@
             "$description": "The destructive and failed fill."
           },
           "warning": {
-            "$value": "{primitive.color.amber.400}",
+            "$value": "{primitive.color.amber.300}",
             "$description": "Waiting, working, needs attention."
           },
           "positive": {
-            "$value": "{primitive.color.green.500}",
+            "$value": "{primitive.color.sage.300}",
             "$description": "Done, healthy, passed."
+          }
+        },
+        "marker": {
+          "amber": {
+            "$value": "{primitive.color.amber.300}",
+            "$description": "One of the colours an application gives its areas and goals; each holds 3:1 on the sidebar."
+          },
+          "sky": {
+            "$value": "{primitive.color.sky.300}",
+            "$description": "One of the colours an application gives its areas and goals."
+          },
+          "coral": {
+            "$value": "{primitive.color.red.300}",
+            "$description": "One of the colours an application gives its areas and goals."
+          },
+          "sand": {
+            "$value": "{primitive.color.sand.300}",
+            "$description": "One of the colours an application gives its areas and goals."
           }
         },
         "backdrop": {
           "$value": "{primitive.color.black.alpha55}",
-          "$description": "The veil behind a modal dialog."
+          "$description": "The veil behind a modal dialog or a sheet."
         }
       },
       "shadow": {
         "default": {
-          "$value": "{primitive.color.black.alpha45}",
-          "$description": "The colour of the soft shadow under what floats."
+          "$value": "{primitive.color.black.alpha60}",
+          "$description": "The colour of the soft drop under what floats."
+        },
+        "ring": {
+          "$value": "{primitive.color.bone.100Alpha10}",
+          "$description": "The hairline ring around what floats."
         }
       }
     }

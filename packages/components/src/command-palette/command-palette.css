@@ -81,7 +81,7 @@
 }
 
 .gg-palette-row:hover:not([aria-selected="true"]) {
-  background-color: var(--semantic-color-background-head);
+  background-color: var(--semantic-color-background-hover);
 }
 
 .gg-palette-row.gg-context {

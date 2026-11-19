@@ -21,7 +21,7 @@ type Voice = Readonly<{
 
 const BRAND_FONT = "var(--semantic-font-family-brand)";
 
-const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
+const BOLD = "var(--semantic-font-weight-bold)";
 
 export const VOICES = new Map<string, readonly Voice[]>(
   Object.entries({
@@ -35,7 +35,7 @@ export const VOICES = new Map<string, readonly Voice[]>(
       { words: "Renew the signing certificate" },
     ],
     "--semantic-dimension-font-size-title": [
-      { words: "Renew the signing certificate", weight: "600" },
+      { words: "Renew the signing certificate", weight: BOLD },
     ],
     "--semantic-dimension-font-size-page": [{ words: "Queue" }],
     "--semantic-dimension-font-size-page-narrow": [{ words: "Queue" }],
@@ -51,16 +51,16 @@ export const VOICES = new Map<string, readonly Voice[]>(
       { words: "vp run ready", family: "var(--semantic-font-family-code)" },
     ],
     "--semantic-dimension-font-size-prose-heading-3": [
-      { words: "Switching traffic", weight: PROSE_HEADING },
+      { words: "Switching traffic", weight: BOLD },
     ],
     "--semantic-dimension-font-size-prose-heading-2": [
-      { words: "Before the window", weight: PROSE_HEADING },
+      { words: "Before the window", weight: BOLD },
     ],
     "--semantic-dimension-font-size-prose-title": [
-      { words: "Rollout checklist", weight: PROSE_HEADING },
+      { words: "Rollout checklist", weight: BOLD },
     ],
     "--semantic-dimension-font-size-prose-title-narrow": [
-      { words: "Rollout checklist", weight: PROSE_HEADING },
+      { words: "Rollout checklist", weight: BOLD },
     ],
   })
 );

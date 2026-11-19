@@ -10,7 +10,7 @@
 }
 
 .gg-toast {
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
 }
 
 .gg-toast.gg-quiet {
@@ -30,7 +30,8 @@
 }
 
 .gg-toasts .gg-toast {
-  animation: gg-toast-in var(--semantic-duration-card) ease-out;
+  animation: gg-toast-in var(--semantic-duration-card)
+    var(--semantic-cubic-bezier-standard);
 }
 
 @keyframes gg-toast-in {

@@ -226,5 +226,5 @@
 .gg-reel-lift .gg-window {
   height: auto;
   background: var(--semantic-color-background-head);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
 }

@@ -10,21 +10,21 @@
             "value": 13,
             "unit": "px"
           },
-          "$description": "Labels, field labels, table heads, meta; chips, tabs, ages, counts, state words."
+          "$description": "Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels."
         },
         "control": {
           "$value": {
-            "value": 14,
+            "value": 13,
             "unit": "px"
           },
-          "$description": "Buttons, nav, menus, code, notices."
+          "$description": "Buttons, chips, menus, code, notices."
         },
         "body": {
           "$value": {
-            "value": 15,
+            "value": 14.5,
             "unit": "px"
           },
-          "$description": "Body text, long-form reading, title bars, and the names in rows, groups and meters."
+          "$description": "Body text, a sidebar's places, title bars, and the names in rows, groups and meters."
         },
         "title": {
           "$value": {
@@ -35,7 +35,7 @@
         },
         "page": {
           "$value": {
-            "value": 26,
+            "value": 28,
             "unit": "px"
           },
           "$description": "A working screen's name (PageHead)."
@@ -49,7 +49,7 @@
         },
         "wordmark": {
           "$value": {
-            "value": 18,
+            "value": 17,
             "unit": "px"
           },
           "$description": "The wordmark."
@@ -118,7 +118,7 @@
       "letterSpacing": {
         "pageTitle": {
           "$value": {
-            "value": -0.01,
+            "value": -0.015,
             "unit": "em"
           },
           "$description": "A page's or sheet's title."
@@ -160,7 +160,7 @@
             "value": 2,
             "unit": "px"
           },
-          "$description": "The accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar."
+          "$description": "A focus ring, the accent bar beside a checked menu choice, a drop marker, a focused field's baseline or a mixed check's bar."
         }
       },
       "size": {
@@ -516,7 +516,7 @@
         },
         "control": {
           "$value": {
-            "value": 32,
+            "value": 30,
             "unit": "px"
           },
           "$description": "The height of a control: a button, a field, a select, a segmented strip, a menu item."
@@ -587,10 +587,10 @@
         },
         "controlSmall": {
           "$value": {
-            "value": 24,
+            "value": 26,
             "unit": "px"
           },
-          "$description": "The height of a small control: a small button, a tab, a chip or filter chip."
+          "$description": "The height of a small control: a small button, an icon button, a tab, a chip or filter chip, a sub-place."
         }
       },
       "space": {
@@ -702,7 +702,21 @@
             "value": 6,
             "unit": "px"
           },
-          "$description": "The corners of a control: a button, a chip, a field."
+          "$description": "The corners of a control: a button, a field, a place in a sidebar."
+        },
+        "row": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "The corners of a menu and the select picker."
+        },
+        "surface": {
+          "$value": {
+            "value": 12,
+            "unit": "px"
+          },
+          "$description": "The corners of a surface: a panel, a card, a sheet, a notice."
         },
         "mark": {
           "$value": {
@@ -711,12 +725,12 @@
           },
           "$description": "The corners of a checkbox, small enough that it never reads as a radio."
         },
-        "surface": {
+        "pill": {
           "$value": {
-            "value": 10,
+            "value": 999,
             "unit": "px"
           },
-          "$description": "The corners of a surface: a panel, a card, a menu, a notice."
+          "$description": "Fully rounded ends: a chip, a count, a dot."
         }
       }
     }

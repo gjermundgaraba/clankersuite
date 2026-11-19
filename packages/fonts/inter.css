@@ -1,9 +1,13 @@
+/* Inter as clankersuite sets it: the single-storey a (cv11) and open digits (ss01). They are
+   the face's own, here rather than on an element, so a font shorthand (a rule's or a form
+   control's) cannot reset them and other faces never take them */
 @font-face {
   font-family: "Inter";
   src: url("./files/InterVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  font-feature-settings: "cv11", "ss01";
 }
 
 @font-face {
@@ -12,4 +16,5 @@
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
+  font-feature-settings: "cv11", "ss01";
 }

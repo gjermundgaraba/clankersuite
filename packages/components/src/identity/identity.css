@@ -12,7 +12,7 @@
 }
 
 .gg-identity-text strong {
-  font-weight: var(--semantic-font-weight-semi-bold);
+  font-weight: var(--semantic-font-weight-medium);
   overflow-wrap: anywhere;
 }
 

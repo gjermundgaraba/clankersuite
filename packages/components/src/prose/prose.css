@@ -18,7 +18,7 @@
 }
 
 .gg-prose :is(h1, h2) {
-  font: var(--semantic-font-weight-prose-heading)
+  font: var(--semantic-font-weight-bold)
     var(--semantic-dimension-font-size-prose-heading-2) /
     var(--semantic-number-line-height-heading) var(--semantic-font-family-ui);
   letter-spacing: var(--semantic-dimension-letter-spacing-prose-heading);
@@ -27,7 +27,7 @@
 }
 
 .gg-prose h3 {
-  font: var(--semantic-font-weight-prose-heading)
+  font: var(--semantic-font-weight-bold)
     var(--semantic-dimension-font-size-prose-heading-3) /
     var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
   margin-top: 1.6em;
@@ -43,7 +43,7 @@
 }
 
 .gg-prose h5 {
-  font: var(--semantic-font-weight-prose-heading)
+  font: var(--semantic-font-weight-bold)
     var(--semantic-dimension-font-size-body) /
     var(--semantic-number-line-height-body) var(--semantic-font-family-ui);
 }
@@ -88,7 +88,7 @@
 }
 
 .gg-prose strong {
-  font-weight: var(--semantic-font-weight-prose-heading);
+  font-weight: var(--semantic-font-weight-bold);
 }
 
 .gg-prose :not(pre) > code {

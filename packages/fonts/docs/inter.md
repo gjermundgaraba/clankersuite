@@ -18,7 +18,7 @@ import "@gjermundgaraba/components/clankersuite.css";
 | ----------- | ------------- | ------- |
 | `inter.css` | `Inter`       | 100–900 |
 
-It is a variable font: one file carries every weight, and a second carries the italic. It swaps in when it loads (`font-display: swap`); until then the token falls back to the system's sans.
+It is a variable font: one file carries every weight, and a second carries the italic. Both faces turn on the single-storey a (`cv11`) and open digits (`ss01`) in their `@font-face`, so every element set in Inter draws them, whatever font shorthand a rule or a form control sets, and other faces never take them. It swaps in when it loads (`font-display: swap`); until then the token falls back to the system's sans.
 
 ## Licence
 

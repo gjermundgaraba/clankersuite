@@ -70,7 +70,7 @@
     var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
   background: var(--semantic-color-background-head);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
   cursor: grabbing;
 }
 
@@ -176,7 +176,7 @@
 
 .gg-sortable.gg-panels .gg-lifted .gg-panel {
   background: var(--semantic-color-background-head);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
 }
 
 .gg-sortable.gg-panels .gg-sortable-slot {

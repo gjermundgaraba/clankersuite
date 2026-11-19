@@ -10,6 +10,12 @@ A committed change tints the element and eases back over one beat; a card, a toa
 
 ::Tokens{prefix="--semantic-duration"}
 
+## Easing
+
+Every motion starts quick and settles: one curve for all of them.
+
+::Tokens{prefix="--semantic-cubic-bezier"}
+
 ## Arriving cards
 
 A card eases up to full size from this scale.

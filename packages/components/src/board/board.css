@@ -88,7 +88,7 @@
 .gg-board-card.gg-lifted {
   cursor: grabbing;
   background: var(--semantic-color-background-head);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
 }
 
 .gg-board-lift {
@@ -101,7 +101,7 @@
 }
 
 .gg-board-card:hover {
-  background: var(--semantic-color-background-head);
+  background: var(--semantic-color-background-hover);
 }
 
 .gg-board-card.gg-drag-dim {

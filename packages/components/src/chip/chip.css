@@ -2,7 +2,7 @@
   font-size: var(--semantic-dimension-font-size-label);
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
-  border-radius: var(--semantic-dimension-radius-control);
+  border-radius: var(--semantic-dimension-radius-pill);
   background: var(--semantic-color-background-surface);
   color: var(--semantic-color-text-primary);
   display: inline-flex;

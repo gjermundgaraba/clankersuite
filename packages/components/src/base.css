@@ -31,6 +31,7 @@ body {
   color: var(--semantic-color-text-primary);
   caret-color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-canvas);
+  -webkit-font-smoothing: antialiased;
 }
 
 fieldset {
@@ -102,7 +103,7 @@ fieldset {
 }
 
 :focus-visible {
-  outline: var(--semantic-dimension-border-width-default) solid
+  outline: var(--semantic-dimension-border-width-accent) solid
     var(--semantic-color-focus-ring-default);
   outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
 }

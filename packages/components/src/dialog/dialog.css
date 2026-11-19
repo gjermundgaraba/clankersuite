@@ -38,7 +38,8 @@ dialog.gg-veil:focus {
   position: fixed;
   inset: 0;
   background: var(--semantic-color-background-backdrop);
-  animation: gg-veil-in var(--semantic-duration-veil) ease-out;
+  animation: gg-veil-in var(--semantic-duration-veil)
+    var(--semantic-cubic-bezier-standard);
 }
 
 @keyframes gg-veil-in {

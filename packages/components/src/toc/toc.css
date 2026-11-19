@@ -27,5 +27,5 @@
 }
 
 .gg-toc a:hover {
-  background: var(--semantic-color-background-head);
+  background: var(--semantic-color-background-hover);
 }

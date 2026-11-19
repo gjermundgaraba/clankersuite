@@ -11,7 +11,7 @@
 
 .gg-sheet-title {
   flex: 1 1 var(--semantic-dimension-size-measure-title);
-  font: var(--semantic-font-weight-prose-heading)
+  font: var(--semantic-font-weight-bold)
     var(--semantic-dimension-font-size-prose-title) /
     var(--semantic-number-line-height-display-title)
     var(--semantic-font-family-ui);

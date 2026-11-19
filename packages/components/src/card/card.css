@@ -1,11 +1,10 @@
 .gg-card {
   background: var(--semantic-color-background-surface);
-  border: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-primary);
   border-radius: var(--semantic-dimension-radius-surface);
-  box-shadow: var(--semantic-shadow-card);
+  box-shadow: var(--semantic-shadow-float);
   width: min(var(--semantic-dimension-size-max-width-card), 100%);
-  animation: gg-card-in var(--semantic-duration-card) ease-out;
+  animation: gg-card-in var(--semantic-duration-card)
+    var(--semantic-cubic-bezier-standard);
   max-height: calc(100vh - 2 * var(--semantic-dimension-space-gutter));
   display: flex;
   flex-direction: column;
@@ -36,7 +35,7 @@
 
 .gg-card-tb h2 {
   font-size: var(--semantic-dimension-font-size-body);
-  font-weight: var(--semantic-font-weight-semi-bold);
+  font-weight: var(--semantic-font-weight-bold);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
