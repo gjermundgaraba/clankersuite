@@ -183,6 +183,8 @@
   --semantic-dimension-size-chip-large: 24px;
   /* The height of a control: a button, a field, a select, a segmented strip, a menu item. */
   --semantic-dimension-size-control: 30px;
+  /* The height of a large button, for the one action that ends a flow. */
+  --semantic-dimension-size-control-large: 36px;
   /* The height of a small control: a small button, an icon button, a tab, a filter chip, a sub-place. */
   --semantic-dimension-size-control-small: 26px;
   /* The line height of a diff's line numbers. */
@@ -195,7 +197,7 @@
   --semantic-dimension-size-glyph-icon-button: 15px;
   /* A large glyph: an outcome's, a drop zone's or a wall's. */
   --semantic-dimension-size-glyph-large: 24px;
-  /* A glyph set in a line of small text: a group's heading, a row's fold, the done line. */
+  /* A glyph set in a line of small text: a button's, a group's heading, a row's fold, the done line. */
   --semantic-dimension-size-glyph-medium: 14px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;
@@ -355,6 +357,8 @@
   --semantic-duration-flash: 0.7s;
   /* A row's check popping as it is checked. */
   --semantic-duration-pop: 0.22s;
+  /* A button shrinking as it is pressed. */
+  --semantic-duration-press: 0.12s;
   /* One turn of the spinner a busy button, chip, loading line, link state or palette row prints. */
   --semantic-duration-spin: 0.7s;
   /* The veil easing in behind a dialog. */
@@ -421,6 +425,8 @@
   --semantic-number-scale-check-from: 0.8;
   /* How far a row's check swells in its pop before it settles. */
   --semantic-number-scale-check-peak: 1.12;
+  /* How small a button goes while it is pressed. */
+  --semantic-number-scale-press: 0.97;
   --semantic-shadow-float: 0px 0px 0px 1px var(--semantic-color-shadow-ring), 0px 16px 40px -8px var(--semantic-color-shadow-default);
   --semantic-shadow-hairline: 0px 0px 0px 1px var(--semantic-color-border-divider);
 }

@@ -99,6 +99,10 @@
           "$value": 0.97,
           "$description": "How small a card or toast starts as it eases in."
         },
+        "press": {
+          "$value": 0.97,
+          "$description": "How small a button goes while it is pressed."
+        },
         "checkFrom": {
           "$value": 0.8,
           "$description": "Where a row's check starts its pop as it is checked."

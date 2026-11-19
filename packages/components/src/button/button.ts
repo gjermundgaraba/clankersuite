@@ -21,10 +21,12 @@ export const Variant = Schema.Literals([
 
 export type Variant = typeof Variant.Type;
 
-/** What `Button` and `LinkButton` share: the variant and the size. */
+/** What `Button` and `LinkButton` share: the variant and the size. `isLarge` is for the one
+ *  action that ends a flow, such as a sheet's commit. */
 export type Look = Readonly<{
   variant?: Variant;
   isSmall?: boolean;
+  isLarge?: boolean;
 }>;
 
 const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
@@ -37,7 +39,9 @@ const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
 export const lookClassName = ({
   variant = "Default",
   isSmall = false,
-}: Look): string => `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}`;
+  isLarge = false,
+}: Look): string =>
+  `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}${isLarge ? " gg-large" : ""}`;
 
 /** The key that does the same as the button, printed small after its words. */
 export type KeyHintConfig = Readonly<{
@@ -72,7 +76,8 @@ export type ViewConfig<Message> = Look &
   }>;
 
 /**
- * A command the reader gives: a word in a rounded 1px box, built on `@foldkit/ui`'s `Button`.
+ * A command the reader gives: a word in a rounded 1px box that shrinks a little while it is
+ * pressed, built on `@foldkit/ui`'s `Button`.
  * It is held while busy or disabled: it prints unavailable
  * (`aria-disabled`), has no click handler, keeps its place in the keyboard, and renders as
  * `type="button"` so a held submit button submits nothing, by click or by Enter on itself.
