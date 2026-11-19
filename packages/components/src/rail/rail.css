@@ -17,62 +17,79 @@
   --gg-railed-width: inherit;
 }
 
-/* a side pane, where it covers the page, starts at its right edge */
+/* the key bar, and a side pane where it covers the page, start at its right edge */
 .gg-rail[popover] {
   anchor-name: --gg-rail;
   right: auto;
   left: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--semantic-dimension-space-gutter);
   width: var(--gg-railed-width, var(--semantic-dimension-size-rail-default));
   height: auto;
-  padding: var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-medium)
-    var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-gutter);
+  padding: calc(
+      var(--semantic-dimension-space-medium) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
   border: 0;
-  background: none;
+  border-right: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  background: var(--semantic-color-background-sidebar);
   color: inherit;
-  overflow-y: auto;
+  gap: var(--semantic-dimension-space-xx-small);
 }
 
-.gg-rail > * {
+.gg-rail-head {
   flex: none;
-  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-small)
+    calc(
+      var(--semantic-dimension-space-medium) +
+        var(--semantic-dimension-space-xx-small)
+    );
 }
 
-.gg-rail > .gg-panel:last-child {
+/* the wordmark at the left, the head's buttons at the right */
+.gg-rail-head > :first-child {
+  margin-right: auto;
+}
+
+.gg-rail-body {
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  flex: 0 1 auto;
-  min-height: 0;
-}
-
-.gg-rail
-  > .gg-panel:last-child
-  > :is(.gg-panel-tb, .gg-panel-shelf, .gg-panel-foot) {
-  flex: none;
-}
-
-.gg-rail
-  > .gg-panel:last-child
-  > :not(.gg-panel-tb, .gg-panel-shelf, .gg-panel-foot) {
-  flex: 0 1 auto;
-  min-height: 0;
+  gap: var(--semantic-dimension-space-xx-small);
   overflow-y: auto;
 }
 
-.gg-rail .gg-panel-tb h2 {
-  min-width: 0;
-  overflow: hidden;
-  overflow-wrap: normal;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/* a list of places without a heading stands apart from the one above by space, as a headed
+   one does by its heading's room */
+.gg-rail-body > .gg-places + .gg-places:not(:has(> .gg-places-label)) {
+  margin-top: var(--semantic-dimension-space-medium);
 }
 
-.gg-rail-toggle {
-  display: contents;
+.gg-rail-body > * {
+  flex: none;
+  min-width: 0;
+}
+
+.gg-rail-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-small) 0;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
 }
 
 .gg-rail-resize {
@@ -105,63 +122,9 @@
   );
 }
 
-.gg-rail-head,
+.gg-rail-close,
 .gg-rail-open {
   display: none;
-}
-
-@media not (max-width: 900px) {
-  .gg-railed.gg-folded {
-    --gg-railed-width: var(--semantic-dimension-size-rail-folded);
-  }
-
-  .gg-railed.gg-folded > .gg-rail > :not(.gg-rail-head + .gg-panel),
-  .gg-railed.gg-folded
-    > .gg-rail
-    > .gg-rail-head
-    + .gg-panel
-    > :not(.gg-panel-tb),
-  .gg-railed.gg-folded
-    > .gg-rail
-    > .gg-rail-head
-    + .gg-panel
-    > .gg-panel-tb
-    > .gg-panel-acts {
-    display: none;
-  }
-
-  .gg-railed.gg-folded > .gg-rail > .gg-rail-head + .gg-panel {
-    align-self: flex-start;
-  }
-
-  .gg-railed.gg-folded > .gg-rail > .gg-rail-head + .gg-panel > .gg-panel-tb {
-    writing-mode: vertical-rl;
-    min-width: var(--semantic-dimension-size-row);
-    min-height: 0;
-    padding: 0 var(--semantic-dimension-space-x-small)
-      var(--semantic-dimension-space-medium);
-  }
-
-  .gg-railed.gg-folded
-    > .gg-rail
-    > .gg-rail-head
-    + .gg-panel
-    > .gg-panel-tb
-    > .gg-meta {
-    margin: 0;
-  }
-
-  .gg-railed,
-  .gg-railed > :is(.gg-rail, .gg-bench) {
-    transition: var(--semantic-duration-card)
-      var(--semantic-cubic-bezier-standard);
-    transition-property: padding-left, width, left;
-  }
-
-  :root[data-gg-dragging]
-    :is(.gg-railed, .gg-railed > .gg-rail, .gg-railed > .gg-bench) {
-    transition: none;
-  }
 }
 
 @media (max-width: 900px) {
@@ -182,13 +145,6 @@
     );
     height: 100dvh;
     max-height: none;
-    padding: var(--semantic-dimension-space-medium)
-      var(--semantic-dimension-space-large)
-      var(--semantic-dimension-space-gutter)
-      var(--semantic-dimension-space-medium);
-    background: var(--semantic-color-background-surface);
-    border-right: var(--semantic-dimension-border-width-default) solid
-      var(--semantic-color-border-primary);
     box-shadow: var(--semantic-shadow-float);
     animation: gg-rail-in var(--semantic-duration-card)
       var(--semantic-cubic-bezier-standard);
@@ -198,24 +154,13 @@
     background: var(--semantic-color-background-backdrop);
   }
 
-  .gg-rail-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--semantic-dimension-space-medium);
+  .gg-rail-close {
+    display: contents;
   }
 
   .gg-rail-open {
     display: inline-flex;
     justify-self: start;
-  }
-
-  .gg-panel-lead:has(> .gg-rail-toggle) {
-    display: none;
-  }
-
-  .gg-panel-tb:has(> .gg-panel-lead > .gg-rail-toggle) {
-    padding-left: var(--semantic-dimension-space-medium);
   }
 }
 

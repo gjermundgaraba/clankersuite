@@ -10,7 +10,7 @@ The sticky bar across the top of an interface, closed by a 1px rule: the brand a
 
 ## Usage
 
-Render one per page, after the skip link and before the page's `<main>`, where its `<header>` is the page's banner landmark. On a phone the nav strip drops to a full-width strip under the brand, and the tools wrap as one group.
+Render one per page, after the skip link and before the page's `<main>`, where its `<header>` is the page's banner landmark. A page with a Rail has none: the rail runs from the window's top, and its head takes the wordmark and the tools. On a phone the nav strip drops to a full-width strip under the brand, and the tools wrap as one group.
 
 ```ts
 body: [

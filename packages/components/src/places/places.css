@@ -1,43 +1,69 @@
 .gg-places ul {
   list-style: none;
-}
-
-.gg-places li {
   display: flex;
-  align-items: center;
-  border-bottom: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-divider);
+  flex-direction: column;
+  gap: var(--semantic-dimension-space-xx-small);
 }
 
-.gg-places li:last-child {
-  border-bottom: 0;
+.gg-places ul ul {
+  margin-top: var(--semantic-dimension-space-xx-small);
 }
 
-.gg-places li:not(:has(> [aria-current])):hover {
-  background-color: var(--semantic-color-background-head);
+.gg-places-label {
+  padding: calc(
+      var(--semantic-dimension-space-large) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-small)
+    calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  margin-bottom: var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  line-height: var(--semantic-number-line-height-body);
+  color: var(--semantic-color-text-tertiary);
 }
 
 .gg-places li > :is(a, button) {
-  flex: 1;
-  min-width: 0;
-  min-height: var(--semantic-dimension-size-row);
   display: flex;
-  align-items: baseline;
-  gap: var(--semantic-dimension-space-small);
-  padding: calc((var(--semantic-dimension-size-row) - 1lh) / 2)
-    var(--semantic-dimension-space-medium);
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  width: 100%;
+  min-width: 0;
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-small);
   font: inherit;
-  color: inherit;
+  font-weight: var(--semantic-font-weight-medium);
+  color: var(--semantic-color-text-secondary);
   text-align: left;
   text-decoration: none;
   background: none;
   border: 0;
+  border-radius: var(--semantic-dimension-radius-control);
   cursor: pointer;
+}
+
+@media (hover: hover) {
+  .gg-places li > :is(a, button):hover {
+    background: var(--semantic-color-background-hover);
+    color: var(--semantic-color-text-primary);
+  }
+}
+
+.gg-places li > [aria-current] {
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  box-shadow: var(--semantic-shadow-hairline);
 }
 
 .gg-places li > :is(a, button):focus-visible {
   outline-offset: calc(
-    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
   );
 }
 
@@ -49,9 +75,41 @@
 
 .gg-place-count {
   font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-tertiary);
 }
 
-.gg-places li:has(> [aria-current]) {
-  background-color: var(--semantic-color-background-selected);
+.gg-place-marker {
+  flex: none;
+  width: var(--semantic-dimension-size-marker);
+  height: var(--semantic-dimension-size-marker);
+  border-radius: var(--semantic-dimension-border-width-accent);
+}
+
+.gg-place-marker.gg-amber {
+  background: var(--semantic-color-background-marker-amber);
+}
+
+.gg-place-marker.gg-sky {
+  background: var(--semantic-color-background-marker-sky);
+}
+
+.gg-place-marker.gg-coral {
+  background: var(--semantic-color-background-marker-coral);
+}
+
+.gg-place-marker.gg-sand {
+  background: var(--semantic-color-background-marker-sand);
+}
+
+/* a sub-place starts where its parent's name does: past the padding, a glyph and the gap */
+.gg-places ul ul > li > :is(a, button) {
+  min-height: var(--semantic-dimension-size-control-small);
+  padding-left: calc(
+    2 * var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small) +
+      var(--semantic-dimension-space-large)
+  );
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
 }

@@ -1,5 +1,4 @@
 export {
-  FocusRailToggle,
   FollowRailDrawer,
   HideRailDrawer,
   Message,
@@ -11,9 +10,8 @@ export {
   init,
   isOpen,
   subscriptions,
-  toggle,
   update,
   view,
 } from "./rail.ts";
 
-export type { InitConfig, ViewInputs } from "./rail.ts";
+export type { Aside, InitConfig, ViewInputs } from "./rail.ts";

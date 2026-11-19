@@ -113,6 +113,13 @@
             },
             "$description": "A code block in long-form reading."
           }
+        },
+        "keyHint": {
+          "$value": {
+            "value": 11.5,
+            "unit": "px"
+          },
+          "$description": "A key hint in a ringed box: in the key bar."
         }
       },
       "letterSpacing": {
@@ -225,10 +232,10 @@
         "rail": {
           "default": {
             "$value": {
-              "value": 272,
+              "value": 232,
               "unit": "px"
             },
-            "$description": "The column of panels beside a deck, until the reader sizes it."
+            "$description": "The sidebar at the page's left, until the reader sizes it."
           },
           "drawer": {
             "$value": {
@@ -236,13 +243,6 @@
               "unit": "px"
             },
             "$description": "The rail as a drawer, whatever width the reader gave it."
-          },
-          "folded": {
-            "$value": {
-              "value": 64,
-              "unit": "px"
-            },
-            "$description": "The rail folded to its first panel's bar, stood on end."
           },
           "resize": {
             "$value": {
@@ -254,7 +254,7 @@
         },
         "sidePane": {
           "$value": {
-            "value": 360,
+            "value": 400,
             "unit": "px"
           },
           "$description": "The width of the side pane at the page's right."
@@ -591,6 +591,13 @@
             "unit": "px"
           },
           "$description": "The height of a small control: a small button, an icon button, a tab, a chip or filter chip, a sub-place."
+        },
+        "marker": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "The square that marks a place's colour in a sidebar."
         }
       },
       "space": {

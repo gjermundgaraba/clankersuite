@@ -23,3 +23,18 @@
 .gg-link-state .gg-spinner {
   margin-left: var(--semantic-dimension-space-x-small);
 }
+
+/* online, a quiet dot in the accent before the word */
+.gg-link-state:not(.gg-offline, .gg-connecting, .gg-reconnecting) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-x-small);
+}
+
+.gg-link-state:not(.gg-offline, .gg-connecting, .gg-reconnecting)::before {
+  content: "";
+  width: 0.46em;
+  height: 0.46em;
+  border-radius: 50%;
+  background: var(--semantic-color-background-fill-accent);
+}

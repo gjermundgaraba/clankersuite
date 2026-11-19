@@ -1,18 +1,21 @@
-import { Panel, Places } from "@gjermundgaraba/components";
+import { Places } from "@gjermundgaraba/components";
+import type { GlyphName } from "@gjermundgaraba/icons";
 import { Array, Schema } from "effect";
 import type { Update } from "foldkit";
 import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 
-const Area = Schema.Literals(["Inbox", "Focus", "Later", "Archive"]);
+const Area = Schema.Literals(["Inbox", "Focus", "Outline", "Someday"]);
 
 type Area = typeof Area.Type;
 
-const AREAS: ReadonlyArray<Readonly<{ area: Area; count?: number }>> = [
-  { area: "Inbox", count: 3 },
-  { area: "Focus", count: 5 },
-  { area: "Later", count: 128 },
-  { area: "Archive" },
+const AREAS: ReadonlyArray<
+  Readonly<{ area: Area; glyph: GlyphName; count?: number }>
+> = [
+  { area: "Inbox", glyph: "inbox", count: 3 },
+  { area: "Focus", glyph: "star", count: 5 },
+  { area: "Outline", glyph: "layers", count: 1280 },
+  { area: "Someday", glyph: "archive" },
 ];
 
 export const Model = Schema.Struct({ area: Area });
@@ -35,26 +38,16 @@ export const update = (_model: Model, message: Message) =>
   });
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Panel.view(
+  Places.view(
     {
-      id: "places-counts",
-      title: "Mail",
-      isFlush: true,
-      body: [
-        Places.view(
-          {
-            label: "Mail",
-            places: Array.map(AREAS, ({ area, ...counted }) => ({
-              ...counted,
-              id: area,
-              label: area,
-              isCurrent: model.area === area,
-              onSelect: Message.SelectedArea({ area }),
-            })),
-          },
-          h
-        ),
-      ],
+      label: "Lists",
+      places: Array.map(AREAS, ({ area, ...counted }) => ({
+        ...counted,
+        id: area,
+        label: area,
+        isCurrent: model.area === area,
+        onSelect: Message.SelectedArea({ area }),
+      })),
     },
     h
   );

@@ -1,17 +1,18 @@
-/* toasts end at its left edge */
+/* the key bar and toasts end at its left edge */
 .gg-side-pane {
   anchor-name: --gg-side-pane;
   right: 0;
   z-index: var(--semantic-number-layer-raised);
   display: flex;
   flex-direction: column;
-  gap: var(--semantic-dimension-space-gutter);
+  gap: var(--semantic-dimension-space-large);
   width: var(--semantic-dimension-size-side-pane);
-  padding: var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-gutter)
-    var(--semantic-dimension-space-medium);
-  background: var(--semantic-color-background-canvas);
+  padding: var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-x-large)
+    var(--semantic-dimension-space-xx-large);
+  background: var(--semantic-color-background-surface);
+  border-left: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
   overflow-y: auto;
 }
 
@@ -21,22 +22,22 @@
 }
 
 /* the page beside the pane keeps its width clear where the room right of the rail holds the
-   pane and the narrowest deck (Rail's 421px): 781px is size.sidePane and that, since a
+   pane and the narrowest deck (Rail's 421px): 821px is size.sidePane and that, since a
    container's condition reads no custom property */
-@container gg-railed (width >= 781px) {
+@container gg-railed (width >= 821px) {
   .gg-railed:has(.gg-side-pane) > * {
     --gg-side-pane-w: var(--semantic-dimension-size-side-pane);
   }
 }
 
-/* where it does not, the pane covers the page, and toasts, finding no anchor,
+/* where it does not, the pane covers the page, and the key bar and toasts, finding no anchor,
    run to the window's right edge */
-@container gg-railed (width < 781px) {
+@container gg-railed (width < 821px) {
   .gg-side-pane {
     anchor-name: none;
     left: anchor(--gg-rail right, 0px);
     width: auto;
-    padding-left: var(--semantic-dimension-space-gutter);
+    border-left: 0;
   }
 
   /* hide what it covers from the keyboard and screen readers too */
