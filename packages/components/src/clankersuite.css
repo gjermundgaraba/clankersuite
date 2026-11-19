@@ -38,6 +38,7 @@
 @import "./choice/choice.css";
 @import "./markdown-editor/markdown-editor.css";
 @import "./field/field.css";
+@import "./title-field/title-field.css";
 @import "./select-field/select-field.css";
 @import "./field-grid/field-grid.css";
 @import "./password-field/password-field.css";

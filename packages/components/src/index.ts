@@ -152,6 +152,8 @@ export * as Text from "./text/index.ts";
 
 export * as Time from "./time/index.ts";
 
+export * as TitleField from "./title-field/index.ts";
+
 export * as Tips from "./tips/index.ts";
 
 export * as Toast from "./toast/index.ts";

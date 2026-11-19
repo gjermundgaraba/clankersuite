@@ -1,0 +1,39 @@
+/* the box the field's Enter Mount sits on, out of the layout */
+.gg-title-field-keys {
+  display: contents;
+}
+
+textarea.gg-title-field {
+  display: block;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  font-size: var(--semantic-dimension-font-size-headline);
+  font-weight: var(--semantic-font-weight-bold);
+  line-height: var(--semantic-number-line-height-compact);
+  letter-spacing: var(--semantic-dimension-letter-spacing-page-title);
+  color: var(--semantic-color-text-primary);
+  background: none;
+  border: 0;
+  border-radius: var(--semantic-dimension-radius-control);
+  resize: none;
+  field-sizing: content;
+  overflow: hidden;
+}
+
+/* the tint spills a little past the words, as the prototype's does, and the focus ring
+   rings the tint */
+textarea.gg-title-field:focus {
+  background: var(--semantic-color-background-hover);
+  box-shadow: 0 0 0 var(--semantic-dimension-space-x-small)
+    var(--semantic-color-background-hover);
+  outline-offset: var(--semantic-dimension-space-x-small);
+}
+
+@media (hover: hover) {
+  textarea.gg-title-field:hover {
+    background: var(--semantic-color-background-hover);
+    box-shadow: 0 0 0 var(--semantic-dimension-space-x-small)
+      var(--semantic-color-background-hover);
+  }
+}
