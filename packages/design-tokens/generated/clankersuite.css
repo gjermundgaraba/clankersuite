@@ -176,9 +176,9 @@
   --semantic-dimension-radius-row: 8px;
   /* The corners of a surface: a panel, a card, a sheet, a notice. */
   --semantic-dimension-radius-surface: 12px;
-  /* A checkbox's or radio's box. */
+  /* A checkbox's or radio's box, and the round check of a task under a goal card. */
   --semantic-dimension-size-checkbox-box: 14px;
-  /* A compact row's round check. */
+  /* A compact row's round check, and a goal's outcome box. */
   --semantic-dimension-size-checkbox-compact: 16px;
   /* The check drawn in a checked box, and the width of a mixed box's bar. */
   --semantic-dimension-size-checkbox-mark: 10px;
@@ -260,7 +260,7 @@
   --semantic-dimension-size-measure-xx-large: 16ch;
   /* A percentage or version. */
   --semantic-dimension-size-measure-xx-small: 4ch;
-  /* A meter bar's height. */
+  /* A meter bar's height, and a goal card's outcome steps. */
   --semantic-dimension-size-meter-height: 6px;
   /* A meter bar's width; it shrinks in a narrow meter. */
   --semantic-dimension-size-meter-width: 160px;

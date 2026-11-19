@@ -52,6 +52,8 @@ export * as Focus from "./focus/index.ts";
 
 export * as Format from "./format/index.ts";
 
+export * as GoalCard from "./goal-card/index.ts";
+
 export * as Group from "./group/index.ts";
 
 export * as History from "./history/index.ts";

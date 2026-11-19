@@ -481,7 +481,7 @@
               "value": 14,
               "unit": "px"
             },
-            "$description": "A checkbox's or radio's box."
+            "$description": "A checkbox's or radio's box, and the round check of a task under a goal card."
           },
           "mark": {
             "$value": {
@@ -495,7 +495,7 @@
               "value": 16,
               "unit": "px"
             },
-            "$description": "A compact row's round check."
+            "$description": "A compact row's round check, and a goal's outcome box."
           }
         },
         "dot": {
@@ -608,7 +608,7 @@
               "value": 6,
               "unit": "px"
             },
-            "$description": "A meter bar's height."
+            "$description": "A meter bar's height, and a goal card's outcome steps."
           }
         },
         "monogram": {

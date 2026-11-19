@@ -55,6 +55,7 @@
 @import "./dialog/dialog.css";
 @import "./card/card.css";
 @import "./decision-card/decision-card.css";
+@import "./goal-card/goal-card.css";
 @import "./outcome/outcome.css";
 @import "./keymap/keymap.css";
 @import "./command-palette/command-palette.css";
