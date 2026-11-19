@@ -188,7 +188,12 @@ const sidebarView = (model: Model, h: HtmlBuilder<Message>): Rail.Aside => ({
       ],
       h
     ),
-    placesView(model, "Goals", [{ place: "Goals & values", glyph: "ring" }], h),
+    placesView(
+      model,
+      "Goals",
+      [{ place: "Goals & values", glyph: "target" }],
+      h
+    ),
     placesView(
       model,
       "Areas",
