@@ -4,7 +4,7 @@ category: actions
 
 # Button
 
-A command the reader gives: a word in a rounded box. `Primary` is the one action that commits; `Danger` is only the commit inside a confirm, never a button at rest.
+A command the reader gives: a word in a rounded box. `Primary` is the one action that commits; `Ghost` has no box until it is hovered, for an action beside a page's title; `Danger` is only the commit inside a confirm, never a button at rest.
 
 ::Example{name="variants"}
 
@@ -22,7 +22,7 @@ Danger prints in red, and only as the commit inside the confirm that a destructi
 
 ## With a key hint
 
-The key that does the same prints small after the button's words, in the reader's platform's symbols.
+The key that does the same prints after the button's words as a keycap in a ringed box, in the reader's platform's symbols.
 
 ::Example{name="key-hint"}
 

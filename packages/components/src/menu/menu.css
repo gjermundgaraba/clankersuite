@@ -66,12 +66,6 @@
   text-overflow: ellipsis;
 }
 
-.gg-menu .gg-key-hint {
-  font-family: inherit;
-  font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
-}
-
 .gg-menu .gg-menu-note {
   display: block;
   padding: var(--semantic-dimension-space-small)

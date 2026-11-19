@@ -127,7 +127,7 @@
   --semantic-dimension-font-size-figure: 30px;
   /* A stat's value at 900px and under. */
   --semantic-dimension-font-size-figure-narrow: 22px;
-  /* A key hint in a ringed box: in the key bar. */
+  /* A key printed as its keycap, in a ringed box: in a button, a menu row, a tip and the key bar. */
   --semantic-dimension-font-size-key-hint: 11.5px;
   /* Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels. */
   --semantic-dimension-font-size-label: 13px;
@@ -385,8 +385,6 @@
   --semantic-number-line-height-title: 1.2;
   /* A held item, dimmed in place while its copy follows the pointer. */
   --semantic-number-opacity-dragged: 0.4;
-  /* A key hint printed after a button's words; a primary button's prints opaque. */
-  --semantic-number-opacity-key-hint: 0.65;
   /* A row's tools until the row is hovered, focused or current. */
   --semantic-number-opacity-tools: 0.55;
   /* How small a card or toast starts as it eases in. */

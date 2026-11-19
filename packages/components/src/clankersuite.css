@@ -17,6 +17,7 @@
 @import "./text-button/text-button.css";
 @import "./nav-strip/nav-strip.css";
 @import "./tabs/tabs.css";
+@import "./key-hint/key-hint.css";
 @import "./button/button.css";
 @import "./icon-button/icon-button.css";
 @import "./time/time.css";
