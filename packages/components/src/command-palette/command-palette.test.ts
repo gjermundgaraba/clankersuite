@@ -66,7 +66,12 @@ const COMMANDS: readonly Command[] = [
     isDisabled: true,
     reason: "Saving…",
   },
-  { id: "keys", label: "Keyboard shortcuts", group: "Anywhere", hint: "?" },
+  {
+    id: "keys",
+    label: "Keyboard shortcuts",
+    group: "Anywhere",
+    keyHint: { keys: "Shift+?", platform: "Other" },
+  },
   {
     id: "note",
     label: "Renew the certificate",
@@ -1090,7 +1095,7 @@ const render = async (
   commands: readonly Command[] = COMMANDS
 ): Promise<HTMLElement> => {
   await renderOnPage(model, (current, h: HtmlBuilder<Message>) =>
-    CommandPalette.view(current, { commands }, h)
+    CommandPalette.view(current, { commands, platform: "Other" }, h)
   );
 
   return bySelector(".gg-card.gg-palette");
@@ -1475,6 +1480,7 @@ const paletteView =
       {
         commands: COMMANDS,
         scope: "Renew the certificate",
+        platform: "Other",
         noun: "item",
         ...viewInputs,
       },
@@ -1549,6 +1555,26 @@ describe("CommandPalette view", () => {
         Scene.selector(".gg-palette-row .gg-glyph.gg-opens")
       ).toExist(),
       Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText("")
+    );
+  });
+
+  it("prints a row's key as a keycap outside its name, and the keys that drive it in the foot", () => {
+    Scene.scene(
+      {
+        update: CommandPalette.update,
+        view: paletteView({ platform: "Apple" }),
+      },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(
+        Scene.role("option", { name: "Keyboard shortcuts" })
+      ).toExist(),
+      Scene.expect(
+        Scene.selector('[data-gg-palette-value="keys"] kbd')
+      ).toHaveText("?"),
+      Scene.expect(Scene.selector(".gg-card-actions")).toHaveText(
+        "↑↓ move↵ runEsc close"
+      )
     );
   });
 
@@ -1654,6 +1680,27 @@ describe("CommandPalette view", () => {
         UiDialog.Message.CompletedCloseDialog()
       ),
       Scene.Mount.expectEnded(UiDialog.AcquireResources, BindPaletteKeys)
+    );
+  });
+
+  it("prints the placeholder its noun makes, or the sentence given in its place", () => {
+    Scene.scene(
+      { update: CommandPalette.update, view: paletteView({ noun: "title" }) },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(field).toHaveAttr("placeholder", "Type a command or a title")
+    );
+
+    Scene.scene(
+      {
+        update: CommandPalette.update,
+        view: paletteView({ placeholder: "Add a task, or type a command…" }),
+      },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(
+        Scene.role("combobox", { name: "Command or item" })
+      ).toHaveAttr("placeholder", "Add a task, or type a command…")
     );
   });
 

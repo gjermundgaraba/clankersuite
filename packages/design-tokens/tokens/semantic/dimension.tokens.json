@@ -183,7 +183,7 @@
             "value": 36,
             "unit": "px"
           },
-          "$description": "The height of a row, a list item on a page or in a palette, a table row or a title bar: one control and room around it."
+          "$description": "The height of a row, a list item on a page, a table row or a title bar: one control and room around it."
         },
         "maxWidth": {
           "deck": {
@@ -202,10 +202,10 @@
           },
           "card": {
             "$value": {
-              "value": 680,
+              "value": 620,
               "unit": "px"
             },
-            "$description": "A card's width."
+            "$description": "A card's width: a sheet in a dialog."
           },
           "cardNarrow": {
             "$value": {
@@ -715,7 +715,14 @@
         },
         "inset": {
           "$value": "{semantic.dimension.space.large}",
-          "$description": "Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row."
+          "$description": "Inside a surface: the padding of a panel's or window's body, a stat, a meter row."
+        },
+        "sheet": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          },
+          "$description": "The inline padding of a sheet: a card's title bar, body and foot, a palette's query and foot."
         },
         "gutter": {
           "$value": "{semantic.dimension.space.xLarge}",

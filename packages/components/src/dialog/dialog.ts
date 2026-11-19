@@ -24,7 +24,7 @@ const ActionDirection = Schema.Literals(["Previous", "Next"]);
 
 type ActionDirection = typeof ActionDirection.Type;
 
-/** Where the card hangs: `Center`, or `Top`, 18% down, for a command palette. */
+/** Where the card hangs: `Top`, 14% down, as a sheet does (the default), or `Center`. */
 export const Placement = Schema.Literals(["Center", "Top"]);
 
 export type Placement = typeof Placement.Type;
@@ -254,7 +254,7 @@ export const view = defineView<Model, Message, ViewInputs>(
       toView,
       label,
       isAlert = false,
-      placement = "Center",
+      placement = "Top",
       hasDescription = false,
       toLiveRegionView,
     } = viewInputs;

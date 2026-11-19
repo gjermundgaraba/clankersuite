@@ -5,13 +5,20 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as Button from "../button/button.ts";
 import * as Fields from "../fields/fields.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
+import { notesView } from "../key-hint/key-hint.ts";
+import type { KeyNote } from "../key-hint/key-hint.ts";
+import type { KeyPlatform } from "../key-hint/key-label.ts";
 import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
 /** Configuration for rendering a card with `view`. */
 export type ViewConfig<Message> = Readonly<{
-  /** The title, in the title bar. */
-  title: string;
+  /** The title, in the title bar. Without one there is no title bar: name the card's Dialog
+   *  by what is in it, such as its `head`'s field. */
+  title?: string;
+  /** A line across the card's top, under the title bar if there is one: a Field in its
+   *  `Sheet` look, the line a quick capture is typed in. */
+  head?: Html;
   /** Attributes for the title, such as a Dialog's `title` group, which names the dialog. */
   titleAttributes?: Attributes<Message>;
   meta?: string;
@@ -19,9 +26,12 @@ export type ViewConfig<Message> = Readonly<{
   /** Attributes for the close glyph, such as a Dialog's `closeButton` group, which closes it.
    *  The glyph prints when they are given. */
   closeAttributes?: Attributes<Message>;
-  /** 440px instead of 680px: confirms, settings, sign-in. */
+  /** Narrower (`size.maxWidth.cardNarrow`): confirms, settings, sign-in. */
   isNarrow?: boolean;
-  /** The action bar: a 1px rule, then these pushed right. The committing one is `Primary`. */
+  /** The keys worth knowing while the card is open, printed first in its foot. */
+  keyNotes?: Readonly<{ notes: readonly KeyNote[]; platform: KeyPlatform }>;
+  /** The foot, a strip on the sunken ground: the key notes and `lead`, then these pushed
+   *  right. The committing one is `Primary`. */
   actions?: ReadonlyArray<Html | string>;
   /** In the action bar before the push: a flash word, a quiet button. */
   lead?: ReadonlyArray<Html | string>;
@@ -32,23 +42,60 @@ export type ViewConfig<Message> = Readonly<{
 
 type Parts<Message> = ViewConfig<Message> & Readonly<{ isCloseHeld?: boolean }>;
 
-const childrenView = <Message>(
-  config: Parts<Message>,
+/** What a card's foot holds. */
+export type Foot<Message> = Pick<
+  ViewConfig<Message>,
+  "keyNotes" | "actions" | "lead" | "actionBarAttributes"
+>;
+
+/** A card's foot, the strip on the sunken ground, or nothing when it would be empty. The
+ *  command palette prints its own with it. */
+export const footView = <Message>(
+  config: Foot<Message>,
   h: HtmlBuilder<Message>
 ): readonly Html[] => {
   const {
-    title,
-    titleAttributes = [],
-    meta,
-    body,
-    closeAttributes,
-    isCloseHeld = false,
+    keyNotes,
     actions = [],
     lead = [],
     actionBarAttributes = [],
   } = config;
 
-  const titleBar = h.header(
+  return Array.match(
+    [
+      ...(keyNotes === undefined
+        ? []
+        : slotView(
+            "p",
+            "gg-card-keys",
+            notesView(keyNotes.notes, keyNotes.platform, h),
+            h
+          )),
+      ...lead,
+      ...slotView("span", "gg-card-acts", actions, h),
+    ],
+    {
+      onEmpty: () => [],
+      onNonEmpty: (bar) => [
+        h.div([...actionBarAttributes, h.Class("gg-card-actions")], bar),
+      ],
+    }
+  );
+};
+
+const titleBarView = <Message>(
+  title: string,
+  config: Parts<Message>,
+  h: HtmlBuilder<Message>
+): Html => {
+  const {
+    titleAttributes = [],
+    meta,
+    closeAttributes,
+    isCloseHeld = false,
+  } = config;
+
+  return h.header(
     [h.Class("gg-card-tb")],
     [
       h.h2(titleAttributes, [title]),
@@ -68,24 +115,27 @@ const childrenView = <Message>(
           ]),
     ]
   );
+};
 
-  const actionBar = Array.match(
-    [...lead, ...slotView("span", "gg-card-acts", actions, h)],
-    {
-      onEmpty: () => [],
-      onNonEmpty: (bar) => [
-        h.div([...actionBarAttributes, h.Class("gg-card-actions")], bar),
-      ],
-    }
-  );
+const childrenView = <Message>(
+  config: Parts<Message>,
+  h: HtmlBuilder<Message>
+): readonly Html[] => {
+  const { title, head, body } = config;
 
-  return [titleBar, h.div([h.Class("gg-card-body")], body), ...actionBar];
+  return [
+    ...(title === undefined ? [] : [titleBarView(title, config, h)]),
+    ...(head === undefined ? [] : [head]),
+    h.div([h.Class("gg-card-body")], body),
+    ...footView(config, h),
+  ];
 };
 
 const className = (isNarrow: boolean | undefined): string =>
   isNarrow === true ? "gg-card gg-narrow" : "gg-card";
 
-/** The floating surface: a rounded box on a soft shadow, under a title bar. */
+/** The floating surface: a rounded box on a soft shadow, under a title bar, over a sunken
+ *  foot. In a Dialog it is the sheet. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
@@ -97,9 +147,11 @@ export const view = <Message>(
  *  goes before the push, such as a form's own delete. */
 export type FormViewConfig<Message> = Omit<
   ViewConfig<Message>,
-  "body" | "closeAttributes" | "actions"
+  "title" | "head" | "body" | "closeAttributes" | "actions"
 > &
   Readonly<{
+    /** The title, in the title bar; it names the form. */
+    title: string;
     /** Unique in the document: the submit button's id is `submitId(id)`. */
     id: string;
     /** The form's content, fields and all, in one Fields group that `isBusy` holds. A link in

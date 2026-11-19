@@ -22,6 +22,9 @@ describe("keyLabel", () => {
     expect(keyLabel("Enter", "Other")).toBe("Enter");
     expect(keyLabel("Enter", "Apple")).toBe("↵");
     expect(keyLabel("Space", "Other")).toBe("Space");
+    expect(keyLabel("Escape", "Other")).toBe("Esc");
+    expect(keyLabel("Backspace", "Other")).toBe("Backspace");
+    expect(keyLabel("Backspace", "Apple")).toBe("⌫");
     expect(keyLabel("Alt+ArrowUp", "Apple")).toBe("⌥↑");
   });
 

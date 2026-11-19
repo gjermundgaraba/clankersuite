@@ -18,7 +18,13 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
                 ]
               ),
             ],
-            lead: [Button.view({ label: "Choose files", isSmall: true }, h)],
+            keyNotes: {
+              notes: [
+                { keys: "Enter", does: "export" },
+                { keys: "Escape", does: "cancel" },
+              ],
+              platform: "Other",
+            },
             actions: [
               Button.view({ label: "Cancel" }, h),
               Button.view({ label: "Export", variant: "Primary" }, h),

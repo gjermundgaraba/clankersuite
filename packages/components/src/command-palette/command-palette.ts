@@ -29,11 +29,15 @@ import { defineView } from "foldkit/submodel";
 import * as Subscription from "foldkit/subscription";
 import * as Update from "foldkit/update";
 
+import * as Card from "../card/card.ts";
 import * as Dialog from "../dialog/dialog.ts";
 import { foldDialog } from "../dialog/fold.ts";
 import { htmlElement } from "../dom/html-element.ts";
 import { Focus } from "../focus/focus.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
+import * as KeyHint from "../key-hint/key-hint.ts";
+import type { KeyNote } from "../key-hint/key-hint.ts";
+import type { KeyPlatform } from "../key-hint/key-label.ts";
 import { isPlain } from "../keys/keys.ts";
 import { LOCALE } from "../locale/locale.ts";
 import { slotView } from "../slot/slot.ts";
@@ -604,11 +608,18 @@ export type ViewInputs = Readonly<{
   /** Built from what the caller snapshotted as the palette opened (see `open`). A command
    *  that leaves while its page is open sends the reader back to the commands. */
   commands: readonly Command[];
-  /** What the commands act on, kept on every page (the selected item's name). Defaults to
-   *  `"Commands"`. */
+  /** What the commands act on, kept on every page (the selected item's name), printed before
+   *  the field when given. */
   scope?: string;
-  /** What else can be typed, for the placeholder (`"Type a command or a title"`). */
+  /** How the foot prints its keys and a row its `keyHint`: the key platform the application
+   *  keeps in its Model. */
+  platform: KeyPlatform;
+  /** What else can be typed, for the field's hidden label (`"Command or title"`) and its
+   *  placeholder (`"Type a command or a title"`). */
   noun?: string;
+  /** The placeholder over the commands as a whole sentence (`"Add a task, or type a
+   *  command…"`), in place of the one `noun` makes. */
+  placeholder?: string;
   /** Above the list, on the commands and on every page: the application's own content (a
    *  sync notice and its retry, why a pick was refused). A function, so its controls send the
    *  application's Messages. */
@@ -798,8 +809,25 @@ const optionId = (paletteId: string, index: number): string =>
   `${paletteId}-option-${index}`;
 
 const NOTHING_FOUND = "Nothing matches · try fewer letters";
-const COMMANDS_FOOT = "↑ ↓ move · enter runs · esc closes";
-const PAGE_FOOT = "↑ ↓ move · enter picks · ⌫ back · esc closes";
+
+const MOVE_NOTE: KeyNote = {
+  keys: "ArrowUp",
+  otherKeys: ["ArrowDown"],
+  does: "move",
+};
+
+const CLOSE_NOTES: readonly KeyNote[] = [{ keys: "Escape", does: "close" }];
+
+const COMMANDS_FOOT: readonly KeyNote[] = [
+  MOVE_NOTE,
+  { keys: "Enter", does: "run" },
+];
+
+const PAGE_FOOT: readonly KeyNote[] = [
+  MOVE_NOTE,
+  { keys: "Enter", does: "pick" },
+  { keys: "Backspace", does: "back" },
+];
 
 const resultWord = (count: number): string =>
   count === 1 ? "result" : "results";
@@ -842,6 +870,9 @@ const rowPartsView = (
       ? [h.span([h.Class("gg-tag")], ["Current"])]
       : []),
     ...(hint === undefined ? [] : [h.span([h.Class("gg-hint")], [hint])]),
+    ...(row.keyHint === undefined || row.isDisabled === true
+      ? []
+      : [KeyHint.view(row.keyHint, h)]),
     ...(shownRowFor(shown, row).hasPage ? [opens] : []),
   ];
 };
@@ -868,7 +899,6 @@ const rowView = (
         Array.join(
           [
             "gg-palette-row",
-            ...(row.isAuthored === true ? ["gg-authored"] : []),
             ...(isContextRow(shown, row) ? ["gg-context"] : []),
           ],
           " "
@@ -976,7 +1006,7 @@ const comboboxAttributes = (
 const fieldView = (
   model: Model,
   shown: Shown,
-  noun: string,
+  words: Readonly<{ noun: string; placeholder: string }>,
   render: Dialog.RenderInfo,
   h: HtmlBuilder<Message>
 ): Html => {
@@ -989,14 +1019,14 @@ const fieldView = (
       onInput: (value) => Message.UpdatedQuery({ value, maybeShownPage }),
       isReadOnly: isPicking(model),
       placeholder: Option.match(shown.maybePage, {
-        onNone: () => `Type a command or a ${noun}`,
+        onNone: () => words.placeholder,
         onSome: ({ page }) => page.find ?? "Type to narrow",
       }),
       toView: (groups) =>
         h.input([
           ...render.initialFocus,
           ...groups.input,
-          ...comboboxAttributes(model, shown, noun, h),
+          ...comboboxAttributes(model, shown, words.noun, h),
         ]),
     },
     h
@@ -1006,7 +1036,7 @@ const fieldView = (
 const headView = (
   model: Model,
   shown: Shown,
-  scope: string,
+  scope: string | undefined,
   field: Html,
   h: HtmlBuilder<Message>
 ): Html =>
@@ -1027,7 +1057,9 @@ const headView = (
           )
         )
       ),
-      h.span([h.Class("gg-palette-scope")], [scope]),
+      ...(scope === undefined
+        ? []
+        : [h.span([h.Class("gg-palette-scope")], [scope])]),
       ...Option.toArray(
         Option.map(shown.maybePage, ({ page }) =>
           h.span([h.Class("gg-palette-title")], [page.title])
@@ -1085,8 +1117,10 @@ const cardView = (
 ): Html => {
   const {
     commands,
-    scope = "Commands",
+    scope,
+    platform,
     noun = "title",
+    placeholder = `Type a command or a ${noun}`,
     toDetailView = () => [],
   } = viewInputs;
 
@@ -1107,20 +1141,21 @@ const cardView = (
         model,
         shown,
         scope,
-        fieldView(model, shown, noun, render, h),
+        fieldView(model, shown, { noun, placeholder }, render, h),
         h
       ),
       ...slotView("div", "gg-palette-detail", toDetailView(), h),
       listView(model, shown, h),
       countView(model, shown, h),
-      h.div(
-        [h.Class("gg-palette-more")],
-        [
-          Option.match(shown.maybePage, {
-            onNone: () => COMMANDS_FOOT,
-            onSome: () => PAGE_FOOT,
-          }),
-        ]
+      ...Card.footView(
+        {
+          keyNotes: {
+            notes: Option.isNone(shown.maybePage) ? COMMANDS_FOOT : PAGE_FOOT,
+            platform,
+          },
+          actions: KeyHint.notesView(CLOSE_NOTES, platform, h),
+        },
+        h
       ),
     ]
   );

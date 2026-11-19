@@ -1,17 +1,41 @@
+/* a row is a control's height and a step more; the list shows ten of them */
+.gg-palette {
+  --gg-palette-option: calc(
+    var(--semantic-dimension-size-control) +
+      var(--semantic-dimension-space-small)
+  );
+}
+
+/* the query line across the sheet's top, ruled under */
 .gg-palette-q {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-medium)
-    var(--semantic-dimension-space-large) var(--semantic-dimension-space-small);
+  min-height: calc(
+    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
+  );
+  padding: 0 var(--semantic-dimension-space-sheet);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
   flex: none;
 }
 
-.gg-palette-q input {
+.gg-palette-q input,
+.gg-palette-q input:focus-visible {
   flex: 1 1 var(--semantic-dimension-size-measure-x-large);
   width: auto;
   min-width: 0;
+  min-height: calc(
+    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
+  );
+  font-size: var(--semantic-dimension-font-size-title);
+  background: none;
+  border: 0;
+}
+
+.gg-palette-q input::placeholder {
+  color: var(--semantic-color-text-tertiary);
 }
 
 .gg-palette-scope {
@@ -34,28 +58,30 @@
 
 .gg-palette-list {
   overflow-y: auto;
-  padding: var(--semantic-dimension-space-x-small) 0
-    var(--semantic-dimension-space-small);
-  max-height: min(50vh, 12 * var(--semantic-dimension-size-row));
+  padding: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  max-height: min(50vh, 10 * var(--gg-palette-option));
 }
 
 .gg-palette-group {
   padding: var(--semantic-dimension-space-small)
-    var(--semantic-dimension-space-large)
-    var(--semantic-dimension-space-xx-small);
+    var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-x-small);
   font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
+  color: var(--semantic-color-text-tertiary);
 }
 
 .gg-palette-row {
   display: flex;
   align-items: center;
-  gap: var(--semantic-dimension-space-small);
+  gap: var(--semantic-dimension-space-medium);
   width: 100%;
-  min-height: var(--semantic-dimension-size-row);
-  padding: 0 var(--semantic-dimension-space-large) 0
+  min-height: var(--gg-palette-option);
+  padding: 0 var(--semantic-dimension-space-medium) 0
     calc(
-      var(--semantic-dimension-space-large) +
+      var(--semantic-dimension-space-medium) +
         min(
           (var(--gg-palette-level, 1) - 1) *
             var(--semantic-dimension-space-x-large),
@@ -63,10 +89,11 @@
         )
     );
   font-family: var(--semantic-font-family-ui);
-  font-size: var(--semantic-dimension-font-size-control);
+  font-size: var(--semantic-dimension-font-size-body);
   cursor: pointer;
   background: none;
   border: 0;
+  border-radius: var(--semantic-dimension-radius-row);
   color: inherit;
   text-align: left;
 }
@@ -80,8 +107,10 @@
   background: var(--semantic-color-background-selected);
 }
 
-.gg-palette-row:hover:not([aria-selected="true"]) {
-  background-color: var(--semantic-color-background-hover);
+@media (hover: hover) {
+  .gg-palette-row:hover:not([aria-selected="true"]) {
+    background-color: var(--semantic-color-background-hover);
+  }
 }
 
 .gg-palette-row.gg-context {
@@ -91,7 +120,7 @@
 .gg-palette-row .gg-hint {
   margin-left: auto;
   font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
+  color: var(--semantic-color-text-tertiary);
   flex: 0 1 auto;
   min-width: 0;
   max-width: 50%;
@@ -106,18 +135,13 @@
   overflow-wrap: anywhere;
 }
 
-.gg-palette-row.gg-authored {
-  font-size: var(--semantic-dimension-font-size-body);
+.gg-palette-row:not(:has(.gg-hint)) > .gg-key-hint {
+  margin-left: auto;
 }
 
-.gg-palette-row.gg-authored .gg-glyph {
-  color: var(--semantic-color-text-secondary);
+.gg-palette-row .gg-glyph {
   display: inline-flex;
-}
-
-.gg-palette-row .gg-glyph.gg-opens {
-  display: inline-flex;
-  color: var(--semantic-color-text-secondary);
+  color: var(--semantic-color-text-tertiary);
 }
 
 .gg-palette-row:has(.gg-hint) .gg-glyph.gg-opens {
@@ -131,17 +155,6 @@
 .gg-palette-detail {
   display: grid;
   gap: var(--semantic-dimension-space-small);
-  padding: var(--semantic-dimension-space-x-small)
-    var(--semantic-dimension-space-large)
-    var(--semantic-dimension-space-x-small);
-}
-
-.gg-palette-more {
-  flex: none;
-  border-top: var(--semantic-dimension-border-width-default) solid
-    var(--semantic-color-border-divider);
-  padding: var(--semantic-dimension-space-x-small)
-    var(--semantic-dimension-space-large) var(--semantic-dimension-space-small);
-  font-size: var(--semantic-dimension-font-size-label);
-  color: var(--semantic-color-text-secondary);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-sheet) 0;
 }

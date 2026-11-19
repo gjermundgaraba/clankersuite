@@ -59,10 +59,12 @@ const KEY_NAMES: Record.ReadonlyRecord<string, string> = {
   arrowright: "→",
   plus: "+",
   space: "Space",
+  escape: "Esc",
 };
 
 const APPLE_KEY_NAMES: Record.ReadonlyRecord<string, string> = {
   enter: "↵",
+  backspace: "⌫",
 };
 
 const toModifier =
@@ -143,10 +145,11 @@ export const pressesOf = (keys: KeySequence): readonly string[] =>
 /**
  * A key binding as the help and the key hints print it, as a keycap reads. Takes the same
  * strings `Dom.streamFromKeyBindings` matches: `"Mod+K"` prints `⌘K` on Apple and `Ctrl+K`
- * elsewhere, arrows print as arrows, Enter prints `↵` on Apple, a letter prints in upper case (`"G"` is `G`), Shift is
- * spelled out before a letter (`"Shift+G"` is `⇧G` on Apple and `Shift+G` elsewhere), and Shift
- * with a lone symbol prints the symbol it types (`"Shift+?"` is `?`). The presses of a sequence
- * print one after another, a space apart (`["G", "I"]` is `G I`).
+ * elsewhere, arrows print as arrows, Escape prints `Esc`, Enter and Backspace print `↵` and `⌫`
+ * on Apple, a letter prints in upper case (`"G"` is `G`), Shift is spelled out before a letter
+ * (`"Shift+G"` is `⇧G` on Apple and `Shift+G` elsewhere), and Shift with a lone symbol prints
+ * the symbol it types (`"Shift+?"` is `?`). The presses of a sequence print one after another,
+ * a space apart (`["G", "I"]` is `G I`).
  */
 export const keyLabel = (keys: KeySequence, platform: KeyPlatform): string =>
   Array.join(
