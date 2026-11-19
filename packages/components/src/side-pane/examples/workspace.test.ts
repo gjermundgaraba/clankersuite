@@ -13,9 +13,29 @@ describe("the workspace example", () => {
       Story.model((model) => {
         expect(model.maybeTask).toStrictEqual(Option.none());
       }),
-      Story.message(Message.SelectedTask({ task: "Send invites" })),
+      Story.message(Message.SelectedTask({ task: "Call mom" })),
       Story.model((model) => {
-        expect(model.maybeTask).toStrictEqual(Option.some("Send invites"));
+        expect(model.maybeTask).toStrictEqual(Option.some("Call mom"));
+      })
+    );
+  });
+
+  it("checks a task off and lists it in the day's done line", () => {
+    Story.story(
+      update,
+      Story.given(init().model),
+      Story.message(Message.ToggledDone({ task: "Call mom", isDone: true })),
+      Story.model((model) => {
+        expect(model.doneTasks).toStrictEqual([
+          "Answer Lars about the offsite",
+          "Call mom",
+        ]);
+      }),
+      Story.message(Message.ToggledDone({ task: "Call mom", isDone: false })),
+      Story.model((model) => {
+        expect(model.doneTasks).toStrictEqual([
+          "Answer Lars about the offsite",
+        ]);
       })
     );
   });
