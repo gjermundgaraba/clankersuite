@@ -493,10 +493,10 @@
         },
         "dot": {
           "$value": {
-            "value": 10,
+            "value": 8,
             "unit": "px"
           },
-          "$description": "A chip's status dot."
+          "$description": "A chip's status dot: Chip.dotView."
         },
         "glyph": {
           "row": {
@@ -505,6 +505,13 @@
               "unit": "px"
             },
             "$description": "A row's glyph."
+          },
+          "small": {
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "A small glyph: in a chip, in a row's check."
           },
           "large": {
             "$value": {
@@ -590,14 +597,28 @@
             "value": 26,
             "unit": "px"
           },
-          "$description": "The height of a small control: a small button, an icon button, a tab, a chip or filter chip, a sub-place."
+          "$description": "The height of a small control: a small button, an icon button, a tab, a filter chip, a sub-place."
+        },
+        "chip": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          },
+          "$description": "The height of a chip: a state, a date or a count in a row's meta."
+        },
+        "chipLarge": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "The height of a large chip: a goal in a page's strip."
         },
         "marker": {
           "$value": {
             "value": 8,
             "unit": "px"
           },
-          "$description": "The square that marks a place's colour in a sidebar."
+          "$description": "The square or dot a Marker prints in an area's or a goal's colour."
         }
       },
       "space": {

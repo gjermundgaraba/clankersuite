@@ -19,11 +19,15 @@
         },
         "negative": {
           "$value": "{primitive.color.red.600}",
-          "$description": "Errors and destructive outcomes."
+          "$description": "Errors and destructive outcomes; a Blocked chip's words."
         },
         "warning": {
           "$value": "{primitive.color.amber.700}",
-          "$description": "The glyph of a Warn notice or outcome."
+          "$description": "The Warn tone: a Warn chip's words, and the glyph of a Warn notice or outcome."
+        },
+        "positive": {
+          "$value": "{primitive.color.sage.700}",
+          "$description": "The Go tone: a Go chip's words."
         },
         "onAccentFill": {
           "$value": "{primitive.color.warmGray.0}",
@@ -31,7 +35,7 @@
         },
         "onStatusFill": {
           "$value": "{primitive.color.warmGray.950}",
-          "$description": "Text on the warning and positive fills."
+          "$description": "Text on the warning fill: a Mark, a stale link's state."
         },
         "onNegativeFill": {
           "$value": "{primitive.color.warmGray.0}",
@@ -147,26 +151,36 @@
           "$value": "{primitive.color.sage.700Alpha10}",
           "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text keeps its colour: every text tone and border.primary hold their floors on it."
         },
+        "tint": {
+          "positive": {
+            "$value": "{primitive.color.sage.700Alpha12}",
+            "$description": "The soft ground of a Go chip, under text.positive."
+          },
+          "warning": {
+            "$value": "{primitive.color.amber.600Alpha12}",
+            "$description": "The soft ground of a warning chip, such as a task due today, under text.warning."
+          },
+          "negative": {
+            "$value": "{primitive.color.red.600Alpha9}",
+            "$description": "The soft ground of a negative chip, such as an overdue task, under text.negative."
+          }
+        },
         "fill": {
           "accent": {
             "$value": "{primitive.color.sage.700}",
-            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph, and the bar that marks the current item."
+            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph, a Go dot and the bar that marks the current item."
           },
           "secondary": {
             "$value": "{primitive.color.warmGray.700}",
-            "$description": "A quiet fill: a finished or stale mark."
+            "$description": "A quiet fill: a finished or stale mark, a Done dot."
           },
           "negative": {
             "$value": "{primitive.color.red.600}",
-            "$description": "The destructive and failed fill."
+            "$description": "The destructive and failed fill: a Blocked dot."
           },
           "warning": {
             "$value": "{primitive.color.amber.400}",
-            "$description": "Waiting, working, needs attention."
-          },
-          "positive": {
-            "$value": "{primitive.color.green.500}",
-            "$description": "Done, healthy, passed."
+            "$description": "Waiting, working, needs attention: a Warn dot."
           }
         },
         "marker": {

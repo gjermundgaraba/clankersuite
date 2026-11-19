@@ -200,6 +200,12 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 
+.gg-count {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-tertiary);
+}
+
 .gg-stack > *,
 .gg-group > * {
   min-width: 0;

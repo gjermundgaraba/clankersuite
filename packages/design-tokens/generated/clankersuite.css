@@ -5,8 +5,10 @@
 :root {
   color-scheme: light dark;
   --primitive-color-amber-300: #e3b56e;
+  --primitive-color-amber-300-alpha13: #e3b56e21;
   --primitive-color-amber-400: #f5a623;
   --primitive-color-amber-600: #a8690a;
+  --primitive-color-amber-600-alpha12: #a8690a1f;
   --primitive-color-amber-700: #8f5b00;
   --primitive-color-black-alpha55: #0000008c;
   --primitive-color-black-alpha60: #0009;
@@ -28,14 +30,15 @@
   --primitive-color-forest-900: #161c1a;
   --primitive-color-forest-950: #121715;
   --primitive-color-green-300: #8fd49a;
-  --primitive-color-green-500: #2fbf71;
   --primitive-color-green-700: #2b6a2e;
   --primitive-color-magenta-300: #f2a7d4;
   --primitive-color-magenta-700: #7a2a5c;
   --primitive-color-red-250: #ff9589;
   --primitive-color-red-300: #ef8f7a;
+  --primitive-color-red-300-alpha13: #ef8f7a21;
   --primitive-color-red-550: #c24a3a;
   --primitive-color-red-600: #b3251e;
+  --primitive-color-red-600-alpha9: #b3251e17;
   --primitive-color-red-650: #a3271f;
   --primitive-color-sage-300: #9fc7b8;
   --primitive-color-sage-300-alpha13: #9fc7b821;
@@ -66,7 +69,6 @@
   --semantic-color-background-canvas: light-dark(var(--primitive-color-warm-gray-25), var(--primitive-color-forest-900));
   --semantic-color-background-fill-accent: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
   --semantic-color-background-fill-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
-  --semantic-color-background-fill-positive: light-dark(var(--primitive-color-green-500), var(--primitive-color-sage-300));
   --semantic-color-background-fill-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
   --semantic-color-background-fill-warning: light-dark(var(--primitive-color-amber-400), var(--primitive-color-amber-300));
   --semantic-color-background-head: light-dark(var(--primitive-color-warm-gray-50), var(--primitive-color-forest-850));
@@ -78,6 +80,9 @@
   --semantic-color-background-selected: light-dark(var(--primitive-color-sage-700-alpha10), var(--primitive-color-sage-300-alpha13));
   --semantic-color-background-sidebar: light-dark(var(--primitive-color-warm-gray-75), var(--primitive-color-forest-950));
   --semantic-color-background-surface: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-forest-800));
+  --semantic-color-background-tint-negative: light-dark(var(--primitive-color-red-600-alpha9), var(--primitive-color-red-300-alpha13));
+  --semantic-color-background-tint-positive: light-dark(var(--primitive-color-sage-700-alpha12), var(--primitive-color-sage-300-alpha13));
+  --semantic-color-background-tint-warning: light-dark(var(--primitive-color-amber-600-alpha12), var(--primitive-color-amber-300-alpha13));
   --semantic-color-border-divider: light-dark(var(--primitive-color-warm-gray-950-alpha9), var(--primitive-color-bone-100-alpha9));
   --semantic-color-border-negative: light-dark(var(--primitive-color-red-600), var(--primitive-color-red-300));
   --semantic-color-border-primary: light-dark(var(--primitive-color-bone-500), var(--primitive-color-forest-500));
@@ -97,6 +102,7 @@
   --semantic-color-text-on-accent-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-forest-900));
   --semantic-color-text-on-negative-fill: light-dark(var(--primitive-color-warm-gray-0), var(--primitive-color-warm-gray-950));
   --semantic-color-text-on-status-fill: var(--primitive-color-warm-gray-950);
+  --semantic-color-text-positive: light-dark(var(--primitive-color-sage-700), var(--primitive-color-sage-300));
   --semantic-color-text-primary: light-dark(var(--primitive-color-warm-gray-900), var(--primitive-color-bone-100));
   --semantic-color-text-secondary: light-dark(var(--primitive-color-warm-gray-700), var(--primitive-color-bone-350));
   --semantic-color-text-terminal-blue: light-dark(var(--primitive-color-blue-700), var(--primitive-color-blue-300));
@@ -169,19 +175,25 @@
   --semantic-dimension-size-checkbox-box: 14px;
   /* The check drawn in a checked box, and the width of a mixed box's bar. */
   --semantic-dimension-size-checkbox-mark: 10px;
+  /* The height of a chip: a state, a date or a count in a row's meta. */
+  --semantic-dimension-size-chip: 20px;
+  /* The height of a large chip: a goal in a page's strip. */
+  --semantic-dimension-size-chip-large: 24px;
   /* The height of a control: a button, a field, a select, a segmented strip, a menu item. */
   --semantic-dimension-size-control: 30px;
-  /* The height of a small control: a small button, an icon button, a tab, a chip or filter chip, a sub-place. */
+  /* The height of a small control: a small button, an icon button, a tab, a filter chip, a sub-place. */
   --semantic-dimension-size-control-small: 26px;
   /* The line height of a diff's line numbers. */
   --semantic-dimension-size-diff-line: 19px;
-  /* A chip's status dot. */
-  --semantic-dimension-size-dot: 10px;
+  /* A chip's status dot: Chip.dotView. */
+  --semantic-dimension-size-dot: 8px;
   /* A large glyph: an outcome's, a drop zone's or a wall's. */
   --semantic-dimension-size-glyph-large: 24px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;
-  /* The square that marks a place's colour in a sidebar. */
+  /* A small glyph: in a chip, in a row's check. */
+  --semantic-dimension-size-glyph-small: 12px;
+  /* The square or dot a Marker prints in an area's or a goal's colour. */
   --semantic-dimension-size-marker: 8px;
   /* What a board column leaves of the viewport's height. */
   --semantic-dimension-size-max-height-board-column-room: 150px;
