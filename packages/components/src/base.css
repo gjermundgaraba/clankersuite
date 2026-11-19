@@ -161,7 +161,7 @@ kbd {
 :is(
   .gg-nav.gg-tabs button,
   :is(button, label).gg-fchip,
-  button.gg-glyph,
+  button.gg-fold,
   button.gg-mark,
   button.gg-tag:has(> span),
   .gg-textbtn,
@@ -174,7 +174,7 @@ kbd {
 :is(
   .gg-nav.gg-tabs button,
   :is(button, label).gg-fchip,
-  button.gg-glyph,
+  button.gg-fold,
   button.gg-mark,
   button.gg-tag:has(> span),
   .gg-textbtn,

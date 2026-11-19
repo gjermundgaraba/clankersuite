@@ -3,7 +3,8 @@
   .gg-veil-backdrop,
   .gg-card,
   .gg-rail[popover]:popover-open,
-  .gg-toasts .gg-toast {
+  .gg-toasts .gg-toast,
+  .gg-check[aria-checked="true"] {
     animation: none;
   }
 }
@@ -25,6 +26,13 @@
   .gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
     forced-color-adjust: none;
     background: CanvasText;
+  }
+
+  .gg-check[aria-checked="true"] {
+    forced-color-adjust: none;
+    color: Canvas;
+    background: CanvasText;
+    border-color: CanvasText;
   }
 
   .gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before,

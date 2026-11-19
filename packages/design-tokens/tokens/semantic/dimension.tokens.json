@@ -274,13 +274,6 @@
             },
             "$description": "The narrowest a menu prints."
           },
-          "slot": {
-            "$value": {
-              "value": 58,
-              "unit": "px"
-            },
-            "$description": "The narrowest a row's slot prints."
-          },
           "fieldGrid": {
             "$value": {
               "value": 160,
@@ -513,6 +506,13 @@
             },
             "$description": "A small glyph: in a chip, in a row's check."
           },
+          "medium": {
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "A glyph set in a line of small text: a group's heading, a row's fold, the done line."
+          },
           "iconButton": {
             "$value": {
               "value": 15,
@@ -626,6 +626,13 @@
             "unit": "px"
           },
           "$description": "The square or dot a Marker prints in an area's or a goal's colour."
+        },
+        "markerSmall": {
+          "$value": {
+            "value": 7,
+            "unit": "px"
+          },
+          "$description": "A Marker in a line of small text: a row's context line."
         }
       },
       "space": {
@@ -702,6 +709,50 @@
             "$description": "The room either side of a Deck's content, inside its column."
           }
         },
+        "row": {
+          "inline": {
+            "$value": {
+              "value": 10,
+              "unit": "px"
+            },
+            "$description": "Beside a row's content and between its check, title and meta; the add row, a group's heading and the done line keep to it so they line up with the rows."
+          },
+          "block": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Above and below a row's content."
+          },
+          "context": {
+            "$value": {
+              "value": 1,
+              "unit": "px"
+            },
+            "$description": "Between a row's title and its context line; a row with a context line adds it above and below as well."
+          },
+          "gap": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Between the small parts of a row's meta and context line, and the done line's glyph and words."
+          }
+        },
+        "group": {
+          "$value": {
+            "value": 26,
+            "unit": "px"
+          },
+          "$description": "Between groups of rows on a page."
+        },
+        "doneLine": {
+          "$value": {
+            "value": 18,
+            "unit": "px"
+          },
+          "$description": "Above the done line under a list."
+        },
         "focusRing": {
           "offset": {
             "small": {
@@ -760,7 +811,7 @@
             "value": 8,
             "unit": "px"
           },
-          "$description": "The corners of a menu and the select picker."
+          "$description": "The corners of a row, the add row, a menu and the select picker."
         },
         "surface": {
           "$value": {

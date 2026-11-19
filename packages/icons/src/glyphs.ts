@@ -158,7 +158,6 @@ export const glyphFamilies = {
         "M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2",
     },
     ring: { stroke: "M6 12a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" },
-    "ring-closed": { fill: "M6 12a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" },
     box: {
       stroke:
         "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2z",

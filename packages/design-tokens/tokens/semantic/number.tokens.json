@@ -9,9 +9,9 @@
           "$value": 0.4,
           "$description": "A held item, dimmed in place while its copy follows the pointer."
         },
-        "tools": {
-          "$value": 0.55,
-          "$description": "A row's tools until the row is hovered, focused or current."
+        "separator": {
+          "$value": 0.6,
+          "$description": "The `›` and `·` between the parts of a row's context line."
         }
       },
       "lineHeight": {
@@ -98,6 +98,14 @@
         "card": {
           "$value": 0.97,
           "$description": "How small a card or toast starts as it eases in."
+        },
+        "checkFrom": {
+          "$value": 0.8,
+          "$description": "Where a row's check starts its pop as it is checked."
+        },
+        "checkPeak": {
+          "$value": 1.12,
+          "$description": "How far a row's check swells in its pop before it settles."
         }
       },
       "fontScale": {
