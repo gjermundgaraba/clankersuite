@@ -1,14 +1,15 @@
 import type { Marker } from "@gjermundgaraba/components";
 import {
+  Chip,
   Deck,
   Group,
   IconButton,
   KeyHint,
   LinkState,
   PageHead,
-  Panel,
   Places,
   Rail,
+  Rows,
   SidePane,
   StatusBar,
   Wordmark,
@@ -21,9 +22,14 @@ import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 
 const Task = Schema.Literals([
-  "Write the brief",
-  "Book the venue",
-  "Send invites",
+  "Quarterly taxes",
+  "Review budget",
+  "Collect receipts",
+  "Write migration guide",
+  "Call mom",
+  "Draft the proposal",
+  "Plan christmas trip",
+  "Answer Lars about the offsite",
 ]);
 
 type Task = typeof Task.Type;
@@ -44,11 +50,14 @@ const Place = Schema.Literals([
 type Place = typeof Place.Type;
 
 const DETAILS: Readonly<Record<Task, string>> = {
-  "Write the brief": "Two pages: the goal, the budget and who signs off.",
-  "Book the venue":
-    "Hold the hall for the second Friday; the deposit is due in a week.",
-  "Send invites":
-    "After the venue is booked. The list is in the shared folder.",
+  "Quarterly taxes": "File the third quarter before the late fee starts.",
+  "Review budget": "Go through next quarter's numbers with the team.",
+  "Collect receipts": "The travel receipts for the budget review.",
+  "Write migration guide": "From the old summary format to the tree.",
+  "Call mom": "Before the weekend.",
+  "Draft the proposal": "Two pages: the goal, the budget and who signs off.",
+  "Plan christmas trip": "Trains, a place to stay, who brings what.",
+  "Answer Lars about the offsite": "He asked which week suits.",
 };
 
 export const Model = Schema.Struct({
@@ -57,6 +66,7 @@ export const Model = Schema.Struct({
   maybeRailWidth: Schema.Option(Schema.Finite),
   place: Place,
   maybeTask: Schema.Option(Task),
+  doneTasks: Schema.Array(Task),
 });
 
 export type Model = typeof Model.Type;
@@ -65,6 +75,7 @@ export const Message = defineMessageUnion({
   CompletedDetectKeyPlatform: { platform: KeyHint.KeyPlatform },
   SelectedPlace: { place: Place },
   SelectedTask: { task: Task },
+  ToggledDone: { task: Task, isDone: Schema.Boolean },
   ClickedClosePane: {},
   GotRailMessage: { message: Rail.Message },
   GotStatusBarMessage: { message: StatusBar.Message },
@@ -85,7 +96,8 @@ export const init = (): Update.Return<Model, Message> => ({
     rail: Rail.init({ id: "workspace-rail" }),
     maybeRailWidth: Option.none(),
     place: "Focus",
-    maybeTask: Option.some("Write the brief"),
+    maybeTask: Option.some("Review budget"),
+    doneTasks: ["Answer Lars about the offsite"],
   },
   commands: [DetectKeyPlatform()],
 });
@@ -125,6 +137,14 @@ export const update = (model: Model, message: Message) =>
       foldRailClose(modifyFields(model, { place: () => place })),
     SelectedTask: ({ task }) => ({
       model: modifyFields(model, { maybeTask: () => Option.some(task) }),
+    }),
+    ToggledDone: ({ task, isDone }) => ({
+      model: modifyFields(model, {
+        doneTasks: (tasks) =>
+          isDone
+            ? Array.union(tasks, [task])
+            : Array.filter(tasks, (kept) => kept !== task),
+      }),
     }),
     ClickedClosePane: () => ({
       model: modifyFields(model, { maybeTask: () => Option.none() }),
@@ -218,19 +238,176 @@ const sidebarView = (model: Model, h: HtmlBuilder<Message>): Rail.Aside => ({
   foot: [LinkState.view({ state: "Online", label: "Synced" }, h)],
 });
 
-const tasksView = (model: Model, h: HtmlBuilder<Message>): Html =>
-  Places.view(
+type Row = Readonly<{
+  task: Task;
+  context: Rows.ContextConfig;
+  slot?: (h: HtmlBuilder<Message>) => readonly Html[];
+}>;
+
+const HOME = { label: "Home", colour: "Sky" } as const;
+
+const WORK = { label: "Work", colour: "Amber" } as const;
+
+const DAY_ROWS: readonly Row[] = [
+  {
+    task: "Quarterly taxes",
+    context: {
+      area: HOME,
+      goals: [{ label: "Calmer home admin", colour: "Sky" }],
+    },
+    slot: (h) => [
+      Chip.view({ label: "Overdue 15 Nov", tone: "Blocked", glyph: "flag" }, h),
+    ],
+  },
+  {
+    task: "Review budget",
+    context: {
+      area: WORK,
+      goals: [{ label: "Ship the beta", colour: "Amber" }],
+    },
+    slot: (h) => [Chip.view({ label: "0/1", isFlat: true }, h)],
+  },
+  {
+    task: "Collect receipts",
+    context: { area: WORK, parent: "Review budget" },
+  },
+  {
+    task: "Write migration guide",
+    context: { area: WORK, parent: "Launch clankermem v1" },
+  },
+  {
+    task: "Call mom",
+    context: { area: HOME },
+    slot: (h) => [
+      Chip.view({ label: "Due today", tone: "Warn", glyph: "flag" }, h),
+    ],
+  },
+  { task: "Draft the proposal", context: { area: WORK } },
+];
+
+const EVENING_ROWS: readonly Row[] = [
+  { task: "Plan christmas trip", context: { area: HOME } },
+];
+
+const rowView = (model: Model, row: Row, h: HtmlBuilder<Message>): Html => {
+  const { task } = row;
+  const isDone = Array.contains(model.doneTasks, task);
+
+  return Rows.rowView(
     {
-      label: "Tasks",
-      places: Array.map(Task.literals, (task) => ({
-        id: task,
-        label: task,
-        isCurrent: Option.contains(model.maybeTask, task),
-        onSelect: Message.SelectedTask({ task }),
-      })),
+      key: task,
+      glyph: Rows.checkView(
+        {
+          id: `workspace-check-${task.toLowerCase().replaceAll(" ", "-")}`,
+          label: task,
+          isDone,
+          onToggle: (next) => Message.ToggledDone({ task, isDone: next }),
+        },
+        h
+      ),
+      body: [
+        Rows.titleView(
+          { label: task, isDone, onOpen: Message.SelectedTask({ task }) },
+          h
+        ),
+        Rows.contextView(row.context, h),
+      ],
+      slot: row.slot?.(h) ?? [],
+      tools: [
+        IconButton.view(
+          {
+            glyph: "arrow-right",
+            label: `Open ${task}`,
+            isQuiet: true,
+            onClick: Message.SelectedTask({ task }),
+          },
+          h
+        ),
+      ],
+      attributes: Option.contains(model.maybeTask, task)
+        ? [h.AriaCurrent("true")]
+        : [],
     },
     h
   );
+};
+
+const goalChipView = (
+  label: string,
+  marker: Marker.Colour,
+  count: number,
+  h: HtmlBuilder<Message>
+): Html =>
+  Chip.view(
+    {
+      label,
+      marker,
+      count,
+      isLarge: true,
+      href: `#${label.toLowerCase().replaceAll(" ", "-")}`,
+    },
+    h
+  );
+
+const doneLineView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
+  Array.match(model.doneTasks, {
+    onEmpty: () => [],
+    onNonEmpty: (tasks) => [
+      Rows.doneView(
+        [`${tasks.length} done today · ${Array.join(tasks, ", ")}`],
+        h
+      ),
+    ],
+  });
+
+const focusView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] => [
+  PageHead.view(
+    {
+      title: model.place,
+      glyph: "star",
+      meta: "Wednesday 18 November · 7 to do",
+      strip: [
+        goalChipView("Calmer home admin", "Sky", 1, h),
+        goalChipView("Ship the beta", "Amber", 2, h),
+        goalChipView("Launch clankermem v1", "Coral", 1, h),
+      ],
+    },
+    h
+  ),
+  Rows.sectionView(
+    {
+      id: "workspace-day",
+      body: [
+        Rows.view(
+          {
+            label: "Focus",
+            rows: Array.map(DAY_ROWS, (row) => rowView(model, row, h)),
+          },
+          h
+        ),
+      ],
+    },
+    h
+  ),
+  Rows.sectionView(
+    {
+      id: "workspace-evening",
+      title: "This evening",
+      glyph: "moon",
+      body: [
+        Rows.view(
+          {
+            label: "This evening",
+            rows: Array.map(EVENING_ROWS, (row) => rowView(model, row, h)),
+          },
+          h
+        ),
+      ],
+    },
+    h
+  ),
+  ...doneLineView(model, h),
+];
 
 const paneView = (task: Task, h: HtmlBuilder<Message>): Html =>
   SidePane.view(
@@ -272,30 +449,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           maybeWidth: model.maybeRailWidth,
           toAsideView: () => sidebarView(model, h),
           toDeckView: (openButton) =>
-            Deck.view(
-              {
-                body: [
-                  openButton,
-                  PageHead.view(
-                    {
-                      title: model.place,
-                      meta: "Wednesday 18 November · 3 to do",
-                    },
-                    h
-                  ),
-                  Panel.view(
-                    {
-                      id: "workspace-tasks",
-                      title: "Tasks",
-                      isFlush: true,
-                      body: [tasksView(model, h)],
-                    },
-                    h
-                  ),
-                ],
-              },
-              h
-            ),
+            Deck.view({ body: [openButton, ...focusView(model, h)] }, h),
           toPaneView: () =>
             Option.match(model.maybeTask, {
               onNone: () => h.empty,
