@@ -200,7 +200,7 @@
   --semantic-dimension-size-glyph-large: 24px;
   /* A glyph set in a line of small text: a button's, a group's heading, a row's fold, the done line. */
   --semantic-dimension-size-glyph-medium: 14px;
-  /* The glyph before a menu item's label. */
+  /* The glyph before a menu item's or a suggestion's label. */
   --semantic-dimension-size-glyph-menu: 15px;
   /* A row's glyph. */
   --semantic-dimension-size-glyph-row: 18px;

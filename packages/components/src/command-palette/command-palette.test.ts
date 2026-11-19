@@ -1535,7 +1535,9 @@ describe("CommandPalette view", () => {
       Scene.given(opened),
       ...mountPalette,
       Scene.expect(Scene.role("dialog", { name: "Commands" })).toExist(),
-      Scene.expect(field).toHaveAttr("aria-label", "Command or item"),
+      Scene.expect(
+        Scene.role("combobox", { name: "Command or item" })
+      ).toExist(),
       Scene.expect(field).toHaveAttr("aria-expanded", "true"),
       Scene.expect(field).toHaveAttr("aria-controls", "palette-list"),
       Scene.expect(field).toHaveAttr(
@@ -1714,7 +1716,7 @@ describe("CommandPalette view", () => {
       ...down,
       Scene.expect(Scene.role("button", { name: "Back" })).toExist(),
       Scene.expect(Scene.selector(".gg-palette-title")).toHaveText("Status"),
-      Scene.expect(field).toHaveAttr("aria-label", "Status"),
+      Scene.expect(Scene.role("combobox", { name: "Status" })).toExist(),
       Scene.expect(field).toHaveAttr("placeholder", "Type to narrow"),
       Scene.expect(rowOf("In progress")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("To do")).toHaveAttr("aria-disabled", "true"),

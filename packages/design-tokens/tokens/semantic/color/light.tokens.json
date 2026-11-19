@@ -194,7 +194,7 @@
           },
           "sky": {
             "$value": "{primitive.color.sky.600}",
-            "$description": "One of the colours an application gives its areas and goals."
+            "$description": "One of the colours an application gives its areas and goals; also the underline of a Link mark in a field, apart from the accent and the warning."
           },
           "coral": {
             "$value": "{primitive.color.red.550}",
