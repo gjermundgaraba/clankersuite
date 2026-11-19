@@ -3,6 +3,7 @@ import type { HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { describe, it } from "vite-plus/test";
 
+import type { KeyNote } from "../key-hint/key-hint.ts";
 import * as LinkState from "../link-state/link-state.ts";
 import * as BarHeight from "../top-bar/bar-height.ts";
 import * as StatusBar from "./status-bar.ts";
@@ -16,8 +17,7 @@ type Message = typeof Message.Type;
 const update = (model: null, _message: Message) => ({ model });
 
 const barView =
-  (keys: readonly StatusBar.KeyNote[]) =>
-  (_model: null, h: HtmlBuilder<Message>) =>
+  (keys: readonly KeyNote[]) => (_model: null, h: HtmlBuilder<Message>) =>
     StatusBar.view(
       {
         body: [LinkState.view({ state: "Online" }, h), "3 waiting"],
@@ -88,8 +88,9 @@ describe("StatusBar", () => {
       { update, view: keysOnly },
       Scene.given(null),
       measureBar,
-      Scene.expect(Scene.role("contentinfo")).toHaveText("JK moveX complete"),
-      Scene.expect(Scene.text("K")).toHaveClass("gg-key-hint"),
+      Scene.expect(Scene.role("contentinfo")).toHaveText("J K moveX complete"),
+      Scene.expect(Scene.text("J")).toHaveClass("gg-key-hint"),
+      Scene.expectAll(Scene.all.selector("kbd.gg-key-hint")).toHaveCount(2),
       Scene.expect(Scene.selector(".gg-statusbar-state")).toBeAbsent()
     );
   });

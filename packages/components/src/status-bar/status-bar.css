@@ -41,7 +41,3 @@
   gap: var(--semantic-dimension-space-x-small)
     var(--semantic-dimension-space-large);
 }
-
-.gg-statusbar-keys .gg-key-hint {
-  margin-right: var(--semantic-dimension-space-xx-small);
-}

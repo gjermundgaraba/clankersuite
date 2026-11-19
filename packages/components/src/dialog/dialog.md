@@ -4,7 +4,7 @@ category: overlays
 
 # Dialog
 
-A modal on a veil, holding one Card. Use it for a short task the reader finishes or abandons before going on: a rename, a setting, a form too small for its own page.
+A modal on a veil, holding one Card as its sheet, hung 14% down the window (`placement: "Center"` centres it). Use it for a short task the reader finishes or abandons before going on: a rename, a setting, a form too small for its own page.
 
 ## A form in a dialog
 

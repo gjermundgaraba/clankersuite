@@ -214,8 +214,8 @@
   --semantic-dimension-size-max-height-board-column-room: 150px;
   /* The tallest an image grows in the Markdown editor. */
   --semantic-dimension-size-max-height-markdown-image: 480px;
-  /* A card's width. */
-  --semantic-dimension-size-max-width-card: 680px;
+  /* A card's width: a sheet in a dialog. */
+  --semantic-dimension-size-max-width-card: 620px;
   /* A narrow card's width. */
   --semantic-dimension-size-max-width-card-narrow: 440px;
   /* The page's column: a Deck's content, centred between the sidebar and the side pane. */
@@ -292,7 +292,7 @@
   --semantic-dimension-size-rail-drawer: 320px;
   /* The width of a rail's resize handle. */
   --semantic-dimension-size-rail-resize: 12px;
-  /* The height of a row, a list item on a page or in a palette, a table row or a title bar: one control and room around it. */
+  /* The height of a row, a list item on a page, a table row or a title bar: one control and room around it. */
   --semantic-dimension-size-row: 36px;
   /* The width of a scrollbar. */
   --semantic-dimension-size-scrollbar: 10px;
@@ -322,7 +322,7 @@
   --semantic-dimension-space-gutter: var(--semantic-dimension-space-x-large);
   /* Above and below an empty page's large glyph and title. */
   --semantic-dimension-space-hero: 60px;
-  /* Inside a surface: the padding of a panel's, card's or window's body, a stat, a meter row. */
+  /* Inside a surface: the padding of a panel's or window's body, a stat, a meter row. */
   --semantic-dimension-space-inset: var(--semantic-dimension-space-large);
   /* Between the parts of one body: a panel's, a card's, a window's. */
   --semantic-dimension-space-large: 16px;
@@ -340,6 +340,8 @@
   --semantic-dimension-space-row-gap: 6px;
   /* Beside a row's content and between its check, title and meta; the add row, a group's heading and the done line keep to it so they line up with the rows. */
   --semantic-dimension-space-row-inline: 10px;
+  /* The inline padding of a sheet: a card's title bar, body and foot, a palette's query and foot. */
+  --semantic-dimension-space-sheet: 20px;
   /* Between things in one line: buttons, chips, a glyph and its word. */
   --semantic-dimension-space-small: 8px;
   /* How far an underline sits below the text. */

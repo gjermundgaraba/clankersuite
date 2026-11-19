@@ -205,6 +205,16 @@ kbd {
   color: var(--semantic-color-text-tertiary);
 }
 
+/* the actions at the right of a card's foot or head, for each card that prints them */
+.gg-card-acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  margin-left: auto;
+}
+
 .gg-stack > *,
 .gg-group > * {
   min-width: 0;

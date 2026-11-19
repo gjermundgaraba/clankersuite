@@ -25,7 +25,7 @@ StatusBar.view(
 )
 ```
 
-Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewhere, so the key platform comes from the application's Model: detect it once with `KeyHint.detectKeyPlatform` in a Command from `init`. The keys are content, so a screen reader reads each one. Keys that do the same share one note, each in its own box: `otherKeys: ["K"]` beside `J` prints J and K before "move".
+Each key prints for the reader's keyboard, `⌘K` on Apple's and `Ctrl+K` elsewhere, so the key platform comes from the application's Model: detect it once with `KeyHint.detectKeyPlatform` in a Command from `init`. The keys are content, so a screen reader reads each one. Keys that do the same share one note, the first in its box and the rest as words: `otherKeys: ["K"]` beside `J` prints J boxed, then "K move". Arrows share one box: `ArrowUp` with `otherKeys: ["ArrowDown"]` prints ↑↓.
 
 ## Its height
 

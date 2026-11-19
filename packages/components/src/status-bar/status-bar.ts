@@ -1,20 +1,11 @@
-import { Array, Predicate } from "effect";
-import type { KeySequence } from "foldkit/dom";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import { keyLabel } from "../key-hint/key-label.ts";
+import { notesView } from "../key-hint/key-hint.ts";
+import type { KeyNote } from "../key-hint/key-hint.ts";
 import type { KeyPlatform } from "../key-hint/key-label.ts";
 import { slotView } from "../slot/slot.ts";
 import { measureAttributes } from "../top-bar/bar-height.ts";
 import type { Message as BarHeightMessage } from "../top-bar/bar-height.ts";
-
-/** A key worth knowing and what it does, as the key help prints it. */
-export type KeyNote = Readonly<{
-  keys: KeySequence;
-  /** Further keys that do the same, each in its own box after the first: `J` and `K` move. */
-  otherKeys?: readonly KeySequence[];
-  does: string;
-}>;
 
 export type ViewConfig<Message> = Readonly<{
   /** The state, at the left: a LinkState, a sync word, a count. Beside a Rail, the state
@@ -32,23 +23,6 @@ export type ViewConfig<Message> = Readonly<{
    *  `Scene.Mount.resolve({ name: StatusBar.MeasureHeight.name }, toParentMessage(StatusBar.Message.CompletedMeasureHeight()))`. */
   toParentMessage: (message: BarHeightMessage) => Message;
 }>;
-
-const bindingKey = (keys: KeySequence): string =>
-  Predicate.isString(keys) ? keys : Array.join(keys, " ");
-
-const keyNoteView =
-  <Message>(platform: KeyPlatform, h: HtmlBuilder<Message>) =>
-  ({ keys, otherKeys = [], does }: KeyNote): Html =>
-    h.keyed("span")(
-      bindingKey(keys),
-      [],
-      [
-        ...Array.map([keys, ...otherKeys], (each) =>
-          h.kbd([h.Class("gg-key-hint")], [keyLabel(each, platform)])
-        ),
-        ` ${does}`,
-      ]
-    );
 
 /** The key bar along the bottom of an interface: the keys to know, each in a ringed box, and
  *  what state it is in where there is no Rail to hold it. It runs between a Rail and a
@@ -72,12 +46,7 @@ export const view = <Message>(
     ],
     [
       ...slotView("div", "gg-statusbar-state", body, h),
-      ...slotView(
-        "p",
-        "gg-statusbar-keys",
-        Array.map(keys, keyNoteView(platform, h)),
-        h
-      ),
+      ...slotView("p", "gg-statusbar-keys", notesView(keys, platform, h), h),
     ]
   );
 };
