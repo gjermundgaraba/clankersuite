@@ -18,6 +18,16 @@
   );
 }
 
+/* a goal's actions show while the pointer is on its card or focus is in it, and always where
+   nothing hovers. Unseen, they keep their room, so the chip stays put, stay in the keyboard's
+   order, so Tab shows them, and take no click, as a row's clipped tools take none */
+@media (hover: hover) {
+  .gg-goal-card:not(:hover, :focus-within) .gg-goal-head > .gg-card-acts {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 /* the ring fills in the goal's colour by the share of its outcomes done */
 .gg-goal-ring {
   flex: none;
@@ -146,6 +156,27 @@
   color: var(--semantic-color-text-primary);
   background: var(--semantic-color-background-head);
   border-radius: var(--semantic-dimension-radius-surface);
+}
+
+/* the values edited in place read as the quote's text: no rule, no padding and the quote's
+   line height, and keyboard focus the 2px accent outline */
+.gg-values .gg-markdown-surface {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.gg-values .gg-markdown-surface:focus-within {
+  outline: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}
+
+.gg-values .gg-markdown-surface .cm-scroller {
+  line-height: inherit;
+}
+
+.gg-values .gg-markdown-surface .cm-content {
+  padding-block: 0;
 }
 
 .gg-values-label {

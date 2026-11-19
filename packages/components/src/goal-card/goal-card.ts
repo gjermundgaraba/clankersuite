@@ -19,10 +19,13 @@ export type ViewConfig = Readonly<{
   id: string;
   title: string;
   colour: Marker.Colour;
-  /** One sentence: why the goal exists. */
-  description?: string;
+  /** Why the goal exists: a sentence, or a MarkdownEditor's `readView` of it. */
+  description?: ReadonlyArray<Html | string>;
   /** At the head's right: the goal's area as a Chip. */
   chip?: Html;
+  /** After the chip: quiet buttons for what is done to the goal (Edit, Archive). Where the
+   *  pointer can hover, they show while it is on the card or focus is in it. */
+  actions?: readonly Html[];
   /** The goal's outcomes in order, each a step that fills in its colour once done, and the
    *  ring at its title fills by the share done. Say them in `meta` too: the ring and the
    *  steps are for the eye. */
@@ -86,7 +89,18 @@ export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { id, title, colour, description, chip, steps, meta, columns } = config;
+  const {
+    id,
+    title,
+    colour,
+    description,
+    chip,
+    actions = [],
+    steps,
+    meta,
+    columns,
+  } = config;
+
   const titleId = `${id}-title`;
 
   return h.article(
@@ -102,11 +116,10 @@ export const view = <Message>(
           ringView(steps, h),
           h.h2([h.Id(titleId)], [title]),
           ...(chip === undefined ? [] : [chip]),
+          ...slotView("span", "gg-card-acts", actions, h),
         ]
       ),
-      ...(description === undefined
-        ? []
-        : [h.p([h.Class("gg-goal-description")], [description])]),
+      ...slotView("div", "gg-goal-description", description ?? [], h),
       stepsView(steps, h),
       h.p([h.Class("gg-goal-meta")], [meta]),
       ...slotView(
@@ -129,16 +142,17 @@ export const view = <Message>(
 export type ValuesConfig = Readonly<{
   /** Its quiet label: "Values". */
   label: string;
+  /** A sentence, or a MarkdownEditor with its label hidden, which the quote's label names. */
   body: ReadonlyArray<Html | string>;
 }>;
 
 /** What the goals serve, on the sunken ground over the goal cards: a quiet label over a
- *  sentence. */
+ *  sentence, or over the editor of it. */
 export const valuesView = <Message>(
   config: ValuesConfig,
   h: HtmlBuilder<Message>
 ): Html =>
   h.div(
     [h.Class("gg-values")],
-    [h.p([h.Class("gg-values-label")], [config.label]), h.p([], config.body)]
+    [h.p([h.Class("gg-values-label")], [config.label]), h.div([], config.body)]
   );

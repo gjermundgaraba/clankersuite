@@ -21,7 +21,11 @@ describe("the goals example", () => {
       ).toContainText("2 of 2 outcomes"),
       Scene.expect(
         Scene.role("article", { name: "Launch clankermem v1" })
-      ).toContainText("0 of 3 outcomes")
+      ).toContainText("0 of 3 outcomes"),
+      Scene.click(Scene.role("checkbox", { name: "Migration guide" })),
+      Scene.expect(
+        Scene.role("article", { name: "Launch clankermem v1" })
+      ).toContainText("1 of 3 outcomes")
     );
   });
 });

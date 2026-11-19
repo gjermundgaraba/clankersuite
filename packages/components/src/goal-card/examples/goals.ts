@@ -3,6 +3,8 @@ import {
   Chip,
   Choice,
   GoalCard,
+  IconButton,
+  MarkdownEditor,
   PageHead,
   Rows,
   Stack,
@@ -23,6 +25,7 @@ type Goal = Readonly<{
   description: string;
   area: Readonly<{ label: string; colour: Marker.Colour }>;
   outcomes: readonly string[];
+  hasOutcomeTools?: boolean;
   tasks: readonly Task[];
 }>;
 
@@ -31,7 +34,7 @@ const GOALS: readonly Goal[] = [
     id: "beta",
     title: "Ship the beta",
     colour: "Amber",
-    description: "Get real users on it.",
+    description: "Get **real users** on it.",
     area: { label: "Work", colour: "Amber" },
     outcomes: ["Ten users", "Docs published"],
     tasks: [
@@ -45,13 +48,14 @@ const GOALS: readonly Goal[] = [
     id: "clankermem",
     title: "Launch clankermem v1",
     colour: "Coral",
-    description: "Public v1 with a migration path from 0.x.",
+    description: "Public v1 with a migration path from `0.x`.",
     area: { label: "Work", colour: "Amber" },
     outcomes: [
       "Benchmark on 1M messages",
       "Migration guide",
       "Announcement post",
     ],
+    hasOutcomeTools: true,
     tasks: [
       { title: "Write migration guide", isInFocus: true },
       { title: "Benchmark summary tree on 1M messages" },
@@ -60,14 +64,19 @@ const GOALS: readonly Goal[] = [
 ];
 
 export const Model = Schema.Struct({
+  values: Schema.String,
   doneOutcomes: Schema.Array(Schema.String),
 });
 
 export type Model = typeof Model.Type;
 
 export const Message = defineMessageUnion({
+  UpdatedValues: { value: Schema.String },
   ToggledOutcome: { outcome: Schema.String, isDone: Schema.Boolean },
   ClickedNewGoal: {},
+  ClickedEditGoal: {},
+  ClickedArchiveGoal: {},
+  ClickedRenameOutcome: {},
   ToggledTask: {},
   OpenedTask: {},
 });
@@ -75,11 +84,18 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 export const init = (): Update.Return<Model, Message> => ({
-  model: { doneOutcomes: ["Docs published"] },
+  model: {
+    values:
+      "Ship small things often. Protect mornings for deep work. Be the person who calls back.",
+    doneOutcomes: ["Docs published"],
+  },
 });
 
 export const update = (model: Model, message: Message) =>
   Message.match<Update.Return<Model, Message>>(message, {
+    UpdatedValues: ({ value }) => ({
+      model: modifyFields(model, { values: () => value }),
+    }),
     ToggledOutcome: ({ outcome, isDone }) => ({
       model: modifyFields(model, {
         doneOutcomes: (outcomes) =>
@@ -89,6 +105,9 @@ export const update = (model: Model, message: Message) =>
       }),
     }),
     ClickedNewGoal: () => ({ model }),
+    ClickedEditGoal: () => ({ model }),
+    ClickedArchiveGoal: () => ({ model }),
+    ClickedRenameOutcome: () => ({ model }),
     ToggledTask: () => ({ model }),
     OpenedTask: () => ({ model }),
   });
@@ -120,6 +139,22 @@ const taskRow = (goal: Goal, task: Task, h: HtmlBuilder<Message>): Html =>
     h
   );
 
+const outcomeView = (
+  model: Model,
+  goal: Goal,
+  outcome: string,
+  h: HtmlBuilder<Message>
+): Html =>
+  Choice.view(
+    {
+      id: `goal-${goal.id}-${slug(outcome)}`,
+      label: outcome,
+      isChecked: Array.contains(model.doneOutcomes, outcome),
+      onToggle: (isDone) => Message.ToggledOutcome({ outcome, isDone }),
+    },
+    h
+  );
+
 const goalView = (model: Model, goal: Goal, h: HtmlBuilder<Message>): Html => {
   const steps = Array.map(goal.outcomes, (outcome) => ({
     label: outcome,
@@ -133,28 +168,69 @@ const goalView = (model: Model, goal: Goal, h: HtmlBuilder<Message>): Html => {
       id: `goal-${goal.id}`,
       title: goal.title,
       colour: goal.colour,
-      description: goal.description,
+      description: [MarkdownEditor.readView({ value: goal.description }, h)],
       chip: Chip.view(
         { label: goal.area.label, marker: { colour: goal.area.colour } },
         h
       ),
+      actions: [
+        IconButton.view(
+          {
+            glyph: "pencil",
+            label: `Edit ${goal.title}`,
+            isQuiet: true,
+            onClick: Message.ClickedEditGoal(),
+          },
+          h
+        ),
+        IconButton.view(
+          {
+            glyph: "archive",
+            label: `Archive ${goal.title}`,
+            isQuiet: true,
+            onClick: Message.ClickedArchiveGoal(),
+          },
+          h
+        ),
+      ],
       steps,
       meta: `${done} of ${goal.outcomes.length} outcomes · ${goal.tasks.length} open tasks`,
       columns: [
         {
           label: "Outcomes",
-          body: Array.map(goal.outcomes, (outcome) =>
-            Choice.view(
-              {
-                id: `goal-${goal.id}-${slug(outcome)}`,
-                label: outcome,
-                isChecked: Array.contains(model.doneOutcomes, outcome),
-                onToggle: (isDone) =>
-                  Message.ToggledOutcome({ outcome, isDone }),
-              },
-              h
-            )
-          ),
+          body:
+            goal.hasOutcomeTools === true
+              ? [
+                  Rows.view(
+                    {
+                      label: `Outcomes of ${goal.title}`,
+                      rows: Array.map(goal.outcomes, (outcome) =>
+                        Rows.rowView(
+                          {
+                            key: outcome,
+                            body: [outcomeView(model, goal, outcome, h)],
+                            tools: [
+                              IconButton.view(
+                                {
+                                  glyph: "pencil",
+                                  label: `Rename ${outcome}`,
+                                  isQuiet: true,
+                                  onClick: Message.ClickedRenameOutcome(),
+                                },
+                                h
+                              ),
+                            ],
+                          },
+                          h
+                        )
+                      ),
+                    },
+                    h
+                  ),
+                ]
+              : Array.map(goal.outcomes, (outcome) =>
+                  outcomeView(model, goal, outcome, h)
+                ),
         },
         {
           label: "Moving it",
@@ -202,7 +278,18 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           {
             label: "Values",
             body: [
-              "Ship small things often. Protect mornings for deep work. Be the person who calls back.",
+              MarkdownEditor.view(
+                {
+                  id: "goal-values",
+                  label: "Values",
+                  isLabelHidden: true,
+                  value: model.values,
+                  onInput: (value) => Message.UpdatedValues({ value }),
+                  rows: 1,
+                  placeholder: "What the goals serve…",
+                },
+                h
+              ),
             ],
           },
           h
