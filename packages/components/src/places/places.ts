@@ -2,6 +2,8 @@ import { Button as UiButton } from "@foldkit/ui";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import { LOCALE } from "../locale/locale.ts";
+
 /** One place in Places: a link to its address (`href`), or a button that shows it in the page
  *  (`onSelect`). */
 export type Place<Message> = PlaceContent & PlaceTarget<Message>;
@@ -12,6 +14,9 @@ export type PlaceContent = Readonly<{
   id: string;
   /** The place's name, in sans: it is authored. It wraps rather than clipping. */
   label: string;
+  /** How many things wait there, right-aligned after the name, quiet. Screen readers hear it
+   *  after a pause: "Inbox, 3". */
+  count?: number;
   /** The place you are in, tinted: `aria-current="page"` on a link, `"true"` on a
    *  button, which shows the place without leaving the page. */
   isCurrent?: boolean;
@@ -39,8 +44,18 @@ const lineView = <Message>(
   place: Place<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, isCurrent = false } = place;
-  const content = [h.span([h.Class("gg-place-name")], [label])];
+  const { label, count, isCurrent = false } = place;
+  const number = count?.toLocaleString(LOCALE);
+
+  const countedName =
+    number === undefined ? [] : [h.AriaLabel(`${label}, ${number}`)];
+
+  const content = [
+    h.span([h.Class("gg-place-name")], [label]),
+    ...(number === undefined
+      ? []
+      : [h.span([h.Class("gg-place-count gg-tnum")], [number])]),
+  ];
 
   return place.href === undefined
     ? UiButton.view(
@@ -48,14 +63,22 @@ const lineView = <Message>(
           onClick: place.onSelect,
           toView: (groups) =>
             h.button(
-              [...groups.button, ...(isCurrent ? [h.AriaCurrent("true")] : [])],
+              [
+                ...groups.button,
+                ...countedName,
+                ...(isCurrent ? [h.AriaCurrent("true")] : []),
+              ],
               content
             ),
         },
         h
       )
     : h.a(
-        [h.Href(place.href), ...(isCurrent ? [h.AriaCurrent("page")] : [])],
+        [
+          h.Href(place.href),
+          ...countedName,
+          ...(isCurrent ? [h.AriaCurrent("page")] : []),
+        ],
         content
       );
 };
