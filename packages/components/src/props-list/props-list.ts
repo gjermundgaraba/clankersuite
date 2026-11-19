@@ -14,6 +14,9 @@ export type Prop = Readonly<{
 
 export type ViewConfig = Readonly<{
   items: readonly Prop[];
+  /** No rules, the labels quiet in a narrow column and the values as tall as a control: a
+   *  side pane's properties, whose values are quiet buttons that open menus. */
+  isFlat?: boolean;
 }>;
 
 const propView =
@@ -34,4 +37,8 @@ const propView =
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
-): Html => h.dl([h.Class("gg-props")], Array.map(config.items, propView(h)));
+): Html =>
+  h.dl(
+    [h.Class(config.isFlat === true ? "gg-props gg-flat" : "gg-props")],
+    Array.map(config.items, propView(h))
+  );

@@ -176,6 +176,8 @@
   --semantic-dimension-radius-surface: 12px;
   /* A checkbox's or radio's box. */
   --semantic-dimension-size-checkbox-box: 14px;
+  /* A compact row's round check. */
+  --semantic-dimension-size-checkbox-compact: 16px;
   /* The check drawn in a checked box, and the width of a mixed box's bar. */
   --semantic-dimension-size-checkbox-mark: 10px;
   /* The height of a chip: a state, a date or a count in a row's meta. */
@@ -334,6 +336,8 @@
   --semantic-dimension-space-page-inline: 40px;
   /* Above and below a row's content. */
   --semantic-dimension-space-row-block: 6px;
+  /* Beside a compact row's content; a compact list draws back by it, so its checks line up with the text beside it. */
+  --semantic-dimension-space-row-compact: 6px;
   /* Between a row's title and its context line; a row with a context line adds it above and below as well. */
   --semantic-dimension-space-row-context: 1px;
   /* Between the small parts of a row's meta and context line, and the done line's glyph and words. */

@@ -65,3 +65,29 @@
   padding: var(--semantic-dimension-space-xx-small)
     var(--semantic-dimension-space-x-small);
 }
+
+/* flat: a side pane's properties. A quiet button's words line up with plain values */
+.gg-props.gg-flat {
+  grid-template-columns: calc(
+      4 * var(--semantic-dimension-space-x-large)
+    ) minmax(0, 1fr) auto;
+  row-gap: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-props.gg-flat :is(dt, dd) {
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0;
+  border-bottom: 0;
+}
+
+.gg-props.gg-flat dt {
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-props.gg-flat dd {
+  overflow: visible;
+}
+
+.gg-props.gg-flat .gg-btn.gg-quiet {
+  margin-left: calc(-1 * var(--semantic-dimension-space-small));
+}

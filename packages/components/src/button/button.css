@@ -102,6 +102,22 @@
   }
 }
 
+.gg-btn.gg-quiet {
+  min-height: calc(
+    var(--semantic-dimension-size-control) -
+      var(--semantic-dimension-space-xx-small)
+  );
+  padding: 0 var(--semantic-dimension-space-small);
+  font-size: var(--semantic-dimension-font-size-body);
+  font-weight: var(--semantic-font-weight-regular);
+  background: none;
+  border-color: transparent;
+}
+
+.gg-btn.gg-quiet > .gg-icon {
+  color: var(--semantic-color-text-tertiary);
+}
+
 /* busy, the words keep their room unseen, so the button keeps its width, and the spinner
    turns in their place */
 .gg-btn[aria-disabled="true"][aria-busy="true"] {

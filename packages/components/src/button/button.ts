@@ -10,12 +10,15 @@ import * as KeyHint from "../key-hint/key-hint.ts";
 import type { KeyPlatform } from "../key-hint/key-label.ts";
 
 /** How a button prints. `Primary` is the one committing action. `Ghost` has no box until it is
- *  hovered, for an action beside a page's title. `Danger` is the commit inside a confirm, never
- *  at rest: a destructive action is a neutral button that opens a danger `ConfirmDialog`. */
+ *  hovered, for an action beside a page's title. `Quiet` is a value that opens a menu, as a
+ *  side pane's properties print: its words at body size and weight, no box until hovered.
+ *  `Danger` is the commit inside a confirm, never at rest: a destructive action is a neutral
+ *  button that opens a danger `ConfirmDialog`. */
 export const Variant = Schema.Literals([
   "Default",
   "Primary",
   "Ghost",
+  "Quiet",
   "Danger",
 ]);
 
@@ -33,6 +36,7 @@ const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
   Default: "gg-btn",
   Primary: "gg-btn gg-primary",
   Ghost: "gg-btn gg-ghost",
+  Quiet: "gg-btn gg-quiet",
   Danger: "gg-btn gg-danger",
 };
 
