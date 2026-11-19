@@ -4,7 +4,7 @@ import type { GlyphName } from "@gjermundgaraba/icons";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-import { LOCALE } from "../locale/locale.ts";
+import { countParts } from "../count/count.ts";
 import * as Marker from "../marker/marker.ts";
 
 /** One place in Places: a link to its address (`href`), or a button that shows it in the page
@@ -71,17 +71,12 @@ const lineView = <Message>(
   h: HtmlBuilder<Message>
 ): Html => {
   const { label, count, isCurrent = false } = place;
-  const number = count?.toLocaleString(LOCALE);
-
-  const countedName =
-    number === undefined ? [] : [h.AriaLabel(`${label}, ${number}`)];
+  const counted = countParts(label, count, h);
 
   const content = [
     ...leadView(place, h),
     h.span([h.Class("gg-place-name")], [label]),
-    ...(number === undefined
-      ? []
-      : [h.span([h.Class("gg-place-count gg-tnum")], [number])]),
+    ...counted.view,
   ];
 
   return place.href === undefined
@@ -92,7 +87,7 @@ const lineView = <Message>(
             h.button(
               [
                 ...groups.button,
-                ...countedName,
+                ...counted.name,
                 ...(isCurrent ? [h.AriaCurrent("true")] : []),
               ],
               content
@@ -103,7 +98,7 @@ const lineView = <Message>(
     : h.a(
         [
           h.Href(place.href),
-          ...countedName,
+          ...counted.name,
           ...(isCurrent ? [h.AriaCurrent("page")] : []),
         ],
         content

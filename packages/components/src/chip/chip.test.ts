@@ -89,6 +89,42 @@ describe("Chip and Mark", () => {
     );
   });
 
+  it("leads a goal chip with its dot, and says its count after a pause, as a linked one's name", () => {
+    Scene.scene(
+      {
+        update,
+        view: (_model: Model, h: HtmlBuilder<Message>) =>
+          h.div(
+            [],
+            [
+              Chip.view(
+                { label: "Ship the beta", marker: "Amber", count: 2 },
+                h
+              ),
+              Chip.view(
+                {
+                  label: "Calmer home admin",
+                  marker: "Sky",
+                  count: 1200,
+                  href: "#calmer",
+                },
+                h
+              ),
+            ]
+          ),
+      },
+      Scene.given<Model>({ isMarked: false }),
+      Scene.expect(Scene.selector(".gg-chip .gg-count")).toHaveText("2"),
+      Scene.expect(Scene.selector("span.gg-chip")).toHaveText(
+        "Ship the beta, 2"
+      ),
+      Scene.expect(Scene.selector(".gg-chip .gg-marker.gg-round")).toExist(),
+      Scene.expect(
+        Scene.role("link", { name: "Calmer home admin, 1,200" })
+      ).toHaveAttr("href", "#calmer")
+    );
+  });
+
   it("makes a mark a toggle button that says whether it is pressed", () => {
     Scene.scene(
       { update, view: rowView },
