@@ -5,9 +5,7 @@ import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { LOCALE } from "../locale/locale.ts";
-
-/** The colours an application gives its areas and goals, each a token of its own. */
-export type Marker = "Amber" | "Sky" | "Coral" | "Sand";
+import * as Marker from "../marker/marker.ts";
 
 /** One place in Places: a link to its address (`href`), or a button that shows it in the page
  *  (`onSelect`). */
@@ -21,9 +19,9 @@ export type PlaceContent<Message> = Readonly<{
   label: string;
   /** A 16px glyph before the name. */
   glyph?: GlyphName;
-  /** A small square in the place's colour before the name, for an area or a goal; a glyph
-   *  wins over it. */
-  marker?: Marker;
+  /** A Marker's square in the place's colour before the name, for an area; a glyph wins
+   *  over it. */
+  marker?: Marker.Colour;
   /** How many things wait there, right-aligned after the name, quiet. Screen readers hear it
    *  after a pause: "Inbox, 3". */
   count?: number;
@@ -66,12 +64,7 @@ const leadView = <Message>(
 
   return place.marker === undefined
     ? []
-    : [
-        h.span([
-          h.AriaHidden(true),
-          h.Class(`gg-place-marker gg-${place.marker.toLowerCase()}`),
-        ]),
-      ];
+    : [Marker.view({ colour: place.marker }, h)];
 };
 
 const lineView = <Message>(

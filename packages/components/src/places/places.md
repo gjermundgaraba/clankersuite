@@ -16,7 +16,7 @@ A place can carry a `count` of what waits there. It sits right-aligned after the
 
 ## Areas
 
-`isLabelShown` prints the label above the places as the section's heading. An area leads with a `marker`, a small square in one of the area colours (`"Amber"`, `"Sky"`, `"Coral"`, `"Sand"`), and its `subPlaces` list under it, indented to its name and smaller.
+`isLabelShown` prints the label above the places as the section's heading. An area leads with a `marker`, a [Marker](/components/marker)'s square in one of the area colours (`"Amber"`, `"Sky"`, `"Coral"`, `"Sand"`), and its `subPlaces` list under it, indented to its name and smaller.
 
 ::Example{name="areas"}
 

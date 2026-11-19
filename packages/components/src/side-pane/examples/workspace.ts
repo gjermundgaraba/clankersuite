@@ -1,3 +1,4 @@
+import type { Marker } from "@gjermundgaraba/components";
 import {
   Deck,
   Group,
@@ -143,7 +144,7 @@ export const subscriptions = Subscription.lift(Rail.subscriptions("rail"))<
 type Spot = Readonly<{
   place: Place;
   glyph?: GlyphName;
-  marker?: Places.Marker;
+  marker?: Marker.Colour;
   count?: number;
   subPlaces?: readonly Place[];
 }>;

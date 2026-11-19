@@ -1,3 +1,4 @@
+import type { Marker } from "@gjermundgaraba/components";
 import { Places } from "@gjermundgaraba/components";
 import { Array, Schema } from "effect";
 import type { Update } from "foldkit";
@@ -37,7 +38,7 @@ const placeOf = (model: Model, area: Area) => ({
 const MARKERS: ReadonlyArray<
   Readonly<{
     area: Area;
-    marker: Places.Marker;
+    marker: Marker.Colour;
     count: number;
     subAreas: readonly Area[];
   }>

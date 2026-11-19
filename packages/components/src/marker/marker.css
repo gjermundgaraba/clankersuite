@@ -1,0 +1,27 @@
+.gg-marker {
+  display: inline-block;
+  flex: none;
+  width: var(--semantic-dimension-size-marker);
+  height: var(--semantic-dimension-size-marker);
+  border-radius: var(--semantic-dimension-radius-marker);
+}
+
+.gg-marker.gg-round {
+  border-radius: var(--semantic-dimension-radius-pill);
+}
+
+.gg-marker.gg-amber {
+  background: var(--semantic-color-background-marker-amber);
+}
+
+.gg-marker.gg-sky {
+  background: var(--semantic-color-background-marker-sky);
+}
+
+.gg-marker.gg-coral {
+  background: var(--semantic-color-background-marker-coral);
+}
+
+.gg-marker.gg-sand {
+  background: var(--semantic-color-background-marker-sand);
+}
