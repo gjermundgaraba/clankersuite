@@ -35,3 +35,49 @@ describe("PropsList", () => {
     );
   });
 });
+
+type DateModel = string;
+
+const dateView = (model: DateModel, h: HtmlBuilder<string>) =>
+  PropsList.dateView(
+    {
+      id: "deadline",
+      label: "Deadline",
+      value: model,
+      shown: model === "" ? "None" : "Sat 21 Nov",
+      onChange: (value) => value,
+      toParentMessage: () => model,
+    },
+    h
+  );
+
+const resolvePicker = (model: DateModel) =>
+  Scene.Mount.resolve({ name: PropsList.BindDatePicker.name }, model);
+
+describe("PropsList date", () => {
+  it("names its button with the label and what it prints, says it opens a picker, and reports the day picked", () => {
+    Scene.scene(
+      {
+        update: (_model: DateModel, message: string) => ({ model: message }),
+        view: dateView,
+      },
+      Scene.given<DateModel>(""),
+      resolvePicker(""),
+      Scene.expect(Scene.role("button", { name: "Deadline, None" })).toHaveText(
+        "None"
+      ),
+      Scene.expect(Scene.role("button", { name: "Deadline, None" })).toHaveAttr(
+        "aria-haspopup",
+        "dialog"
+      ),
+      Scene.change(Scene.selector(".gg-prop-date input"), "2026-11-21"),
+      Scene.expect(
+        Scene.role("button", { name: "Deadline, Sat 21 Nov" })
+      ).toExist(),
+      Scene.expect(Scene.selector(".gg-prop-date input")).toHaveAttr(
+        "aria-hidden",
+        "true"
+      )
+    );
+  });
+});

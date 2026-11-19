@@ -91,3 +91,30 @@
 .gg-props.gg-flat .gg-btn.gg-quiet {
   margin-left: calc(-1 * var(--semantic-dimension-space-small));
 }
+
+/* a value edited in place: an InlineInput as tall as the quiet button it replaces, so the row
+   keeps its height, its words starting where the button's did */
+.gg-props.gg-flat input.gg-inline-input {
+  width: calc(100% + var(--semantic-dimension-space-small));
+  height: calc(
+    var(--semantic-dimension-size-control) -
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-left: calc(-1 * var(--semantic-dimension-space-small));
+  padding-inline: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-border-width-default)
+  );
+  background: none;
+}
+
+/* a date: the picker's input hidden at its button, where the picker opens */
+.gg-prop-date {
+  position: relative;
+  display: inline-flex;
+}
+
+.gg-prop-date > input {
+  bottom: 0;
+  left: 0;
+}

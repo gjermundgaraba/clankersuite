@@ -1,7 +1,7 @@
 import { Button as UiButton } from "@foldkit/ui";
 import { Glyph } from "@gjermundgaraba/icons";
 import type { GlyphName } from "@gjermundgaraba/icons";
-import { Effect, Match, Option, Schema, pipe } from "effect";
+import { Array, Effect, Match, Option, Schema, pipe } from "effect";
 import * as Command from "foldkit/command";
 import * as Dom from "foldkit/dom";
 import type { Html, HtmlBuilder } from "foldkit/html";
@@ -13,29 +13,42 @@ import * as Update from "foldkit/update";
 
 import { lookClassName } from "../button/button.ts";
 import type { Variant } from "../button/button.ts";
+import * as DatePicker from "../date-picker/date-picker.ts";
 import { Focus } from "../focus/focus.ts";
 import { isUnhandledPlainKey } from "../keys/keys.ts";
-import type { Item } from "./item.ts";
+import { Item } from "./item.ts";
 import { Edge, Message } from "./message.ts";
-import { BindSlip, edgeSelector, rowsView } from "./slip.ts";
+import {
+  BindSlip,
+  dayInputId,
+  edgeSelector,
+  entriesOf,
+  rowsView,
+} from "./slip.ts";
 
-/** Schema for a menu: its id, whether its slip is open, and which end of the slip takes
- *  focus as it opens. One Model serves one toggle: a menu on every row of a list is a Model
- *  per row, each with its own id, never one Model handed from row to row. */
+/** Schema for a menu: its id, whether its slip is open, which end of the slip takes focus as
+ *  it opens, and whether a day row's picker is out (the slip has closed, and the day row's
+ *  hidden input stays until a day is picked or the menu opens again). One Model serves one
+ *  toggle: a menu on every row of a list is a Model per row, each with its own id, never one
+ *  Model handed from row to row. */
 export const Model = Schema.Struct({
   id: Schema.String,
   isOpen: Schema.Boolean,
   edge: Edge,
+  isPickingDay: Schema.Boolean,
 });
 
 export type Model = typeof Model.Type;
 
 /** Union of OutMessages a menu reports. `Selected`: an action, a radio item or a link was
  *  chosen and the slip has closed (the browser follows a link itself). `Toggled`: a check item
- *  was chosen; the slip stays open and the parent flips the value it keeps. */
+ *  was chosen; the slip stays open and the parent flips the value it keeps. `PickedDay`: a
+ *  day item's picker gave a day, as `YYYY-MM-DD` (`""` once cleared), and focus is back on
+ *  the toggle. */
 export const OutMessage = defineMessageUnion({
   Selected: { id: Schema.String },
   Toggled: { id: Schema.String },
+  PickedDay: { id: Schema.String, value: Schema.String },
 });
 
 export type OutMessage = typeof OutMessage.Type;
@@ -48,6 +61,7 @@ export const init = (config: InitConfig): Model => ({
   id: config.id,
   isOpen: false,
   edge: "First",
+  isPickingDay: false,
 });
 
 /** The menu's id, unique in the document. */
@@ -71,7 +85,11 @@ export const FocusEdge = Command.define("FocusEdge", {
 });
 
 const opened = (model: Model, edge: Edge): Model =>
-  modifyFields(model, { isOpen: () => true, edge: () => edge });
+  modifyFields(model, {
+    isOpen: () => true,
+    edge: () => edge,
+    isPickingDay: () => false,
+  });
 
 const closed = (model: Model): Model =>
   modifyFields(model, { isOpen: () => false });
@@ -93,12 +111,25 @@ export const update = (model: Model, message: Message) =>
           ? { model, commands: [FocusEdge({ slipId: slipId(model), edge })] }
           : { model: opened(model, edge) },
       SelectedItem: ({ id: itemId, kind }) =>
-        kind === "Check"
-          ? { model, outMessage: OutMessage.Toggled({ id: itemId }) }
-          : pipe(
+        Match.value(kind).pipe(
+          Match.withReturnType<
+            Update.ReturnWithOutMessage<Model, Message, OutMessage>
+          >(),
+          Match.when("Check", () => ({
+            model,
+            outMessage: OutMessage.Toggled({ id: itemId }),
+          })),
+          Match.when("Day", () =>
+            closedWithFocus(modifyFields(model, { isPickingDay: () => true }))
+          ),
+          Match.when(Match.is("Action", "Radio", "Link"), () =>
+            pipe(
               closedWithFocus(model),
               Update.withOutMessage(OutMessage.Selected({ id: itemId }))
-            ),
+            )
+          ),
+          Match.exhaustive
+        ),
       PressedEscape: () => closedWithFocus(model),
       PressedTab: () => closedWithFocus(model),
       BlurredSlip: () => ({ model: closed(model) }),
@@ -106,6 +137,12 @@ export const update = (model: Model, message: Message) =>
       CompletedPlaceSlip: () => ({ model }),
       CompletedFocus: () => ({ model }),
       CompletedFocusEdge: () => ({ model }),
+      PickedDay: ({ id: itemId, value }) => ({
+        model: modifyFields(model, { isPickingDay: () => false }),
+        commands: [Focus({ id: toggleId(model) })],
+        outMessage: OutMessage.PickedDay({ id: itemId, value }),
+      }),
+      CompletedBindDayInput: () => ({ model }),
     }
   );
 
@@ -167,6 +204,33 @@ export type ViewInputs = Readonly<{
 
 /** How a menu's toggle prints: a button's variant, or a chip. */
 export type ToggleVariant = Exclude<Variant, "Danger"> | "Chip";
+
+/** A day row's hidden input's Mount: the same work as a PropsList date's (`bindPicker`),
+ *  named apart from `BindDatePicker` because a Scene tells Mounts apart by name and order. A
+ *  Scene resolves each by name, whatever dates are on the page:
+ *  `Scene.Mount.resolve(Menu.BindDayInput, Menu.Message.CompletedBindDayInput())`, the menu's
+ *  own Message, which the Scene lifts through the menu's submodel. */
+export const BindDayInput = Mount.define("BindDayInput", {
+  messages: [Message.CompletedBindDayInput],
+  execute: DatePicker.bindPicker(Message.CompletedBindDayInput()),
+});
+
+const dayInputsView = (
+  model: Model,
+  items: readonly Item[],
+  h: HtmlBuilder<Message>
+): readonly Html[] =>
+  Array.map(Array.filter(entriesOf(items), Item.$is("Day")), (day) =>
+    DatePicker.inputView(
+      {
+        id: dayInputId(slipId(model), day.id),
+        value: day.value,
+        onChange: (value) => Message.PickedDay({ id: day.id, value }),
+        mount: BindDayInput(),
+      },
+      h
+    )
+  );
 
 const isNamedByLabel = (viewInputs: ViewInputs): boolean =>
   viewInputs.glyph !== undefined || viewInputs.toggleContent !== undefined;
@@ -246,6 +310,9 @@ export const view = defineView<Model, Message, ViewInputs>(
       [h.Class("gg-menu-wrap")],
       [
         toggleView(model, viewInputs, h),
+        ...(model.isOpen || model.isPickingDay
+          ? dayInputsView(model, items, h)
+          : []),
         ...(model.isOpen
           ? [
               h.div(

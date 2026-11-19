@@ -18,7 +18,11 @@ const When = Schema.Literals([
 
 type When = typeof When.Type;
 
-export const Model = Schema.Struct({ menu: Menu.Model, when: When });
+export const Model = Schema.Struct({
+  menu: Menu.Model,
+  when: When,
+  day: Schema.String,
+});
 
 export type Model = typeof Model.Type;
 
@@ -29,7 +33,7 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 export const init = (): Update.Return<Model, Message> => ({
-  model: { menu: Menu.init({ id: "when-menu" }), when: "Focus" },
+  model: { menu: Menu.init({ id: "when-menu" }), when: "Focus", day: "" },
 });
 
 const whenItems = (model: Model): readonly Menu.Item[] => {
@@ -38,7 +42,7 @@ const whenItems = (model: Model): readonly Menu.Item[] => {
       id,
       label: id,
       glyph,
-      isChecked: model.when === id,
+      isChecked: model.day === "" && model.when === id,
       ...(hint === undefined ? {} : { hint }),
     });
 
@@ -48,6 +52,12 @@ const whenItems = (model: Model): readonly Menu.Item[] => {
     choice("Tomorrow", "sun", "Thu 19 Nov"),
     choice("This weekend", "calendar", "Sat 21 Nov"),
     choice("Next week", "calendar", "Mon 23 Nov"),
+    Menu.day({
+      id: "pick-day",
+      label: "Pick a day…",
+      glyph: "calendar",
+      value: model.day,
+    }),
     Menu.separator("later"),
     choice("Anytime", "layers"),
     choice("Someday", "archive"),
@@ -67,9 +77,14 @@ const foldMenu = Update.foldChild({
     Selected:
       ({ id }) =>
       (model) => ({
-        model: isWhen(id) ? modifyFields(model, { when: () => id }) : model,
+        model: isWhen(id)
+          ? modifyFields(model, { when: () => id, day: () => "" })
+          : model,
       }),
     Toggled: () => (model) => ({ model }),
+    PickedDay:
+      ({ value }) =>
+      (model) => ({ model: modifyFields(model, { day: () => value }) }),
   }),
 });
 
@@ -89,7 +104,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           viewInputs: { label: "When", items: whenItems(model) },
           toParentMessage: (message) => Message.GotMenuMessage({ message }),
         }),
-        h.span([], [model.when]),
+        h.span([], [model.day === "" ? model.when : model.day]),
       ],
     },
     h

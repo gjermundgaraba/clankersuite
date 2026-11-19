@@ -124,6 +124,7 @@ const foldArea = Update.foldChild({
       ({ id }) =>
       (model) => ({ model: modifyFields(model, { area: () => id }) }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -139,6 +140,7 @@ const foldGoal = Update.foldChild({
       ({ id }) =>
       (model) => ({ model: modifyFields(model, { goal: () => id }) }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 

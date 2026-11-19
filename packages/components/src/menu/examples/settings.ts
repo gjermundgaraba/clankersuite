@@ -73,6 +73,7 @@ const foldSettings = Update.foldChild({
     Toggled: () => (model) => ({
       model: modifyFields(model, { isDense: (isDense) => !isDense }),
     }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
