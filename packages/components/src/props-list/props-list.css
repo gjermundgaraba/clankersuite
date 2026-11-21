@@ -1,0 +1,120 @@
+.gg-props {
+  display: grid;
+  grid-template-columns: max-content minmax(0, max-content) minmax(
+      max-content,
+      1fr
+    );
+  align-items: stretch;
+}
+
+.gg-props > div {
+  display: contents;
+}
+
+.gg-props dt,
+.gg-props dd {
+  padding: var(--semantic-dimension-space-small) 0;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  min-height: var(--semantic-dimension-size-row);
+  display: flex;
+  align-items: center;
+}
+
+.gg-props dt {
+  padding-right: var(--semantic-dimension-space-large);
+}
+
+.gg-props dd.gg-acts {
+  padding-left: var(--semantic-dimension-space-large);
+}
+
+.gg-props > div:last-child dt,
+.gg-props > div:last-child dd {
+  border-bottom: 0;
+}
+
+.gg-props dt {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-props dd {
+  min-width: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .gg-props {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .gg-props dt {
+    grid-column: 1 / -1;
+    min-height: 0;
+    padding: var(--semantic-dimension-space-small) 0 0;
+    border-bottom: 0;
+  }
+}
+
+.gg-props dd code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--semantic-color-background-head);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-x-small);
+}
+
+/* flat: a side pane's properties. A quiet button's words line up with plain values */
+.gg-props.gg-flat {
+  grid-template-columns: calc(
+      4 * var(--semantic-dimension-space-x-large)
+    ) minmax(0, 1fr) auto;
+  row-gap: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-props.gg-flat :is(dt, dd) {
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0;
+  border-bottom: 0;
+}
+
+.gg-props.gg-flat dt {
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-props.gg-flat dd {
+  overflow: visible;
+}
+
+.gg-props.gg-flat .gg-btn.gg-quiet {
+  margin-left: calc(-1 * var(--semantic-dimension-space-small));
+}
+
+/* a value edited in place: an InlineInput as tall as the quiet button it replaces, so the row
+   keeps its height, its words starting where the button's did */
+.gg-props.gg-flat input.gg-inline-input {
+  width: calc(100% + var(--semantic-dimension-space-small));
+  height: calc(
+    var(--semantic-dimension-size-control) -
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-left: calc(-1 * var(--semantic-dimension-space-small));
+  padding-inline: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-border-width-default)
+  );
+  background: none;
+}
+
+/* a date: the picker's input hidden at its button, where the picker opens */
+.gg-prop-date {
+  position: relative;
+  display: inline-flex;
+}
+
+.gg-prop-date > input {
+  bottom: 0;
+  left: 0;
+}

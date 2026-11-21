@@ -37,10 +37,11 @@ describe("Meter", () => {
       Scene.expect(meter).toHaveAttr("aria-valuemin", "0"),
       Scene.expect(meter).toHaveAttr("aria-valuemax", "50000"),
       Scene.expect(meter).toHaveAttr("aria-valuetext", "41,200 / 50,000"),
-      Scene.expectAll(
-        Scene.all.selector(".gg-cells .gg-cell.gg-on")
-      ).toHaveCount(16),
       Scene.expect(Scene.selector(".gg-mark.gg-reading")).toHaveText("82%"),
+      Scene.expect(Scene.selector(".gg-meter-fill")).toHaveStyle(
+        "width",
+        "82%"
+      ),
       Scene.expect(Scene.selector(".gg-meter-foot")).toHaveText(
         "Resets in 4 days"
       ),
@@ -80,7 +81,7 @@ describe("Meter", () => {
     );
   });
 
-  it("never prints 100% or every cell below the maximum", () => {
+  it("never prints 100% below the maximum", () => {
     Scene.scene(
       staticScene((h) =>
         Meter.listView(
@@ -93,9 +94,6 @@ describe("Meter", () => {
         )
       ),
       Scene.given(null),
-      Scene.expectAll(
-        Scene.all.selector(".gg-cells .gg-cell.gg-on")
-      ).toHaveCount(19),
       Scene.expect(Scene.selector(".gg-mark.gg-reading")).toHaveText("99%"),
       Scene.expect(Scene.selector(".gg-chip.gg-blocked")).toBeAbsent(),
       Scene.expect(meter).toExist()
@@ -131,7 +129,7 @@ describe("Meter", () => {
     );
   });
 
-  it("tones the cells of a toned meter by its level, and only those", () => {
+  it("tones the fill of a toned meter by its level, and only those", () => {
     Scene.scene(
       staticScene((h) =>
         Meter.listView(

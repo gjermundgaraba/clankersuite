@@ -1,0 +1,112 @@
+.gg-panel > .gg-tabbed > .gg-nav.gg-tabs {
+  margin: var(--semantic-dimension-space-inset)
+    var(--semantic-dimension-space-inset) 0;
+}
+
+.gg-panel,
+.gg-sheet {
+  background: var(--semantic-color-background-surface);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  min-width: 0;
+}
+
+.gg-panel-tb {
+  display: flex;
+  align-items: baseline;
+  gap: var(--semantic-dimension-space-small);
+  min-height: var(--semantic-dimension-size-row);
+  padding: calc(
+      (
+          var(--semantic-dimension-size-row) - 1lh -
+            var(--semantic-dimension-border-width-default)
+        ) /
+        2
+    )
+    var(--semantic-dimension-space-medium);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-panel-tb h2 {
+  font-size: var(--semantic-dimension-font-size-body);
+  font-weight: var(--semantic-font-weight-medium);
+}
+
+.gg-panel-tb .gg-meta {
+  margin-left: auto;
+}
+
+.gg-panel-body {
+  padding: var(--semantic-dimension-space-inset);
+  display: grid;
+  gap: var(--semantic-dimension-space-large);
+}
+
+.gg-panel-body > * {
+  min-width: 0;
+}
+
+.gg-panel-foot {
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  flex-wrap: wrap;
+}
+
+.gg-panel-foot .gg-push {
+  margin-left: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+}
+
+.gg-panel-foot > .gg-notice {
+  flex: 1 1 100%;
+}
+
+.gg-panel-shelf {
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-medium);
+  background: var(--semantic-color-background-head);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-panel-tb:has(> :is(.gg-panel-lead, .gg-panel-acts)) {
+  align-items: center;
+  padding-block: 0;
+}
+
+.gg-panel-tb:has(> .gg-panel-lead) {
+  padding-left: var(--semantic-dimension-space-x-small);
+}
+
+.gg-panel-tb:has(> .gg-panel-acts) {
+  padding-right: var(--semantic-dimension-space-x-small);
+}
+
+.gg-panel-tb:has(> :is(.gg-panel-lead, .gg-panel-acts)) h2 {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gg-panel-lead,
+.gg-panel-acts {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  flex: none;
+}
+
+.gg-panel-tb:has(> .gg-panel-acts) > .gg-meta {
+  margin-left: 0;
+}

@@ -42,7 +42,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         Choice.view(
           {
             id: "fieldset-notify-mailed",
-            label: "by mail",
+            label: "By mail",
             isChecked: model.isMailed,
             onToggle: (isChecked) => Message.ToggledMailed({ isChecked }),
           },
@@ -51,7 +51,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         Choice.view(
           {
             id: "fieldset-notify-daily",
-            label: "daily digest",
+            label: "Daily digest",
             note: "One message a day, at nine.",
             isChecked: model.isDaily,
             onToggle: (isChecked) => Message.ToggledDaily({ isChecked }),

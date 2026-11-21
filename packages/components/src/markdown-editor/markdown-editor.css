@@ -1,0 +1,75 @@
+gg-markdown-editor {
+  display: block;
+  position: relative;
+}
+
+gg-markdown-editor:has(.gg-markdown-surface) textarea {
+  position: absolute;
+  width: var(--semantic-dimension-border-width-default);
+  height: var(--semantic-dimension-border-width-default);
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  clip-path: inset(50%);
+  resize: none;
+  /* 1px wide, a wrapped value puts each word on its own line and every keystroke's write
+     lays them all out again */
+  white-space: pre;
+  content-visibility: hidden;
+}
+
+.gg-markdown-surface {
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  padding-bottom: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-markdown-surface .cm-scroller {
+  min-height: max(
+    var(--semantic-dimension-size-min-height-textarea),
+    calc(var(--gg-rows) * 1lh)
+  );
+}
+
+.gg-markdown-surface .cm-placeholder {
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* an editor whose label is hidden sits where its place names it, a side pane's notes or the
+   values quote: as tall as its rows, its rule showing only while it has focus */
+.gg-field:has(> label.sr-only) .gg-markdown-surface .cm-scroller {
+  min-height: calc(var(--gg-rows) * 1lh);
+}
+
+.gg-field:has(> label.sr-only) .gg-markdown-surface:not(:focus-within) {
+  border-bottom-color: transparent;
+}
+
+.gg-markdown-surface:focus-within {
+  border-bottom: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
+  padding-bottom: 0;
+}
+
+.gg-field:has([aria-invalid="true"]) .gg-markdown-surface {
+  border-bottom-color: var(--semantic-color-border-negative);
+}
+
+gg-markdown-editor:disabled .gg-markdown-surface {
+  border-bottom-color: transparent;
+}
+
+gg-markdown-editor:disabled .cm-content {
+  color: var(--semantic-color-text-secondary);
+}
+
+gg-markdown-editor > .gg-prose > p {
+  white-space: pre-wrap;
+}
+
+gg-markdown-editor:has(> .gg-markdown-read) > .gg-prose {
+  display: none;
+}

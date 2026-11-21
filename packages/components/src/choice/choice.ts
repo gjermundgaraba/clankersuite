@@ -5,7 +5,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the name's and the note's ids are made from it. */
   id: string;
-  /** The choice's name, in pixel caps. A click on it toggles the box. */
+  /** The choice's name. A click on it toggles the box. */
   label: string;
   /** A sans sentence under the name; it describes the box. */
   note?: string;
@@ -13,7 +13,7 @@ export type ViewConfig<Message> = Readonly<{
   onToggle: (isChecked: boolean) => Message;
 }>;
 
-/** A checkbox with a pixel-caps name and an optional note, built on `@foldkit/ui`'s
+/** A checkbox with a name and an optional note, built on `@foldkit/ui`'s
  *  Checkbox: a `role="checkbox"` box (`aria-checked`) named by its name, described by its note
  *  (`aria-describedby`). Space and a click on the box or the name toggle it. */
 export const view = <Message>(

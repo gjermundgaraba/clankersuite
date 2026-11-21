@@ -1,0 +1,78 @@
+.gg-nav {
+  display: flex;
+  gap: 0;
+  width: fit-content;
+  min-height: var(--semantic-dimension-size-control);
+  max-width: 100%;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+}
+
+.gg-nav a,
+.gg-nav button {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* the end items round inside the strip's border, so their grounds keep its corners; clipping
+   the strip instead would clip their focus rings */
+.gg-nav > :first-child {
+  border-start-start-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-default)
+  );
+  border-end-start-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-default)
+  );
+}
+
+.gg-nav > :last-child {
+  border-start-end-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-default)
+  );
+  border-end-end-radius: calc(
+    var(--semantic-dimension-radius-control) -
+      var(--semantic-dimension-border-width-default)
+  );
+}
+
+.gg-nav > :is(a, button) + :is(a, button) {
+  border-left: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+}
+
+.gg-nav [aria-current="page"],
+.gg-nav [aria-selected="true"],
+.gg-nav [aria-pressed="true"] {
+  background: var(--semantic-color-background-selected);
+}
+
+.gg-nav .gg-navnum {
+  display: inline-block;
+  margin-left: var(--semantic-dimension-space-small);
+  padding: 0 var(--semantic-dimension-space-x-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  background: var(--semantic-color-background-head);
+  color: var(--semantic-color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .gg-nav a,
+  .gg-nav button {
+    padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
+    font-size: var(--semantic-dimension-font-size-label);
+  }
+}

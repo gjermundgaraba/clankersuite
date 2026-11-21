@@ -1,0 +1,24 @@
+/* a square, which a pair of letters wider than it widens rather than spills from or wraps in */
+.gg-monogram {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  min-width: var(--semantic-dimension-size-monogram-default);
+  height: var(--semantic-dimension-size-monogram-default);
+  padding-inline: var(--semantic-dimension-space-xx-small);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  font-size: var(--semantic-dimension-font-size-label);
+  line-height: var(--semantic-number-line-height-none);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.gg-monogram.gg-large {
+  min-width: var(--semantic-dimension-size-monogram-large);
+  height: var(--semantic-dimension-size-monogram-large);
+  font-size: var(--semantic-dimension-font-size-body);
+}

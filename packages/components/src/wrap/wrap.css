@@ -1,0 +1,7 @@
+.gg-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  min-width: 0;
+}

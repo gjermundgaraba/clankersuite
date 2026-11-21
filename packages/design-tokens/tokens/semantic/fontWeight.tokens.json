@@ -1,0 +1,21 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic fontWeight tokens.",
+  "semantic": {
+    "fontWeight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 420,
+        "$description": "Body text, and where a rule sets text back from a heavier default."
+      },
+      "medium": {
+        "$value": 540,
+        "$description": "Buttons, places, labels, group and table heads, names."
+      },
+      "bold": {
+        "$value": 650,
+        "$description": "Titles: a page's, a card's, a sheet's; headings in long-form reading; bold in code and Markdown."
+      }
+    }
+  }
+}

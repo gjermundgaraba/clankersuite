@@ -66,7 +66,12 @@ const COMMANDS: readonly Command[] = [
     isDisabled: true,
     reason: "Saving…",
   },
-  { id: "keys", label: "Keyboard shortcuts", group: "Anywhere", hint: "?" },
+  {
+    id: "keys",
+    label: "Keyboard shortcuts",
+    group: "Anywhere",
+    keyHint: { keys: "Shift+?", platform: "Other" },
+  },
   {
     id: "note",
     label: "Renew the certificate",
@@ -1090,7 +1095,7 @@ const render = async (
   commands: readonly Command[] = COMMANDS
 ): Promise<HTMLElement> => {
   await renderOnPage(model, (current, h: HtmlBuilder<Message>) =>
-    CommandPalette.view(current, { commands }, h)
+    CommandPalette.view(current, { commands, platform: "Other" }, h)
   );
 
   return bySelector(".gg-card.gg-palette");
@@ -1475,6 +1480,7 @@ const paletteView =
       {
         commands: COMMANDS,
         scope: "Renew the certificate",
+        platform: "Other",
         noun: "item",
         ...viewInputs,
       },
@@ -1529,7 +1535,9 @@ describe("CommandPalette view", () => {
       Scene.given(opened),
       ...mountPalette,
       Scene.expect(Scene.role("dialog", { name: "Commands" })).toExist(),
-      Scene.expect(field).toHaveAttr("aria-label", "Command or item"),
+      Scene.expect(
+        Scene.role("combobox", { name: "Command or item" })
+      ).toExist(),
       Scene.expect(field).toHaveAttr("aria-expanded", "true"),
       Scene.expect(field).toHaveAttr("aria-controls", "palette-list"),
       Scene.expect(field).toHaveAttr(
@@ -1549,6 +1557,26 @@ describe("CommandPalette view", () => {
         Scene.selector(".gg-palette-row .gg-glyph.gg-opens")
       ).toExist(),
       Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText("")
+    );
+  });
+
+  it("prints a row's key as a keycap outside its name, and the keys that drive it in the foot", () => {
+    Scene.scene(
+      {
+        update: CommandPalette.update,
+        view: paletteView({ platform: "Apple" }),
+      },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(
+        Scene.role("option", { name: "Keyboard shortcuts" })
+      ).toExist(),
+      Scene.expect(
+        Scene.selector('[data-gg-palette-value="keys"] kbd')
+      ).toHaveText("?"),
+      Scene.expect(Scene.selector(".gg-card-actions")).toHaveText(
+        "↑↓ move↵ runEsc close"
+      )
     );
   });
 
@@ -1657,6 +1685,27 @@ describe("CommandPalette view", () => {
     );
   });
 
+  it("prints the placeholder its noun makes, or the sentence given in its place", () => {
+    Scene.scene(
+      { update: CommandPalette.update, view: paletteView({ noun: "title" }) },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(field).toHaveAttr("placeholder", "Type a command or a title")
+    );
+
+    Scene.scene(
+      {
+        update: CommandPalette.update,
+        view: paletteView({ placeholder: "Add a task, or type a command…" }),
+      },
+      Scene.given(opened),
+      ...mountPalette,
+      Scene.expect(
+        Scene.role("combobox", { name: "Command or item" })
+      ).toHaveAttr("placeholder", "Add a task, or type a command…")
+    );
+  });
+
   it("opens a page with Back, the scope and its title, the current choice tagged and held", () => {
     Scene.scene(
       { update: CommandPalette.update, view: paletteView() },
@@ -1667,13 +1716,13 @@ describe("CommandPalette view", () => {
       ...down,
       Scene.expect(Scene.role("button", { name: "Back" })).toExist(),
       Scene.expect(Scene.selector(".gg-palette-title")).toHaveText("Status"),
-      Scene.expect(field).toHaveAttr("aria-label", "Status"),
-      Scene.expect(field).toHaveAttr("placeholder", "type to narrow"),
+      Scene.expect(Scene.role("combobox", { name: "Status" })).toExist(),
+      Scene.expect(field).toHaveAttr("placeholder", "Type to narrow"),
       Scene.expect(rowOf("In progress")).toHaveAttr("aria-selected", "true"),
       Scene.expect(rowOf("To do")).toHaveAttr("aria-disabled", "true"),
       Scene.expect(
         Scene.selector('[data-gg-palette-value="todo"] .gg-tag')
-      ).toHaveText("current"),
+      ).toHaveText("Current"),
       Scene.click(rowOf("Done")),
       Scene.expectOutMessage(
         CommandPalette.OutMessage.SelectedChoice({
@@ -1685,9 +1734,6 @@ describe("CommandPalette view", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(
-        Scene.selector('[data-gg-palette-value="done"] .gg-cursor')
-      ).toExist(),
       Scene.expect(field).toHaveAttr("readOnly", "true"),
       Scene.expect(Scene.role("button", { name: "Back" })).toHaveAttr(
         "aria-disabled",
@@ -1769,7 +1815,7 @@ describe("CommandPalette view", () => {
       Scene.given(nothingFound),
       ...mountPalette,
       Scene.expect(Scene.selector(".gg-palette-list")).toContainText(
-        "nothing matches"
+        "Nothing matches"
       ),
       Scene.expect(Scene.selector('.gg-palette [role="status"]')).toHaveText(
         "Nothing matches."

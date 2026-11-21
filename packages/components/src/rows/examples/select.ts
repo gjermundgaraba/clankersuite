@@ -53,7 +53,7 @@ const itemRow = (model: Model, item: Item, h: HtmlBuilder<Message>): Html =>
       },
       glyph: Rows.glyphView({ name: "ring" }, h),
       body: [item.title],
-      slot: [item.isDone ? "done" : "open"],
+      slot: [item.isDone ? "Done" : "Open"],
     },
     h
   );

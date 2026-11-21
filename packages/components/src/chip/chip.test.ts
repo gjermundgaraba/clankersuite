@@ -54,10 +54,6 @@ describe("Chip and Mark", () => {
         "aria-busy",
         "true"
       ),
-      Scene.expect(Scene.selector(".gg-chip .gg-cursor")).toHaveAttr(
-        "aria-hidden",
-        "true"
-      ),
       Scene.expect(Scene.selector(".gg-chip.gg-go")).not.toHaveAttr(
         "aria-busy"
       ),
@@ -90,6 +86,46 @@ describe("Chip and Mark", () => {
         "class",
         "gg-chip-dot"
       )
+    );
+  });
+
+  it("leads a goal chip with its dot, and says its count after a pause, as a linked one's name", () => {
+    Scene.scene(
+      {
+        update,
+        view: (_model: Model, h: HtmlBuilder<Message>) =>
+          h.div(
+            [],
+            [
+              Chip.view(
+                {
+                  label: "Ship the beta",
+                  marker: { colour: "Amber", kind: "Goal" },
+                  count: 2,
+                },
+                h
+              ),
+              Chip.view(
+                {
+                  label: "Calmer home admin",
+                  marker: { colour: "Sky", kind: "Goal" },
+                  count: 1200,
+                  href: "#calmer",
+                },
+                h
+              ),
+            ]
+          ),
+      },
+      Scene.given<Model>({ isMarked: false }),
+      Scene.expect(Scene.selector(".gg-chip .gg-count")).toHaveText("2"),
+      Scene.expect(Scene.selector("span.gg-chip")).toHaveText(
+        "Ship the beta, 2"
+      ),
+      Scene.expect(Scene.selector(".gg-chip .gg-marker.gg-round")).toExist(),
+      Scene.expect(
+        Scene.role("link", { name: "Calmer home admin, 1,200" })
+      ).toHaveAttr("href", "#calmer")
     );
   });
 

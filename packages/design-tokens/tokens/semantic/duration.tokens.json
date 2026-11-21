@@ -1,0 +1,51 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic duration tokens.",
+  "semantic": {
+    "duration": {
+      "$type": "duration",
+      "flash": {
+        "$value": {
+          "value": 0.7,
+          "unit": "s"
+        },
+        "$description": "The tint flash that signals a change."
+      },
+      "spin": {
+        "$value": {
+          "value": 0.7,
+          "unit": "s"
+        },
+        "$description": "One turn of the spinner a busy button, chip, loading line, link state or palette row prints."
+      },
+      "card": {
+        "$value": {
+          "value": 0.14,
+          "unit": "s"
+        },
+        "$description": "A card or toast easing in."
+      },
+      "veil": {
+        "$value": {
+          "value": 0.12,
+          "unit": "s"
+        },
+        "$description": "The veil easing in behind a dialog."
+      },
+      "pop": {
+        "$value": {
+          "value": 0.22,
+          "unit": "s"
+        },
+        "$description": "A row's check popping as it is checked."
+      },
+      "press": {
+        "$value": {
+          "value": 0.12,
+          "unit": "s"
+        },
+        "$description": "A button or a decision tile shrinking as it is pressed."
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ category: navigation
 
 # Toc
 
-A page's headings as plain links in a `<nav>` named "On this page", beside an authored page. One ink cell marks the heading being read, which is also `aria-current`. Scroll this page and the mark follows the headings under the contents.
+A page's headings as plain links in a `<nav>` named "On this page", beside an authored page. The heading being read prints in primary text, the others in secondary, and is `aria-current`. Scroll this page and the current heading follows.
 
 ::Example{name="reading-position"}
 

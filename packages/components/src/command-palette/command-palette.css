@@ -1,0 +1,128 @@
+/* a row is a control's height and a step more; the list shows ten of them */
+.gg-palette {
+  --gg-palette-option: calc(
+    var(--semantic-dimension-size-control) +
+      var(--semantic-dimension-space-small)
+  );
+}
+
+.gg-palette-scope {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-title {
+  font-size: var(--semantic-dimension-font-size-label);
+  flex: none;
+}
+
+.gg-palette-list {
+  overflow-y: auto;
+  padding: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  max-height: min(50vh, 10 * var(--gg-palette-option));
+}
+
+.gg-palette-group {
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-x-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-palette-row {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  width: 100%;
+  min-height: var(--gg-palette-option);
+  padding: 0 var(--semantic-dimension-space-medium) 0
+    calc(
+      var(--semantic-dimension-space-medium) +
+        min(
+          (var(--gg-palette-level, 1) - 1) *
+            var(--semantic-dimension-space-x-large),
+          33%
+        )
+    );
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-body);
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: var(--semantic-dimension-radius-row);
+  color: inherit;
+  text-align: left;
+}
+
+.gg-palette-row[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}
+
+.gg-palette-row[aria-selected="true"] {
+  background: var(--semantic-color-background-selected);
+}
+
+@media (hover: hover) {
+  .gg-palette-row:hover:not([aria-selected="true"]) {
+    background-color: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-palette-row.gg-context {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-palette-row .gg-hint {
+  margin-left: auto;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 50%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-label {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.gg-palette-row:not(:has(.gg-hint)) > .gg-key-hint {
+  margin-left: auto;
+}
+
+.gg-palette-row .gg-glyph {
+  display: inline-flex;
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-palette-row:has(.gg-hint) .gg-glyph.gg-opens {
+  margin-left: calc(-1 * var(--semantic-dimension-space-x-small));
+}
+
+.gg-palette-row:not(:has(.gg-hint)) .gg-glyph.gg-opens {
+  margin-left: auto;
+}
+
+.gg-palette-detail {
+  display: grid;
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-sheet) 0;
+}

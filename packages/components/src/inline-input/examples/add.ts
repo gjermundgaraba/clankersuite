@@ -149,7 +149,7 @@ const addingView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
               viewInputs: {
                 value: "",
                 label: "New item",
-                placeholder: "an item, then enter",
+                placeholder: "An item, then enter",
               },
               toParentMessage: (message) =>
                 Message.GotAddingMessage({ message }),
@@ -183,7 +183,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             body: [
               Button.view(
                 {
-                  label: "add item",
+                  label: "Add item",
                   glyph: "plus",
                   isSmall: true,
                   onClick: Message.ClickedAdd(),

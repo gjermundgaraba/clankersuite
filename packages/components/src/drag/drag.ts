@@ -233,8 +233,8 @@ export const liftAt = (
     })
   );
 
-/** The lifted copy's width and offset, as the custom properties its rule reads. Without them
- *  (a copy with no press) the rule falls back to the token width at the pointer. */
+/** The lifted copy's width and offset, as the custom properties its rule reads. Every lifted
+ *  copy has a press, so its rule reads the width with no fallback. */
 export const liftStyle = (lift: Lift) => ({
   "--gg-lift-width": `${lift.width}px`,
   "--gg-lift-x": `${lift.offsetX}px`,

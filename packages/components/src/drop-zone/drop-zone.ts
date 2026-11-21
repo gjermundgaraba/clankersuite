@@ -69,7 +69,7 @@ export const update = (model: Model, message: Message) =>
 
 /** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
-  /** Pixel caps: `"Drop files here"`. */
+  /** `"Drop files here"`. */
   title: string;
   /** One sentence: what happens to what is dropped. Markup here carries no handlers: a
    *  Submodel's viewInputs may hold functions only at the top level. */
@@ -81,10 +81,10 @@ export type ViewInputs = Readonly<{
 }>;
 
 /**
- * A dashed box that goes solid and tinted while a file hovers it, with a button to choose
- * files for those who cannot drag, built on `@foldkit/ui`'s FileDrop: a glyph box, the title
- * and a sentence, and a small button that is the label of a visually hidden file input, so
- * the button's word is the input's name.
+ * A dashed box that goes solid in the accent and tinted while a file hovers it, with a button
+ * to choose files for those who cannot drag, built on `@foldkit/ui`'s FileDrop: a glyph, the
+ * title and a sentence, and a small button that is the label of a visually hidden file input,
+ * so the button's word is the input's name.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {
@@ -102,7 +102,7 @@ export const view = defineView<Model, Message, ViewInputs>(
           ...toStatusView(),
           h.label(
             [h.Class("gg-btn gg-small")],
-            ["choose files", h.input(groups.input)]
+            ["Choose files", h.input(groups.input)]
           ),
         ]
       );

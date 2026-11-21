@@ -1,4 +1,4 @@
-import { Effect, Option } from "effect";
+import { Option } from "effect";
 import { Scene, Story } from "foldkit";
 import type { HtmlBuilder } from "foldkit/html";
 import { describe, expect, it } from "vite-plus/test";
@@ -6,7 +6,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { byId } from "../test/fixture.ts";
 import * as Rail from "./rail.ts";
 
-import STYLESHEET from "../components.css?raw";
+import STYLESHEET from "./rail.css?raw";
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const fresh = Rail.init({ id: "collections" });
@@ -33,36 +33,24 @@ describe("Rail update", () => {
   });
 });
 
-const railViewWith =
-  (maybeWidth: Option.Option<number>, isHidden: boolean) =>
+const railViewAt =
+  (maybeWidth: Option.Option<number>) =>
   (model: Rail.Model, h: HtmlBuilder<Rail.Message>) =>
     Rail.view(
       model,
       {
         label: "collections",
         maybeWidth,
-        isHidden,
-        maybeToggleKeyHint: Option.some({ keys: "Mod+B", platform: "Apple" }),
-        toAsideView: (toggle) => [
-          h.section(
-            [h.Class("gg-panel")],
-            [
-              h.header(
-                [h.Class("gg-panel-tb")],
-                [h.span([h.Class("gg-panel-lead")], [toggle])]
-              ),
-              h.a([h.Href("#inbox")], ["Inbox"]),
-            ]
-          ),
-        ],
+        toAsideView: () => ({
+          head: [h.span([], ["ledger"])],
+          body: [h.nav([], [h.a([h.Href("#inbox")], ["Inbox"])])],
+          foot: [h.span([], ["Synced"])],
+        }),
         toDeckView: (openButton) =>
           h.div([h.Class("gg-deck")], [openButton, h.p([], ["the deck"])]),
       },
       h
     );
-
-const railViewAt = (maybeWidth: Option.Option<number>) =>
-  railViewWith(maybeWidth, false);
 
 const railView = railViewAt(Option.none());
 
@@ -171,7 +159,7 @@ describe("Rail splitter", () => {
 });
 
 describe("Rail view", () => {
-  it("is one aside named by its label, a popover, beside the deck its button opens", () => {
+  it("is one aside named by its label, a popover holding its head, body and foot, beside the deck its button opens", () => {
     Scene.scene(
       { update: Rail.update, view: railView },
       Scene.given(fresh),
@@ -182,9 +170,9 @@ describe("Rail view", () => {
       Scene.expect(
         Scene.role("complementary", { name: "collections" })
       ).toHaveClass("gg-rail"),
-      Scene.expect(
-        Scene.selector(".gg-rail .gg-rail-head .gg-label")
-      ).toHaveText("collections"),
+      Scene.expect(Scene.selector(".gg-rail-head")).toHaveText("ledger"),
+      Scene.expect(Scene.selector(".gg-rail-body")).toHaveText("Inbox"),
+      Scene.expect(Scene.selector(".gg-rail-foot")).toHaveText("Synced"),
       Scene.expect(openButton).toHaveAttr("aria-expanded", "false"),
       Scene.expect(openButton).toHaveAttr("aria-controls", "collections"),
       Scene.expect(
@@ -193,6 +181,36 @@ describe("Rail view", () => {
       Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
       Scene.Command.expectNone(),
       Scene.expect(openButton).toHaveAttr("aria-expanded", "false")
+    );
+  });
+
+  it("holds the side pane it is given in the page beside it", () => {
+    Scene.scene(
+      {
+        update: Rail.update,
+        view: (model: Rail.Model, h: HtmlBuilder<Rail.Message>) =>
+          Rail.view(
+            model,
+            {
+              label: "collections",
+              maybeWidth: Option.none(),
+              toAsideView: () => ({ body: [] }),
+              toDeckView: (button) => h.div([h.Class("gg-deck")], [button]),
+              toPaneView: () =>
+                h.aside(
+                  [h.Class("gg-side-pane"), h.AriaLabel("Task details")],
+                  []
+                ),
+            },
+            h
+          ),
+      },
+      Scene.given(fresh),
+      Scene.expect(
+        Scene.role("complementary", { name: "Task details" })
+      ).toExist(),
+      Scene.expect(Scene.selector(".gg-railed .gg-side-pane")).toExist(),
+      Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer())
     );
   });
 
@@ -248,140 +266,11 @@ describe("Rail view", () => {
   });
 });
 
-const resolveFocusToggle = Scene.Command.resolve(
-  Rail.FocusRailToggle({
-    railId: "collections",
-    toggleId: "collections-toggle",
-  }),
-  Rail.Message.CompletedFocusRailToggle()
-);
-
-describe("Rail toggle", () => {
-  const hideButton = Scene.role("button", { name: "Hide collections" });
-  const showButton = Scene.role("button", { name: "Show collections" });
-
-  it("asks the parent to fold the rail, and moves focus in the rail to the toggle", () => {
-    Story.story(
-      Rail.update,
-      Story.given(fresh),
-      Story.message(Rail.Message.ClickedToggle()),
-      Story.expectOutMessage(Rail.OutMessage.ToggledRail()),
-      Story.Command.resolve(
-        Rail.FocusRailToggle({
-          railId: "collections",
-          toggleId: "collections-toggle",
-        }),
-        Rail.Message.CompletedFocusRailToggle()
-      ),
-      Story.model((model) => {
-        expect(model).toStrictEqual(fresh);
-      })
-    );
-  });
-
-  it("moves focus to the toggle for a key of the parent's, asking nothing", () => {
-    const toggle = Rail.toggle(fresh);
-
-    expect(toggle.model).toStrictEqual(fresh);
-    expect(toggle.commands?.map(({ name }) => name)).toStrictEqual([
-      Rail.FocusRailToggle.name,
-    ]);
-  });
-
-  it("hands the panels a toggle that names what it does, with the parent's key", () => {
-    Scene.scene(
-      { update: Rail.update, view: railView },
-      Scene.given(fresh),
-      Scene.expect(
-        Scene.selector(
-          ".gg-panel-lead .gg-rail-toggle button.gg-iconbtn.gg-quiet"
-        )
-      ).toExist(),
-      Scene.expect(hideButton).toHaveId("collections-toggle"),
-      Scene.expect(hideButton).toHaveAttr("aria-expanded", "true"),
-      Scene.expect(hideButton).toHaveAttr("aria-controls", "collections"),
-      Scene.expect(hideButton).toHaveAttr("data-gg-tip-key", "⌘B"),
-      Scene.expect(Scene.selector(".gg-railed")).not.toHaveClass("gg-folded"),
-      Scene.expect(Scene.role("separator")).toExist(),
-      Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
-      Scene.click(hideButton),
-      Scene.expectOutMessage(Rail.OutMessage.ToggledRail()),
-      resolveFocusToggle
-    );
-  });
-
-  it("folds while hidden: the toggle shows it again, the splitter and the width are gone", () => {
-    Scene.scene(
-      { update: Rail.update, view: railViewWith(Option.some(300), true) },
-      Scene.given(fresh),
-      Scene.expect(Scene.selector(".gg-railed")).toHaveClass("gg-folded"),
-      Scene.expect(Scene.selector(".gg-railed")).not.toHaveAttr("style"),
-      Scene.expect(Scene.role("separator")).toBeAbsent(),
-      Scene.expect(showButton).toHaveAttr("aria-expanded", "false"),
-      Scene.expect(showButton).toHaveAttr("aria-controls", "collections"),
-      Scene.expect(
-        Scene.role("complementary", { name: "collections" })
-      ).toExist(),
-      Scene.Mount.resolve(Rail.FollowRailDrawer, Rail.Message.ClosedDrawer()),
-      Scene.click(showButton),
-      Scene.expectOutMessage(Rail.OutMessage.ToggledRail()),
-      resolveFocusToggle
-    );
-  });
-});
-
-const renderFoldingRail = (): void => {
-  document.body.innerHTML = `
-    <aside id="rail" popover="auto">
-      <section class="gg-panel">
-        <header class="gg-panel-tb"><span class="gg-panel-lead"><span class="gg-rail-toggle"><button id="toggle" type="button">Hide</button></span></span></header>
-        <a id="row" href="#row">a row</a>
-      </section>
-    </aside>
-    <div id="splitter" class="gg-rail-resize" role="separator" aria-controls="rail" tabindex="0"></div>
-    <button id="outside">deck</button>`;
-};
-
-describe("Rail focus on folding", () => {
-  const focusToggle = Rail.FocusRailToggle({
-    railId: "rail",
-    toggleId: "toggle",
-  }).effect;
-
-  it("puts focus that was in the rail on the toggle", async () => {
-    renderFoldingRail();
-    byId("row").focus();
-
-    await Effect.runPromise(focusToggle);
-
-    expect(document.activeElement).toBe(byId("toggle"));
-  });
-
-  it("puts focus that was on the rail's splitter, which folding takes away, on the toggle", async () => {
-    renderFoldingRail();
-    byId("splitter").focus();
-
-    await Effect.runPromise(focusToggle);
-
-    expect(document.activeElement).toBe(byId("toggle"));
-  });
-
-  it("leaves focus outside the rail where it is", async () => {
-    renderFoldingRail();
-    byId("outside").focus();
-
-    await Effect.runPromise(focusToggle);
-
-    expect(document.activeElement).toBe(byId("outside"));
-  });
-});
-
 const renderRail = (): HTMLElement => {
   document.body.innerHTML = `
     <aside id="rail" popover="auto">
       <div class="gg-rail-head"><button id="close" type="button">Close</button></div>
       <section>
-        <header><span class="gg-rail-toggle"><button id="toggle" type="button">Hide</button></span></header>
         <ul role="tree">
           <li role="none"><button id="first" role="treeitem" tabindex="-1">a</button></li>
           <li role="none"><button id="current" role="treeitem" tabindex="0">b</button></li>
@@ -433,7 +322,7 @@ describe("Rail drawer events", () => {
     expect(Rail.widthChangeMessage(false, false)).toStrictEqual(Option.none());
   });
 
-  it("focuses the first Tab stop past the head, passing over the toggle and a tree's other items", () => {
+  it("focuses the first Tab stop past the head, passing over a tree's other items", () => {
     const rail = renderRail();
 
     expect(Option.map(Rail.firstTabStop(rail), ({ id }) => id)).toStrictEqual(
@@ -463,14 +352,9 @@ describe("Rail stylesheet", () => {
 });
 
 describe("Rail's copies of the stylesheet", () => {
-  it("starts at the rail width token, and folds above and turns into a drawer at the stylesheet's breakpoint", () => {
-    const railPrimitive =
-      /--semantic-dimension-size-rail-default: var\((?<primitive>--[a-z0-9-]+)\);/u.exec(
-        TOKENS
-      )?.groups?.["primitive"];
-
+  it("starts at the rail width token, and turns into a drawer at the stylesheet's breakpoint", () => {
     expect(
-      new RegExp(`${railPrimitive}: (?<width>\\d+)px;`, "u").exec(TOKENS)
+      /--semantic-dimension-size-rail-default: (?<width>\d+)px;/u.exec(TOKENS)
         ?.groups?.["width"]
     ).toBe(`${Rail.WIDTH.start}`);
 
@@ -479,10 +363,6 @@ describe("Rail's copies of the stylesheet", () => {
       (match) => match.groups?.["query"]
     );
 
-    expect(railedQueries).toStrictEqual([
-      `not ${Rail.DRAWER_QUERY}`,
-      Rail.DRAWER_QUERY,
-      Rail.DRAWER_QUERY,
-    ]);
+    expect(railedQueries).toStrictEqual([Rail.DRAWER_QUERY, Rail.DRAWER_QUERY]);
   });
 });

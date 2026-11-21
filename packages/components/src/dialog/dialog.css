@@ -1,0 +1,53 @@
+/* A dialog opens with show(), in place: Foldkit's Dialog makes the page around it inert and
+   hidden from screen readers, and sets its fixed, full-viewport box inline. The veil is an
+   element of its own (.veil-backdrop) under the pad; the pad lets a press through to it
+   everywhere but on the card it holds, and a press on the veil closes the dialog. */
+dialog.gg-veil {
+  color: inherit;
+  overflow-y: auto;
+}
+
+dialog.gg-veil:focus {
+  outline: none;
+}
+
+/* out of the top layer, a dialog's z-index counts inside its nearest stacking context, and a
+   fixed frame is one: while a bench or a stage holds an open dialog the frame itself is lifted,
+   over the bars (40), the rail and its splitter and a slip (200), as a dialog
+   in the page's flow already prints over them. Lifted only then: at rest the rail's splitter
+   lies over the frame's edge and a slip from its head prints over it */
+:is(.gg-bench, .gg-stage):has(dialog.gg-veil[open]) {
+  z-index: var(--semantic-number-layer-dialog);
+}
+
+.gg-veil-pad {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: var(--semantic-dimension-space-x-large);
+  pointer-events: none;
+}
+
+.gg-veil-pad > * {
+  pointer-events: auto;
+}
+
+.gg-veil-pad.gg-top {
+  align-items: start;
+  padding-top: 14vh;
+}
+
+.gg-veil-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--semantic-color-background-backdrop);
+  animation: gg-veil-in var(--semantic-duration-veil)
+    var(--semantic-cubic-bezier-standard);
+}
+
+@keyframes gg-veil-in {
+  from {
+    opacity: 0;
+  }
+}

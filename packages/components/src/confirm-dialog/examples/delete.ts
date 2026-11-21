@@ -140,7 +140,7 @@ const fileView = (model: Model, h: HtmlBuilder<Message>): Html =>
           body: [
             h.span([], [`${model.fileName} is gone`]),
             Button.view(
-              { label: "restore", onClick: Message.ClickedRestore() },
+              { label: "Restore", onClick: Message.ClickedRestore() },
               h
             ),
           ],
@@ -153,7 +153,7 @@ const fileView = (model: Model, h: HtmlBuilder<Message>): Html =>
             h.span([], [model.fileName]),
             Button.view(
               {
-                label: "delete",
+                label: "Delete",
                 glyph: "trash",
                 onClick: Message.ClickedDelete(),
               },
@@ -184,7 +184,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
           body: [
             `${model.fileName} goes from every device, and it cannot be undone.`,
           ],
-          label: "delete",
+          label: "Delete",
           isDanger: true,
           isBusy: isDeleting(model),
           toDetailView: () =>

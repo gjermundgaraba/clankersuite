@@ -1,9 +1,11 @@
+import { Glyph } from "@gjermundgaraba/icons";
+import type { GlyphName } from "@gjermundgaraba/icons";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
 /** Configuration for rendering an empty state with `view`. */
 export type ViewConfig = Readonly<{
-  /** Pixel caps: what is missing (`"Nothing queued"`). */
+  /** What is missing (`"Nothing queued"`). */
   title: string;
   /** The title's element, which looks the same either way. A heading at this level where the
    *  empty state is the page's or a section's main content: `3` inside a Panel, whose title is
@@ -11,22 +13,27 @@ export type ViewConfig = Readonly<{
    *  data, a picture of the state). Required, because the two look alike and only the outline
    *  tells them apart. */
   headingLevel: 1 | 2 | 3 | 4 | 5 | 6 | "Strong";
+  /** A large glyph in the accent over the title, for a page whose list is empty and done with
+   *  ("Inbox zero"): the title prints large and bold, as the page's moment. */
+  glyph?: GlyphName;
   /** One sentence: how it gets filled. */
   body?: ReadonlyArray<Html | string>;
   /** What fills it: a button under the sentence. */
   actions?: ReadonlyArray<Html | string>;
 }>;
 
-/** What a panel says when it has nothing to show, centred where its content would be. */
+/** What a list or a panel says when it has nothing to show, centred where its content would
+ *  be; with a glyph, a page's empty list, done with. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { title, headingLevel, body = [], actions = [] } = config;
+  const { title, headingLevel, glyph, body = [], actions = [] } = config;
 
   return h.div(
-    [h.Class("gg-empty")],
+    [h.Class(glyph === undefined ? "gg-empty" : "gg-empty gg-hero")],
     [
+      ...(glyph === undefined ? [] : [Glyph.view({ name: glyph }, h)]),
       headingLevel === "Strong"
         ? h.strong([h.Class("gg-empty-title")], [title])
         : h[`h${headingLevel}`]([h.Class("gg-empty-title")], [title]),

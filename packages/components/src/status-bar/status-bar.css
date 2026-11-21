@@ -1,0 +1,43 @@
+/* between a Rail and a SidePane, by their anchors; to the window's edges without them, as where
+   the pane covers the page */
+.gg-statusbar {
+  position: fixed;
+  right: anchor(--gg-side-pane left, 0px);
+  bottom: 0;
+  left: anchor(--gg-rail right, 0px);
+  z-index: var(--semantic-number-layer-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-gutter);
+  background: var(--semantic-color-background-canvas);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-statusbar:has(> .gg-statusbar-state) {
+  justify-content: space-between;
+}
+
+.gg-statusbar-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
+  min-width: 0;
+}
+
+.gg-statusbar-keys {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large);
+}

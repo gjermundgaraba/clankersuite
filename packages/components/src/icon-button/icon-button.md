@@ -4,7 +4,7 @@ category: actions
 
 # Icon button
 
-A bare glyph button, 24px square, for an action whose glyph says it. It has no visible words: its label is its accessible name and its tip, and its key, where it has one, prints in the tip after the label.
+A bare 15px glyph in a 26px square, for an action whose glyph says it; the pointer over it tints a rounded square under it. It has no visible words: its label is its accessible name and its tip, and its key, where it has one, prints in the tip after the label.
 
 ::Example{name="glyph"}
 

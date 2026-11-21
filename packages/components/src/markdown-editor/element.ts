@@ -124,7 +124,8 @@ class MarkdownEditorElement extends HTMLElement {
     const mounted = this.#mount(
       textarea,
       "gg-markdown-surface",
-      accessExtension(accessAttributes(), this.#isDisabled)
+      accessExtension(accessAttributes(), this.#isDisabled),
+      textarea.placeholder
     );
 
     if (mounted === undefined) {
@@ -138,6 +139,10 @@ class MarkdownEditorElement extends HTMLElement {
     };
 
     const attributeObserver = new MutationObserver(syncAccess);
+
+    const placeholderObserver = new MutationObserver(() => {
+      engine.configurePlaceholder(textarea.placeholder);
+    });
 
     surface.style.setProperty("--gg-rows", `${textarea.rows}`);
     textarea.tabIndex = -1;
@@ -158,14 +163,25 @@ class MarkdownEditorElement extends HTMLElement {
       attributeFilter: [...MIRRORED_ATTRIBUTES],
     });
 
+    placeholderObserver.observe(textarea, {
+      attributes: true,
+      attributeFilter: ["placeholder"],
+    });
+
     signal.addEventListener("abort", () => {
       attributeObserver.disconnect();
+      placeholderObserver.disconnect();
     });
 
     return { ...mounted, syncAccess };
   }
 
-  #mount(replaced: Element, surfaceClass: string, access: Extension) {
+  #mount(
+    replaced: Element,
+    surfaceClass: string,
+    access: Extension,
+    placeholder?: string
+  ) {
     const surface = document.createElement("div");
 
     surface.className = surfaceClass;
@@ -175,6 +191,7 @@ class MarkdownEditorElement extends HTMLElement {
       parent: surface,
       doc: this.#source,
       access,
+      ...(placeholder !== undefined && { placeholder }),
       onLocalChange: (doc) => {
         this.#pending = afterEmission(this.#pending, doc);
         this.dispatchEvent(

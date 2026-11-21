@@ -1,0 +1,97 @@
+.gg-card {
+  background: var(--semantic-color-background-surface);
+  /* the float's ring draws the edge; the transparent outline is the edge forced colours
+     paint, and takes no room */
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
+  border-radius: var(--semantic-dimension-radius-surface);
+  box-shadow: var(--semantic-shadow-float);
+  width: min(var(--semantic-dimension-size-max-width-card), 100%);
+  animation: gg-card-in var(--semantic-duration-card)
+    var(--semantic-cubic-bezier-standard);
+  max-height: calc(100vh - 2 * var(--semantic-dimension-space-gutter));
+  display: flex;
+  flex-direction: column;
+}
+
+.gg-card.gg-narrow {
+  width: min(var(--semantic-dimension-size-max-width-card-narrow), 100%);
+}
+
+@keyframes gg-card-in {
+  from {
+    transform: scale(var(--semantic-number-scale-card));
+    opacity: 0;
+  }
+}
+
+.gg-card-tb {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-small) 0
+    var(--semantic-dimension-space-sheet);
+  flex: none;
+}
+
+.gg-card-tb h2 {
+  font-size: var(--semantic-dimension-font-size-body);
+  font-weight: var(--semantic-font-weight-bold);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-card-body {
+  overflow-wrap: break-word;
+  padding: var(--semantic-dimension-space-inset)
+    var(--semantic-dimension-space-sheet);
+  display: grid;
+  gap: var(--semantic-dimension-space-large);
+  overflow-y: auto;
+}
+
+.gg-card-body > * {
+  min-width: 0;
+}
+
+/* the foot: a strip on the sunken ground for the keys and the actions */
+.gg-card-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  padding: calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-sheet);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+  background: var(--semantic-color-background-head);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: 0 0 var(--semantic-dimension-radius-surface)
+    var(--semantic-dimension-radius-surface);
+  flex: none;
+  flex-wrap: wrap;
+}
+
+.gg-card-keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-x-small)
+    calc(
+      var(--semantic-dimension-space-medium) +
+        var(--semantic-dimension-space-xx-small)
+    );
+}
+
+.gg-card-body > .gg-rows {
+  margin-inline: calc(-1 * var(--semantic-dimension-space-sheet));
+  border-block: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}

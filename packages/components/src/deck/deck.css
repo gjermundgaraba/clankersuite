@@ -1,0 +1,32 @@
+/* a side pane beside it keeps its width clear at the right, and the rest stays centred */
+.gg-deck {
+  max-width: calc(
+    var(--semantic-dimension-size-max-width-deck) + var(--gg-side-pane-w)
+  );
+  margin: 0 auto;
+  padding: var(--semantic-dimension-space-page-block)
+    calc(var(--semantic-dimension-space-page-inline) + var(--gg-side-pane-w))
+    calc(2 * var(--semantic-dimension-space-xx-large))
+    var(--semantic-dimension-space-page-inline);
+  display: grid;
+}
+
+@media (max-width: 600px) {
+  .gg-deck {
+    padding-inline: var(--semantic-dimension-space-medium);
+  }
+}
+
+.gg-deck > * {
+  min-width: 0;
+}
+
+/* a part that sets its own top margin, such as a group of rows, keeps it in place of the gutter;
+   the rail's open button, there only under the rail's breakpoint, keeps the gutter below it */
+:where(.gg-deck > :not(.gg-rail-open) + *) {
+  margin-top: var(--semantic-dimension-space-gutter);
+}
+
+:where(.gg-deck > .gg-rail-open) {
+  margin-bottom: var(--semantic-dimension-space-gutter);
+}

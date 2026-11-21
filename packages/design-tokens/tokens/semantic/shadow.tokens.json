@@ -1,0 +1,74 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "A hairline ring on what stands off the ground in place; a soft drop under what floats.",
+  "semantic": {
+    "shadow": {
+      "$type": "shadow",
+      "hairline": {
+        "$value": {
+          "color": "{semantic.color.border.divider}",
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 1,
+            "unit": "px"
+          }
+        },
+        "$description": "A hairline ring in place of a border, for an in-flow surface that stands off the ground without lifting, such as the current place in a sidebar or a card in the page's flow."
+      },
+      "float": {
+        "$value": [
+          {
+            "color": "{semantic.color.shadow.ring}",
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 0,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 1,
+              "unit": "px"
+            }
+          },
+          {
+            "color": "{semantic.color.shadow.default}",
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 16,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 40,
+              "unit": "px"
+            },
+            "spread": {
+              "value": -8,
+              "unit": "px"
+            }
+          }
+        ],
+        "$description": "Anything that floats over the page: a menu, a picker, a palette, a sheet, a dialog, a toast, a drawer."
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ import { slotView } from "../slot/slot.ts";
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the title's id is made from it, and names the window. */
   id: string;
-  /** Pixel caps in the inverted title bar. */
+  /** The title, in the title bar. */
   title: string;
   /** A quiet IconButton before the kind glyph: a Reel's grip. */
   lead?: readonly Html[];

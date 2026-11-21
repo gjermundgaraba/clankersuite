@@ -4,7 +4,7 @@ import { Language } from "@codemirror/language";
 import { diff } from "@codemirror/merge";
 import { Compartment, EditorState, Prec, Transaction } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
-import { EditorView, keymap } from "@codemirror/view";
+import { EditorView, keymap, placeholder } from "@codemirror/view";
 import { GFM, MarkdownParser } from "@lezer/markdown";
 
 import { liveMarkdown } from "./live/live.ts";
@@ -135,17 +135,24 @@ export type EngineConfig = Readonly<{
   parent: HTMLElement;
   doc: string;
   access: Extension;
+  /** Shown, quiet, while the document is empty, until `configurePlaceholder` changes it. */
+  placeholder?: string;
   onLocalChange: (doc: string) => void;
 }>;
+
+const placeholderExtension = (text: string | undefined): Extension =>
+  text === undefined || text === "" ? [] : placeholder(text);
 
 /** Mounts CodeMirror in `parent`, and returns what the element drives it with. */
 export const createEngine = (config: EngineConfig) => {
   const access = new Compartment();
+  const shownWhenEmpty = new Compartment();
 
   const view = new EditorView({
     parent: config.parent,
     state: editorState(config.doc, [
       access.of(config.access),
+      shownWhenEmpty.of(placeholderExtension(config.placeholder)),
       EditorView.updateListener.of((update) => {
         const doc = emission(update.transactions, update.state);
 
@@ -173,6 +180,11 @@ export const createEngine = (config: EngineConfig) => {
     ) => {
       view.dispatch({
         effects: access.reconfigure(accessExtension(attributes, isReadOnly)),
+      });
+    },
+    configurePlaceholder: (text: string) => {
+      view.dispatch({
+        effects: shownWhenEmpty.reconfigure(placeholderExtension(text)),
       });
     },
     destroy: () => {

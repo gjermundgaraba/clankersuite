@@ -47,7 +47,7 @@ const view = (model: Model, h: HtmlBuilder<Message>) =>
         Rows.rowView(
           {
             key: "notes",
-            glyph: Rows.toggleView(
+            fold: Rows.toggleView(
               {
                 isExpanded: model.isExpanded,
                 label: "Notes",
@@ -520,6 +520,118 @@ describe("A row whose box is its link's target", () => {
         "aria-current",
         "page"
       )
+    );
+  });
+
+  it("checks a task off through a round check named by its title", () => {
+    Scene.scene(
+      {
+        update,
+        view: (model: Model, h: HtmlBuilder<Message>) =>
+          Rows.view(
+            {
+              rows: [
+                Rows.rowView(
+                  {
+                    key: "taxes",
+                    glyph: Rows.checkView(
+                      {
+                        id: "check-taxes",
+                        label: "Quarterly taxes",
+                        isDone: Array.contains(model.selectedIds, "taxes"),
+                        onToggle: (isChecked) =>
+                          Message.ToggledRow({ id: "taxes", isChecked }),
+                      },
+                      h
+                    ),
+                    body: ["Quarterly taxes"],
+                  },
+                  h
+                ),
+              ],
+            },
+            h
+          ),
+      },
+      Scene.given<Model>({ selectedIds: [], isExpanded: false }),
+      Scene.expect(
+        Scene.role("checkbox", { name: "Quarterly taxes" })
+      ).toHaveAttr("aria-checked", "false"),
+      Scene.click(Scene.role("checkbox", { name: "Quarterly taxes" })),
+      Scene.expect(
+        Scene.role("checkbox", { name: "Quarterly taxes" })
+      ).toHaveAttr("aria-checked", "true")
+    );
+  });
+
+  it("prints where a row belongs under its title, its separators for the eye only", () => {
+    Scene.scene(
+      {
+        update,
+        view: (_model: Model, h: HtmlBuilder<Message>) =>
+          Rows.contextView(
+            {
+              area: { label: "Work", colour: "Amber" },
+              parent: "Review budget",
+              goals: [{ label: "Ship the beta", colour: "Coral" }],
+            },
+            h
+          ),
+      },
+      Scene.given<Model>({ selectedIds: [], isExpanded: false }),
+      Scene.expect(Scene.selector(".gg-row-context")).toHaveText(
+        "Work›Review budget·Ship the beta"
+      ),
+      Scene.expect(
+        Scene.first(Scene.all.selector(".gg-row-context .gg-sep"))
+      ).toHaveAttr("aria-hidden", "true"),
+      Scene.expect(Scene.selector(".gg-marker.gg-round.gg-coral")).toExist()
+    );
+  });
+
+  it("names a group by its heading and its count, and adds after its rows from a button with its id", () => {
+    Scene.scene(
+      {
+        update,
+        view: (_model: Model, h: HtmlBuilder<Message>) =>
+          h.div(
+            [],
+            [
+              Rows.sectionView(
+                {
+                  id: "work",
+                  title: "Work",
+                  marker: "Amber",
+                  count: 6,
+                  body: [
+                    Rows.view({ label: "Work", rows: [] }, h),
+                    Rows.addView(
+                      {
+                        id: "work-add",
+                        label: "Add to Work",
+                        onAdd: Message.ClickedOpen({ id: "new" }),
+                      },
+                      h
+                    ),
+                  ],
+                },
+                h
+              ),
+              Rows.sectionView({ id: "day", body: ["the day's rows"] }, h),
+              Rows.doneView(["1 done today"], h),
+            ]
+          ),
+      },
+      Scene.given<Model>({ selectedIds: [], isExpanded: false }),
+      Scene.expect(
+        Scene.role("heading", { name: "Work, 6", level: 2 })
+      ).toExist(),
+      Scene.expect(Scene.role("button", { name: "Add to Work" })).toHaveAttr(
+        "id",
+        "work-add"
+      ),
+      Scene.expectAll(Scene.all.role("region")).toHaveCount(1),
+      Scene.expect(Scene.text("1 done today")).toExist()
     );
   });
 });

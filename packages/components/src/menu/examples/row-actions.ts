@@ -91,6 +91,7 @@ const foldRowActions = Update.foldChildAt({
     Menu.OutMessage.match<Update.Step<Model, Message>>({
       Selected: ({ id }) => recordAction(`${id} ${nameOf(rowId)}`),
       Toggled: () => togglePin(rowId),
+      PickedDay: () => (model) => ({ model }),
     }),
 });
 
@@ -111,7 +112,7 @@ const fileRowView = (
       glyph: Rows.glyphView({ name: "page" }, h),
       body: [file.name],
       slot: Array.contains(model.pinnedIds, file.id)
-        ? [Tag.view({ label: "pinned" }, h)]
+        ? [Tag.view({ label: "Pinned" }, h)]
         : [],
       tools: Option.toArray(
         Option.map(maybeRowActions(model, file.id), (menu) =>
@@ -122,7 +123,7 @@ const fileRowView = (
             viewInputs: {
               label: `Actions: ${file.name}`,
               glyph: "more",
-              isQuiet: true,
+              variant: "Quiet",
               align: "End",
               items: rowItems(model, file.id),
             },

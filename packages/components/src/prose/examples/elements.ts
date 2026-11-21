@@ -34,7 +34,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         h.p(
           [],
           [
-            "Links are ink, underlined: ",
+            "Links are underlined, in the text's colour: ",
             h.a([h.Href("#rollback")], ["the rollback plan"]),
             ".",
           ]

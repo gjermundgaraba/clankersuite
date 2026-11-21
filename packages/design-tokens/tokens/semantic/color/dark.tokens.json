@@ -1,0 +1,233 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic colours in the dark scheme.",
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "text": {
+        "primary": {
+          "$value": "{primitive.color.bone.100}",
+          "$description": "Text that reads first: body copy, names, values."
+        },
+        "secondary": {
+          "$value": "{primitive.color.bone.350}",
+          "$description": "Text that reads second: meta, hints, labels, a place that is not current."
+        },
+        "tertiary": {
+          "$value": "{primitive.color.bone.400}",
+          "$description": "Text that reads third: counts, context lines, section labels, the key bar."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "Errors and destructive outcomes; a Blocked chip's words."
+        },
+        "warning": {
+          "$value": "{primitive.color.amber.300}",
+          "$description": "The Warn tone: a Warn chip's words, and the glyph of a Warn notice or outcome."
+        },
+        "positive": {
+          "$value": "{primitive.color.sage.300}",
+          "$description": "The Go tone: a Go chip's words."
+        },
+        "accent": {
+          "$value": "{primitive.color.sage.300}",
+          "$description": "Words and glyphs in the accent: the current item of a menu. It repeats background.fill.accent as a text role, since words read text.* and fills read background.fill.*; text.positive is the Go tone's words, which share its value here."
+        },
+        "onAccentFill": {
+          "$value": "{primitive.color.forest.900}",
+          "$description": "Text on background.fill.accent."
+        },
+        "onStatusFill": {
+          "$value": "{primitive.color.warmGray.950}",
+          "$description": "Text on the warning fill: a Mark, a stale link's state."
+        },
+        "onNegativeFill": {
+          "$value": "{primitive.color.warmGray.950}",
+          "$description": "Text on background.fill.negative."
+        },
+        "onInverse": {
+          "$value": "{primitive.color.forest.900}",
+          "$description": "Words and glyphs on background.inverse: a toast's."
+        },
+        "terminal": {
+          "red": {
+            "$value": "{primitive.color.red.250}",
+            "$description": "Terminal output and syntax only, never chrome. Each reads at AA on background.head."
+          },
+          "green": {
+            "$value": "{primitive.color.green.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "yellow": {
+            "$value": "{primitive.color.yellow.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "blue": {
+            "$value": "{primitive.color.blue.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "magenta": {
+            "$value": "{primitive.color.magenta.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          },
+          "cyan": {
+            "$value": "{primitive.color.cyan.300}",
+            "$description": "Terminal output and syntax only, never chrome."
+          }
+        },
+        "code": {
+          "keyword": {
+            "$value": "{semantic.color.text.terminal.magenta}",
+            "$description": "Code keywords."
+          },
+          "string": {
+            "$value": "{semantic.color.text.terminal.cyan}",
+            "$description": "Code strings."
+          },
+          "number": {
+            "$value": "{semantic.color.text.terminal.yellow}",
+            "$description": "Code numbers."
+          },
+          "function": {
+            "$value": "{semantic.color.text.terminal.blue}",
+            "$description": "Code function names."
+          },
+          "type": {
+            "$value": "{semantic.color.text.terminal.green}",
+            "$description": "Code type names."
+          },
+          "comment": {
+            "$value": "{semantic.color.text.secondary}",
+            "$description": "Code comments."
+          }
+        }
+      },
+      "border": {
+        "primary": {
+          "$value": "{primitive.color.forest.500}",
+          "$description": "The edge of a control at 3:1 on any ground: a field, an unchecked box; and the lines that contain panels and cards."
+        },
+        "secondary": {
+          "$value": "{primitive.color.bone.100Alpha18}",
+          "$description": "The ring of a button or key hint, and the containing line of a held or quiet control."
+        },
+        "divider": {
+          "$value": "{primitive.color.bone.100Alpha9}",
+          "$description": "Lines that divide: rows, sections, a sidebar's edge; also a meter's empty track. Decorative, never the only cue for a control."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "The line of an invalid or destructive control."
+        }
+      },
+      "focusRing": {
+        "default": {
+          "$value": "{primitive.color.sage.300}",
+          "$description": "The keyboard-focus indicator."
+        },
+        "secondary": {
+          "$value": "{primitive.color.bone.350}",
+          "$description": "Keyboard focus on a row, and the border of a reel's focused pane: quieter than the default ring."
+        },
+        "negative": {
+          "$value": "{primitive.color.red.300}",
+          "$description": "Keyboard focus on an invalid control."
+        }
+      },
+      "background": {
+        "canvas": {
+          "$value": "{primitive.color.forest.900}",
+          "$description": "The page behind every surface."
+        },
+        "sidebar": {
+          "$value": "{primitive.color.forest.950}",
+          "$description": "The full-height sidebar at the page's left."
+        },
+        "surface": {
+          "$value": "{primitive.color.forest.800}",
+          "$description": "Panels, cards, dialogs and controls; the current place in a sidebar."
+        },
+        "head": {
+          "$value": "{primitive.color.forest.850}",
+          "$description": "The sunken ground: a table head, a shelf, code and its marks, a count's box, and what is lifted or a drop lands on. Never a hover tint; that is background.hover."
+        },
+        "hover": {
+          "$value": "{primitive.color.bone.100Alpha5}",
+          "$description": "The tint under a hovered row, place or quiet button."
+        },
+        "selected": {
+          "$value": "{primitive.color.sage.300Alpha13}",
+          "$description": "The tint under what is selected or current: a row, a menu choice, the current page or place, a pressed segment. Its text keeps its colour: every text tone and border.primary hold their floors on it."
+        },
+        "inverse": {
+          "$value": "{primitive.color.bone.100}",
+          "$description": "The ground of what prints inverted, the page's text colour as its ground: a toast."
+        },
+        "tint": {
+          "positive": {
+            "$value": "{primitive.color.sage.300Alpha13}",
+            "$description": "The soft ground of a Go chip, under text.positive."
+          },
+          "warning": {
+            "$value": "{primitive.color.amber.300Alpha13}",
+            "$description": "The soft ground of a warning chip, such as a task due today, under text.warning."
+          },
+          "negative": {
+            "$value": "{primitive.color.red.300Alpha13}",
+            "$description": "The soft ground of a negative chip, such as an overdue task, under text.negative."
+          }
+        },
+        "fill": {
+          "accent": {
+            "$value": "{primitive.color.sage.300}",
+            "$description": "Shapes filled or drawn in the accent colour, such as an Ok glyph and a Go dot."
+          },
+          "secondary": {
+            "$value": "{primitive.color.bone.350}",
+            "$description": "A quiet fill: a finished or stale mark, a Done dot."
+          },
+          "negative": {
+            "$value": "{primitive.color.red.300}",
+            "$description": "The destructive and failed fill: a Blocked dot."
+          },
+          "warning": {
+            "$value": "{primitive.color.amber.300}",
+            "$description": "Waiting, working, needs attention: a Warn dot."
+          }
+        },
+        "marker": {
+          "amber": {
+            "$value": "{primitive.color.amber.300}",
+            "$description": "One of the colours an application gives its areas and goals; each holds 3:1 on the sidebar."
+          },
+          "sky": {
+            "$value": "{primitive.color.sky.300}",
+            "$description": "One of the colours an application gives its areas and goals; also the underline of a Link mark in a field, apart from the accent and the warning."
+          },
+          "coral": {
+            "$value": "{primitive.color.red.300}",
+            "$description": "One of the colours an application gives its areas and goals."
+          },
+          "sand": {
+            "$value": "{primitive.color.sand.300}",
+            "$description": "One of the colours an application gives its areas and goals."
+          }
+        },
+        "backdrop": {
+          "$value": "{primitive.color.black.alpha55}",
+          "$description": "The veil behind a modal dialog or a sheet."
+        }
+      },
+      "shadow": {
+        "default": {
+          "$value": "{primitive.color.black.alpha60}",
+          "$description": "The colour of the soft drop under what floats."
+        },
+        "ring": {
+          "$value": "{primitive.color.bone.100Alpha10}",
+          "$description": "The hairline ring around what floats."
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,3 @@
-export { view } from "./field.ts";
+export { BindSuggestions, Look, MarkTone, Message, view } from "./field.ts";
 
-export type { ViewConfig } from "./field.ts";
+export type { Mark, Suggestion, Suggestions, ViewConfig } from "./field.ts";

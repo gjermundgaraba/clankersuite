@@ -166,4 +166,44 @@ describe("Field", () => {
       Scene.expect(Scene.selector(".gg-field-error")).toBeAbsent()
     );
   });
+
+  it("underlines its marks in a mirror of its value, in order, dropping one that overlaps an earlier", () => {
+    const marks = Scene.all.selector(".gg-field-mirror mark");
+
+    Scene.scene(
+      {
+        update,
+        view: (model: Model, h: HtmlBuilder<Message>) =>
+          Field.view(
+            {
+              id: "capture",
+              label: "Task",
+              look: "Sheet",
+              value: model.name,
+              onInput: (value) => Message.UpdatedName({ value }),
+              marks: [
+                { start: 20, end: 23, tone: "Warning" },
+                { start: 0, end: 5, tone: "Accent" },
+                { start: 3, end: 13, tone: "Link" },
+              ],
+            },
+            h
+          ),
+      },
+      Scene.given<Model>({ name: "Write release notes fri", isInvalid: false }),
+      Scene.expect(Scene.selector(".gg-field.gg-sheet-line")).toExist(),
+      Scene.expect(Scene.selector(".gg-field-mirror")).toHaveText(
+        "Write release notes fri"
+      ),
+      Scene.expect(Scene.selector(".gg-field-mirror")).toHaveAttr(
+        "aria-hidden",
+        "true"
+      ),
+      Scene.expectAll(marks).toHaveCount(2),
+      Scene.expect(Scene.first(marks)).toHaveText("Write"),
+      Scene.expect(Scene.first(marks)).toHaveClass("gg-accent"),
+      Scene.expect(Scene.last(marks)).toHaveText("fri"),
+      Scene.expect(Scene.last(marks)).toHaveClass("gg-warning")
+    );
+  });
 });

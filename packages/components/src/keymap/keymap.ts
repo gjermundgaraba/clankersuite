@@ -37,8 +37,7 @@ const groupView =
       [h.h3([], [title]), ...Array.map(rows, rowView(h))]
     );
 
-/** Keys and what they do, grouped under `h3` headings, each key in a `kbd`, in the pixel
- *  face. Sits in a narrow Card. */
+/** Keys and what they do, grouped under `h3` headings, each key in a `kbd`. Sits in a narrow Card. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>

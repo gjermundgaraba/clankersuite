@@ -80,7 +80,7 @@ export const RestoreFocus = Command.define("RestoreFocus", {
 
 /** Scrolls the reel's pane or column `id` into view, by the least distance either way, its
  *  gutter kept by the stylesheet's `scroll-margin`, once the render that placed it is in the
- *  page. It jumps: motion is stepped or instant, and a follow is instant. */
+ *  page. It jumps: a follow is instant. */
 export const ScrollIntoView = Command.define("ScrollIntoView", {
   args: {
     reelId: Schema.String,

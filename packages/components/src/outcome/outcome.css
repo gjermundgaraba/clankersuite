@@ -1,0 +1,32 @@
+.gg-outcome {
+  display: flex;
+  gap: var(--semantic-dimension-space-medium);
+  align-items: flex-start;
+}
+
+.gg-outcome > .gg-glyph .gg-icon {
+  width: var(--semantic-dimension-size-glyph-large);
+  height: var(--semantic-dimension-size-glyph-large);
+}
+
+.gg-outcome-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--semantic-dimension-space-x-small);
+  min-width: 0;
+}
+
+.gg-outcome-body > strong {
+  overflow-wrap: anywhere;
+  font-size: var(--semantic-dimension-font-size-control);
+  font-weight: var(--semantic-font-weight-regular);
+}
+
+.gg-outcome-body > p {
+  max-width: var(--semantic-dimension-size-measure-outcome);
+  overflow-wrap: anywhere;
+}
+
+.gg-outcome-body > p + * {
+  margin-top: var(--semantic-dimension-space-small);
+}

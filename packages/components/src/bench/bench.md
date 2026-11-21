@@ -8,14 +8,16 @@ A page whose work is the window: its head at its own height, then the work in al
 
 ## Usage
 
-A bench is the page's main landmark, `<main id="main">`, the skip link's target, so it has no example here: this page already has its own.
+A bench is the page's main landmark, `<main id="main">`, the skip link's target, and fixed to the window, so its example runs as a page of its own, in a frame.
+
+::Page{name="workbench"}
 
 ```ts
 Bench.view(
   {
     head: [
       openButton,
-      PageHead.view({ title: "Write the brief", meta: "in progress" }, h),
+      PageHead.view({ title: "Write the brief", meta: "In progress" }, h),
       Notice.view({ title: "Behind main", body: ["Two commits landed on main."] }, h),
     ],
     body: [
@@ -27,7 +29,7 @@ Bench.view(
 )
 ```
 
-The head holds a PageHead, notices and a Rail's open button. Keys that act differently in the head find it by a hook the application passes in `headAttributes`. The body is the work, never shorter than `--semantic-dimension-size-min-height-bench-work`: a Reel, which fills it, and the page's dialogs.
+The head holds a PageHead, notices and a Rail's open button. Keys that act differently in the head find it by a hook the application passes in `headAttributes`. The body is the work, never shorter than a reel pane and the reel's room above and below it: a Reel, which fills it, and the page's dialogs.
 
 ## Scrolling
 

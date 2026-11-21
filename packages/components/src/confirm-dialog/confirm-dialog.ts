@@ -105,11 +105,12 @@ export const isOpen = (model: Model): boolean => Dialog.isOpen(model.dialog);
 export type ViewInputs = Readonly<{
   /** The title bar: the action's name (`"Delete"`). */
   title: string;
-  /** Pixel caps under the glyph: the question (`"Delete this file?"`), the Outcome's title. */
+  /** Under the glyph: the question (`"Delete this file?"`), the Outcome's title. */
   question: string;
-  /** One sans sentence: what happens, and what cannot be undone. Markup that carries no
-   *  handlers: it is built in the application's boundary and rendered in this Submodel's (put
-   *  controls in `toDetailView`). */
+  /** One sans sentence: what happens, and what cannot be undone. One string, or markup that
+   *  carries no handlers: strings side by side print with nothing between them. Markup is
+   *  built in the application's boundary and rendered in this Submodel's (put controls in
+   *  `toDetailView`). */
   body: ReadonlyArray<Html | string>;
   /** Under the sentence: what the work said back (an error Notice, what to do about it, a
    *  notice with its own retry). A slot that may carry the application's handlers, so a
@@ -120,12 +121,12 @@ export type ViewInputs = Readonly<{
   /** Destructive: the confirming button turns red and cancel becomes the default. */
   isDanger?: boolean;
   /** The confirmed work is running: the confirming button is held (its word stays, the
-   *  working cursor prints, a second press does nothing) and keeps focus, and cancel is held
+   *  spinner turns, a second press does nothing) and keeps focus, and cancel is held
    *  with it. Pair it with `isCloseHeld` in `update`'s context, from the same state, so
    *  Escape and the veil change nothing either. */
   isBusy?: boolean;
   /** The action cannot run now (nothing is running; it is blocked): the confirming button is
-   *  held, `aria-disabled` without the working cursor, and stays in the keyboard, so focus
+   *  held, `aria-disabled` without the spinner, and stays in the keyboard, so focus
    *  does not fall to the page. Cancel stays live. */
   isDisabled?: boolean;
   /** The page's live region and toasts while this is the topmost open dialog, `undefined`
@@ -149,7 +150,6 @@ const cardView = (
     {
       label: viewInputs.label,
       variant: isDanger ? "Danger" : "Primary",
-      isDefault: !isDanger,
       isBusy,
       isDisabled,
       onClick: Message.ClickedConfirm(),
@@ -160,8 +160,7 @@ const cardView = (
 
   const cancel = Button.view(
     {
-      label: "cancel",
-      isDefault: isDanger,
+      label: "Cancel",
       isDisabled: isBusy,
       onClick: Message.ClickedCancel(),
       attributes: isDanger ? render.initialFocus : [],
@@ -194,7 +193,7 @@ const cardView = (
 };
 
 /**
- * The one question before an irreversible step: a glyph in a box, a headline, a sentence. With
+ * The one question before an irreversible step: a glyph, a headline, a sentence. With
  * `isDanger` it is the system's only destructive confirm. The thing that destroys (delete,
  * disable, reset) is a neutral Button at rest that opens this dialog; the red button is the
  * commit inside it, focus starts on cancel, and the dialog is an alert (`alertdialog`); without

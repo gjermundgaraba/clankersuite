@@ -1,0 +1,140 @@
+.gg-prose {
+  font: var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-prose) var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-prose > p,
+.gg-prose > ul,
+.gg-prose > ol,
+.gg-prose > :is(h1, h2, h3, h4, h5, h6),
+.gg-prose > blockquote,
+.gg-prose > .gg-notice {
+  max-width: var(--semantic-dimension-size-max-width-prose);
+}
+
+.gg-prose > * + * {
+  margin-top: 1em;
+}
+
+.gg-prose :is(h1, h2) {
+  font: var(--semantic-font-weight-bold)
+    var(--semantic-dimension-font-size-prose-heading-2) /
+    var(--semantic-number-line-height-heading) var(--semantic-font-family-ui);
+  letter-spacing: var(--semantic-dimension-letter-spacing-prose-heading);
+  margin-top: 2em;
+  text-wrap: balance;
+}
+
+.gg-prose h3 {
+  font: var(--semantic-font-weight-bold)
+    var(--semantic-dimension-font-size-prose-heading-3) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
+  margin-top: 1.6em;
+}
+
+.gg-prose :is(h4, h5, h6) {
+  margin-top: calc(1.6 * var(--semantic-dimension-font-size-body));
+}
+
+.gg-prose h4 {
+  font: var(--semantic-dimension-font-size-control) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
+}
+
+.gg-prose h5 {
+  font: var(--semantic-font-weight-bold)
+    var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-body) var(--semantic-font-family-ui);
+}
+
+.gg-prose h6 {
+  font: var(--semantic-dimension-font-size-label) /
+    var(--semantic-number-line-height-label) var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-prose :is(h1, h2, h3, h4, h5, h6) + * {
+  margin-top: 0.5em;
+}
+
+.gg-prose > :first-child {
+  margin-top: 0;
+}
+
+.gg-prose :is(h1, h2, h3, h4, h5, h6):focus {
+  outline: none;
+}
+
+.gg-prose ul,
+.gg-prose ol {
+  padding-left: 1.4em;
+}
+
+.gg-prose li + li {
+  margin-top: 0.35em;
+}
+
+.gg-prose ul {
+  list-style: square;
+}
+
+.gg-prose li::marker {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-prose ol li::marker {
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+.gg-prose strong {
+  font-weight: var(--semantic-font-weight-bold);
+}
+
+.gg-prose :not(pre) > code {
+  background: var(--semantic-color-background-head);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-x-small);
+  font-size: calc(var(--semantic-number-font-scale-inline-code) * 1em);
+}
+
+.gg-prose pre.gg-code-surface {
+  font-size: var(--semantic-dimension-font-size-prose-code);
+}
+
+.gg-prose .gg-table-wrap {
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+}
+
+.gg-prose .gg-table td {
+  vertical-align: top;
+}
+
+.gg-prose blockquote {
+  padding-left: var(--semantic-dimension-space-large);
+  border-left: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-prose hr {
+  border: 0;
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  margin: 2em 0;
+}
+
+.gg-prose .gg-notice {
+  font: var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-prose-notice)
+    var(--semantic-font-family-ui);
+}
+
+.gg-prose a {
+  color: var(--semantic-color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--semantic-dimension-border-width-default);
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}

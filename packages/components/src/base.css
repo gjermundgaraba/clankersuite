@@ -1,0 +1,312 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gg-topbar-h: 0px;
+  --gg-statusbar-h: 0px;
+  --gg-side-pane-w: 0px;
+}
+
+html {
+  height: 100%;
+  scroll-padding-top: calc(
+    var(--gg-topbar-h) + var(--semantic-dimension-space-large)
+  );
+  scroll-padding-bottom: var(--gg-statusbar-h);
+}
+
+:root:has(header.gg-topbar) {
+  --gg-topbar-h: var(--semantic-dimension-size-top-bar);
+}
+
+:root:has(footer.gg-statusbar) {
+  --gg-statusbar-h: var(--semantic-dimension-size-status-bar);
+}
+
+body {
+  min-height: 100%;
+  padding-bottom: var(--gg-statusbar-h);
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-body);
+  line-height: var(--semantic-number-line-height-body);
+  color: var(--semantic-color-text-primary);
+  caret-color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-canvas);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+::selection {
+  background: var(--semantic-color-background-selected);
+}
+
+/* the checkbox of a Choice, a selectable row and a menu's check row */
+.gg-choice-box,
+.gg-row-check > [role="checkbox"],
+.gg-menu-check {
+  appearance: none;
+  width: var(--semantic-dimension-size-checkbox-box);
+  height: var(--semantic-dimension-size-checkbox-box);
+  padding: 0;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-mark);
+  background: var(--semantic-color-background-surface);
+  cursor: pointer;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+}
+
+.gg-choice-box::before,
+.gg-row-check > [role="checkbox"]::before,
+.gg-menu-check::before {
+  content: "";
+  width: var(--semantic-dimension-size-checkbox-mark);
+  height: var(--semantic-dimension-size-checkbox-mark);
+}
+
+.gg-choice-box[aria-checked="true"],
+.gg-row-check > [aria-checked="true"],
+[aria-checked="true"] > .gg-menu-check {
+  border-color: var(--semantic-color-background-fill-accent);
+  background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-choice-box[aria-checked="true"]::before,
+.gg-row-check > [aria-checked="true"]::before,
+[aria-checked="true"] > .gg-menu-check::before {
+  background: var(--semantic-color-text-on-accent-fill);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.3 4 7.7 8.6 2.6' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.gg-choice-box[aria-disabled="true"],
+.gg-row-check > [aria-disabled="true"] {
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-choice-box[aria-disabled="true"][aria-checked="true"],
+.gg-row-check
+  > [aria-disabled="true"]:is([aria-checked="true"], [aria-checked="mixed"]) {
+  border-color: var(--semantic-color-background-fill-secondary);
+  background: var(--semantic-color-background-fill-secondary);
+}
+
+::placeholder {
+  color: var(--semantic-color-text-secondary);
+  opacity: 1;
+}
+
+:focus-visible {
+  outline: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}
+
+::-webkit-scrollbar {
+  width: var(--semantic-dimension-size-scrollbar);
+  height: var(--semantic-dimension-size-scrollbar);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--semantic-color-background-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--semantic-color-background-fill-accent);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-background-canvas);
+}
+
+a {
+  color: var(--semantic-color-text-primary);
+}
+
+code,
+kbd {
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+.gg-icon {
+  display: inline-block;
+  vertical-align: -0.125em;
+  flex: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: var(--semantic-dimension-border-width-default);
+  height: var(--semantic-dimension-border-width-default);
+  margin: calc(-1 * var(--semantic-dimension-border-width-default));
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Chromium names a date input's picker button "Show date picker" and adds that to the name
+   of a cell around a hidden one, aria-hidden or not */
+.sr-only::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:is(
+  .gg-nav.gg-tabs button,
+  :is(button, label).gg-fchip,
+  button.gg-fold,
+  button.gg-mark,
+  button.gg-tag:has(> span),
+  .gg-textbtn,
+  .gg-crumbs a,
+  .gg-error-summary a
+) {
+  position: relative;
+}
+
+:is(
+  .gg-nav.gg-tabs button,
+  :is(button, label).gg-fchip,
+  button.gg-fold,
+  button.gg-mark,
+  button.gg-tag:has(> span),
+  .gg-textbtn,
+  .gg-crumbs a,
+  .gg-error-summary a
+)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--semantic-dimension-size-target));
+  height: max(100%, var(--semantic-dimension-size-target));
+  translate: -50% -50%;
+}
+
+.gg-label {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* a surface in the page's flow, such as a decision card or a goal card: on the surface in a
+   hairline ring. The transparent outline is the edge forced colours paint, and takes no room */
+.gg-surface {
+  background: var(--semantic-color-background-surface);
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
+  border-radius: var(--semantic-dimension-radius-surface);
+  box-shadow: var(--semantic-shadow-hairline);
+}
+
+/* a thin bar of how much: a Meter's and a decision card's; each sizes its own width */
+.gg-bar {
+  height: var(--semantic-dimension-size-meter-height);
+  overflow: hidden;
+  background: var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-pill);
+}
+
+.gg-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-count {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* the actions at the right of a card's foot or head, for each card that prints them */
+.gg-card-acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  margin-left: auto;
+}
+
+.gg-stack > *,
+.gg-group > * {
+  min-width: 0;
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-s {
+  gap: var(--semantic-dimension-space-small);
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-m {
+  gap: var(--semantic-dimension-space-large);
+}
+
+:is(.gg-stack, .gg-group, .gg-wrap).gg-gap-l {
+  gap: var(--semantic-dimension-space-gutter);
+}
+
+.gg-spinner {
+  display: inline-block;
+  width: var(--semantic-dimension-size-spinner);
+  height: var(--semantic-dimension-size-spinner);
+  vertical-align: middle;
+  border: calc(1.5 * var(--semantic-dimension-border-width-default)) solid
+    currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: gg-spin var(--semantic-duration-spin) linear infinite;
+}
+
+@keyframes gg-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+/* a Sortable's and a Reel's drop marker, a line where the item lands; each places
+   and sizes its own */
+.gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before,
+.gg-reel-slot:is(.gg-drop-before, .gg-drop-after)::before,
+.gg-reel-gap.gg-drop-here::before {
+  content: "";
+  position: absolute;
+  border-radius: var(--semantic-dimension-border-width-accent);
+  background: var(--semantic-color-background-fill-accent);
+  pointer-events: none;
+}
+
+/* what is fixed under the top bar, or from the window's top where there is none: a Rail and
+   its splitter and a SidePane run to the window's bottom, the key bar between them; a Bench
+   and a Stage stop at the key bar, as a SidePane does where it covers the page. Each sets its
+   own sides */
+.gg-rail[popover],
+.gg-rail-resize,
+.gg-side-pane,
+.gg-bench,
+.gg-stage {
+  position: fixed;
+  top: anchor(--gg-topbar bottom, 0px);
+  bottom: 0;
+}
+
+.gg-bench,
+.gg-stage {
+  bottom: var(--gg-statusbar-h);
+}

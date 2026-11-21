@@ -10,23 +10,28 @@ describe("keyLabel", () => {
     expect(keyLabel("Mod+Shift+K", "Other")).toBe("Ctrl+Shift+K");
   });
 
-  it("prints a plain letter in lower case and a shifted character as typed", () => {
-    expect(keyLabel("J", "Other")).toBe("j");
-    expect(keyLabel("Shift+G", "Other")).toBe("G");
+  it("prints a letter as its keycap, Shift spelled out, and a shifted symbol as typed", () => {
+    expect(keyLabel("J", "Other")).toBe("J");
+    expect(keyLabel("Shift+G", "Other")).toBe("Shift+G");
+    expect(keyLabel("Shift+G", "Apple")).toBe("⇧G");
     expect(keyLabel("Shift+?", "Apple")).toBe("?");
   });
 
   it("prints arrows as arrows and named keys by name", () => {
     expect(keyLabel("ArrowDown", "Other")).toBe("↓");
     expect(keyLabel("Enter", "Other")).toBe("Enter");
+    expect(keyLabel("Enter", "Apple")).toBe("↵");
     expect(keyLabel("Space", "Other")).toBe("Space");
+    expect(keyLabel("Escape", "Other")).toBe("Esc");
+    expect(keyLabel("Backspace", "Other")).toBe("Backspace");
+    expect(keyLabel("Backspace", "Apple")).toBe("⌫");
     expect(keyLabel("Alt+ArrowUp", "Apple")).toBe("⌥↑");
   });
 
-  it("joins a sequence of characters as one word and keeps spaces around names", () => {
-    expect(keyLabel(["G", "G"], "Other")).toBe("gg");
-    expect(keyLabel(["G", "Shift+G"], "Other")).toBe("gG");
-    expect(keyLabel(["G", "Enter"], "Other")).toBe("g Enter");
+  it("prints a sequence's presses a space apart", () => {
+    expect(keyLabel(["G", "G"], "Other")).toBe("G G");
+    expect(keyLabel(["G", "Shift+G"], "Other")).toBe("G Shift+G");
+    expect(keyLabel(["G", "Enter"], "Other")).toBe("G Enter");
   });
 });
 

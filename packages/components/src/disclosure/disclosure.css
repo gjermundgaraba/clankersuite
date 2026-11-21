@@ -1,0 +1,64 @@
+.gg-disclosure > :is(summary, .gg-disclosure-summary) {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  width: 100%;
+  padding: var(--semantic-dimension-space-x-small) 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+.gg-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.gg-disclosure[open] > summary .gg-icon,
+.gg-disclosure > .gg-disclosure-summary[aria-expanded="true"] .gg-icon {
+  transform: rotate(90deg);
+}
+
+.gg-disclosure-label {
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    transparent;
+}
+
+.gg-disclosure
+  > :is(summary, .gg-disclosure-summary):hover
+  .gg-disclosure-label {
+  border-bottom-color: var(--semantic-color-border-primary);
+}
+
+.gg-disclosure > .gg-disclosure-summary[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}
+
+.gg-disclosure
+  > .gg-disclosure-summary[aria-disabled="true"]:hover
+  .gg-disclosure-label {
+  border-bottom-color: transparent;
+}
+
+.gg-disclosure-body {
+  display: grid;
+  gap: var(--semantic-dimension-space-large);
+  margin: var(--semantic-dimension-space-small) 0
+    var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-large);
+  border-left: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-disclosure-body > * {
+  min-width: 0;
+}

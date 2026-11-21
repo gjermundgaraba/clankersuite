@@ -40,7 +40,7 @@ const segmentView = <Value extends string, Message>(
     h
   );
 
-/** A choice of one: the pressed segment inverts and is `aria-pressed="true"`, the others
+/** A choice of one: the pressed segment is tinted and `aria-pressed="true"`, the others
  *  `"false"`, in a `role="group"` named by the label, printed as the nav strip. */
 export const view = <Value extends string, Message>(
   config: ViewConfig<Value, Message>,

@@ -17,8 +17,19 @@ export const spec = define({
 /** Configuration for rendering a Markdown editor with `view`. */
 export type ViewConfig<Message> = Pick<
   TextareaField.ViewConfig<Message>,
-  "id" | "label" | "value" | "onInput" | "help" | "error" | "rows"
->;
+  | "id"
+  | "label"
+  | "isLabelHidden"
+  | "value"
+  | "onInput"
+  | "help"
+  | "error"
+  | "rows"
+> &
+  Readonly<{
+    /** Quiet in the field while it is empty: `"Notes, in Markdown…"`. */
+    placeholder?: string;
+  }>;
 
 /** A labelled Markdown field, edited in place: its marks show only around the caret, and the
  *  text it hands back is the Markdown string as typed, except that the first edit turns CRLF
@@ -29,6 +40,7 @@ export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
+  const { placeholder, ...field } = config;
   const host = spec.withMessage(h);
 
   return host(
@@ -36,7 +48,17 @@ export const view = <Message>(
       host.Source(config.value),
       host.OnValueChange(({ value }) => config.onInput(value)),
     ],
-    [TextareaField.view(config, h)]
+    [
+      TextareaField.view(
+        {
+          ...field,
+          ...(placeholder !== undefined && {
+            textareaAttributes: [h.Placeholder(placeholder)],
+          }),
+        },
+        h
+      ),
+    ]
   );
 };
 

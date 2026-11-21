@@ -1,3 +1,4 @@
+import { Glyph } from "@gjermundgaraba/icons";
 import {
   Array,
   Duration,
@@ -297,7 +298,7 @@ export const update = (model: Model, message: Message) =>
 /** What `show` raises. */
 export type ShowConfig = Readonly<{
   tone: Tone;
-  /** Pixel caps: what happened (`"Saved"`, `"Not sent"`). */
+  /** What happened (`"Saved"`, `"Not sent"`). */
   title: string;
   /** One sans sentence: what it means, and for an error what to do. */
   body?: string;
@@ -380,9 +381,12 @@ const slipView = (entry: Stack.Entry, h: HtmlBuilder<Message>): Html => {
   const { tone, title, maybeBody } = entry.payload;
 
   return h.div(
-    [h.Class(`gg-notice gg-toast${Notice.TONE_CLASS[tone]}`)],
+    [h.Class("gg-toast")],
     [
-      Notice.toneGlyphView({ tone }, h),
+      h.span(
+        [h.Class("gg-glyph")],
+        [Glyph.view({ name: Notice.toneGlyph(tone) }, h)]
+      ),
       h.div([], [h.strong([], [title]), ...Option.toArray(maybeBody)]),
       IconButton.view(
         {

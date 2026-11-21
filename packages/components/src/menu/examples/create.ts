@@ -93,6 +93,7 @@ const foldCreate = Update.foldChild({
         model: modifyFields(model, { maybeLastMade: () => Option.some(id) }),
       }),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -117,6 +118,7 @@ const foldAreaPicker = Update.foldChild({
           }
         ),
     Toggled: () => (model) => ({ model }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -195,7 +197,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         areaToggleView(model, h),
         ...Option.toArray(
           Option.map(model.maybeLastMade, (id) =>
-            h.span([], [`new ${id} in ${model.area.title}`])
+            h.span([], [`New ${id} in ${model.area.title}`])
           )
         ),
       ],

@@ -1,0 +1,46 @@
+.gg-drop-zone {
+  display: grid;
+  justify-items: center;
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-xx-large)
+    var(--semantic-dimension-space-inset);
+  text-align: center;
+  border: var(--semantic-dimension-border-width-default) dashed
+    var(--semantic-color-border-secondary);
+  border-radius: var(--semantic-dimension-radius-surface);
+}
+
+.gg-drop-zone[data-drag-over] {
+  border-style: solid;
+  border-color: var(--semantic-color-background-fill-accent);
+  background: var(--semantic-color-background-head);
+}
+
+.gg-drop-zone-glyph {
+  display: flex;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-drop-zone-glyph .gg-icon {
+  width: var(--semantic-dimension-size-glyph-large);
+  height: var(--semantic-dimension-size-glyph-large);
+}
+
+.gg-drop-zone p {
+  color: var(--semantic-color-text-secondary);
+  max-width: var(--semantic-dimension-size-measure-drop-zone);
+}
+
+.gg-drop-zone p strong {
+  display: block;
+  margin-bottom: var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-control);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-drop-zone .gg-btn:focus-within {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}

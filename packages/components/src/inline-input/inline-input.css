@@ -1,0 +1,20 @@
+input.gg-inline-input {
+  font: inherit;
+  color: inherit;
+  background: var(--semantic-color-background-surface);
+  border: none;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  padding: 0;
+  width: 100%;
+  height: calc(1lh + var(--semantic-dimension-border-width-default));
+}
+
+input.gg-inline-input[aria-busy="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: progress;
+}
+
+input.gg-inline-input[aria-invalid="true"] {
+  border-bottom-color: var(--semantic-color-border-negative);
+}

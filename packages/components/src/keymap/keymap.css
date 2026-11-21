@@ -1,0 +1,36 @@
+.gg-keymap {
+  display: grid;
+  gap: var(--semantic-dimension-space-medium);
+}
+
+.gg-keymap h3 {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+  color: var(--semantic-color-text-secondary);
+  margin: 0 0 var(--semantic-dimension-space-x-small);
+}
+
+.gg-keymap-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--semantic-dimension-space-large);
+  padding: var(--semantic-dimension-space-x-small) 0;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-keymap-row:last-child {
+  border-bottom: 0;
+}
+
+.gg-keymap-row kbd {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  flex: none;
+  width: var(--semantic-dimension-size-measure-large);
+}
+
+.gg-keymap-row span {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}

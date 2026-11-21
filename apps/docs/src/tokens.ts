@@ -4,11 +4,11 @@ import { Array, Predicate, Record } from "effect";
 import { parseTokens, resolve, tokensUnder } from "./token-css.ts";
 import type { Schemes, Token } from "./token-css.ts";
 
-import BRAND_CSS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
+import TOKEN_CSS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
-const ALL_TOKENS = parseTokens(BRAND_CSS);
+const ALL_TOKENS = parseTokens(TOKEN_CSS);
 
-/** The brand's semantic tokens, in the order its stylesheet declares them. */
+/** The semantic tokens, in the order their stylesheet declares them. */
 export const SEMANTIC_TOKENS: readonly Token[] = Array.filter(
   ALL_TOKENS,
   ({ name }) => name.startsWith("--semantic-")
@@ -22,7 +22,8 @@ export const semanticTokensUnder = (prefix: string): readonly Token[] =>
 export const computedValue = (token: Token): string | Schemes =>
   resolve(ALL_TOKENS, token.value);
 
-/** The semantic token a token aliases, when it aliases one rather than a primitive. */
+/** The semantic token a token aliases, when it aliases one rather than holding a value or a
+ *  palette colour. */
 export const semanticAlias = (token: Token): string | undefined => {
   const alias = /^var\((?<name>--semantic-[\w-]+)\)$/u.exec(token.value)
     ?.groups?.["name"];
@@ -69,12 +70,12 @@ export const kindOf = (token: Token): Kind => {
 type Palette = Readonly<{ name: string; scheme: keyof Schemes }>;
 
 export const PALETTES: readonly Palette[] = [
-  { name: "paper", scheme: "light" },
-  { name: "plum", scheme: "dark" },
+  { name: "Light", scheme: "light" },
+  { name: "Dark", scheme: "dark" },
 ];
 
 const SOURCES = import.meta.glob<unknown>(
-  "../../../packages/design-tokens/tokens/shared/semantic/**/*.tokens.json",
+  "../../../packages/design-tokens/tokens/semantic/**/*.tokens.json",
   { eager: true, import: "default" }
 );
 

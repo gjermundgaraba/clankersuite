@@ -63,7 +63,7 @@ export const update = (model: Model, message: Message) =>
     }
   );
 
-/** One option: its value, its name in pixel caps, and an optional sans note under it. */
+/** One option: its value, its name, and an optional note under it. */
 export type RadioOption = Readonly<{
   value: string;
   label: string;
@@ -83,8 +83,8 @@ export type ViewInputs = Readonly<{
  * A choice of one, built on `@foldkit/ui`'s RadioGroup: a `role="radiogroup"` of
  * `role="radio"` options (`aria-checked`), each a button holding its mark, its name and its
  * note, named by the name and described by the note, so a click anywhere on it chooses it.
- * One stop for Tab, and the arrows move the selection. Its mark is a diamond, so a single
- * choice reads apart from a checkbox.
+ * One stop for Tab, and the arrows move the selection. Its mark is a dot in a round box, so a
+ * single choice reads apart from a checkbox.
  */
 export const view = defineView<Model, Message, ViewInputs>(
   (model, viewInputs, h): Html => {

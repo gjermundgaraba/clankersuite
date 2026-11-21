@@ -41,7 +41,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       body: [
         FilterChip.view(
           {
-            label: "open",
+            label: "Open",
             isPressed: model.isOpenOnly,
             onToggle: Message.ToggledOpenOnly(),
           },
@@ -49,7 +49,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         ),
         FilterChip.view(
           {
-            label: "this week",
+            label: "This week",
             isPressed: model.isDueSoon,
             onToggle: Message.ToggledDueSoon(),
           },
@@ -57,7 +57,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         ),
         FilterChip.view(
           {
-            label: "reset",
+            label: "Reset",
             full: "Reset the filters",
             isReset: true,
             onToggle: Message.ClickedReset(),

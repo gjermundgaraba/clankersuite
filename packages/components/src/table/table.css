@@ -1,0 +1,127 @@
+.gg-table-wrap {
+  overflow-x: auto;
+}
+
+.gg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--semantic-dimension-font-size-body);
+}
+
+.gg-table th {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  background: var(--semantic-color-background-head);
+  text-align: left;
+  height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-medium);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  white-space: nowrap;
+}
+
+.gg-table td {
+  height: var(--semantic-dimension-size-row);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-medium);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  vertical-align: middle;
+}
+
+.gg-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.gg-table tbody tr:hover {
+  background: var(--semantic-color-background-hover);
+}
+
+.gg-table td.gg-acts {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.gg-table td.gg-acts,
+.gg-table:has(td.gg-acts) th:last-child {
+  position: sticky;
+  right: 0;
+  background: var(--semantic-color-background-surface);
+}
+
+.gg-table:has(td.gg-acts) th:last-child {
+  background: var(--semantic-color-background-head);
+}
+
+/* the sticky actions cell lays the hover tint over its opaque surface, so what scrolls
+   under it stays hidden */
+.gg-table tbody tr:hover td.gg-acts {
+  background-image: linear-gradient(
+    var(--semantic-color-background-hover),
+    var(--semantic-color-background-hover)
+  );
+}
+
+@media (max-width: 600px) {
+  /* a box-shadow, not a border: collapsed table borders paint with the table and stay
+     behind when the cell sticks; the inset shadow travels with the cell */
+  .gg-table td.gg-acts,
+  .gg-table:has(td.gg-acts) th:last-child {
+    box-shadow: inset var(--semantic-dimension-border-width-default) 0 0
+      var(--semantic-color-border-primary);
+    padding-left: var(--semantic-dimension-space-medium);
+  }
+}
+
+.gg-table td.gg-acts .gg-btn + .gg-btn {
+  margin-left: var(--semantic-dimension-space-small);
+}
+
+@media (max-width: 600px) {
+  .gg-table thead {
+    display: none;
+  }
+
+  .gg-table,
+  .gg-table tbody,
+  .gg-table tr,
+  .gg-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .gg-table tr {
+    padding: var(--semantic-dimension-space-medium)
+      var(--semantic-dimension-space-medium);
+    border-bottom: var(--semantic-dimension-border-width-default) solid
+      var(--semantic-color-border-divider);
+  }
+
+  .gg-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .gg-table td,
+  .gg-table td.gg-acts {
+    position: static;
+    box-shadow: none;
+    background: none;
+    border: 0;
+    height: auto;
+    padding: var(--semantic-dimension-space-xx-small) 0;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .gg-table td[data-gg-label]::before {
+    content: attr(data-gg-label);
+    display: block;
+    font-size: var(--semantic-dimension-font-size-label);
+    color: var(--semantic-color-text-secondary);
+  }
+
+  .gg-table td.gg-acts {
+    padding-top: var(--semantic-dimension-space-small);
+  }
+}

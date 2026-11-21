@@ -13,7 +13,7 @@ describe("Keymap", () => {
           Keymap.view(
             {
               groups: [
-                { title: "Move", rows: [{ keys: "j / ↓", does: "Next item" }] },
+                { title: "Move", rows: [{ keys: "J / ↓", does: "Next item" }] },
                 {
                   title: "Anywhere",
                   rows: [{ keys: "Ctrl+K", does: "Find a command" }],
@@ -29,7 +29,7 @@ describe("Keymap", () => {
       Scene.expect(Scene.role("heading", { name: "Anywhere" })).toExist(),
       Scene.expect(
         Scene.first(Scene.all.selector(".gg-keymap-row kbd"))
-      ).toHaveText("j / ↓"),
+      ).toHaveText("J / ↓"),
       Scene.expect(Scene.selector(".gg-note-line")).toHaveText(
         "Keys wait while you type in a field."
       )

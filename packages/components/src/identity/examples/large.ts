@@ -3,6 +3,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Identity.view(
-    { label: "Northwind Traders", meta: ["provider"], isLarge: true },
+    { label: "Northwind Traders", meta: ["Provider"], isLarge: true },
     h
   );

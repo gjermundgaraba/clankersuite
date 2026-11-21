@@ -1,0 +1,34 @@
+button.gg-tag:has(> span) {
+  overflow: visible;
+}
+
+button.gg-tag > span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gg-tag {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding: 0 var(--semantic-dimension-space-small);
+  flex: none;
+  max-width: var(--semantic-dimension-size-measure-tag);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+}
+
+button.gg-tag {
+  cursor: pointer;
+}
+
+button.gg-tag:hover {
+  color: var(--semantic-color-text-primary);
+  border-color: var(--semantic-color-border-secondary);
+}

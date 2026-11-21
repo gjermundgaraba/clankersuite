@@ -50,6 +50,21 @@ describe("MarkdownEditor", () => {
     );
   });
 
+  it("keeps its name with its label hidden, and passes its placeholder on", () => {
+    Scene.scene(
+      {
+        update,
+        view: fieldView({
+          isLabelHidden: true,
+          placeholder: "Notes, in Markdown…",
+        }),
+      },
+      Scene.given<Model>({ brief: "" }),
+      Scene.expect(Scene.selector("label")).toHaveClass("sr-only"),
+      Scene.expect(textbox).toHaveAttr("placeholder", "Notes, in Markdown…")
+    );
+  });
+
   it("is described by its help line", () => {
     Scene.scene(
       { update, view: fieldView({ help: "Markdown supported." }) },

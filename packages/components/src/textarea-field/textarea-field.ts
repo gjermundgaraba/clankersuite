@@ -12,6 +12,9 @@ import { controlAttributes, errorView, helpView } from "../field/field.ts";
 export type ViewConfig<Message> = Readonly<{
   id: string;
   label: string;
+  /** Hides the label from sight but keeps it as the textarea's name, where the field's place
+   *  says what it is, such as a side pane's notes under their rule. */
+  isLabelHidden?: boolean;
   value: string;
   onInput: (value: string) => Message;
   /** A sans sentence under the control. */
@@ -36,7 +39,7 @@ export type ViewConfig<Message> = Readonly<{
 /** A labelled textarea with its help line, built on `@foldkit/ui`'s `Textarea`: the label
  *  names the textarea, the help line describes it (`aria-describedby`), an `error` sets
  *  `aria-invalid` and describes it before the help, and `isRequired` sets `aria-required`.
- *  Boxless like a Field, on a dotted baseline, with an ink corner grip. */
+ *  Boxless like a Field, on a baseline, with the browser's resize grip. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
@@ -44,6 +47,7 @@ export const view = <Message>(
   const {
     id,
     label,
+    isLabelHidden = false,
     value,
     onInput,
     help,
@@ -66,7 +70,10 @@ export const view = <Message>(
         h.div(
           [h.Class(`gg-field${isMono ? " gg-mono" : ""}`)],
           [
-            h.label(groups.label, [label]),
+            h.label(
+              [...groups.label, ...(isLabelHidden ? [h.Class("sr-only")] : [])],
+              [label]
+            ),
             h.textarea([
               ...textareaAttributes,
               ...groups.textarea,

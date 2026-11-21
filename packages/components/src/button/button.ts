@@ -9,33 +9,43 @@ import type { Attributes } from "../attributes/attributes.ts";
 import * as KeyHint from "../key-hint/key-hint.ts";
 import type { KeyPlatform } from "../key-hint/key-label.ts";
 
-/** How a button prints. `Primary` is the one committing action. `Danger` is the commit inside a
- *  confirm, never at rest: a destructive action is a neutral button that opens a danger
- *  `ConfirmDialog`. */
-export const Variant = Schema.Literals(["Default", "Primary", "Danger"]);
+/** How a button prints. `Primary` is the one committing action. `Ghost` has no box until it is
+ *  hovered, for an action beside a page's title. `Quiet` is a value that opens a menu, as a
+ *  side pane's properties print: its words at body size and weight, no box until hovered.
+ *  `Danger` is the commit inside a confirm, never at rest: a destructive action is a neutral
+ *  button that opens a danger `ConfirmDialog`. */
+export const Variant = Schema.Literals([
+  "Default",
+  "Primary",
+  "Ghost",
+  "Quiet",
+  "Danger",
+]);
 
 export type Variant = typeof Variant.Type;
 
-/** What `Button` and `LinkButton` share: the variant, the size, and the default ring. */
+/** What `Button` and `LinkButton` share: the variant and the size. `isLarge` is for the one
+ *  action that ends a flow, such as a sheet's commit. */
 export type Look = Readonly<{
   variant?: Variant;
   isSmall?: boolean;
-  /** The action Enter takes in a card: a double ring instead of the print shadow. */
-  isDefault?: boolean;
+  isLarge?: boolean;
 }>;
 
 const VARIANT_CLASS: Readonly<Record<Variant, string>> = {
   Default: "gg-btn",
   Primary: "gg-btn gg-primary",
+  Ghost: "gg-btn gg-ghost",
+  Quiet: "gg-btn gg-quiet",
   Danger: "gg-btn gg-danger",
 };
 
 export const lookClassName = ({
   variant = "Default",
   isSmall = false,
-  isDefault = false,
+  isLarge = false,
 }: Look): string =>
-  `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}${isDefault ? " gg-default-ring" : ""}`;
+  `${VARIANT_CLASS[variant]}${isSmall ? " gg-small" : ""}${isLarge ? " gg-large" : ""}`;
 
 /** The key that does the same as the button, printed small after its words. */
 export type KeyHintConfig = Readonly<{
@@ -55,8 +65,8 @@ export type ViewConfig<Message> = Look &
   Readonly<{
     label: string;
     onClick?: Message;
-    /** Working: a blinking block cursor prints in the right padding, so the label stays put
-     *  and the button keeps its width. The button is held and says so (`aria-busy`). */
+    /** Working: a spinner turns in place of the words, which keep their room unseen,
+     *  so the button keeps its width. The button is held and says so (`aria-busy`). */
     isBusy?: boolean;
     /** Unavailable: the button is held. As in `@foldkit/ui`, it stays focusable
      *  (`aria-disabled`), so focus never falls to the page and Tab still finds it. */
@@ -70,8 +80,9 @@ export type ViewConfig<Message> = Look &
   }>;
 
 /**
- * The printed button: pixel caps in a 2px ink box on a 3px print shadow, built on
- * `@foldkit/ui`'s `Button`. It is held while busy or disabled: it prints unavailable
+ * A command the reader gives: a word in a rounded 1px box that shrinks a little while it is
+ * pressed, built on `@foldkit/ui`'s `Button`.
+ * It is held while busy or disabled: it prints unavailable
  * (`aria-disabled`), has no click handler, keeps its place in the keyboard, and renders as
  * `type="button"` so a held submit button submits nothing, by click or by Enter on itself.
  * While busy it is `aria-busy` too.
@@ -114,7 +125,7 @@ export const view = <Message>(
             label,
             ...(keyHint === undefined ? [] : [KeyHint.view(keyHint, h)]),
             ...(isBusy
-              ? [h.span([h.Class("gg-cursor"), h.AriaHidden(true)])]
+              ? [h.span([h.Class("gg-spinner"), h.AriaHidden(true)])]
               : []),
           ]
         ),

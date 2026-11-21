@@ -36,7 +36,7 @@ export const update = (_model: Model, message: Message) =>
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Button.view(
     {
-      label: "send",
+      label: "Send",
       variant: "Primary",
       glyph: "send",
       onClick: Message.ClickedSend(),

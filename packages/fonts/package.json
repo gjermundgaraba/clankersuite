@@ -18,7 +18,8 @@
     "**/*.css"
   ],
   "exports": {
-    "./departure-mono.css": "./departure-mono.css"
+    "./departure-mono.css": "./departure-mono.css",
+    "./inter.css": "./inter.css"
   },
   "publishConfig": {
     "access": "public"

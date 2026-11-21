@@ -42,9 +42,9 @@ export const update = (model: Model, message: Message) =>
   });
 
 const TABS = [
-  { value: "open", label: "open", text: "Four items are open." },
-  { value: "waiting", label: "waiting", text: "Two items wait on someone." },
-  { value: "closed", label: "closed", text: "Nothing closed this week." },
+  { value: "open", label: "Open", text: "Four items are open." },
+  { value: "waiting", label: "Waiting", text: "Two items wait on someone." },
+  { value: "closed", label: "Closed", text: "Nothing closed this week." },
 ];
 
 const panelView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
@@ -57,7 +57,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Panel.view(
     {
       id: "tabs-panel",
-      title: "items",
+      title: "Items",
       body: [
         h.submodel({
           slotId: Tabs.id(model.tabs),

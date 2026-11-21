@@ -1,0 +1,89 @@
+/* the page's stack: @foldkit/ui's Toast container, fixed above the page and inside the open
+   dialog when Toaster is rendered there. Its placement is inline (bottom right, 16px padding),
+   so the stylesheet centres it between a Rail and a SidePane, as the key bar is, raises it
+   clear of the key bar and sets the gap. A phone spans it across the bottom */
+.gg-toasts .gg-toast-stack {
+  right: anchor(--gg-side-pane left, 0px) !important;
+  bottom: var(--gg-statusbar-h) !important;
+  left: anchor(--gg-rail right, 0px) !important;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small) !important;
+}
+
+/* inverted, as the prototype's: the page's text colour is its ground. Its edge is the float's
+   ring, and an outline forced colours paint */
+.gg-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  max-width: min(var(--semantic-dimension-size-max-width-toast), 100%);
+  min-height: calc(
+    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-x-small)
+  );
+  padding: var(--semantic-dimension-space-small)
+    calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-small)
+    calc(
+      var(--semantic-dimension-space-medium) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-on-inverse);
+  background: var(--semantic-color-background-inverse);
+  border-radius: var(--semantic-dimension-radius-row);
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
+  box-shadow: var(--semantic-shadow-float);
+}
+
+.gg-toast > .gg-glyph {
+  flex: none;
+  display: flex;
+}
+
+.gg-toast strong {
+  display: block;
+  font-weight: var(--semantic-font-weight-medium);
+}
+
+.gg-toast > div {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gg-toast > .gg-iconbtn {
+  flex: none;
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .gg-toast > .gg-iconbtn:not(:disabled, [aria-disabled="true"]):hover {
+    color: inherit;
+    background: none;
+    box-shadow: inset 0 0 0 var(--semantic-dimension-border-width-default)
+      currentColor;
+  }
+}
+
+.gg-toasts .gg-toast {
+  animation: gg-toast-in var(--semantic-duration-card)
+    var(--semantic-cubic-bezier-standard);
+}
+
+@keyframes gg-toast-in {
+  from {
+    transform: translateY(var(--semantic-dimension-travel-toast));
+    opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .gg-toasts .gg-toast-stack {
+    left: 0 !important;
+    right: 0 !important;
+    align-items: stretch;
+  }
+}

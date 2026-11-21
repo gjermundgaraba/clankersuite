@@ -5,7 +5,7 @@ import { describe, it } from "vite-plus/test";
 import * as EmptyState from "./empty-state.ts";
 
 describe("EmptyState", () => {
-  it("says what is missing in caps, how it fills in a sentence, then its action", () => {
+  it("says what is missing, how it fills in a sentence, then its action", () => {
     Scene.scene(
       {
         update: (model: null) => ({ model }),
@@ -59,6 +59,27 @@ describe("EmptyState", () => {
         "Sign in to see your tasks"
       ),
       Scene.expect(Scene.selector(".gg-empty strong")).toBeAbsent()
+    );
+  });
+
+  it("leads a page's empty list with its glyph, for the eye only", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          EmptyState.view(
+            { title: "Inbox zero", headingLevel: 2, glyph: "check" },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(
+        Scene.role("heading", { name: "Inbox zero", level: 2 })
+      ).toExist(),
+      Scene.expect(Scene.selector(".gg-empty svg")).toHaveAttr(
+        "aria-hidden",
+        "true"
+      )
     );
   });
 });

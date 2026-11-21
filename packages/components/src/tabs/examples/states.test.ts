@@ -10,12 +10,12 @@ describe("the states example", () => {
       { update, view },
       Scene.given(init().model),
       Scene.expect(Scene.text("Four items are open.")).toExist(),
-      Scene.click(Scene.role("tab", { name: "waiting" })),
+      Scene.click(Scene.role("tab", { name: "Waiting" })),
       Scene.Command.resolve(
         UiTabs.FocusTab,
         UiTabs.Message.CompletedFocusTab()
       ),
-      Scene.expect(Scene.role("tab", { name: "waiting" })).toHaveAttr(
+      Scene.expect(Scene.role("tab", { name: "Waiting" })).toHaveAttr(
         "aria-selected",
         "true"
       ),

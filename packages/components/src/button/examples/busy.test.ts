@@ -8,13 +8,13 @@ describe("the busy example", () => {
     Scene.scene(
       { update, view },
       Scene.given({ isSending: false }),
-      Scene.click(Scene.role("button", { name: "send" })),
-      Scene.expect(Scene.role("button", { name: "send" })).toHaveAttr(
+      Scene.click(Scene.role("button", { name: "Send" })),
+      Scene.expect(Scene.role("button", { name: "Send" })).toHaveAttr(
         "aria-busy",
         "true"
       ),
       Scene.Command.resolve(Send, Message.CompletedSend()),
-      Scene.expect(Scene.role("button", { name: "send" })).not.toHaveAttr(
+      Scene.expect(Scene.role("button", { name: "Send" })).not.toHaveAttr(
         "aria-busy"
       )
     );

@@ -5,9 +5,9 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Crumbs.view(
     {
       crumbs: [
-        { label: "library", href: "#library" },
-        { label: "notes", href: "#notes" },
-        { label: "field notes" },
+        { label: "Library", href: "#library" },
+        { label: "Notes", href: "#notes" },
+        { label: "Field notes" },
       ],
     },
     h

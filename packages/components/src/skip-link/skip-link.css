@@ -1,0 +1,20 @@
+.gg-skip {
+  position: fixed;
+  top: 0;
+  translate: 0 -100%;
+  left: var(--semantic-dimension-space-medium);
+  z-index: var(--semantic-number-layer-skip-link);
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
+  font-size: var(--semantic-dimension-font-size-control);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
+  text-decoration: none;
+}
+
+.gg-skip:focus {
+  top: var(--semantic-dimension-space-small);
+  translate: none;
+}

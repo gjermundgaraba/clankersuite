@@ -1,20 +1,36 @@
 import { Button as UiButton } from "@foldkit/ui";
+import { Glyph } from "@gjermundgaraba/icons";
+import type { GlyphName } from "@gjermundgaraba/icons";
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
+import { countParts } from "../count/count.ts";
+import * as Marker from "../marker/marker.ts";
+
 /** One place in Places: a link to its address (`href`), or a button that shows it in the page
  *  (`onSelect`). */
-export type Place<Message> = PlaceContent & PlaceTarget<Message>;
+export type Place<Message> = PlaceContent<Message> & PlaceTarget<Message>;
 
-export type PlaceContent = Readonly<{
+export type PlaceContent<Message> = Readonly<{
   /** Stable and unique among the places: the row's key, so two places that share a name stay
    *  apart. */
   id: string;
   /** The place's name, in sans: it is authored. It wraps rather than clipping. */
   label: string;
-  /** The place you are in, printed inverted: `aria-current="page"` on a link, `"true"` on a
-   *  button, which shows the place without leaving the page. */
+  /** A 16px glyph before the name. */
+  glyph?: GlyphName;
+  /** A Marker's square in the place's colour before the name, for an area; a glyph wins
+   *  over it. */
+  marker?: Marker.Colour;
+  /** How many things wait there, right-aligned after the name, quiet. Screen readers hear it
+   *  after a pause: "Inbox, 3". */
+  count?: number;
+  /** The place you are in, on the surface in a hairline ring:
+   *  `aria-current="page"` on a link, `"true"` on a button, which shows the place without
+   *  leaving the page. */
   isCurrent?: boolean;
+  /** Places inside this one, as a list under it, indented to its name and smaller. */
+  subPlaces?: ReadonlyArray<Place<Message>>;
 }>;
 
 export type PlaceTarget<Message> =
@@ -33,15 +49,36 @@ export type PlaceTarget<Message> =
 export type ViewConfig<Message> = Readonly<{
   /** Names the navigation for screen readers ("Areas"). */
   label: string;
+  /** Prints the label above the places too, as the section's heading. */
+  isLabelShown?: boolean;
   places: ReadonlyArray<Place<Message>>;
 }>;
+
+const leadView = <Message>(
+  place: Place<Message>,
+  h: HtmlBuilder<Message>
+): readonly Html[] => {
+  if (place.glyph !== undefined) {
+    return [Glyph.view({ name: place.glyph }, h)];
+  }
+
+  return place.marker === undefined
+    ? []
+    : [Marker.view({ colour: place.marker }, h)];
+};
 
 const lineView = <Message>(
   place: Place<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, isCurrent = false } = place;
-  const content = [h.span([h.Class("gg-place-name")], [label])];
+  const { label, count, isCurrent = false } = place;
+  const counted = countParts(label, count, h);
+
+  const content = [
+    ...leadView(place, h),
+    h.span([h.Class("gg-place-name")], [label]),
+    ...counted.view,
+  ];
 
   return place.href === undefined
     ? UiButton.view(
@@ -49,34 +86,62 @@ const lineView = <Message>(
           onClick: place.onSelect,
           toView: (groups) =>
             h.button(
-              [...groups.button, ...(isCurrent ? [h.AriaCurrent("true")] : [])],
+              [
+                ...groups.button,
+                ...counted.name,
+                ...(isCurrent ? [h.AriaCurrent("true")] : []),
+              ],
               content
             ),
         },
         h
       )
     : h.a(
-        [h.Href(place.href), ...(isCurrent ? [h.AriaCurrent("page")] : [])],
+        [
+          h.Href(place.href),
+          ...counted.name,
+          ...(isCurrent ? [h.AriaCurrent("page")] : []),
+        ],
         content
       );
 };
 
-const placeView =
-  <Message>(h: HtmlBuilder<Message>) =>
-  (place: Place<Message>): Html =>
-    h.keyed("li")(place.id, [], [lineView(place, h)]);
+const listView = <Message>(
+  places: ReadonlyArray<Place<Message>>,
+  h: HtmlBuilder<Message>
+): Html =>
+  h.ul(
+    [],
+    Array.map(places, (place) =>
+      h.keyed("li")(
+        place.id,
+        [],
+        [
+          lineView(place, h),
+          ...(place.subPlaces === undefined ||
+          !Array.isReadonlyArrayNonEmpty(place.subPlaces)
+            ? []
+            : [listView(place.subPlaces, h)]),
+        ]
+      )
+    )
+  );
 
-/** A column of places to go (areas, collections, saved filters), flush in a rail panel: a
- *  navigation landmark named by its label, one line each a link to the place or a button built
- *  on `@foldkit/ui`'s Button, the one you are in `aria-current="page"` and printed inverted. */
+/** A column of places to go (lists, areas, saved filters), flat in a sidebar: a navigation
+ *  landmark named by its label, one line each a link to the place or a button built on
+ *  `@foldkit/ui`'s Button, with a glyph or a colour marker, the name and a quiet count; the
+ *  one you are in `aria-current` and on the surface. A place's sub-places list under it. */
 export const view = <Message>(
   config: ViewConfig<Message>,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, places } = config;
+  const { label, isLabelShown = false, places } = config;
 
   return h.nav(
     [h.AriaLabel(label), h.Class("gg-places")],
-    [h.ul([], Array.map(places, placeView(h)))]
+    [
+      ...(isLabelShown ? [h.h2([h.Class("gg-places-label")], [label])] : []),
+      listView(places, h),
+    ]
   );
 };

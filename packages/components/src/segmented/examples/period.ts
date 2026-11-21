@@ -28,9 +28,9 @@ export const update = (_model: Model, message: Message) =>
   });
 
 const PERIODS: Segmented.ViewConfig<Period, Message>["options"] = [
-  { value: "Day", label: "day" },
-  { value: "Week", label: "week" },
-  { value: "Month", label: "month" },
+  { value: "Day", label: "Day" },
+  { value: "Week", label: "Week" },
+  { value: "Month", label: "Month" },
 ];
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>

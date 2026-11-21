@@ -8,7 +8,7 @@ A ruled log, newest first: when, who, what, and the controls for each entry.
 
 ## Versions
 
-A version log, with the version in force printed inverted and the controls that act on the others.
+A version log, with the version in force tinted and the controls that act on the others.
 
 ::Example{name="versions"}
 

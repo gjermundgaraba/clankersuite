@@ -185,7 +185,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
                 body: [
                   Button.view(
                     {
-                      label: "save",
+                      label: "Save",
                       variant: "Primary",
                       type: "submit",
                       glyph: "save",

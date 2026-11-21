@@ -5,8 +5,8 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
   Sheet.view(
     {
       title: "Rollout checklist",
-      byline: ["v4 · sam · 2 days ago"],
-      actions: [Button.view({ label: "edit", isSmall: true }, h)],
+      byline: ["v4 · Sam · 2 days ago"],
+      actions: [Button.view({ label: "Edit", isSmall: true }, h)],
       body: [
         Prose.view(
           {

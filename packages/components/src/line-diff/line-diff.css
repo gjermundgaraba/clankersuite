@@ -1,0 +1,87 @@
+.gg-diff-wrap {
+  overflow-x: auto;
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  background: var(--semantic-color-background-surface);
+  padding: var(--semantic-dimension-space-x-small) 0;
+}
+
+.gg-diff {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-code
+    )
+    var(--semantic-font-family-code);
+}
+
+.gg-diff td {
+  padding: 0 var(--semantic-dimension-space-small);
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.gg-diff td.gg-line {
+  white-space: pre;
+}
+
+.gg-diff td.gg-ln {
+  width: 1%;
+  text-align: right;
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  line-height: var(--semantic-dimension-size-diff-line);
+  color: var(--semantic-color-text-secondary);
+  border-right: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  user-select: none;
+}
+
+.gg-diff td.gg-sign {
+  width: 1%;
+  padding: 0 var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-small);
+  font-family: var(--semantic-font-family-ui);
+  user-select: none;
+}
+
+.gg-diff tr.gg-add {
+  background: var(--semantic-color-background-head);
+}
+
+.gg-diff tr.gg-add td.gg-sign {
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-diff tr.gg-add td.gg-ln {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-diff tr.gg-del td.gg-line {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-diff tr.gg-del td.gg-sign {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-diff tr.gg-fold td {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  background: var(--semantic-color-background-head);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-medium);
+}
+
+@media (max-width: 600px) {
+  .gg-diff td.gg-line {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}

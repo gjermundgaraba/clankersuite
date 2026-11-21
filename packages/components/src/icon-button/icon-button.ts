@@ -24,7 +24,7 @@ export type ViewConfig<Message> = Readonly<{
   attributes?: Attributes<Message>;
 }>;
 
-/** A bare glyph button, 24px square. Its label is its accessible name and its tip, and its
+/** A bare glyph button, 26px square. Its label is its accessible name and its tip, and its
  *  key, where it has one, prints in the tip after the label. */
 export const view = <Message>(
   config: ViewConfig<Message>,

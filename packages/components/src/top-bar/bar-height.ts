@@ -14,10 +14,10 @@ export type Message = typeof Message.Type;
 const isFirstOfKind = (element: Element, selector: string): boolean =>
   document.querySelector(selector) === element;
 
-/** Keeps `property` on the page's root at the bar's height, however it wraps, from the moment
- *  the bar mounts until it leaves, so what is placed around it clears it. Only the page's
- *  first bar of its kind (`selector`) does: one shown inside the page, a specimen of one,
- *  leaves it alone. */
+/** Keeps `property` on the page's root at the bar's height, unrounded and border to border,
+ *  however it wraps or its padding grows, from the moment the bar mounts until it leaves, so
+ *  what is placed around it ends at its real edge. Only the page's first bar of its kind
+ *  (`selector`) does: one shown inside the page, a specimen of one, leaves it alone. */
 export const MeasureHeight = Mount.define("MeasureHeight", {
   args: { selector: Schema.String, property: Schema.String },
   messages: [Message.CompletedMeasureHeight],
@@ -34,11 +34,14 @@ export const MeasureHeight = Mount.define("MeasureHeight", {
       yield* Effect.acquireRelease(
         Effect.sync(() => {
           const measure = (): void => {
-            root.setProperty(property, `${element.offsetHeight}px`);
+            root.setProperty(
+              property,
+              `${element.getBoundingClientRect().height}px`
+            );
           };
 
           const observer = new ResizeObserver(measure);
-          observer.observe(element);
+          observer.observe(element, { box: "border-box" });
           measure();
 
           return observer;

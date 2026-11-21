@@ -6,12 +6,12 @@ export const HOLD = Duration.millis(1800);
 
 /** Configuration for rendering a flash word with `view`. */
 export type ViewConfig = Readonly<{
-  /** The word from the caller's Model (`"saved"`), or `None` once it is taken back. */
+  /** The word from the caller's Model (`"Saved"`), or `None` once it is taken back. */
   maybeWord: Option.Option<string>;
 }>;
 
 /**
- * Where a word printed beside an action for a moment (`"copied"`, `"saved"`) goes. It is a
+ * Where a word printed beside an action for a moment (`"Copied"`, `"Saved"`) goes. It is a
  * polite status, always on the page so the word is heard when it arrives; empty, it takes no
  * room. For the outcome of the control the reader just used, beside it: an outcome they may
  * not be looking at is a toast.

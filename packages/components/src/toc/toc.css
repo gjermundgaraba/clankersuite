@@ -1,0 +1,31 @@
+.gg-toc {
+  list-style: none;
+  padding: var(--semantic-dimension-space-small) 0;
+}
+
+.gg-toc a {
+  display: flex;
+  align-items: baseline;
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-medium);
+  font: var(--semantic-dimension-font-size-body) /
+    var(--semantic-number-line-height-compact) var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-secondary);
+  text-decoration: none;
+}
+
+.gg-toc .gg-l3 a {
+  padding-left: calc(
+    var(--semantic-dimension-space-medium) +
+      var(--semantic-dimension-space-large)
+  );
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+.gg-toc a[aria-current="true"] {
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-toc a:hover {
+  background: var(--semantic-color-background-hover);
+}
