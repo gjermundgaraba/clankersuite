@@ -16,7 +16,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a drop zone can produce. */
 export const Message = defineMessageUnion({
   GotFileDropMessage: { message: UiFileDrop.Message },
 });
@@ -57,7 +56,6 @@ const foldFileDrop = Update.foldChild({
   }),
 });
 
-/** Processes a drop zone Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
@@ -67,7 +65,6 @@ export const update = (model: Model, message: Message) =>
     }
   );
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Pixel caps: `"Drop files here"`. */
   title: string;

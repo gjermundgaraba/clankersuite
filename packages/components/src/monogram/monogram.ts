@@ -50,22 +50,12 @@ const drawingView = <Message>(
   );
 };
 
-/** Configuration for rendering a monogram with `view`. */
 export type ViewConfig = Readonly<{
-  /** Whose mark it is: it gives the letters. */
   label: string;
-  /** A mark the product draws in cells, in place of the letters: rows of `#` (ink) and `.`,
-   *  as a glyph is drawn, on a grid of up to 16 for a large monogram. It prints bare, in ink,
-   *  a pixel per cell (two when large): a provider's own mark redrawn in the system's
-   *  cells, never a picture or a brand colour. */
   drawing?: string;
-  /** 34px, beside a name set large (a card of readings, a wall). */
   isLarge?: boolean;
 }>;
 
-/** Letters in an ink square, or a mark the product draws in cells: the identity of a person,
- *  a provider or a source. It sits beside the same name in words (as in Identity), so it is
- *  hidden from screen readers, which read the name once, from the words. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>

@@ -10,7 +10,6 @@ export type Segment<Value extends string> = Readonly<{
   label: string;
 }>;
 
-/** Configuration for rendering a segmented choice with `view`. */
 export type ViewConfig<Value extends string, Message> = Readonly<{
   /** Names the group for screen readers. */
   label: string;

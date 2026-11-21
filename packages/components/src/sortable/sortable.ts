@@ -34,7 +34,7 @@ import {
 } from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 import { fill } from "../locale/locale.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 
 /** Schema for one item as the list knows it: its id, unique in the list, and its name in
  *  words, which the grip and screen readers use. */
@@ -75,7 +75,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a sortable can produce. */
 export const Message = defineMessageUnion({
   GotDragAndDropMessage: { message: UiDragAndDrop.Message },
   PressedItem: {
@@ -377,7 +376,6 @@ const updateDragAndDrop = (
     Match.orElse(() => settle(model)(foldDragAndDrop(model, message)))
   );
 
-/** Processes a sortable Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotDragAndDropMessage: ({ message: dragAndDropMessage }) =>
@@ -517,8 +515,12 @@ const sortableSubscriptions = Subscription.aggregate(
  *  or held. Lift them into the application's Subscriptions, once per list, behind a key prefix
  *  of the parent's: `subscriptions("order")` is keyed `orderPointer`, `orderEscape`,
  *  `orderKeyboard` and `orderAutoScroll`. */
-export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, sortableSubscriptions);
+export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) => ({
+  ...prefixedEntry(keyPrefix, "Pointer", sortableSubscriptions.pointer),
+  ...prefixedEntry(keyPrefix, "Escape", sortableSubscriptions.escape),
+  ...prefixedEntry(keyPrefix, "Keyboard", sortableSubscriptions.keyboard),
+  ...prefixedEntry(keyPrefix, "AutoScroll", sortableSubscriptions.autoScroll),
+});
 
 /** How the items lay out: a column of rows, tiles that wrap, or the parent's own panels. */
 export type Layout = "List" | "Grid" | "Panels";

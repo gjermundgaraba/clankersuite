@@ -12,8 +12,6 @@ const CODE = {
   fontSize: "var(--semantic-dimension-font-size-control)",
 };
 
-/** The live layer's look, in semantic tokens alone, so both colour schemes hold and a
- *  brand restyles it. */
 export const LIVE_MARKDOWN_STYLE = {
   "&": {
     color: "var(--semantic-color-text-primary)",

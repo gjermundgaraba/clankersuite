@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering prose with `view`. */
 export type ViewConfig = Readonly<{
   /** Authored elements: `p`, headings, lists, `blockquote`, `code`, tables, a Notice, or the
    *  view a Markdown renderer makes of a document. Headings are styled at every level: `h1`

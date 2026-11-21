@@ -152,11 +152,8 @@ export const isCarried = (held: Held): boolean =>
     Keyboard: () => true,
   });
 
-/** A part of a reel the commands find again: each prints its id, bare, in
- *  `data-gg-reel-<part>`, and the reel's root prints the reel's in `data-gg-reel`. */
 export type Part = "pane" | "column" | "tab";
 
-/** The selector for this reel's `part` with the id `id`. */
 export const partSelector = (reelId: string, part: Part, id: string): string =>
   `[data-gg-reel="${CSS.escape(reelId)}"] [data-gg-reel-${part}="${CSS.escape(id)}"]`;
 

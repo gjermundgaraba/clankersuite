@@ -41,7 +41,6 @@ export const toneGlyphView = <Message>(
     [Glyph.view({ name: config.glyph ?? toneGlyph(config.tone) }, h)]
   );
 
-/** Configuration for rendering a notice with `view`. */
 export type ViewConfig<Message> = Readonly<{
   tone?: Tone;
   /** Pixel caps, on its own line. */

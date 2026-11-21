@@ -14,7 +14,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a tab strip can produce. */
 export const Message = defineMessageUnion({
   GotTabsMessage: { message: UiTabs.Message },
 });
@@ -55,7 +54,6 @@ const foldTabs = Update.foldChild({
   }),
 });
 
-/** Processes a tab strip Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
@@ -71,7 +69,6 @@ export type Tab = Readonly<{
   label: string;
 }>;
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Names the tab list for screen readers. */
   label: string;

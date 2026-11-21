@@ -5,7 +5,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { lookClassName } from "../button/button.ts";
 import type { Look } from "../button/button.ts";
 
-/** Configuration for rendering a link button with `view`. */
 export type ViewConfig = Look &
   Readonly<{
     label: string;

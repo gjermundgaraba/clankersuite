@@ -13,7 +13,6 @@ export type NavItem = Readonly<{
   isCurrent?: boolean;
 }>;
 
-/** Configuration for rendering a nav strip with `view`. */
 export type ViewConfig = Readonly<{
   /** Names the navigation for screen readers. */
   label: string;

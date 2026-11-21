@@ -8,7 +8,6 @@ export { artRows, glyphs, toCells } from "./glyphs.ts";
 
 const DRAWN_SIZE = 12;
 
-/** Configuration for rendering a glyph with `view`. */
 export type ViewConfig = Readonly<{
   name: GlyphName;
 }>;

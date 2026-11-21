@@ -3,7 +3,6 @@ import type { Attribute, Html, HtmlBuilder } from "foldkit/html";
 import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
-/** Configuration for rendering a page head with `view`. */
 export type ViewConfig<Message = never> = Readonly<{
   /** The screen's name: its `h1`, in sans. A long one wraps; nothing is cut. */
   title: string;

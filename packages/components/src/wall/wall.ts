@@ -1,7 +1,6 @@
 import { Glyph } from "@gjermundgaraba/icons";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a wall with `view`. */
 export type ViewConfig = Readonly<{
   /** One Card, alone on the ground: sign-in, first-run setup. */
   body: ReadonlyArray<Html | string>;
@@ -18,7 +17,6 @@ export const view = <Message>(
   return h.main([h.Id("main"), h.Class("gg-wall")], body);
 };
 
-/** Configuration for rendering a wall's mark with `markView`. */
 export type MarkConfig = Readonly<{
   /** The wordmark, which the mark prints at wall size. */
   brand: ReadonlyArray<Html | string>;

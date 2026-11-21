@@ -7,7 +7,6 @@ import type { Attributes } from "../attributes/attributes.ts";
 import type { KeyHintConfig } from "../button/button.ts";
 import { keyLabel } from "../key-hint/key-label.ts";
 
-/** Configuration for rendering an icon button with `view`. */
 export type ViewConfig<Message> = Readonly<{
   glyph: GlyphName;
   /** The button has no visible text: the label is its name and its tip. */

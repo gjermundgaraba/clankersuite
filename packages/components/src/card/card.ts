@@ -8,7 +8,6 @@ import * as IconButton from "../icon-button/icon-button.ts";
 import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
-/** Configuration for rendering a card with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Pixel caps in the inverted title bar. */
   title: string;

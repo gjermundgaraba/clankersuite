@@ -4,7 +4,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import * as Monogram from "../monogram/monogram.ts";
 import * as Text from "../text/text.ts";
 
-/** Configuration for rendering an identity with `view`. */
 export type ViewConfig = Readonly<{
   /** Whose: a person, a client, a provider, a source. */
   label: string;

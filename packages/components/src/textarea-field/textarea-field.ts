@@ -8,7 +8,6 @@ import type {
 
 import { controlAttributes, errorView, helpView } from "../field/field.ts";
 
-/** Configuration for rendering a textarea field with `view`. */
 export type ViewConfig<Message> = Readonly<{
   id: string;
   label: string;

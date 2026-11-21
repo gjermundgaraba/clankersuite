@@ -27,7 +27,6 @@ export const ArrowKey = Schema.Literals(["ArrowUp", "ArrowDown"]);
 
 export type ArrowKey = typeof ArrowKey.Type;
 
-/** Union of all Messages a command palette can produce. */
 export const Message = defineMessageUnion({
   GotDialogMessage: { message: Dialog.Message },
   UpdatedQuery: { value: Schema.String, maybeShownPage: ShownPage },

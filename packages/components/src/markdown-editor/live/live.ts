@@ -217,7 +217,6 @@ type Placed = Readonly<{
   isReplace: boolean;
 }>;
 
-/** The live layer's decorations over the visible ranges, as a ViewPlugin may provide them. */
 export const liveDecorations = (
   state: EditorState,
   visibleRanges: ReadonlyArray<Readonly<{ from: number; to: number }>>,
@@ -733,9 +732,6 @@ const openLinkAtCaret = (view: EditorView): boolean => {
   return true;
 };
 
-/** Markdown drawn over its own text, as in Obsidian's Live Preview: the document stays
- *  Markdown, and its marks show only around the selection. Redrawing a reveal moves text, so
- *  nothing redraws under an IME's composition or a pressed mouse button. */
 export const liveMarkdown = (): Extension => {
   const preview = ViewPlugin.fromClass(
     class {
@@ -752,10 +748,11 @@ export const liveMarkdown = (): Extension => {
       }
 
       update(update: ViewUpdate) {
-        if (
+        const shouldDeferRedraw =
           update.view.composing ||
-          (update.state.field(pointerDownField) && !update.docChanged)
-        ) {
+          (update.state.field(pointerDownField) && !update.docChanged);
+
+        if (shouldDeferRedraw) {
           this.decorations = this.decorations.map(update.changes);
           this.isStale = true;
         } else if (

@@ -17,8 +17,6 @@ const PACKAGE_DOCUMENTS = import.meta.glob<DocumentModule>(
   { eager: true }
 );
 
-/** A page: its address, the title its first heading gives, the directory its examples sit
- *  under, and its prose. */
 export type Page = Readonly<{
   href: string;
   title: string;

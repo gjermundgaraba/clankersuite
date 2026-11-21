@@ -4,7 +4,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { pressedAttribute } from "../button/button.ts";
 
-/** Configuration for rendering a mark with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Says what the mark means: its accessible name and its tip. */
   label: string;

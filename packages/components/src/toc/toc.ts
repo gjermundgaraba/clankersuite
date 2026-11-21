@@ -18,7 +18,6 @@ export type Entry = Readonly<{
   level: Level;
 }>;
 
-/** Configuration for rendering a table of contents with `view`. */
 export type ViewConfig = Readonly<{
   entries: readonly Entry[];
   /** The heading being read, from the caller's Model, kept by `readingPositionEntry`. `None`

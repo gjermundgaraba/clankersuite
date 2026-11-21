@@ -60,7 +60,6 @@ const toggleId = (model: Model): string => `${model.id}-toggle`;
 
 const slipId = (model: Model): string => `${model.id}-slip`;
 
-/** Moves focus to an end of the open slip (↓ or ↑ on the toggle while it is open). */
 export const FocusEdge = Command.define("FocusEdge", {
   args: { slipId: Schema.String, edge: Edge },
   messages: [Message.CompletedFocusEdge],
@@ -82,7 +81,6 @@ const closedWithFocus = (model: Model): Update.Return<Model, Message> => ({
   commands: [Focus({ id: toggleId(model) })],
 });
 
-/** Processes a menu Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
@@ -146,7 +144,6 @@ export const Align = Schema.Literals(["Start", "End"]);
 
 export type Align = typeof Align.Type;
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** The toggle's accessible name, which also names the slip. Printed as its words unless
    *  `glyph` or `toggleContent` replaces them; then it is the toggle's `aria-label` and tip,

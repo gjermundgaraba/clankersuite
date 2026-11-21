@@ -26,8 +26,6 @@ const dateTimeFormat = (maybeTimeZone: Option.Option<string>) =>
     timeZone: Option.getOrUndefined(maybeTimeZone),
   });
 
-/** A day as `"12 Mar 2026"`, in the reader's zone unless `maybeTimeZone` names another. Always
- *  English, so the server and every browser write the same words. */
 export const formatDate = (
   at: Date,
   maybeTimeZone: Option.Option<string> = Option.none()

@@ -4,7 +4,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 /** How long a flash word stays before the caller takes it back. */
 export const HOLD = Duration.millis(1800);
 
-/** Configuration for rendering a flash word with `view`. */
 export type ViewConfig = Readonly<{
   /** The word from the caller's Model (`"saved"`), or `None` once it is taken back. */
   maybeWord: Option.Option<string>;

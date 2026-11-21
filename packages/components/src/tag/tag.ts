@@ -1,7 +1,6 @@
 import { Button as UiButton } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a tag with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** The tag as printed: a count, a group name, a scope. */
   label: string;

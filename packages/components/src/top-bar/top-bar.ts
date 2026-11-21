@@ -4,7 +4,6 @@ import { slotView } from "../slot/slot.ts";
 import { measureAttributes } from "./bar-height.ts";
 import type { Message as BarHeightMessage } from "./bar-height.ts";
 
-/** Configuration for rendering a top bar with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** The wordmark, at the left. */
   brand: ReadonlyArray<Html | string>;

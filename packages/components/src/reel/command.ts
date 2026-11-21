@@ -40,8 +40,6 @@ export const FocusPane = Command.define("FocusPane", {
     }),
 });
 
-/** Focuses the reel's tab for the pane `paneId`, for a tab the arrows step to: the keyboard stays in the
- *  tab list until the reader goes into the pane. */
 export const FocusTab = Command.define("FocusTab", {
   args: { reelId: Schema.String, paneId: Schema.String },
   messages: [Message.CompletedFocusTab],

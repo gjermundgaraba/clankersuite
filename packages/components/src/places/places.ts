@@ -29,7 +29,6 @@ export type PlaceTarget<Message> =
       href?: never;
     }>;
 
-/** Configuration for rendering places with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Names the navigation for screen readers ("Areas"). */
   label: string;

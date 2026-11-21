@@ -56,8 +56,6 @@ const toProgram = (module: ExampleModule): ProgramExample =>
         view: (_model, h) => module.view(h),
       };
 
-/** Runs a component's example as its own program inside the element, and stops it when
- *  the element leaves the page. */
 export const MountExample = Mount.define("MountExample", {
   args: { directory: Schema.String, name: Schema.String },
   messages: [Message.CompletedMountExample],
@@ -95,5 +93,4 @@ export const MountExample = Mount.define("MountExample", {
     }),
 });
 
-/** Every example file, by its path. */
 export const EXAMPLES_ON_DISK: readonly string[] = Record.keys(SOURCES);

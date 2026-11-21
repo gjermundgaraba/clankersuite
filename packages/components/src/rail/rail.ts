@@ -20,7 +20,7 @@ import {
   splitterAttributes,
 } from "../drag/drag.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 
 const Resizing = Schema.Struct({
   pointerId: Schema.Finite,
@@ -426,10 +426,11 @@ const railSubscriptions = Subscription.make<Model, Message>()((entry) => ({
  *  page sees it, from listeners that run only while it is dragged. Lift them into the
  *  application's Subscriptions behind a key prefix of the parent's: `subscriptions("rail")` is
  *  keyed `railResize` and `railEscape`. */
-export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, railSubscriptions);
+export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) => ({
+  ...prefixedEntry(keyPrefix, "Resize", railSubscriptions.resize),
+  ...prefixedEntry(keyPrefix, "Escape", railSubscriptions.escape),
+});
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Names the rail for screen readers, and its button, drawer head and splitter
    *  (`"collections"`). */

@@ -11,7 +11,11 @@ import { byId } from "../test/fixture.ts";
 import { settle, settleUntil } from "../test/settle.ts";
 import { showing } from "./stack.ts";
 import * as Toast from "./toast.ts";
-import { stackFocusIn, stackFocusOut, stackKey } from "./toast.ts";
+import {
+  dismissNewestOnStackEscape,
+  stackFocusIn,
+  stackFocusOut,
+} from "./toast.ts";
 
 const TOAST_HOLD = Duration.seconds(5);
 
@@ -424,7 +428,7 @@ describe("Toast stack event filters", () => {
       init: KeyboardEventInit = {},
       isHandled = false
     ) =>
-      readDuringDispatch(slip, keydown(key, init), stackKey, {
+      readDuringDispatch(slip, keydown(key, init), dismissNewestOnStackEscape, {
         listenOn: stack,
         isHandled,
       });

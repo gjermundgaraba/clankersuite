@@ -62,9 +62,5 @@ export default config({
       ],
       rules: { "oxc/no-barrel-file": "off" },
     },
-    {
-      files: ["packages/components/src/subscription/prefix-keys.ts"],
-      rules: { "typescript/no-unsafe-type-assertion": "off" },
-    },
   ],
 });

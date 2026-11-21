@@ -42,7 +42,6 @@ const helpBinding: Binding = {
   does: "These keys",
 };
 
-/** Union of all Messages the key help can produce. */
 export const Message = defineMessageUnion({
   GotDialogMessage: { message: Dialog.Message },
   UpdatedQuery: { value: Schema.String },
@@ -83,7 +82,6 @@ const dialogFold = foldDialog(Dialog, {
 const clearQuery = (model: Model): Model =>
   modifyFields(model, { query: () => "" });
 
-/** Processes a key help Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
@@ -159,7 +157,6 @@ export const toKeymapGroups = (
   }));
 };
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Every key in force now. The help adds its own `?` line. */
   bindings: readonly Binding[];

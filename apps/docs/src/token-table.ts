@@ -31,7 +31,6 @@ const pixelCaps = (
 
 const PROSE_HEADING = "var(--semantic-font-weight-prose-heading)";
 
-/** How each font-size token's row writes its samples, by the token's name. */
 export const VOICES = new Map<string, readonly Voice[]>(
   Object.entries({
     "--semantic-dimension-font-size-label": [
@@ -187,8 +186,6 @@ const valueView = <Message>(
   ];
 };
 
-/** The `::Tokens{prefix="..."}` island: a table of the semantic tokens the prefix names,
- *  each with its name and what it is for, a sample drawn with it, and what it computes to in each palette. */
 export const tokensView =
   <Message>(h: HtmlBuilder<Message>) =>
   ({ prefix }: Readonly<{ prefix: string }>): Html =>

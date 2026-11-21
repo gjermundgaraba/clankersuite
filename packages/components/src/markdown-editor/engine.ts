@@ -83,7 +83,6 @@ export const editorState = (
     ],
   });
 
-/** The whole document to send up after these transactions, if one of them was a local edit. */
 export const emission = (
   transactions: readonly Transaction[],
   state: EditorState
@@ -96,7 +95,6 @@ export const emission = (
     ? state.doc.toString()
     : undefined;
 
-/** What holds an editor's state and takes its transactions: the view, or a test's stand-in. */
 export type EditorTarget = Readonly<{
   state: EditorState;
   dispatch: (transaction: Transaction) => void;
@@ -130,7 +128,6 @@ export const applyExternal = (target: EditorTarget, source: string): void => {
   );
 };
 
-/** What the element gives the engine at mount. */
 export type EngineConfig = Readonly<{
   parent: HTMLElement;
   doc: string;
@@ -138,7 +135,6 @@ export type EngineConfig = Readonly<{
   onLocalChange: (doc: string) => void;
 }>;
 
-/** Mounts CodeMirror in `parent`, and returns what the element drives it with. */
 export const createEngine = (config: EngineConfig) => {
   const access = new Compartment();
 
@@ -181,5 +177,4 @@ export const createEngine = (config: EngineConfig) => {
   };
 };
 
-/** The mounted editor. */
 export type Engine = ReturnType<typeof createEngine>;

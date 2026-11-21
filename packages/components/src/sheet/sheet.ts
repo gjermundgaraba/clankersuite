@@ -2,7 +2,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { slotView } from "../slot/slot.ts";
 
-/** Configuration for rendering a sheet with `view`. */
 export type ViewConfig = Readonly<{
   /** The page's `h1`, in sans at the reading scale. */
   title: string;

@@ -36,7 +36,6 @@ type Holder = Readonly<{
 export const isHolding = (model: Holder): boolean =>
   phaseOf(model.dragAndDrop) !== "Idle";
 
-/** Whether the item behind `hook` is the one being carried. */
 export const isCarriedItem = (
   dragAndDrop: UiDragAndDrop.Model,
   hook: string
@@ -200,8 +199,6 @@ export const splitterAttributes = <Message>(
 export const draggableSelector = (hook: string): string =>
   `[data-sortable-id="${CSS.escape(hook)}"]`;
 
-/** Where the copy that follows the pointer prints and how wide: the pressed item's width, and
- *  its corner's offset from the pointer, so the pointer stays where it pressed. */
 export const Lift = Schema.Struct({
   width: Schema.Finite,
   offsetX: Schema.Finite,
@@ -210,9 +207,6 @@ export const Lift = Schema.Struct({
 
 export type Lift = typeof Lift.Type;
 
-/** The lift of the item a press lands in (the element around `target` matching
- *  `sourceSelector`), read from its box as it is pressed at (`clientX`, `clientY`). None when
- *  the press is not inside it. */
 export const liftAt = (
   target: EventTarget | null,
   sourceSelector: string,
@@ -233,8 +227,6 @@ export const liftAt = (
     })
   );
 
-/** The lifted copy's width and offset, as the custom properties its rule reads. Without them
- *  (a copy with no press) the rule falls back to the token width at the pointer. */
 export const liftStyle = (lift: Lift) => ({
   "--gg-lift-width": `${lift.width}px`,
   "--gg-lift-x": `${lift.offsetX}px`,

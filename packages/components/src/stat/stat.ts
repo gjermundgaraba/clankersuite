@@ -37,7 +37,6 @@ const statView = <Message>(config: StatConfig, h: HtmlBuilder<Message>): Html =>
     [h.dt([h.Class("gg-label")], [config.label]), valueView(config, h)]
   );
 
-/** Configuration for rendering a row of stats with `listView`. */
 export type ListViewConfig = Readonly<{
   stats: readonly StatConfig[];
 }>;

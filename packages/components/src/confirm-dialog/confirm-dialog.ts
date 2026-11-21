@@ -18,7 +18,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a confirm dialog can produce. */
 export const Message = defineMessageUnion({
   GotDialogMessage: { message: Dialog.Message },
   ClickedConfirm: {},
@@ -101,7 +100,6 @@ export const id = (model: Model): string => Dialog.id(model.dialog);
 /** Whether the confirm dialog is open. */
 export const isOpen = (model: Model): boolean => Dialog.isOpen(model.dialog);
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** The title bar: the action's name (`"Delete"`). */
   title: string;

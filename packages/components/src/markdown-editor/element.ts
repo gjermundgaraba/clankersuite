@@ -74,16 +74,12 @@ class MarkdownEditorElement extends HTMLElement {
       return;
     }
 
-    const { pending, isExternal } = afterSource(
-      this.#pending,
-      next,
-      engine.doc()
-    );
+    const reconciled = afterSource(this.#pending, next, engine.doc());
 
-    this.#pending = pending;
+    this.#pending = reconciled.pending;
 
-    if (isExternal) {
-      engine.applyExternal(next);
+    if (reconciled._tag === "ReplaceDocument") {
+      engine.applyExternal(reconciled.source);
     }
   }
 

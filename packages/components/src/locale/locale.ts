@@ -4,8 +4,6 @@ import { Array, Predicate } from "effect";
  *  browser print the same. */
 export const LOCALE = "en-GB";
 
-/** Writes each field into its `{name}` in a template, numbers in `LOCALE`:
- *  `fill("{item}, {position} of {total}.", { item: "Notes", position: 2, total: 5 })`. */
 export const fill = (
   template: string,
   fields: Readonly<Record<string, string | number>>

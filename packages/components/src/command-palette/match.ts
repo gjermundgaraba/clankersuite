@@ -65,8 +65,6 @@ const hasEveryWord = (query: string, text: string): boolean => {
   );
 };
 
-/** Whether a query finds a choice: its label's letters in order, or every word of the query
- *  in its label or keywords. */
 export const finds = (query: string, choice: Choice): boolean =>
   matches(query, choice.label) ||
   (choice.keywords !== undefined &&

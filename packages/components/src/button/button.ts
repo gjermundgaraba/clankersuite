@@ -50,7 +50,6 @@ export const pressedAttribute = <Message>(
   h: HtmlBuilder<Message>
 ): Attribute<Message> => h.AriaPressed(isPressed ? "true" : "false");
 
-/** Configuration for rendering a button with `view`. */
 export type ViewConfig<Message> = Look &
   Readonly<{
     label: string;

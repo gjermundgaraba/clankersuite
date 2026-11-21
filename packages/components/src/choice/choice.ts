@@ -1,7 +1,6 @@
 import { Checkbox as UiCheckbox } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a checkbox choice with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the name's and the note's ids are made from it. */
   id: string;

@@ -16,7 +16,6 @@ const gapClassName = (gap: Space): string =>
     Match.exhaustive
   );
 
-/** Configuration for rendering a stack with `view`. */
 export type ViewConfig<Message> = Readonly<{
   body: ReadonlyArray<Html | string>;
   /** `M` by default: the gap inside a panel's body. */

@@ -37,7 +37,7 @@ import * as IconButton from "../icon-button/icon-button.ts";
 import { isPlain } from "../keys/keys.ts";
 import { LOCALE } from "../locale/locale.ts";
 import { slotView } from "../slot/slot.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 import {
   BindPaletteKeys,
   FIELD_ATTRIBUTE,
@@ -63,26 +63,16 @@ const OpenPage = Schema.Struct({ commandId: Schema.String, list: List });
 
 type OpenPage = typeof OpenPage.Type;
 
-/** Schema for a command palette: its Dialog, the commands' list (their query and cursor,
- *  kept while a page is open, so Back restores them), the open page with a list of its own,
- *  and the choice being picked. A cursor is a row's id, so it holds to its row while the
- *  list changes. The rows are the view's (built from its `commands`), so ↑, ↓ and Enter
- *  carry what their render showed: its rows, the row it showed the cursor on, and the query
- *  and waiting arrows it was rendered with. When that query is the Model's and the render
- *  had applied the waiting arrows, those rows are the list, and update steps among them
- *  from the Model's cursor. A key pressed before the view caught up (as the palette opens,
- *  or just after typing, while the list still shows the last query's rows) cannot name a
- *  row yet: `cursorShift` counts the arrows, which the next render applies from the
- *  cursor's row, and `isEnterPending` an Enter. Such a key returns `ReportPendingKeys`,
- *  which reads the row the next render shows the cursor on: it becomes the cursor, and a
- *  waiting Enter acts on it. `renderGeneration` counts the changes to the page, the query
- *  and the waiting arrows, so a report from an older render is refused. */
-export const Model = Schema.Struct({
-  dialog: Dialog.Model,
-  commands: List,
+const PendingKeys = Schema.Struct({
   cursorShift: Schema.Finite,
   isEnterPending: Schema.Boolean,
   renderGeneration: Schema.Int,
+});
+
+export const Model = Schema.Struct({
+  dialog: Dialog.Model,
+  commands: List,
+  ...PendingKeys.fields,
   maybePage: Schema.Option(OpenPage),
   maybePicking: Schema.Option(Schema.String),
 });
@@ -189,10 +179,6 @@ const shownCursorOf = (paletteId: string): Option.Option<ShownRow> =>
     shownRowOf
   );
 
-/** Reads, once the next render has committed, the row it shows the cursor on while keys wait
- *  for it (see `Model`), with the Model's `renderGeneration` as they waited, so update knows
- *  whether that render is still the list. The palette's update returns it as a key waits; in
- *  a Scene, resolve it with `Message.CompletedReportPendingKeys`. */
 export const ReportPendingKeys = FoldkitCommand.define("ReportPendingKeys", {
   args: {
     paletteId: Schema.String,
@@ -466,13 +452,18 @@ const pressEnter = (model: Model, shown: RenderSnapshot): UpdateReturn =>
     Waiting: () => pendEnter(model),
   });
 
-const isPending = (model: Model): boolean =>
-  model.cursorShift !== 0 || model.isEnterPending;
+const hasPendingKeys = ({
+  cursorShift,
+  isEnterPending,
+}: typeof PendingKeys.Type): boolean => cursorShift !== 0 || isEnterPending;
 
 type PendingReport = typeof Message.CompletedReportPendingKeys.Type;
 
 const settlePending = (model: Model, report: PendingReport): UpdateReturn => {
-  if (!isPending(model) || report.renderGeneration !== model.renderGeneration) {
+  if (
+    !hasPendingKeys(model) ||
+    report.renderGeneration !== model.renderGeneration
+  ) {
     return { model };
   }
 
@@ -500,7 +491,6 @@ const updateQuery = (model: Model, value: string): Model =>
     }))
   );
 
-/** Processes a command palette Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotDialogMessage: ({ message: dialogMessage }) =>
@@ -539,7 +529,6 @@ export const update = (model: Model, message: Message) =>
 export const open = (model: Model): Update.Return<Model, Message> =>
   dialogFold.open(fresh(model, Option.none()));
 
-/** Configuration for `openAt`. */
 export type OpenAtConfig = Readonly<{
   /** The command whose page opens, one that has a page. The cursor starts on its `start`,
    *  else its `current`. */
@@ -597,9 +586,8 @@ const earlyKeySubscriptions = Subscription.make<Model, Message>()((entry) => ({
  *  application's Subscriptions, once per palette, with a key prefix of the parent's that no
  *  other record on the page uses: `subscriptions("palette")` is keyed `paletteEarlyKeys`. */
 export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, earlyKeySubscriptions);
+  prefixedEntry(keyPrefix, "EarlyKeys", earlyKeySubscriptions.earlyKeys);
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Built from what the caller snapshotted as the palette opened (see `open`). A command
    *  that leaves while its page is open sends the reader back to the commands. */

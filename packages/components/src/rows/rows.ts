@@ -6,7 +6,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import type { Attributes } from "../attributes/attributes.ts";
 import { slotView } from "../slot/slot.ts";
 
-/** Configuration for rendering a list of rows with `view`. */
 export type ViewConfig = Readonly<{
   /** Each made with `rowView`. */
   rows: readonly Html[];
@@ -59,7 +58,6 @@ export type TreegridPlace = Readonly<{
   isExpanded?: boolean;
 }>;
 
-/** Configuration for rendering a row with `rowView`. */
 export type RowConfig<Message> = Readonly<{
   /** The row's stable id among its siblings. */
   key: string;
@@ -247,7 +245,6 @@ export const rowView = <Message>(
   ]);
 };
 
-/** Configuration for rendering a glyph slot with `glyphView`. */
 export type GlyphConfig = Readonly<{
   name: GlyphName;
 }>;
@@ -259,7 +256,6 @@ export const glyphView = <Message>(
 ): Html =>
   h.span([h.Class("gg-glyph")], [Glyph.view({ name: config.name }, h)]);
 
-/** Configuration for rendering a fold toggle with `toggleView`. */
 export type ToggleConfig<Message> = Readonly<{
   isExpanded: boolean;
   /** What the nested rows hang under: the toggle is named `"Rows under Notes"` whether open
@@ -291,7 +287,6 @@ export const toggleView = <Message>(
     h
   );
 
-/** Configuration for rendering a row's title with `titleView`. */
 export type TitleConfig<Message> = Readonly<{
   label: string;
   onOpen: Message;

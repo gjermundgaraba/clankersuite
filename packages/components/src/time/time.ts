@@ -35,7 +35,6 @@ const UTC = Option.some("UTC");
 
 type Look = Readonly<{ maybeClass: Option.Option<string>; text: string }>;
 
-/** Configuration for rendering a moment with `view`. */
 export type ViewConfig = Readonly<{
   /** The moment, in epoch milliseconds. */
   at: number;
@@ -135,7 +134,6 @@ export const view = <Message>(
 
 const TICK = Duration.seconds(1);
 
-/** Configuration for rendering a calendar day with `dayView`. */
 export type DayConfig = Readonly<{
   /** The day, `YYYY-MM-DD`. */
   day: string;

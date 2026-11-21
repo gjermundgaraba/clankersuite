@@ -7,7 +7,6 @@ import * as IconButton from "../icon-button/icon-button.ts";
 import { titleId } from "../panel/panel.ts";
 import { slotView } from "../slot/slot.ts";
 
-/** Configuration for rendering a window with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the title's id is made from it, and names the window. */
   id: string;

@@ -20,7 +20,6 @@ export type SelectGroup = Readonly<{
   options: readonly SelectOption[];
 }>;
 
-/** Configuration for rendering a select field with `view`. */
 export type ViewConfig<Message> = Readonly<{
   id: string;
   label: string;

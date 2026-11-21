@@ -3,7 +3,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { slotView } from "../slot/slot.ts";
 import * as Text from "../text/text.ts";
 
-/** Configuration for rendering a panel with `view`. */
 export type ViewConfig = Readonly<{
   /** Unique in the document: the title's id is made from it, and names the panel. It is the
    *  panel's key too, so a panel among siblings that come and go keeps its own element, and

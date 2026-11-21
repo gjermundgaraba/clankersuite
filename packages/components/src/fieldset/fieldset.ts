@@ -1,7 +1,6 @@
 import { Fieldset as UiFieldset } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a fieldset with `view`. */
 export type ViewConfig = Readonly<{
   /** Unique in the document: the legend's id is made from it. */
   id: string;

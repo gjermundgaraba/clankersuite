@@ -2,7 +2,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 
-/** Configuration for rendering a group with `view`. */
 export type ViewConfig<Message> = Readonly<{
   body: ReadonlyArray<Html | string>;
   /** Further attributes for the line: `role="group"` and a name for a set of chips. Never a

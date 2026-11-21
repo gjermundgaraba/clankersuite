@@ -43,7 +43,6 @@ export type Item = Data.TaggedEnum<{
   Group: { readonly label: string; readonly items: readonly Entry[] };
 }>;
 
-/** One row of a menu or of a group: any item but a group. */
 export type Entry = Exclude<Item, { readonly _tag: "Group" }>;
 
 /** The constructors, guards (`$is`) and matcher (`$match`) of `Item`. */

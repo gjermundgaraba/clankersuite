@@ -3,7 +3,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 
-/** Configuration for rendering a query chip with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the search field's id. */
   id: string;

@@ -4,7 +4,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { keyLabel } from "./key-label.ts";
 import type { KeyPlatform } from "./key-label.ts";
 
-/** Configuration for rendering a key hint with `view`. */
 export type ViewConfig = Readonly<{
   /** The binding's keys, as `Dom.streamFromKeyBindings` names them: `"Q"`, `"Mod+K"`,
    *  `["G", "G"]`. */

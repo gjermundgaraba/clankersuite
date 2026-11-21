@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a code surface with `view`. */
 export type ViewConfig = Readonly<{
   /** Names the block for screen readers: a file name, `"Response body"`. */
   label: string;

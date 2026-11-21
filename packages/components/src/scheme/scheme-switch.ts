@@ -17,7 +17,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages the scheme switch can produce. */
 export const Message = defineMessageUnion({
   SelectedScheme: { scheme: Scheme },
   CompletedPinScheme: {},
@@ -72,7 +71,6 @@ export const scheme = (model: Model): Scheme => model.scheme;
 
 type UpdateReturn = Update.Return<Model, Message>;
 
-/** Processes a scheme switch Message and returns the next Model and Commands. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     SelectedScheme: ({ scheme: chosen }) => ({

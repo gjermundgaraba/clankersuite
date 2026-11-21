@@ -7,11 +7,6 @@
 :root {
   --gg-topbar-h: var(--semantic-dimension-size-top-bar);
   --gg-statusbar-h: 0px;
-  /* The grain and the dither are drawn with gradients, not images, so a host's
-     Content-Security-Policy needs no img-src for them. Each is a 4px tile with 1px dots at
-     (0, 0) and (2, 2), one conic layer per dot, and a background shorthand rather than an
-     image: write background: var(--gg-dither) for the ground (it paints its own base) and
-     background: var(--gg-veil-grain), var(--semantic-color-background-backdrop) for a veil. */
   --gg-veil-grain:
     conic-gradient(
         at 1px 1px,
@@ -757,11 +752,6 @@ a.gg-textbtn {
   height: var(--semantic-dimension-size-cursor-small-height);
 }
 
-/* hung under its toggle by @foldkit/ui's Anchor, which positions it and flips it near the
-   window edge, in the page's top layer (inside the open dialog when there is one). Anchor
-   writes left and top for an absolute box (fixed it sets itself, under a fixed toggle), so
-   the slip is absolute: in the page's flow it would ignore them. It paints over the sticky
-   bars (40), under the skip link (300) */
 .gg-menu {
   position: absolute;
   z-index: var(--semantic-number-layer-menu);
@@ -2180,8 +2170,6 @@ select[aria-invalid="true"] {
 }
 
 @media (max-width: 600px) {
-  /* a box-shadow, not a border: collapsed table borders paint with the table and stay
-     behind when the cell sticks; the inset shadow travels with the cell */
   .gg-table td.gg-acts,
   .gg-table:has(td.gg-acts) th:last-child {
     box-shadow: inset var(--semantic-dimension-border-width-container) 0 0
@@ -2603,10 +2591,6 @@ pre.gg-code-surface {
   }
 }
 
-/* A dialog opens with show(), in place: Foldkit's Dialog makes the page around it inert and
-   hidden from screen readers, and sets its fixed, full-viewport box inline. The veil is an
-   element of its own (.veil-backdrop) under the pad; the pad lets a press through to it
-   everywhere but on the card it holds, and a press on the veil closes the dialog. */
 dialog.gg-veil {
   color: inherit;
   overflow-y: auto;

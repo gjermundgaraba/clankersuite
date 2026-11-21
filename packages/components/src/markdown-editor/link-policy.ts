@@ -23,7 +23,6 @@ const allowedUrl = (
 export const safeHref = (url: string, base: string): string | undefined =>
   allowedUrl(LINK_PROTOCOLS, url, base);
 
-/** An image's source as an absolute URL, when the page may fetch it on render. */
 export const safeImageSource = (
   url: string,
   base: string

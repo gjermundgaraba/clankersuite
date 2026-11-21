@@ -39,7 +39,7 @@ describe("reconciling a source write", () => {
         if (stale !== undefined) {
           const reconciled = afterSource(pending, stale, doc);
 
-          wasRewound ||= reconciled.isExternal;
+          wasRewound ||= reconciled._tag === "ReplaceDocument";
           ({ pending } = reconciled);
           awaited = awaited.slice(skipped + 1);
         }
@@ -73,7 +73,11 @@ describe("reconciling a source write", () => {
       const pending = awaited.map((text) => `${text}typed`);
       const reconciled = afterSource(pending, `${doc} from outside`, doc);
 
-      return reconciled.isExternal && reconciled.pending.length === 0;
+      return (
+        reconciled._tag === "ReplaceDocument" &&
+        reconciled.source === `${doc} from outside` &&
+        reconciled.pending.length === 0
+      );
     }
   );
 
@@ -83,7 +87,10 @@ describe("reconciling a source write", () => {
     ({ lines }) => {
       const doc = lines.map((text) => text.replaceAll("\r", "")).join("\n");
 
-      return !afterSource([], doc.replaceAll("\n", "\r\n"), doc).isExternal;
+      return (
+        afterSource([], doc.replaceAll("\n", "\r\n"), doc)._tag ===
+        "KeepDocument"
+      );
     }
   );
 });

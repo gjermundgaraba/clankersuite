@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a field grid with `view`. */
 export type ViewConfig = Readonly<{
   /** Fields. */
   body: ReadonlyArray<Html | string>;

@@ -1,7 +1,6 @@
 import { Button as UiButton } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a text button with `view`. */
 export type ViewConfig<Message> = Readonly<{
   label: string;
   onClick?: Message;

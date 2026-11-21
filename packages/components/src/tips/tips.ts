@@ -22,13 +22,12 @@ import * as Subscription from "foldkit/subscription";
 import type * as Update from "foldkit/update";
 
 import { htmlElementById } from "../dom/html-element.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 
 const Side = Schema.Literals(["Top", "Right"]);
 
 type Side = typeof Side.Type;
 
-/** What brought the tip: a resting pointer or keyboard focus. */
 export const Trigger = Schema.Literals(["Pointer", "Focus"]);
 
 export type Trigger = typeof Trigger.Type;
@@ -57,17 +56,16 @@ export const TipState = defineTaggedUnion({
 
 export type TipState = typeof TipState.Type;
 
-/** Schema for the page's one tip layer. `version` counts its waits, and tells the current one
- *  from an earlier one whose Command is still out. */
+const WaitGeneration = Schema.Finite;
+
 export const Model = Schema.Struct({
   id: Schema.String,
-  version: Schema.Finite,
+  version: WaitGeneration,
   state: TipState,
 });
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages the tip layer can produce. */
 export const Message = defineMessageUnion({
   EnteredTipTarget: Words,
   LeftTipTarget: {},
@@ -76,9 +74,9 @@ export const Message = defineMessageUnion({
   BlurredTipTarget: {},
   PressedPointer: {},
   PressedKey: {},
-  CompletedWaitBeforeShowing: { version: Schema.Finite },
-  CompletedWaitBeforeHiding: { version: Schema.Finite },
-  CompletedWaitBeforeCooling: { version: Schema.Finite },
+  CompletedWaitBeforeShowing: { version: WaitGeneration },
+  CompletedWaitBeforeHiding: { version: WaitGeneration },
+  CompletedWaitBeforeCooling: { version: WaitGeneration },
   CompletedShowTip: {},
   CompletedHideTip: {},
 });
@@ -120,7 +118,7 @@ const TIP_SELECTOR = `[${TIP_ATTRIBUTE}]`;
 const hasText = (element: HTMLElement, text: string): boolean =>
   element.isConnected && element.getAttribute(TIP_ATTRIBUTE) === text;
 
-const findTipTarget = (
+const findStillActiveTipTarget = (
   trigger: Trigger,
   text: string
 ): Option.Option<HTMLElement> =>
@@ -155,10 +153,6 @@ const hidePopover = (tip: HTMLElement): void => {
   }
 };
 
-/** Opens the tip on its control once the update that asked has rendered: focus that a closing
- *  dialog or menu hands back arrives while the top layer is still changing, and the control
- *  must still be on the page, and still the keyboard's or the pointer's, by then. The control
- *  is the tip's source, so its anchor. */
 export const ShowTip = Command.define("ShowTip", {
   args: { tipId: Schema.String, text: Schema.String, trigger: Trigger },
   messages: [Message.CompletedShowTip],
@@ -169,7 +163,7 @@ export const ShowTip = Command.define("ShowTip", {
           Option.map(
             Option.all({
               tip: htmlElementById(tipId),
-              source: findTipTarget(trigger, text),
+              source: findStillActiveTipTarget(trigger, text),
             }),
             ({ tip, source }) => {
               hidePopover(tip);
@@ -183,7 +177,6 @@ export const ShowTip = Command.define("ShowTip", {
     ),
 });
 
-/** Closes the tip. */
 export const HideTip = Command.define("HideTip", {
   args: { tipId: Schema.String },
   messages: [Message.CompletedHideTip],
@@ -194,9 +187,8 @@ export const HideTip = Command.define("HideTip", {
     ),
 });
 
-/** Waits for a resting pointer. */
 export const WaitBeforeShowing = Command.define("WaitBeforeShowing", {
-  args: { version: Schema.Finite },
+  args: { version: WaitGeneration },
   messages: [Message.CompletedWaitBeforeShowing],
   execute: ({ version }) =>
     Effect.sleep(REST).pipe(
@@ -204,9 +196,8 @@ export const WaitBeforeShowing = Command.define("WaitBeforeShowing", {
     ),
 });
 
-/** Waits for a pointer crossing onto the tip. */
 export const WaitBeforeHiding = Command.define("WaitBeforeHiding", {
-  args: { version: Schema.Finite },
+  args: { version: WaitGeneration },
   messages: [Message.CompletedWaitBeforeHiding],
   execute: ({ version }) =>
     Effect.sleep(GRACE).pipe(
@@ -214,9 +205,8 @@ export const WaitBeforeHiding = Command.define("WaitBeforeHiding", {
     ),
 });
 
-/** Waits out the moment after a tip closes in which the next opens at once. */
 export const WaitBeforeCooling = Command.define("WaitBeforeCooling", {
-  args: { version: Schema.Finite },
+  args: { version: WaitGeneration },
   messages: [Message.CompletedWaitBeforeCooling],
   execute: ({ version }) =>
     Effect.sleep(WARMTH).pipe(
@@ -314,13 +304,12 @@ const entered = (model: Model, words: Words): UpdateReturn =>
     Warm: () => show(model, words, "Pointer"),
   });
 
-const whenCurrentVersion = (
+const whenCurrentWait = (
   model: Model,
-  version: number,
+  waitGeneration: number,
   step: () => UpdateReturn
-): UpdateReturn => (model.version === version ? step() : { model });
+): UpdateReturn => (model.version === waitGeneration ? step() : { model });
 
-/** Processes a tip layer Message and returns the next Model and Commands. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     EnteredTipTarget: (words) => entered(model, wordsOf(words)),
@@ -355,7 +344,7 @@ export const update = (model: Model, message: Message) =>
     PressedPointer: () => dismiss(model),
     PressedKey: () => dismiss(model),
     CompletedWaitBeforeShowing: ({ version }) =>
-      whenCurrentVersion(model, version, () =>
+      whenCurrentWait(model, version, () =>
         TipState.matchOrElse<UpdateReturn>(
           model.state,
           { Waiting: (waiting) => show(model, wordsOf(waiting), "Pointer") },
@@ -363,7 +352,7 @@ export const update = (model: Model, message: Message) =>
         )
       ),
     CompletedWaitBeforeHiding: ({ version }) =>
-      whenCurrentVersion(model, version, () =>
+      whenCurrentWait(model, version, () =>
         TipState.matchOrElse<UpdateReturn>(
           model.state,
           { Leaving: () => hide(model) },
@@ -371,7 +360,7 @@ export const update = (model: Model, message: Message) =>
         )
       ),
     CompletedWaitBeforeCooling: ({ version }) =>
-      whenCurrentVersion(model, version, () =>
+      whenCurrentWait(model, version, () =>
         TipState.matchOrElse<UpdateReturn>(
           model.state,
           { Warm: () => cool(model) },
@@ -560,8 +549,14 @@ const tipSubscriptions = Subscription.make<Model, Message>()((entry) => ({
  *  Subscriptions with a key prefix of the parent's that no other record on the page uses
  *  (`subscriptions("tip")` is keyed `tipPointerAndFocus` and `tipKeys`). Keys are listened to
  *  only while a tip shows. */
-export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, tipSubscriptions);
+export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) => ({
+  ...prefixedEntry(
+    keyPrefix,
+    "PointerAndFocus",
+    tipSubscriptions.pointerAndFocus
+  ),
+  ...prefixedEntry(keyPrefix, "Keys", tipSubscriptions.keys),
+});
 
 const maybeWordsOf = (model: Model): Option.Option<Words> =>
   Match.value(model.state).pipe(

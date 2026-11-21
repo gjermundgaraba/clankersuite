@@ -8,21 +8,17 @@ import BRAND_CSS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const ALL_TOKENS = parseTokens(BRAND_CSS);
 
-/** The brand's semantic tokens, in the order its stylesheet declares them. */
 export const SEMANTIC_TOKENS: readonly Token[] = Array.filter(
   ALL_TOKENS,
   ({ name }) => name.startsWith("--semantic-")
 );
 
-/** The semantic tokens `prefix` names, as a `::Tokens` island lists them. */
 export const semanticTokensUnder = (prefix: string): readonly Token[] =>
   tokensUnder(SEMANTIC_TOKENS, prefix);
 
-/** What a token is computed to, on the page: one value, or one in each palette. */
 export const computedValue = (token: Token): string | Schemes =>
   resolve(ALL_TOKENS, token.value);
 
-/** The semantic token a token aliases, when it aliases one rather than a primitive. */
 export const semanticAlias = (token: Token): string | undefined => {
   const alias = /^var\((?<name>--semantic-[\w-]+)\)$/u.exec(token.value)
     ?.groups?.["name"];
@@ -30,7 +26,6 @@ export const semanticAlias = (token: Token): string | undefined => {
   return alias;
 };
 
-/** How a token's row shows it. */
 export type Kind =
   | "Colour"
   | "Shadow"
@@ -107,6 +102,5 @@ const DESCRIPTIONS: Readonly<Record<string, string>> = Record.fromEntries(
   Object.values(SOURCES).flatMap((source) => descriptionsIn(source, []))
 );
 
-/** What a semantic token is for, as its DTCG source describes it. */
 export const descriptionOf = (token: Token): Option.Option<string> =>
   Record.get(DESCRIPTIONS, token.name);

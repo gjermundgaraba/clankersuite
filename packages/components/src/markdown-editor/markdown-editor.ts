@@ -14,7 +14,6 @@ export const spec = define({
   events: { "value-change": Schema.Struct({ value: Schema.String }) },
 });
 
-/** Configuration for rendering a Markdown editor with `view`. */
 export type ViewConfig<Message> = Pick<
   TextareaField.ViewConfig<Message>,
   "id" | "label" | "value" | "onInput" | "help" | "error" | "rows"
@@ -40,7 +39,6 @@ export const view = <Message>(
   );
 };
 
-/** Configuration for showing a Markdown document with `readView`. */
 export type ReadViewConfig<Message> = Readonly<{
   value: string;
   /** Further attributes for the `<gg-markdown-editor>` element, such as an id or a label. */

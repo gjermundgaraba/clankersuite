@@ -9,7 +9,6 @@ export type Crumb = Readonly<{
   href?: string;
 }>;
 
-/** Configuration for rendering crumbs with `view`. */
 export type ViewConfig = Readonly<{
   crumbs: readonly Crumb[];
 }>;

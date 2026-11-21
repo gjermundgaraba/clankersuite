@@ -1,7 +1,6 @@
 import { Array } from "effect";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering an empty state with `view`. */
 export type ViewConfig = Readonly<{
   /** Pixel caps: what is missing (`"Nothing queued"`). */
   title: string;

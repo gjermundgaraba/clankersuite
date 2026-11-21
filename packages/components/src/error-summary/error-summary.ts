@@ -14,7 +14,6 @@ export type FieldError = Readonly<{
   message: string;
 }>;
 
-/** Configuration for rendering an error summary with `view`. */
 export type ViewConfig = Readonly<{
   /** Unique in the document: the form's failed submit focuses it by this id. */
   id: string;

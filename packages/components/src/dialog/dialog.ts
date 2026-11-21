@@ -91,7 +91,6 @@ const isHeldClose = (
   message: UiDialog.Message
 ): boolean => context.isCloseHeld && message._tag === "RequestedClose";
 
-/** Processes a dialog Message and returns the next Model, Commands and OutMessage. */
 export const update = (
   model: Model,
   message: Message,
@@ -221,7 +220,6 @@ export type RenderInfo = Readonly<{
   actionBar: readonly ChildAttribute[];
 }>;
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** The dialog's content, one Card. A function because it receives the attribute groups. */
   toView: (render: RenderInfo) => Html;

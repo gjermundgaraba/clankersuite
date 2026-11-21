@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a stage with `view`. */
 export type ViewConfig = Readonly<{
   /** The canvas, filling the stage. */
   body: ReadonlyArray<Html | string>;

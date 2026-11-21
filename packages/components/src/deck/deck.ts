@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a deck with `view`. */
 export type ViewConfig = Readonly<{
   /** The panels, a PageHead first. */
   body: ReadonlyArray<Html | string>;

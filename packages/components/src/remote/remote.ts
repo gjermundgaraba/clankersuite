@@ -5,7 +5,6 @@ import * as Button from "../button/button.ts";
 import * as Loading from "../loading/loading.ts";
 import * as Notice from "../notice/notice.ts";
 
-/** Configuration for rendering data that loads with `view`. */
 export type ViewConfig<Data, Error, Message> = Readonly<{
   /** The loading line's id, unique in the document. Retry takes its button away with the
    *  notice, so return `Focus.Focus({ id })` with the retry: focus lands on the line, which

@@ -3,7 +3,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import { pressedAttribute } from "../button/button.ts";
 
-/** Configuration for rendering a filter chip with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** The value, the chip's words: "open", "this week". */
   label: string;

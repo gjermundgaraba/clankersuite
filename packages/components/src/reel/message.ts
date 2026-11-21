@@ -12,7 +12,6 @@ export const PointerAt = Schema.Struct({
 
 export type PointerAt = typeof PointerAt.Type;
 
-/** Union of all Messages a reel can produce. */
 export const Message = defineMessageUnion({
   PressedGrip: {
     paneId: Schema.String,

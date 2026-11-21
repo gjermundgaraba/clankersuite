@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a wordmark with `view`. */
 export type ViewConfig = Readonly<{
   /** The name, as printed. */
   label: string;

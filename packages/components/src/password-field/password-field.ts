@@ -5,7 +5,6 @@ import { pressedAttribute } from "../button/button.ts";
 import { controlAttributes, errorView, helpView } from "../field/field.ts";
 import * as IconButton from "../icon-button/icon-button.ts";
 
-/** Configuration for rendering a password field with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the input's id. */
   id: string;

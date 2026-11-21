@@ -158,7 +158,6 @@ const commit = (model: Model, trigger: SaveTrigger): UpdateReturn =>
     }),
   });
 
-/** Processes an inline field Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     UpdatedDraft: ({ value, replaced }) =>
@@ -266,7 +265,6 @@ export const BindFieldKeys = Mount.defineStream("BindFieldKeys", {
     }),
 });
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** The text being replaced; `""` when adding. */
   value: string;

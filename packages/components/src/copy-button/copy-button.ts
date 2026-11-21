@@ -28,7 +28,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a copy button can produce. */
 export const Message = defineMessageUnion({
   ClickedCopy: { text: Schema.String },
   SucceededCopyText: {},
@@ -52,7 +51,6 @@ export const init = (config: InitConfig): Model => ({
 /** The button's id, unique in the document. */
 export const id = (model: Model): string => model.id;
 
-/** Whether the button shows that it just copied. */
 export const isCopied = (model: Model): boolean =>
   CopyState.guards.Copied(model.state);
 
@@ -73,7 +71,6 @@ export const CopyText = Command.define("CopyText", {
     }).pipe(Effect.orElseSucceed(() => Message.FailedCopyText())),
 });
 
-/** Waits out the beat the word or the check shows for. */
 export const WaitBeforeResetWord = Command.define("WaitBeforeResetWord", {
   messages: [Message.CompletedWaitBeforeResetWord],
   execute: Effect.sleep(HOLD).pipe(
@@ -81,7 +78,6 @@ export const WaitBeforeResetWord = Command.define("WaitBeforeResetWord", {
   ),
 });
 
-/** Says how the copy went through the page's live region. */
 export const AnnounceCopy = Command.define("AnnounceCopy", {
   args: { text: Schema.String },
   messages: [Message.CompletedAnnounceCopy],
@@ -114,7 +110,6 @@ export const update = (model: Model, message: Message) =>
     CompletedAnnounceCopy: () => ({ model }),
   });
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** What goes on the clipboard. */
   text: string;

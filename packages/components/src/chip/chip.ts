@@ -7,7 +7,6 @@ export const Tone = Schema.Literals(["Plain", "Go", "Warn", "Blocked", "Done"]);
 
 export type Tone = typeof Tone.Type;
 
-/** Configuration for rendering a chip with `view`. */
 export type ViewConfig = Readonly<{
   /** The state word. */
   label: string;
@@ -44,7 +43,6 @@ export const view = <Message>(
   );
 };
 
-/** Configuration for rendering a dot with `dotView`. */
 export type DotConfig = Readonly<{
   /** The state word: the dot's accessible name and its tip. */
   label: string;

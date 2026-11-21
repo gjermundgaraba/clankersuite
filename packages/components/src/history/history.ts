@@ -22,7 +22,6 @@ export type Entry = Readonly<{
   actions?: ReadonlyArray<Html | string>;
 }>;
 
-/** Configuration for rendering a history with `view`. */
 export type ViewConfig = Readonly<{
   /** Newest first. Page an endless log with a control under the list (`"older activity"`)
    *  that asks the caller for the next page, and an EmptyState once nothing is left. */

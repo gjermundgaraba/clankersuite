@@ -87,12 +87,6 @@ const lightDarkCss = (filename: string): Plugin => {
   };
 };
 
-/**
- * The Terrazzo build for one brand: `tokens/<brand>.resolver.json` to
- * `generated/<brand>.css`. Semantic colours print as `light-dark(light, dark)`, so they follow
- * the `color-scheme` of the element that uses them: the reader's preference by default,
- * `data-color-scheme` on `<html>` to pin one, or `color-scheme` on any element below it.
- */
 export const brandConfig = (brand: string) =>
   defineConfig({
     tokens: [path.join(import.meta.dirname, `tokens/${brand}.resolver.json`)],

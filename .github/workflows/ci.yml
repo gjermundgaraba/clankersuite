@@ -51,5 +51,4 @@ jobs:
           cache: true
           run-install: false
       - run: vp install --frozen-lockfile
-      # Every package whose version is not on npm yet; private ones never publish.
       - run: vp pm publish -r --no-git-checks

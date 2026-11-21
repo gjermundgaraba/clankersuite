@@ -6,7 +6,7 @@ import {
   markDragging,
   pointerMessages as dragMessages,
 } from "../drag/drag.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 import { Splitter, targetAtPoint } from "./layout.ts";
 import type { ColumnBox, Target } from "./layout.ts";
 import { Message } from "./message.ts";
@@ -362,5 +362,9 @@ const reelSubscriptions = Subscription.make<Model, Message>()((entry) => ({
  *  listeners that run only while something is held. Lift them into the application's
  *  Subscriptions, once per reel, behind a key prefix of the parent's: `subscriptions("tiles")`
  *  is keyed `tilesPointer`, `tilesEdge`, `tilesResize` and `tilesEscape`. */
-export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, reelSubscriptions);
+export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) => ({
+  ...prefixedEntry(keyPrefix, "Pointer", reelSubscriptions.pointer),
+  ...prefixedEntry(keyPrefix, "Edge", reelSubscriptions.edge),
+  ...prefixedEntry(keyPrefix, "Resize", reelSubscriptions.resize),
+  ...prefixedEntry(keyPrefix, "Escape", reelSubscriptions.escape),
+});

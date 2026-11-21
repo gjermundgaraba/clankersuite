@@ -1,6 +1,5 @@
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a secret with `view`. */
 export type ViewConfig = Readonly<{
   value: string;
   /** What the value is ("API key"): the code's accessible name. A `<code>` may not be named,

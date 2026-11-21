@@ -1,7 +1,6 @@
 import { Textarea as UiTextarea } from "@foldkit/ui";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a code editor with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document: the `<textarea>`'s id. */
   id: string;

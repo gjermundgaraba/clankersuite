@@ -2,7 +2,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 
-/** Configuration for rendering a loading line with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Whether the content is on its way. Done, the line empties and leaves the flow, so it
    *  takes no room and no gap, but stays in place, so the next wait is heard. */

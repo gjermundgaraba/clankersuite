@@ -18,10 +18,9 @@ import "@gjermundgaraba/components/components.css";
 
 ## The scheme script
 
-The stylesheet follows the reader's colour scheme, and `Scheme.SchemeSwitch` lets them pin one on this device. Put `schemeScript` in the head, before the stylesheets paint, so a pinned scheme never flashes the other one first:
+The stylesheet follows the reader's colour scheme, and `Scheme.SchemeSwitch` lets them pin one on this device. In `vite.config.ts`, put `schemeScript` in the head, before the stylesheets paint, so a pinned scheme never flashes the other one first:
 
 ```ts
-// vite.config.ts
 import { foldkit } from "@foldkit/vite-plugin";
 import { schemeScript } from "@gjermundgaraba/components/scheme";
 import { defineConfig } from "vite";

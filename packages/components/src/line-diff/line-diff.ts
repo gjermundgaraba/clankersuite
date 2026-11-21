@@ -9,7 +9,6 @@ import { SAME_NOTE, readPatch } from "./patch.ts";
 
 const COLUMN_COUNT = 4;
 
-/** Configuration for rendering a unified diff with `patchView`. */
 export type PatchViewConfig = Readonly<{
   /** One file's unified diff, as `diff -u` or `git diff -- <path>` writes it, its git header
    *  included. */

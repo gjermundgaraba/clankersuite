@@ -11,7 +11,6 @@ export type Column<Row> = Readonly<{
   cell: (row: Row) => ReadonlyArray<Html | string>;
 }>;
 
-/** Configuration for rendering a table with `view`. */
 export type ViewConfig<Row> = Readonly<{
   /** Names the table's scrolling region for screen readers. */
   label: string;

@@ -161,7 +161,6 @@ const meterView = <Message>(
   );
 };
 
-/** Configuration for rendering a list of meters with `listView`. */
 export type ListViewConfig = Readonly<{
   meters: readonly MeterConfig[];
 }>;

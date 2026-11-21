@@ -2,7 +2,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 
 import type { Attributes } from "../attributes/attributes.ts";
 
-/** Configuration for rendering a bench with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Above the work, at its own height while the work keeps its floor, past which it scrolls:
    *  a PageHead, notices, and a Rail's open button first. */

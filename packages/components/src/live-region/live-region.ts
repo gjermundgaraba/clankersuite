@@ -55,7 +55,6 @@ export const place = <Host extends string>(
   };
 };
 
-/** Configuration for rendering the page's live parts with `view`. */
 export type ViewConfig = Readonly<{
   /** The page's Toast stack (its `h.submodel`), when it has one. */
   toasts?: Html;

@@ -53,7 +53,6 @@ export const helpView = <Message>(
     ? []
     : [h.p([...description, h.Class("gg-field-help")], [help])];
 
-/** Configuration for rendering a text field with `view`. */
 export type ViewConfig<Message> = Readonly<{
   id: string;
   label: string;

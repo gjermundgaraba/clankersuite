@@ -12,7 +12,6 @@ export const Model = Schema.Struct({ radioGroup: UiRadioGroup.Model });
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages a radio choice can produce. */
 export const Message = defineMessageUnion({
   GotRadioGroupMessage: { message: UiRadioGroup.Message },
 });
@@ -36,7 +35,6 @@ export const init = (config: InitConfig): Model => ({
   radioGroup: UiRadioGroup.init({ id: config.id }),
 });
 
-/** The radio choice's id, unique in the document. */
 export const id = (model: Model): string => model.radioGroup.id;
 
 const RadioGroup = UiRadioGroup.create();
@@ -53,7 +51,6 @@ const foldRadioGroup = Update.foldChild({
   }),
 });
 
-/** Processes a radio choice Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<Update.ReturnWithOutMessage<Model, Message, OutMessage>>(
     message,
@@ -70,7 +67,6 @@ export type RadioOption = Readonly<{
   note?: string;
 }>;
 
-/** Per-render inputs passed to `view` through `h.submodel`'s `viewInputs`. */
 export type ViewInputs = Readonly<{
   /** Names the group for screen readers; a Fieldset around it says it on the page. */
   label: string;

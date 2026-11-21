@@ -1,6 +1,5 @@
 import { Array, Option, String } from "effect";
 
-/** A custom property as the stylesheet declares it: its first declaration. */
 export type Token = Readonly<{
   name: string;
   value: string;
@@ -36,19 +35,15 @@ export const parseTokens = (css: string): readonly Token[] => {
   return [...tokens.values()];
 };
 
-/** Whether `prefix` names the token or a group it is in: `--semantic-color-text` holds
- *  `--semantic-color-text-primary`, not `--semantic-color-textured`. */
 export const isUnder = (prefix: string, name: string): boolean =>
   name === prefix || name.startsWith(`${prefix}-`);
 
-/** The tokens `prefix` names, in source order. */
 export const tokensUnder = (
   tokens: readonly Token[],
   prefix: string
 ): readonly Token[] =>
   Array.filter(tokens, ({ name }) => isUnder(prefix, name));
 
-/** A value in each colour scheme, where `light-dark()` makes them differ. */
 export type Schemes = Readonly<{ light: string; dark: string }>;
 
 const VARIABLE = /var\((?<name>--[\w-]+)\)/gu;
@@ -114,9 +109,6 @@ const substitute = (
       : substitute(byName, target, new Set([...seen, name]));
   });
 
-/** What `value` computes to: every `var()` of a declared token replaced by what that token
- *  computes to, and, where `light-dark()` makes the schemes differ, a value for each. A
- *  `var()` of a token the stylesheet does not declare stays as written. */
 export const resolve = (
   tokens: readonly Token[],
   value: string

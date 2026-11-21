@@ -3,7 +3,6 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import type { Attributes } from "../attributes/attributes.ts";
 import * as Notice from "../notice/notice.ts";
 
-/** Configuration for rendering an outcome with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Pixel caps: what happened, or what is asked (`"Session ended"`). */
   title: string;

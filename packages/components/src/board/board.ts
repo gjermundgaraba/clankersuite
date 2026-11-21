@@ -37,7 +37,7 @@ import {
 import * as IconButton from "../icon-button/icon-button.ts";
 import { fill } from "../locale/locale.ts";
 import { slotView } from "../slot/slot.ts";
-import { prefixKeys } from "../subscription/prefix-keys.ts";
+import { prefixedEntry } from "../subscription/prefix-keys.ts";
 
 /** Schema for one card as the board knows it: its id, unique across the board, and its name
  *  in words, which the grip and screen readers use. */
@@ -89,7 +89,6 @@ const PressSpot = Schema.Literals(["Body", "Grip"]);
 
 type PressSpot = typeof PressSpot.Type;
 
-/** Union of all Messages a board can produce. */
 export const Message = defineMessageUnion({
   GotDragAndDropMessage: { message: UiDragAndDrop.Message },
   PressedCard: {
@@ -498,7 +497,6 @@ const pressCard =
 export const cancel = (model: Model): UpdateReturn =>
   cancelDrag(model, cancelledDrag());
 
-/** Processes a board Message and returns the next Model, Commands and OutMessage. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotDragAndDropMessage: ({ message: dragAndDropMessage }) =>
@@ -537,8 +535,12 @@ const boardSubscriptions = Subscription.aggregate(
  *  `subscriptions("queueBoard")` is keyed `queueBoardEscape`, `queueBoardPointer`,
  *  `queueBoardKeyboard` and `queueBoardAutoScroll`, so two boards (or a board beside another
  *  DragAndDrop user) aggregate side by side. */
-export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) =>
-  prefixKeys(keyPrefix, boardSubscriptions);
+export const subscriptions = <Prefix extends string>(keyPrefix: Prefix) => ({
+  ...prefixedEntry(keyPrefix, "Escape", boardSubscriptions.escape),
+  ...prefixedEntry(keyPrefix, "Pointer", boardSubscriptions.pointer),
+  ...prefixedEntry(keyPrefix, "Keyboard", boardSubscriptions.keyboard),
+  ...prefixedEntry(keyPrefix, "AutoScroll", boardSubscriptions.autoScroll),
+});
 
 /** What the board hands `toCardView` for each card. Pass it to `cardView` as `render`. */
 export type CardRender = Readonly<{
@@ -718,7 +720,6 @@ const cardRender = (
 const cardClass = ({ isHeld, isLifted }: CardRender): string =>
   `gg-board-card${isHeld ? " gg-drag-dim" : ""}${isLifted ? " gg-lifted" : ""}`;
 
-/** Configuration for rendering one card with `cardView`. */
 export type CardViewConfig<ParentMessage> = Readonly<{
   /** What the board handed `toCardView`. */
   render: CardRender;

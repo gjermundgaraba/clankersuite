@@ -39,7 +39,6 @@ export const Model = Schema.Struct({
 
 export type Model = typeof Model.Type;
 
-/** Union of all Messages the toast stack can produce. */
 export const Message = defineMessageUnion({
   GotStackMessage: { message: Stack.Message },
   FocusedStack: { maybeFromId: Schema.Option(Schema.String) },
@@ -173,8 +172,6 @@ const updateStack = (model: Model, stackMessage: Stack.Message): UpdateReturn =>
       ]),
   });
 
-/** Moves focus, after the keyboard dismissed a slip, to the dismiss button of the slip now in
- *  its place, or the one before it. */
 export const FocusSlip = Command.define("FocusSlip", {
   args: { entryId: Schema.String },
   messages: [Message.CompletedFocusSlip],
@@ -255,7 +252,6 @@ const dismissKeepingFocus = (model: Model, entryId: string): UpdateReturn =>
         : { model: stepModel },
   ]);
 
-/** Processes a toast stack Message and returns the next Model and Commands. */
 export const update = (model: Model, message: Message) =>
   Message.match<UpdateReturn>(message, {
     GotStackMessage: ({ message: stackMessage }) =>
@@ -429,14 +425,11 @@ export const stackFocusOut = (
     isOutside(stack, event.relatedTarget)
   );
 
-export const stackKey = (
+export const dismissNewestOnStackEscape = (
   event: KeyboardEvent
 ): Option.Option<typeof Message.PressedEscape.Type> =>
   Option.liftPredicate(Message.PressedEscape(), () => isEscape(event));
 
-/** The stack's focus and keys: focus coming in (and from where) and going out, and Escape
- *  on a slip, which takes the newest and keeps a Dialog the stack sits in open (its default is
- *  prevented). In a Scene, resolve it with `sceneMounts`. */
 export const BindStack = Mount.defineStream("BindStack", {
   messages: [Message.FocusedStack, Message.BlurredStack, Message.PressedEscape],
   execute: ({ element }) =>
@@ -455,7 +448,7 @@ export const BindStack = Mount.defineStream("BindStack", {
         Dom.streamFromEventFilterMapPreventDefault({
           target: element,
           type: "keydown",
-          filterMapEvent: stackKey,
+          filterMapEvent: dismissNewestOnStackEscape,
         }),
       ],
       { concurrency: "unbounded" }

@@ -11,7 +11,6 @@ import type { Message as BarHeightMessage } from "../top-bar/bar-height.ts";
 /** A key worth knowing and what it does, as the key help prints it. */
 export type KeyNote = Readonly<{ keys: KeySequence; does: string }>;
 
-/** Configuration for rendering a status bar with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** The state, at the left: a LinkState, a sync word, a count. */
   body: ReadonlyArray<Html | string>;

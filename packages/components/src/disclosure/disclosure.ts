@@ -2,7 +2,6 @@ import { Disclosure as UiDisclosure } from "@foldkit/ui";
 import { Glyph } from "@gjermundgaraba/icons";
 import type { Html, HtmlBuilder } from "foldkit/html";
 
-/** Configuration for rendering a disclosure with `view`. */
 export type ViewConfig<Message> = Readonly<{
   /** Unique in the document; the button's and the body's ids derive from it. */
   id: string;

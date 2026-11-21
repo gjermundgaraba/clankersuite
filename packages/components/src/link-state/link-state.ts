@@ -22,7 +22,6 @@ const stateWord = (state: State): string =>
     Match.exhaustive
   );
 
-/** Configuration for rendering a connection word with `view`. */
 export type ViewConfig = Readonly<{
   state: State;
   /** The words; the state's name by default. */

@@ -12,7 +12,6 @@ export type Prop = Readonly<{
   actions?: ReadonlyArray<Html | string>;
 }>;
 
-/** Configuration for rendering a props list with `view`. */
 export type ViewConfig = Readonly<{
   items: readonly Prop[];
 }>;
