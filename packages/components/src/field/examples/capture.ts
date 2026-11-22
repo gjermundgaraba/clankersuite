@@ -181,8 +181,13 @@ type KeyMessage =
   | typeof Message.PressedEnter.Type
   | typeof Message.PressedArrow.Type;
 
-export const captureKey = (event: KeyboardEvent): Option.Option<KeyMessage> =>
-  isUnhandledPlainKey(event)
+/** The suggestions' keys: only while the field shows its list, so a plain Enter and the
+ *  arrows otherwise keep their defaults. */
+export const captureKey = (
+  event: KeyboardEvent,
+  isShowingSuggestions: boolean
+): Option.Option<KeyMessage> =>
+  isShowingSuggestions && isUnhandledPlainKey(event)
     ? Match.value(event.key).pipe(
         Match.withReturnType<Option.Option<KeyMessage>>(),
         Match.when("Enter", () => Option.some(Message.PressedEnter())),
@@ -208,7 +213,8 @@ export const BindCaptureKeys = Mount.defineStream("BindCaptureKeys", {
       Dom.streamFromEventFilterMapPreventDefault({
         target: element,
         type: "keydown",
-        filterMapEvent: captureKey,
+        filterMapEvent: (event) =>
+          captureKey(event, element.getAttribute("aria-expanded") === "true"),
       })
     ),
 });

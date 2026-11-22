@@ -1,11 +1,15 @@
 import { Field } from "@gjermundgaraba/components";
 import { Option } from "effect";
 import { Scene } from "foldkit";
-import { describe, expect, it } from "vite-plus/test";
+import { afterEach, assert, describe, expect, it } from "vite-plus/test";
 
+import { disposeEmbedded, embed } from "../../test/embed.ts";
+import { byId } from "../../test/fixture.ts";
+import { settle, settleUntil } from "../../test/settle.ts";
 import {
   BindCaptureKeys,
   Message,
+  Model,
   captureKey,
   init,
   update,
@@ -18,6 +22,8 @@ const keydown = (key: string, modifiers: KeyboardEventInit = {}) =>
   new KeyboardEvent("keydown", { key, cancelable: true, ...modifiers });
 
 describe("the capture example", () => {
+  afterEach(disposeEmbedded);
+
   it("suggests the tasks an @ names, and picks one with a click", () => {
     Scene.scene(
       { update, view },
@@ -54,18 +60,18 @@ describe("the capture example", () => {
   });
 
   it("moves with plain arrows and picks with a plain Enter, leaving an IME's or a modified key", () => {
-    expect(captureKey(keydown("ArrowDown"))).toStrictEqual(
+    expect(captureKey(keydown("ArrowDown"), true)).toStrictEqual(
       Option.some(Message.PressedArrow({ isDown: true }))
     );
-    expect(captureKey(keydown("Enter"))).toStrictEqual(
+    expect(captureKey(keydown("Enter"), true)).toStrictEqual(
       Option.some(Message.PressedEnter())
     );
-    expect(captureKey(keydown("Enter", { isComposing: true }))).toStrictEqual(
-      Option.none()
-    );
-    expect(captureKey(keydown("Enter", { shiftKey: true }))).toStrictEqual(
-      Option.none()
-    );
+    expect(
+      captureKey(keydown("Enter", { isComposing: true }), true)
+    ).toStrictEqual(Option.none());
+    expect(
+      captureKey(keydown("Enter", { shiftKey: true }), true)
+    ).toStrictEqual(Option.none());
 
     const typed = update(
       init().model,
@@ -77,5 +83,48 @@ describe("the capture example", () => {
     expect(update(moved, Message.PressedEnter()).model.value).toBe(
       "Write release notes @Write migration guide "
     );
+  });
+
+  it("takes Enter and the arrows only while the suggestions show, and leaves them to the field otherwise", async () => {
+    embed({ Model, init, update, view });
+    await settleUntil(() => document.querySelector("#field-capture") !== null);
+
+    const input = byId("field-capture");
+    assert(input instanceof HTMLInputElement, "The capture field is no input.");
+
+    const typed = async (value: string, isExpanded: boolean): Promise<void> => {
+      input.value = value;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      await settleUntil(
+        () => input.getAttribute("aria-expanded") === String(isExpanded)
+      );
+    };
+
+    await typed("Write release notes @", true);
+    const down = keydown("ArrowDown");
+    input.dispatchEvent(down);
+    await settleUntil(
+      () =>
+        input.getAttribute("aria-activedescendant") ===
+        "field-capture-suggestion-guide"
+    );
+
+    expect(down.defaultPrevented).toBe(true);
+
+    await typed("Write release notes fri +mem", false);
+    const keys = [keydown("Enter"), keydown("ArrowUp"), keydown("ArrowDown")];
+
+    for (const key of keys) {
+      input.dispatchEvent(key);
+    }
+
+    await settle(30);
+
+    expect(keys.map((key) => key.defaultPrevented)).toStrictEqual([
+      false,
+      false,
+      false,
+    ]);
+    expect(input.value).toBe("Write release notes fri +mem");
   });
 });
