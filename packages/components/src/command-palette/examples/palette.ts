@@ -78,7 +78,7 @@ const statusPage = (current: string): CommandPalette.Page => ({
 const movePage = (current: string): CommandPalette.Page => ({
   title: "Move to",
   current,
-  find: "type a place",
+  find: "Type a place",
   choices: [
     { id: "projects", label: "Projects", glyph: "folder", level: 1 },
     {
@@ -118,19 +118,28 @@ const commands = (model: Model): readonly CommandPalette.Command[] => [
     id: "edit",
     label: "Edit item",
     group: "Item",
-    hint: KeyHint.keyLabel(EDIT_KEYS, model.platform),
+    glyph: "pencil",
+    keyHint: { keys: EDIT_KEYS, platform: model.platform },
   },
   {
     id: "status",
     label: "Change status",
     group: "Item",
+    glyph: "flag",
     page: statusPage(model.status),
   },
-  { id: "move", label: "Move to", group: "Item", page: movePage(model.place) },
+  {
+    id: "move",
+    label: "Move to",
+    group: "Item",
+    glyph: "folder",
+    page: movePage(model.place),
+  },
   {
     id: "share",
     label: "Share",
     group: "Item",
+    glyph: "send",
     isDisabled: true,
     reason: "Offline",
   },
@@ -319,8 +328,8 @@ const refusalView = (model: Model, h: HtmlBuilder<Message>): readonly Html[] =>
 
 const summary = (model: Model): string =>
   Option.match(model.maybeLastRun, {
-    onNone: () => `status ${model.status}, in ${model.place}`,
-    onSome: (id) => `ran ${id}; status ${model.status}, in ${model.place}`,
+    onNone: () => `Status ${model.status}, in ${model.place}`,
+    onSome: (id) => `Ran ${id}; status ${model.status}, in ${model.place}`,
   });
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
@@ -351,7 +360,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
                 body: [
                   Button.view(
                     {
-                      label: "commands",
+                      label: "Commands",
                       glyph: "search",
                       keyHint: { keys: PALETTE_KEYS, platform: model.platform },
                       onClick: Message.ClickedOpen(),
@@ -359,7 +368,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
                     h
                   ),
                   Button.view(
-                    { label: "status", onClick: Message.ClickedOpenStatus() },
+                    { label: "Status", onClick: Message.ClickedOpenStatus() },
                     h
                   ),
                 ],
@@ -378,6 +387,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
         viewInputs: {
           commands: commands(model),
           scope: SCOPE,
+          platform: model.platform,
           noun: "title",
           toDetailView: () => refusalView(model, h),
           toLiveRegionView: liveRegion.toDialogView("Palette"),

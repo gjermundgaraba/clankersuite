@@ -1,14 +1,14 @@
 # design-system
 
-The gjermundgaraba design system: one set of components for the clanker applications, styled by a brand. clankersuite is the first brand.
+The gjermundgaraba design system: one set of components for the clanker applications, in one look, clankersuite.
 
-| Package                                            | Published as                    | Holds                                                 |
-| -------------------------------------------------- | ------------------------------- | ----------------------------------------------------- |
-| [`packages/design-tokens`](packages/design-tokens) | `@gjermundgaraba/design-tokens` | DTCG token sources, built into one stylesheet a brand |
-| [`packages/fonts`](packages/fonts)                 | `@gjermundgaraba/fonts`         | self-hosted fonts, one stylesheet a font              |
-| [`packages/icons`](packages/icons)                 | `@gjermundgaraba/icons`         | the 12×12 glyphs, as Foldkit views                    |
-| [`packages/components`](packages/components)       | `@gjermundgaraba/components`    | the Foldkit components and their stylesheet           |
-| [`apps/docs`](apps/docs)                           | not published                   | the documentation site                                |
+| Package                                            | Published as                    | Holds                                         |
+| -------------------------------------------------- | ------------------------------- | --------------------------------------------- |
+| [`packages/design-tokens`](packages/design-tokens) | `@gjermundgaraba/design-tokens` | DTCG token sources, built into one stylesheet |
+| [`packages/fonts`](packages/fonts)                 | `@gjermundgaraba/fonts`         | self-hosted fonts, one stylesheet a font      |
+| [`packages/icons`](packages/icons)                 | `@gjermundgaraba/icons`         | the line glyphs, as Foldkit views             |
+| [`packages/components`](packages/components)       | `@gjermundgaraba/components`    | the Foldkit components and their stylesheet   |
+| [`apps/docs`](apps/docs)                           | not published                   | the documentation site                        |
 
 The packages are released together, at one version.
 

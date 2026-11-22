@@ -26,14 +26,14 @@ describe("the key-hint button example", () => {
     Scene.scene(
       { update, view },
       Scene.given(init().model),
-      Scene.expect(Scene.role("button", { name: "find" })).toContainText(
+      Scene.expect(Scene.role("button", { name: "Find" })).toContainText(
         "Ctrl+K"
       )
     );
     Scene.scene(
       { update, view },
       Scene.given({ platform: "Apple" as const }),
-      Scene.expect(Scene.role("button", { name: "find" })).toContainText("⌘K")
+      Scene.expect(Scene.role("button", { name: "Find" })).toContainText("⌘K")
     );
   });
 });

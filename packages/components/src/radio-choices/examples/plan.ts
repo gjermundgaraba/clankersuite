@@ -65,10 +65,10 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             options: [
               {
                 value: "Monthly",
-                label: "monthly",
+                label: "Monthly",
                 note: "Billed each month.",
               },
-              { value: "Yearly", label: "yearly", note: "Two months free." },
+              { value: "Yearly", label: "Yearly", note: "Two months free." },
             ],
             selectedValue: model.maybePlan,
           },

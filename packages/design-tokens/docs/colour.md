@@ -4,13 +4,13 @@ order: 2
 
 # Colour
 
-Two palettes of one token set: paper, the light one, and plum, the dark one. Every semantic colour is a `light-dark()` pair, so it follows the `color-scheme` of the element that uses it; each row shows it in both palettes. The page follows the reader's system, and `data-color-scheme="light"` or `"dark"` on `<html>` pins one.
+Two palettes of one token set: light and dark. Every semantic colour is a `light-dark()` pair, so it follows the `color-scheme` of the element that uses it; each row shows it in both palettes. The page follows the reader's system, and `data-color-scheme="light"` or `"dark"` on `<html>` pins one.
 
 Use the `--semantic-*` tokens; each row says what its token is for. The `--primitive-*` tokens they point at may change or disappear in any release.
 
 ## Backgrounds
 
-A `fill-*` colour fills a bounded shape; the others are grounds.
+A `fill-*` colour fills a bounded shape, and `selected` tints what is selected or current; the others are grounds.
 
 ::Tokens{prefix="--semantic-color-background"}
 
@@ -34,7 +34,7 @@ The keyboard-focus indicator, whatever draws it.
 
 ## Shadow inks
 
-The colour of the print shadows on [Shadows and layers](/design-tokens/shadows).
+The colour of the shadows on [Shadows and layers](/design-tokens/shadows).
 
 ::Tokens{prefix="--semantic-color-shadow"}
 

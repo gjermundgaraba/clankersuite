@@ -157,13 +157,13 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
           body: [
             Button.view(
               {
-                label: "show the keys",
+                label: "Show the keys",
                 keyHint: { keys: KeyHelp.HELP_KEYS, platform: model.platform },
                 onClick: Message.ClickedShowKeys(),
               },
               h
             ),
-            h.span([], [`item ${model.position} of ${ITEM_COUNT}`]),
+            h.span([], [`Item ${model.position} of ${ITEM_COUNT}`]),
           ],
         },
         h

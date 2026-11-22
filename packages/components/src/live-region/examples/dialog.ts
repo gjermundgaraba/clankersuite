@@ -86,12 +86,11 @@ const settingsCardView = (
       isNarrow: true,
       body: ["The toasts render in here while the dialog is open."],
       actions: [
-        Button.view({ label: "close", attributes: render.closeButton }, h),
+        Button.view({ label: "Close", attributes: render.closeButton }, h),
         Button.view(
           {
-            label: "save",
+            label: "Save",
             variant: "Primary",
-            isDefault: true,
             onClick: Message.ClickedSaveSettings(),
             attributes: render.initialFocus,
           },
@@ -126,12 +125,12 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html => {
         {
           body: [
             Button.view(
-              { label: "sync", glyph: "sync", onClick: Message.ClickedSync() },
+              { label: "Sync", glyph: "sync", onClick: Message.ClickedSync() },
               h
             ),
             Button.view(
               {
-                label: "settings",
+                label: "Settings",
                 glyph: "settings",
                 onClick: Message.ClickedOpenSettings(),
               },

@@ -7,16 +7,15 @@ export type ViewConfig = Readonly<{
   href?: string;
 }>;
 
-/** A name set in the pixel face, followed by a block cursor that blinks four times. */
+/** A name set in the brand face. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
   const { label, href } = config;
   const rootClass = h.Class("gg-wordmark");
-  const children = [label, h.span([h.Class("gg-cursor"), h.AriaHidden(true)])];
 
   return href === undefined
-    ? h.span([rootClass], children)
-    : h.a([h.Href(href), rootClass], children);
+    ? h.span([rootClass], [label])
+    : h.a([h.Href(href), rootClass], [label]);
 };

@@ -35,9 +35,9 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type;
 
 const TOOLS: readonly Tool[] = [
-  { id: "notes", label: "Notes", meta: "pinned" },
+  { id: "notes", label: "Notes", meta: "Pinned" },
   { id: "tasks", label: "Tasks", meta: "12 open" },
-  { id: "calendar", label: "Calendar", meta: "today" },
+  { id: "calendar", label: "Calendar", meta: "Today" },
   { id: "files", label: "Files", meta: "2 GB" },
   { id: "people", label: "People", meta: "48" },
 ];

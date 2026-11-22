@@ -1,0 +1,8 @@
+.gg-nav.gg-tabs {
+  min-height: var(--semantic-dimension-size-control-small);
+}
+
+.gg-nav.gg-tabs button {
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
+  font-size: var(--semantic-dimension-font-size-label);
+}

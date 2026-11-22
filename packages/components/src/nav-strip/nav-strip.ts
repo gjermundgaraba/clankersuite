@@ -19,26 +19,26 @@ export type ViewConfig = Readonly<{
   items: readonly NavItem[];
 }>;
 
-const countView = <Message>(
-  count: number,
-  h: HtmlBuilder<Message>
-): readonly Html[] => [
-  h.span([h.Class("sr-only")], [" "]),
-  h.span([h.Class("gg-navnum")], [count.toLocaleString(LOCALE)]),
-];
-
 const linkView = <Message>(
   info: UiNav.ItemInfo,
   { label, count }: NavItem,
   h: HtmlBuilder<Message>
-): Html =>
-  h.keyed("a")(info.value, info.link, [
-    label,
-    ...(count === undefined ? [] : countView(count, h)),
-  ]);
+): Html => {
+  if (count === undefined) {
+    return h.keyed("a")(info.value, info.link, [label]);
+  }
 
-/** One ink-bordered strip of link segments, built on `@foldkit/ui`'s Nav: a navigation
- *  landmark named by its label, the current page `aria-current="page"` and printed inverted.
+  const number = count.toLocaleString(LOCALE);
+
+  return h.keyed("a")(
+    info.value,
+    [...info.link, h.AriaLabel(`${label}, ${number}`)],
+    [label, h.span([h.Class("gg-navnum")], [number])]
+  );
+};
+
+/** One bordered strip of link segments, built on `@foldkit/ui`'s Nav: a navigation
+ *  landmark named by its label, the current page `aria-current="page"` and tinted.
  *  Its links route through the application as every link does. */
 export const view = <Message>(
   config: ViewConfig,

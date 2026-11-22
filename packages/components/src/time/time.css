@@ -1,0 +1,19 @@
+.gg-age {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  flex: none;
+}
+
+.gg-age.gg-stale {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-due {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  white-space: nowrap;
+}
+
+.gg-due.gg-late {
+  color: var(--semantic-color-text-negative);
+}

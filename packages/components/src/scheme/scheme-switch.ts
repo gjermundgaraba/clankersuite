@@ -1,4 +1,4 @@
-import { Effect, Option, Schema } from "effect";
+import { Array, Effect, Option, Schema } from "effect";
 import * as Command from "foldkit/command";
 import type { Html } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
@@ -58,7 +58,7 @@ const ReadScheme = Command.define("ReadScheme", {
   ),
 });
 
-/** Creates the switch on `System` in the paper palette, as the server renders it, with a
+/** Creates the switch on `System` in the light palette, as the server renders it, with a
  *  Command that reads `<html data-color-scheme>` once the client runs it after hydration: the scheme
  *  `schemeScript` pinned before first paint (the server ignores it), or `System` without one. A change made in another tab is seen on the next load, not live. */
 export const init = (): Update.Return<Model, Message> => ({
@@ -87,13 +87,12 @@ export const update = (model: Model, message: Message) =>
 export const select = (model: Model, chosen: Scheme): UpdateReturn =>
   update(model, Message.SelectedScheme({ scheme: chosen }));
 
-const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = [
-  { value: "System", label: "system" },
-  { value: "Paper", label: "paper" },
-  { value: "Plum", label: "plum" },
-];
+const SEGMENTS: ReadonlyArray<Segmented.Segment<Scheme>> = Array.map(
+  Scheme.literals,
+  (name) => ({ value: name, label: name })
+);
 
-/** System, paper, plum: two palettes of one system, or whatever the reader's system prefers.
+/** System, light, dark: two palettes of one system, or whatever the reader's system prefers.
  *  Put `schemeScript` in the page's `<head>` so a remembered choice applies before first
  *  paint. */
 export const view = defineView<Model, Message>((model, h): Html =>

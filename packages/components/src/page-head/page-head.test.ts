@@ -23,10 +23,31 @@ describe("PageHead", () => {
       Scene.expect(
         Scene.role("heading", { name: "Queue", level: 1 })
       ).toHaveClass("gg-page-title"),
-      Scene.expect(Scene.selector(".gg-page-name .gg-meta")).toHaveText(
-        "12 items"
-      ),
+      Scene.expect(Scene.selector(".gg-page-name p")).toHaveText("12 items"),
       Scene.expect(Scene.selector(".gg-page-acts button")).toHaveText("add")
+    );
+  });
+
+  it("leads the title with its glyph and prints the strip under the head", () => {
+    Scene.scene(
+      {
+        update: (model: null) => ({ model }),
+        view: (_model: null, h: HtmlBuilder<never>) =>
+          PageHead.view(
+            {
+              title: "Focus",
+              glyph: "star",
+              strip: [h.span([], ["Ship the beta"])],
+            },
+            h
+          ),
+      },
+      Scene.given(null),
+      Scene.expect(
+        Scene.role("heading", { name: "Focus", level: 1 })
+      ).toExist(),
+      Scene.expect(Scene.selector("h1 svg")).toHaveAttr("aria-hidden", "true"),
+      Scene.expect(Scene.selector(".gg-page-strip")).toHaveText("Ship the beta")
     );
   });
 

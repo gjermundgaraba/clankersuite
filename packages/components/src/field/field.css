@@ -1,0 +1,346 @@
+.gg-field :is(input, textarea):disabled,
+.gg-field.gg-boxed :is(input, textarea):disabled,
+select:disabled {
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-secondary);
+  cursor: default;
+}
+
+.gg-field:not(.gg-boxed) :is(input, textarea):disabled {
+  border-bottom-color: transparent;
+}
+
+.gg-field > label:not(.gg-choice),
+.gg-field-label {
+  display: block;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+  margin-bottom: var(--semantic-dimension-space-x-small);
+}
+
+.gg-field input,
+.gg-field textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  border: none;
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-xx-small) 0;
+  border-radius: var(--semantic-dimension-radius-control);
+}
+
+.gg-field textarea {
+  resize: vertical;
+  field-sizing: content;
+  min-height: var(--semantic-dimension-size-min-height-textarea);
+  font: var(--semantic-dimension-font-size-body)/var(
+      --semantic-number-line-height-textarea
+    )
+    var(--semantic-font-family-ui);
+}
+
+.gg-field input:focus-visible,
+.gg-field textarea:focus-visible {
+  outline: none;
+  border-bottom: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-focus-ring-default);
+}
+
+/* the accent line is a pixel thicker: a textarea, sized to its content, gives the pixel back */
+.gg-field:not(.gg-boxed) textarea:focus-visible {
+  padding-bottom: calc(
+    var(--semantic-dimension-space-xx-small) +
+      var(--semantic-dimension-border-width-default) -
+      var(--semantic-dimension-border-width-accent)
+  );
+}
+
+.gg-field input[aria-invalid="true"],
+.gg-field textarea[aria-invalid="true"] {
+  border-bottom-color: var(--semantic-color-border-negative);
+}
+
+.gg-field:has([aria-invalid="true"]) > label {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-field .gg-field-help,
+.gg-field .gg-field-error {
+  margin-top: var(--semantic-dimension-space-x-small);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
+    var(--semantic-font-family-ui);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-field .gg-field-error {
+  color: var(--semantic-color-text-negative);
+}
+
+.gg-field.gg-boxed input,
+.gg-field.gg-boxed textarea {
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  padding-inline: var(
+    --semantic-dimension-space-control-padding-inline-default
+  );
+}
+
+.gg-field.gg-boxed textarea {
+  padding-block: var(--semantic-dimension-space-small);
+}
+
+.gg-field.gg-boxed input:focus-visible,
+.gg-field.gg-boxed textarea:focus-visible {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+}
+
+.gg-field.gg-boxed :is(input, textarea)[aria-invalid="true"] {
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-field.gg-boxed .gg-password > input {
+  padding-right: calc(
+    var(--semantic-dimension-size-target) +
+      var(--semantic-dimension-space-small)
+  );
+}
+
+.gg-field.gg-boxed input[type="date"] {
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-field.gg-mono input,
+.gg-field.gg-mono textarea,
+.gg-field.gg-mono .gg-field-mirror {
+  font-family: var(--semantic-font-family-code);
+  font-size: var(--semantic-dimension-font-size-control);
+}
+
+/* the input's line, with what leads it: a palette's back button and scope */
+.gg-field-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+}
+
+.gg-field-line > :is(input, .gg-field-marked) {
+  flex: 1 1 var(--semantic-dimension-size-measure-x-large);
+  width: auto;
+  min-width: 0;
+}
+
+/* a sheet's line: tall and borderless across the sheet's top, in title-size text, ruled under */
+.gg-field.gg-sheet-line {
+  --gg-sheet-line: calc(
+    var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
+  );
+}
+
+.gg-field.gg-sheet-line .gg-field-line {
+  min-height: var(--gg-sheet-line);
+  padding: 0 var(--semantic-dimension-space-sheet);
+  font-size: var(--semantic-dimension-font-size-title);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-field.gg-sheet-line input,
+.gg-field.gg-sheet-line input:focus-visible {
+  min-height: var(--gg-sheet-line);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+
+.gg-field.gg-sheet-line input::placeholder {
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-field.gg-sheet-line :is(.gg-field-help, .gg-field-error) {
+  padding-inline: var(--semantic-dimension-space-sheet);
+}
+
+/* marks: a mirror of the value over the input, its text unseen and its marked spans
+   underlined. The input grows with its value inside a clipped box, so the mirror scrolls with
+   it instead of the input scrolling alone */
+.gg-field-marked {
+  position: relative;
+  overflow: hidden;
+  contain: inline-size;
+}
+
+.gg-field-marked input {
+  field-sizing: content;
+  width: auto;
+  min-width: 100%;
+}
+
+/* the clip would cut a box's sides, corners and focus ring, so a marked box draws them on
+   the clip, and the input inside draws none */
+.gg-field.gg-boxed .gg-field-marked {
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+}
+
+.gg-field.gg-boxed .gg-field-marked:has(input:focus-visible) {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: var(--semantic-dimension-space-focus-ring-offset-small);
+}
+
+.gg-field.gg-boxed .gg-field-marked:has([aria-invalid="true"]) {
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-field.gg-boxed .gg-field-marked input,
+.gg-field.gg-boxed .gg-field-marked input:focus-visible {
+  min-height: calc(
+    var(--semantic-dimension-size-control) - 2 *
+      var(--semantic-dimension-border-width-default)
+  );
+  border: 0;
+  border-radius: 0;
+  outline: none;
+}
+
+/* one line over the input's content box: as tall as the input, its block padding and bottom
+   border the input's, so the text centres where the input's does */
+.gg-field-mirror {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  align-content: center;
+  width: max-content;
+  padding-block: var(--semantic-dimension-space-xx-small);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    transparent;
+  color: transparent;
+  white-space: pre;
+  pointer-events: none;
+}
+
+.gg-field-marked:has(input:focus-visible) > .gg-field-mirror {
+  border-bottom-width: var(--semantic-dimension-border-width-accent);
+}
+
+.gg-field.gg-boxed .gg-field-mirror {
+  padding-inline: var(
+    --semantic-dimension-space-control-padding-inline-default
+  );
+}
+
+.gg-field:is(.gg-boxed, .gg-sheet-line) .gg-field-mirror,
+.gg-field:is(.gg-boxed, .gg-sheet-line)
+  .gg-field-marked:has(input:focus-visible)
+  > .gg-field-mirror {
+  padding-block: 0;
+  border-bottom-width: 0;
+}
+
+.gg-field-mirror mark {
+  color: transparent;
+  background: none;
+  border-bottom: var(--semantic-dimension-border-width-accent) solid
+    var(--semantic-color-background-fill-accent);
+}
+
+.gg-field-mirror mark.gg-warning {
+  border-bottom-color: var(--semantic-color-background-fill-warning);
+}
+
+.gg-field-mirror mark.gg-link {
+  border-bottom-color: var(--semantic-color-background-marker-sky);
+}
+
+/* suggestions: a sunken list inset under the field, each option a title over its context */
+.gg-suggest {
+  margin-top: var(--semantic-dimension-space-x-small);
+  padding: var(--semantic-dimension-space-x-small);
+  background: var(--semantic-color-background-head);
+  border-radius: var(--semantic-dimension-radius-row);
+  box-shadow: inset 0 0 0 var(--semantic-dimension-border-width-default)
+    var(--semantic-color-border-divider);
+}
+
+.gg-field.gg-sheet-line .gg-suggest {
+  margin: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-small) 0;
+}
+
+.gg-suggest-head {
+  display: block;
+  padding: var(--semantic-dimension-space-x-small)
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-suggest-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  padding: calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  border-radius: var(--semantic-dimension-radius-control);
+  cursor: pointer;
+}
+
+.gg-suggest-option > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-menu);
+  height: var(--semantic-dimension-size-glyph-menu);
+  color: var(--semantic-color-text-tertiary);
+}
+
+@media (hover: hover) {
+  .gg-suggest-option:hover {
+    background: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-suggest-option[aria-selected="true"] {
+  background: var(--semantic-color-background-selected);
+}
+
+.gg-suggest-title {
+  display: block;
+  color: var(--semantic-color-text-primary);
+}
+
+.gg-suggest-context {
+  display: block;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}

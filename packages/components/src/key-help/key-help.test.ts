@@ -22,8 +22,8 @@ describe("KeyHelp listing", () => {
       {
         title: "Move",
         rows: [
-          { keys: "j / ↓", does: "Next item" },
-          { keys: "gg", does: "First item" },
+          { keys: "J / ↓", does: "Next item" },
+          { keys: "G G", does: "First item" },
         ],
       },
       { title: "Anywhere", rows: [{ keys: "⌘K", does: "Find a command" }] },
@@ -32,7 +32,7 @@ describe("KeyHelp listing", () => {
 
   it("finds a binding by its words or its keys", () => {
     expect(KeyHelp.toKeymapGroups(BINDINGS, "Other", "  FIRST ")).toStrictEqual(
-      [{ title: "Move", rows: [{ keys: "gg", does: "First item" }] }]
+      [{ title: "Move", rows: [{ keys: "G G", does: "First item" }] }]
     );
     expect(KeyHelp.toKeymapGroups(BINDINGS, "Other", "ctrl+k")).toStrictEqual([
       { title: "Anywhere", rows: [{ keys: "Ctrl+K", does: "Find a command" }] },

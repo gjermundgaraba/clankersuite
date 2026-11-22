@@ -9,7 +9,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
         h.p(
           [],
           [
-            "Body text on the reading scale, in the system sans, held to the reading measure. It is the one place the system slows down; the chrome around it stays on the working scale.",
+            "Body text on a looser line, held to the reading measure. The chrome around it keeps its tighter lines.",
           ]
         ),
         h.h3([], ["Before the window"]),

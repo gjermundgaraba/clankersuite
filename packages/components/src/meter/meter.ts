@@ -7,18 +7,8 @@ import { LOCALE } from "../locale/locale.ts";
 import * as Mark from "../mark/mark.ts";
 import { slotView } from "../slot/slot.ts";
 
-const METER_CELLS = 20;
 const HIGH_SHARE = 0.8;
 const PERCENT = 100;
-
-const cellRowView = <Message>(
-  count: number,
-  on: number,
-  h: HtmlBuilder<Message>
-): readonly Html[] =>
-  Array.makeBy(count, (index) =>
-    h.span([h.Class(index < on ? "gg-cell gg-on" : "gg-cell")])
-  );
 
 /** One meter in a `listView`. */
 export type MeterConfig = Readonly<{
@@ -34,11 +24,11 @@ export type MeterConfig = Readonly<{
   /** Prints the numbers line (the default). Leave it out where it would repeat the
    *  percentage (`valueText: "62% used"`); screen readers still hear `valueText`. */
   hasNumbers?: boolean;
-  /** The lit cells take the reading's tone as well: amber from 80%, red at `max`. For a page
+  /** The bar's fill takes the reading's tone as well: amber from 80%, red at `max`. For a page
    *  of readings scanned for their level, such as a wall of limits; the reading beside the
-   *  cells still says it in a mark or a chip. */
+   *  bar still says it in a mark or a chip. */
   isToned?: boolean;
-  /** The last reading failed: the cells print muted, the numbers are the last known, and
+  /** The last reading failed: the fill is muted, the numbers are the last known, and
    *  screen readers hear "(stale)" after the name. Say why, and when it was last read, in
    *  `foot`. */
   isStale?: boolean;
@@ -107,6 +97,7 @@ const meterView = <Message>(
   const share = max > 0 ? Math.min(1, Math.max(0, value / max)) : 0;
   const level = levelOf(value, max);
   const isFull = level === "Full";
+  const percent = scaled(share, PERCENT, isFull);
   const numbers = config.valueText ?? numbersText(value, max);
   const rowClass = `gg-meter-row${isStale ? " gg-stale" : ""}${isToned ? TONE_CLASS[level] : ""}`;
 
@@ -140,14 +131,15 @@ const meterView = <Message>(
               [h.Class("gg-meter-line")],
               [
                 h.span(
-                  [...groups.meter, h.Class("gg-cells")],
-                  cellRowView(
-                    METER_CELLS,
-                    scaled(share, METER_CELLS, isFull),
-                    h
-                  )
+                  [...groups.meter, h.Class("gg-bar gg-meter-bar")],
+                  [
+                    h.span([
+                      h.Class("gg-bar-fill gg-meter-fill"),
+                      h.Style({ width: `${percent}%` }),
+                    ]),
+                  ]
                 ),
-                percentView(scaled(share, PERCENT, isFull), level, h),
+                percentView(percent, level, h),
                 ...(hasNumbers
                   ? [h.span([h.Class("gg-meter-num gg-tnum")], [numbers])]
                   : []),
@@ -167,9 +159,10 @@ export type ListViewConfig = Readonly<{
 
 /**
  * A ruled list of meters, edge to edge in a flush panel. Each is a named reading against a
- * maximum, in the vocabulary of `<meter>`, built on `@foldkit/ui`'s Meter: 20 cells, the
- * percentage (amber from 80%, a red chip at `max`, and neither 100% nor every cell before it),
- * the numbers in English, a foot line. The cells print ink unless the meter `isToned`. The cells are the `meter`, named by the printed label,
+ * maximum, in the vocabulary of `<meter>`, built on `@foldkit/ui`'s Meter: a rounded bar
+ * filled to the percentage, the percentage (amber from 80%, a red chip at `max`, and never
+ * 100% before it), the numbers in English, a foot line. The fill is the accent unless the
+ * meter `isToned`. The bar is the `meter`, named by the printed label,
  * with the value, the maximum and the numbers in words for screen readers.
  */
 export const listView = <Message>(

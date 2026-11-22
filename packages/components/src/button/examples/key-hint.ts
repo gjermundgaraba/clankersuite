@@ -34,6 +34,6 @@ export const update = (_model: Model, message: Message) =>
 
 export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
   Button.view(
-    { label: "find", keyHint: { keys: "Mod+K", platform: model.platform } },
+    { label: "Find", keyHint: { keys: "Mod+K", platform: model.platform } },
     h
   );

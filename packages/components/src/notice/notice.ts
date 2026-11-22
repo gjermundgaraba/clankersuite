@@ -6,12 +6,12 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import type { Attributes } from "../attributes/attributes.ts";
 
 /** `Warn`: amber, a question or a stop. `Error`: red, refused or failed. `Ok`: a committed
- *  change, in ink. `Quiet`: tinted, nothing wrong. */
+ *  change, in the accent. `Quiet`: grey, nothing wrong. */
 export const Tone = Schema.Literals(["Warn", "Error", "Ok", "Quiet"]);
 
 export type Tone = typeof Tone.Type;
 
-const toneGlyph = (tone: Tone): GlyphName =>
+export const toneGlyph = (tone: Tone): GlyphName =>
   Match.value(tone).pipe(
     Match.withReturnType<GlyphName>(),
     Match.whenOr("Warn", "Error", () => "bang"),
@@ -43,7 +43,7 @@ export const toneGlyphView = <Message>(
 
 export type ViewConfig<Message> = Readonly<{
   tone?: Tone;
-  /** Pixel caps, on its own line. */
+  /** A title, on its own line. */
   title?: string;
   body: ReadonlyArray<Html | string>;
   glyph?: GlyphName;
@@ -53,7 +53,7 @@ export type ViewConfig<Message> = Readonly<{
   attributes?: Attributes<Message>;
 }>;
 
-/** One line in the product's own words, beside a glyph in a box. An `Error` notice is an
+/** One line in the product's own words, beside a glyph in its tone's colour. An `Error` notice is an
  *  alert (`role="alert"`), so a screen reader says it when it appears; the others are quiet. */
 export const view = <Message>(
   config: ViewConfig<Message>,

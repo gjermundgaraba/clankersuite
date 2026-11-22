@@ -1,0 +1,472 @@
+.gg-done-title {
+  color: var(--semantic-color-text-tertiary);
+  text-decoration: line-through;
+}
+
+.gg-row > .gg-chip-dot,
+.gg-row > .gg-cell > .gg-chip-dot {
+  margin-inline: var(--semantic-dimension-space-x-small);
+}
+
+.gg-rows {
+  list-style: none;
+}
+
+.gg-rows.gg-dimmed .gg-row {
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-rows.gg-compact {
+  --gg-check: var(--semantic-dimension-size-checkbox-compact);
+  margin-inline: calc(-1 * var(--semantic-dimension-space-row-compact));
+}
+
+.gg-rows.gg-compact .gg-row {
+  min-height: var(--semantic-dimension-size-control);
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-row-compact);
+}
+
+.gg-rows.gg-compact .gg-check-cell {
+  width: calc(var(--gg-check) + var(--semantic-dimension-space-x-small));
+}
+
+.gg-rows.gg-compact .gg-check {
+  width: var(--gg-check);
+  height: var(--gg-check);
+}
+
+.gg-page-head + .gg-rows-section,
+.gg-rows-section + .gg-rows-section {
+  margin-top: var(--semantic-dimension-space-group);
+}
+
+.gg-tree ul.gg-rows {
+  padding-left: calc(
+    var(--semantic-dimension-space-x-large) +
+      var(--semantic-dimension-space-x-small)
+  );
+}
+
+.gg-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-inline);
+  padding: var(--semantic-dimension-space-row-block)
+    var(--semantic-dimension-space-row-inline);
+  min-height: var(--semantic-dimension-size-row);
+  border-radius: var(--semantic-dimension-radius-row);
+}
+
+.gg-row:has(.gg-row-context) {
+  padding-block: calc(
+    var(--semantic-dimension-space-row-block) +
+      var(--semantic-dimension-space-row-context)
+  );
+}
+
+@media (hover: hover) {
+  .gg-row:hover {
+    background-color: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-row .gg-glyph {
+  width: var(--semantic-dimension-size-glyph-row);
+  height: var(--semantic-dimension-size-glyph-row);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--semantic-color-text-secondary);
+  flex: none;
+}
+
+.gg-row .gg-grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: var(--semantic-dimension-space-x-small);
+  margin: calc(-1 * var(--semantic-dimension-space-x-small));
+}
+
+.gg-row .gg-title {
+  font: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-row .gg-title:hover {
+  text-decoration: underline;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}
+
+.gg-row .gg-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-xx-small);
+}
+
+/* where the pointer can hover, the tools take the slot's place while the row is hovered, holds
+   focus or is the cursor; unseen, they stay in the keyboard's order, so Tab shows them */
+@media (hover: hover) {
+  .gg-row:not(:hover, :focus-within, [aria-current="true"]) > .gg-tools {
+    position: absolute;
+    clip-path: inset(50%);
+  }
+
+  .gg-row:is(:hover, :focus-within, [aria-current="true"]):has(> .gg-tools)
+    > .gg-slot {
+    display: none;
+  }
+}
+
+.gg-row > .gg-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  flex: none;
+}
+
+.gg-row > .gg-grow-cell {
+  flex: 1;
+  min-width: 0;
+}
+
+.gg-row .gg-slot {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--semantic-dimension-space-row-gap);
+}
+
+.gg-row.gg-linked .gg-grow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.gg-row.gg-linked .gg-grow a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.gg-row.gg-linked
+  :is(button, input, select, textarea, [data-gg-tip], .gg-row-check) {
+  position: relative;
+  z-index: var(--semantic-number-layer-raised);
+}
+
+.gg-row.gg-linked:not(:has(.gg-grow a[aria-current])):hover .gg-grow a {
+  text-decoration: underline;
+  text-underline-offset: var(--semantic-dimension-space-underline-offset);
+}
+
+.gg-row.gg-linked .gg-grow a:focus-visible {
+  outline: 0;
+}
+
+.gg-row.gg-linked:has(.gg-grow a:focus-visible) {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-default);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+}
+
+/* each selector is written out, not joined in :is(), so each keeps its own specificity */
+.gg-row.gg-linked:has(.gg-grow a[aria-current]),
+.gg-board-card[aria-current="true"],
+.gg-row[aria-current="true"] {
+  background-color: var(--semantic-color-background-selected);
+}
+
+.gg-row:focus-visible {
+  outline: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-focus-ring-secondary);
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-large)
+  );
+}
+
+@media (max-width: 600px) {
+  .gg-row .gg-tools {
+    display: none;
+  }
+
+  .gg-row .gg-grow,
+  .gg-row .gg-title {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .gg-row .gg-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.gg-row-check {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  flex: none;
+  margin: calc(-1 * var(--semantic-dimension-space-row-block)) 0
+    calc(-1 * var(--semantic-dimension-space-row-block))
+    calc(-1 * var(--semantic-dimension-space-row-inline));
+  padding: 0 var(--semantic-dimension-space-row-inline);
+}
+
+.gg-row-check > [role="checkbox"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.gg-row label.gg-grow {
+  cursor: pointer;
+}
+
+.gg-row:has(> .gg-row-check > [aria-checked="true"]) {
+  background: var(--semantic-color-background-selected);
+}
+
+.gg-row-check > [aria-checked="mixed"] {
+  border-color: var(--semantic-color-background-fill-accent);
+  background: var(--semantic-color-background-fill-accent);
+}
+
+.gg-row-check > [aria-checked="mixed"]::before {
+  height: var(--semantic-dimension-border-width-accent);
+  border-radius: var(--semantic-dimension-border-width-accent);
+  background: var(--semantic-color-text-on-accent-fill);
+}
+
+.gg-row .gg-grow input.gg-inline-input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    0 var(--semantic-color-border-primary);
+}
+
+.gg-row .gg-grow input.gg-inline-input[aria-invalid="true"]:focus-visible {
+  box-shadow: inset 0 calc(-1 * var(--semantic-dimension-border-width-default))
+    0 var(--semantic-color-border-negative);
+}
+
+.gg-row .gg-grow > .gg-identity {
+  white-space: normal;
+}
+
+.gg-row.gg-context .gg-title {
+  color: var(--semantic-color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .gg-tree .gg-row {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: var(--semantic-dimension-space-x-small);
+  }
+
+  .gg-tree .gg-row .gg-grow {
+    flex: 1 1
+      calc(
+        100% - var(--semantic-dimension-size-glyph-row) -
+          var(--semantic-dimension-space-medium)
+      );
+  }
+
+  .gg-tree .gg-row .gg-title {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* a row's fold hangs outside its left edge, in the indent, or the page's room for a root row */
+.gg-row > .gg-fold {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + var(--semantic-dimension-space-xx-small));
+  translate: 0 -50%;
+  display: inline-flex;
+}
+
+button.gg-fold {
+  display: inline-flex;
+  padding: 0;
+  color: var(--semantic-color-text-tertiary);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+button.gg-fold .gg-icon {
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}
+
+button.gg-fold[aria-expanded="false"] .gg-icon {
+  rotate: -90deg;
+}
+
+@media (hover: hover) {
+  button.gg-fold:hover {
+    color: var(--semantic-color-text-primary);
+  }
+}
+
+.gg-check-cell {
+  display: inline-flex;
+  flex: none;
+  width: calc(
+    var(--semantic-dimension-size-glyph-row) +
+      var(--semantic-dimension-space-x-small)
+  );
+}
+
+/* the ring is a border, not a shadow, so it survives forced colours */
+.gg-check {
+  display: grid;
+  place-items: center;
+  width: var(--semantic-dimension-size-glyph-row);
+  height: var(--semantic-dimension-size-glyph-row);
+  padding: 0;
+  color: transparent;
+  background: none;
+  border: calc(1.5 * var(--semantic-dimension-border-width-default)) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-pill);
+  cursor: pointer;
+}
+
+.gg-check .gg-icon {
+  width: var(--semantic-dimension-size-glyph-small);
+  height: var(--semantic-dimension-size-glyph-small);
+}
+
+@media (hover: hover) {
+  .gg-check[aria-checked="false"]:hover {
+    color: var(--semantic-color-background-fill-accent);
+    border-color: var(--semantic-color-background-fill-accent);
+  }
+}
+
+.gg-check[aria-checked="true"] {
+  color: var(--semantic-color-text-on-accent-fill);
+  background: var(--semantic-color-background-fill-accent);
+  border-color: var(--semantic-color-background-fill-accent);
+  animation: gg-pop var(--semantic-duration-pop)
+    var(--semantic-cubic-bezier-standard);
+}
+
+@keyframes gg-pop {
+  0% {
+    scale: var(--semantic-number-scale-check-from);
+  }
+
+  60% {
+    scale: var(--semantic-number-scale-check-peak);
+  }
+}
+
+.gg-row-context {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-gap);
+  margin-top: var(--semantic-dimension-space-row-context);
+  overflow: hidden;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-row-context .gg-sep {
+  opacity: var(--semantic-number-opacity-separator);
+}
+
+.gg-row-context .gg-marker {
+  width: var(--semantic-dimension-size-marker-small);
+  height: var(--semantic-dimension-size-marker-small);
+}
+
+.gg-row-context > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-x-small);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .gg-row-context {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+}
+
+.gg-add-row {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-inline);
+  width: 100%;
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-row-inline);
+  font: inherit;
+  color: var(--semantic-color-text-tertiary);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--semantic-dimension-radius-row);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .gg-add-row:hover {
+    color: var(--semantic-color-text-secondary);
+    background: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-done-line {
+  display: flex;
+  margin-top: var(--semantic-dimension-space-done-line);
+  align-items: center;
+  gap: var(--semantic-dimension-space-row-gap);
+  padding: 0 var(--semantic-dimension-space-row-inline);
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-done-line > .gg-icon {
+  flex: none;
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}
+
+.gg-rows-head {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  margin-bottom: var(--semantic-dimension-space-x-small);
+  padding: 0 var(--semantic-dimension-space-row-inline)
+    var(--semantic-dimension-space-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-rows-head > .gg-icon {
+  flex: none;
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}

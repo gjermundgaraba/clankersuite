@@ -2,7 +2,6 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { LIVE_MARKDOWN_STYLE } from "./markdown-editor/live/theme.ts";
 
-import COMPONENTS_CSS from "./components.css?raw";
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
 
 const kebabCase = (property: string) =>
@@ -20,7 +19,33 @@ const asCss = (
     )
     .join("\n");
 
-const STYLESHEET = `${COMPONENTS_CSS}\n${asCss(LIVE_MARKDOWN_STYLE)}`;
+const STYLESHEETS = import.meta.glob<string>("./**/*.css", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+const STYLESHEET = [
+  ...Object.values(STYLESHEETS),
+  asCss(LIVE_MARKDOWN_STYLE),
+].join("\n");
+
+describe("clankersuite.css", () => {
+  it("imports every other stylesheet in the package, once", () => {
+    const imported = Array.from(
+      STYLESHEETS["./clankersuite.css"]?.matchAll(
+        /@import "(?<path>\.\/[^"]+)";/gu
+      ) ?? [],
+      ({ groups }) => groups?.["path"] ?? ""
+    );
+
+    expect(imported.toSorted()).toStrictEqual(
+      Object.keys(STYLESHEETS)
+        .filter((path) => path !== "./clankersuite.css")
+        .toSorted()
+    );
+  });
+});
 
 interface Declaration {
   readonly property: string;
@@ -30,8 +55,6 @@ interface Declaration {
 const TILE_GEOMETRY_PROPERTIES: ReadonlySet<string> = new Set([
   "background-position",
   "background-size",
-  "--gg-dither",
-  "--gg-veil-grain",
 ]);
 
 const TOKENED_UNITLESS_PROPERTIES: ReadonlySet<string> = new Set([
@@ -84,7 +107,7 @@ const offenders = (
 
 describe("the stylesheet's values", () => {
   it("reads enough declarations to mean something", () => {
-    expect(declarations.length).toBeGreaterThan(2000);
+    expect(declarations.length).toBeGreaterThan(1500);
   });
 
   it("writes lengths and durations as tokens; zero, relative units, tile geometry and query thresholds, which var() can't reach, stay raw", () => {
@@ -127,7 +150,7 @@ describe("the stylesheet's values", () => {
     ).toStrictEqual([]);
   });
 
-  it("uses only semantic tokens, each one the brand stylesheet defines", () => {
+  it("uses only semantic tokens, each one the token stylesheet defines", () => {
     const defined = new Set(
       Array.from(
         TOKENS.matchAll(/(?<name>--semantic-[-\w]+):/gu),
@@ -203,7 +226,7 @@ describe("the stylesheet's other names", () => {
     ).toStrictEqual([]);
   });
 
-  it("names its own custom properties and anchors --gg-, beside the brand's tokens", () => {
+  it("names its own custom properties and anchors --gg-, beside the tokens", () => {
     const names = namesIn(/(?<![\w-])(?<name>--[a-zA-Z][-\w]*)/gu);
 
     expect(names.length).toBeGreaterThan(100);

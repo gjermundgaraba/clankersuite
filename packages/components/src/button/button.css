@@ -1,0 +1,132 @@
+.gg-btn {
+  position: relative;
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-control);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-secondary);
+  border-radius: var(--semantic-dimension-radius-control);
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-default);
+  font-weight: var(--semantic-font-weight-medium);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--semantic-duration-press)
+    var(--semantic-cubic-bezier-standard);
+}
+
+.gg-btn > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-medium);
+  height: var(--semantic-dimension-size-glyph-medium);
+}
+
+.gg-btn:not(:disabled, [aria-disabled="true"]):active {
+  transform: scale(var(--semantic-number-scale-press));
+}
+
+@media (hover: hover) {
+  .gg-btn:not(.gg-primary, :disabled, [aria-disabled="true"]):hover {
+    background: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-btn:disabled,
+.gg-btn[aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  border-color: var(--semantic-color-border-divider);
+  cursor: default;
+}
+
+.gg-btn.gg-primary {
+  background: var(--semantic-color-background-fill-accent);
+  color: var(--semantic-color-text-on-accent-fill);
+}
+
+.gg-btn.gg-primary .gg-tag {
+  color: inherit;
+  border-color: currentColor;
+}
+
+.gg-btn.gg-primary:disabled,
+.gg-btn.gg-primary[aria-disabled="true"] {
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-btn.gg-small {
+  font-size: var(--semantic-dimension-font-size-label);
+  min-height: var(--semantic-dimension-size-control-small);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
+}
+
+.gg-btn.gg-large {
+  font-size: var(--semantic-dimension-font-size-body);
+  min-height: var(--semantic-dimension-size-control-large);
+  padding: 0 var(--semantic-dimension-space-large);
+}
+
+.gg-btn.gg-danger {
+  color: var(--semantic-color-text-negative);
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-btn.gg-danger:focus-visible {
+  outline-color: var(--semantic-color-focus-ring-negative);
+}
+
+.gg-btn.gg-primary .gg-key-hint {
+  color: inherit;
+  background: none;
+  box-shadow: inset 0 0 0 var(--semantic-dimension-border-width-default)
+    currentColor;
+}
+
+.gg-btn.gg-ghost {
+  background: none;
+  border-color: transparent;
+  color: var(--semantic-color-text-secondary);
+}
+
+@media (hover: hover) {
+  .gg-btn.gg-ghost:not(:disabled, [aria-disabled="true"]):hover {
+    background: var(--semantic-color-background-hover);
+    color: var(--semantic-color-text-primary);
+  }
+}
+
+.gg-btn.gg-quiet {
+  min-height: calc(
+    var(--semantic-dimension-size-control) -
+      var(--semantic-dimension-space-xx-small)
+  );
+  padding: 0 var(--semantic-dimension-space-small);
+  font-size: var(--semantic-dimension-font-size-body);
+  font-weight: var(--semantic-font-weight-regular);
+  background: none;
+  border-color: transparent;
+}
+
+.gg-btn.gg-quiet > .gg-icon {
+  color: var(--semantic-color-text-tertiary);
+}
+
+/* busy, the words keep their room unseen, so the button keeps its width, and the spinner
+   turns in their place */
+.gg-btn[aria-disabled="true"][aria-busy="true"] {
+  color: transparent;
+}
+
+.gg-btn > .gg-spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  color: var(--semantic-color-text-secondary);
+}

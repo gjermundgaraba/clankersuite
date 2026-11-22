@@ -1,0 +1,108 @@
+.gg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-x-small);
+  flex: none;
+  min-height: var(--semantic-dimension-size-chip);
+  padding: 0 var(--semantic-dimension-space-control-padding-inline-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  line-height: var(--semantic-number-line-height-compact);
+  color: var(--semantic-color-text-secondary);
+  background: var(--semantic-color-background-head);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  border-radius: var(--semantic-dimension-radius-pill);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gg-chip > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-small);
+  height: var(--semantic-dimension-size-glyph-small);
+}
+
+.gg-chip.gg-go {
+  color: var(--semantic-color-text-positive);
+  background: var(--semantic-color-background-tint-positive);
+  border-color: transparent;
+}
+
+.gg-chip.gg-warn {
+  color: var(--semantic-color-text-warning);
+  background: var(--semantic-color-background-tint-warning);
+  border-color: transparent;
+}
+
+.gg-chip.gg-blocked {
+  color: var(--semantic-color-text-negative);
+  background: var(--semantic-color-background-tint-negative);
+  border-color: transparent;
+}
+
+.gg-chip.gg-done {
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-chip.gg-flat {
+  padding: 0;
+  background: none;
+  border-color: transparent;
+}
+
+.gg-chip.gg-large {
+  min-height: var(--semantic-dimension-size-chip-large);
+  padding: 0
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+}
+
+@media (hover: hover) {
+  :is(a, button).gg-chip:hover {
+    color: var(--semantic-color-text-primary);
+    background: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-chip-dot {
+  display: inline-block;
+  flex: none;
+  width: var(--semantic-dimension-size-dot);
+  height: var(--semantic-dimension-size-dot);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-pill);
+}
+
+.gg-chip-dot.gg-go {
+  background: var(--semantic-color-background-fill-accent);
+  border-color: var(--semantic-color-background-fill-accent);
+}
+
+/* the warning fill is too light to edge a dot on the light ground, so a Warn dot keeps the
+   default ring */
+.gg-chip-dot.gg-warn {
+  background: var(--semantic-color-background-fill-warning);
+}
+
+.gg-chip-dot.gg-blocked {
+  background: var(--semantic-color-background-fill-negative);
+  border-color: var(--semantic-color-background-fill-negative);
+}
+
+.gg-chip-dot.gg-done {
+  background: var(--semantic-color-background-fill-secondary);
+  border-color: var(--semantic-color-background-fill-secondary);
+}
+
+/* a menu's toggle printed as a chip, its caret after its words */
+button.gg-chip {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.gg-chip .gg-spinner {
+  margin-left: var(--semantic-dimension-space-x-small);
+}

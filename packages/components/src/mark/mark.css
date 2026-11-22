@@ -1,0 +1,25 @@
+.gg-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: var(--semantic-dimension-space-xx-small);
+  background: var(--semantic-color-background-fill-warning);
+  color: var(--semantic-color-text-on-status-fill);
+  border: 0;
+}
+
+button.gg-mark {
+  cursor: pointer;
+}
+
+.gg-mark.gg-plain {
+  background: none;
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-mark.gg-reading {
+  font-size: var(--semantic-dimension-font-size-label);
+  padding: var(--semantic-dimension-space-xx-small)
+    var(--semantic-dimension-space-small);
+}

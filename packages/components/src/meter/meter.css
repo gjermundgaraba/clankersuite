@@ -1,0 +1,99 @@
+.gg-meter-bar {
+  flex: 0 1 var(--semantic-dimension-size-meter-width);
+}
+
+.gg-meters {
+  container: meters / inline-size;
+  list-style: none;
+}
+
+.gg-meter-row {
+  display: grid;
+  grid-template-columns: minmax(
+      var(--semantic-dimension-size-min-width-meter-name),
+      var(--semantic-dimension-size-max-width-meter-name)
+    ) minmax(0, 1fr);
+  gap: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-gutter);
+  padding: var(--semantic-dimension-space-medium)
+    var(--semantic-dimension-space-inset);
+  border-bottom: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+.gg-meter-row:last-child {
+  border-bottom: 0;
+}
+
+.gg-meter-head {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-meter-row .gg-notice {
+  grid-column: 1 / -1;
+  align-items: center;
+}
+
+@container meters (width < 560px) {
+  .gg-meter-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gg-meter-head {
+    grid-row: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--semantic-dimension-space-xx-small)
+      var(--semantic-dimension-space-medium);
+  }
+
+  .gg-meter-num {
+    width: 100%;
+  }
+}
+
+.gg-meter-name {
+  overflow-wrap: anywhere;
+}
+
+.gg-meter-line {
+  display: flex;
+  align-items: center;
+  gap: var(--semantic-dimension-space-medium);
+  flex-wrap: wrap;
+}
+
+.gg-meter-row.gg-toned.gg-high:not(.gg-stale) .gg-meter-fill {
+  background: var(--semantic-color-background-fill-warning);
+}
+
+.gg-meter-row.gg-toned.gg-full:not(.gg-stale) .gg-meter-fill {
+  background: var(--semantic-color-background-fill-negative);
+}
+
+.gg-meter-row.gg-stale .gg-meter-fill {
+  background: var(--semantic-color-background-fill-secondary);
+}
+
+.gg-meter-line .gg-pct {
+  font-size: var(--semantic-dimension-font-size-control);
+  min-width: var(--semantic-dimension-size-measure-xx-small);
+}
+
+.gg-meter-num {
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-meter-foot {
+  display: flex;
+  gap: var(--semantic-dimension-space-large);
+  flex-wrap: wrap;
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-secondary);
+}

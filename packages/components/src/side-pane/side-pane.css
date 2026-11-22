@@ -1,0 +1,115 @@
+/* the key bar and toasts end at its left edge */
+.gg-side-pane {
+  anchor-name: --gg-side-pane;
+  right: 0;
+  z-index: var(--semantic-number-layer-raised);
+  display: flex;
+  flex-direction: column;
+  gap: var(--semantic-dimension-space-large);
+  width: var(--semantic-dimension-size-side-pane);
+  padding: var(--semantic-dimension-space-large)
+    var(--semantic-dimension-space-x-large)
+    var(--semantic-dimension-space-xx-large);
+  background: var(--semantic-color-background-surface);
+  border-left: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+  overflow-y: auto;
+}
+
+.gg-side-pane > * {
+  flex: none;
+  min-width: 0;
+}
+
+/* the page beside the pane keeps its width clear where the room right of the rail holds the
+   pane and the narrowest deck (Rail's 421px): 821px is size.sidePane and that, since a
+   container's condition reads no custom property */
+@container gg-railed (width >= 821px) {
+  .gg-railed:has(.gg-side-pane) > * {
+    --gg-side-pane-w: var(--semantic-dimension-size-side-pane);
+  }
+}
+
+/* where it does not, the pane covers the page, and the key bar and toasts, finding no anchor,
+   run to the window's right edge */
+@container gg-railed (width < 821px) {
+  .gg-side-pane {
+    anchor-name: none;
+    left: anchor(--gg-rail right, 0px);
+    bottom: var(--gg-statusbar-h);
+    width: auto;
+    border-left: 0;
+  }
+
+  /* hide what it covers from the keyboard and screen readers too */
+  .gg-railed:has(.gg-side-pane) :is(.gg-deck, .gg-bench, .gg-stage) {
+    visibility: hidden;
+  }
+
+  /* but not a dialog opened in place in it, over the pane and everything else */
+  .gg-railed:has(.gg-side-pane) .gg-veil {
+    visibility: visible;
+  }
+}
+
+.gg-side-pane-top {
+  display: flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  margin-bottom: calc(-1 * var(--semantic-dimension-space-xx-small));
+  font-size: var(--semantic-dimension-font-size-label);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-side-pane-context {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  min-width: 0;
+}
+
+/* the check sits level with the title's first line */
+.gg-side-pane-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+.gg-side-pane-title > .gg-check-cell {
+  margin-top: calc(
+    var(--semantic-dimension-space-x-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+}
+
+.gg-side-pane-notes {
+  padding-top: calc(
+    var(--semantic-dimension-space-medium) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  line-height: var(--semantic-number-line-height-prose);
+  border-top: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-divider);
+}
+
+/* a list in the pane sits flush with the properties: its heading, the checks and the add
+   row's plus all start at the labels' edge */
+.gg-side-pane .gg-rows-head {
+  padding-inline: 0;
+}
+
+.gg-side-pane .gg-add-row {
+  min-height: var(--semantic-dimension-size-control);
+  padding-inline: 0;
+}

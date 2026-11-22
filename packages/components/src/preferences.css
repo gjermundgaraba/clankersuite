@@ -1,0 +1,109 @@
+@media (prefers-reduced-motion: reduce) {
+  .gg-spinner,
+  .gg-veil-backdrop,
+  .gg-card,
+  .gg-rail[popover]:popover-open,
+  .gg-toasts .gg-toast,
+  .gg-check[aria-checked="true"] {
+    animation: none;
+  }
+
+  .gg-btn,
+  .gg-decision {
+    transition: none;
+  }
+
+  .gg-btn:not(:disabled, [aria-disabled="true"]):active,
+  .gg-decision:active {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :is(
+    [aria-pressed="true"],
+    [aria-current]:not([aria-current="false"]),
+    [aria-selected="true"],
+    [role="menuitemradio"][aria-checked="true"]
+  ) {
+    outline: var(--semantic-dimension-border-width-default) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-default));
+  }
+
+  .gg-choice-box[aria-checked="true"]::before,
+  .gg-row-check > :is([aria-checked="true"], [aria-checked="mixed"])::before,
+  [aria-checked="true"] > .gg-menu-check::before,
+  .gg-choice[role="radio"][aria-checked="true"] > .gg-choice-box::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .gg-check[aria-checked="true"] {
+    forced-color-adjust: none;
+    color: Canvas;
+    background: CanvasText;
+    border-color: CanvasText;
+  }
+
+  .gg-sortable-item:is(.gg-drop-before, .gg-drop-after)::before,
+  .gg-reel-slot:is(.gg-drop-before, .gg-drop-after)::before,
+  .gg-reel-gap.gg-drop-here::before {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .gg-reel-resize::after,
+  .gg-reel-split::after {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .gg-bar {
+    outline: var(--semantic-dimension-border-width-default) solid CanvasText;
+  }
+
+  .gg-goal-steps > .gg-on {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .gg-goal-ring > .gg-off {
+    forced-color-adjust: none;
+    stroke: GrayText;
+  }
+
+  .gg-goal-ring > .gg-on {
+    forced-color-adjust: none;
+    stroke: CanvasText;
+  }
+
+  /* important, to win over the toned and stale fills too */
+  .gg-bar-fill {
+    forced-color-adjust: none;
+    background: CanvasText !important;
+  }
+
+  /* the mirror's text stays unseen over the input's; its marks underline in Highlight */
+  .gg-field-mirror {
+    forced-color-adjust: none;
+  }
+
+  .gg-field-mirror mark {
+    border-bottom-color: Highlight !important;
+  }
+
+  [data-gg-flash] {
+    outline: var(--semantic-dimension-border-width-accent) solid Highlight;
+    outline-offset: calc(-1 * var(--semantic-dimension-border-width-accent));
+  }
+
+  .gg-btn[aria-disabled="true"][aria-busy="true"] {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: GrayText;
+  }
+
+  .gg-btn[aria-busy="true"] > .gg-spinner {
+    color: GrayText;
+  }
+}

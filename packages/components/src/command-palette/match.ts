@@ -1,13 +1,17 @@
 import type { GlyphName } from "@gjermundgaraba/icons";
 import { Array, HashSet, Option, Order, String, pipe } from "effect";
 
+import type { KeyHintConfig } from "../button/button.ts";
+
 /** One row of the palette: a command, or a choice on a page. */
 export type Choice = Readonly<{
   id: string;
   label: string;
-  /** A key or a note at the right (`KeyHint.keyLabel` prints a binding). */
+  /** A note at the right: where a title lives, why a choice is there. */
   hint?: string;
-  /** An authored title (a page, an item): set in sans with a glyph. On the commands it waits
+  /** The key that does the same, printed at the right as its keycap. */
+  keyHint?: KeyHintConfig;
+  /** An authored title (a page, an item), usually with a glyph. On the commands it waits
    *  for a query. */
   isAuthored?: boolean;
   glyph?: GlyphName;
@@ -30,7 +34,7 @@ export type Page = Readonly<{
   /** The page's name, in the head after Back (`"Status"`, `"Move to"`). */
   title: string;
   choices: readonly Choice[];
-  /** The field's placeholder; `"type to narrow"` when not given. */
+  /** The field's placeholder; `"Type to narrow"` when not given. */
   find?: string;
   /** The choice in force now: tagged current, and not picked again. */
   current?: string;

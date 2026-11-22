@@ -4,7 +4,7 @@ category: layout
 
 # Wall
 
-The whole viewport as dithered ground with one card centred on it, for a screen with nothing else on it: sign-in, consent, first-run setup.
+The whole viewport as bare ground with one card centred on it, for a screen with nothing else on it: sign-in, consent, first-run setup.
 
 ## Usage
 
@@ -19,6 +19,6 @@ body: [
 
 ## Its mark
 
-`Wall.markView` prints the wordmark at wall size beside the lock in a box: the top of a wall's card.
+`Wall.markView` prints the wordmark at wall size beside the lock: the top of a wall's card.
 
 ::Example{name="mark"}

@@ -1,0 +1,903 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic dimension tokens.",
+  "semantic": {
+    "dimension": {
+      "$type": "dimension",
+      "fontSize": {
+        "label": {
+          "$value": {
+            "value": 13,
+            "unit": "px"
+          },
+          "$description": "Small text: labels, field labels, table heads, meta, counts, chips, tabs, ages, state words, section labels."
+        },
+        "control": {
+          "$value": {
+            "value": 13,
+            "unit": "px"
+          },
+          "$description": "Buttons, chips, menus, code, notices."
+        },
+        "body": {
+          "$value": {
+            "value": 14.5,
+            "unit": "px"
+          },
+          "$description": "Body text, a sidebar's places, title bars, and the names in rows, groups and meters."
+        },
+        "title": {
+          "$value": {
+            "value": 16,
+            "unit": "px"
+          },
+          "$description": "An editable title in a card."
+        },
+        "headline": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          },
+          "$description": "An empty state's title."
+        },
+        "page": {
+          "$value": {
+            "value": 28,
+            "unit": "px"
+          },
+          "$description": "A working screen's name (PageHead)."
+        },
+        "pageNarrow": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          },
+          "$description": "A working screen's name on a phone."
+        },
+        "wordmark": {
+          "$value": {
+            "value": 17,
+            "unit": "px"
+          },
+          "$description": "The wordmark."
+        },
+        "wordmarkWall": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          },
+          "$description": "The wordmark on a wall."
+        },
+        "figure": {
+          "$value": {
+            "value": 30,
+            "unit": "px"
+          },
+          "$description": "A stat's value."
+        },
+        "figureNarrow": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          },
+          "$description": "A stat's value at 900px and under."
+        },
+        "prose": {
+          "heading": {
+            "2": {
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              },
+              "$description": "A second-level heading in long-form reading."
+            },
+            "3": {
+              "$value": {
+                "value": 15,
+                "unit": "px"
+              },
+              "$description": "A third-level heading in long-form reading."
+            }
+          },
+          "title": {
+            "$value": {
+              "value": 30,
+              "unit": "px"
+            },
+            "$description": "A document's title."
+          },
+          "titleNarrow": {
+            "$value": {
+              "value": 25,
+              "unit": "px"
+            },
+            "$description": "A document's title on a phone."
+          },
+          "code": {
+            "$value": {
+              "value": 12.5,
+              "unit": "px"
+            },
+            "$description": "A code block in long-form reading."
+          }
+        },
+        "keyHint": {
+          "$value": {
+            "value": 11.5,
+            "unit": "px"
+          },
+          "$description": "A key printed as its keycap, in a ringed box: in a button, a menu row, a tip and the key bar."
+        }
+      },
+      "letterSpacing": {
+        "pageTitle": {
+          "$value": {
+            "value": -0.015,
+            "unit": "em"
+          },
+          "$description": "A page's or sheet's title."
+        },
+        "wordmark": {
+          "$value": {
+            "value": -0.02,
+            "unit": "em"
+          },
+          "$description": "The wordmark."
+        },
+        "code": {
+          "$value": {
+            "value": 0.02,
+            "unit": "em"
+          },
+          "$description": "A secret's characters, so each reads apart."
+        },
+        "prose": {
+          "heading": {
+            "$value": {
+              "value": -0.005,
+              "unit": "em"
+            },
+            "$description": "First- and second-level headings in long-form reading."
+          }
+        }
+      },
+      "borderWidth": {
+        "default": {
+          "$value": {
+            "value": 1,
+            "unit": "px"
+          },
+          "$description": "Every line: a control's or surface's border and a divider; also the 1px box of visually hidden text."
+        },
+        "accent": {
+          "$value": {
+            "value": 2,
+            "unit": "px"
+          },
+          "$description": "A focus ring, a drop marker, a focused field's baseline or a mixed check's bar."
+        }
+      },
+      "size": {
+        "row": {
+          "$value": {
+            "value": 36,
+            "unit": "px"
+          },
+          "$description": "The height of a row, a list item on a page, a table row or a title bar: one control and room around it."
+        },
+        "maxWidth": {
+          "deck": {
+            "$value": {
+              "value": 760,
+              "unit": "px"
+            },
+            "$description": "The page's column: a Deck's content, centred between the sidebar and the side pane."
+          },
+          "prose": {
+            "$value": {
+              "value": 68,
+              "unit": "ch"
+            },
+            "$description": "The measure of long-form reading."
+          },
+          "card": {
+            "$value": {
+              "value": 620,
+              "unit": "px"
+            },
+            "$description": "A card's width: a sheet in a dialog."
+          },
+          "cardNarrow": {
+            "$value": {
+              "value": 440,
+              "unit": "px"
+            },
+            "$description": "A narrow card's width."
+          },
+          "meterName": {
+            "$value": {
+              "value": 240,
+              "unit": "px"
+            },
+            "$description": "The widest a meter's name column prints."
+          },
+          "stageNotice": {
+            "$value": {
+              "value": 460,
+              "unit": "px"
+            },
+            "$description": "The widest a paused stage's notice prints."
+          },
+          "toast": {
+            "$value": {
+              "value": 392,
+              "unit": "px"
+            },
+            "$description": "A toast stack's width."
+          }
+        },
+        "rail": {
+          "default": {
+            "$value": {
+              "value": 232,
+              "unit": "px"
+            },
+            "$description": "The sidebar at the page's left, until the reader sizes it."
+          },
+          "drawer": {
+            "$value": {
+              "value": 320,
+              "unit": "px"
+            },
+            "$description": "The rail as a drawer, whatever width the reader gave it."
+          },
+          "resize": {
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "The width of a rail's resize handle."
+          }
+        },
+        "sidePane": {
+          "$value": {
+            "value": 400,
+            "unit": "px"
+          },
+          "$description": "The width of the side pane at the page's right."
+        },
+        "minWidth": {
+          "reelColumn": {
+            "$value": {
+              "value": 280,
+              "unit": "px"
+            },
+            "$description": "The narrowest a reel column prints, whatever its width."
+          },
+          "menu": {
+            "$value": {
+              "value": 148,
+              "unit": "px"
+            },
+            "$description": "The narrowest a menu prints."
+          },
+          "fieldGrid": {
+            "$value": {
+              "value": 160,
+              "unit": "px"
+            },
+            "$description": "The narrowest a field grid's column prints."
+          },
+          "sortableGrid": {
+            "$value": {
+              "value": 180,
+              "unit": "px"
+            },
+            "$description": "The narrowest a sortable grid's item prints."
+          },
+          "sortablePanel": {
+            "$value": {
+              "value": 300,
+              "unit": "px"
+            },
+            "$description": "The narrowest a sortable panel prints."
+          },
+          "meterName": {
+            "$value": {
+              "value": 180,
+              "unit": "px"
+            },
+            "$description": "The narrowest a meter's name column prints."
+          }
+        },
+        "minHeight": {
+          "reelPane": {
+            "$value": {
+              "value": 120,
+              "unit": "px"
+            },
+            "$description": "The shortest a reel pane prints."
+          },
+          "textarea": {
+            "$value": {
+              "value": 96,
+              "unit": "px"
+            },
+            "$description": "The least height of a textarea."
+          },
+          "codeSurface": {
+            "$value": {
+              "value": 220,
+              "unit": "px"
+            },
+            "$description": "The least height of a code surface."
+          },
+          "metaRow": {
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "The least height of a board card's meta row."
+          }
+        },
+        "topBar": {
+          "$value": {
+            "value": 48,
+            "unit": "px"
+          },
+          "$description": "The top bar's height."
+        },
+        "statusBar": {
+          "$value": {
+            "value": 25,
+            "unit": "px"
+          },
+          "$description": "The status bar's height."
+        },
+        "scrollbar": {
+          "$value": {
+            "value": 10,
+            "unit": "px"
+          },
+          "$description": "The width of a scrollbar."
+        },
+        "target": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "The least size of a pointer target, and an icon button's size."
+        },
+        "measure": {
+          "note": {
+            "$value": {
+              "value": 46,
+              "unit": "ch"
+            },
+            "$description": "A note line or an empty state's text."
+          },
+          "large": {
+            "$value": {
+              "value": 12,
+              "unit": "ch"
+            },
+            "$description": "A query field, a key, a check's author on a phone."
+          },
+          "small": {
+            "$value": {
+              "value": 8,
+              "unit": "ch"
+            },
+            "$description": "The narrowest a query field prints."
+          },
+          "query": {
+            "$value": {
+              "value": 32,
+              "unit": "ch"
+            },
+            "$description": "The widest a query field prints."
+          },
+          "tag": {
+            "$value": {
+              "value": 18,
+              "unit": "ch"
+            },
+            "$description": "The widest a tag prints."
+          },
+          "xSmall": {
+            "$value": {
+              "value": 6,
+              "unit": "ch"
+            },
+            "$description": "A flashed word."
+          },
+          "xxSmall": {
+            "$value": {
+              "value": 4,
+              "unit": "ch"
+            },
+            "$description": "A percentage or version."
+          },
+          "medium": {
+            "$value": {
+              "value": 10,
+              "unit": "ch"
+            },
+            "$description": "A history entry's author."
+          },
+          "xxLarge": {
+            "$value": {
+              "value": 16,
+              "unit": "ch"
+            },
+            "$description": "The widest a history entry's author prints."
+          },
+          "outcome": {
+            "$value": {
+              "value": 52,
+              "unit": "ch"
+            },
+            "$description": "An outcome's text."
+          },
+          "xLarge": {
+            "$value": {
+              "value": 14,
+              "unit": "ch"
+            },
+            "$description": "A palette's query field."
+          },
+          "title": {
+            "$value": {
+              "value": 20,
+              "unit": "ch"
+            },
+            "$description": "A sheet title's basis, a check's author."
+          },
+          "dropZone": {
+            "$value": {
+              "value": 44,
+              "unit": "ch"
+            },
+            "$description": "A drop zone's text."
+          },
+          "tip": {
+            "$value": {
+              "value": 36,
+              "unit": "ch"
+            },
+            "$description": "The widest a tip prints."
+          }
+        },
+        "spinner": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "The width and height of the spinner a busy button, chip, loading line, link state or palette row prints."
+        },
+        "checkbox": {
+          "box": {
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "A checkbox's or radio's box, and the round check of a task under a goal card."
+          },
+          "mark": {
+            "$value": {
+              "value": 10,
+              "unit": "px"
+            },
+            "$description": "The check drawn in a checked box, and the width of a mixed box's bar."
+          },
+          "compact": {
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "A compact row's round check, and a goal's outcome box."
+          }
+        },
+        "dot": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "A chip's status dot: Chip.dotView."
+        },
+        "glyph": {
+          "row": {
+            "$value": {
+              "value": 18,
+              "unit": "px"
+            },
+            "$description": "A row's glyph."
+          },
+          "small": {
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "A small glyph: in a chip, in a row's check."
+          },
+          "medium": {
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "A glyph set in a line of small text: a button's, a group's heading, a row's fold, the done line."
+          },
+          "iconButton": {
+            "$value": {
+              "value": 15,
+              "unit": "px"
+            },
+            "$description": "The glyph in an IconButton."
+          },
+          "menu": {
+            "$value": {
+              "value": 15,
+              "unit": "px"
+            },
+            "$description": "The glyph before a menu item's or a suggestion's label."
+          },
+          "large": {
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            },
+            "$description": "A large glyph: an outcome's, a drop zone's or a wall's."
+          },
+          "hero": {
+            "$value": {
+              "value": 44,
+              "unit": "px"
+            },
+            "$description": "The glyph over an empty state's title."
+          }
+        },
+        "control": {
+          "$value": {
+            "value": 30,
+            "unit": "px"
+          },
+          "$description": "The height of a control: a button, a field, a select, a segmented strip, a menu item."
+        },
+        "radio": {
+          "mark": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "The dot inside a chosen radio."
+          }
+        },
+        "diffLine": {
+          "$value": {
+            "value": 19,
+            "unit": "px"
+          },
+          "$description": "The line height of a diff's line numbers."
+        },
+        "maxHeight": {
+          "boardColumnRoom": {
+            "$value": {
+              "value": 150,
+              "unit": "px"
+            },
+            "$description": "What a board column leaves of the viewport's height."
+          },
+          "markdownImage": {
+            "$value": {
+              "value": 480,
+              "unit": "px"
+            },
+            "$description": "The tallest an image grows in the Markdown editor."
+          }
+        },
+        "meter": {
+          "width": {
+            "$value": {
+              "value": 160,
+              "unit": "px"
+            },
+            "$description": "A meter bar's width; it shrinks in a narrow meter."
+          },
+          "height": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "A meter bar's height, and a goal card's outcome steps."
+          }
+        },
+        "monogram": {
+          "default": {
+            "$value": {
+              "value": 26,
+              "unit": "px"
+            },
+            "$description": "A monogram's height and least width: two letters at label size, with room."
+          },
+          "large": {
+            "$value": {
+              "value": 34,
+              "unit": "px"
+            },
+            "$description": "A large monogram's height and least width."
+          }
+        },
+        "controlSmall": {
+          "$value": {
+            "value": 26,
+            "unit": "px"
+          },
+          "$description": "The height of a small control: a small button, an icon button, a tab, a filter chip, a sub-place."
+        },
+        "controlLarge": {
+          "$value": {
+            "value": 36,
+            "unit": "px"
+          },
+          "$description": "The height of a large button, for the one action that ends a flow."
+        },
+        "chip": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          },
+          "$description": "The height of a chip: a state, a date or a count in a row's meta."
+        },
+        "chipLarge": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "The height of a large chip: a goal in a page's strip."
+        },
+        "marker": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "The square or dot a Marker prints in an area's or a goal's colour."
+        },
+        "markerSmall": {
+          "$value": {
+            "value": 7,
+            "unit": "px"
+          },
+          "$description": "A Marker in a line of small text: a row's context line."
+        }
+      },
+      "space": {
+        "xxSmall": {
+          "$value": {
+            "value": 2,
+            "unit": "px"
+          },
+          "$description": "The least: a hairline apart, a label's meta from its value."
+        },
+        "xSmall": {
+          "$value": {
+            "value": 4,
+            "unit": "px"
+          },
+          "$description": "Tight: a field's label above its input, a glyph in a dense line."
+        },
+        "small": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "Between things in one line: buttons, chips, a glyph and its word."
+        },
+        "medium": {
+          "$value": {
+            "value": 12,
+            "unit": "px"
+          },
+          "$description": "Between grouped lines, and the inline padding of a row, cell or bar."
+        },
+        "large": {
+          "$value": {
+            "value": 16,
+            "unit": "px"
+          },
+          "$description": "Between the parts of one body: a panel's, a card's, a window's."
+        },
+        "xLarge": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "Around an empty state, a wall or a dialog on its veil."
+        },
+        "xxLarge": {
+          "$value": {
+            "value": 32,
+            "unit": "px"
+          },
+          "$description": "The most: beside a sheet's content."
+        },
+        "inset": {
+          "$value": "{semantic.dimension.space.large}",
+          "$description": "Inside a surface: the padding of a panel's or window's body, a stat, a meter row."
+        },
+        "sheet": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          },
+          "$description": "The inline padding of a sheet: a card's title bar, body and foot, a palette's query and foot."
+        },
+        "gutter": {
+          "$value": "{semantic.dimension.space.xLarge}",
+          "$description": "Between whole surfaces, and between them and the page's edge: a deck's, board's, rail's and top bar's."
+        },
+        "page": {
+          "block": {
+            "$value": {
+              "value": 44,
+              "unit": "px"
+            },
+            "$description": "The room above a Deck's content, between the window's top and the page's head."
+          },
+          "inline": {
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            },
+            "$description": "The room either side of a Deck's content, inside its column."
+          }
+        },
+        "row": {
+          "inline": {
+            "$value": {
+              "value": 10,
+              "unit": "px"
+            },
+            "$description": "Beside a row's content and between its check, title and meta; the add row, a group's heading and the done line keep to it so they line up with the rows."
+          },
+          "block": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Above and below a row's content."
+          },
+          "context": {
+            "$value": {
+              "value": 1,
+              "unit": "px"
+            },
+            "$description": "Between a row's title and its context line; a row with a context line adds it above and below as well."
+          },
+          "gap": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Between the small parts of a row's meta and context line, and the done line's glyph and words."
+          },
+          "compact": {
+            "$value": {
+              "value": 6,
+              "unit": "px"
+            },
+            "$description": "Beside a compact row's content; a compact list draws back by it, so its checks line up with the text beside it."
+          }
+        },
+        "group": {
+          "$value": {
+            "value": 26,
+            "unit": "px"
+          },
+          "$description": "Between groups of rows on a page."
+        },
+        "doneLine": {
+          "$value": {
+            "value": 18,
+            "unit": "px"
+          },
+          "$description": "Above the done line under a list."
+        },
+        "hero": {
+          "$value": {
+            "value": 60,
+            "unit": "px"
+          },
+          "$description": "Above and below an empty page's large glyph and title."
+        },
+        "focusRing": {
+          "offset": {
+            "small": {
+              "$value": "{semantic.dimension.space.xxSmall}",
+              "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step small."
+            },
+            "large": {
+              "$value": "{semantic.dimension.space.xSmall}",
+              "$description": "How far a focus ring sits outside its box; inside, it is drawn at the negative. Step large."
+            }
+          }
+        },
+        "control": {
+          "padding": {
+            "inline": {
+              "default": {
+                "$value": "{semantic.dimension.space.medium}",
+                "$description": "Beside the label of a control: a button, a field, a select, a segment."
+              },
+              "small": {
+                "$value": "{semantic.dimension.space.small}",
+                "$description": "Beside the label of a small control: a small button, a tab, a chip."
+              }
+            }
+          }
+        },
+        "underline": {
+          "offset": {
+            "$value": {
+              "value": 3,
+              "unit": "px"
+            },
+            "$description": "How far an underline sits below the text."
+          }
+        }
+      },
+      "travel": {
+        "toast": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "How far a toast rises as it eases in."
+        }
+      },
+      "radius": {
+        "control": {
+          "$value": {
+            "value": 6,
+            "unit": "px"
+          },
+          "$description": "The corners of a control: a button, a field, a place in a sidebar."
+        },
+        "row": {
+          "$value": {
+            "value": 8,
+            "unit": "px"
+          },
+          "$description": "The corners of a row, the add row, a menu and the select picker."
+        },
+        "surface": {
+          "$value": {
+            "value": 12,
+            "unit": "px"
+          },
+          "$description": "The corners of a surface: a panel, a card, a sheet, a notice."
+        },
+        "mark": {
+          "$value": {
+            "value": 3,
+            "unit": "px"
+          },
+          "$description": "The corners of a checkbox, small enough that it never reads as a radio."
+        },
+        "marker": {
+          "$value": {
+            "value": 2,
+            "unit": "px"
+          },
+          "$description": "The corners of a Marker's square: an area's colour."
+        },
+        "pill": {
+          "$value": {
+            "value": 999,
+            "unit": "px"
+          },
+          "$description": "Fully rounded ends: a chip, a count, a dot."
+        }
+      }
+    }
+  }
+}

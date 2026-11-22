@@ -1,0 +1,123 @@
+{
+  "$schema": "https://designtokens.org/schemas/2025.10/format.json",
+  "$description": "Semantic number tokens.",
+  "semantic": {
+    "number": {
+      "$type": "number",
+      "opacity": {
+        "dragged": {
+          "$value": 0.4,
+          "$description": "A held item, dimmed in place while its copy follows the pointer."
+        },
+        "separator": {
+          "$value": 0.6,
+          "$description": "The `›` and `·` between the parts of a row's context line."
+        }
+      },
+      "lineHeight": {
+        "body": {
+          "$value": 1.45,
+          "$description": "Body text, notes and notices."
+        },
+        "title": {
+          "$value": 1.1,
+          "$description": "A page's title."
+        },
+        "textarea": {
+          "$value": 1.5,
+          "$description": "A textarea."
+        },
+        "code": {
+          "$value": 1.6,
+          "$description": "Code."
+        },
+        "displayTitle": {
+          "$value": 1.15,
+          "$description": "A sheet's title."
+        },
+        "prose": {
+          "$value": 1.65,
+          "$description": "Long-form reading."
+        },
+        "heading": {
+          "$value": 1.3,
+          "$description": "First- and second-level headings in long-form reading."
+        },
+        "label": {
+          "$value": 1.4,
+          "$description": "The third, fourth and sixth heading levels in long-form reading."
+        },
+        "proseNotice": {
+          "$value": 1.55,
+          "$description": "A notice in long-form reading."
+        },
+        "compact": {
+          "$value": 1.35,
+          "$description": "A tip, a contents link."
+        },
+        "none": {
+          "$value": 1,
+          "$description": "Text set solid: a monogram's letter."
+        },
+        "figure": {
+          "$value": 1.1,
+          "$description": "A stat's value."
+        }
+      },
+      "layer": {
+        "skipLink": {
+          "$value": 300,
+          "$description": "The skip link."
+        },
+        "sticky": {
+          "$value": 40,
+          "$description": "The top bar and status bar."
+        },
+        "menu": {
+          "$value": 200,
+          "$description": "A menu."
+        },
+        "raised": {
+          "$value": 1,
+          "$description": "Above its siblings."
+        },
+        "dialog": {
+          "$value": 250,
+          "$description": "A bench or stage holding an open dialog."
+        },
+        "paused": {
+          "$value": 20,
+          "$description": "A paused stage's notice."
+        },
+        "lift": {
+          "$value": 9999,
+          "$description": "An item being dragged."
+        }
+      },
+      "scale": {
+        "card": {
+          "$value": 0.97,
+          "$description": "How small a card or toast starts as it eases in."
+        },
+        "press": {
+          "$value": 0.97,
+          "$description": "How small a button or a decision tile goes while it is pressed."
+        },
+        "checkFrom": {
+          "$value": 0.8,
+          "$description": "Where a row's check starts its pop as it is checked."
+        },
+        "checkPeak": {
+          "$value": 1.12,
+          "$description": "How far a row's check swells in its pop before it settles."
+        }
+      },
+      "fontScale": {
+        "inlineCode": {
+          "$value": 0.85,
+          "$description": "Inline code in long-form reading, relative to its text."
+        }
+      }
+    }
+  }
+}

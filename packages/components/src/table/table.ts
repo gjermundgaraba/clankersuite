@@ -5,7 +5,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 export type Column<Row> = Readonly<{
   /** Unique among the columns. */
   key: string;
-  /** The column's head, in pixel caps; on a phone, each cell's label. */
+  /** The column's head; on a phone, each cell's label. */
   header: string;
   /** The cell for a row. A function because it receives the row. */
   cell: (row: Row) => ReadonlyArray<Html | string>;
@@ -23,7 +23,7 @@ export type ViewConfig<Row> = Readonly<{
   actions?: (row: Row) => ReadonlyArray<Html | string>;
 }>;
 
-/** A ruled table: head-tinted pixel-caps heads, 1px rules, and a tint under the row the
+/** A ruled table: head-tinted heads, 1px rules, and a tint under the row the
  *  pointer is on. Every head is a column header (`scope="col"`); on a phone each row becomes a
  *  block of lines, each labelled with its head. It scrolls sideways inside its wrapper. */
 export const view = <Row, Message>(

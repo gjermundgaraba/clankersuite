@@ -5,6 +5,7 @@ import { defineRouteUnion } from "foldkit/route";
 export const AppRoute = defineRouteUnion({
   Home: {},
   Page: { section: Schema.String, slug: Schema.String },
+  Frame: { section: Schema.String, slug: Schema.String, name: Schema.String },
   NotFound: { path: Schema.String },
 });
 
@@ -18,8 +19,16 @@ export const pageRouter = pipe(
   Route.mapTo(AppRoute.Page)
 );
 
+export const frameRouter = pipe(
+  Route.literal("frame"),
+  Route.slash(Route.string("section")),
+  Route.slash(Route.string("slug")),
+  Route.slash(Route.string("name")),
+  Route.mapTo(AppRoute.Frame)
+);
+
 export const urlToAppRoute = Route.parseUrlWithFallback(
-  Route.oneOf(pageRouter, homeRouter),
+  Route.oneOf(frameRouter, pageRouter, homeRouter),
   AppRoute.NotFound
 );
 
@@ -27,5 +36,6 @@ export const hrefOf = (route: AppRoute): string =>
   AppRoute.match(route, {
     Home: () => homeRouter(),
     Page: ({ section, slug }) => pageRouter({ section, slug }),
+    Frame: ({ section, slug, name }) => frameRouter({ section, slug, name }),
     NotFound: ({ path }) => path,
   });

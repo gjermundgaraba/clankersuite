@@ -33,8 +33,8 @@ const currentId = (
     Option.map(Array.head(entries), ({ id }) => id)
   );
 
-/** The page's headings as plain links in a `<nav>` named "On this page". One ink cell marks the
- *  heading being read, which is also `aria-current`. */
+/** The page's headings as plain links in a `<nav>` named "On this page". The heading being
+ *  read prints in primary text, the others in secondary, and is `aria-current`. */
 export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>

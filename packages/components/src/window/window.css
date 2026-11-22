@@ -1,0 +1,55 @@
+.gg-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.gg-window > .gg-panel-tb {
+  align-items: center;
+  gap: var(--semantic-dimension-space-small);
+  min-height: var(--semantic-dimension-size-row);
+  padding: 0 var(--semantic-dimension-space-x-small) 0
+    var(--semantic-dimension-space-medium);
+  user-select: none;
+}
+
+.gg-window > .gg-panel-tb:has(> .gg-panel-lead) {
+  padding-left: var(--semantic-dimension-space-x-small);
+}
+
+.gg-window > .gg-panel-tb h2 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-window-tools {
+  display: contents;
+}
+
+.gg-window-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--semantic-dimension-space-large);
+  padding: var(--semantic-dimension-space-inset);
+}
+
+.gg-window.gg-flush .gg-window-body {
+  display: block;
+  padding: 0;
+}
+
+.gg-window.gg-flush .gg-window-body > :is(.gg-code-surface, .gg-diff-wrap) {
+  min-height: 100%;
+  border: 0;
+}
+
+.gg-window-body > * {
+  min-width: 0;
+}

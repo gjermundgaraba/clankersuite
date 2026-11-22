@@ -12,7 +12,7 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
             title: "Nothing queued",
             headingLevel: 3,
             body: ["Capture a task and it waits here."],
-            actions: [Button.view({ label: "capture", isSmall: true }, h)],
+            actions: [Button.view({ label: "Capture", isSmall: true }, h)],
           },
           h
         ),

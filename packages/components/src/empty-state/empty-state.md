@@ -4,9 +4,15 @@ category: status
 
 # Empty state
 
-What a panel says when it has nothing to show, centred where its content would be: what is missing, in pixel caps, one sentence on how it fills, and the button that fills it.
+What a panel says when it has nothing to show, centred where its content would be: what is missing, one sentence on how it fills, and the button that fills it.
 
 ::Example{name="empty"}
+
+## A page's empty list
+
+With a `glyph`, the empty state is a page's list that is empty and done with: the glyph prints large in the accent, and the title large and bold.
+
+::Example{name="done"}
 
 ## Heading level
 

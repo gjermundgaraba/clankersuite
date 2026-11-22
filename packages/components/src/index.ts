@@ -24,6 +24,8 @@ export * as CopyButton from "./copy-button/index.ts";
 
 export * as Crumbs from "./crumbs/index.ts";
 
+export * as DecisionCard from "./decision-card/index.ts";
+
 export * as Deck from "./deck/index.ts";
 
 export * as Dialog from "./dialog/index.ts";
@@ -50,6 +52,8 @@ export * as Focus from "./focus/index.ts";
 
 export * as Format from "./format/index.ts";
 
+export * as GoalCard from "./goal-card/index.ts";
+
 export * as Group from "./group/index.ts";
 
 export * as History from "./history/index.ts";
@@ -75,6 +79,8 @@ export * as LiveRegion from "./live-region/index.ts";
 export * as Loading from "./loading/index.ts";
 
 export * as Mark from "./mark/index.ts";
+
+export * as Marker from "./marker/index.ts";
 
 export * as MarkdownEditor from "./markdown-editor/index.ts";
 
@@ -122,6 +128,8 @@ export * as SelectField from "./select-field/index.ts";
 
 export * as Sheet from "./sheet/index.ts";
 
+export * as SidePane from "./side-pane/index.ts";
+
 export * as SkipLink from "./skip-link/index.ts";
 
 export * as Sortable from "./sortable/index.ts";
@@ -147,6 +155,8 @@ export * as TextButton from "./text-button/index.ts";
 export * as Text from "./text/index.ts";
 
 export * as Time from "./time/index.ts";
+
+export * as TitleField from "./title-field/index.ts";
 
 export * as Tips from "./tips/index.ts";
 

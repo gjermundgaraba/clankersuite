@@ -4,7 +4,7 @@ category: status
 
 # Loading
 
-What a panel says while its content is on the way, centred where the content will be, with the working cursor.
+What a panel says while its content is on the way, centred where the content will be, with a spinner.
 
 ::Example{name="loading"}
 

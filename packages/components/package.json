@@ -1,6 +1,6 @@
 {
   "name": "@gjermundgaraba/components",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "The Foldkit components of the gjermundgaraba design system, and their stylesheet.",
   "license": "MIT",
   "repository": {
@@ -10,8 +10,7 @@
   },
   "files": [
     "dist",
-    "src/clankersuite.css",
-    "src/components.css",
+    "src/**/*.css",
     "THIRD_PARTY_NOTICES.md"
   ],
   "type": "module",
@@ -22,7 +21,6 @@
     ".": "./src/index.ts",
     "./scheme": "./src/scheme/script.ts",
     "./markdown-editor/element": "./src/markdown-editor/element.ts",
-    "./components.css": "./src/components.css",
     "./clankersuite.css": "./src/clankersuite.css"
   },
   "publishConfig": {
@@ -39,7 +37,6 @@
         "types": "./dist/markdown-editor/element.d.ts",
         "default": "./dist/markdown-editor/element.js"
       },
-      "./components.css": "./src/components.css",
       "./clankersuite.css": "./src/clankersuite.css"
     },
     "access": "public"

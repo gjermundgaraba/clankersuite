@@ -1,0 +1,57 @@
+.gg-notice {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--semantic-dimension-space-small);
+  padding: var(--semantic-dimension-space-small)
+    var(--semantic-dimension-space-medium);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-surface);
+  background: var(--semantic-color-background-surface);
+  font: var(--semantic-dimension-font-size-control)/var(
+      --semantic-number-line-height-body
+    )
+    var(--semantic-font-family-ui);
+}
+
+.gg-notice > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.gg-notice.gg-error {
+  border-color: var(--semantic-color-border-negative);
+}
+
+.gg-notice.gg-quiet {
+  border-color: var(--semantic-color-border-divider);
+  color: var(--semantic-color-text-secondary);
+}
+
+.gg-notice strong {
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+  display: block;
+}
+
+:is(.gg-notice, .gg-outcome) > .gg-glyph {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 1lh;
+  color: var(--semantic-color-text-warning);
+}
+
+:is(.gg-notice, .gg-outcome) > .gg-glyph.gg-error {
+  color: var(--semantic-color-text-negative);
+}
+
+:is(.gg-notice, .gg-outcome) > .gg-glyph.gg-ok {
+  color: var(--semantic-color-background-fill-accent);
+}
+
+:is(.gg-notice, .gg-outcome) > .gg-glyph.gg-quiet {
+  color: var(--semantic-color-text-secondary);
+}

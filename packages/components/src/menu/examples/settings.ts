@@ -5,7 +5,7 @@ import type { Html, HtmlBuilder } from "foldkit/html";
 import { defineMessageUnion } from "foldkit/message";
 import { modifyFields } from "foldkit/struct";
 
-const Palette = Schema.Literals(["System", "Paper", "Plum"]);
+const Palette = Schema.Literals(["System", "Light", "Dark"]);
 
 type Palette = typeof Palette.Type;
 
@@ -73,6 +73,7 @@ const foldSettings = Update.foldChild({
     Toggled: () => (model) => ({
       model: modifyFields(model, { isDense: (isDense) => !isDense }),
     }),
+    PickedDay: () => (model) => ({ model }),
   }),
 });
 
@@ -85,7 +86,7 @@ export const update = (model: Model, message: Message) =>
 const summary = (model: Model): string =>
   [
     `${model.palette} palette`,
-    ...(model.isDense ? ["dense rows"] : []),
+    ...(model.isDense ? ["Dense rows"] : []),
     ...Option.toArray(Option.map(model.maybeLastAction, (id) => `ran ${id}`)),
   ].join(", ");
 

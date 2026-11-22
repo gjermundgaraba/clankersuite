@@ -40,7 +40,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         Choice.view(
           {
             id: "choice-note-remembered",
-            label: "remember this device",
+            label: "Remember this device",
             isChecked: model.isRemembered,
             onToggle: (isChecked) => Message.ToggledRemembered({ isChecked }),
           },
@@ -49,7 +49,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
         Choice.view(
           {
             id: "choice-note-archived",
-            label: "show archived",
+            label: "Show archived",
             note: "Archived projects list after the rest, greyed.",
             isChecked: model.isArchived,
             onToggle: (isChecked) => Message.ToggledArchived({ isChecked }),

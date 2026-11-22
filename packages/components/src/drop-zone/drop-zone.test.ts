@@ -20,7 +20,7 @@ const dropZoneView =
       h
     );
 
-const chooser = Scene.label("choose files");
+const chooser = Scene.label("Choose files");
 
 describe("DropZone update", () => {
   it("reports the files a drop brings", () => {

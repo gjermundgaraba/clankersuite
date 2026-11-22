@@ -1,0 +1,86 @@
+.gg-places ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-places ul ul {
+  margin-top: var(--semantic-dimension-space-xx-small);
+}
+
+.gg-places-label {
+  padding: calc(
+      var(--semantic-dimension-space-large) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-small)
+    calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  margin-bottom: var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-medium);
+  line-height: var(--semantic-number-line-height-body);
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-places li > :is(a, button) {
+  display: flex;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  width: 100%;
+  min-width: 0;
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0 var(--semantic-dimension-space-small);
+  font: inherit;
+  font-weight: var(--semantic-font-weight-medium);
+  color: var(--semantic-color-text-secondary);
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  border-radius: var(--semantic-dimension-radius-control);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .gg-places li > :is(a, button):hover {
+    background: var(--semantic-color-background-hover);
+    color: var(--semantic-color-text-primary);
+  }
+}
+
+.gg-places li > [aria-current] {
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  box-shadow: var(--semantic-shadow-hairline);
+}
+
+.gg-places li > :is(a, button):focus-visible {
+  outline-offset: calc(
+    -1 * var(--semantic-dimension-space-focus-ring-offset-small)
+  );
+}
+
+.gg-place-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* a sub-place starts where its parent's name does: past the padding, a glyph and the gap */
+.gg-places ul ul > li > :is(a, button) {
+  min-height: var(--semantic-dimension-size-control-small);
+  padding-left: calc(
+    2 * var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small) +
+      var(--semantic-dimension-space-large)
+  );
+  font-size: var(--semantic-dimension-font-size-label);
+  font-weight: var(--semantic-font-weight-regular);
+}

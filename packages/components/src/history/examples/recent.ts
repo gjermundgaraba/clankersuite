@@ -57,14 +57,14 @@ const RECENT: readonly RecentChange[] = [
   {
     id: "r4",
     minutesBeforeOpening: 4,
-    who: "agent",
+    who: "Agent",
     what: "Moved the room booking under Later",
   },
   { id: "r3", minutesBeforeOpening: 12, what: "Undid change" },
   {
     id: "r2",
     minutesBeforeOpening: 38,
-    who: "agent",
+    who: "Agent",
     what: "Renamed area #6 to Someday, maybe",
   },
   { id: "r1", minutesBeforeOpening: 95, what: "Created task #41" },
@@ -99,7 +99,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
       id: "recent-changes",
       title: "Recent changes",
       body: [
-        Loading.view({ isLoading: false, label: "loading changes" }, h),
+        Loading.view({ isLoading: false, label: "Loading changes" }, h),
         History.view(
           {
             entries: Array.map(RECENT, toEntry(model, h)),
@@ -109,7 +109,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           h
         ),
       ],
-      foot: [Button.view({ label: "activity", isSmall: true }, h)],
+      foot: [Button.view({ label: "Activity", isSmall: true }, h)],
     },
     h
   );

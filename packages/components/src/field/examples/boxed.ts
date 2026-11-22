@@ -43,7 +43,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
             label: "Address",
             value: model.address,
             onInput: (value) => Message.UpdatedAddress({ value }),
-            isBoxed: true,
+            look: "Box",
           },
           h
         ),

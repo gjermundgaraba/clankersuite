@@ -10,22 +10,21 @@ export type ViewConfig = Readonly<{
    *  same place is built anew, live regions and all. To keep an element across states, render
    *  one panel under one id. */
   id: string;
-  /** Pixel caps in the inverted title bar. */
+  /** The title, in the title bar. */
   title: string;
   /** What screen readers call the panel where its title repeats among its siblings (panels
    *  titled by a kind, one per account): the title and what tells this one apart. The
    *  title names it otherwise. */
   name?: string;
   /** A quiet IconButton before the title, such as the grip a Sortable of panels hands each
-   *  panel. On the ink bar it prints as `actions` do. */
+   *  panel. */
   lead?: ReadonlyArray<Html | string>;
   /** A count or state at the title bar's right. */
   meta?: string;
-  /** Small Buttons and IconButtons at the title bar's right end, after the meta. On the ink
-   *  bar they print in paper, flat, and ring in their own colour inside their edge. */
+  /** Small Buttons and IconButtons at the title bar's right end, after the meta. */
   actions?: ReadonlyArray<Html | string>;
   /** A strip on the head tint between the title bar and the body, for a field that picks what
-   *  the body shows (an area over its tasks). Its labels print in on-head. */
+   *  the body shows (an area over its tasks). Its labels print in secondary text. */
   shelf?: ReadonlyArray<Html | string>;
   body: ReadonlyArray<Html | string>;
   /** A ruled foot under the body: a note line, a time. */
@@ -38,7 +37,7 @@ export type ViewConfig = Readonly<{
 
 export const titleId = (id: string): string => `${id}-title`;
 
-/** The unit of the system: paper in a 2px ink box on a 5px print shadow, under a title bar. A
+/** The unit of the system: a rounded surface with a 1px border, under a ruled title bar. A
  *  region landmark (`<section>`) named by its `h2` title, or by `name`, keyed by its `id`. */
 export const view = <Message>(
   config: ViewConfig,

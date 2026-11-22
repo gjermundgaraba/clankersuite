@@ -1,42 +1,28 @@
 import { EditorView } from "@codemirror/view";
 
-const PIXEL_LABEL = {
-  fontFamily: "var(--semantic-font-family-ui)",
-  fontWeight: "var(--semantic-font-weight-regular)",
-  textTransform: "uppercase",
-  letterSpacing: "var(--semantic-dimension-letter-spacing-label)",
-};
-
 const CODE = {
   fontFamily: "var(--semantic-font-family-code)",
   fontSize: "var(--semantic-dimension-font-size-control)",
 };
 
 export const LIVE_MARKDOWN_STYLE = {
-  "&": {
-    color: "var(--semantic-color-text-primary)",
-    background: "var(--semantic-color-background-surface)",
-  },
+  "&": { color: "inherit", background: "none" },
   "&.cm-focused": { outline: "none" },
   ".cm-scroller": {
-    fontFamily: "var(--semantic-font-family-body)",
+    fontFamily: "var(--semantic-font-family-ui)",
     fontSize: "var(--semantic-dimension-font-size-body)",
     lineHeight: "var(--semantic-number-line-height-textarea)",
     overflow: "auto",
   },
   ".cm-content": {
-    padding: "var(--semantic-dimension-space-control-padding-block-xx-small) 0",
+    padding: "var(--semantic-dimension-space-xx-small) 0",
     caretColor: "var(--semantic-color-text-primary)",
-  },
-  ".cm-content ::selection": {
-    background: "var(--semantic-color-background-fill-inverse)",
-    color: "var(--semantic-color-text-on-inverse-fill)",
   },
   ".cm-cursor": { borderLeftColor: "var(--semantic-color-border-primary)" },
   ".cm-line": { padding: "0" },
 
   ".gg-md-h": {
-    fontWeight: "var(--semantic-font-weight-prose-heading)",
+    fontWeight: "var(--semantic-font-weight-bold)",
     lineHeight: "var(--semantic-number-line-height-heading)",
   },
   ".gg-md-h1, .gg-md-h2": {
@@ -46,17 +32,17 @@ export const LIVE_MARKDOWN_STYLE = {
     fontSize: "var(--semantic-dimension-font-size-prose-heading-3)",
   },
   ".gg-md-h4": {
-    ...PIXEL_LABEL,
+    fontWeight: "var(--semantic-font-weight-regular)",
     fontSize: "var(--semantic-dimension-font-size-control)",
   },
   ".gg-md-h5": { fontSize: "var(--semantic-dimension-font-size-body)" },
   ".gg-md-h6": {
-    ...PIXEL_LABEL,
+    fontWeight: "var(--semantic-font-weight-regular)",
     fontSize: "var(--semantic-dimension-font-size-label)",
     color: "var(--semantic-color-text-secondary)",
   },
 
-  ".gg-md-strong": { fontWeight: "var(--semantic-font-weight-prose-heading)" },
+  ".gg-md-strong": { fontWeight: "var(--semantic-font-weight-bold)" },
   ".gg-md-em": { fontStyle: "italic" },
   ".gg-md-strike, .gg-md-done": {
     textDecoration: "line-through",
@@ -66,31 +52,31 @@ export const LIVE_MARKDOWN_STYLE = {
     ...CODE,
     background: "var(--semantic-color-background-head)",
     padding:
-      "var(--semantic-dimension-space-control-padding-block-xxx-small) var(--semantic-dimension-space-control-padding-inline-x-small)",
+      "var(--semantic-dimension-space-xx-small) var(--semantic-dimension-space-x-small)",
   },
   ".gg-md-link": {
     color: "var(--semantic-color-text-primary)",
     textDecoration: "underline",
-    textDecorationThickness: "var(--semantic-dimension-border-width-divider)",
+    textDecorationThickness: "var(--semantic-dimension-border-width-default)",
     textUnderlineOffset: "var(--semantic-dimension-space-underline-offset)",
   },
 
   ".gg-md-codeblock": {
     ...CODE,
     background: "var(--semantic-color-background-head)",
-    padding: "0 var(--semantic-dimension-space-gap-inline) !important",
+    padding: "0 var(--semantic-dimension-space-small) !important",
   },
   ".gg-md-table": CODE,
   ".gg-md-quote": {
     borderLeft:
-      "var(--semantic-dimension-border-width-divider) solid var(--semantic-color-border-primary)",
-    paddingLeft: "var(--semantic-dimension-space-gap-body) !important",
+      "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-primary)",
+    paddingLeft: "var(--semantic-dimension-space-large) !important",
     color: "var(--semantic-color-text-secondary)",
   },
   ".gg-md-hr": {
     height: "0.8em",
     background:
-      "linear-gradient(var(--semantic-color-border-divider), var(--semantic-color-border-divider)) center / 100% var(--semantic-dimension-border-width-divider) no-repeat",
+      "linear-gradient(var(--semantic-color-border-divider), var(--semantic-color-border-divider)) center / 100% var(--semantic-dimension-border-width-default) no-repeat",
   },
 
   ".gg-md-bullet": {
@@ -100,17 +86,17 @@ export const LIVE_MARKDOWN_STYLE = {
   },
   ".gg-md-check": {
     width: "auto",
-    margin: "0 var(--semantic-dimension-space-gap-inline) 0 0",
-    verticalAlign: "calc(-1 * var(--semantic-dimension-travel-nudge-large))",
+    margin: "0 var(--semantic-dimension-space-small) 0 0",
+    verticalAlign: "-0.125em",
     cursor: "pointer",
-    accentColor: "var(--semantic-color-background-fill-inverse)",
+    accentColor: "var(--semantic-color-background-fill-accent)",
   },
 
   ".gg-md-img": {
     display: "block",
     maxWidth: "100%",
     maxHeight: "var(--semantic-dimension-size-max-height-markdown-image)",
-    margin: "var(--semantic-dimension-space-gap-inline) 0",
+    margin: "var(--semantic-dimension-space-small) 0",
   },
   ".gg-md-img-note": {
     color: "var(--semantic-color-text-secondary)",
@@ -119,14 +105,14 @@ export const LIVE_MARKDOWN_STYLE = {
 
   ".gg-md-table-widget": {
     cursor: "text",
-    padding: "var(--semantic-dimension-space-control-padding-block-xx-small) 0",
+    padding: "var(--semantic-dimension-space-xx-small) 0",
   },
   ".gg-md-table-view": { borderCollapse: "collapse" },
   ".gg-md-table-view th, .gg-md-table-view td": {
     border:
-      "var(--semantic-dimension-border-width-divider) solid var(--semantic-color-border-divider)",
+      "var(--semantic-dimension-border-width-default) solid var(--semantic-color-border-divider)",
     padding:
-      "var(--semantic-dimension-space-control-padding-block-x-small) var(--semantic-dimension-space-gap-inline)",
+      "var(--semantic-dimension-space-x-small) var(--semantic-dimension-space-small)",
     textAlign: "left",
   },
 };

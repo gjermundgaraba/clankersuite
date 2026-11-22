@@ -4,7 +4,7 @@ category: status
 
 # Toast
 
-Printed slips at the bottom right, across the bottom on a phone, for an outcome the reader may not be looking at. The outcome of the control they just used goes beside it as a flash word.
+Inverted slips centred over the page above the key bar, clear of a side pane, and across the bottom on a phone, for an outcome the reader may not be looking at. The outcome of the control they just used goes beside it as a flash word.
 
 ## Tones
 

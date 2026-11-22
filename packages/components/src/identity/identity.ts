@@ -7,8 +7,6 @@ import * as Text from "../text/text.ts";
 export type ViewConfig = Readonly<{
   /** Whose: a person, a client, a provider, a source. */
   label: string;
-  /** The monogram's mark drawn in cells, in place of its letters (see Monogram). */
-  drawing?: string;
   /** A line under the name: an id, a kind, a scope. */
   meta?: ReadonlyArray<Html | string>;
   /** Beside a name set large, as a card's subject. */
@@ -21,19 +19,12 @@ export const view = <Message>(
   config: ViewConfig,
   h: HtmlBuilder<Message>
 ): Html => {
-  const { label, drawing, meta = [], isLarge = false } = config;
+  const { label, meta = [], isLarge = false } = config;
 
   return h.div(
     [h.Class(isLarge ? "gg-identity gg-large" : "gg-identity")],
     [
-      Monogram.view(
-        {
-          label,
-          ...(drawing !== undefined && { drawing }),
-          isLarge,
-        },
-        h
-      ),
+      Monogram.view({ label, isLarge }, h),
       h.span(
         [h.Class("gg-identity-text")],
         [

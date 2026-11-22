@@ -29,3 +29,27 @@ describe("KeyHint", () => {
     );
   });
 });
+
+const notesView = (platform: KeyPlatform, h: HtmlBuilder<never>) =>
+  h.p(
+    [],
+    KeyHint.notesView(
+      [
+        { keys: "J", otherKeys: ["K"], does: "move" },
+        { keys: "ArrowUp", otherKeys: ["ArrowDown"], does: "pick" },
+      ],
+      platform,
+      h
+    )
+  );
+
+describe("KeyHint notes", () => {
+  it("boxes the first key that does the same and prints the rest as words, but arrows share one box", () => {
+    Scene.scene(
+      { update, view: notesView },
+      Scene.given<KeyPlatform>("Other"),
+      Scene.expectAll(Scene.all.selector("kbd.gg-key-hint")).toHaveCount(2),
+      Scene.expect(Scene.selector("p")).toHaveText("J K move↑↓ pick")
+    );
+  });
+});

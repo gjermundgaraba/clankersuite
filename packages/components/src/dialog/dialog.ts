@@ -24,7 +24,7 @@ const ActionDirection = Schema.Literals(["Previous", "Next"]);
 
 type ActionDirection = typeof ActionDirection.Type;
 
-/** Where the card hangs: `Center`, or `Top`, 18% down, for a command palette. */
+/** Where the card hangs: `Top`, 14% down, as a sheet does (the default), or `Center`. */
 export const Placement = Schema.Literals(["Center", "Top"]);
 
 export type Placement = typeof Placement.Type;
@@ -239,7 +239,7 @@ export type ViewInputs = Readonly<{
 }>;
 
 /**
- * A modal dialog on the ink veil with its checker grain, built on `@foldkit/ui`'s Dialog. It
+ * A modal dialog on a dimmed backdrop, built on `@foldkit/ui`'s Dialog. It
  * opens with `show()` in place, not in the top layer: Foldkit makes the page behind it inert
  * and hidden from screen readers, traps focus, closes it on Escape and on a click on the veil
  * (`.veil-backdrop`, under `.veil-pad`, which lets a click through everywhere but on the
@@ -252,7 +252,7 @@ export const view = defineView<Model, Message, ViewInputs>(
       toView,
       label,
       isAlert = false,
-      placement = "Center",
+      placement = "Top",
       hasDescription = false,
       toLiveRegionView,
     } = viewInputs;

@@ -6,10 +6,10 @@ export const view = <Message>(h: HtmlBuilder<Message>): Html =>
     {
       attributes: [h.Role("group"), h.AriaLabel("States")],
       body: [
-        Chip.view({ label: "draft" }, h),
-        Chip.view({ label: "review", tone: "Warn" }, h),
-        Chip.view({ label: "blocked", tone: "Blocked" }, h),
-        Chip.view({ label: "done", tone: "Done" }, h),
+        Chip.view({ label: "Draft" }, h),
+        Chip.view({ label: "Review", tone: "Warn" }, h),
+        Chip.view({ label: "Blocked", tone: "Blocked" }, h),
+        Chip.view({ label: "Done", tone: "Done" }, h),
       ],
     },
     h

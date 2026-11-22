@@ -1,0 +1,101 @@
+.gg-menu {
+  position: absolute;
+  z-index: var(--semantic-number-layer-menu);
+  min-width: var(--semantic-dimension-size-min-width-menu);
+  max-width: calc(100vw - 2 * var(--semantic-dimension-space-medium));
+  padding: var(--semantic-dimension-space-x-small);
+  color: var(--semantic-color-text-primary);
+  background: var(--semantic-color-background-surface);
+  /* the float's ring draws the edge; the transparent outline is the edge forced colours
+     paint, and takes no room */
+  outline: var(--semantic-dimension-border-width-default) solid transparent;
+  border-radius: var(--semantic-dimension-radius-row);
+  box-shadow: var(--semantic-shadow-float);
+}
+
+.gg-menu-wrap {
+  display: inline-flex;
+  position: relative;
+}
+
+.gg-menu [role^="menuitem"] {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: calc(
+    var(--semantic-dimension-space-small) +
+      var(--semantic-dimension-space-xx-small)
+  );
+  font-family: var(--semantic-font-family-ui);
+  font-size: var(--semantic-dimension-font-size-body);
+  text-align: left;
+  background: none;
+  color: var(--semantic-color-text-primary);
+  border: 0;
+  border-radius: var(--semantic-dimension-radius-control);
+  min-height: var(--semantic-dimension-size-control);
+  padding: 0
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    );
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gg-menu [role^="menuitem"] > .gg-icon {
+  width: var(--semantic-dimension-size-glyph-menu);
+  height: var(--semantic-dimension-size-glyph-menu);
+  color: var(--semantic-color-text-tertiary);
+}
+
+@media (hover: hover) {
+  .gg-menu [role^="menuitem"]:not([aria-disabled="true"]):hover {
+    background: var(--semantic-color-background-hover);
+  }
+}
+
+.gg-menu [role^="menuitem"][aria-disabled="true"] {
+  color: var(--semantic-color-text-secondary);
+  cursor: default;
+}
+
+.gg-menu [role="menuitemradio"][aria-checked="true"],
+.gg-menu [role="menuitemradio"][aria-checked="true"] > .gg-icon {
+  color: var(--semantic-color-text-accent);
+}
+
+.gg-menu .gg-menu-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gg-menu .gg-menu-hint {
+  color: var(--semantic-color-text-tertiary);
+  font-size: var(--semantic-dimension-font-size-label);
+}
+
+.gg-menu .gg-menu-note {
+  display: block;
+  padding: calc(
+      var(--semantic-dimension-space-x-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    calc(
+      var(--semantic-dimension-space-small) +
+        var(--semantic-dimension-space-xx-small)
+    )
+    var(--semantic-dimension-space-xx-small);
+  font-size: var(--semantic-dimension-font-size-label);
+  line-height: var(--semantic-number-line-height-body);
+  white-space: nowrap;
+  color: var(--semantic-color-text-tertiary);
+}
+
+.gg-menu .gg-menu-sep {
+  height: var(--semantic-dimension-border-width-default);
+  margin: var(--semantic-dimension-space-x-small) 0;
+  background: var(--semantic-color-border-divider);
+}

@@ -50,7 +50,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Html =>
           actions: [
             Button.view(
               {
-                label: "reconnect",
+                label: "Reconnect",
                 isSmall: true,
                 isBusy: model.connection === "Reconnecting",
                 onClick: Message.ClickedReconnect(),

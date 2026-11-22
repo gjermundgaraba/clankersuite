@@ -1,0 +1,37 @@
+.gg-tip[popover] {
+  position-anchor: auto;
+  inset: auto;
+  margin: 0 0 var(--semantic-dimension-space-small);
+  position-area: top;
+  position-try-fallbacks:
+    top span-left,
+    top span-right,
+    flip-block,
+    bottom span-left,
+    bottom span-right;
+  max-width: min(
+    var(--semantic-dimension-size-measure-tip),
+    calc(100vw - 2 * var(--semantic-dimension-space-medium))
+  );
+  padding: var(--semantic-dimension-space-x-small)
+    var(--semantic-dimension-space-small);
+  border: var(--semantic-dimension-border-width-default) solid
+    var(--semantic-color-border-primary);
+  border-radius: var(--semantic-dimension-radius-control);
+  background: var(--semantic-color-background-surface);
+  color: var(--semantic-color-text-primary);
+  box-shadow: var(--semantic-shadow-float);
+  font-size: var(--semantic-dimension-font-size-label);
+  line-height: var(--semantic-number-line-height-compact);
+  overflow: visible;
+}
+
+.gg-tip .gg-key-hint {
+  margin-left: var(--semantic-dimension-space-small);
+}
+
+.gg-tip[popover][data-gg-side="right"] {
+  margin: 0 0 0 var(--semantic-dimension-space-small);
+  position-area: right;
+  position-try-fallbacks: flip-inline;
+}
