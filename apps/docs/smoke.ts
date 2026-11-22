@@ -1,7 +1,8 @@
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { once } from "node:events";
 import { createServer } from "node:net";
+import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { Predicate } from "effect";
@@ -51,6 +52,16 @@ const waitFor = async (url: string, timeout = 20_000): Promise<void> => {
 };
 
 type StageSize = readonly [content: number, height: number];
+
+execFileSync(
+  process.execPath,
+  [
+    path.join(APP, "node_modules/playwright/cli.js"),
+    "install",
+    "chromium-headless-shell",
+  ],
+  { cwd: APP, stdio: ["ignore", 2, 2] }
+);
 
 const port = await freePort();
 const server = preview(port);
