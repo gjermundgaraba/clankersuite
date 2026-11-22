@@ -195,8 +195,8 @@ catalogs:
       specifier: 4.1.5
       version: 4.1.5
     '@foldkit/markdown':
-      specifier: 0.15.0
-      version: 0.15.0
+      specifier: 0.15.1
+      version: 0.15.1
     '@foldkit/oxlint-plugin':
       specifier: 0.15.4
       version: 0.15.4
@@ -283,7 +283,7 @@ importers:
         version: 4.1.5(effect@4.1.5)
       '@foldkit/markdown':
         specifier: 'catalog:'
-        version: 0.15.0(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.5)(foldkit@0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5))
+        version: 0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.5)(foldkit@0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5))
       '@foldkit/ui':
         specifier: 'catalog:'
         version: 0.171.0(effect@4.1.5)(foldkit@0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5))
@@ -599,8 +599,8 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@foldkit/markdown@0.15.0':
-    resolution: {integrity: sha512-jU2jHGrcFyHFJm7MIJeCDfc6fkuzRRhVAxmCGCT0xq3cn/79B3p8cn58RaH6nemgN2hr9qkmbJ8efAEsZzFuBg==}
+  '@foldkit/markdown@0.15.1':
+    resolution: {integrity: sha512-9vXbmlrCePXrU6IDaBO3Th6KofnAF2xz+VJiKUFaufZXTgId+Mw+af4K981sgCdyTfnm2MNmhjMiTvdr1zIvnw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       effect: ~4.1.0
@@ -2681,7 +2681,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@foldkit/markdown@0.15.0(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.5)(foldkit@0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5))':
+  '@foldkit/markdown@0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.5)(foldkit@0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5))':
     dependencies:
       effect: 4.1.5
       foldkit: 0.171.0(@effect/platform-browser@4.1.5(effect@4.1.5))(effect@4.1.5)

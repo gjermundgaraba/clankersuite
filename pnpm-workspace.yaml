@@ -16,7 +16,7 @@ catalog:
   "@effect/platform-browser": 4.1.5
   "@effect/tsgo": 0.67.7
   "@effect/vitest": 4.1.5
-  "@foldkit/markdown": 0.15.0
+  "@foldkit/markdown": 0.15.1
   "@foldkit/oxlint-plugin": 0.15.4
   "@foldkit/ui": 0.171.0
   "@foldkit/vite-plugin": 0.29.1
