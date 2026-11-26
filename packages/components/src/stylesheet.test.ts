@@ -335,6 +335,16 @@ describe("the stylesheet's rules", () => {
     );
   });
 
+  it("lifts a bench or a stage over the bars, the rail and slips only while it holds an open dialog, whose z-index counts inside the fixed frame", () => {
+    expect(
+      ruleBody(":is(.gg-bench, .gg-stage):has(dialog.gg-veil[open])")
+    ).toContain("z-index: var(--semantic-number-layer-dialog);");
+
+    for (const selector of [".gg-bench", ".gg-stage"]) {
+      expect(ruleBody(selector), selector).not.toContain("z-index");
+    }
+  });
+
   it("sets Inter's single-storey a and open digits on its face, so no font shorthand resets them and no other face takes them", () => {
     expect(INTER).toContain('font-feature-settings: "cv11", "ss01";');
     expect(declarations.map(({ property }) => property)).not.toContain(
