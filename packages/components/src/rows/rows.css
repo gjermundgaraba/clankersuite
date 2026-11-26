@@ -117,8 +117,6 @@
   gap: var(--semantic-dimension-space-xx-small);
 }
 
-/* where the pointer can hover, the tools take the slot's place while the row is hovered, holds
-   focus or is the cursor; unseen, they stay in the keyboard's order, so Tab shows them */
 @media (hover: hover) {
   .gg-row:not(:hover, :focus-within, [aria-current="true"]) > .gg-tools {
     position: absolute;
@@ -185,7 +183,6 @@
   );
 }
 
-/* each selector is written out, not joined in :is(), so each keeps its own specificity */
 .gg-row.gg-linked:has(.gg-grow a[aria-current]),
 .gg-board-card[aria-current="true"],
 .gg-row[aria-current="true"] {
@@ -294,7 +291,6 @@
   }
 }
 
-/* a row's fold hangs outside its left edge, in the indent, or the page's room for a root row */
 .gg-row > .gg-fold {
   position: absolute;
   top: 50%;
@@ -336,7 +332,6 @@ button.gg-fold[aria-expanded="false"] .gg-icon {
   );
 }
 
-/* the ring is a border, not a shadow, so it survives forced colours */
 .gg-check {
   display: grid;
   place-items: center;

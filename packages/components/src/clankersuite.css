@@ -1,6 +1,3 @@
-/* clankersuite: its fonts, its tokens, then the components' rules. The order is the
-   cascade's: where rules of two files can meet on one element at equal specificity, the later
-   file wins, so a file moves only with its rules' order kept. */
 @import "@gjermundgaraba/fonts/inter.css";
 @import "@gjermundgaraba/fonts/departure-mono.css";
 @import "@gjermundgaraba/design-tokens/clankersuite.css";

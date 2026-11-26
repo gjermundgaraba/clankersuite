@@ -1,4 +1,3 @@
-/* a row is a control's height and a step more; the list shows ten of them */
 .gg-palette {
   --gg-palette-option: calc(
     var(--semantic-dimension-size-control) +

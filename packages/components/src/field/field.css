@@ -49,7 +49,6 @@ select:disabled {
     var(--semantic-color-focus-ring-default);
 }
 
-/* the accent line is a pixel thicker: a textarea, sized to its content, gives the pixel back */
 .gg-field:not(.gg-boxed) textarea:focus-visible {
   padding-bottom: calc(
     var(--semantic-dimension-space-xx-small) +
@@ -127,7 +126,6 @@ select:disabled {
   font-size: var(--semantic-dimension-font-size-control);
 }
 
-/* the input's line, with what leads it: a palette's back button and scope */
 .gg-field-line {
   display: flex;
   flex-wrap: wrap;
@@ -141,7 +139,6 @@ select:disabled {
   min-width: 0;
 }
 
-/* a sheet's line: tall and borderless across the sheet's top, in title-size text, ruled under */
 .gg-field.gg-sheet-line {
   --gg-sheet-line: calc(
     var(--semantic-dimension-size-row) + var(--semantic-dimension-space-large)
@@ -173,9 +170,6 @@ select:disabled {
   padding-inline: var(--semantic-dimension-space-sheet);
 }
 
-/* marks: a mirror of the value over the input, its text unseen and its marked spans
-   underlined. The input grows with its value inside a clipped box, so the mirror scrolls with
-   it instead of the input scrolling alone */
 .gg-field-marked {
   position: relative;
   overflow: hidden;
@@ -188,8 +182,6 @@ select:disabled {
   min-width: 100%;
 }
 
-/* the clip would cut a box's sides, corners and focus ring, so a marked box draws them on
-   the clip, and the input inside draws none */
 .gg-field.gg-boxed .gg-field-marked {
   border: var(--semantic-dimension-border-width-default) solid
     var(--semantic-color-border-primary);
@@ -217,8 +209,6 @@ select:disabled {
   outline: none;
 }
 
-/* one line over the input's content box: as tall as the input, its block padding and bottom
-   border the input's, so the text centres where the input's does */
 .gg-field-mirror {
   position: absolute;
   inset-block: 0;
@@ -266,7 +256,6 @@ select:disabled {
   border-bottom-color: var(--semantic-color-background-marker-sky);
 }
 
-/* suggestions: a sunken list inset under the field, each option a title over its context */
 .gg-suggest {
   margin-top: var(--semantic-dimension-space-x-small);
   padding: var(--semantic-dimension-space-x-small);

@@ -81,8 +81,6 @@
   border-color: var(--semantic-color-background-fill-accent);
 }
 
-/* the warning fill is too light to edge a dot on the light ground, so a Warn dot keeps the
-   default ring */
 .gg-chip-dot.gg-warn {
   background: var(--semantic-color-background-fill-warning);
 }
@@ -97,7 +95,6 @@
   border-color: var(--semantic-color-background-fill-secondary);
 }
 
-/* a menu's toggle printed as a chip, its caret after its words */
 button.gg-chip {
   font-family: inherit;
   cursor: pointer;

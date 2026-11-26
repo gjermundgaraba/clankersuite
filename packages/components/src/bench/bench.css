@@ -2,8 +2,6 @@
   right: var(--gg-side-pane-w);
   left: 0;
   display: grid;
-  /* the work's floor mirrors .gg-reel (a pane and its block padding) and .gg-bench-head
-     (its top gutter, a small button and its bottom padding) */
   grid-template-rows: minmax(0, max-content) minmax(
       min(
         var(--semantic-dimension-size-min-height-reel-pane) + 2 *

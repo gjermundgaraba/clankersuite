@@ -1,7 +1,5 @@
 .gg-card {
   background: var(--semantic-color-background-surface);
-  /* the float's ring draws the edge; the transparent outline is the edge forced colours
-     paint, and takes no room */
   outline: var(--semantic-dimension-border-width-default) solid transparent;
   border-radius: var(--semantic-dimension-radius-surface);
   box-shadow: var(--semantic-shadow-float);
@@ -58,7 +56,6 @@
   min-width: 0;
 }
 
-/* the foot: a strip on the sunken ground for the keys and the actions */
 .gg-card-actions {
   display: flex;
   align-items: center;

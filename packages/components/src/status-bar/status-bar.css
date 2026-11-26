@@ -1,5 +1,3 @@
-/* between a Rail and a SidePane, by their anchors; to the window's edges without them, as where
-   the pane covers the page */
 .gg-statusbar {
   position: fixed;
   right: anchor(--gg-side-pane left, 0px);

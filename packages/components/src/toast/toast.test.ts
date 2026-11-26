@@ -17,6 +17,8 @@ import {
   stackFocusOut,
 } from "./toast.ts";
 
+import STYLESHEET from "./toast.css?raw";
+
 const TOAST_HOLD = Duration.seconds(5);
 
 const emptyStack = Toast.init({ id: "toasts" });
@@ -280,6 +282,30 @@ describe("Toast view", () => {
       Animation.Message.EndedAnimation({ generation: LEAVE_GENERATION })
     ),
   ] as const;
+
+  it("centres its stack between a Rail and a SidePane, clear of the key bar, with !important, since @foldkit/ui's Toast container sets bottom, right and gap inline", () => {
+    Scene.scene(
+      { update: Toast.update, view: stackView },
+      Scene.given(raise(emptyStack, SAVED)),
+      resolveStack,
+      Scene.expect(Scene.selector(".gg-toast-stack")).toHaveStyle(
+        "bottom",
+        "0"
+      ),
+      Scene.expect(Scene.selector(".gg-toast-stack")).toHaveStyle("right", "0"),
+      Scene.expect(Scene.selector(".gg-toast-stack")).toHaveStyle("gap", "8px")
+    );
+
+    const stack =
+      /\.gg-toasts \.gg-toast-stack \{(?<body>[^}]*)\}/u.exec(STYLESHEET)
+        ?.groups?.["body"] ?? "";
+
+    for (const property of ["bottom", "right", "gap"]) {
+      expect(stack).toMatch(
+        new RegExp(`\\b${property}: [^;]+ !important;`, "u")
+      );
+    }
+  });
 
   it("names each slip's dismiss button after its title, which takes the slip away", () => {
     Scene.scene(
