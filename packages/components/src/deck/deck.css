@@ -1,4 +1,3 @@
-/* a side pane beside it keeps its width clear at the right, and the rest stays centred */
 .gg-deck {
   max-width: calc(
     var(--semantic-dimension-size-max-width-deck) + var(--gg-side-pane-w)
@@ -21,8 +20,6 @@
   min-width: 0;
 }
 
-/* a part that sets its own top margin, such as a group of rows, keeps it in place of the gutter;
-   the rail's open button, there only under the rail's breakpoint, keeps the gutter below it */
 :where(.gg-deck > :not(.gg-rail-open) + *) {
   margin-top: var(--semantic-dimension-space-gutter);
 }

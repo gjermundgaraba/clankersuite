@@ -7,11 +7,6 @@ dialog.gg-veil:focus {
   outline: none;
 }
 
-/* out of the top layer, a dialog's z-index counts inside its nearest stacking context, and a
-   fixed frame is one: while a bench or a stage holds an open dialog the frame itself is lifted,
-   over the bars (40), the rail and its splitter and a slip (200), as a dialog
-   in the page's flow already prints over them. Lifted only then: at rest the rail's splitter
-   lies over the frame's edge and a slip from its head prints over it */
 :is(.gg-bench, .gg-stage):has(dialog.gg-veil[open]) {
   z-index: var(--semantic-number-layer-dialog);
 }

@@ -53,8 +53,6 @@
   background: var(--semantic-color-background-head);
 }
 
-/* the sticky actions cell lays the hover tint over its opaque surface, so what scrolls
-   under it stays hidden */
 .gg-table tbody tr:hover td.gg-acts {
   background-image: linear-gradient(
     var(--semantic-color-background-hover),

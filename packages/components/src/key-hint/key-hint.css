@@ -1,5 +1,3 @@
-/* a key printed as its keycap, in a ringed box: after a button's or a menu row's words, in a
-   tip and in the key bar */
 .gg-key-hint {
   display: inline-block;
   min-width: 1.6em;
@@ -16,7 +14,6 @@
     var(--semantic-color-border-secondary);
 }
 
-/* a key note: each key's box a hair from the next and from what it does */
 .gg-key-note .gg-key-hint {
   margin-right: var(--semantic-dimension-space-xx-small);
 }

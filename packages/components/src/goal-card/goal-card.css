@@ -18,9 +18,6 @@
   );
 }
 
-/* a goal's actions show while the pointer is on its card or focus is in it, and always where
-   nothing hovers. Unseen, they keep their room, so the chip stays put, stay in the keyboard's
-   order, so Tab shows them, and take no click, as a row's clipped tools take none */
 @media (hover: hover) {
   .gg-goal-card:not(:hover, :focus-within) .gg-goal-head > .gg-card-acts {
     opacity: 0;
@@ -28,7 +25,6 @@
   }
 }
 
-/* the ring fills in the goal's colour by the share of its outcomes done */
 .gg-goal-ring {
   flex: none;
   width: var(--semantic-dimension-size-glyph-medium);
@@ -56,7 +52,6 @@
   color: var(--semantic-color-text-secondary);
 }
 
-/* the outcomes as steps: one pill each, a done one's in the goal's colour */
 .gg-goal-steps {
   display: flex;
   gap: var(--semantic-dimension-space-x-small);
@@ -108,7 +103,6 @@
   color: var(--semantic-color-text-tertiary);
 }
 
-/* an outcome: its check a little larger than a form's, struck through once done */
 .gg-goal-column .gg-choice {
   align-items: center;
   gap: var(--semantic-dimension-space-row-inline);
@@ -130,8 +124,6 @@
   text-decoration: line-through;
 }
 
-/* outcomes kept in Rows, for their tools, sit as bare Choices do: flush with the column, one
-   Choice tall */
 .gg-goal-column .gg-rows:not(.gg-compact) {
   margin-inline: calc(-1 * var(--semantic-dimension-space-row-inline));
 }
@@ -141,7 +133,6 @@
   padding-block: 0;
 }
 
-/* a goal's tasks are compact Rows, in small text, their checks a box's size */
 .gg-goal-column .gg-rows.gg-compact {
   --gg-check: var(--semantic-dimension-size-checkbox-box);
   font-size: var(--semantic-dimension-font-size-label);
@@ -158,8 +149,6 @@
   border-radius: var(--semantic-dimension-radius-surface);
 }
 
-/* the values edited in place read as the quote's text: no rule, no padding and the quote's
-   line height, and keyboard focus the 2px accent outline */
 .gg-values .gg-markdown-surface {
   padding-bottom: 0;
   border-bottom: 0;

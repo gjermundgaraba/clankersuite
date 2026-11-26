@@ -1,4 +1,3 @@
-/* the key bar and toasts end at its left edge */
 .gg-side-pane {
   anchor-name: --gg-side-pane;
   right: 0;
@@ -21,17 +20,12 @@
   min-width: 0;
 }
 
-/* the page beside the pane keeps its width clear where the room right of the rail holds the
-   pane and the narrowest deck (Rail's 421px): 821px is size.sidePane and that, since a
-   container's condition reads no custom property */
 @container gg-railed (width >= 821px) {
   .gg-railed:has(.gg-side-pane) > * {
     --gg-side-pane-w: var(--semantic-dimension-size-side-pane);
   }
 }
 
-/* where it does not, the pane covers the page, and the key bar and toasts, finding no anchor,
-   run to the window's right edge */
 @container gg-railed (width < 821px) {
   .gg-side-pane {
     anchor-name: none;
@@ -41,12 +35,10 @@
     border-left: 0;
   }
 
-  /* hide what it covers from the keyboard and screen readers too */
   .gg-railed:has(.gg-side-pane) :is(.gg-deck, .gg-bench, .gg-stage) {
     visibility: hidden;
   }
 
-  /* but not a dialog opened in place in it, over the pane and everything else */
   .gg-railed:has(.gg-side-pane) .gg-veil {
     visibility: visible;
   }
@@ -75,7 +67,6 @@
   min-width: 0;
 }
 
-/* the check sits level with the title's first line */
 .gg-side-pane-title {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -103,8 +94,6 @@
     var(--semantic-color-border-divider);
 }
 
-/* a list in the pane sits flush with the properties: its heading, the checks and the add
-   row's plus all start at the labels' edge */
 .gg-side-pane .gg-rows-head {
   padding-inline: 0;
 }

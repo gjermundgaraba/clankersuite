@@ -66,7 +66,6 @@
     var(--semantic-dimension-space-x-small);
 }
 
-/* flat: a side pane's properties. A quiet button's words line up with plain values */
 .gg-props.gg-flat {
   grid-template-columns: calc(
       4 * var(--semantic-dimension-space-x-large)
@@ -92,8 +91,6 @@
   margin-left: calc(-1 * var(--semantic-dimension-space-small));
 }
 
-/* a value edited in place: an InlineInput as tall as the quiet button it replaces, so the row
-   keeps its height, its words starting where the button's did */
 .gg-props.gg-flat input.gg-inline-input {
   width: calc(100% + var(--semantic-dimension-space-small));
   height: calc(
@@ -108,7 +105,6 @@
   background: none;
 }
 
-/* a date: the picker's input hidden at its button, where the picker opens */
 .gg-prop-date {
   position: relative;
   display: inline-flex;

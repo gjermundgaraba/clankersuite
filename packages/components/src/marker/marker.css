@@ -1,4 +1,3 @@
-/* each colour sets the one property a marker, and a goal card's ring and steps, paint with */
 .gg-amber {
   --gg-marker: var(--semantic-color-background-marker-amber);
 }

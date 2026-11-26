@@ -100,9 +100,6 @@
   padding: 0 var(--semantic-dimension-space-x-small);
 }
 
-/* who sits beside when at its full width while there is room, the controls dropping under
-   them together where there is not, and breaks only between words, or inside one too wide
-   for the line */
 .gg-history-list.gg-wrapped .gg-who {
   flex: 1 1 auto;
   width: auto;

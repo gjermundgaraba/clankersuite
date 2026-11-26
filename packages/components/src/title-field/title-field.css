@@ -1,4 +1,3 @@
-/* the box the field's Enter Mount sits on, out of the layout */
 .gg-title-field-keys {
   display: contents;
 }
@@ -21,8 +20,6 @@ textarea.gg-title-field {
   overflow: hidden;
 }
 
-/* the tint spills a little past the words, as the prototype's does, and the focus ring
-   rings the tint */
 textarea.gg-title-field:focus {
   background: var(--semantic-color-background-hover);
   box-shadow: 0 0 0 var(--semantic-dimension-space-x-small)

@@ -24,7 +24,6 @@
   margin-left: var(--semantic-dimension-space-x-small);
 }
 
-/* online, a quiet dot in the accent before the word */
 .gg-link-state:not(.gg-offline, .gg-connecting, .gg-reconnecting) {
   display: inline-flex;
   align-items: center;

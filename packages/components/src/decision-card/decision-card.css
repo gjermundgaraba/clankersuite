@@ -46,7 +46,6 @@
   );
 }
 
-/* a tile: its glyph and keycap on top, its words below */
 .gg-decision {
   display: flex;
   flex-direction: column;
@@ -104,7 +103,6 @@
   );
 }
 
-/* how far through the items: its words either side of a thin bar */
 .gg-decision-progress {
   display: flex;
   align-items: center;

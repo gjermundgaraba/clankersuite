@@ -10,9 +10,6 @@
   color: var(--semantic-color-text-secondary);
 }
 
-/* done: the status stays in the page, empty, for the next wait, but out of the flow, so it
-   takes no room and no gap in a panel's or a card's grid, a stack or a row. Not
-   display: none, which would take the live region out of the accessibility tree */
 .gg-loading-idle {
   position: absolute;
 }
