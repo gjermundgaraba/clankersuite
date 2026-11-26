@@ -80,7 +80,7 @@ const COLOR_LITERAL =
   /#[\da-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|color-mix)\(|\b(?:white|black|red|green|blue|yellow|orange|purple|gray|grey|silver|maroon|fuchsia|lime|olive|navy|teal|aqua)\b/iu;
 
 const declarations: readonly Declaration[] = Array.from(
-  STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "").matchAll(
+  STYLESHEET.matchAll(
     /(?<property>-{0,2}[a-z][-a-z]*)\s*:\s*(?<value>[^;{}]+);/gu
   ),
   ({ groups }) => ({
@@ -177,9 +177,9 @@ const THIRD_PARTY_CLASS = /^(?:cm-|tok-|sr-only$)/u;
 describe("the stylesheet's selectors", () => {
   it("styles only classes prefixed gg-, beside CodeMirror's cm-, the highlighter's tok- and @foldkit/ui's sr-only", () => {
     const selectors = Array.from(
-      STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "")
-        .replaceAll(/"[^"]*"|'[^']*'/gu, '""')
-        .matchAll(/(?<=^|[{};])\s*(?<selector>[^@{};\s][^{};]*)\{/gu),
+      STYLESHEET.replaceAll(/"[^"]*"|'[^']*'/gu, '""').matchAll(
+        /(?<=^|[{};])\s*(?<selector>[^@{};\s][^{};]*)\{/gu
+      ),
       ({ groups }) => groups?.["selector"] ?? ""
     );
 
@@ -203,12 +203,10 @@ describe("the stylesheet's selectors", () => {
 
 const THIRD_PARTY_ATTRIBUTE = /^data-(?:drag-over|foldkit-)/u;
 
-const withoutComments = STYLESHEET.replaceAll(/\/\*[\s\S]*?\*\//gu, "");
-
 const namesIn = (pattern: RegExp): readonly string[] => [
   ...new Set(
     Array.from(
-      withoutComments.matchAll(pattern),
+      STYLESHEET.matchAll(pattern),
       ({ groups }) => groups?.["name"] ?? ""
     )
   ),
@@ -246,19 +244,16 @@ describe("the stylesheet's other names", () => {
   });
 });
 
-const ruleBodies = (selector: string): readonly string[] =>
-  Array.from(
-    withoutComments.matchAll(
+const ruleBody = (selector: string): string => {
+  const bodies = Array.from(
+    STYLESHEET.matchAll(
       new RegExp(
-        `(?<=^|[{};]\\s*)${RegExp.escape(selector)}\\s*\\{(?<body>[^{}]*)\\}`,
+        `(?<=^|[{};]\\s*)${RegExp.escape(selector).replaceAll(/(?:\\x20|\\s)+/gu, "\\s+")}\\s*\\{(?<body>[^{}]*)\\}`,
         "gu"
       )
     ),
     ({ groups }) => groups?.["body"] ?? ""
   );
-
-const ruleBody = (selector: string): string => {
-  const bodies = ruleBodies(selector);
 
   expect(bodies, selector).not.toStrictEqual([]);
 
@@ -289,7 +284,7 @@ describe("the stylesheet's rules", () => {
   it("writes out each selector of a selected row rather than joining them in :is(), so each keeps its own specificity", () => {
     expect(
       ruleBody(
-        '.gg-row.gg-linked:has(.gg-grow a[aria-current]),\n.gg-board-card[aria-current="true"],\n.gg-row[aria-current="true"]'
+        '.gg-row.gg-linked:has(.gg-grow a[aria-current]), .gg-board-card[aria-current="true"], .gg-row[aria-current="true"]'
       )
     ).toContain("background-color: var(--semantic-color-background-selected);");
   });
@@ -299,7 +294,7 @@ describe("the stylesheet's rules", () => {
     expect(ruleBody(".gg-loading-idle")).not.toContain("display");
   });
 
-  it("hides a row's and a goal's tools from sight only, never display or visibility, so Tab still reaches them", () => {
+  it("hides a row's and a goal's tools from sight only, never display or visibility, so Tab still reaches them, and takes the goal's unseen actions no click, as a row's clipped tools take none", () => {
     const rowTools = ruleBody(
       '.gg-row:not(:hover, :focus-within, [aria-current="true"]) > .gg-tools'
     );
@@ -310,6 +305,7 @@ describe("the stylesheet's rules", () => {
 
     expect(rowTools).toContain("clip-path: inset(50%);");
     expect(goalActions).toContain("opacity: 0;");
+    expect(goalActions).toContain("pointer-events: none;");
 
     for (const body of [rowTools, goalActions]) {
       expect(body).not.toMatch(/\b(?:display|visibility):/u);
@@ -335,7 +331,7 @@ describe("the stylesheet's rules", () => {
     );
   });
 
-  it("lifts a bench or a stage over the bars, the rail and slips only while it holds an open dialog, whose z-index counts inside the fixed frame", () => {
+  it("lifts a bench or a stage over the bars, the rail and slips only while it holds an open dialog, whose z-index counts inside the fixed frame; at rest the rail's splitter lies over the frame's edge and a slip from its head prints over it", () => {
     expect(
       ruleBody(":is(.gg-bench, .gg-stage):has(dialog.gg-veil[open])")
     ).toContain("z-index: var(--semantic-number-layer-dialog);");
@@ -343,6 +339,26 @@ describe("the stylesheet's rules", () => {
     for (const selector of [".gg-bench", ".gg-stage"]) {
       expect(ruleBody(selector), selector).not.toContain("z-index");
     }
+  });
+
+  it("floors the bench's work at a reel's pane and its block padding, or what the bench head leaves of the frame, from the same tokens those rules use", () => {
+    const floor = ruleBody(".gg-bench");
+
+    expect(ruleBody(".gg-reel-slot")).toContain(
+      "min-height: var(--semantic-dimension-size-min-height-reel-pane);"
+    );
+    expect(ruleBody(".gg-reel-track")).toContain(
+      "padding-block: var(--semantic-dimension-space-large);"
+    );
+    expect(ruleBody(".gg-bench-head")).toMatch(
+      /padding: var\(--semantic-dimension-space-gutter\)\s+var\(--semantic-dimension-space-large\) var\(--semantic-dimension-space-small\);/u
+    );
+    expect(floor).toMatch(
+      /var\(--semantic-dimension-size-min-height-reel-pane\) \+ 2 \*\s+var\(--semantic-dimension-space-large\)/u
+    );
+    expect(floor).toMatch(
+      /100% - var\(--semantic-dimension-space-gutter\) -\s+var\(--semantic-dimension-size-control-small\) -\s+var\(--semantic-dimension-space-small\)/u
+    );
   });
 
   it("sets Inter's single-storey a and open digits on its face, so no font shorthand resets them and no other face takes them", () => {

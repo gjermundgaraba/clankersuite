@@ -283,7 +283,7 @@ describe("Toast view", () => {
     ),
   ] as const;
 
-  it("places its stack with !important, since @foldkit/ui's Toast container sets bottom, right and gap inline", () => {
+  it("centres its stack between a Rail and a SidePane, clear of the key bar, with !important, since @foldkit/ui's Toast container sets bottom, right and gap inline", () => {
     Scene.scene(
       { update: Toast.update, view: stackView },
       Scene.given(raise(emptyStack, SAVED)),
