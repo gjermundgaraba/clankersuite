@@ -918,7 +918,7 @@ describe("Reel view", () => {
     );
   });
 
-  it("lets a pointer carry the title bars alone, drawn by the reel, with no ids", () => {
+  it("lets a pointer carry the title bars alone, drawn by the reel outside its scroller, whose containment would hold a fixed copy inside it, with no ids", () => {
     const pressed = reelUpdate(LAYOUT)(fresh, press(NOTES)).model;
 
     const carried = reelUpdate(LAYOUT)(
@@ -940,6 +940,8 @@ describe("Reel view", () => {
         "aria-hidden",
         "true"
       ),
+      Scene.expect(Scene.selector(".gg-reel .gg-reel-lift")).toExist(),
+      Scene.expect(Scene.selector(".gg-reel-view .gg-reel-lift")).toBeAbsent(),
       Scene.expect(Scene.selector(".gg-reel-lift")).toHaveStyle(
         "--gg-lift-width",
         "320px"
