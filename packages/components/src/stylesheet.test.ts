@@ -3,6 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { LIVE_MARKDOWN_STYLE } from "./markdown-editor/live/theme.ts";
 
 import TOKENS from "@gjermundgaraba/design-tokens/clankersuite.css?raw";
+import INTER from "@gjermundgaraba/fonts/inter.css?raw";
 
 const kebabCase = (property: string) =>
   property.replaceAll(/[A-Z]/gu, (letter) => `-${letter.toLowerCase()}`);
@@ -241,6 +242,103 @@ describe("the stylesheet's other names", () => {
     expect(keyframes.length).toBeGreaterThan(3);
     expect(keyframes.filter((name) => !name.startsWith("gg-"))).toStrictEqual(
       []
+    );
+  });
+});
+
+const ruleBodies = (selector: string): readonly string[] =>
+  Array.from(
+    withoutComments.matchAll(
+      new RegExp(
+        `(?<=^|[{};]\\s*)${RegExp.escape(selector)}\\s*\\{(?<body>[^{}]*)\\}`,
+        "gu"
+      )
+    ),
+    ({ groups }) => groups?.["body"] ?? ""
+  );
+
+const ruleBody = (selector: string): string => {
+  const bodies = ruleBodies(selector);
+
+  expect(bodies, selector).not.toStrictEqual([]);
+
+  return bodies.join("\n");
+};
+
+describe("the stylesheet's rules", () => {
+  it("edges the surface, card, menu and toast, which a shadow rings, with a transparent outline, the edge forced colours paint, taking no room", () => {
+    for (const selector of [
+      ".gg-surface",
+      ".gg-card",
+      ".gg-menu",
+      ".gg-toast",
+    ]) {
+      expect(ruleBody(selector), selector).toContain(
+        "outline: var(--semantic-dimension-border-width-default) solid transparent;"
+      );
+    }
+  });
+
+  it("rings a row's check with a border, not a shadow, so the ring survives forced colours", () => {
+    const check = ruleBody(".gg-check");
+
+    expect(check).toMatch(/\bborder:/u);
+    expect(check).not.toContain("box-shadow");
+  });
+
+  it("writes out each selector of a selected row rather than joining them in :is(), so each keeps its own specificity", () => {
+    expect(
+      ruleBody(
+        '.gg-row.gg-linked:has(.gg-grow a[aria-current]),\n.gg-board-card[aria-current="true"],\n.gg-row[aria-current="true"]'
+      )
+    ).toContain("background-color: var(--semantic-color-background-selected);");
+  });
+
+  it("takes an idle loading status out of the flow, never display: none, which would take its live region out of the accessibility tree", () => {
+    expect(ruleBody(".gg-loading-idle")).toContain("position: absolute;");
+    expect(ruleBody(".gg-loading-idle")).not.toContain("display");
+  });
+
+  it("hides a row's and a goal's tools from sight only, never display or visibility, so Tab still reaches them", () => {
+    const rowTools = ruleBody(
+      '.gg-row:not(:hover, :focus-within, [aria-current="true"]) > .gg-tools'
+    );
+
+    const goalActions = ruleBody(
+      ".gg-goal-card:not(:hover, :focus-within) .gg-goal-head > .gg-card-acts"
+    );
+
+    expect(rowTools).toContain("clip-path: inset(50%);");
+    expect(goalActions).toContain("opacity: 0;");
+
+    for (const body of [rowTools, goalActions]) {
+      expect(body).not.toMatch(/\b(?:display|visibility):/u);
+    }
+  });
+
+  it("keeps the Markdown editor's 1px textarea unwrapped, or every keystroke's write lays out each word on a line of its own again", () => {
+    expect(
+      ruleBody("gg-markdown-editor:has(.gg-markdown-surface) textarea")
+    ).toContain("white-space: pre;");
+  });
+
+  it("hides a visually hidden date input's picker button, whose name Chromium adds to the cell around it, aria-hidden or not", () => {
+    expect(ruleBody(".sr-only::-webkit-calendar-picker-indicator")).toContain(
+      "display: none;"
+    );
+  });
+
+  it("rounds the nav strip's end items inside its border instead of clipping the strip, which would clip their focus rings", () => {
+    expect(ruleBody(".gg-nav")).not.toContain("overflow");
+    expect(ruleBody(".gg-nav > :first-child")).toContain(
+      "border-start-start-radius"
+    );
+  });
+
+  it("sets Inter's single-storey a and open digits on its face, so no font shorthand resets them and no other face takes them", () => {
+    expect(INTER).toContain('font-feature-settings: "cv11", "ss01";');
+    expect(declarations.map(({ property }) => property)).not.toContain(
+      "font-feature-settings"
     );
   });
 });
