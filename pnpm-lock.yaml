@@ -198,8 +198,8 @@ catalogs:
       specifier: 4.1.7
       version: 4.1.7
     '@effect/tsgo':
-      specifier: 0.73.2
-      version: 0.73.2
+      specifier: 0.73.7
+      version: 0.73.7
     '@effect/vitest':
       specifier: 4.1.7
       version: 4.1.7
@@ -268,10 +268,10 @@ importers:
     devDependencies:
       '@clanker-stuff/oxlint-config':
         specifier: 'catalog:'
-        version: 0.5.1(@effect/tsgo@0.73.2)(ultracite@8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))))(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))
+        version: 0.5.1(@effect/tsgo@0.73.7)(ultracite@8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))))(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))
       '@effect/tsgo':
         specifier: 'catalog:'
-        version: 0.73.2
+        version: 0.73.7
       '@foldkit/oxlint-plugin':
         specifier: 'catalog:'
         version: 0.15.4(effect@4.1.7)
@@ -551,43 +551,43 @@ packages:
       effect: ^4.1.3
       redis: '>=5.1.0 <7.0.0'
 
-  '@effect/tsgo-darwin-arm64@0.73.2':
-    resolution: {integrity: sha512-+6xuv33cSp44tNWc9erzLKmS7qRB/QdPJYUCJrEY+4lfRhFdAsCvRDw6uw2aqzePuZDHfM3gDqfYEl5g/mWBfQ==}
+  '@effect/tsgo-darwin-arm64@0.73.7':
+    resolution: {integrity: sha512-LtQMNY+PO1NSDKW4849z+QyqT6iAAedYYAJtw4FCyUex7KST5uyiBcGBJspZMoPc8c7Nplyl1BQH6fnq9v4svw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@effect/tsgo-darwin-x64@0.73.2':
-    resolution: {integrity: sha512-Oqwft3rP05CWImD1GGPuWB3esJrxz7iSOXGpfku1KIK1eElW0aE9E1vdpgiFJ3lykJruyOOZ4UB+E4US5K/alA==}
+  '@effect/tsgo-darwin-x64@0.73.7':
+    resolution: {integrity: sha512-GrdmA62onxHm1/E9zB6uMbUEs2H4y30Pd/TaofT9XCXsDTjMRZ778NNJwqdMyHJN9wRVIg8PBl+mspAe1dY3JA==}
     cpu: [x64]
     os: [darwin]
 
-  '@effect/tsgo-linux-arm64@0.73.2':
-    resolution: {integrity: sha512-/EuCPqoqZb+kkcdCnypwd/stmSvAO5k/NKS+sQJSv6F2wXQAIgWB4VSNmftt1b/s7dBB0QysLFohscV8OxzCgA==}
+  '@effect/tsgo-linux-arm64@0.73.7':
+    resolution: {integrity: sha512-vD/FIa/g3b6/cAk54xm92xVj2ay9mczb2W9CXgPDRTeS+gHxJr3D+b91NhbebefMIM114Y3v5Lt5yevOLQfU5A==}
     cpu: [arm64]
     os: [linux]
 
-  '@effect/tsgo-linux-arm@0.73.2':
-    resolution: {integrity: sha512-JdAFBCv0Q0UyMe4Et7xTjqLoM6jDvci6qsaqWwGCRR8ZZhvc+j9kLw7dN3GJnYlHMr0HUGWnSCxUBISODpX/kA==}
+  '@effect/tsgo-linux-arm@0.73.7':
+    resolution: {integrity: sha512-k2mH7CzmKJl4+y4lOns7pB+Rzqu9oHHBreADQRTCx+GAFHuBit+jPRgdfxX17QvKsLB62XK3PojMKNcBtBPXTg==}
     cpu: [arm]
     os: [linux]
 
-  '@effect/tsgo-linux-x64@0.73.2':
-    resolution: {integrity: sha512-1g5UQ8nwpqJVwrXvHLstEc7N7jRuqZm2axukryerGV6/e6hD2vc70tHdb1ZVg8zIUR40TWem1MCoFNNIXKOlZg==}
+  '@effect/tsgo-linux-x64@0.73.7':
+    resolution: {integrity: sha512-tz7J/DuyvBFqdEy2o2TMJZ/MDL8K7HyHx9bvPWvipQAezp6gUOr/2emi0jCEFu4eQG9Wi1PoOTTL2u0cSfK7HA==}
     cpu: [x64]
     os: [linux]
 
-  '@effect/tsgo-win32-arm64@0.73.2':
-    resolution: {integrity: sha512-J4kyLNk0Fi6WwIWQV6omCu1OkHcNNY6KMcs5K2AqUV8l+QUMEetko5NkcmEi1Keedh6bNRqOGwvB9dg+Duvypw==}
+  '@effect/tsgo-win32-arm64@0.73.7':
+    resolution: {integrity: sha512-gJppVa5FLCtN6zkunCuN0vc45K+f/emb0Df4I6fQDEjbr1tWl0sGYQB2fnZSUHiAFTZhhlLdFxmtGRJM4RNxqg==}
     cpu: [arm64]
     os: [win32]
 
-  '@effect/tsgo-win32-x64@0.73.2':
-    resolution: {integrity: sha512-N5V9GaTZseqGN38+XhGypLpweX2XiM2DO1V9DUppp26deZIJe0j3QRiRCSUAQoJrR0Lji/k5wo3jki6P38sCPA==}
+  '@effect/tsgo-win32-x64@0.73.7':
+    resolution: {integrity: sha512-PLhmEx7oY4XJajVdaak20f9v4xDWXX5JVQ5+lgWqNZ8mMao2ITlwbQBv6Ds9kpb39A533cnqgaVkqVSFxoiVhA==}
     cpu: [x64]
     os: [win32]
 
-  '@effect/tsgo@0.73.2':
-    resolution: {integrity: sha512-eM5ayjlp0fD2l+aL+4O/y9d1LwF1m5in5EdNkOYwLFcXI3kcee8CWP4wr2xTc4L/+KJmS/uaYUGWdOj4G46BDA==}
+  '@effect/tsgo@0.73.7':
+    resolution: {integrity: sha512-Ks+JDKKrQxhV370MX/AZyBwX+/zUScIHBZ0n4rbS2/bwTcpCPga+9H5yNKX+uOMMUwreH7GFnBka0iZKqkRbfw==}
     hasBin: true
 
   '@effect/vitest@4.1.7':
@@ -2522,9 +2522,9 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@clanker-stuff/oxlint-config@0.5.1(@effect/tsgo@0.73.2)(ultracite@8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))))(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))':
+  '@clanker-stuff/oxlint-config@0.5.1(@effect/tsgo@0.73.7)(ultracite@8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))))(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1))':
     dependencies:
-      '@effect/tsgo': 0.73.2
+      '@effect/tsgo': 0.73.7
       ultracite: 8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))
       vite-plus: 1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)
 
@@ -2642,36 +2642,36 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@effect/tsgo-darwin-arm64@0.73.2':
+  '@effect/tsgo-darwin-arm64@0.73.7':
     optional: true
 
-  '@effect/tsgo-darwin-x64@0.73.2':
+  '@effect/tsgo-darwin-x64@0.73.7':
     optional: true
 
-  '@effect/tsgo-linux-arm64@0.73.2':
+  '@effect/tsgo-linux-arm64@0.73.7':
     optional: true
 
-  '@effect/tsgo-linux-arm@0.73.2':
+  '@effect/tsgo-linux-arm@0.73.7':
     optional: true
 
-  '@effect/tsgo-linux-x64@0.73.2':
+  '@effect/tsgo-linux-x64@0.73.7':
     optional: true
 
-  '@effect/tsgo-win32-arm64@0.73.2':
+  '@effect/tsgo-win32-arm64@0.73.7':
     optional: true
 
-  '@effect/tsgo-win32-x64@0.73.2':
+  '@effect/tsgo-win32-x64@0.73.7':
     optional: true
 
-  '@effect/tsgo@0.73.2':
+  '@effect/tsgo@0.73.7':
     optionalDependencies:
-      '@effect/tsgo-darwin-arm64': 0.73.2
-      '@effect/tsgo-darwin-x64': 0.73.2
-      '@effect/tsgo-linux-arm': 0.73.2
-      '@effect/tsgo-linux-arm64': 0.73.2
-      '@effect/tsgo-linux-x64': 0.73.2
-      '@effect/tsgo-win32-arm64': 0.73.2
-      '@effect/tsgo-win32-x64': 0.73.2
+      '@effect/tsgo-darwin-arm64': 0.73.7
+      '@effect/tsgo-darwin-x64': 0.73.7
+      '@effect/tsgo-linux-arm': 0.73.7
+      '@effect/tsgo-linux-arm64': 0.73.7
+      '@effect/tsgo-linux-x64': 0.73.7
+      '@effect/tsgo-win32-arm64': 0.73.7
+      '@effect/tsgo-win32-x64': 0.73.7
 
   '@effect/vitest@4.1.7(effect@4.1.7)(vitest@5.1.0)':
     dependencies:
