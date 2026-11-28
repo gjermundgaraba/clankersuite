@@ -33,18 +33,16 @@ catalog:
   playwright: 1.65.1
   typescript: 7.0.2
   ultracite: 8.3.0
-  vite: npm:@voidzero-dev/vite-plus-core@1.5.1
-  vite-plus: 1.5.1
-  vitest: 5.1.0
+  vite: npm:@voidzero-dev/vite-plus-core@8.3.8001
+  vite-plus: 1.8.0
+  vitest: 5.1.1
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
-    - vite
     - vitest
   allowedVersions:
-    vite: "*"
     vitest: "*"
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
@@ -62,3 +60,5 @@ minimumReleaseAgeExclude:
   - effect
   - "@effect/*"
   - "@clanker-stuff/*"
+  - tsrs
+  - "@tsrs/*"

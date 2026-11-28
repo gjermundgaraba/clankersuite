@@ -6,7 +6,7 @@
   "scripts": {
     "ready": "vp check && vp run -r test && vp run -r build",
     "dev": "vp run docs#dev",
-    "prepare": "vp config && effect-tsgo patch --no-typescript --oxlint"
+    "prepare": "vp config && effect-tsgo patch --no-typescript --oxlint --tsrs"
   },
   "devDependencies": {
     "@clanker-stuff/oxlint-config": "catalog:",
