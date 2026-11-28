@@ -25,7 +25,7 @@ catalog:
   "@terrazzo/cli": 2.10.0
   "@terrazzo/parser": 2.10.0
   "@terrazzo/plugin-css": 2.10.0
-  "@types/node": 26.6.6
+  "@types/node": 26.6.11
   diff: 9.0.0
   effect: 4.1.7
   foldkit: 0.171.0
