@@ -270,6 +270,8 @@ catalogs:
 
 overrides:
   vite@*: npm:@voidzero-dev/vite-plus-core@8.3.8001
+  '@effect/platform-node': 4.1.7
+  '@effect/platform-node-shared': 4.1.7
   vitest@*: 5.1.1
 
 importers:
@@ -548,17 +550,17 @@ packages:
     peerDependencies:
       effect: ^4.1.7
 
-  '@effect/platform-node-shared@4.1.3':
-    resolution: {integrity: sha512-zcFjbgWuT66NJHi6cCx8/BywQ/pR8I3wSd4GsNolMjwlvMRDELUodTxEPOhwt+sAVekueFPf1lyCS2I05Svnfw==}
+  '@effect/platform-node-shared@4.1.7':
+    resolution: {integrity: sha512-EDnlB5zL6EW0ahVAeQAUtpuMHc/0yruMLKBsX3nC4Zn3PuG4McWv2A6Rvdk2OUSFM/OFTCclt3sKWNCvk3pEUw==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.3
+      effect: ^4.1.7
 
-  '@effect/platform-node@4.1.3':
-    resolution: {integrity: sha512-1hT2k2piMmqU3aHnJgVH4zhgmGVCgB1sUw63Pry8/U5QQvehr0ohp9DokSjWXM5MpafQbFv6n+4sEF4I44e+5A==}
+  '@effect/platform-node@4.1.7':
+    resolution: {integrity: sha512-+hWmfkd5QtfeDKdCnyf+Vs/XK6lnNCfwXWMXWb6YOAyhAQC6qBvHNR5Tx6Lkk8l33eL8xAalHexXF64jL8ABiQ==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.3
+      effect: ^4.1.7
       redis: '>=5.1.0 <7.0.0'
 
   '@effect/tsgo-darwin-arm64@0.74.1':
@@ -2355,8 +2357,8 @@ packages:
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
-  undici@8.12.4:
-    resolution: {integrity: sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA==}
+  undici@8.13.1:
+    resolution: {integrity: sha512-Kt7EaPjh0s93lJH/PmW3d5rhkcpUa6fS3jqZ7+YGxNd9L7Xy/i827xe4C2uhhq+pJebM4tQOl5AgHmW11G5Skg==}
     engines: {node: '>=22.19.0'}
 
   unicorn-magic@0.3.0:
@@ -2480,6 +2482,18 @@ packages:
 
   ws@8.22.1:
     resolution: {integrity: sha512-oyL6OPYme/CmiFvNuGzeoxCJ4nOrZE2O1FwM9MWM1AsGri6nLXB2pg+lNA8aLeXMSav0J6eIVS1j6vUPzUtK9g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@8.23.0:
+    resolution: {integrity: sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -2656,21 +2670,21 @@ snapshots:
     dependencies:
       effect: 4.1.7
 
-  '@effect/platform-node-shared@4.1.3(effect@4.1.7)':
+  '@effect/platform-node-shared@4.1.7(effect@4.1.7)':
     dependencies:
       '@types/ws': 8.18.2
       effect: 4.1.7
-      ws: 8.22.1
+      ws: 8.23.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.1.3(effect@4.1.7)(redis@6.3.0)':
+  '@effect/platform-node@4.1.7(effect@4.1.7)(redis@6.3.0)':
     dependencies:
-      '@effect/platform-node-shared': 4.1.3(effect@4.1.7)
+      '@effect/platform-node-shared': 4.1.7(effect@4.1.7)
       effect: 4.1.7
       redis: 6.3.0
-      undici: 8.12.4
+      undici: 8.13.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -2749,8 +2763,8 @@ snapshots:
 
   '@foldkit/vite-plugin@0.29.1(@voidzero-dev/vite-plus-core@8.3.8001(@types/node@26.6.11)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))(redis@6.3.0)':
     dependencies:
-      '@effect/platform-node': 4.1.3(effect@4.1.7)(redis@6.3.0)
-      '@effect/platform-node-shared': 4.1.3(effect@4.1.7)
+      '@effect/platform-node': 4.1.7(effect@4.1.7)(redis@6.3.0)
+      '@effect/platform-node-shared': 4.1.7(effect@4.1.7)
       effect: 4.1.7
       foldkit: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
       magic-string: 1.4.5
@@ -4377,7 +4391,7 @@ snapshots:
 
   undici-types@8.9.0: {}
 
-  undici@8.12.4: {}
+  undici@8.13.1: {}
 
   unicorn-magic@0.3.0: {}
 
@@ -4557,6 +4571,8 @@ snapshots:
       string-width: 8.3.0
 
   ws@8.22.1: {}
+
+  ws@8.23.0: {}
 
   yaml-to-momoa@0.1.0:
     dependencies:

@@ -14,6 +14,8 @@ catalog:
   "@codemirror/state": 6.7.6
   "@codemirror/view": 6.44.2
   "@effect/platform-browser": 4.1.7
+  "@effect/platform-node": 4.1.7
+  "@effect/platform-node-shared": 4.1.7
   "@effect/tsgo": 0.74.1
   "@effect/vitest": 4.1.7
   "@foldkit/markdown": 0.15.1
@@ -38,6 +40,8 @@ catalog:
   vitest: 5.1.1
 overrides:
   vite@*: "catalog:"
+  "@effect/platform-node": "catalog:"
+  "@effect/platform-node-shared": "catalog:"
   vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
