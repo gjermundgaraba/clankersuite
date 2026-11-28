@@ -195,14 +195,14 @@ catalogs:
       specifier: 6.43.15
       version: 6.43.15
     '@effect/platform-browser':
-      specifier: 4.1.6
-      version: 4.1.6
+      specifier: 4.1.7
+      version: 4.1.7
     '@effect/tsgo':
       specifier: 0.73.2
       version: 0.73.2
     '@effect/vitest':
-      specifier: 4.1.6
-      version: 4.1.6
+      specifier: 4.1.7
+      version: 4.1.7
     '@foldkit/markdown':
       specifier: 0.15.1
       version: 0.15.1
@@ -234,8 +234,8 @@ catalogs:
       specifier: 26.6.6
       version: 26.6.6
     effect:
-      specifier: 4.1.6
-      version: 4.1.6
+      specifier: 4.1.7
+      version: 4.1.7
     foldkit:
       specifier: 0.171.0
       version: 0.171.0
@@ -274,7 +274,7 @@ importers:
         version: 0.73.2
       '@foldkit/oxlint-plugin':
         specifier: 'catalog:'
-        version: 0.15.4(effect@4.1.6)
+        version: 0.15.4(effect@4.1.7)
       ultracite:
         specifier: 'catalog:'
         version: 8.3.0(oxfmt@0.76.0(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.91.0(oxlint-tsgolint@7.0.2005)(vite-plus@1.5.1(@types/node@26.6.6)(@vitest/ui@5.1.0)(happy-dom@21.0.4)(jiti@2.7.0)(playwright@1.65.1)(typescript@7.0.2)(yaml@2.9.1)))
@@ -286,13 +286,13 @@ importers:
     dependencies:
       '@effect/platform-browser':
         specifier: 'catalog:'
-        version: 4.1.6(effect@4.1.6)
+        version: 4.1.7(effect@4.1.7)
       '@foldkit/markdown':
         specifier: 'catalog:'
-        version: 0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))
+        version: 0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))
       '@foldkit/ui':
         specifier: 'catalog:'
-        version: 0.171.0(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))
+        version: 0.171.0(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))
       '@gjermundgaraba/components':
         specifier: workspace:*
         version: link:../../packages/components
@@ -307,14 +307,14 @@ importers:
         version: link:../../packages/icons
       effect:
         specifier: 'catalog:'
-        version: 4.1.6
+        version: 4.1.7
       foldkit:
         specifier: 'catalog:'
-        version: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+        version: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
     devDependencies:
       '@foldkit/vite-plugin':
         specifier: 'catalog:'
-        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))(redis@6.3.0)
+        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))(redis@6.3.0)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6
@@ -375,25 +375,25 @@ importers:
     devDependencies:
       '@effect/platform-browser':
         specifier: 'catalog:'
-        version: 4.1.6(effect@4.1.6)
+        version: 4.1.7(effect@4.1.7)
       '@effect/vitest':
         specifier: 'catalog:'
-        version: 4.1.6(effect@4.1.6)(vitest@5.1.0)
+        version: 4.1.7(effect@4.1.7)(vitest@5.1.0)
       '@foldkit/ui':
         specifier: 'catalog:'
-        version: 0.171.0(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))
+        version: 0.171.0(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))
       '@foldkit/vite-plugin':
         specifier: 'catalog:'
-        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))(redis@6.3.0)
+        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))(redis@6.3.0)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6
       effect:
         specifier: 'catalog:'
-        version: 4.1.6
+        version: 4.1.7
       foldkit:
         specifier: 'catalog:'
-        version: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+        version: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
       happy-dom:
         specifier: 'catalog:'
         version: 21.0.4
@@ -431,13 +431,13 @@ importers:
     devDependencies:
       '@foldkit/vite-plugin':
         specifier: 'catalog:'
-        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))(redis@6.3.0)
+        version: 0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))(redis@6.3.0)
       effect:
         specifier: 'catalog:'
-        version: 4.1.6
+        version: 4.1.7
       foldkit:
         specifier: 'catalog:'
-        version: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+        version: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
       happy-dom:
         specifier: 'catalog:'
         version: 21.0.4
@@ -533,10 +533,10 @@ packages:
   '@codemirror/view@6.43.15':
     resolution: {integrity: sha512-HHsfpqFeHyXLs983pSRe38Xajs0vFWZQ2BuX0m7Ki8w3jZ5iD8cuR3lBz2/5/X53Dhf32SBHKh6rtSTB6tKeGw==}
 
-  '@effect/platform-browser@4.1.6':
-    resolution: {integrity: sha512-zlQOKhapRUJjLX87RrVWEPizinYWxXwj8O34p4PqIzOVjNY7go64yVxC02hVZE0JAi55Pd9/aE8SLg+ldqzTMw==}
+  '@effect/platform-browser@4.1.7':
+    resolution: {integrity: sha512-fvEGHHgsr4mJsLYkF+vCv+Uv5s1YtBzlUqcg5TNzxVA8WXEAkbOh4v/h1551VhtVai/3h0Pq9fkpJ1duBTxTnw==}
     peerDependencies:
-      effect: ^4.1.6
+      effect: ^4.1.7
 
   '@effect/platform-node-shared@4.1.3':
     resolution: {integrity: sha512-zcFjbgWuT66NJHi6cCx8/BywQ/pR8I3wSd4GsNolMjwlvMRDELUodTxEPOhwt+sAVekueFPf1lyCS2I05Svnfw==}
@@ -590,10 +590,10 @@ packages:
     resolution: {integrity: sha512-eM5ayjlp0fD2l+aL+4O/y9d1LwF1m5in5EdNkOYwLFcXI3kcee8CWP4wr2xTc4L/+KJmS/uaYUGWdOj4G46BDA==}
     hasBin: true
 
-  '@effect/vitest@4.1.6':
-    resolution: {integrity: sha512-Knb13gPhDbtOuNUnPXE/Sl+UvrKFHRATwU2vy+DGQCpjK1yI3oy1feQo1g2X8ZdOdc63sJB7HJXCMNsDy8xYvg==}
+  '@effect/vitest@4.1.7':
+    resolution: {integrity: sha512-4Rj7db3Zol7HtCkuQ2KZ26KrbIWIKAS2rpvH5s3drB1sMZh93nSaK6zXZ6EOtMtWl2CM/flz7tJ8ADaMCRHUWw==}
     peerDependencies:
-      effect: ^4.1.6
+      effect: ^4.1.7
       vitest: 5.1.0
 
   '@floating-ui/core@1.8.0':
@@ -1586,8 +1586,8 @@ packages:
     peerDependencies:
       effect: ^4.0.0
 
-  effect@4.1.6:
-    resolution: {integrity: sha512-P3CxMsdcSCle/7/FnPILd9GJkNqGtduKam2LX9Xsb8LoOjmeQ9Kmsuh16JwtIthaxLyiTCOzUUt+PZsXIohl+A==}
+  effect@4.1.7:
+    resolution: {integrity: sha512-8QUe2XO3auHF5r7+bfIDWxyXlLA0sso4Sia1QYP+vrYA7qb3sq1u2eJmhyXGmKc8yZ+TY2SNxPozeMdyKmWing==}
 
   empathic@2.1.0:
     resolution: {integrity: sha512-AnfC1ATldl49/cvZdLPDjBfrRNwbDO05aibiOtzQu3qtlbJtomNLhF30HEtn/7iBz50dlMECqATo3fG0LrdEgw==}
@@ -2472,10 +2472,12 @@ packages:
   yuku-core@0.19.0:
     resolution: {integrity: sha512-kYK9e1XdfirNhkipzW0wmMcSWcVF/CWnuugodfVYRCUwvoBefweL9HzB96OiKEhsx78V5WbUxbJqlizMX869Qg==}
     engines: {node: '>=14.18.0'}
+    deprecated: 'Yuku is now one package with one core. Use "yuku" instead: https://yuku.fyi/javascript/. Existing installs keep working but get no more fixes.'
 
   yuku-parser@0.19.0:
     resolution: {integrity: sha512-XrBh9ZiQK5mJVRxZBAvD6LwRyAYrK3MFtH3+onyuxFL5hFD44EC3QOmIC1FjTj6H2MMwq46/NAI+NZxLZPZgxg==}
     engines: {node: '>=14.18.0'}
+    deprecated: 'Yuku is now one package with one core. Use "yuku" instead: https://yuku.fyi/javascript/. Existing installs keep working but get no more fixes.'
 
   zod@4.6.7:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
@@ -2617,23 +2619,23 @@ snapshots:
       style-mod: 4.1.4
       w3c-keyname: 2.2.8
 
-  '@effect/platform-browser@4.1.6(effect@4.1.6)':
+  '@effect/platform-browser@4.1.7(effect@4.1.7)':
     dependencies:
-      effect: 4.1.6
+      effect: 4.1.7
 
-  '@effect/platform-node-shared@4.1.3(effect@4.1.6)':
+  '@effect/platform-node-shared@4.1.3(effect@4.1.7)':
     dependencies:
       '@types/ws': 8.18.2
-      effect: 4.1.6
+      effect: 4.1.7
       ws: 8.22.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.1.3(effect@4.1.6)(redis@6.3.0)':
+  '@effect/platform-node@4.1.3(effect@4.1.7)(redis@6.3.0)':
     dependencies:
-      '@effect/platform-node-shared': 4.1.3(effect@4.1.6)
-      effect: 4.1.6
+      '@effect/platform-node-shared': 4.1.3(effect@4.1.7)
+      effect: 4.1.7
       redis: 6.3.0
       undici: 8.12.4
     transitivePeerDependencies:
@@ -2671,9 +2673,9 @@ snapshots:
       '@effect/tsgo-win32-arm64': 0.73.2
       '@effect/tsgo-win32-x64': 0.73.2
 
-  '@effect/vitest@4.1.6(effect@4.1.6)(vitest@5.1.0)':
+  '@effect/vitest@4.1.7(effect@4.1.7)(vitest@5.1.0)':
     dependencies:
-      effect: 4.1.6
+      effect: 4.1.7
       vitest: 5.1.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(happy-dom@21.0.4)
 
   '@floating-ui/core@1.8.0':
@@ -2687,10 +2689,10 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@foldkit/markdown@0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))':
+  '@foldkit/markdown@0.15.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))':
     dependencies:
-      effect: 4.1.6
-      foldkit: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+      effect: 4.1.7
+      foldkit: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
       remark-directive: 4.0.0
       remark-frontmatter: 5.0.0
       remark-gfm: 4.0.1
@@ -2700,24 +2702,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@foldkit/oxlint-plugin@0.15.4(effect@4.1.6)':
+  '@foldkit/oxlint-plugin@0.15.4(effect@4.1.7)':
     dependencies:
-      effect-oxlint: 0.4.0(effect@4.1.6)
+      effect-oxlint: 0.4.0(effect@4.1.7)
     transitivePeerDependencies:
       - effect
 
-  '@foldkit/ui@0.171.0(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))':
+  '@foldkit/ui@0.171.0(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      effect: 4.1.6
-      foldkit: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+      effect: 4.1.7
+      foldkit: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
 
-  '@foldkit/vite-plugin@0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.6)(foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6))(redis@6.3.0)':
+  '@foldkit/vite-plugin@0.29.1(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(effect@4.1.7)(foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7))(redis@6.3.0)':
     dependencies:
-      '@effect/platform-node': 4.1.3(effect@4.1.6)(redis@6.3.0)
-      '@effect/platform-node-shared': 4.1.3(effect@4.1.6)
-      effect: 4.1.6
-      foldkit: 0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6)
+      '@effect/platform-node': 4.1.3(effect@4.1.7)(redis@6.3.0)
+      '@effect/platform-node-shared': 4.1.3(effect@4.1.7)
+      effect: 4.1.7
+      foldkit: 0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7)
       magic-string: 1.4.5
       vite: '@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1)'
       vitefu: 1.1.3(@voidzero-dev/vite-plus-core@1.5.1(@types/node@26.6.6)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))
@@ -3383,12 +3385,12 @@ snapshots:
 
   dtcg-examples@1.1.3: {}
 
-  effect-oxlint@0.4.0(effect@4.1.6):
+  effect-oxlint@0.4.0(effect@4.1.7):
     dependencies:
       '@oxlint/plugins': 1.89.0
-      effect: 4.1.6
+      effect: 4.1.7
 
-  effect@4.1.6: {}
+  effect@4.1.7: {}
 
   empathic@2.1.0: {}
 
@@ -3487,10 +3489,10 @@ snapshots:
 
   flatted@3.4.4: {}
 
-  foldkit@0.171.0(@effect/platform-browser@4.1.6(effect@4.1.6))(effect@4.1.6):
+  foldkit@0.171.0(@effect/platform-browser@4.1.7(effect@4.1.7))(effect@4.1.7):
     dependencies:
-      '@effect/platform-browser': 4.1.6(effect@4.1.6)
-      effect: 4.1.6
+      '@effect/platform-browser': 4.1.7(effect@4.1.7)
+      effect: 4.1.7
       parse5: 8.0.1
 
   format@0.2.2: {}
