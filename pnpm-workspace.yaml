@@ -6,7 +6,7 @@ catalogMode: prefer
 saveExact: true
 
 catalog:
-  "@clanker-stuff/oxlint-config": 0.5.1
+  "@clanker-stuff/oxlint-config": 0.6.1
   "@codemirror/commands": 6.11.2
   "@codemirror/lang-markdown": 6.5.2
   "@codemirror/language": 6.13.1
@@ -14,7 +14,7 @@ catalog:
   "@codemirror/state": 6.7.6
   "@codemirror/view": 6.44.2
   "@effect/platform-browser": 4.1.7
-  "@effect/tsgo": 0.73.7
+  "@effect/tsgo": 0.74.1
   "@effect/vitest": 4.1.7
   "@foldkit/markdown": 0.15.1
   "@foldkit/oxlint-plugin": 0.15.4
